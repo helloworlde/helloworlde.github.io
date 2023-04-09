@@ -1,0 +1,165 @@
+<!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>AngularJS 中ngTable自定义/重写过滤器</title><meta charset=utf-8><meta name=description content="Ladder@在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器 ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤 text:根据字符匹配，如果被过滤的值有该字符，则显示该记录 number:根据数值进行匹配，如果数值相等，则显示该记录
+select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录
+添加自定义的过滤器控件
+在HTML中 <script type=&#34;text/ng-template&#34; id=&#34;/filter/js/startDateFilter.html&#34;> <input type=&#34;text&#34;> </script> 添加自定义的过滤器控件 在js中 $scope.customFilter = { start:{ id:'/filter/js/startDateFilter.html', placeholder:'Start' } } 需要在ngTable的配置中指定过滤器 $scope.userTable = new NgTableParams({}, { // initial sort order filterDelay: 0, filterOptions: {filterFn: $scope.customFilterFn}, dataset: data }); 为指定列设置控件 <td data-title=&#34;'日期'&#34; filter=&#34;customFilter&#34;> {{user.date|date:'yyyy-MM-dd'}} </td> 重写过滤器方法，实现过滤器功能 $scope.customFilterFn = function (date, filterValues) { return data.filter(function (item) { var result = true; if (typeof(filterValues.name) != undefined && filterValues.name !"><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev/index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ",{anonymize_ip:!1})}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://statistics.lab.hellowood.dev/umami.js></script><meta property="og:title" content="AngularJS 中ngTable自定义/重写过滤器"><meta property="og:description" content="在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器 ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤 text:根据字符匹配，如果被过滤的值有该字符，则显示该记录 number:根据数值进行匹配，如果数值相等，则显示该记录
+select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录
+添加自定义的过滤器控件
+在HTML中 <script type=&#34;text/ng-template&#34; id=&#34;/filter/js/startDateFilter.html&#34;> <input type=&#34;text&#34;> </script> 添加自定义的过滤器控件 在js中 $scope.customFilter = { start:{ id:'/filter/js/startDateFilter.html', placeholder:'Start' } } 需要在ngTable的配置中指定过滤器 $scope.userTable = new NgTableParams({}, { // initial sort order filterDelay: 0, filterOptions: {filterFn: $scope.customFilterFn}, dataset: data }); 为指定列设置控件 <td data-title=&#34;'日期'&#34; filter=&#34;customFilter&#34;> {{user.date|date:'yyyy-MM-dd'}} </td> 重写过滤器方法，实现过滤器功能 $scope.customFilterFn = function (date, filterValues) { return data.filter(function (item) { var result = true; if (typeof(filterValues.name) != undefined && filterValues.name !"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-01-01T11:56:49+00:00"><meta property="article:modified_time" content="2018-01-01T11:56:49+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="AngularJS 中ngTable自定义/重写过滤器"><meta name=twitter:description content="在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器 ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤 text:根据字符匹配，如果被过滤的值有该字符，则显示该记录 number:根据数值进行匹配，如果数值相等，则显示该记录
+select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录
+添加自定义的过滤器控件
+在HTML中 <script type=&#34;text/ng-template&#34; id=&#34;/filter/js/startDateFilter.html&#34;> <input type=&#34;text&#34;> </script> 添加自定义的过滤器控件 在js中 $scope.customFilter = { start:{ id:'/filter/js/startDateFilter.html', placeholder:'Start' } } 需要在ngTable的配置中指定过滤器 $scope.userTable = new NgTableParams({}, { // initial sort order filterDelay: 0, filterOptions: {filterFn: $scope.customFilterFn}, dataset: data }); 为指定列设置控件 <td data-title=&#34;'日期'&#34; filter=&#34;customFilter&#34;> {{user.date|date:'yyyy-MM-dd'}} </td> 重写过滤器方法，实现过滤器功能 $scope.customFilterFn = function (date, filterValues) { return data.filter(function (item) { var result = true; if (typeof(filterValues.name) != undefined && filterValues.name !"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://blog.hellowood.dev/posts/"},{"@type":"ListItem","position":3,"name":"AngularJS 中ngTable自定义/重写过滤器","item":"https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AngularJS 中ngTable自定义/重写过滤器","name":"AngularJS 中ngTable自定义\/重写过滤器","description":"在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器 ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤 text:根据字符匹配，如果被过滤的值有该字符，则显示该记录 number:根据数值进行匹配，如果数值相等，则显示该记录\nselect:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录\n添加自定义的过滤器控件\n在HTML中 \u0026lt;script type=\u0026#34;text/ng-template\u0026#34; id=\u0026#34;/filter/js/startDateFilter.html\u0026#34;\u0026gt; \u0026lt;input type=\u0026#34;text\u0026#34;\u0026gt; \u0026lt;/script\u0026gt; 添加自定义的过滤器控件 在js中 $scope.customFilter = { start:{ id:\u0026#39;/filter/js/startDateFilter.html\u0026#39;, placeholder:\u0026#39;Start\u0026#39; } } 需要在ngTable的配置中指定过滤器 $scope.userTable = new NgTableParams({}, { // initial sort order filterDelay: 0, filterOptions: {filterFn: $scope.customFilterFn}, dataset: data }); 为指定列设置控件 \u0026lt;td data-title=\u0026#34;\u0026#39;日期\u0026#39;\u0026#34; filter=\u0026#34;customFilter\u0026#34;\u0026gt; {{user.date|date:\u0026#39;yyyy-MM-dd\u0026#39;}} \u0026lt;/td\u0026gt; 重写过滤器方法，实现过滤器功能 $scope.customFilterFn = function (date, filterValues) { return data.filter(function (item) { var result = true; if (typeof(filterValues.name) != undefined \u0026amp;\u0026amp; filterValues.name !","keywords":["AngularJs","ngTable"],"articleBody":" 在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器 ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤 text:根据字符匹配，如果被过滤的值有该字符，则显示该记录 number:根据数值进行匹配，如果数值相等，则显示该记录\nselect:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录\n添加自定义的过滤器控件\n在HTML中 添加自定义的过滤器控件 在js中 $scope.customFilter = { start:{ id:'/filter/js/startDateFilter.html', placeholder:'Start' } } 需要在ngTable的配置中指定过滤器 $scope.userTable = new NgTableParams({}, { // initial sort order filterDelay: 0, filterOptions: {filterFn: $scope.customFilterFn}, dataset: data }); 为指定列设置控件 {{user.date|date:'yyyy-MM-dd'}} 重写过滤器方法，实现过滤器功能 $scope.customFilterFn = function (date, filterValues) { return data.filter(function (item) { var result = true; if (typeof(filterValues.name) != undefined \u0026\u0026 filterValues.name != null) { result = result \u0026\u0026 (item.name.indenOf(filterValues.name) \u003e -1); } if (typeof(filterValues.sex) != undefined \u0026\u0026 filterValues.sex != null) { result = result \u0026\u0026 (item.sex == filterValues.sex); } if (typeof(filterValues.startDate) != undefined \u0026\u0026 filterValues.startDate != null) { result = result \u0026\u0026 (item.startDate \u003e= filterValues.startDate); } return result; }) } 页面代码 \u003c!DOCTYPE html\u003e 自定义过滤器 {{user.username}} {{user.sex}} {{user.date|date:'yyyy-MM-dd'}} ","wordCount":"357","inLanguage":"en","datePublished":"2018-01-01T11:56:49Z","dateModified":"2018-01-01T11:56:49Z","author":{"@type":"Person","name":"HelloWood"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/"},"publisher":{"@type":"Organization","name":"HelloWood","logo":{"@type":"ImageObject","url":"https://blog.hellowood.dev/favicon.ico"}}}</script><link rel=icon href=/images/avatar.png sizes=16x16><link rel=apple-touch-icon href=/images/avatar.png><link rel=manifest href=/images/avatar.png><link rel=stylesheet href=https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css><link rel=stylesheet href=/css/main.min.f8020eba33d585b82c30b2a1ceb0d4c4e8e41fb6d8843d07d8ad056da8712972.css integrity="sha256-+AIOujPVhbgsMLKhzrDUxOjkH7bYhD0H2K0FbahxKXI=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js></script>
+<script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand href=/>HOME</a>
+<input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link href=/posts>Blog</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/tags>Tags</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/archives>Archive</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=https://statistics.lab.hellowood.dev/share/r2Llssnu/Blog>Dashboard</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://github.com/helloworlde><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button aria-label="toggle user light or dark theme">
+<span class=toggle-dark><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span><span class=toggle-light><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>AngularJS 中ngTable自定义/重写过滤器</h1></header><p><small>January 1, 2018&nbsp;· 357 words&nbsp;· 2 min</small><p><div class=blog-toc><nav id=TableOfContents></nav></div><section class=blog-content><blockquote><ul><li>在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器</li></ul></blockquote><blockquote><ul><li>###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤</li></ul></blockquote><blockquote><ul><li>text:根据字符匹配，如果被过滤的值有该字符，则显示该记录</li></ul></blockquote><ul><li><p>number:根据数值进行匹配，如果数值相等，则显示该记录</p></li><li><p>select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录</p></li><li><p>添加自定义的过滤器控件</p><ul><li>在HTML中</li></ul></li></ul><pre tabindex=0><code>&lt;script type=&#34;text/ng-template&#34; id=&#34;/filter/js/startDateFilter.html&#34;&gt;
+    &lt;input type=&#34;text&#34;&gt;
+&lt;/script&gt;
+</code></pre><ul><li>添加自定义的过滤器控件<ul><li>在js中</li></ul></li></ul><pre tabindex=0><code>$scope.customFilter = {
+            start:{
+                id:&#39;/filter/js/startDateFilter.html&#39;,
+                placeholder:&#39;Start&#39;
+            }
+        }
+</code></pre><ul><li>需要在ngTable的配置中指定过滤器</li></ul><pre tabindex=0><code>$scope.userTable = new NgTableParams({},
+            {
+                // initial sort order
+                filterDelay: 0,
+                filterOptions: {filterFn: $scope.customFilterFn},
+                dataset: data
+            });
+</code></pre><ul><li>为指定列设置控件</li></ul><pre tabindex=0><code>&lt;td data-title=&#34;&#39;日期&#39;&#34; filter=&#34;customFilter&#34;&gt;
+                    {{user.date|date:&#39;yyyy-MM-dd&#39;}}
+                &lt;/td&gt;
+</code></pre><ul><li>重写过滤器方法，实现过滤器功能</li></ul><pre tabindex=0><code>$scope.customFilterFn = function (date, filterValues) {
+            return data.filter(function (item) {
+                var result = true;
+                if (typeof(filterValues.name) != undefined &amp;&amp; filterValues.name != null) {
+                    result = result &amp;&amp; (item.name.indenOf(filterValues.name) &gt; -1);
+                }
+
+                if (typeof(filterValues.sex) != undefined &amp;&amp; filterValues.sex != null) {
+                    result = result &amp;&amp; (item.sex == filterValues.sex);
+                }
+
+                if (typeof(filterValues.startDate) != undefined &amp;&amp; filterValues.startDate != null) {
+                    result = result &amp;&amp; (item.startDate &gt;= filterValues.startDate);
+                }
+                return result;
+            })
+        }
+</code></pre><hr><ul><li>页面代码</li></ul><pre tabindex=0><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34; ng-app=&#34;myApp&#34; ng-controller=&#34;myCtrl&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;title&gt;自定义过滤器&lt;/title&gt;
+&lt;/head&gt;
+&lt;link href=&#34;https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css&#34; rel=&#34;stylesheet&#34;&gt;
+&lt;link href=&#34;https://cdn.bootcss.com/ng-table/1.0.0/ng-table.min.css&#34; rel=&#34;stylesheet&#34;&gt;
+&lt;body&gt;
+&lt;div class=&#34;row&#34;&gt;
+    &lt;!--自定义filter控件--&gt;
+    &lt;script type=&#34;text/ng-template&#34; id=&#34;dateFilter.html&#34;&gt;
+        &lt;input type=&#34;date&#34;&gt;
+    &lt;/script&gt;
+    &lt;div class=&#34;col-md-12 table-responsive&#34;&gt;
+        &lt;table ng-table=&#34;userTable&#34; class=&#34;table table-condensed table-bordered table-striped table-hover &#34;
+               show-filter=&#34;true&#34;&gt;
+            &lt;tr ng-repeat=&#34;user in $data&#34;&gt;
+                &lt;td data-title=&#34;&#39;用户名&#39;&#34; filter=&#34;{username: &#39;text&#39;}&#34; sortable=&#34;&#39;username&#39;&#34;&gt;{{user.username}}&lt;/td&gt;
+                &lt;td data-title=&#34;&#39;性别&#39;&#34; filter=&#34;{sex: &#39;select&#39;}&#34; filter-data=&#34;sexs&#34; sortable=&#34;&#39;sex&#39;&#34;&gt;{{user.sex}}&lt;/td&gt;
+                &lt;td data-title=&#34;&#39;性别&#39;&#34; filter=&#34;customFilter&#34; sortable=&#34;&#39;date&#39;&#34;&gt;
+                    {{user.date|date:&#39;yyyy-MM-dd&#39;}}
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;script type=&#34;text/ng-template&#34; id=&#34;/filter/js/startDateFilter.html&#34;&gt;
+    &lt;input type=&#34;text&#34;&gt;
+&lt;/script&gt;
+&lt;script src=&#34;https://cdn.bootcss.com/angular.js/1.5.8/angular.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://cdn.bootcss.com/ng-table/1.0.0/ng-table.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script type=&#34;text/javascript&#34;&gt;
+    var app = angular.module(&#39;myApp&#39;, [&#39;ngTable&#39;]);
+    app.controller(&#39;myCtrl&#39;, function ($scope, NgTableParams) {
+
+        $scope.sexs = [{
+            &#34;id&#34;: &#34;男&#34;,
+            &#34;title&#34;: &#34;男&#34;
+        }, {
+            &#34;id&#34;: &#34;女&#34;,
+            &#34;title&#34;: &#34;女&#34;
+        }]
+
+        var data = [{
+            &#34;username&#34;: &#34;农夫山泉&#34;,
+            &#34;sex&#34;: &#34;男&#34;,
+            &#34;date&#34;: 1004570428580
+        }, {
+            &#34;username&#34;: &#34;哇哈哈&#34;,
+            &#34;sex&#34;: &#34;女&#34;,
+            &#34;date&#34;: 1784570428580
+        },
+            {
+            &#34;username&#34;: &#34;Alice&#34;,
+            &#34;sex&#34;: &#34;男&#34;,
+            &#34;date&#34;: 1466570428580
+        },
+            {
+            &#34;username&#34;: &#34;CCC&#34;,
+            &#34;sex&#34;: &#34;女&#34;,
+            &#34;date&#34;: 1584570428580
+        }];
+
+
+        $scope.userTable = new NgTableParams({
+                sorting: {id: &#34;asc&#34;}
+            },
+            {
+                // initial sort order
+                filterDelay: 0,
+                filterOptions: {filterFn: $scope.customFilterFn},
+                dataset: data
+            });
+
+        $scope.customFilter = {
+            start:{
+                id:&#39;/filter/js/startDateFilter.html&#39;,
+                placeholder:&#39;Start&#39;
+            }
+        }
+
+        $scope.customFilterFn = function (date, filterValues) {
+            return data.filter(function (item) {
+                var result = true;
+
+                console.log(filterValues);
+
+                if (typeof(filterValues.name) != undefined &amp;&amp; filterValues.name != null) {
+                    result = result &amp;&amp; (item.name.indenOf(filterValues.name) &gt; -1);
+                }
+
+                if (typeof(filterValues.sex) != undefined &amp;&amp; filterValues.sex != null) {
+                    result = result &amp;&amp; (item.sex == filterValues.sex);
+                }
+
+                if (typeof(filterValues.startDate) != undefined &amp;&amp; filterValues.startDate != null) {
+                    result = result &amp;&amp; (item.startDate &gt;= filterValues.startDate);
+                }
+                return result;
+            })
+
+        }
+    })
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngmodal%E6%A8%A1%E6%80%81%E6%A1%86/><span>&larr;&nbsp;&nbsp;</span><span>AngularJS中使用ngModal模态框</span></a>
+<a class=next href=https://blog.hellowood.dev/posts/spring-controller-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E4%B8%AD%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/><span>Spring Controller 数据传递中注解的使用</span><span>&nbsp;&nbsp;&rarr;</span></a></div></article></div><footer class=footer><p>&copy; 2023 <a href=https://blog.hellowood.dev>HelloWood</a>
+Powered by
+<a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
+<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
+️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>

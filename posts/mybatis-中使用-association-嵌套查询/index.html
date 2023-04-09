@@ -1,0 +1,157 @@
+<!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>MyBatis 中使用 Association 嵌套查询</title><meta charset=utf-8><meta name=description content="Ladder@当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果; 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询
+JavaBean UserModel public class UserModel { private Integer id; private String username; private String password; private Boolean enabled; private Boolean locked; private Boolean expired; private RoleModel role; private List<MenuModel> menus; ··· } RoleModel public class RoleModel { private Integer id; private String name; private Boolean isActive; private String description; private Date lastUpdateTime; ··· } 表 User CREATE TABLE user ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(45) NOT NULL, password VARCHAR(45) NOT NULL, enabled BOOLEAN NOT NULL DEFAULT TRUE, expired BOOLEAN NOT NULL DEFAULT TRUE, locked BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, comment VARCHAR(100) ); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('admin', 'admin', TRUE, FALSE, FALSE, current_timestamp); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('user', 'password', TRUE, FALSE, FALSE, current_timestamp); Role CREATE TABLE role ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp ); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_ADMIN', 'Administrator', TRUE, current_timestamp); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_USER', 'User', TRUE, current_timestamp); UserRoleXref CREATE TABLE user_role_xref ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, role_id INT NOT NULL, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id), CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id) ); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP); 一个查询调用另一个查询实现的嵌套 <resultMap id=&#34;BaseUserModelResultMap&#34; type=&#34;cn."><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev/index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ",{anonymize_ip:!1})}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://statistics.lab.hellowood.dev/umami.js></script><meta property="og:title" content="MyBatis 中使用 Association 嵌套查询"><meta property="og:description" content="当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果; 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询
+JavaBean UserModel public class UserModel { private Integer id; private String username; private String password; private Boolean enabled; private Boolean locked; private Boolean expired; private RoleModel role; private List<MenuModel> menus; ··· } RoleModel public class RoleModel { private Integer id; private String name; private Boolean isActive; private String description; private Date lastUpdateTime; ··· } 表 User CREATE TABLE user ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(45) NOT NULL, password VARCHAR(45) NOT NULL, enabled BOOLEAN NOT NULL DEFAULT TRUE, expired BOOLEAN NOT NULL DEFAULT TRUE, locked BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, comment VARCHAR(100) ); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('admin', 'admin', TRUE, FALSE, FALSE, current_timestamp); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('user', 'password', TRUE, FALSE, FALSE, current_timestamp); Role CREATE TABLE role ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp ); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_ADMIN', 'Administrator', TRUE, current_timestamp); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_USER', 'User', TRUE, current_timestamp); UserRoleXref CREATE TABLE user_role_xref ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, role_id INT NOT NULL, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id), CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id) ); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP); 一个查询调用另一个查询实现的嵌套 <resultMap id=&#34;BaseUserModelResultMap&#34; type=&#34;cn."><meta property="og:type" content="article"><meta property="og:url" content="https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-01-01T00:48:06+00:00"><meta property="article:modified_time" content="2018-01-01T00:48:06+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="MyBatis 中使用 Association 嵌套查询"><meta name=twitter:description content="当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果; 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询
+JavaBean UserModel public class UserModel { private Integer id; private String username; private String password; private Boolean enabled; private Boolean locked; private Boolean expired; private RoleModel role; private List<MenuModel> menus; ··· } RoleModel public class RoleModel { private Integer id; private String name; private Boolean isActive; private String description; private Date lastUpdateTime; ··· } 表 User CREATE TABLE user ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(45) NOT NULL, password VARCHAR(45) NOT NULL, enabled BOOLEAN NOT NULL DEFAULT TRUE, expired BOOLEAN NOT NULL DEFAULT TRUE, locked BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, comment VARCHAR(100) ); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('admin', 'admin', TRUE, FALSE, FALSE, current_timestamp); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('user', 'password', TRUE, FALSE, FALSE, current_timestamp); Role CREATE TABLE role ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp ); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_ADMIN', 'Administrator', TRUE, current_timestamp); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_USER', 'User', TRUE, current_timestamp); UserRoleXref CREATE TABLE user_role_xref ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, role_id INT NOT NULL, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id), CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id) ); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP); 一个查询调用另一个查询实现的嵌套 <resultMap id=&#34;BaseUserModelResultMap&#34; type=&#34;cn."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://blog.hellowood.dev/posts/"},{"@type":"ListItem","position":3,"name":"MyBatis 中使用 Association 嵌套查询","item":"https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"MyBatis 中使用 Association 嵌套查询","name":"MyBatis 中使用 Association 嵌套查询","description":"当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果; 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询\nJavaBean UserModel public class UserModel { private Integer id; private String username; private String password; private Boolean enabled; private Boolean locked; private Boolean expired; private RoleModel role; private List\u0026lt;MenuModel\u0026gt; menus; ··· } RoleModel public class RoleModel { private Integer id; private String name; private Boolean isActive; private String description; private Date lastUpdateTime; ··· } 表 User CREATE TABLE user ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(45) NOT NULL, password VARCHAR(45) NOT NULL, enabled BOOLEAN NOT NULL DEFAULT TRUE, expired BOOLEAN NOT NULL DEFAULT TRUE, locked BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, comment VARCHAR(100) ); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES (\u0026#39;admin\u0026#39;, \u0026#39;admin\u0026#39;, TRUE, FALSE, FALSE, current_timestamp); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES (\u0026#39;user\u0026#39;, \u0026#39;password\u0026#39;, TRUE, FALSE, FALSE, current_timestamp); Role CREATE TABLE role ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp ); INSERT INTO role (name, description, is_active, last_update_time) VALUES (\u0026#39;ROLE_ADMIN\u0026#39;, \u0026#39;Administrator\u0026#39;, TRUE, current_timestamp); INSERT INTO role (name, description, is_active, last_update_time) VALUES (\u0026#39;ROLE_USER\u0026#39;, \u0026#39;User\u0026#39;, TRUE, current_timestamp); UserRoleXref CREATE TABLE user_role_xref ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, role_id INT NOT NULL, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id), CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id) ); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP); 一个查询调用另一个查询实现的嵌套 \u0026lt;resultMap id=\u0026#34;BaseUserModelResultMap\u0026#34; type=\u0026#34;cn.","keywords":["Java","MyBatis"],"articleBody":" 当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果; 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询\nJavaBean UserModel public class UserModel { private Integer id; private String username; private String password; private Boolean enabled; private Boolean locked; private Boolean expired; private RoleModel role; private List menus; ··· } RoleModel public class RoleModel { private Integer id; private String name; private Boolean isActive; private String description; private Date lastUpdateTime; ··· } 表 User CREATE TABLE user ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(45) NOT NULL, password VARCHAR(45) NOT NULL, enabled BOOLEAN NOT NULL DEFAULT TRUE, expired BOOLEAN NOT NULL DEFAULT TRUE, locked BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, comment VARCHAR(100) ); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('admin', 'admin', TRUE, FALSE, FALSE, current_timestamp); INSERT INTO user (username, password, enabled, expired, locked, last_update_time) VALUES ('user', 'password', TRUE, FALSE, FALSE, current_timestamp); Role CREATE TABLE role ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(100), is_active BOOLEAN NOT NULL DEFAULT TRUE, last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp ); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_ADMIN', 'Administrator', TRUE, current_timestamp); INSERT INTO role (name, description, is_active, last_update_time) VALUES ('ROLE_USER', 'User', TRUE, current_timestamp); UserRoleXref CREATE TABLE user_role_xref ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, role_id INT NOT NULL, last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp, CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id), CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id) ); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP); INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP); 一个查询调用另一个查询实现的嵌套 SELECT id, username, password, enabled, expired, locked FROM user SELECT r.id, r.name, r.is_active, r.description, r.last_update_time FROM role r LEFT JOIN user_role_xref urx ON r.id = urx.role_id WHERE user_id = #{userId, jdbcType=INTEGER} 此时，调用 getAllUsers() 方法就可以通过嵌套查询同时查找 Role 属性了\nassociation : 一个复杂的类型关联，许多结果将映射为这种类型 property : 这是关联的 JavaBean 中的属性名， 在 UserModel 中对应 private RoleModel role; column : UserModel 的 id ，作为参数传入被调用的 Select 语句 select : 另外一个映射语句的 ID 同一个查询映射到属性的嵌套 如果再一个查询中可以直接查询到所需要的数据，但是需要映射到该对象的属性上，则可以使用该方式\nSELECT u.id, u.username, u.password, u.enabled, u.expired, u.locked, r.id, r.name, r.is_active, r.description, r.last_update_time FROM user u LEFT JOIN user_role_xref ur ON u.id = ur.user_id LEFT JOIN role r ON ur.role_id = r.id ","wordCount":"507","inLanguage":"en","datePublished":"2018-01-01T00:48:06Z","dateModified":"2018-01-01T00:48:06Z","author":{"@type":"Person","name":"HelloWood"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/"},"publisher":{"@type":"Organization","name":"HelloWood","logo":{"@type":"ImageObject","url":"https://blog.hellowood.dev/favicon.ico"}}}</script><link rel=icon href=/images/avatar.png sizes=16x16><link rel=apple-touch-icon href=/images/avatar.png><link rel=manifest href=/images/avatar.png><link rel=stylesheet href=https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css><link rel=stylesheet href=/css/main.min.f8020eba33d585b82c30b2a1ceb0d4c4e8e41fb6d8843d07d8ad056da8712972.css integrity="sha256-+AIOujPVhbgsMLKhzrDUxOjkH7bYhD0H2K0FbahxKXI=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js></script>
+<script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand href=/>HOME</a>
+<input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link href=/posts>Blog</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/tags>Tags</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/archives>Archive</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=https://statistics.lab.hellowood.dev/share/r2Llssnu/Blog>Dashboard</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://github.com/helloworlde><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button aria-label="toggle user light or dark theme">
+<span class=toggle-dark><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span><span class=toggle-light><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>MyBatis 中使用 Association 嵌套查询</h1></header><p><small>January 1, 2018&nbsp;· 507 words&nbsp;· 3 min</small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#javabean>JavaBean</a></li><li><a href=#表>表</a></li><li><a href=#一个查询调用另一个查询实现的嵌套>一个查询调用另一个查询实现的嵌套</a></li><li><a href=#同一个查询映射到属性的嵌套>同一个查询映射到属性的嵌套</a></li></ul></nav></div><section class=blog-content><blockquote><p>当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
+以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询</p></blockquote><hr><h2 id=javabean>JavaBean</h2><ul><li>UserModel</li></ul><pre tabindex=0><code>public class UserModel {
+    private Integer id;
+    private String username;
+    private String password;
+    private Boolean enabled;
+    private Boolean locked;
+    private Boolean expired;
+    private RoleModel role;
+    private List&lt;MenuModel&gt; menus;
+
+    ···
+}   
+</code></pre><ul><li>RoleModel</li></ul><pre tabindex=0><code>public class RoleModel {
+    private Integer id;
+    private String name;
+    private Boolean isActive;
+    private String description;
+    private Date lastUpdateTime;
+
+    ···
+}   
+</code></pre><h2 id=表>表</h2><ul><li>User</li></ul><pre tabindex=0><code>CREATE TABLE user (
+  id               INT                  AUTO_INCREMENT PRIMARY KEY,
+  username         VARCHAR(45) NOT NULL,
+  password         VARCHAR(45) NOT NULL,
+  enabled          BOOLEAN     NOT NULL DEFAULT TRUE,
+  expired          BOOLEAN     NOT NULL DEFAULT TRUE,
+  locked           BOOLEAN     NOT NULL DEFAULT TRUE,
+  last_update_time TIMESTAMP   NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+  comment          VARCHAR(100)
+);
+
+INSERT INTO user (username, password, enabled, expired, locked, last_update_time)
+VALUES (&#39;admin&#39;, &#39;admin&#39;, TRUE, FALSE, FALSE, current_timestamp);
+INSERT INTO user (username, password, enabled, expired, locked, last_update_time)
+VALUES (&#39;user&#39;, &#39;password&#39;, TRUE, FALSE, FALSE, current_timestamp);
+</code></pre><ul><li>Role</li></ul><pre tabindex=0><code>CREATE TABLE role (
+  id               INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name             VARCHAR(50) NOT NULL UNIQUE,
+  description      VARCHAR(100),
+  is_active        BOOLEAN     NOT NULL DEFAULT TRUE,
+  last_update_time TIMESTAMP            DEFAULT current_timestamp ON UPDATE current_timestamp
+);
+
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&#39;ROLE_ADMIN&#39;, &#39;Administrator&#39;, TRUE, current_timestamp);
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&#39;ROLE_USER&#39;, &#39;User&#39;, TRUE, current_timestamp);
+</code></pre><ul><li>UserRoleXref</li></ul><pre tabindex=0><code>CREATE TABLE user_role_xref (
+  id               INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id          INT       NOT NULL,
+  role_id          INT       NOT NULL,
+  last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+  CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id),
+  CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id)
+);
+
+INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP);
+INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP);
+</code></pre><hr><h2 id=一个查询调用另一个查询实现的嵌套>一个查询调用另一个查询实现的嵌套</h2><pre tabindex=0><code>    &lt;resultMap id=&#34;BaseUserModelResultMap&#34; type=&#34;cn.com.hellowood.springsecurity.model.UserModel&#34;&gt;
+        &lt;id column=&#34;id&#34; property=&#34;id&#34; javaType=&#34;java.lang.Integer&#34; jdbcType=&#34;INTEGER&#34;&gt;&lt;/id&gt;
+        &lt;result column=&#34;username&#34; property=&#34;username&#34; javaType=&#34;java.lang.String&#34; jdbcType=&#34;VARCHAR&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;password&#34; property=&#34;password&#34; javaType=&#34;java.lang.String&#34; jdbcType=&#34;VARCHAR&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;enabled&#34; property=&#34;enabled&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;expired&#34; property=&#34;expired&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;locked&#34; property=&#34;locked&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;association property=&#34;role&#34; javaType=&#34;cn.com.hellowood.springsecurity.model.RoleModel&#34;
+                     column=&#34;id&#34; select=&#34;getRoleByUserId&#34;&gt;
+        &lt;/association&gt;
+    &lt;/resultMap&gt;
+
+    &lt;resultMap id=&#34;BaseRoleResultMap&#34; type=&#34;cn.com.hellowood.springsecurity.model.RoleModel&#34;&gt;
+        &lt;id column=&#34;id&#34; property=&#34;id&#34; jdbcType=&#34;INTEGER&#34;/&gt;
+        &lt;result column=&#34;name&#34; property=&#34;name&#34; jdbcType=&#34;VARCHAR&#34;/&gt;
+        &lt;result column=&#34;is_active&#34; property=&#34;isActive&#34; jdbcType=&#34;BOOLEAN&#34;/&gt;
+        &lt;result column=&#34;description&#34; property=&#34;description&#34; jdbcType=&#34;VARCHAR&#34;/&gt;
+        &lt;result column=&#34;last_update_time&#34; property=&#34;lastUpdateTime&#34; jdbcType=&#34;TIMESTAMP&#34;/&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&#34;getAllUsers&#34; resultMap=&#34;BaseUserModelResultMap&#34;&gt;
+        SELECT
+            id,
+            username,
+            password,
+            enabled,
+            expired,
+            locked
+        FROM user
+    &lt;/select&gt;
+
+    &lt;select id=&#34;getRoleByUserId&#34; parameterType=&#34;java.lang.Integer&#34;
+            resultType=&#34;cn.com.hellowood.springsecurity.model.RoleModel&#34;&gt;
+        SELECT
+            r.id,
+            r.name,
+            r.is_active,
+            r.description,
+            r.last_update_time
+        FROM role r
+            LEFT JOIN user_role_xref urx
+                ON r.id = urx.role_id
+        WHERE user_id = #{userId, jdbcType=INTEGER}
+    &lt;/select&gt;
+</code></pre><blockquote><p>此时，调用 <code>getAllUsers()</code> 方法就可以通过嵌套查询同时查找 Role 属性了</p></blockquote><pre tabindex=0><code>        &lt;association property=&#34;role&#34; javaType=&#34;cn.com.hellowood.springsecurity.model.RoleModel&#34;
+                     column=&#34;id&#34; select=&#34;getRoleByUserId&#34;&gt;
+        &lt;/association&gt;
+</code></pre><blockquote><ul><li>association : 一个复杂的类型关联，许多结果将映射为这种类型</li><li>property : 这是关联的 JavaBean 中的属性名， 在 UserModel 中对应 <code>private RoleModel role;</code></li><li>column : UserModel 的 id ，作为参数传入被调用的 Select 语句</li><li>select : 另外一个映射语句的 ID</li></ul></blockquote><hr><h2 id=同一个查询映射到属性的嵌套>同一个查询映射到属性的嵌套</h2><blockquote><p>如果再一个查询中可以直接查询到所需要的数据，但是需要映射到该对象的属性上，则可以使用该方式</p></blockquote><pre tabindex=0><code>    &lt;resultMap id=&#34;BaseUserModelResultMap&#34; type=&#34;cn.com.hellowood.springsecurity.model.UserModel&#34;&gt;
+        &lt;id column=&#34;id&#34; property=&#34;id&#34; javaType=&#34;java.lang.Integer&#34; jdbcType=&#34;INTEGER&#34;&gt;&lt;/id&gt;
+        &lt;result column=&#34;username&#34; property=&#34;username&#34; javaType=&#34;java.lang.String&#34; jdbcType=&#34;VARCHAR&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;password&#34; property=&#34;password&#34; javaType=&#34;java.lang.String&#34; jdbcType=&#34;VARCHAR&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;enabled&#34; property=&#34;enabled&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;expired&#34; property=&#34;expired&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;result column=&#34;locked&#34; property=&#34;locked&#34; javaType=&#34;java.lang.Boolean&#34; jdbcType=&#34;BOOLEAN&#34;&gt;&lt;/result&gt;
+        &lt;association property=&#34;role&#34; javaType=&#34;cn.com.hellowood.springsecurity.model.RoleModel&#34;&gt;
+            &lt;id column=&#34;id&#34; property=&#34;id&#34; jdbcType=&#34;INTEGER&#34;/&gt;
+            &lt;result column=&#34;name&#34; property=&#34;name&#34; jdbcType=&#34;VARCHAR&#34;/&gt;
+            &lt;result column=&#34;is_active&#34; property=&#34;isActive&#34; jdbcType=&#34;BOOLEAN&#34;/&gt;
+            &lt;result column=&#34;description&#34; property=&#34;description&#34; jdbcType=&#34;VARCHAR&#34;/&gt;
+            &lt;result column=&#34;last_update_time&#34; property=&#34;lastUpdateTime&#34; jdbcType=&#34;TIMESTAMP&#34;/&gt;
+        &lt;/association&gt;
+    &lt;/resultMap&gt;
+
+    &lt;select id=&#34;getAllUsers&#34; resultMap=&#34;BaseUserModelResultMap&#34;&gt;
+        SELECT
+            u.id,
+            u.username,
+            u.password,
+            u.enabled,
+            u.expired,
+            u.locked,
+            r.id,
+            r.name,
+            r.is_active,
+            r.description,
+            r.last_update_time
+        FROM user u
+            LEFT JOIN user_role_xref ur
+                ON u.id = ur.user_id
+            LEFT JOIN role r
+                ON ur.role_id = r.id
+    &lt;/select&gt;
+</code></pre></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8gradle%E6%95%B4%E5%90%88flyway%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/><span>&larr;&nbsp;&nbsp;</span><span>使用Gradle整合Flyway进行数据库迁移</span></a>
+<a class=next href=https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/><span>MyBatis 中使用 Collection 嵌套查询</span><span>&nbsp;&nbsp;&rarr;</span></a></div></article></div><footer class=footer><p>&copy; 2023 <a href=https://blog.hellowood.dev>HelloWood</a>
+Powered by
+<a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
+<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
+️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>

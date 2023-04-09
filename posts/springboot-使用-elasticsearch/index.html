@@ -1,0 +1,283 @@
+<!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>SpringBoot 使用 ElasticSearch</title><meta charset=utf-8><meta name=description content="Ladder@Spring Boot 使用 ElasticSearch 项目地址：https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch
+ElasticSearch 是一个开源的分布式搜索引擎，用于存储数据
+使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能
+添加依赖 dependencies { compile('org.springframework.boot:spring-boot-starter-data-elasticsearch') compile('org.springframework.boot:spring-boot-starter-web') compile('net.java.dev.jna:jna') testCompile('org.springframework.boot:spring-boot-starter-test') } 不添加 'net.java.dev.jna:jna' 依赖会提示 java.lang.ClassNotFoundException: com.sun.jna.Native 错误
+添加配置 spring.data.elasticsearch.repositories.enabled=true #spring.data.elasticsearch.cluster-nodes=localhost:9300 spring.data.elasticsearch.cluster-nodes=localhost:9300 只有当使用外部集群时配置，只使用本机时会提示错误
+Modal package cn.com.hellowood.elasticsearch.modal; import org.springframework.data.annotation.Id; import org.springframework.data.elasticsearch.annotations.Document; import java.io.Serializable; @Document(indexName = &#34;elasticsearch&#34;, type = &#34;product&#34;) public class Product implements Serializable { private static final long serialVersionUID = 1435515995276255188L; @Id private Long id; private String name; private Integer price; // ."><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev/index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ",{anonymize_ip:!1})}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://statistics.lab.hellowood.dev/umami.js></script><meta property="og:title" content="SpringBoot 使用 ElasticSearch"><meta property="og:description" content="Spring Boot 使用 ElasticSearch 项目地址：https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch
+ElasticSearch 是一个开源的分布式搜索引擎，用于存储数据
+使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能
+添加依赖 dependencies { compile('org.springframework.boot:spring-boot-starter-data-elasticsearch') compile('org.springframework.boot:spring-boot-starter-web') compile('net.java.dev.jna:jna') testCompile('org.springframework.boot:spring-boot-starter-test') } 不添加 'net.java.dev.jna:jna' 依赖会提示 java.lang.ClassNotFoundException: com.sun.jna.Native 错误
+添加配置 spring.data.elasticsearch.repositories.enabled=true #spring.data.elasticsearch.cluster-nodes=localhost:9300 spring.data.elasticsearch.cluster-nodes=localhost:9300 只有当使用外部集群时配置，只使用本机时会提示错误
+Modal package cn.com.hellowood.elasticsearch.modal; import org.springframework.data.annotation.Id; import org.springframework.data.elasticsearch.annotations.Document; import java.io.Serializable; @Document(indexName = &#34;elasticsearch&#34;, type = &#34;product&#34;) public class Product implements Serializable { private static final long serialVersionUID = 1435515995276255188L; @Id private Long id; private String name; private Integer price; // ."><meta property="og:type" content="article"><meta property="og:url" content="https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-01-16T00:45:05+00:00"><meta property="article:modified_time" content="2018-01-16T00:45:05+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="SpringBoot 使用 ElasticSearch"><meta name=twitter:description content="Spring Boot 使用 ElasticSearch 项目地址：https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch
+ElasticSearch 是一个开源的分布式搜索引擎，用于存储数据
+使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能
+添加依赖 dependencies { compile('org.springframework.boot:spring-boot-starter-data-elasticsearch') compile('org.springframework.boot:spring-boot-starter-web') compile('net.java.dev.jna:jna') testCompile('org.springframework.boot:spring-boot-starter-test') } 不添加 'net.java.dev.jna:jna' 依赖会提示 java.lang.ClassNotFoundException: com.sun.jna.Native 错误
+添加配置 spring.data.elasticsearch.repositories.enabled=true #spring.data.elasticsearch.cluster-nodes=localhost:9300 spring.data.elasticsearch.cluster-nodes=localhost:9300 只有当使用外部集群时配置，只使用本机时会提示错误
+Modal package cn.com.hellowood.elasticsearch.modal; import org.springframework.data.annotation.Id; import org.springframework.data.elasticsearch.annotations.Document; import java.io.Serializable; @Document(indexName = &#34;elasticsearch&#34;, type = &#34;product&#34;) public class Product implements Serializable { private static final long serialVersionUID = 1435515995276255188L; @Id private Long id; private String name; private Integer price; // ."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://blog.hellowood.dev/posts/"},{"@type":"ListItem","position":3,"name":"SpringBoot 使用 ElasticSearch","item":"https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"SpringBoot 使用 ElasticSearch","name":"SpringBoot 使用 ElasticSearch","description":"Spring Boot 使用 ElasticSearch 项目地址：https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch\nElasticSearch 是一个开源的分布式搜索引擎，用于存储数据\n使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能\n添加依赖 dependencies { compile(\u0026#39;org.springframework.boot:spring-boot-starter-data-elasticsearch\u0026#39;) compile(\u0026#39;org.springframework.boot:spring-boot-starter-web\u0026#39;) compile(\u0026#39;net.java.dev.jna:jna\u0026#39;) testCompile(\u0026#39;org.springframework.boot:spring-boot-starter-test\u0026#39;) } 不添加 'net.java.dev.jna:jna' 依赖会提示 java.lang.ClassNotFoundException: com.sun.jna.Native 错误\n添加配置 spring.data.elasticsearch.repositories.enabled=true #spring.data.elasticsearch.cluster-nodes=localhost:9300 spring.data.elasticsearch.cluster-nodes=localhost:9300 只有当使用外部集群时配置，只使用本机时会提示错误\nModal package cn.com.hellowood.elasticsearch.modal; import org.springframework.data.annotation.Id; import org.springframework.data.elasticsearch.annotations.Document; import java.io.Serializable; @Document(indexName = \u0026#34;elasticsearch\u0026#34;, type = \u0026#34;product\u0026#34;) public class Product implements Serializable { private static final long serialVersionUID = 1435515995276255188L; @Id private Long id; private String name; private Integer price; // .","keywords":["Java","SpringBoot","ElasticSearch","ELK"],"articleBody":"Spring Boot 使用 ElasticSearch 项目地址：https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch\nElasticSearch 是一个开源的分布式搜索引擎，用于存储数据\n使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能\n添加依赖 dependencies { compile('org.springframework.boot:spring-boot-starter-data-elasticsearch') compile('org.springframework.boot:spring-boot-starter-web') compile('net.java.dev.jna:jna') testCompile('org.springframework.boot:spring-boot-starter-test') } 不添加 'net.java.dev.jna:jna' 依赖会提示 java.lang.ClassNotFoundException: com.sun.jna.Native 错误\n添加配置 spring.data.elasticsearch.repositories.enabled=true #spring.data.elasticsearch.cluster-nodes=localhost:9300 spring.data.elasticsearch.cluster-nodes=localhost:9300 只有当使用外部集群时配置，只使用本机时会提示错误\nModal package cn.com.hellowood.elasticsearch.modal; import org.springframework.data.annotation.Id; import org.springframework.data.elasticsearch.annotations.Document; import java.io.Serializable; @Document(indexName = \"elasticsearch\", type = \"product\") public class Product implements Serializable { private static final long serialVersionUID = 1435515995276255188L; @Id private Long id; private String name; private Integer price; // ... } 实现 Repository 接口 package cn.com.hellowood.elasticsearch.repository; import cn.com.hellowood.elasticsearch.modal.Product; import org.springframework.data.domain.Page; import org.springframework.data.domain.Pageable; import org.springframework.data.elasticsearch.repository.ElasticsearchRepository; import org.springframework.stereotype.Component; import java.util.List; public interface ProductRepository extends ElasticsearchRepository\u003cProduct, Long\u003e { List\u003cProduct\u003e findById(Long id); Page\u003cProduct\u003e findByName(String name, Pageable pageable); Page\u003cProduct\u003e findByNameLike(String name, Pageable pageable); Page\u003cProduct\u003e findByNameNot(String name, Pageable pageable); Page\u003cProduct\u003e findByPriceBetween(Long priceFrom, Long priceTo, Pageable pageable); } 方法命名使用关键词来命名，用法和 JPA 类似 添加逻辑 ProductController.java package cn.com.hellowood.elasticsearch.controller; import cn.com.hellowood.elasticsearch.modal.Product; import cn.com.hellowood.elasticsearch.service.ProductService; import org.slf4j.Logger; import org.slf4j.LoggerFactory; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.web.bind.annotation.*; import java.util.List; @RestController @RequestMapping(\"/product\") public class ProductController { private final Logger logger = LoggerFactory.getLogger(getClass()); @Autowired ProductService productService; @PostMapping public Product save(@RequestBody Product product) { return productService.save(product); } @GetMapping(\"/find/id\") public List\u003cProduct\u003e findById(@RequestParam Long id) { return productService.findById(id); } @GetMapping(\"/find/name\") public List\u003cProduct\u003e findByName(@RequestParam String name) { return productService.findByName(name); } @GetMapping(\"/find/name/like\") public List\u003cProduct\u003e findByNameLike(@RequestParam String name) { return productService.findByNameLike(name); } @GetMapping(\"/find/name/notLike\") public List\u003cProduct\u003e findByNameNot(@RequestParam String name) { return productService.findByNameNot(name); } @GetMapping(\"/find/price/between\") public List\u003cProduct\u003e findByPriceBetween(@RequestParam Long priceFrom, @RequestParam Long priceTo) { return productService.findByPriceBetween(priceFrom, priceTo); } } ProductServiceImpl.java package cn.com.hellowood.elasticsearch.service.impl; import cn.com.hellowood.elasticsearch.modal.Product; import cn.com.hellowood.elasticsearch.repository.ProductRepository; import cn.com.hellowood.elasticsearch.service.ProductService; import org.slf4j.Logger; import org.slf4j.LoggerFactory; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.data.domain.PageRequest; import org.springframework.data.domain.Pageable; import org.springframework.stereotype.Service; import java.util.List; @Service public class ProductServiceImpl implements ProductService { private final Logger logger = LoggerFactory.getLogger(getClass()); private static final Integer pageNum = 0; private static final Integer pageSize = 10; Pageable pageable = new PageRequest(pageNum, pageSize); @Autowired ProductRepository productRepository; @Override public Product save(Product product) { return productRepository.save(product); } @Override public List\u003cProduct\u003e findById(Long id) { return productRepository.findById(id); } @Override public List\u003cProduct\u003e findByName(String name) { return productRepository.findByName(name, pageable).getContent(); } @Override public List\u003cProduct\u003e findByNameLike(String name) { return productRepository.findByNameLike(name, pageable).getContent(); } @Override public List\u003cProduct\u003e findByNameNot(String name) { return productRepository.findByNameNot(name, pageable).getContent(); } @Override public List\u003cProduct\u003e findByPriceBetween(Long priceFrom, Long priceTo) { return productRepository.findByPriceBetween(priceFrom, priceTo, pageable).getContent(); } } 插入数据 分别插入以下数据：\n{ \"id\":\"1\", \"name\":\"手机\", \"price\":\"500\" } { \"id\":\"2\", \"name\":\"小米手机\", \"price\":\"600\" } { \"id\":\"3\", \"name\":\"小米笔记本\", \"price\":\"700\" } { \"id\":\"4\", \"name\":\"苹果手机\", \"price\":\"800\" } { \"id\":\"5\", \"name\":\"苹果笔记本\", \"price\":\"900\" } 调用接口 使用 Postman 分别调用各个接口：\n保存 /product POST /product { \"id\":\"1\", \"name\":\"手机\", \"price\":\"500\" } 通过 id 查找 /product/find/id GET /product/find/id?id=4 [ { \"id\": 4, \"name\": \"苹果手机\", \"price\": 800 } ] 通过名称查找 /product/find/name GET /product/find/name?name=手机 [ { \"id\": 1, \"name\": \"手机\", \"price\": 500 }, { \"id\": 2, \"name\": \"小米手机\", \"price\": 600 }, { \"id\": 4, \"name\": \"苹果手机\", \"price\": 800 } ] 通过名称模糊查询 /product/find/name/like GET /product/find/name/like?name=苹果 [ { \"id\": 4, \"name\": \"苹果手机\", \"price\": 800 }, { \"id\": 5, \"name\": \"苹果笔记本\", \"price\": 900 } ] 通过不包含该名称 /product/find/name/notLike GET /product/find/name/notLike?name=手机 [ { \"id\": 5, \"name\": \"苹果笔记本\", \"price\": 900 }, { \"id\": 3, \"name\": \"小米笔记本\", \"price\": 700 } ] 通过范围查找 /product/find/price/between GET /product/find/price/between?priceFrom=600\u0026priceTo=700 [ { \"id\": 2, \"name\": \"小米手机\", \"price\": 600 }, { \"id\": 3, \"name\": \"小米笔记本\", \"price\": 700 } ] ","wordCount":"496","inLanguage":"en","datePublished":"2018-01-16T00:45:05Z","dateModified":"2018-01-16T00:45:05Z","author":{"@type":"Person","name":"HelloWood"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/"},"publisher":{"@type":"Organization","name":"HelloWood","logo":{"@type":"ImageObject","url":"https://blog.hellowood.dev/favicon.ico"}}}</script><link rel=icon href=/images/avatar.png sizes=16x16><link rel=apple-touch-icon href=/images/avatar.png><link rel=manifest href=/images/avatar.png><link rel=stylesheet href=https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css><link rel=stylesheet href=/css/main.min.f8020eba33d585b82c30b2a1ceb0d4c4e8e41fb6d8843d07d8ad056da8712972.css integrity="sha256-+AIOujPVhbgsMLKhzrDUxOjkH7bYhD0H2K0FbahxKXI=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c098d85b5396dec4707ea2cead1445b4dc2ff0fc56b8dbbd9049d0d1c50ad237.js></script>
+<script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand href=/>HOME</a>
+<input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link href=/posts>Blog</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/tags>Tags</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/archives>Archive</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=https://statistics.lab.hellowood.dev/share/r2Llssnu/Blog>Dashboard</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://github.com/helloworlde><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button aria-label="toggle user light or dark theme">
+<span class=toggle-dark><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span><span class=toggle-light><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>SpringBoot 使用 ElasticSearch</h1></header><p><small>January 16, 2018&nbsp;· 496 words&nbsp;· 3 min</small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#添加依赖>添加依赖</a></li><li><a href=#添加配置>添加配置</a></li><li><a href=#modal>Modal</a></li><li><a href=#实现-repository-接口>实现 Repository 接口</a></li><li><a href=#添加逻辑>添加逻辑</a></li><li><a href=#插入数据>插入数据</a></li><li><a href=#调用接口>调用接口</a></li></ul></nav></div><section class=blog-content><h1 id=spring-boot-使用-elasticsearch>Spring Boot 使用 ElasticSearch</h1><blockquote><p>项目地址：<a href=https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch>https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch</a></p></blockquote><blockquote><p><a href=https://www.elastic.co/cn/products/elasticsearch>ElasticSearch</a> 是一个开源的分布式搜索引擎，用于存储数据</p></blockquote><blockquote><p>使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能</p></blockquote><h2 id=添加依赖>添加依赖</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;net.java.dev.jna:jna&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    testCompile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>不添加 <code>'net.java.dev.jna:jna'</code> 依赖会提示 <code>java.lang.ClassNotFoundException: com.sun.jna.Native</code> 错误</p><h2 id=添加配置>添加配置</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>spring.data.elasticsearch.repositories.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.data.elasticsearch.cluster-nodes=localhost:9300</span>
+</span></span></code></pre></div><p><code>spring.data.elasticsearch.cluster-nodes=localhost:9300</code> 只有当使用外部集群时配置，只使用本机时会提示错误</p><h2 id=modal>Modal</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.elasticsearch.modal<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.annotation.Id<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.elasticsearch.annotations.Document<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.io.Serializable<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Document</span><span style=color:#f92672>(</span>indexName <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;elasticsearch&#34;</span><span style=color:#f92672>,</span> type <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;product&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Product</span> <span style=color:#66d9ef>implements</span> Serializable <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>long</span> serialVersionUID <span style=color:#f92672>=</span> <span style=color:#ae81ff>1435515995276255188L</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Id</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Long id<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String name<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Integer price<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// ...
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=实现-repository-接口>实现 Repository 接口</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.elasticsearch.repository<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.modal.Product<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.domain.Page<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.domain.Pageable<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.elasticsearch.repository.ElasticsearchRepository<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.stereotype.Component<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>ProductRepository</span> <span style=color:#66d9ef>extends</span> ElasticsearchRepository<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>,</span> Long<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findById</span><span style=color:#f92672>(</span>Long id<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Page<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByName</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>,</span> Pageable pageable<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Page<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameLike</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>,</span> Pageable pageable<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Page<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameNot</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>,</span> Pageable pageable<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Page<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByPriceBetween</span><span style=color:#f92672>(</span>Long priceFrom<span style=color:#f92672>,</span> Long priceTo<span style=color:#f92672>,</span> Pageable pageable<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><ul><li>方法命名使用关键词来命名，用法和 JPA 类似</li></ul><h2 id=添加逻辑>添加逻辑</h2><ul><li>ProductController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.elasticsearch.controller<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.modal.Product<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.service.ProductService<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.Logger<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.LoggerFactory<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.web.bind.annotation.*<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@RequestMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/product&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ProductController</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>getClass<span style=color:#f92672>());</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>    ProductService productService<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@PostMapping</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Product <span style=color:#a6e22e>save</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestBody</span> Product product<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>save</span><span style=color:#f92672>(</span>product<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/find/id&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findById</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span> Long id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>findById</span><span style=color:#f92672>(</span>id<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/find/name&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByName</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span> String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>findByName</span><span style=color:#f92672>(</span>name<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/find/name/like&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameLike</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span> String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>findByNameLike</span><span style=color:#f92672>(</span>name<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/find/name/notLike&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameNot</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span> String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>findByNameNot</span><span style=color:#f92672>(</span>name<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/find/price/between&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByPriceBetween</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span> Long priceFrom<span style=color:#f92672>,</span> <span style=color:#a6e22e>@RequestParam</span> Long priceTo<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productService<span style=color:#f92672>.</span><span style=color:#a6e22e>findByPriceBetween</span><span style=color:#f92672>(</span>priceFrom<span style=color:#f92672>,</span> priceTo<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><ul><li>ProductServiceImpl.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.elasticsearch.service.impl<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.modal.Product<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.repository.ProductRepository<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.elasticsearch.service.ProductService<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.Logger<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.LoggerFactory<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.domain.PageRequest<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.data.domain.Pageable<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.stereotype.Service<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Service</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ProductServiceImpl</span> <span style=color:#66d9ef>implements</span> ProductService <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>getClass<span style=color:#f92672>());</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Integer pageNum <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Integer pageSize <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Pageable pageable <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> PageRequest<span style=color:#f92672>(</span>pageNum<span style=color:#f92672>,</span> pageSize<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>    ProductRepository productRepository<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Product <span style=color:#a6e22e>save</span><span style=color:#f92672>(</span>Product product<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>save</span><span style=color:#f92672>(</span>product<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findById</span><span style=color:#f92672>(</span>Long id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>findById</span><span style=color:#f92672>(</span>id<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByName</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>findByName</span><span style=color:#f92672>(</span>name<span style=color:#f92672>,</span> pageable<span style=color:#f92672>).</span><span style=color:#a6e22e>getContent</span><span style=color:#f92672>();</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameLike</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>findByNameLike</span><span style=color:#f92672>(</span>name<span style=color:#f92672>,</span> pageable<span style=color:#f92672>).</span><span style=color:#a6e22e>getContent</span><span style=color:#f92672>();</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByNameNot</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>findByNameNot</span><span style=color:#f92672>(</span>name<span style=color:#f92672>,</span> pageable<span style=color:#f92672>).</span><span style=color:#a6e22e>getContent</span><span style=color:#f92672>();</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>findByPriceBetween</span><span style=color:#f92672>(</span>Long priceFrom<span style=color:#f92672>,</span> Long priceTo<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productRepository<span style=color:#f92672>.</span><span style=color:#a6e22e>findByPriceBetween</span><span style=color:#f92672>(</span>priceFrom<span style=color:#f92672>,</span> priceTo<span style=color:#f92672>,</span> pageable<span style=color:#f92672>).</span><span style=color:#a6e22e>getContent</span><span style=color:#f92672>();</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=插入数据>插入数据</h2><p>分别插入以下数据：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;id&#34;</span>:<span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;手机&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;price&#34;</span>:<span style=color:#e6db74>&#34;500&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;id&#34;</span>:<span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;小米手机&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;price&#34;</span>:<span style=color:#e6db74>&#34;600&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;id&#34;</span>:<span style=color:#e6db74>&#34;3&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;小米笔记本&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;price&#34;</span>:<span style=color:#e6db74>&#34;700&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;id&#34;</span>:<span style=color:#e6db74>&#34;4&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;苹果手机&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;price&#34;</span>:<span style=color:#e6db74>&#34;800&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;id&#34;</span>:<span style=color:#e6db74>&#34;5&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span>:<span style=color:#e6db74>&#34;苹果笔记本&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;price&#34;</span>:<span style=color:#e6db74>&#34;900&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=调用接口>调用接口</h2><p>使用 Postman 分别调用各个接口：</p><ul><li>保存 <code>/product</code></li></ul><pre tabindex=0><code>POST /product
+</code></pre><pre tabindex=0><code>{
+    &#34;id&#34;:&#34;1&#34;,
+    &#34;name&#34;:&#34;手机&#34;,
+    &#34;price&#34;:&#34;500&#34;
+}
+</code></pre><ul><li>通过 id 查找 <code>/product/find/id</code></li></ul><pre tabindex=0><code>GET /product/find/id?id=4
+</code></pre><pre tabindex=0><code>[
+    {
+        &#34;id&#34;: 4,
+        &#34;name&#34;: &#34;苹果手机&#34;,
+        &#34;price&#34;: 800
+    }
+]
+</code></pre><ul><li>通过名称查找 <code>/product/find/name</code></li></ul><pre tabindex=0><code>GET /product/find/name?name=手机
+</code></pre><pre tabindex=0><code>[
+    {
+        &#34;id&#34;: 1,
+        &#34;name&#34;: &#34;手机&#34;,
+        &#34;price&#34;: 500
+    },
+    {
+        &#34;id&#34;: 2,
+        &#34;name&#34;: &#34;小米手机&#34;,
+        &#34;price&#34;: 600
+    },
+    {
+        &#34;id&#34;: 4,
+        &#34;name&#34;: &#34;苹果手机&#34;,
+        &#34;price&#34;: 800
+    }
+]
+</code></pre><ul><li>通过名称模糊查询 <code>/product/find/name/like</code></li></ul><pre tabindex=0><code>GET /product/find/name/like?name=苹果
+</code></pre><pre tabindex=0><code>[
+    {
+        &#34;id&#34;: 4,
+        &#34;name&#34;: &#34;苹果手机&#34;,
+        &#34;price&#34;: 800
+    },
+    {
+        &#34;id&#34;: 5,
+        &#34;name&#34;: &#34;苹果笔记本&#34;,
+        &#34;price&#34;: 900
+    }
+]
+</code></pre><ul><li>通过不包含该名称 <code>/product/find/name/notLike</code></li></ul><pre tabindex=0><code>GET /product/find/name/notLike?name=手机
+</code></pre><pre tabindex=0><code>[
+    {
+        &#34;id&#34;: 5,
+        &#34;name&#34;: &#34;苹果笔记本&#34;,
+        &#34;price&#34;: 900
+    },
+    {
+        &#34;id&#34;: 3,
+        &#34;name&#34;: &#34;小米笔记本&#34;,
+        &#34;price&#34;: 700
+    }
+]
+</code></pre><ul><li>通过范围查找 <code>/product/find/price/between</code></li></ul><pre tabindex=0><code>GET /product/find/price/between?priceFrom=600&amp;priceTo=700
+</code></pre><pre tabindex=0><code>[
+    {
+        &#34;id&#34;: 2,
+        &#34;name&#34;: &#34;小米手机&#34;,
+        &#34;price&#34;: 600
+    },
+    {
+        &#34;id&#34;: 3,
+        &#34;name&#34;: &#34;小米笔记本&#34;,
+        &#34;price&#34;: 700
+    }
+]
+</code></pre></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/springboot-%E4%B8%AD%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8/><span>&larr;&nbsp;&nbsp;</span><span>SpringBoot 中日志使用</span></a>
+<a class=next href=https://blog.hellowood.dev/posts/swagger-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E8%AF%B4%E6%98%8E/><span>Swagger 常用注解说明</span><span>&nbsp;&nbsp;&rarr;</span></a></div></article></div><footer class=footer><p>&copy; 2023 <a href=https://blog.hellowood.dev>HelloWood</a>
+Powered by
+<a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
+<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
+️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>
