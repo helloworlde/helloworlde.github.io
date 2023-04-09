@@ -2,12 +2,12 @@
 title: Docker 使用 NFS 作为数据卷存储
 date: 2022-9-22 11:20:19
 tags:
-- Docker
-- NFS
-- Ubuntu
-- HomeLab
+    - Docker
+    - NFS
+    - Ubuntu
+    - HomeLab
 categories:
-- HomeLab
+    - HomeLab
 ---
 
 # Docker 使用 NFS 作为数据卷存储
