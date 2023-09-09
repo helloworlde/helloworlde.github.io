@@ -52,7 +52,8 @@ lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,creat
 </span></span></code></pre></div><p>这样，容器就可以正常使用核显进行 ffmpeg 硬件加速了</p><h2 id=挂载-tun-设备>挂载 TUN 设备</h2><p>如果你需要在 LXC 容器中使用 WireGuard/ TailScale/Clash 等依赖 TUN 网络的设备，还需要添加以下内容：</p><pre tabindex=0><code class=language-dsconfig data-lang=dsconfig>lxc.cgroup2.devices.allow: c 10:200 rwm
 lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 </code></pre><p>否则会报错，提示找不到 Socket，这是因为 LXC 容器默认不会挂载 TUN 设备，所以无法访问</p><pre tabindex=0><code>failed to connect to local tailscaled (which appears to be running as tailscaled, pid 94512). Got error: Failed to connect to local Tailscale daemon for /localapi/v0/status; systemd tailscaled.service not running. Error: dial unix /var/run/tailscale/tailscaled.sock: connect: no such file or directory
-</code></pre></section><div class=paginator><a class=next href=https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8arpl%E5%9C%A8pve%E4%B8%8A%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/><span>使用arpl在PVE上安装黑群晖</span><span>&nbsp;&nbsp;&rarr;</span></a></div></article></div><footer class=footer><p>&copy; 2023 <a href=https://blog.hellowood.dev>HelloWood</a>
+</code></pre></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/><span>&larr;&nbsp;&nbsp;</span><span>使用 Docker 部署 Clash Premium</span></a>
+<a class=next href=https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8arpl%E5%9C%A8pve%E4%B8%8A%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/><span>使用arpl在PVE上安装黑群晖</span><span>&nbsp;&nbsp;&rarr;</span></a></div></article></div><footer class=footer><p>&copy; 2023 <a href=https://blog.hellowood.dev>HelloWood</a>
 Powered by
 <a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
 <a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
