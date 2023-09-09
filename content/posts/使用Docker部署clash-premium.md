@@ -100,6 +100,8 @@ proxy-groups:
 
 `rules` 为 `rule-providers` 中的 rule-set 指定了策略组；如`RULE-SET,icloud,DIRECT` 为 icloud 这个规则集下面的内容指定了 DIRECT 的处理方式，即直接访问；`RULE-SET,google,PROXY` 为 google 这个规则集下面的内容指定了名为 `PROXY`的策略组进行代理
 
+最后一行 `MATCH,DIRECT` 表示未匹配到规则的使用 DIRECT 方式，即直接访问
+
 ```yaml
 rule-providers:
   reject:
