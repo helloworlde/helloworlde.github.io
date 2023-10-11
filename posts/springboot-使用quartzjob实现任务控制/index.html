@@ -20,13 +20,13 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>getClass<span style=color:#f92672>());</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>long</span> SECOND <span style=color:#f92672>=</span> 1000<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>long</span> SECOND <span style=color:#f92672>=</span> <span style=color:#ae81ff>1000</span><span style=color:#f92672>;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#75715e>/**
 </span></span></span><span style=display:flex><span><span style=color:#75715e>     * fixedDelay: 固定延迟时间执行
 </span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Scheduled</span><span style=color:#f92672>(</span>fixedDelay <span style=color:#f92672>=</span> 10 <span style=color:#f92672>*</span> SECOND<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Scheduled</span><span style=color:#f92672>(</span>fixedDelay <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span> <span style=color:#f92672>*</span> SECOND<span style=color:#f92672>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>fixedDelayJob</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>        logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;{}\tfixedDelay&#34;</span><span style=color:#f92672>,</span> currentDateTime<span style=color:#f92672>());</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
@@ -34,7 +34,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#75715e>/**
 </span></span></span><span style=display:flex><span><span style=color:#75715e>     * fixedRate: 固定间隔时间执行
 </span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Scheduled</span><span style=color:#f92672>(</span>fixedRate <span style=color:#f92672>=</span> 10 <span style=color:#f92672>*</span> SECOND<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Scheduled</span><span style=color:#f92672>(</span>fixedRate <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span> <span style=color:#f92672>*</span> SECOND<span style=color:#f92672>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>fixedRate</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>        logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;{}\tfixedRate&#34;</span><span style=color:#f92672>,</span> currentDateTime<span style=color:#f92672>());</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
@@ -114,7 +114,7 @@ logging.level.cn.com.hellowood=trace
 spring.profiles.active=dev
 </code></pre><ul><li>如果使用 MySQL 的数据库还需要创建 Quartz 相关的表，创建的脚本是 <code>schema/schema-mysql.sql</code> ，其他的数据库脚本在 <code>org/quartz/impl/dbcjobstore/tables_@@platform@@.sql</code> 下</li></ul><h3 id=实现>实现</h3><ul><li>ScheduleJob.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ScheduleJob</span> <span style=color:#66d9ef>implements</span> Serializable <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Long serialVersionUID <span style=color:#f92672>=</span> 1435515995276255188L<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Long serialVersionUID <span style=color:#f92672>=</span> <span style=color:#ae81ff>1435515995276255188L</span><span style=color:#f92672>;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Long id<span style=color:#f92672>;</span>
 </span></span><span style=display:flex><span>
@@ -381,7 +381,7 @@ spring.profiles.active=dev
 </span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transactional</span><span style=color:#f92672>(</span>rollbackFor <span style=color:#f92672>=</span> DataAccessException<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> ScheduleJob <span style=color:#a6e22e>update</span><span style=color:#f92672>(</span>Long jobId<span style=color:#f92672>,</span> ScheduleJob scheduleJob<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> ServiceException <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>jobDao<span style=color:#f92672>.</span><span style=color:#a6e22e>update</span><span style=color:#f92672>(</span>scheduleJob<span style=color:#f92672>)</span> <span style=color:#f92672>&lt;=</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>jobDao<span style=color:#f92672>.</span><span style=color:#a6e22e>update</span><span style=color:#f92672>(</span>scheduleJob<span style=color:#f92672>)</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Update product:&#34;</span> <span style=color:#f92672>+</span> jobId <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;failed&#34;</span><span style=color:#f92672>);</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>
 </span></span><span style=display:flex><span>
@@ -393,7 +393,7 @@ spring.profiles.active=dev
 </span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transactional</span><span style=color:#f92672>(</span>rollbackFor <span style=color:#f92672>=</span> DataAccessException<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>ScheduleJob scheduleJob<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> ServiceException <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>        Integer num <span style=color:#f92672>=</span> jobDao<span style=color:#f92672>.</span><span style=color:#a6e22e>insert</span><span style=color:#f92672>(</span>scheduleJob<span style=color:#f92672>);</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>num <span style=color:#f92672>&lt;=</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>num <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Add product failed&#34;</span><span style=color:#f92672>);</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>
 </span></span><span style=display:flex><span>
@@ -407,7 +407,7 @@ spring.profiles.active=dev
 </span></span><span style=display:flex><span>        ScheduleJob scheduleJob <span style=color:#f92672>=</span> select<span style=color:#f92672>(</span>jobId<span style=color:#f92672>);</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        Integer num <span style=color:#f92672>=</span> jobDao<span style=color:#f92672>.</span><span style=color:#a6e22e>delete</span><span style=color:#f92672>(</span>jobId<span style=color:#f92672>);</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>num <span style=color:#f92672>&lt;=</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>num <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
 </span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Delete product:&#34;</span> <span style=color:#f92672>+</span> jobId <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;failed&#34;</span><span style=color:#f92672>);</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>
 </span></span><span style=display:flex><span>
