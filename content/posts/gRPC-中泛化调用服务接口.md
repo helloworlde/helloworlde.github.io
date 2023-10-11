@@ -222,10 +222,6 @@ private static MethodDescriptor<DynamicMessage, DynamicMessage> generateMethodDe
 同时需要根据文件描述，将请求的类型转为对应的请求类型，生成 `DynamicMessage` 对象；然后根据方法类型，使用`MethodDescriptor` 和 `CallOptions`
 发起请求；当接收到响应后将 `DynamicMessage` 解析为对应的格式的字符串；完成调用
 
-```java
-
-```
-
 ---
 
 ## 参考文档 
