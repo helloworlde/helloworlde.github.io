@@ -20,6 +20,8 @@ featured: true
 
 最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信
 
+> 注意：需要对端其中一方有可以直接访问的公网IP
+
 关于 WireGuard 的介绍可以参考 [WireGuard](https://www.wireguard.com/) 
 
 ![homelab-wireguard-vpn-for-sub-network.svg](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-wireguard-vpn-for-sub-network.svg)
