@@ -174,27 +174,3 @@ Location: https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
 Date: Mon, 27 Nov 2023 03:34:36 GMT
 Content-Length: 0
 ```
-
-在 GoLinks 服务配置  `search` 路径，指向 `https://www.google.com/{{if .Path}}search?q={{QueryEscape .Path}}{{end}}`，用于 Google 搜索
-
-
-直接访问，会发现跳转到了 https://www.google.com/
-```bash
-curl -i go/search
-
-HTTP/1.1 302 Found
-Location: https://www.google.com/
-Date: Mon, 27 Nov 2023 03:22:19 GMT
-Content-Length: 0
-```
-
-带上 path 作为查询参数，会发现跳转到了 https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
-
-```bash
-curl -i go/search/什么是golinks
-
-HTTP/1.1 302 Found
-Location: https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
-Date: Mon, 27 Nov 2023 03:34:36 GMT
-Content-Length: 0
-```
