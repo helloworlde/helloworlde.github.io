@@ -107,13 +107,39 @@ Address: 192.168.2.4
 
 如 DNS 为 `go.svc.local`，配置搜索域为 `svc.local`，通过 `go` 访问；查询时会先查找 `go` 域名，查找不到时会将搜索域添加到域名中进行搜索，即向 DNS 服务器查询 `go.svc.local`
 
-- 修改搜索域
+##### 修改路由器的搜索域
 
-OpenWrt 路由器默认的搜索域为 `lan`，但是大部分的路由器默认不会下发搜索域，因此需要手动配置
+OpenWrt 路由器默认的搜索域为 `lan`，其他大部分的路由器默认不会下发搜索域，因此需要手动配置，需要修改为 GoLinks 所在的域（如果图方便可以将 GoLinks 的域名配置为 `go.lan`）
+
+OpenWrt 或基于 OpenWrt 的路由器都是使用 Dnsmasq 做 DNS 解析，因此，修改 Dnsmasq 的配置即可
+
+- 在页面配置
+
+将 Local Domain 配置由 `lan` 修改为 `svc.local`
+
+![go-links-search-lan-configuration-in-openwrt-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration-in-openwrt-page.png)
+
+- 修改 `/etc/config/dhcp`
+
+如果是小米路由器等基于 OpenWrt 修改的路由器，可以登陆后将 dhcp 配置文件的  `domain` 配置由 `lan` 修改为 `svc.local`
+
+```
+config dnsmasq
+	option local '/lan/'
+	option domain 'svc.local'
+	// ...
+```
+
+这样，重启路由器后再次分配的 DNS 信息中就包含 `svc.local` 搜索域了
+
+![go-links-search-lan-configuration-by-router.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration-by-router.png)
+
+
+
+##### 修改设备的搜索域
 
 可以通过网络中的 DNS 配置，手动添加 DNS 搜索域
 ![go-links-search-lan-configuration.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration.png)
-
 
 也可以在 `/etc/resolv.conf` 配置中指定 `search`
 
@@ -124,6 +150,30 @@ nameserver 223.5.5.5
 ```
 
 ## 使用 
+
+在 GoLinks 服务配置  `search` 路径，指向 `https://www.google.com/{{if .Path}}search?q={{QueryEscape .Path}}{{end}}`，用于 Google 搜索
+
+
+直接访问，会发现跳转到了 https://www.google.com/
+```bash
+curl -i go/search
+
+HTTP/1.1 302 Found
+Location: https://www.google.com/
+Date: Mon, 27 Nov 2023 03:22:19 GMT
+Content-Length: 0
+```
+
+带上 path 作为查询参数，会发现跳转到了 https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
+
+```bash
+curl -i go/search/什么是golinks
+
+HTTP/1.1 302 Found
+Location: https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
+Date: Mon, 27 Nov 2023 03:34:36 GMT
+Content-Length: 0
+```
 
 在 GoLinks 服务配置  `search` 路径，指向 `https://www.google.com/{{if .Path}}search?q={{QueryEscape .Path}}{{end}}`，用于 Google 搜索
 
