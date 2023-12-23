@@ -67,11 +67,11 @@ instance
 label_values(jvm_memory_used_bytes{application="$application"},instance)
 ```
 
-![springboot-grafana-dashboard-variable.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/springboot-grafana-dashboard-variable.png)
+![springboot-grafana-dashboard-variable.png](https://img.hellowood.dev/picture/springboot-grafana-dashboard-variable.png)
 
 这样，就可以实现 application 和 instance的联动，选择application后，instance中显示相应的应用的实例
 
-![springboot-grafana-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/springboot-grafana-dashboard.png)
+![springboot-grafana-dashboard.png](https://img.hellowood.dev/picture/springboot-grafana-dashboard.png)
 
 ## 监控方法执行时间和数量
 
@@ -249,7 +249,7 @@ custom_request_total{path="/actuator/prometheus",} 150.0
 
 - 现在要统计所有的错误请求次数，可以在 Prometheus的查询面板中查询：
 
-![springboot-custom-metrics-prometheus.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/springboot-custom-metrics-prometheus.png)
+![springboot-custom-metrics-prometheus.png](https://img.hellowood.dev/picture/springboot-custom-metrics-prometheus.png)
 
 这样，就可以得到相应的错误数据，接下来只需要在Grafana中展示就可以
 
@@ -257,13 +257,13 @@ custom_request_total{path="/actuator/prometheus",} 150.0
 
 添加一个 Dashboard，并添加一个 Panel，在 Panel 的 Metrics 中添加刚才的查询语句
 
-![springboot-custom-metrics-grafana-query.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/springboot-custom-metrics-grafana-query.png)
+![springboot-custom-metrics-grafana-query.png](https://img.hellowood.dev/picture/springboot-custom-metrics-grafana-query.png)
 
 执行查询后，会看到有图表生成，变量的名称通过 Legend 字段指定，如这里是 `custom_request_total{application="prometheus", instance="host.docker.internal:8081", job="spring-prometheus", path="/db"}`，需要显示路径名称，即 path 的值，可以设置 Legend 为 `{{path}}`，这样会显示正确的名称
 
 其他的显示单位，显示效果等以及面板的名称可以通过旁边的设置选项进行配置
 
-![prometheus-grafana-custom-dashboard-setting-panel-detail.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-grafana-custom-dashboard-setting-panel-detail.png)
+![prometheus-grafana-custom-dashboard-setting-panel-detail.png](https://img.hellowood.dev/picture/prometheus-grafana-custom-dashboard-setting-panel-detail.png)
 
 - 添加应用和实例变量
 
@@ -292,7 +292,7 @@ rate(custom_request_error{application="$application", instance="$instance"}[$__i
 ```
 
 
-![prometheus-grafana-custom-dashboard-result.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-grafana-custom-dashboard-result.png)
+![prometheus-grafana-custom-dashboard-result.png](https://img.hellowood.dev/picture/prometheus-grafana-custom-dashboard-result.png)
 
 
 ---- 

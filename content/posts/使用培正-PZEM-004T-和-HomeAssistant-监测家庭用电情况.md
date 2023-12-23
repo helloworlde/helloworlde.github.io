@@ -16,7 +16,7 @@ featured: true
 
 培正 PZEM-004T 是一个电能监控模块，能够监测家庭用电的电压，电流，频率，实时功率，耗电量等信息；支持通过 UART 协议进行读取；因此可以使用 ESP8266 或者 ESP32 等模块，将用电信息添加到 HomeAssistant 中
 
-![homelab-homeassistant-power-monitor-pannel.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-pannel.png)
+![homelab-homeassistant-power-monitor-pannel.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-pannel.png)
 
 ## 硬件 
 
@@ -148,27 +148,27 @@ sensor:
 
 接线方式如图：
 
-![homelab-homeassitant-module-connect-graph.svg](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassitant-module-connect-graph.svg)
+![homelab-homeassitant-module-connect-graph.svg](https://img.hellowood.dev/picture/homelab-homeassitant-module-connect-graph.svg)
 
 连接好之后将互感线圈挂到入户线或需要测量的电线上，然后通电启动；待启动成功后访问 [http://power-monitor.local/](http://power-monitor.local/)(和 esphome 配置中的 `substitutions.name`一致) 即可看到相关的数据
 
-![homelab-homeassistant-power-monitor-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-homepage.png)
+![homelab-homeassistant-power-monitor-homepage.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-homepage.png)
 
 
 ## 3. 配置 Home Assistant 
 
 在 Home Assistant 添加 ESPHome 组件，将 power-monitor 添加到实体中
 
-![homelab-homeassistant-power-monitor-entity.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-entity.png)
+![homelab-homeassistant-power-monitor-entity.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-entity.png)
 ### 配置能源面板 
 
 进入 HomeAssistant-配置-仪表盘-能源，添加用电数据，实体选择 `Power Monitor Energy`
 
-![homelab-homeassistant-power-monitor-energy2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-energy2.png)
+![homelab-homeassistant-power-monitor-energy2.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-energy2.png)
 
 添加后提示 `Unexpected device class` 和 `Last reset missing` 错误
 
-![homelab-homeassistant-power-monitor-energy-error.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-energy-error.png)
+![homelab-homeassistant-power-monitor-energy-error.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-energy-error.png)
 
 因为 ESPHome 传感器没有提供 Home Assistant 需要的重置时间和传感器类型，当配置为能源时，会提示 `Last reset missing` 和 `Unexpected device class` 错误；需要在配置文件 `configuration.yaml` 中为其指定类型和重置时间
 
@@ -183,4 +183,4 @@ homeassistant:
 
 重启后即可看到用电信息：
 
-![homelab-homeassistant-power-monitor-power-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-power-monitor-power-dashboard.png)
+![homelab-homeassistant-power-monitor-power-dashboard.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-power-dashboard.png)

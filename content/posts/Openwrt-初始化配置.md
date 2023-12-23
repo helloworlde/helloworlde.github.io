@@ -19,13 +19,13 @@ Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 `o
 opkg update
 opkg install luci-i18n-base-zh-cn
 ```
-![homelab-openwrt-init-config-language.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-init-config-language.png)
+![homelab-openwrt-init-config-language.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-language.png)
 
 ## 时间设置
 
 在系统-系统-常规设置中，将时区设置为 `Asia/Honkong` ，选择保存并应用即可生效
 
-![homelab-openwrt-init-config-time.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-init-config-time.png)
+![homelab-openwrt-init-config-time.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-time.png)
 
 ## 主题配置
 
@@ -38,7 +38,7 @@ wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/lu
 opkg install argon.ipk
 ```
 
-![homelab-openwrt-init-config-theme.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-init-config-theme.png)
+![homelab-openwrt-init-config-theme.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-theme.png)
 
 
 ## 设置密码
@@ -47,4 +47,4 @@ opkg install argon.ipk
 
 同时也可以将本地的公钥添加到 SSH 密钥中，方便登录控制台
 
-![homelab-openwrt-init-config-password.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-init-config-password.png)
+![homelab-openwrt-init-config-password.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-password.png)

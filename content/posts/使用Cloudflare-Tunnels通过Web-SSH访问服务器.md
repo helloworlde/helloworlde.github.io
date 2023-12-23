@@ -20,25 +20,25 @@ Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可�
 
 在 Cloudflare 控制台 > Zero Trust > Access > Applications 选择 Add an application 创建新的应用；应用类型为 Self-hosted
 
-![homelab-cloudflare-ssh-application-create.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-application-create.png)
+![homelab-cloudflare-ssh-application-create.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-application-create.png)
 
 - 配置应用信息
 
 指定应用名称，并为应用配置域名；session 的过期时间可以按需配置
 
-![homelab-cloudflare-ssh-configuration-application.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-configuration-application.png)
+![homelab-cloudflare-ssh-configuration-application.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-application.png)
 
 - 指定访问策略
 
 需要配置访问策略，只允许特定的邮箱登陆；如果需要使用其他的认证方式，如 GitHub/Google SSO 等，可以在 Cloudflare 控制台 > Zero Trust > Settings > Authentication > Login Methods 中添加
 
-![homelab-cloudflare-ssh-configuration-policy.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-configuration-policy.png)
+![homelab-cloudflare-ssh-configuration-policy.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-policy.png)
 
 - 修改应用类型
 
 在 Additional settings 中，将 Browser rendering 的类型改为 SSH；然后选择保存，这样就配置好 SSH 应用了
 
-![homelab-cloudflare-ssh-set-application-type.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-set-application-type.png)
+![homelab-cloudflare-ssh-set-application-type.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-set-application-type.png)
 
 ## 配置 Tunnels
 
@@ -69,11 +69,11 @@ sudo systemctl restart cloudflared
 
 访问刚才配置的 SSH 服务的域名；会提示使用邮箱或者配置的方式进行登陆
 
-![homelab-cloudflare-ssh-application-login.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-application-login.png)
+![homelab-cloudflare-ssh-application-login.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-application-login.png)
 
 登陆后需要输入服务器的用户名和密码（或者私钥）进行登陆
 
-![homelab-cloudflare-ssh-login-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-login-page.png)
+![homelab-cloudflare-ssh-login-page.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-login-page.png)
 
 ## 配置短期证书
 
@@ -99,7 +99,7 @@ usermod -aG wheel abc
 
 在 Cloudflare 控制台 > Zero Trust > Access > Service Auth > SSH 选择刚才创建的 SSH 应用，然后生成证书
 
-![homelab-cloudflare-service-auth-ssh-generate-key.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-service-auth-ssh-generate-key.png)
+![homelab-cloudflare-service-auth-ssh-generate-key.png](https://img.hellowood.dev/picture/homelab-cloudflare-service-auth-ssh-generate-key.png)
 
 ### 配置公钥
 
@@ -149,6 +149,6 @@ sudo systemctl restart ssh
 
 重启完成后，访问配置的 SSH 域名，通过 SSO 登陆后，即可进入到 Web SSH 命令行界面；登陆的用户为 SSO 登陆用户 abc
 
-![homelab-cloudflare-service-auth-ssh-login.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-service-auth-ssh-login.png)
+![homelab-cloudflare-service-auth-ssh-login.png](https://img.hellowood.dev/picture/homelab-cloudflare-service-auth-ssh-login.png)
 
-![homelab-cloudflare-ssh-login-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-cloudflare-ssh-login-page.png)
+![homelab-cloudflare-ssh-login-page.png](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-login-page.png)

@@ -220,7 +220,7 @@ traefik-dashboard  ClusterIP     10.108.91.184   <none>       80/TCP            
 
 - 因为在values.yaml 中已经配置了 `deployment.hostPort.httpEnabled`和`deployment.hostPort.httpsEnabled`，所以也可以直接访问 [dashboard.traefik](http://dashboard.traefik)
 
-![traefik-dashboard-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/traefik-dashboard-page.png)
+![traefik-dashboard-page.png](https://img.hellowood.dev/picture/traefik-dashboard-page.png)
 
 - 访问backend 应用 
 

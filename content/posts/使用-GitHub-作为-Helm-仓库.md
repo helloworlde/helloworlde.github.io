@@ -110,7 +110,7 @@ generated: "2019-12-07T17:55:16.092676+08:00"
 
 - 配置仓库开启 GitHub Pages
 
-![helm-chart-github-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/helm-chart-github-page.png)
+![helm-chart-github-page.png](https://img.hellowood.dev/picture/helm-chart-github-page.png)
 
 ## 客户端添加安装
 

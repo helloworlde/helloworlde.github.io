@@ -51,7 +51,7 @@ services:
 
 部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接
 
-![homelab-clash-proxy-config-convert-to-clash.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-clash-proxy-config-convert-to-clash.png)
+![homelab-clash-proxy-config-convert-to-clash.png](https://img.hellowood.dev/picture/homelab-clash-proxy-config-convert-to-clash.png)
 
 - 自定义配置
 
@@ -157,7 +157,7 @@ docker run --name yacd \
 	ghcr.io/haishanh/yacd:master
 ```
 
-![homelab-clash-proxy-yacd-ui.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-clash-proxy-yacd-ui.png)
+![homelab-clash-proxy-yacd-ui.png](https://img.hellowood.dev/picture/homelab-clash-proxy-yacd-ui.png)
 
 - docker-compose 方式运行
 
@@ -218,4 +218,4 @@ unset all_proxy
 
 在网络-代理中添加配置，指定 HTTP/HTTPS/SOCKS 代理为配置的代理即可
 
-![homelab-clash-proxy-config-macos.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-clash-proxy-config-macos.png)
+![homelab-clash-proxy-config-macos.png](https://img.hellowood.dev/picture/homelab-clash-proxy-config-macos.png)

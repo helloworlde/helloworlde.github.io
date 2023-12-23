@@ -13,7 +13,7 @@ Thrift 中有 `TTransport` 和 `TServerTransport`，封装了底层传输层的�
 
 ## TTransport
 
-![thrift-java-source-class-transport.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/thrift-java-source-class-transport.png)
+![thrift-java-source-class-transport.png](https://img.hellowood.dev/picture/thrift-java-source-class-transport.png)
 
 ### 方法 
 
@@ -84,7 +84,7 @@ public void flush() throws TTransportException {
 
 ## TServerTransport
 
-![thrift-java-source-class-server-transport.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/thrift-java-source-class-server-transport.png)
+![thrift-java-source-class-server-transport.png](https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png)
 
 ### 方法
 

@@ -13,7 +13,7 @@ categories:
 
 `Subchannel` 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport 
 
-![grpc-source-code-channel-class-diagram.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-source-code-channel-class-diagram.png)
+![grpc-source-code-channel-class-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png)
 
 Channel 有多个子类：
 - `ManagedChannel`： 实现了生命周期管理能力的抽象子类

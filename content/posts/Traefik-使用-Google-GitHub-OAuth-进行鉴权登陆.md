@@ -22,7 +22,7 @@ Traefik 支持使用 HTTP 中间件，可以将鉴权信息转发给其他服务
 
 在 [Google Cloud](https://console.cloud.google.com/apis/credentials) 创建新的应用，选择 "APIs and Services" -> "Credentials"，选择 "CREATE CREDENTIALS" -> "OAuth Client ID"，应用类型选择 "Web Application"，填写名称，重定向 URL 为要访问的 URL + 认证路径，traefik-forward-auth 的认证路径为 `/_oauth`
 
-![homelab-traefik-sso-google-oauth-apply-oauth-app.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-traefik-sso-google-oauth-apply-oauth-app.png)
+![homelab-traefik-sso-google-oauth-apply-oauth-app.png](https://img.hellowood.dev/picture/homelab-traefik-sso-google-oauth-apply-oauth-app.png)
 
 确认后会提示 Client ID 和 Client Secret，需要保存好，作为 traefik-forward-auth 配置
 
@@ -185,7 +185,7 @@ treafik-forward-auth 支持使用其他的 OAuth 服务进行认证，只需要�
 
 在 GitHub -> Settings -> Developer settings 申请 OAuth 应用，指定 Callback URL 为 [http://auth.homelab.io/_oauth](http://auth.homelab.io/_oauth)
 
-![homelab-traefik-sso-github-oauth-apply-oauth-app.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-traefik-sso-github-oauth-apply-oauth-app.png)
+![homelab-traefik-sso-github-oauth-apply-oauth-app.png](https://img.hellowood.dev/picture/homelab-traefik-sso-github-oauth-apply-oauth-app.png)
 
 - docker-compose.yaml
 

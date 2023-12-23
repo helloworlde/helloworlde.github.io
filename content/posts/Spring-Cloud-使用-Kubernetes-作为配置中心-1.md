@@ -328,7 +328,7 @@ Bean 的初始化是在 `org.springframework.cloud.kubernetes.config.reload.Conf
 
 ### 监听实现
 
-![spring-cloud-kubernetes-configuration-change-detector.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/spring-cloud-kubernetes-configuration-change-detector.png)
+![spring-cloud-kubernetes-configuration-change-detector.png](https://img.hellowood.dev/picture/spring-cloud-kubernetes-configuration-change-detector.png)
 
 `PollingConfigurationChangeDetector` 和 `EventBasedConfigurationChangeDetector` 都是 `ConfigurationChangeDetector`的子类
 

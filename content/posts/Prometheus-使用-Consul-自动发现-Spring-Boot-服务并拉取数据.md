@@ -208,20 +208,20 @@ scrape_configs:
 
 - Consul 中注册的应用 
 
-![prometheus-consul-consul-service-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-consul-consul-service-list.png)
+![prometheus-consul-consul-service-list.png](https://img.hellowood.dev/picture/prometheus-consul-consul-service-list.png)
 
 - Prometheus 的 Service Discovery
 
 可以看到，consul这个服务下发现了三个服务，但是只有一个在拉取数据，另外两个被丢弃了，这是因为限制了只拉取 tag 为 `metrics=true`
 
-![prometheus-consul-prometheus-discovery-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-consul-prometheus-discovery-list.png)
+![prometheus-consul-prometheus-discovery-list.png](https://img.hellowood.dev/picture/prometheus-consul-prometheus-discovery-list.png)
 
 
 - Prometheus 的 Target
 
 可以看到 Target 也只拉取了这一个应用
 
-![prometheus-consul-prometheus-target-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-consul-prometheus-target-list.png)
+![prometheus-consul-prometheus-target-list.png](https://img.hellowood.dev/picture/prometheus-consul-prometheus-target-list.png)
 
 - 查询监控数据
 
@@ -231,13 +231,13 @@ scrape_configs:
 process_uptime_seconds
 ```
 
-![prometheus-consul-prometheus-query-result1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-consul-prometheus-query-result1.png)
+![prometheus-consul-prometheus-query-result1.png](https://img.hellowood.dev/picture/prometheus-consul-prometheus-query-result1.png)
 
 - 修改另一个 Spring Boot 应用，添加监控tag
 
 再次查询 Prometheus 数据，可以看到另一个应用也开始拉取数据
 
-![prometheus-consul-prometheus-query-result2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-consul-prometheus-query-result2.png)
+![prometheus-consul-prometheus-query-result2.png](https://img.hellowood.dev/picture/prometheus-consul-prometheus-query-result2.png)
 
 
 ----

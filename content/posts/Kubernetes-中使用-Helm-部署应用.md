@@ -363,7 +363,7 @@ Regenerating index. This may take a moment.
 Now serving you on 127.0.0.1:8879
 ```
 
-![helm-app-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/helm-app-list.png)
+![helm-app-list.png](https://img.hellowood.dev/picture/helm-app-list.png)
 
 ----------
 

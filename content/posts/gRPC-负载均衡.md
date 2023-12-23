@@ -11,18 +11,18 @@ categories:
 
 gRPC 内定义了  LoadBalancer 接口，用于负载均衡
 
-![grpc-source-code-loadbalancer-methods.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-source-code-loadbalancer-methods.png)
+![grpc-source-code-loadbalancer-methods.png](https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-methods.png)
 
 LoadBalancer 中的主要方法
 - `handleResolvedAddress`：处理  `NameResolver` 解析的地址，用于创建 `Subchannel`
 - `handleNameResolutionError`: 处理命名解析失败，会销毁已经存在的 `Suchannel`
 - `requestConnection`: 创建连接，会为 `Subchannel` 初始化 `Transport`，并建立连接
 
-![grpc-source-code-loadbalancer-sub-class.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-source-code-loadbalancer-sub-class.png)
+![grpc-source-code-loadbalancer-sub-class.png](https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-sub-class.png)
 
 LoadBalancer 接口有多个实现类，如用于代理的 `ForwardingLoadBalancer`；基于策略的 `RoundRobinLoadBalancer`,`PickFirstLoadBalancer`, `GrpclbLoadBalancer`等；支持扩展功能的`HealthCheckingLoadBalancer`, `GracefulSwitchLoadBalancer` 等
 
-![grpc-source-code-loadbalancer-class-diagram.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-source-code-loadbalancer-class-diagram.png)
+![grpc-source-code-loadbalancer-class-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-class-diagram.png)
 
 LoadBalancer 有多个内部类，用于实现负载均衡
 

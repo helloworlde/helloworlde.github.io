@@ -41,9 +41,9 @@ by-path  card0	renderD128
 
 如图，在 PVE的控制界面，选择创建 CT 容器；配置中取消 "无特权容器" 的勾选，模板选择 CentOS 或 Ubuntu 等均可
 
-![homelab-pve-lxc-intel-graphics-mount-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-lxc-intel-graphics-mount-1.png)
+![homelab-pve-lxc-intel-graphics-mount-1.png](https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-1.png)
 
-![homelab-pve-lxc-intel-graphics-mount-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-lxc-intel-graphics-mount-2.png)
+![homelab-pve-lxc-intel-graphics-mount-2.png](https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-2.png)
 
 创建完成后，即可看到容器的 ID，即VMID，这里是 104
 

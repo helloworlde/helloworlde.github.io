@@ -35,12 +35,12 @@ telnet: Unable to connect to remote host
 1. 下载测试版固件并升级
 
 首先下载测试版本固件[miwifi_rb03_firmware_stable_1.2.7 ](https://github.com/YangWang92/AX6S-unlock/raw/master/miwifi_rb03_firmware_stable_1.2.7.bin)；在初始化路由器配置后，进入到路由器控制台，选择升级；
-![homelab-miwifi-ax6s-openwrt-upgrade.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-ax6s-openwrt-upgrade.png)
+![homelab-miwifi-ax6s-openwrt-upgrade.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade.png)
 
-![homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png)
+![homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png)
 
 升级完成后路由器会重启，页面有水印提示 `Only For Test`；
-![homelab-miwifi-ax6s-openwrt-upgrade-complted.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-ax6s-openwrt-upgrade-complted.png)
+![homelab-miwifi-ax6s-openwrt-upgrade-complted.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-complted.png)
 
 此时使用 telnet 测试会发现已经可以登陆了
 
@@ -64,7 +64,7 @@ a857e591
 
 使用账户 `root` 和计算得到的密码 `xxx` 进行登陆，即可登陆到路由器后台
 
-![homelab-miwifi-ax6s-openwrt-telnet-success.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-ax6s-openwrt-telnet-success.png)
+![homelab-miwifi-ax6s-openwrt-telnet-success.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-telnet-success.png)
 
 ### 刷入 OpenWrt
 
@@ -127,7 +127,7 @@ nvram commit
 mtd -r write factory.bin firmware
 ```
 
-![homelab-miwifi-ax6s-openwrt-execute-install.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-ax6s-openwrt-execute-install.png)
+![homelab-miwifi-ax6s-openwrt-execute-install.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-execute-install.png)
 
 写入完成后，路由器会自动重启；重启后的路由器的 IP 地址变为 `192.168.1.1`；此时 Wi-Fi 没有开启，需要使用网线连接到路由器，访问  `192.168.1.1` 进行配置
 
@@ -172,7 +172,7 @@ Redmi AX3000 日常使用比较稳定，因为不支持刷入 OpenWrt，并且�
 
 综合来看，刷入 OpenWrt 安装常用软件后，128M 的闪存和 256M 的内存不够用，使用起来捉襟见肘；另外，只有千兆的网口，导致 WiFi6 的速度只能在内网支持 WiFi6 的设备之间使用，所以这个价位的 WiFi6 路由器只能是过渡产品，可能一两年后就需要淘汰（不如小黄鱼买 Redmi AX3000 RA69 版本，千万别买 RA81 版本！！！）
 
-![homelab-miwifi-redmi-ax6s-usage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-redmi-ax6s-usage.png)
+![homelab-miwifi-redmi-ax6s-usage.png](https://img.hellowood.dev/picture/homelab-miwifi-redmi-ax6s-usage.png)
 
 ## 参考文档
 

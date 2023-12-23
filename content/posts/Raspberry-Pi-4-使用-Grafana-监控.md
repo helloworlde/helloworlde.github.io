@@ -110,10 +110,10 @@ create user admin with password '123456' with all privileges
 
 访问设置 -> DataSources -> Add Data Source，输入相应的信息
 
-![raspberrypi-metrics-grafana-datasource.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-metrics-grafana-datasource.png)
+![raspberrypi-metrics-grafana-datasource.png](https://img.hellowood.dev/picture/raspberrypi-metrics-grafana-datasource.png)
 
 - 导入监控看板 
 
 点击侧边栏加号，import，然后输入面板的 id [10587](https://grafana.com/grafana/dashboards/10578)，然后 load
 
-![raspberrypi-metrics-grafana-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-metrics-grafana-dashboard.png)
+![raspberrypi-metrics-grafana-dashboard.png](https://img.hellowood.dev/picture/raspberrypi-metrics-grafana-dashboard.png)

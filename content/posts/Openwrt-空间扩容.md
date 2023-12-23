@@ -22,7 +22,7 @@ Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了�
 
 - 在 Esxi 修改硬盘大小
 
-![homelab-openwrt-esxi-disk-size.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-size.png)
+![homelab-openwrt-esxi-disk-size.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-size.png)
 
 
 ## 创建新的分区
@@ -44,10 +44,10 @@ opkg install cfdisk
 - 输入 `Partition Size`为想要的大小
 - 如`3.9G`，然后回车，此时可以看到挂载了新的分区 `/dev/sda3`
 
-![homelab-openwrt-esxi-disk-new-partition-a-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-new-partition-a-1.png)
+![homelab-openwrt-esxi-disk-new-partition-a-1.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-1.png)
 
 选择 `/dev/sda3`，使用 Tab 选择 `Write`并输入 `yes`确认
-![homelab-openwrt-esxi-disk-new-partition-a-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-new-partition-a-2.png)
+![homelab-openwrt-esxi-disk-new-partition-a-2.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-2.png)
 
 3. 格式化分区
 
@@ -72,16 +72,16 @@ reboot
 
 重启完成后访问 Web 页面的 `系统`-`挂载点`
 
-![homelab-openwrt-esxi-disk-new-partition-a-mount-3.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-3.png)
+![homelab-openwrt-esxi-disk-new-partition-a-mount-3.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-3.png)
 
 选择`新增`，选择刚才创建的分区`/dev/sda5`，挂载点为`作为外部 overlay 使用`，并启用
 
-![homelab-openwrt-esxi-disk-new-partition-a-mount-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-1.png)
+![homelab-openwrt-esxi-disk-new-partition-a-mount-1.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-1.png)
 
 
 保存并启用修改的配置，重启 Openwrt，进入挂载点，即可看到`/overlay`空间已经扩容
 
-![homelab-openwrt-esxi-disk-new-partition-a-mount-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-2.png)
+![homelab-openwrt-esxi-disk-new-partition-a-mount-2.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-2.png)
 
 ## 参考文档
 

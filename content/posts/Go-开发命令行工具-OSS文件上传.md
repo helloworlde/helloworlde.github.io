@@ -162,7 +162,7 @@ goreleaser --rm-dist
 
 待上传完成后就可以在 GitHub Release 页面看到刚才发布的版本
 
-![oss-tool.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/images/oss-tool.png)
+![oss-tool.png](https://img.hellowood.dev/images/oss-tool.png)
 
 ## 使用 
 

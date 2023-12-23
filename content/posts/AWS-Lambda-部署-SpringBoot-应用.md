@@ -23,19 +23,19 @@ AWS CLI 和 Serverless 都可以用于部署 Serverless 应用
 
 1. 登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户
 
-![Serverless1](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless1.png)
+![Serverless1](https://img.hellowood.dev/blog/serverless/Serverless1.png)
 
 2. 输入用户名，选择编程访问
 
-![Serverless2-add-user](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless2-add-user.png)
+![Serverless2-add-user](https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png)
 
 3. 选择权限-直接附加现有策略，搜索`AdministratorAccess`并选中(有最高权限)
 
-![Serverless3-add-permission](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless3-add-permission.png)
+![Serverless3-add-permission](https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png)
 
 4. 选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)
 
-![Serverless3-save-secret](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless4-save-secret.png)
+![Serverless3-save-secret](https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png)
 
 
 ### 安装配置 AWS CLI
@@ -505,23 +505,23 @@ curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
 - 选择服务 - Lambda - 函数 - 创建函数 - 从头开始创作
 
 权限可以选择现有的角色或者新建角色
-![Serverless7-create-on-panel](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless7-create-on-panel.png)
+![Serverless7-create-on-panel](https://img.hellowood.dev/blog/serverless/Serverless7-create-on-panel.png)
 
 - 添加触发器，选择 API-Gateway 作为触发器，然后保存
 
-![Serverless8-gateway-trigger](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless8-gateway-trigger.png)
+![Serverless8-gateway-trigger](https://img.hellowood.dev/blog/serverless/Serverless8-gateway-trigger.png)
 
 - 点击Layers 的 Spring 应用，上传 zip，在 `build/`或`target/`下；运行语言选择 Java8，处理程序为`io.github.helloworlde.StreamLambdaHandler::handleRequest`，点击保存
 
-![Serverless9-upload-app](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless9-upload-app.png)
+![Serverless9-upload-app](https://img.hellowood.dev/blog/serverless/Serverless9-upload-app.png)
 
 #### 测试 
 
 - 选择配置测试事件 - 创建新测试事件 - 选择 `AWS API Gateway AWS Proxy`，修改相关的path和httpMethod
 
-![Serverless10-api-gateway-test](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless10-api-gateway-test.png)
+![Serverless10-api-gateway-test](https://img.hellowood.dev/blog/serverless/Serverless10-api-gateway-test.png)
 
-![Serverless11-test-result](https://hellowoodes.oss-cn-beijing.aliyuncs.com/blog/serverless/Serverless11-test-result.png)
+![Serverless11-test-result](https://img.hellowood.dev/blog/serverless/Serverless11-test-result.png)
 
 - Gateway 的 URL 可以点击 API Gateway查看
 

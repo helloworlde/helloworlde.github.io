@@ -40,10 +40,10 @@ featured: true
 
 首先将移动硬盘连接到电脑，打开磁盘工具；点击显示，选择显示所有设备；
 
-![homelab-nuc-hackintosh-show-all-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-show-all-disk.png)
+![homelab-nuc-hackintosh-show-all-disk.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-show-all-disk.png)
 
 然后选择移动磁盘这个设备，选择抹掉，名称可以是任意名称，如 macOS，后续会在刻录镜像的时候用到；格式选择 "Mac OS 扩展（日志式）"；方案选择 GUID 分区图；这样就会将移动磁盘分为两个分区，一个是 EFI分区，另一个是系统镜像分区
-![homelab-nuc-hackintosh-format-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-format-disk.png)
+![homelab-nuc-hackintosh-format-disk.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-format-disk.png)
 
 ### 2. 下载 macOS 
 
@@ -51,13 +51,13 @@ featured: true
 
 首先需要在 App Store 下载对应版本的系统安装器，在 App Store 只能搜索到当前或更新版本的安装器，如果想使用旧版本，可以通过 Google 或[在线的 App Store](https://www.apple.com/us/search/macOS?src=serp) 搜索对应版本并跳转到 App Store 进行下载；如 [macOS Monterey](https://apps.apple.com/us/app/macos-monterey/id1576738294?mt=12)
 
-![homelab-macos-iso-search-in-app-store.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-search-in-app-store.png)
+![homelab-macos-iso-search-in-app-store.png](https://img.hellowood.dev/picture/homelab-macos-iso-search-in-app-store.png)
 
-![homelab-macos-iso-download-from-app-store.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-download-from-app-store.png)
+![homelab-macos-iso-download-from-app-store.png](https://img.hellowood.dev/picture/homelab-macos-iso-download-from-app-store.png)
 
 随后会跳转到软件更新中自动下载，下载完成后在应用里可以看到 "安装 macOS Monterey"
 
-![homelab-macos-iso-downloading.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-downloading.png)
+![homelab-macos-iso-downloading.png](https://img.hellowood.dev/picture/homelab-macos-iso-downloading.png)
 
 ### 3. 将 macOS 刻录到移动磁盘
 
@@ -138,13 +138,13 @@ sudo mount -t msdos /dev/disk2s1 /Volumes/efi
 
 挂载成功后打开 Finder，可以看到已经挂载的 EFI 分区
 
-![homelab-nuc-hackintosh-mount-efi.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-mount-efi.png)
+![homelab-nuc-hackintosh-mount-efi.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-mount-efi.png)
 
 ### 2. 添加 EFI
 
 将下载的 EFI 文件夹添加到 EFI 分区中（注意是整个 EFI 文件夹添加到 EFI 分区）
 
-![homelab-nuc-hackintosh-move-efi-to-efi.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-move-efi-to-efi.png)
+![homelab-nuc-hackintosh-move-efi-to-efi.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-move-efi-to-efi.png)
 
 至此，磁盘镜像的准备工作已经完成
 
@@ -171,20 +171,20 @@ sudo mount -t msdos /dev/disk2s1 /Volumes/efi
 
 接下来安装系统指引一步步安装即可，安装过程中可能会有多次重启；等待大约半小时即可安装完成
 
-![homelab-nuc-hackintosh-monterey-info.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-monterey-info.png)
+![homelab-nuc-hackintosh-monterey-info.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-monterey-info.png)
 
 ## 配置 EFI 启动项
 
 安装完成后，安装 [OpenCore Configurator](https://macdownload.informer.com/opencore-configurator/) 软件，选择 Tools - Mount EFI
-![homelab-nuc-hackintosh-mount-efi-by-configurator.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-mount-efi-by-configurator.png)
+![homelab-nuc-hackintosh-mount-efi-by-configurator.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-mount-efi-by-configurator.png)
 
 将移动磁盘和 macOS 系统的 EFI 分区都挂载到电脑
 
-![homelab-nuc-hackintosh-mount-efi-partition.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-mount-efi-partition.png)
+![homelab-nuc-hackintosh-mount-efi-partition.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-mount-efi-partition.png)
 
 然后将移动磁盘中的 EFI 分区复制到 macOS 系统的 EFI 即可
 
-![homelab-nuc-hackintosh-move-partition-files.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-move-partition-files.png)
+![homelab-nuc-hackintosh-move-partition-files.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-move-partition-files.png)
 
 ## 使用体验
 

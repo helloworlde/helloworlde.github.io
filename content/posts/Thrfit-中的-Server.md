@@ -43,7 +43,7 @@ public void stop() {}
 
 ## 实现类
 
-![thrift-source-server-subclass.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/thrift-source-server-subclass.png)
+![thrift-source-server-subclass.png](https://img.hellowood.dev/picture/thrift-source-server-subclass.png)
 
 ### 阻塞
 

@@ -125,13 +125,13 @@ spec:
 
 Prometheus 默认监控了 Kubernetes 和 Node，可以直接访问节点进行查看，如直接访问 [http://192.168.199.2:30090/graph](http://192.168.199.2:30090/graph)
 
-![prometheus-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-homepage.png)
+![prometheus-homepage.png](https://img.hellowood.dev/picture/prometheus-homepage.png)
 
 ### 使用 Prometheus 查询
 
 通过 PromQL 查询指定的指标，可以查看数据所对应的图表，以节点 15分钟的 CPU 为例：可以直接输入`node_load15`查询，也可以从下拉框中选择，然后点击 Execute 生成图表：
 
-![prometheus-graph.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/prometheus-graph.png)
+![prometheus-graph.png](https://img.hellowood.dev/picture/prometheus-graph.png)
 
 
 ### 使用 Grafana 查询
@@ -140,13 +140,13 @@ Prometheus 查询只能查看指定的指标，如果想要查看多个指标的
 
 访问 Grafana 对应的节点，如[http://192.168.199.2:30080/?orgId=1](http://192.168.199.2:30080/)，会要求输入用户名密码，默认的用户名为 `admin`，如果没有指定`grafana.adminPassword`设置密码，则密码为`prom-operator`
 
-![grafana-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grafana-homepage.png)
+![grafana-homepage.png](https://img.hellowood.dev/picture/grafana-homepage.png)
 
 #### 配置自定义监控 
 
 点击左侧的加号，选择 Dashboard，添加新的查询，并输入相应的 PromQL 查询即可看到相应的指标
 
-![grafana-query.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grafana-query.png)
+![grafana-query.png](https://img.hellowood.dev/picture/grafana-query.png)
 
 之后修改名称等其他设置，保存后就可以在面板中看到该监控了
 
@@ -156,8 +156,8 @@ Prometheus 查询只能查看指定的指标，如果想要查看多个指标的
 
 在[https://grafana.com/grafana/dashboards](https://grafana.com/grafana/dashboards) 中选择需要的监控，并复制面板的 id，在Grafana 首页点击加号后选择导入，输入 id 即可导入已有的面板，如已 `11074`这个面板为例：
 
-![grafana-import.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grafana-import.png)
+![grafana-import.png](https://img.hellowood.dev/picture/grafana-import.png)
 
-![grafana-import2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grafana-import2.png)
+![grafana-import2.png](https://img.hellowood.dev/picture/grafana-import2.png)
 
-![grafana-import3.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grafana-import3.png)
+![grafana-import3.png](https://img.hellowood.dev/picture/grafana-import3.png)

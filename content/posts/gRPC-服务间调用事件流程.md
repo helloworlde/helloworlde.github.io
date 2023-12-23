@@ -11,7 +11,7 @@ categories:
 
 ## 调用流程图
 
-![gRPC请求事件流程.svg](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/gRPC请求事件流程.svg)
+![gRPC请求事件流程.svg](https://img.hellowood.dev/picture/gRPC请求事件流程.svg)
 
 ## 可监听的事件
 

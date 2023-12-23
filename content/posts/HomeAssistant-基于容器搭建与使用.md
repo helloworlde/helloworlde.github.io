@@ -60,7 +60,7 @@ services:
 
 启动后，通过访问服务器的 8123 接口，使用用户名 `admin` 和密码 `admin` 访问即可进入 HomeAssistant
 
-![homelab-homeassistant-login.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-login.png)
+![homelab-homeassistant-login.png](https://img.hellowood.dev/picture/homelab-homeassistant-login.png)
 
 ## 添加 HACS
 
@@ -80,4 +80,4 @@ wget -O - https://get.hacs.xyz | bash -
 
 脚本执行成功后重启 HomeAssistant 即可在左侧菜单栏看到 HACS，说明安装成功
 
-![homelab-homeassistant-hacs-install.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-homeassistant-hacs-install.png)
+![homelab-homeassistant-hacs-install.png](https://img.hellowood.dev/picture/homelab-homeassistant-hacs-install.png)

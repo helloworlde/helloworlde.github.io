@@ -29,7 +29,7 @@ featured: true
 | 有线网口  | Intel Ethernet I-225V                |
 | BIOS 版本 | F21                                  |
 
-![homelab-hackintosh-b660m-macos-ventura-info.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-hackintosh-b660m-macos-ventura-info.png)
+![homelab-hackintosh-b660m-macos-ventura-info.png](https://img.hellowood.dev/picture/homelab-hackintosh-b660m-macos-ventura-info.png)
 
 ### 功能支持
 
@@ -58,12 +58,12 @@ featured: true
 
 在 App Store 或[在线的 App Store](https://www.apple.com/us/search/macOS?src=serp) 搜索 Ventura 并安装
 
-![homelab-hackintosh-b660m-download-ventura-from-appstore.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-hackintosh-b660m-download-ventura-from-appstore.png)
+![homelab-hackintosh-b660m-download-ventura-from-appstore.png](https://img.hellowood.dev/picture/homelab-hackintosh-b660m-download-ventura-from-appstore.png)
 
 ### 1.2 格式化并分区移动磁盘
 
 使用磁盘工具格式化磁盘，选择抹掉，格式选择 "Mac OS 扩展（日志式）"；方案选择 GUID 分区图；这样就会将移动磁盘分为两个分区，一个是 EFI分区，另一个是系统镜像分区
-![homelab-nuc-hackintosh-format-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nuc-hackintosh-format-disk.png)
+![homelab-nuc-hackintosh-format-disk.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-format-disk.png)
 
 ### 1.3 将 macOS 刻录到移动磁盘
 

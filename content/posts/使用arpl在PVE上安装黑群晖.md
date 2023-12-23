@@ -18,7 +18,7 @@ featured: true
 
 在 GitHub 项目 [fbelavenuto/arpl](https://github.com/fbelavenuto/arpl) 的 [Releases](https://github.com/fbelavenuto/arpl/releases) 中选择下载最新版本，选择 `img.zip` 后缀的文件进行下载
 
-![homelab-nas-synology-arpl-download.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-download.png)
+![homelab-nas-synology-arpl-download.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-download.png)
 
 解压后可以得到一个名为 `arpl.img` 的文件，这个文件用于后续安装黑群晖
 
@@ -28,14 +28,14 @@ featured: true
 
 将 `arpl.img` 文件上传到 PVE 的 ISO 镜像中，用于后续引导黑群晖
 
-![homelab-nas-synology-upload-arpl-img.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-upload-arpl-img.png)
+![homelab-nas-synology-upload-arpl-img.png](https://img.hellowood.dev/picture/homelab-nas-synology-upload-arpl-img.png)
 
 
 ### 2.2 创建虚拟机
 
 在 PVE 中创建一个新的虚拟机，操作系统选择 '不使用任何介质'，不使用磁盘，或者在创建后将磁盘删除
 
-![homelab-nas-synology-create-vm-instance.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-create-vm-instance.png)
+![homelab-nas-synology-create-vm-instance.png](https://img.hellowood.dev/picture/homelab-nas-synology-create-vm-instance.png)
 
 
 ### 2.3 配置磁盘
@@ -50,21 +50,21 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 然后在控制台修改磁盘 '总线/设备' 为 SATA 并添加
 
-![homelab-nas-synology-arpl-import-as-disk-set-sata.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-import-as-disk-set-sata.png)
+![homelab-nas-synology-arpl-import-as-disk-set-sata.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-import-as-disk-set-sata.png)
 
 
 #### 2.3.2 配置系统硬盘
 
 在控制台再添加一个 SATA 硬盘，用于安装群晖系统及套件
 
-![homelab-nas-synology-arpl-system-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-system-disk.png)
+![homelab-nas-synology-arpl-system-disk.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-system-disk.png)
 
 
 ### 2.4 修改引导顺序
 
 在选项-引导顺序中，启用 arpl 作为的引导，这样启动后就可以使用 arpl 安装和引导群晖了
 
-![homelab-nas-synology-arpl-change-boot.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-change-boot.png)
+![homelab-nas-synology-arpl-change-boot.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-change-boot.png)
 
 
 ## 3. 配置群晖
@@ -73,28 +73,28 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 启动虚拟机，等待启动成功后，会出现 arpl 的控制台，其中有控制台的 IP 和端口信息；其中 IP 是通过 DHCP 获取到的局域网IP，端口默认是 7681
 
-![homelab-nas-synology-arpl-startup.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-startup.png)
+![homelab-nas-synology-arpl-startup.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-startup.png)
 
 
 ### 3.2 配置群晖系统
 
 使用浏览器访问 arpl 的地址 http://192.168.2.2324:7681 进行配置
 
-![homelab-nas-synology-arpl-setup-synology-info.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-setup-synology-info.png)
+![homelab-nas-synology-arpl-setup-synology-info.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-setup-synology-info.png)
 
 分别配置群晖硬件类型，版本和序列号，然后选择构建加载器进行构建
 
-![homelab-nas-synology-arpl-build-loader.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-build-loader.png)
+![homelab-nas-synology-arpl-build-loader.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-build-loader.png)
 
 构建完成后，菜单中会出现启动加载器，选择执行后会开始启动群晖系统
 
-![homelab-nas-synology-arpl-boot-loader.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-boot-loader.png)
+![homelab-nas-synology-arpl-boot-loader.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-boot-loader.png)
 
 可以看到会加载群晖的启动项并启动，等待启动即可
 
-![homelab-nas-synology-arpl-synology-startup.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-startup.png)
+![homelab-nas-synology-arpl-synology-startup.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-startup.png)
 
-![homelab-nas-synology-arpl-synology-boot-log.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-boot-log.png)
+![homelab-nas-synology-arpl-synology-boot-log.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-boot-log.png)
 
 
 ## 4 安装初始化群晖
@@ -103,26 +103,26 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 在启动成功后，可以使用对应的 IP 访问群晖安装界面，端口是 5000；如 IP 是 192.168.2.234，则群晖的界面是 http://192.168.2.234:5000
 
-![homelab-nas-synology-arpl-synology-install.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-install.png)
+![homelab-nas-synology-arpl-synology-install.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-install.png)
 
 选择最新版本的系统下载安装即可，安装后等待 10 分钟左右即可使用
 
-![homelab-nas-synology-arpl-synology-install-complte-waiting.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-install-complte-waiting.png)
+![homelab-nas-synology-arpl-synology-install-complte-waiting.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-install-complte-waiting.png)
 
 
 ### 4.2 初始化配置 
 
 启动成功后需要进行初始化配置，按照提示配置即可
 
-![homelab-nas-synology-arpl-synology-init-settings.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-init-settings.png)
+![homelab-nas-synology-arpl-synology-init-settings.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-init-settings.png)
 
 存储池选择添加的第二块硬盘进行创建
 
-![homelab-nas-synology-arpl-synology-create-storage-pool-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-create-storage-pool-2.png)
+![homelab-nas-synology-arpl-synology-create-storage-pool-2.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-create-storage-pool-2.png)
 
 这样黑群晖就安装完成可以使用了
 
-![homelab-nas-synology-arpl-synology-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-homepage.png)
+![homelab-nas-synology-arpl-synology-homepage.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-homepage.png)
 
 ## 5. 硬盘直通
 
@@ -158,7 +158,7 @@ update VM 101: -sata2 /dev/disk/bv-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R
 
 挂载完成后可以在虚拟机的配置中看到已经挂在的磁盘信息：
 
-![homelab-nas-synology-arpl-synology-mount-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-mount-disk.png)
+![homelab-nas-synology-arpl-synology-mount-disk.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-mount-disk.png)
 
 
 ### 5.2 挂载为新磁盘
@@ -169,10 +169,10 @@ update VM 101: -sata2 /dev/disk/bv-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R
 
 如果磁盘是在其他群晖系统中拆下来的磁盘并且要保留数据，可以使用群晖的在线重组功能进行恢复
 
-![homelab-nas-synology-arpl-synology-disk-repair-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-disk-repair-1.png)
+![homelab-nas-synology-arpl-synology-disk-repair-1.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-disk-repair-1.png)
 
-![homelab-nas-synology-arpl-synology-disk-repair-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-disk-repair-2.png)
+![homelab-nas-synology-arpl-synology-disk-repair-2.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-disk-repair-2.png)
 
-![homelab-nas-synology-arpl-synology-disk-repair-3.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-disk-repair-3.png)
+![homelab-nas-synology-arpl-synology-disk-repair-3.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-disk-repair-3.png)
 
-![homelab-nas-synology-arpl-synology-disk-repair-4.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-nas-synology-arpl-synology-disk-repair-4.png)
+![homelab-nas-synology-arpl-synology-disk-repair-4.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-disk-repair-4.png)

@@ -113,7 +113,7 @@ docker run \
 
 待启动后访问 [http://localhost:9090/graph](http://localhost:9090/graph)，可以看到 Prometheus的页面，选择 Status => Targets，可以看到 Consul 和 Prometheus 的状态都是UP
 
-![consul-prometheus-targets.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/consul-prometheus-targets.png)
+![consul-prometheus-targets.png](https://img.hellowood.dev/picture/consul-prometheus-targets.png)
 
 ## 启动 Grafana 
 
@@ -135,16 +135,16 @@ docker run \
 
 Dashboard 点击 `Create a datasource`，选择 Prometheus，URL 输入 `http://host.docker.internal:9090`，点击 `Save & Test`，看到访问成功
 
-![consul-grafana-datasource.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/consul-grafana-datasource.png)
+![consul-grafana-datasource.png](https://img.hellowood.dev/picture/consul-grafana-datasource.png)
 
 
 - 添加监控看板
 
 点击左侧`+`按钮，选择 `import`，输入Dashboard ID为 `10642`，选择Prometheus为刚才添加的数据源，点击Import后即可看到监控面板
 
-![consul-grafana-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/consul-grafana-dashboard.png)
+![consul-grafana-dashboard.png](https://img.hellowood.dev/picture/consul-grafana-dashboard.png)
 
-![consul-grafana-dashboard-data.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/consul-grafana-dashboard-data.png)
+![consul-grafana-dashboard-data.png](https://img.hellowood.dev/picture/consul-grafana-dashboard-data.png)
 
 ---
 
@@ -157,7 +157,7 @@ Consul 启动之后Prometheus的Target提示 `415 Unsupported Media Type`
 - 415 Unsupported Media Type
 - Prometheus is not enabled since its retention time is not positive* Closing connection 0
 
-![consul-prometheus-target-error.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/consul-prometheus-target-error.png)
+![consul-prometheus-target-error.png](https://img.hellowood.dev/picture/consul-prometheus-target-error.png)
 
 通过CURL访问数据接口，发现提示同样的问题：
 

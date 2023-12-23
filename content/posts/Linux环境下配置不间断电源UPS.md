@@ -300,9 +300,9 @@ sudo upslog -l /var/log/ups.log -i 1 -s ups@localhost -f "%TIME @Y-@m-@d @H:@M:@
 
 NUT 支持通过 HTTP 接口对外提供 UPS 的信息，因此可以用于监控 UPS; [https://github.com/helloworlde/nut_exporter](https://github.com/helloworlde/nut_exporter) 提供了 Prometheus Exporter，可以使用 Prometheus 和 Grafana 对 UPS 进行监控
 
-![homelab-ups-grafana-dashboard-3.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-ups-grafana-dashboard-3.png)
+![homelab-ups-grafana-dashboard-3.png](https://img.hellowood.dev/picture/homelab-ups-grafana-dashboard-3.png)
 
-![homelab-ups-grafana-dashboard-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-ups-grafana-dashboard-2.png)
+![homelab-ups-grafana-dashboard-2.png](https://img.hellowood.dev/picture/homelab-ups-grafana-dashboard-2.png)
 
 ### 修改 NUT 运行模式
 

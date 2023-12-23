@@ -20,7 +20,7 @@ PVE 支持添加 [Graphite](https://graphiteapp.org/) 或者 [InfluxDB](https://
 
 基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：
 
-![homelab-promoxve-monitor-metrics-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-promoxve-monitor-metrics-dashboard.png)
+![homelab-promoxve-monitor-metrics-dashboard.png](https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png)
 
 ## 配置 InfluxDB 
 
@@ -65,7 +65,7 @@ services:
 
 添加后 PVE 就会将监控指标推送到 InfluxDB 的 Bucket 中了
 
-![homelab-promoxve-monitor-metrics-pve-add-influxdb.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-promoxve-monitor-metrics-pve-add-influxdb.png)
+![homelab-promoxve-monitor-metrics-pve-add-influxdb.png](https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-pve-add-influxdb.png)
 
 ## 配置 Grafana
 
@@ -100,7 +100,7 @@ services:
 
 登陆 Grafana 并添加数据源，使用 InfluDB 作为数据源
 
-![homelab-promoxve-monitor-metrics-grafana-add-datasource.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-promoxve-monitor-metrics-grafana-add-datasource.png)
+![homelab-promoxve-monitor-metrics-grafana-add-datasource.png](https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-grafana-add-datasource.png)
 
 在 InfluxDB 2 版本以后，添加到 Grafana 数据源变得不太方便；配置如下：
 
@@ -119,4 +119,4 @@ services:
 
 在 [Grafana Dashboard](https://grafana.com/grafana/dashboards/?search=proxmox) 中搜索 proxmox，选择支持 Flux 查询语法的图表进行添加，如添加 [Proxmox \[Flux\]](https://grafana.com/grafana/dashboards/15356-proxmox-flux/)，根据 ID 导入 Grafana 即可看到 PVE 的监控指标
 
-![homelab-promoxve-monitor-metrics-dashboard.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-promoxve-monitor-metrics-dashboard.png)
+![homelab-promoxve-monitor-metrics-dashboard.png](https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png)

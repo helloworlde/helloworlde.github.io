@@ -22,27 +22,27 @@ categories:
 ## 设置镜像 
 
 在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即[https://ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi)
-![raspberrypi-ubuntu.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-ubuntu.png)
+![raspberrypi-ubuntu.png](https://img.hellowood.dev/picture/raspberrypi-ubuntu.png)
 
 ###  下载镜像
 
 点击下载 64 位镜像，随后会开始下载[ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584)这个文件
 
-![raspberrypi-ubuntu-download.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-ubuntu-download.png)
+![raspberrypi-ubuntu-download.png](https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png)
 
-但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 [ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz)
+但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 [ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](https://img.hellowood.dev/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz)
 
 ### 刻录镜像
 
 #### 格式化 SD卡
 
-刻录镜像前，要先将 SD 卡格式化，在 Mac 上，可以使用官方推荐的[SD Card Formatter](https://www.sdcard.org/downloads/formatter/), 也可以用上传到地址进行下载Mac 版：[SDCardFormatterv5_Mac.zip](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/SDCardFormatterv5_Mac.zip)
+刻录镜像前，要先将 SD 卡格式化，在 Mac 上，可以使用官方推荐的[SD Card Formatter](https://www.sdcard.org/downloads/formatter/), 也可以用上传到地址进行下载Mac 版：[SDCardFormatterv5_Mac.zip](https://img.hellowood.dev/picture/SDCardFormatterv5_Mac.zip)
 
 #### 刻录镜像 
 
 刻录镜像有多种方式，不同平台操作不同，可以参考 [https://ubuntu.com/download/iot/installation-media](https://ubuntu.com/download/iot/installation-media)
 
-在 Mac 上，可以用官方推荐的软件[balenaEtcher](https://www.balena.io/etcher)，可以从上传的位置下载[balenaEtcher-1.5.70.dmg](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/balenaEtcher-1.5.70.dmg)，也可以直接用命令行执行
+在 Mac 上，可以用官方推荐的软件[balenaEtcher](https://www.balena.io/etcher)，可以从上传的位置下载[balenaEtcher-1.5.70.dmg](https://img.hellowood.dev/picture/balenaEtcher-1.5.70.dmg)，也可以直接用命令行执行
 
 - 查找 SD 卡挂载名称
 

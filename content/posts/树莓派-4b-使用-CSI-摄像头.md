@@ -26,7 +26,7 @@ featured: true
 
 如图所示，通过排线连接摄像头和树莓派（图片来自 [Getting started with the Camera Module](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera)）
 
-![raspberrypi-4b-camara-setup-connect.jpeg](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-4b-camara-setup-connect.jpeg)
+![raspberrypi-4b-camara-setup-connect.jpeg](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-connect.jpeg)
 
 
 ### 开启摄像头
@@ -39,15 +39,15 @@ apt-get install -y raspi-config
 
 然后运行 `raspi-config`，选择用户 `pi` 进行配置；
 
-![raspberrypi-4b-camara-setup-enable-user-pi-0.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-4b-camara-setup-enable-user-pi-0.png)
+![raspberrypi-4b-camara-setup-enable-user-pi-0.png](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-user-pi-0.png)
 
 接着选择第三个接口配置
 
-![raspberrypi-4b-camara-setup-enable-interface-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-4b-camara-setup-enable-interface-1.png)
+![raspberrypi-4b-camara-setup-enable-interface-1.png](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-interface-1.png)
 
 然后选择第一个，配置摄像头，选择开启即可；开启完成后，需要关闭树莓派，连接摄像头并重新开机
 
-![raspberrypi-4b-camara-setup-enable-camare-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/raspberrypi-4b-camara-setup-enable-camare-2.png)
+![raspberrypi-4b-camara-setup-enable-camare-2.png](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-camare-2.png)
 
 
 ### 检查摄像头信息

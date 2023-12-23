@@ -88,7 +88,7 @@ ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -c 3des-cbc -o UserKnownHostsFil
 
 连接地址为路由器的地址，默认是 `192.168.31.1`，选择上传到 `/tmp` 目录下（其他目录可能会因为权限导致上传失败）
 
-![homelab-miwifi-upload-brade.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-upload-brade.png)
+![homelab-miwifi-upload-brade.png](https://img.hellowood.dev/picture/homelab-miwifi-upload-brade.png)
 
 - 刷入
 
@@ -101,7 +101,7 @@ mtd write breed-mt7621-pbr-m1.bin Bootloader
 
 刷入完成后，路由器会重启；通过网线连接后访问 [http://192.168.1.1](http://192.168.1.1) 即可进入 Breed 界面
 
-![homelab-miwifi-breed-info.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-breed-info.png)
+![homelab-miwifi-breed-info.png](https://img.hellowood.dev/picture/homelab-miwifi-breed-info.png)
 
 ## 刷入 OpenWrt
 
@@ -113,10 +113,10 @@ mtd write breed-mt7621-pbr-m1.bin Bootloader
 
 - [Xiaomi Mi Router 4A Gigabit Edition 说明文档](https://openwrt.org/inbox/toh/xiaomi/xiaomi_mi_router_4a_gigabit_edition)
 
-![homelab-miwifi-openwrt-firmware-official2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-openwrt-firmware-official2.png)
+![homelab-miwifi-openwrt-firmware-official2.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-firmware-official2.png)
 
 - [https://firmware-selector.openwrt.org/](https://firmware-selector.openwrt.org/?version=21.02.3&target=ramips/mt7621&id=xiaomi_mi-router-4a-gigabit)
-![homelab-miwifi-openwrt-firmware-official.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-openwrt-firmware-official.png)
+![homelab-miwifi-openwrt-firmware-official.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-firmware-official.png)
 
 ###  构建 OpenWrt 镜像
 
@@ -124,21 +124,21 @@ mtd write breed-mt7621-pbr-m1.bin Bootloader
 
 参考项目 [README](https://github.com/unkaer/Actions-OpenWrt-Xiaomi-R4A#%E4%BD%BF%E7%94%A8)，fork 项目后选择Action，执行 `编译小米R4A千兆版_默认`，如果没有需要修改的配置，将`SSH 连接至 Actions` 设置为 false 然后执行，一个半小时左右能构建完成
 
-![homelab-miwifi-openwrt-build-image.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-openwrt-build-image.png)
+![homelab-miwifi-openwrt-build-image.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-build-image.png)
 
 构建完成后，可以在 Action 的 Summary 界面进行下载名称为 `OpenWrt_firmware_xiaomi_mi-router-4a-gigabit` 的文件
 
-![homelab-miwifi-openwrt-build-image-result.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-openwrt-build-image-result.png)
+![homelab-miwifi-openwrt-build-image-result.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-build-image-result.png)
 
 ### 刷入 OpenWrt
 
 进入 Breed，选择固件更新，选择固件，在文件夹中选择 Kernel 版本的镜像，上传并更新；
-![homelab-miwifi-breed-firmware-upload.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-breed-firmware-upload.png)
+![homelab-miwifi-breed-firmware-upload.png](https://img.hellowood.dev/picture/homelab-miwifi-breed-firmware-upload.png)
 
-![homelab-miwifi-breed-firmware-upgrade.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-breed-firmware-upgrade.png)
+![homelab-miwifi-breed-firmware-upgrade.png](https://img.hellowood.dev/picture/homelab-miwifi-breed-firmware-upgrade.png)
 
 等待刷入完成后，访问 [http://192.168.31.1](http://192.168.31.1) 即可进入 OpenWrt， 默认的用户名密码是 `root` 和 `password`
 
-![homelab-miwifi-openwrt-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-miwifi-openwrt-homepage.png)
+![homelab-miwifi-openwrt-homepage.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-homepage.png)
 
 如果刷入失败，或者想重新刷入其他固件，可以将路由器断电，按住 Reset 后通电，直到路由器指示灯闪烁后松开 Reset，即可进入 Breed 重新进行刷机

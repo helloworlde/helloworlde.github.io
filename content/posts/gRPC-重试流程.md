@@ -21,27 +21,27 @@ categories:
 
 - io.grpc.stub.ClientCalls#blockingUnaryCall
 
-![grpc-java-blockingUnaryCall-diagram.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-blockingUnaryCall-diagram.png)
+![grpc-java-blockingUnaryCall-diagram.png](https://img.hellowood.dev/picture/grpc-java-blockingUnaryCall-diagram.png)
 
 - io.grpc.internal.ClientCallImpl#startInternal
 
-![grpc-java-client-call-start.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-client-call-start.png)
+![grpc-java-client-call-start.png](https://img.hellowood.dev/picture/grpc-java-client-call-start.png)
 
 - io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream
 
-![grpc-java-transport-provider-new-retriable-stream.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-transport-provider-new-retriable-stream.png)
+![grpc-java-transport-provider-new-retriable-stream.png](https://img.hellowood.dev/picture/grpc-java-transport-provider-new-retriable-stream.png)
 
 - io.grpc.internal.RetriableStream#start
 
-![grpc-java-retriable-stream-start.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-retriable-stream-start.png)
+![grpc-java-retriable-stream-start.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-start.png)
 
 - io.grpc.internal.RetriableStream#createSubstream
 
-![grpc-java-retriable-stream-create-sub-stream.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-retriable-stream-create-sub-stream.png)
+![grpc-java-retriable-stream-create-sub-stream.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-create-sub-stream.png)
 
 - io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream#RetryStream#newSubstream
 
-![grpc-java-retriable-stream-new-sub-stream.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-java-retriable-stream-new-sub-stream.png)
+![grpc-java-retriable-stream-new-sub-stream.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png)
 
 
 

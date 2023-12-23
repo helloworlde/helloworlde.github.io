@@ -178,7 +178,7 @@ kubelet logs -f seata-ha-server-645844b8b6-9qh5j
 
 - 查看注册中心，此时seata-serve 这个服务会有三个实例
 
-![seata-ha-nacos-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-nacos-list.png)
+![seata-ha-nacos-list.png](https://img.hellowood.dev/picture/seata-ha-nacos-list.png)
 
 
 ## 部署业务服务
@@ -329,7 +329,7 @@ seata-ha-service-7dbdc6894b-5r8q4      3/3     Running   0          12m
 
 待应用启动后，在 Nacos 的服务列表中，会有相应的服务
 
-![seata-ha-service-list.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-service-list.png)
+![seata-ha-service-list.png](https://img.hellowood.dev/picture/seata-ha-service-list.png)
 
 此时查看服务的日志，会看到服务向每一个 TC 都注册了
 
@@ -337,7 +337,7 @@ seata-ha-service-7dbdc6894b-5r8q4      3/3     Running   0          12m
 kubectl logs -f seata-ha-service-7dbdc6894b-5r8q4 seata-ha-order-service
 ```
 
-![seata-ha-service-register.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-service-register.png)
+![seata-ha-service-register.png](https://img.hellowood.dev/picture/seata-ha-service-register.png)
 
 查看任意的 TC 日志，会发现每一个服务都向 TC 注册了
 
@@ -345,7 +345,7 @@ kubectl logs -f seata-ha-service-7dbdc6894b-5r8q4 seata-ha-order-service
 kubelet logs -f seata-ha-server-645844b8b6-9qh5j
 ```
 
-![seata-ha-tc-register.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-tc-register.png)
+![seata-ha-tc-register.png](https://img.hellowood.dev/picture/seata-ha-tc-register.png)
 
 
 ## 测试
@@ -374,10 +374,10 @@ curl -X POST \
 
 查看TC 的日志，事务成功提交：
 
-![seata-ha-commit-tc-success.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-commit-tc-success.png)
+![seata-ha-commit-tc-success.png](https://img.hellowood.dev/picture/seata-ha-commit-tc-success.png)
 
 查看 order-service 服务日志
-![seata-ha-commit-success.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-commit-success.png)
+![seata-ha-commit-success.png](https://img.hellowood.dev/picture/seata-ha-commit-success.png)
 
 
 ### 测试失败场景
@@ -396,9 +396,9 @@ curl -X POST \
 ```
 
 查看 TC 的日志：
-![seata-ha-commit-tc-rollback.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-commit-tc-rollback.png)
+![seata-ha-commit-tc-rollback.png](https://img.hellowood.dev/picture/seata-ha-commit-tc-rollback.png)
 
 查看服务的日志 ：
-![seata-ha-commit-service-rollback.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/seata-ha-commit-service-rollback.png)
+![seata-ha-commit-service-rollback.png](https://img.hellowood.dev/picture/seata-ha-commit-service-rollback.png)
 
 多次调用查看服务日志，发现会随机的向其中某台TC发起事务注册，当扩容或缩容后，有相应的 TC 参与或退出，证明高可用部署生效

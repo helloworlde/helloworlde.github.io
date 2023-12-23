@@ -32,7 +32,7 @@ opkg install luci-i18n-smartdns-zh-cn
 
 安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 `/etc/config/smartdns` 配置文件）
 
-![homelab-openwrt-dns-smartdns-upstream.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-dns-smartdns-upstream.png)
+![homelab-openwrt-dns-smartdns-upstream.png](https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png)
 
 这样，SmartDNS 会运行在路由器的 6053 端口上
 
@@ -41,7 +41,7 @@ opkg install luci-i18n-smartdns-zh-cn
 OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器
 
 在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
-![homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png)
+![homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png](https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png)
 
 ## 检查配置结果
 
@@ -67,12 +67,12 @@ smartdns        name = smartdns.
 
 在网络 - DHCP/DNS 配置- 高级设置中，修改 DNS 服务器端口，改为 53 之外的其他端口，如 6653
 
-![homelab-oepnwrt-smart-dns-masqdns-non-53-port.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-oepnwrt-smart-dns-masqdns-non-53-port.png)
+![homelab-oepnwrt-smart-dns-masqdns-non-53-port.png](https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-masqdns-non-53-port.png)
 
 - 修改 SmartDNS 的端口为 53 端口
 
 在服务-SmartDNS-常规设置中，将 SmartDNS 的端口修改为 53，这样客户端的 DNS 查询请求都会由 SmartDNS 提供
 
-![homelab-oepnwrt-smart-dns-use-the-53-port.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-oepnwrt-smart-dns-use-the-53-port.png)
+![homelab-oepnwrt-smart-dns-use-the-53-port.png](https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-use-the-53-port.png)
 
 此时 DNS 的查询流程为 客户端 -> SmartDNS ->  上游 DNS 服务器

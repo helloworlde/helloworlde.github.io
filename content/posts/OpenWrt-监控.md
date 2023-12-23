@@ -27,7 +27,7 @@ opkg install netdata
 
 安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据
 
-![homelab-openwrt-metrics-netdata.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-metrics-netdata.png)
+![homelab-openwrt-metrics-netdata.png](https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png)
 
 
 - 通过 Prometheus 抓取数据
@@ -112,7 +112,7 @@ static_configs:
 
 相关的监控面板是 [https://grafana.com/grafana/dashboards/11147-openwrt/](https://grafana.com/grafana/dashboards/11147-openwrt/)，导入到 Grafana 即可查看监控数据
 
-![homelab-openwrt-metrics-grafana.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-metrics-grafana.png)
+![homelab-openwrt-metrics-grafana.png](https://img.hellowood.dev/picture/homelab-openwrt-metrics-grafana.png)
 
 ## 参考文档
 

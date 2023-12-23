@@ -279,4 +279,4 @@ unset all_proxy
 
 在网络-代理中添加配置，指定 HTTP/HTTPS/SOCKS 代理为配置的代理即可
 
-![homelab-clash-proxy-config-macos.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-clash-proxy-config-macos.png)
+![homelab-clash-proxy-config-macos.png](https://img.hellowood.dev/picture/homelab-clash-proxy-config-macos.png)

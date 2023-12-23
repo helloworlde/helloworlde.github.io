@@ -24,19 +24,19 @@ featured: true
 
 这个问题于 2022-08-04 在 Proxmox 的问题反馈中提交：[Bug 4188 - VMs freeze on Intel N5105 CPU](https://bugzilla.proxmox.com/show_bug.cgi?id=4188)，描述中"到运行Intel N5105 CPU的一些用户注意到在Proxmox上运行的虚拟机会冻结，并记录了各种错误。虚拟机会冻结，控制台无法输入，CPU利用率达到最大值，直到强制重启虚拟机"，现象和我遇到的是一样的，说明该现象是通病；
 
-![homelab-pve-vm-freeze-issue-bug-feedback.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-vm-freeze-issue-bug-feedback.png)
+![homelab-pve-vm-freeze-issue-bug-feedback.png](https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-bug-feedback.png)
 
 2022-9-13 在帖子 [Opt-in Linux 5.19 Kernel for Proxmox VE 7.x available](https://forum.proxmox.com/threads/opt-in-linux-5-19-kernel-for-proxmox-ve-7-x-available.115090/) 中，PVE员工宣布将 PVE 的内核升级到 5.19版本，在 Bug 反馈到讨论中有不少人确认有效
 
-![homelab-pve-vm-freeze-issue-519-kenel.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-vm-freeze-issue-519-kenel.png)
+![homelab-pve-vm-freeze-issue-519-kenel.png](https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-519-kenel.png)
 
 这个问题在 2022-12-06 状态变更为 'FIX PACKAGED'；在 2022-12-14，PVE员工宣布支持将内核升级到 6.1
 
-![homelab-pve-vm-freeze-issue-61-kenel.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-vm-freeze-issue-61-kenel.png)
+![homelab-pve-vm-freeze-issue-61-kenel.png](https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-61-kenel.png)
 
 在 Bug 反馈的最后几条评论中，反馈死机的问题在升级 5.19 或 6.1 的内核后确实减少了，但是依然可能出现
 
-![homelab-pve-vm-freeze-issue-bug-comments2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-pve-vm-freeze-issue-bug-comments2.png)
+![homelab-pve-vm-freeze-issue-bug-comments2.png](https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-bug-comments2.png)
 
 ## 修复
 

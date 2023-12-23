@@ -20,17 +20,17 @@ featured: true
 
 进入 yuzu 的[下载](https://yuzu-emu.org/downloads/)页面，发现要求先安装 [Microsoft Visual C++](https://aka.ms/vs/17/release/vc_redist.x64.exe)，没有下载选项；只有当安装完 Microsoft Visual C++ 后，才会出现下载按钮
 
-![nintendo-switch-yuzu-download-page-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-download-page-2.png)
+![nintendo-switch-yuzu-download-page-2.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-download-page-2.png)
 
 下载后安装
 
-![nintendo-switch-yuzu-install.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-install.png)
+![nintendo-switch-yuzu-install.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-install.png)
 
 ## 配置密钥
 
 安装完成后进入，会发现提示密钥缺失；需要使用 Switch 设备的密钥，这些key 是用来解密 XCI 或者 NCA 格式的游戏文件的；
 
-![nintendo-switch-yuzu-miss-keys.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-miss-keys.png)
+![nintendo-switch-yuzu-miss-keys.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-miss-keys.png)
 
 如果有 Switch ，可以参考 [Dumping Decryption Keys from a Switch Console](https://yuzu-emu.org/wiki/dumping-decryption-keys-from-a-switch-console/) 进行导出；
 
@@ -51,13 +51,13 @@ yuzu 支持大部分的游戏，模拟器需要 XCI 或者 NCA 格式的游戏�
 
 当下载完成后在 yuzu 主页将游戏文件导入；即可开始体验游戏
 
-![nintendo-switch-yuzu-add-game.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-add-game.png)
+![nintendo-switch-yuzu-add-game.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-add-game.png)
 
 ## 测试
 
 使用《塞尔达传说-荒野之息》测试；
 
-![nintendo-switch-yuzu-game-zelda-test2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-game-zelda-test2.png)
+![nintendo-switch-yuzu-game-zelda-test2.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-game-zelda-test2.png)
 
 通过 Macbook Pro 在没有安装独立显卡的 NUC9 i5 版本上以远程桌面的方式测试，发现运行卡顿，fps 大约在10-20之间，延迟大约 60-100ms；体验不佳；
 配置：
@@ -65,11 +65,11 @@ yuzu 支持大部分的游戏，模拟器需要 XCI 或者 NCA 格式的游戏�
 - 显卡：Intel UHD 630 核显，占用 75% 左右
 - 内存：DDR4 16G 2666Mhz，占用 3300M 左右
 
-![nintendo-switch-yuzu-resource-usage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-resource-usage.png)
+![nintendo-switch-yuzu-resource-usage.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-resource-usage.png)
 
 通过 Macbook Pro 在另一台性能较好的台式机上通过远程桌面方式测试，能够稳定运行在 30帧，延迟在 30ms 左右，相对体验较好
 - CPU：intel i9-12900K，占用 16% 左右
 - 显卡：Nvdia 3070Ti，占用 38% 左右
 - 内存：DDR4 32G 3200Mhz，占用 2600M 左右
 
-![nintendo-switch-yuzu-resource-usage-2.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/nintendo-switch-yuzu-resource-usage-2.png)
+![nintendo-switch-yuzu-resource-usage-2.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-resource-usage-2.png)

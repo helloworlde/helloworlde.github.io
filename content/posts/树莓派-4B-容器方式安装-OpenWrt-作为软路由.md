@@ -139,7 +139,7 @@ option dns '114.114.114.114'
 4. OpenWrt 配置
 
 登录后在 `网络-接口`中修改 `LAN` 接口，在底层基本设置中选择`忽略此接口`，使用默认路由器做 DHCP 服务器
-![openwrt-config-dhcp.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/openwrt-config-dhcp.png)
+![openwrt-config-dhcp.png](https://img.hellowood.dev/picture/openwrt-config-dhcp.png)
 
 
 ## 使用 OpenWrt
@@ -150,7 +150,7 @@ option dns '114.114.114.114'
 
 
 另一种方式是通过在设备端指定 OpenWrt 作为网关，只有这些设备的流量会被软路由处理，这种方式需要设备端支持（大部分 IoT 设备无法配置）
-![openwrt-usage-mac.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/openwrt-usage-mac.png)
+![openwrt-usage-mac.png](https://img.hellowood.dev/picture/openwrt-usage-mac.png)
 
 
 ## 配置重启后网卡默认使用混杂模式

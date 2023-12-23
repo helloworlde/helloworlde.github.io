@@ -14,7 +14,7 @@ featured: true
 
 一番探索后发现原来是一个叫 GoLinks 的短链接服务，通过域名配合 DNS 搜索域，实现了可以直接访问 `go` 域名；然后根据路径，重定向到对应的 URL。
 
-![go-links-homepage.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-homepage.png)
+![go-links-homepage.png](https://img.hellowood.dev/picture/go-links-homepage.png)
 
 ## 什么是 GoLinks
 
@@ -117,7 +117,7 @@ OpenWrt 或基于 OpenWrt 的路由器都是使用 Dnsmasq 做 DNS 解析，因�
 
 将 Local Domain 配置由 `lan` 修改为 `svc.local`
 
-![go-links-search-lan-configuration-in-openwrt-page.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration-in-openwrt-page.png)
+![go-links-search-lan-configuration-in-openwrt-page.png](https://img.hellowood.dev/picture/go-links-search-lan-configuration-in-openwrt-page.png)
 
 - 修改 `/etc/config/dhcp`
 
@@ -132,14 +132,14 @@ config dnsmasq
 
 这样，重启路由器后再次分配的 DNS 信息中就包含 `svc.local` 搜索域了
 
-![go-links-search-lan-configuration-by-router.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration-by-router.png)
+![go-links-search-lan-configuration-by-router.png](https://img.hellowood.dev/picture/go-links-search-lan-configuration-by-router.png)
 
 
 
 ##### 修改设备的搜索域
 
 可以通过网络中的 DNS 配置，手动添加 DNS 搜索域
-![go-links-search-lan-configuration.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/go-links-search-lan-configuration.png)
+![go-links-search-lan-configuration.png](https://img.hellowood.dev/picture/go-links-search-lan-configuration.png)
 
 也可以在 `/etc/resolv.conf` 配置中指定 `search`
 

@@ -23,18 +23,18 @@ Esxi 的软件下载脑洞比较清奇，需要先注册申请，填写个人隐
 
 可以在 [VMware vSphere Hypervisor 7.0 Download Center](https://customerconnect.vmware.com/en/downloads/details?downloadGroup=ESXI70U3D&productId=974&rPId=89003) 页面申请 7.0 版本的下载；选择 Offline Bundle 的压缩文件
 
-![homelab-esxi-build-image-esxi-download.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-esxi-build-image-esxi-download.png)
+![homelab-esxi-build-image-esxi-download.png](https://img.hellowood.dev/picture/homelab-esxi-build-image-esxi-download.png)
 
 ### 1.2 下载 NVME 社区驱动
 
 从 [Community NVMe Driver for ESXi](https://flings.vmware.com/community-nvme-driver-for-esxi) 下载 NVME 驱动
-![homelab-esxi-build-image-nvme-driver.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-esxi-build-image-nvme-driver.png)
+![homelab-esxi-build-image-nvme-driver.png](https://img.hellowood.dev/picture/homelab-esxi-build-image-nvme-driver.png)
 
 ### 1.3 下载网卡社区驱动
 
 从 [Community Networking Driver for ESXi](https://flings.vmware.com/community-networking-driver-for-esxi) 下载网卡驱动，该驱动包含 Intel I225-V 网卡的驱动
 
-![homelab-esxi-build-image-network-driver.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-esxi-build-image-network-driver.png)
+![homelab-esxi-build-image-network-driver.png](https://img.hellowood.dev/picture/homelab-esxi-build-image-network-driver.png)
 
 
 ## 2. 安装 PowerCLI

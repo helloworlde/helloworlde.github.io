@@ -25,7 +25,7 @@ featured: true
 
 选择下载 `generic-ext4-combined-efi.img.gz` 这个压缩文件，用于 bios 引导
 
-![homelab-openwrt-esxi-ima-download.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-ima-download.png)
+![homelab-openwrt-esxi-ima-download.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png)
 
 
 - 解压
@@ -48,7 +48,7 @@ gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 3. 磁盘这里，选择左侧删除按钮，将磁盘删除；因为会将 img 文件导入作为磁盘，因此这里不需要
 4. 按需配置 CPU 和内存；通常 1核和 512M就已经足够了
 
-![homelab-openwrt-pve-init-configuration.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-configuration.png)
+![homelab-openwrt-pve-init-configuration.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-configuration.png)
  
 ### 添加硬盘 
 
@@ -56,11 +56,11 @@ gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 
 选择 local - ISO镜像，将解压后的 img 文件上传到 PVE
 
-![homelab-openwrt-pve-init-upload-img.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-upload-img.png)
+![homelab-openwrt-pve-init-upload-img.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-upload-img.png)
 
 等待上传完成，记录上传后的地址，即 target file 后面的路径，需要在导入时使用
 
-![homelab-openwrt-pve-init-upload-img-result.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-upload-img-result.png)
+![homelab-openwrt-pve-init-upload-img-result.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-upload-img-result.png)
 
 - 将 img 镜像导入为虚拟磁盘
 
@@ -70,24 +70,24 @@ gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 qm importdisk 106 /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
 ```
 
-![homelab-openwrt-pve-init-convert-img-to-disk.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-convert-img-to-disk.png)
+![homelab-openwrt-pve-init-convert-img-to-disk.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png)
 
 - 将硬盘添加到虚拟机
 
 待导入完成后，会在虚拟机中显示未使用的磁盘
 
-![homelab-openwrt-pve-init-add-disk-to-vm-0.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-add-disk-to-vm-0.png)
+![homelab-openwrt-pve-init-add-disk-to-vm-0.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-add-disk-to-vm-0.png)
 
 选择该磁盘，修改 "总线/设备" 为 SATA，然后点击添加
 
-![homelab-openwrt-pve-init-add-disk-to-vm-1.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-add-disk-to-vm-1.png)
+![homelab-openwrt-pve-init-add-disk-to-vm-1.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-add-disk-to-vm-1.png)
 
 ### 修改引导顺序
 
 默认的引导项是 CD 驱动和网卡，需要修改为添加的硬盘才能启动；
 选择虚拟机的选项-引导顺序，选择添加的 sata0 磁盘作为引导
 
-![homelab-openwrt-pve-init-set-boot-order.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-pve-init-set-boot-order.png)
+![homelab-openwrt-pve-init-set-boot-order.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-set-boot-order.png)
 
 配置完成后启动虚拟机，在控制台可以看到 OpenWrt 正常启动安装
 
@@ -123,4 +123,4 @@ config interface 'lan'
 ```
 
 网络重启完成后，即可通过指定的地址 [192.168.2.9](192.168.2.9) 进行访问，默认账户名 `root`，没有密码
-![homelab-openwrt-esxi-login.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-openwrt-esxi-login.png)
+![homelab-openwrt-esxi-login.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-login.png)

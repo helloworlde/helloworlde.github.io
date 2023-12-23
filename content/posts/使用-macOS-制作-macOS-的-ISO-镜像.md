@@ -18,13 +18,13 @@ featured: true
 
 首先需要在 App Store 下载对应版本的系统安装器，在 App Store 只能搜索到当前或更新版本的安装器，如果想使用旧版本，可以通过 Google 或[在线的 App Store](https://www.apple.com/us/search/macOS?src=serp) 搜索对应版本并跳转到 App Store 进行下载；如 [macOS Monterey](https://apps.apple.com/us/app/macos-monterey/id1576738294?mt=12)
 
-![homelab-macos-iso-search-in-app-store.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-search-in-app-store.png)
+![homelab-macos-iso-search-in-app-store.png](https://img.hellowood.dev/picture/homelab-macos-iso-search-in-app-store.png)
 
-![homelab-macos-iso-download-from-app-store.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-download-from-app-store.png)
+![homelab-macos-iso-download-from-app-store.png](https://img.hellowood.dev/picture/homelab-macos-iso-download-from-app-store.png)
 
 随后会跳转到软件更新中自动下载，下载完成后在应用里可以看到 "安装 macOS Monterey"
 
-![homelab-macos-iso-downloading.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/homelab-macos-iso-downloading.png)
+![homelab-macos-iso-downloading.png](https://img.hellowood.dev/picture/homelab-macos-iso-downloading.png)
 
 ## 制作 ISO 镜像
 

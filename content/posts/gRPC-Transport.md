@@ -11,7 +11,7 @@ categories:
 
 Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端和服务端
 
-![grpc-source-code-transport-classes-diagram.png](https://hellowoodes.oss-cn-beijing.aliyuncs.com/picture/grpc-source-code-transport-classes-diagram.png)
+![grpc-source-code-transport-classes-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png)
 
 ## ClientTransport
 
