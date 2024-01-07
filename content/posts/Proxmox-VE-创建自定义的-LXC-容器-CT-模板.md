@@ -30,37 +30,7 @@ LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 
 
 ## 初始化 LXC 容器配置
 
-登录到创建的 LXC 容器中，根据需求安装需要用到的软件和配置进行初始化
-
-- 修改镜像源
-
-```bash
-mv /etc/apt/sources.list /etc/apt/sources.list.backup
-
-sudo bash -c "cat << EOF > /etc/apt/sources.list && apt update 
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
-EOF"
-```
-
-- 安装 Docker
-
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
-
-- 安装常用软件
-
-```bash
-apt install -y --fix-missing curl vim git jq unzip  
-```
+登录到创建的 LXC 容器中，根据需求安装需要用到的软件和配置进行初始化，可以参考 [ubuntu-22-环境初始化](https://blog.hellowood.dev/posts/ubuntu-22-环境初始化)
 
 ## 创建 CT 模板
 
@@ -110,3 +80,22 @@ mv /var/lib/vz/dump/vzdump-lxc-110-2023_12_31-16_13_12.tar.gz /var/lib/vz/templa
 选择新建 CT 容器，使用刚才的模板进行创建即可
 
 ![homelab-pve-ct-template-create-ct-from-tempate.png](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-from-tempate.png)
+
+## 配置 LXC 容器
+
+使用 Docker 时需要挂载 NFS，所以需要使用特权容器，并配置访问权限；登录 PVE 命令行，在 `/etc/pve/lxc` 下修改对应的 LXC 容器的配置：
+
+
+- `/etc/pve/lxc/110.conf`
+
+添加如下配置：
+
+```
+unprivileged: 0
+lxc.apparmor.profile: unconfined
+lxc.cap.drop:
+```
+
+`unprivileged: 0`表示容器将在特权模式下运行，即容器内的进程将具有与主机相同的权限
+`lxc.apparmor.profile: unconfined` 表示容器内的进程将不受任何 AppArmor 限制
+`lxc.cap.drop:` 用于指定容器内进程的能力限制，允许进程执行一些特定的操作，例如修改系统时间、挂载文件系统等
