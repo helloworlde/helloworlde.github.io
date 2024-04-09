@@ -95,7 +95,7 @@ apt install pve-kernel-5.19 -y
 
 处理器微码([Microcode] )。
 
-intel-microcode 作用是为英特尔处理器提供微码（[microcode](https://wiki.debian.org/Microcode%)）更新。微码是一组指令，类似于处理器固件，可以在处理器上执行，以改变其行为或修复错误，内核能够在不需要通过BIOS更新的情况下更新处理器的固件。微码更新保存在易失性存储器中，因此BIOS/UEFI或内核会在每次启动时更新微码
+intel-microcode 作用是为英特尔处理器提供微码（[microcode](https://wiki.debian.org/Microcode)）更新。微码是一组指令，类似于处理器固件，可以在处理器上执行，以改变其行为或修复错误，内核能够在不需要通过BIOS更新的情况下更新处理器的固件。微码更新保存在易失性存储器中，因此BIOS/UEFI或内核会在每次启动时更新微码
 
 intel-microcode 的更新通常由操作系统或设备厂商提供，旨在提高处理器的性能、稳定性和安全性。
 
