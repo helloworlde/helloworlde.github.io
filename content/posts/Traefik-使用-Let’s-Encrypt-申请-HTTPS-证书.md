@@ -35,7 +35,7 @@ certificatesResolvers:
         provider: alidns
 ```
 
-其中 `email`为注册 ACME 的邮箱，`storage` 是存储生成的证书内容的文件；`dnsChallenge` 指定了以 DNS 的方式验证；`provider` 指定域名解析平台，常见的平台参考 [providers](https://doc.traefik.io/traefik/https/ac[Ime/#providers)
+其中 `email`为注册 ACME 的邮箱，`storage` 是存储生成的证书内容的文件；`dnsChallenge` 指定了以 DNS 的方式验证；`provider` 指定域名解析平台，常见的平台参考 [providers](https://doc.traefik.io/traefik/https/acme/#providers)
 
 - docker-compose.yaml
 
