@@ -53,6 +53,16 @@ lspci -nn | grep 089a
 
 `gasket-dkms` 是一个动态内核模块支持 (DKMS) 包，它包含了用于与 EdgeTPU 进行通信的驱动程序；`libedgetpu1-std` 是一个 C++ 库，提供了一个更高级别的接口，让应用能够使用 EdgeTPU 进行模型推理
 
+#### 添加 Coral 软件源
+
+```bash
+echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-get update
+```
+
+如果提示 "不支持 'i386' 体系结构，跳过配置文件 'main/binary-i386/Packages' 的获取", 则将 `deb https://packages.cloud.google.com/apt coral-edgetpu-stable main` 改为 `deb [arch=amd64] https://packages.cloud.google.com/apt coral-edgetpu-stable main` 
+
 #### 安装 libedgetpu1-std
 
 ```bash
@@ -68,7 +78,7 @@ apt install libedgetpu1-std
 ```bash
 sudo apt update
 sudo apt upgrade
-sudo apt install devscripts debhelper -y
+sudo apt install dkms devscripts debhelper -y
 ```
 
 - 下载源码
@@ -79,7 +89,10 @@ git clone https://github.com/google/gasket-driver.git
 
 - 编译
 
+使用 root 用户进行编译
+
 ```bash
+sudo -i
 cd gasket-driver; debuild -us -uc -tc -b; cd ..
 ```
 会进入项目目录编译并在当前目录生成编译后的软件
