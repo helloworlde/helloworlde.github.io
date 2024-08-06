@@ -1,20 +1,20 @@
 ---
-title: "Ubuntu 22 安装 Nvdia 显卡驱动和 CUDA"
+title: "Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA"
 date: 2024-07-08T08:58:48+08:00
 tags: 
     - Ubuntu
-    - Nvdia
+    - NVIDIA
     - CUDA
 series: 
     - Ubuntu
-    - Nvdia
+    - NVIDIA
     - CUDA
 featured: true
 ---
 
-# Ubuntu 22 安装 Nvdia 显卡驱动和 CUDA
+# Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA
 
-在 Ubuntu 22 上使用 Nvdia 的显卡运行图像识别的训练，需要安装驱动和 CUDA
+在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA
 
 ## 安装驱动
 
@@ -67,7 +67,7 @@ driver   : nvidia-driver-555-open - third-party non-free
 driver   : xserver-xorg-video-nouveau - distro free builtin
 ```
 
-### 安装 Nvdia 驱动
+### 安装 NVIDIA 驱动
 
 - 安装驱动
 
@@ -155,7 +155,7 @@ gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)
 
 访问 [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads) 选择操作系统、架构、版本等信息，将会生成对应的 CUDA 安装命令
 
-![homelab-nvdia-cuda-driver-download-page.png](https://img.hellowood.dev/picture/homelab-nvdia-cuda-driver-download-page.png)
+![homelab-NVIDIA-cuda-driver-download-page.png](https://img.hellowood.dev/picture/homelab-NVIDIA-cuda-driver-download-page.png)
 
 - 安装 CUDA
 
