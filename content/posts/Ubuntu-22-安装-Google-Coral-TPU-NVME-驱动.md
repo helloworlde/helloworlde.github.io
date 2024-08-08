@@ -78,7 +78,7 @@ apt install libedgetpu1-std
 ```bash
 sudo apt update
 sudo apt upgrade
-sudo apt install dkms devscripts debhelper -y
+sudo apt install dkms devscripts debhelper dh-dkms -y
 ```
 
 - 下载源码
@@ -214,4 +214,18 @@ dpkg: 处理软件包 gasket-dkms (--configure)时出错：
  已安装 gasket-dkms 软件包 post-installation 脚本 子进程返回错误状态 10
 在处理时有错误发生：
  gasket-dkms
+```
+
+- 编译 gasket-dkms 提示 unstable
+
+表示 gasket-dkms 软件包的 Changes 文件中使用了 "unstable" 作为发行版，而 Lintian 认为 "unstable" 不是一个有效的发行版名称，这是因为在 ubuntu 上编译 debian 的软件导致的；这个错误提示并不影响使用，忽略即可
+
+```bash
+....
+ dpkg-source --after-build .
+dpkg-buildpackage: info: binary-only upload (no source included)
+Now running lintian gasket-dkms_1.0-18_amd64.changes ...
+running with root privileges is not recommended!
+E: gasket-dkms changes: bad-distribution-in-changes-file unstable
+Finished running lintian.
 ```
