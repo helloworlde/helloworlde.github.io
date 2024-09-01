@@ -4,9 +4,11 @@ date: 2024-08-16T09:29:49+08:00
 tags:
     - NVR
     - HomeLab
+    - Frigate
 series: 
     - NVR
     - HomeLab
+    - Frigate
 featured: true  
 ---
 
