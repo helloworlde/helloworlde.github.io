@@ -19,11 +19,14 @@ featured: true
 > Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 [Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5](https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/)
 
 
+
 Hailo8 发布于 2021年，算力为 26 TOPS，Hailo8L 发布于 2023 年，算力为 13 TOPS；两款产品除了算力外，其他特性差别不大，均支持 TensorFlow，TensorFlow Lite，Keras，PyTorch & ONNX 框架，主机架构支持 X86 和 ARM，操作系统支持 Linux 和 Windows；更多信息参考官网介绍：
 - [Hailo-8 AI处理器](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-ai-accelerator/#hailo-8-features)
 - [Hailo-8L M.2 Entry-Level Acceleration Module](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8l-m-2-ai-acceleration-module-for-ai-light-applications/#hailo8lm2-features)
 - [hailo-8-product-brief](https://hailo.ai/files/hailo-8-product-brief-en/)
 - [hailo-8l-m-2-et-product-brief](https://hailo.ai/files/hailo-8l-m-2-et-product-brief-en/)
+
+![Hailo8L](https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp)
 
 # Hailo 环境配置
 
@@ -40,7 +43,7 @@ Hailo 相关软件功能如图：
 安装驱动依赖一些软件，需要提前安装 
 
 ```bash
-apt update && apt install -y dpkg
+sudo apt update && sudo apt install dkms linux-headers-$(uname -r)
 ```
 
 - 下载驱动
@@ -352,3 +355,6 @@ ts1_temperature: 41.0089225769043
 - [Installation](https://hailo.ai/developer-zone/documentation/hailort-v4-18-0/?sp_referrer=install/install.html)
 - [Hacker’s guide to the Raspberry Pi AI kit on Ubuntu](https://ubuntu.com/blog/hackers-guide-to-the-raspberry-pi-ai-kit-on-ubuntu)
 - [Hailo-8 Edge AI Accelerator Deployment Guide](https://tlab.hongo.wide.ad.jp/2024/03/04/hailo-8-edge-ai-accelerator-deployment-guide/)
+- [Hailo-8 M.2 AI加速模块](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-m2-ai-acceleration-module/#hailo8-m2-features)
+- [https://up-board.org/hailo-8/](https://up-board.org/hailo-8/)
+- [Hailo](https://github.com/up-board/up-community/wiki/Hailo)
