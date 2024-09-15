@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-
 OpenWrt 支持开启 HTTPS 访问，但是自签发的证书无法通过 Chrome 等浏览器的认证；因此需要使用 Let's Encrypt 申请证书；通过 uHTTPd 应用配置证书，使用 DNS 验证的方式申请证书
 
 配置 HTTPS 访问需要使用到公网 IP 和域名，需要确认已经可以通过公网访问，并且可以修改域名的解析

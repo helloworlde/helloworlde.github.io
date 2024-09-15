@@ -10,7 +10,6 @@ categories:
   - JRebel
 ---
 
-
 > JRebel 是适用于 Java IDE 的代码热更新工具，可以直接更新代码，避免重启应用，可以提高开发效率，官网是 [https://zeroturnaround.com/software/jrebel/](https://zeroturnaround.com/software/jrebel/)
 
 ## 安装

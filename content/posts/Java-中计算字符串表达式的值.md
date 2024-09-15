@@ -8,7 +8,6 @@ categories:
   - Java
 ---
 
-
 > 在 Java 中计算字符串数值表达式可以用 `javax.script.ScriptEngine#eval(java.lang.String)`，通过调用 JavaScript 来计算
 
 ```java

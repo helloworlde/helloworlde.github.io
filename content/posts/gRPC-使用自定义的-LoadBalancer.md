@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 gRPC 中提供了 `round_robin`, `pick_first`, `grpclb`, `HealthCheckingRoundRobin` 等负载均衡的实现，默认使用`HealthCheckingRoundRobin`，该负载均衡支持检查 Subchannel 的健康状态
 
 LoadBalancer 主要类包括 `LoadBalancerProvider`, `LoadBalancer`, `SubchannelPicker`, `LoadBalancer.SubchannelStateListener `，所以实现自定义的 LoadBalancer 实现这几个类就可以

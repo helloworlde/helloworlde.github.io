@@ -12,7 +12,6 @@ categories:
   - Stream
 ---
 
-
 > [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架
 
 - Binder: 负责提供与外部消息系统集成的组件

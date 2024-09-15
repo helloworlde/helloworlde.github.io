@@ -8,7 +8,6 @@ categories:
   - Kubernetes
 ---
 
-
 > 如果有多个不同的集群，需要切换访问，就需要配置多个 Kubernetes 账号和 Context；集群的 KubeConfig 文件一般为`~/.kube/config`，默认只能访问一个集群，如果需要访问多个集群就需要修改这个文件
 
 > 可以参考文档 [https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)配置，但是这个文档描述不够直接简单，可以参考以下内容直接修改

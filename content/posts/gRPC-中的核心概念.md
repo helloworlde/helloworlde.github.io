@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 ## Stub
 
 Stub 层暴露给开发者，提供类型安全的绑定到正在适应的数据模型/IDL/接口

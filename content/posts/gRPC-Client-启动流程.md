@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 gRPC 启动初始化的流程，使用 Netty 作为底层的实现
 
 ## 初始化 Channel

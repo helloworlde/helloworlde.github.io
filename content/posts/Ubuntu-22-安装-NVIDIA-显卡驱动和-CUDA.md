@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-
 在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA
 
 ## 安装驱动

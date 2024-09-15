@@ -11,7 +11,6 @@ series:
 featured: true
 ---
 
-
 UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源
 
 一般的 UPS 都支持通过 USB 连接到电脑或者 NAS 等设备上，Linux/Mac/Windows 均支持使用 UPS；

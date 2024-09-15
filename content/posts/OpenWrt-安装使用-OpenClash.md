@@ -11,7 +11,6 @@ categories:
   - HomeLab
 ---
 
-
 ## Clash 使用方式对比
 
 OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：

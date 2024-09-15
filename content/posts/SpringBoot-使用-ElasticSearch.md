@@ -14,7 +14,6 @@ categories:
   - ELK
 ---
 
-
 > 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch)
 
 > [ElasticSearch](https://www.elastic.co/cn/products/elasticsearch) 是一个开源的分布式搜索引擎，用于存储数据

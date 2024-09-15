@@ -8,7 +8,6 @@ categories:
   - SpringBoot
 ---
 
-
 在 Spring Boot 2.3+ 中，提供了单独的 liveness 和 readness，用于为 Kubernetes 提供相应检查接口
 
 - liveness

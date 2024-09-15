@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 `Channel` 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 `Channel` 可以有 0 或多个真实连接
 
 `Subchannel` 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport

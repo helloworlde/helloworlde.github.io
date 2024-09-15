@@ -21,7 +21,6 @@ archives:
   - SpringBoot
 ---
 
-
 > 相关项目地址:[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)
 
 ## 1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)

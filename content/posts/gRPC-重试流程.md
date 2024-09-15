@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 当第一次调用失败，流监听器关闭的时候，会根据请求的处理状态和方法的配置，判断是否需要重试
 
 请求的处理状态有三种，在`io.grpc.internal.ClientStreamListener.RpcProgress`中定义：

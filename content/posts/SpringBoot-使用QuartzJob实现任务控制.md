@@ -14,7 +14,6 @@ categories:
   - Job
 ---
 
-
 > 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob)
 
 > 在 SpringBoot 中通过 `@Schedule`注解就可以简单的实现定时任务，但是这种方式够灵活，如果想要修改执行状态就必须修改代码；另外一种实现方式是通过 [`Quartz`](http://www.quartz-scheduler.org/) 实现任务调度

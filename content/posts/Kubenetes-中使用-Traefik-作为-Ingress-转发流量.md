@@ -14,7 +14,6 @@ categories:
   - Ingress
 ---
 
-
 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
 路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用
 

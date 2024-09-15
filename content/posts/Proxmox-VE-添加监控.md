@@ -15,7 +15,6 @@ series:
 featured: true
 ---
 
-
 PVE 支持添加 [Graphite](https://graphiteapp.org/) 或者 [InfluxDB](https://www.influxdata.com/) 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态
 
 基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：

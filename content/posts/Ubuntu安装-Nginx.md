@@ -12,7 +12,6 @@ categories:
 
 > 在 Ubuntu 上安装 Nginx
 
-
 ## 安装
 
 - 安装

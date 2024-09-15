@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-
 ## 下载镜像
 
 在 [https://downloads.openwrt.org/](https://downloads.openwrt.org/) 选择需要下载的版本，因为 Esxi 使用的是 x86_64 平台，所以需要下载同样版本的镜像；如下载 [21.02.3](https://downloads.openwrt.org/releases/21.02.3/targets/x86/64/) 版本，路径为 `(root)/releases/21.02.3/targets/x86/64/`

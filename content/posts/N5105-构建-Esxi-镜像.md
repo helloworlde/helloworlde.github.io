@@ -8,7 +8,6 @@ categories:
   - HomeLab
 ---
 
-
 N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并没有该网卡的驱动，安装时会因为没有网卡导致安装失败；另外，因为买了一个国产的光威 NVME 硬盘(千万别买！)，也没有相应的驱动，安装时提示没有硬盘
 
 经过一番搜索，发现 [VMware ESXi 7.0 U3e SLIC 2.6 & Unlocker 集成 Intel NUC 网卡、USB 网卡和 NVMe 驱动 (2022.07 更新)](https://sysin.org/blog/vmware-esxi-7-u3e-nuc-usb-nvme/#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80-313) 里面有一个添加了驱动的镜像文件，但是分享链接是百度网盘，下载完的时候我已经单独构建好了，测试可以使用

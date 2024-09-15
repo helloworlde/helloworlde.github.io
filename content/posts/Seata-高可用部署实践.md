@@ -8,7 +8,6 @@ categories:
   - Seata
 ---
 
-
 使用配置中心和数据库来实现 Seata 的高可用，以 Nacos 和 MySQL 为例，将[cloud-seata-nacos](https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/)应用部署到 Kubernetes 集群中
 
 该应用使用 Nacos 作为配置和注册中心，总共有三个服务: order-service, pay-service, storage-service, 其中 order-service 对外提供下单接口，当余额和库存充足时，下单成功，会提交事务，当不足时会抛出异常，下单失败，回滚事务

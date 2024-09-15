@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等
 
 ![grpc-source-code-name-resolver-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png)

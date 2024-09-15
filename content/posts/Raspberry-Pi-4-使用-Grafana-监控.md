@@ -10,7 +10,6 @@ categories:
   - Grafana
 ---
 
-
 ## 运行 Influxdb
 
 Influxdb 和 Prometheus 一样都是时序数据库，不同的是它能够作为一个转发代理接受来自不同程序的消息，这里使用 Telegraf 采集数据，存放到 Influxdb 中

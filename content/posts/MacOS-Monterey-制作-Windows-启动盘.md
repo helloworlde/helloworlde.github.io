@@ -11,7 +11,6 @@ categories:
   - HomeLab
 ---
 
-
 > 需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘
 
 > 搜到的一些方法，如启动转换助理，或者 [balenaEtcher](https://www.balena.io/etcher/) 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作

@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-
 ## 需求背景
 
 使用的路由器只有 3 个 LAN 口，在购入 NAS 后网口捉襟见肘，并且 NAS 不支持 Wi-Fi，因此需要更多的网口支持设备连接

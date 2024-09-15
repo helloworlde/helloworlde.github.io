@@ -11,7 +11,6 @@ categories:
 featured: true
 ---
 
-
 如果 WireGuard 对端的 `Endpoint` 是一个域名，这个域名只会在启动的时候解析一次，后续不会更新；当这个域名发生变化时，WireGuard 连接就会断开
 
 wireguard-tools 的仓库中提供了检测 IP 变化并更新 `Endpoint` 的脚本 [https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh](https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh)，因此可以使用该脚本，通过定时任务的方式可以实现域名 IP 变化后更新 WireGuard

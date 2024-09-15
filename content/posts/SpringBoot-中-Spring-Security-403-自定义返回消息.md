@@ -12,7 +12,6 @@ categories:
   - SpringSecurity
 ---
 
-
 - 自定义处理类 CustomAccessDeniedHandler
 
 ```

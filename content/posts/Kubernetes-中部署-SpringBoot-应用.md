@@ -10,7 +10,6 @@ categories:
   - SpringBoot
 ---
 
-
 > 在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用
 
 > 代码地址 [https://github.com/helloworlde/k8s-service](https://github.com/helloworlde/k8s-service)

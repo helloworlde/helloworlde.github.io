@@ -10,7 +10,6 @@ categories:
   - SpringCloud
 ---
 
-
 ## 加载配置
 
 加载配置是通过 `ConsulPropertySourceLocator` 来实现的，该类是 `PropertySourceLocator`接口的实现类

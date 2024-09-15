@@ -12,7 +12,6 @@ categories:
   - FastJSON
 ---
 
-
 在 SpringBoot 中如果想要自定义接口返回的值格式，可以通过重写 `WebMvcConfigurerAdapter` 类的 `configureMessageConverters` 方法实现
 
 - 添加依赖

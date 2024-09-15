@@ -10,7 +10,6 @@ categories:
   - Kubernetes
 ---
 
-
 > Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现
 
 创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用

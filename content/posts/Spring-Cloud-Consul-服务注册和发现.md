@@ -10,7 +10,6 @@ categories:
   - SpringCloud
 ---
 
-
 Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:spring-cloud-starter-consul-discovery`，这个 starter 依赖于 `org.springframework.cloud:spring-cloud-consul-core` 和 `org.springframework.cloud:spring-cloud-consul-discovery`
 
 ## Consul 的核心概念

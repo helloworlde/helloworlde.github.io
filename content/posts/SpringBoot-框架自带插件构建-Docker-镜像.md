@@ -10,7 +10,6 @@ categories:
   - Docker
 ---
 
-
 Spring Boot 2.3.0 之后支持通过 buildpacks 插件构建 Docker 镜像，原理和执行过程与 Jib 类似，支持 Spring Boot 项目的分层构建，当代码改动后，只需更新代码部分，可以减少构建后 push 和 pull 镜像的时间，减少镜像存储的成本
 
 底层是通过 [Buildpacks](https://buildpacks.io/) 构建，Buildpacks是 Dockerfile 的一个替代方案。Buildpacks 能够自动探测运行 Docker 容器中的应用时所需要的软件，例如，它会探测应用中所使用的 Java 版本，基于该版本，buildpack 会选择所指定的 JRE 并构建 Docker 镜像

@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 gRPC 提供了 `grpc.reflection.v1alpha.ServerReflection` 服务，在 Server 端添加后可以通过该服务获取所有服务的信息，包括服务定义，方法，属性等；
 
 可以根据获取到的服务信息调用其他的方法，实现泛化调用；gRPC 调试工具 [grpcurl]() 和 [gRPC Swagger](https://github.com/grpc-swagger/grpc-swagger) 等工具都是通过这种方式实现的

@@ -12,7 +12,6 @@ categories:
   - Flyway
 ---
 
-
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway)
 
 > [Flyway](https://flywaydb.org) 是一个数据库版本管理工具，用于管理数据库操作脚本

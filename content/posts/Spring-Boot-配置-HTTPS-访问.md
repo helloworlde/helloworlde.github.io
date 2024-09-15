@@ -10,7 +10,6 @@ categories:
   - SpringBoot
 ---
 
-
 - [相关代码](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Https)
 
 ## 生成证书

@@ -8,7 +8,6 @@ categories:
   - RaspberryPi
 ---
 
-
 树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统
 
 ## 安装 Raspberry Pi OS

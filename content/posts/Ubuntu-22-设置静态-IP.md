@@ -9,7 +9,6 @@ categories:
   - HomeLab
 ---
 
-
 在虚拟机中启动了 Ubuntu Server 作为日常使用的服务器，同时将 DHCP 和 DNS 相关的服务也运行在这个 Ubuntu Server上；
 
 因为在 DHCP 服务中使用IP 和 Mac 绑定的方式分配 IP，因此 Ubuntu Server 是以 DHCP 方式获取 IP地址；但是在一次意外重启后，无法访问 Ubuntu Server，查看网络发现是因为网卡没有分配到 IP，这是 Ubuntu Server 依赖 DHCP 服务分配 IP，但是 DHCP 服务因为宿主机没有网络所以无法访问，造成死循环；因此通过为 Ubuntu Server 设置静态 IP 的方式，避免重启后再次出现这样的问题

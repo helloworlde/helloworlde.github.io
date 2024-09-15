@@ -10,7 +10,6 @@ categories:
   - Helm
 ---
 
-
 ## 创建应用
 
 创建一个简单的应用，提供一个 REST 接口；使用 Golang 编写，然后将镜像 push 到 Docker Hub

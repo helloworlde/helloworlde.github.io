@@ -8,7 +8,6 @@ categories:
   - Kubernetes
 ---
 
-
 Kubernetes 支持使用自定义的指标作为 HPA 的依据；
 
 KEDA 是基于事件驱动的自动扩缩容组件；主要有两部分：

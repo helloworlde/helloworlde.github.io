@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-
 Thrift 中有 `TTransport` 和 `TServerTransport`，封装了底层传输层的数据读写；分别用于客户端和服务端
 
 ## TTransport

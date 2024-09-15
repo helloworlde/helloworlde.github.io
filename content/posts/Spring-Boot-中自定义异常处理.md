@@ -12,7 +12,6 @@ categories:
   - Exception
 ---
 
-
 - 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception)
 
 > Spring Boot 中提供了默认的异常处理，但是对于应用来说，这些信息并不应该直接返回或者不够明确，需要结合自己的情况进行定制

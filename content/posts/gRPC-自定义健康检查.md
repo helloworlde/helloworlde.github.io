@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 在 gRPC 中自定义健康检查逻辑，用于检查特定的组件(如检查 Redis、MQ 等)，或者结合其他的服务组件一起使用(如使用 Spring Boot 的健康检查)
 
 ## 实现

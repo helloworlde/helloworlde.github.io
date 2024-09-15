@@ -11,7 +11,6 @@ series:
 featured: true
 ---
 
-
 [yuzu](https://yuzu-emu.org/) 是一款开源的 Ninetendo Swithc 模拟器，支持在 Linux 或者 Windows 平台运行，能够模拟 Switch 平台的大部分游戏
 
 这里使用 Windows 平台进行安装，测试后发现 yuzu 能够较好的体验 Switch 的游戏，对于性能较好的机器，可以流畅运行游戏，并且没有 Switch 切换场景或者读取游戏时长时间的加载等待；对于没有 Switch 的可以作为尝鲜体验的工具，不过实际游戏效果体验不如 Switch 好

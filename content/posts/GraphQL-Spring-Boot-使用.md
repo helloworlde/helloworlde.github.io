@@ -10,7 +10,6 @@ categories:
   - GraphQL
 ---
 
-
 项目地址 [https://github.com/helloworlde/spring-boot-graphql-demo](https://github.com/helloworlde/spring-boot-graphql-demo)
 
 > 使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据

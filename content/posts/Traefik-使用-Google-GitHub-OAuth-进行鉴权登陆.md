@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-
 在使用 Traefik 作为 Homelab 的网关时，考虑到部分服务涉及隐私，因此需要限制用户登陆后才能使用；
 
 Traefik 支持使用 HTTP 中间件，可以将鉴权信息转发给其他服务进行鉴权，因此，使用 [https://github.com/thomseddon/traefik-forward-auth](https://github.com/thomseddon/traefik-forward-auth) 作为鉴权的服务，该服务默认使用 Google OAuth，因此，可以通过 Google 账号登陆访问内部服务；该服务也支持任何 OAuth 标准的认证服务，如 GitHub，微软等

@@ -10,7 +10,6 @@ categories:
   - SpringCloud
 ---
 
-
 Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 Secret，将配置添加到应用中
 
 ## 加载配置

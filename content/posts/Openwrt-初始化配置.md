@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-
 ## 语言配置
 
 Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 `opkg` 安装；随后登录控制台即可看到语言已经变为中文；如果没有改变，可以在System-System-Language 中选择简体中文

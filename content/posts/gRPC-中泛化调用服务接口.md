@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-
 gRPC 没有直接支持泛化调用，protobuf 可以不依赖于生成的代码实现调用，所以可以通过反射接口间接实现泛化调用
 
 要求 Server 端提供 `grpc.reflection.v1alpha.ServerReflection` 服务，用于获取服务的描述文件

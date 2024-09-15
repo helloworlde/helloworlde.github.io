@@ -12,7 +12,6 @@ categories:
   - Ubuntu
 ---
 
-
 > 在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务
 
 > 来自 [https://teddysun.com/342.html](https://teddysun.com/342.html)

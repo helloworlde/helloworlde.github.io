@@ -14,7 +14,6 @@ series:
 featured: true
 ---
 
-
 在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置
 
 ## 修改主机名

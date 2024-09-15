@@ -8,7 +8,6 @@ categories:
   - Ubuntu
 ---
 
-
 使用 `scp` 命令完成文件的上传和下载
 
 ## 上传

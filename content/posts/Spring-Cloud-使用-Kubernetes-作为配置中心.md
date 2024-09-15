@@ -10,7 +10,6 @@ categories:
   - Kubernetes
 ---
 
-
 > Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
 
 ## 创建应用

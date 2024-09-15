@@ -9,7 +9,6 @@ categories:
   - HomeLab
 ---
 
-
 > 使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整
 
 ### 检查未分区空间

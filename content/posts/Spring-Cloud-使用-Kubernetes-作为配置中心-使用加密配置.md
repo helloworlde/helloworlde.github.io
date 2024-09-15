@@ -10,7 +10,6 @@ categories:
   - Kubernetes
 ---
 
-
 > Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置
 
 ## 创建应用
