@@ -10,8 +10,6 @@ categories:
   - Helm
 ---
 
-# 使用 GitHub 作为 Helm 仓库
-
 > 使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例
 
 ## 准备工作

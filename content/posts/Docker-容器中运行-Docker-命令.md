@@ -8,8 +8,6 @@ categories:
   - Docker
 ---
 
-# Docker 容器中运行 Docker 命令
-
 > 在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可
 
 - 在启动容器时添加以下命令：

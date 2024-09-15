@@ -15,7 +15,7 @@ categories:
 
 ---
 
-##修改单独项目
+## 修改单独项目
 
 在项目的`build.gradle`文件中，修改`repositories`配置
 由：

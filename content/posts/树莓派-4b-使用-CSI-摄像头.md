@@ -13,8 +13,6 @@ series:
 featured: true
 ---
 
-# 树莓派 4b 使用 CSI 摄像头
-
 树莓派 4b 支持通过 USB 或者摄像头 CSI 接口连接摄像头，因此可以使用树莓派 4b 作为监控
 
 基于安装了 Ubuntu Server 22.04 LTS 的树莓派 4b 进行测试

@@ -10,8 +10,6 @@ categories:
   - RaspberryPi
 ---
 
-# 树莓派 4b 无网线安装 Ubuntu 并初始化
-
 > 必需设备：
 
 - 树莓派 4b

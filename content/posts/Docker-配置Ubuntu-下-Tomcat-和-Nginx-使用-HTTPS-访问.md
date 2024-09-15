@@ -14,8 +14,6 @@ categories:
   - Nginx
 ---
 
-# Ubuntu Docker 配置 Tomcat 和 Nginx 使用 HTTPS 访问
-
 ## 安装 Docker
 
 ### 使用脚本自动安装

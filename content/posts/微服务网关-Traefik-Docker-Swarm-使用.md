@@ -10,8 +10,6 @@ categories:
   - Docker
 ---
 
-# 微服务网关 Traefik - Docker Swarm 使用
-
 [traefik](https://docs.traefik.io/) 是一个用 Go 开发的适用于微服务的反向代理和负载均衡的网关；可以自动发现并代理服务，可以用 Kubernetes 或 Docker Swarm 等方式，支持使用 Eureka，Consul，Etcd，ZooKeeper 等注册中心
 
 ## Docker Swarm 使用

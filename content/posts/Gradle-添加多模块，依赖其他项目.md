@@ -10,8 +10,6 @@ categories:
   - Gradle
 ---
 
-# Gradle 使用-多项目构建
-
 ## 配置
 
 > 如该项目有三个模块，分别是`Controller`, `Service`, `Dao`,`Model`，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目

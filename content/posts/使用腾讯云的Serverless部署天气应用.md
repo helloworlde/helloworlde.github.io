@@ -10,8 +10,6 @@ categories:
   - Go
 ---
 
-# 使用腾讯云的Serverless部署应用
-
 > 使用腾讯云的Serverless服务，部署一个Go编写的天气变化的提醒应用
 > 该应用通过定时查询高德地图的[天气API](https://lbs.amap.com/api/webservice/guide/api/weatherinfo)，当当前天气或未来几天天气不好时，通过[Server酱](http://sc.ftqq.com)在微信中进行提醒
 

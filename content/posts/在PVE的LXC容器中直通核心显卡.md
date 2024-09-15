@@ -11,8 +11,6 @@ categories:
 featured: true
 ---
 
-# 在 ProxmoxVE 的 LXC 容器中直通核心显卡
-
 在 ProxmoxVE 平台中使用 LXC 容器使用 Docker 部署 [frigate](https://frigate.video/) 时(或其他需要GPU的容器如Jellyfin等)，需要使用 GPU 对 ffmpeg 进行加速，因此需要将宿主机 N5105 的核心显卡挂载到 LXC 容器到 Docker 容器中
 
 ## 安装核显驱动

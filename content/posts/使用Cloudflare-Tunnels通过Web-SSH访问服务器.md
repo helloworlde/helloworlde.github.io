@@ -11,8 +11,6 @@ series:
 featured: true
 ---
 
-# 使用 Cloudflare Tunnels 通过 Web SSH 访问服务器
-
 Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可以通过 Web SSH 的方式访问服务器；支持多种登陆认证方式，安全性远高于直接暴露公网端口
 
 ## 创建 SSH 应用

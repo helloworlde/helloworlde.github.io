@@ -1,6 +1,6 @@
 # Note for personal
 
-## Quick Start 
+## Quick Start
 
 1. Install hugo on macOS
 

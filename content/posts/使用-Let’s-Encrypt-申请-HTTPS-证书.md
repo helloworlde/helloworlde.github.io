@@ -10,8 +10,6 @@ categories:
   - HomeLab
 ---
 
-# 使用 Let's Encrypt 申请 HTTPS 证书
-
 在搭建私有服务器的过程中，需要通过外网访问，因为 .dev 域名要求使用 https，但是域名服务商只提供根域名的证书，为了使子域名也可以使用，所以通过 Let’s Encrypt 申请免费证书
 
 Let’s Encrypt 是一家免费、开放、自动化的证书颁发机构（CA），旨在尽可能对用户友好的方式免费提供为网站启用 HTTPS（SSL/TLS）所需的数字证书

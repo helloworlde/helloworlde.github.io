@@ -12,8 +12,6 @@ categories:
   - Consul
 ---
 
-# 使用自定义 Grafana 面板监控 Consul
-
 使用 Prometheus和 Grafana监控 Consul，[Dashboard](https://grafana.com/grafana/dashboards?orderBy=name&direction=asc) 中的基本都是Consul 自身的状态，除此之外，还需要一些业务相关的监控，比如当前注册的服务数量，健康和不健康的服务数量，拉取服务请求响应时间等数据
 
 ## 使用已有的 Dashboard

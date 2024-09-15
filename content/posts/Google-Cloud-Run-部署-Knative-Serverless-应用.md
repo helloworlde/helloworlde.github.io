@@ -14,8 +14,6 @@ categories:
   - Go
 ---
 
-# Google Cloud Run 部署Knative Serverless 应用
-
 > Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言
 
 ## 安装 [Cloud SDK](https://cloud.google.com/sdk/)

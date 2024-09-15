@@ -14,8 +14,6 @@ categories:
   - Nginx
 ---
 
-# Docker 配置 Nginx 访问宿主机目录下的应用
-
 > 使用 Nginx 将请求转发到宿主机的 Tomcat 应用
 
 ## 配置并启动 Tomcat

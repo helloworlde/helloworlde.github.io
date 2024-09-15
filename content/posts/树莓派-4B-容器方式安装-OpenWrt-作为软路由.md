@@ -11,8 +11,6 @@ categories:
   - RaspberryPi
 ---
 
-# 树莓派 4B 容器方式安装 OpenWrt 作为软路由
-
 > 在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 [SuLingGG/OpenWrt-Docker](https://github.com/SuLingGG/OpenWrt-Docker) 的方案
 
 - 什么是软路由

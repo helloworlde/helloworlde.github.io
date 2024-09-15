@@ -18,8 +18,6 @@ categories:
   - Jacoco
 ---
 
-# Gradle 添加 Jacoco 分析单元测试覆盖率工具
-
 > Jacoco 是一个免费的 Java 单元测试覆盖率分析工具，在 Gradle 中添加插件，在编译的同事进行单元测试覆盖率分析
 
 ## 配置

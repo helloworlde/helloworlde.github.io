@@ -12,8 +12,6 @@ categories:
   - Consul
 ---
 
-# 使用 Prometheus 和 Grafana 监控 Consul
-
 使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器
 
 ## 启动 Consul

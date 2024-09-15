@@ -13,8 +13,6 @@ series:
 featured: true
 ---
 
-# 使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像
-
 参考 [N5105 构建 ESXi 镜像](https://helloworlde.github.io/2022/08/11/N5105-%E6%9E%84%E5%BB%BA-Esxi-%E9%95%9C%E5%83%8F/)，在使用 ESXi 7 时，基于 Windows 系统，使用 PowerCLI 为 ESXi 7 的镜像添加了 NVMe 和 Intel I225V 网卡的驱动；
 
 虽然当时已经可以在 Linux 或者 MacOS 上使用 PowerShell，但是因为 PowerCLI 不支持 Core 版本的 PowerShell，会提示 `Exception: The VMware.ImageBuilder module is not currently supported on the Core edition of PowerShell`；导致只能使用 Windows 构建，对于没有 Windows 系统的用户非常不方便。

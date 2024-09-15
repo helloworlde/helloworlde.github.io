@@ -14,8 +14,6 @@ categories:
   - Rancher
 ---
 
-# 树莓派 4b 安装 Kubernetes
-
 K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等
 
 ## 安装

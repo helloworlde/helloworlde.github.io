@@ -14,8 +14,6 @@ categories:
   - AWS
 ---
 
-# AWS Lambda 部署 SpringBoot 应用
-
 ## 配置 AWS CLI 和 Severless
 
 AWS CLI 和 Serverless 都可以用于部署 Serverless 应用

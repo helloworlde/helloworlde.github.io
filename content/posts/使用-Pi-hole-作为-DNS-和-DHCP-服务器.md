@@ -12,10 +12,6 @@ categories:
   - HomeLab
 ---
 
-@(HomeLab)[Pi-hole]
-
-# 使用 Pi-hole 作为 DNS 和 DHCP 服务器
-
 在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多
 
 另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供

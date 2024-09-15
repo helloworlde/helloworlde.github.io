@@ -13,8 +13,6 @@ series:
 featured: true
 ---
 
-# 树莓派 4b 使用摄像头推送流到 RTMP 服务器
-
 使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
 树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 [SRS](https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction) 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）
 

@@ -13,8 +13,6 @@ series:
 featured: true
 ---
 
-# 使用培正 PZEM-004T 和 HomeAssistant 监测家庭用电情况
-
 培正 PZEM-004T 是一个电能监控模块，能够监测家庭用电的电压，电流，频率，实时功率，耗电量等信息；支持通过 UART 协议进行读取；因此可以使用 ESP8266 或者 ESP32 等模块，将用电信息添加到 HomeAssistant 中
 
 ![homelab-homeassistant-power-monitor-pannel.png](https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-pannel.png)

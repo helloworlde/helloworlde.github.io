@@ -17,8 +17,6 @@ series:
 featured: true
 ---
 
-# Frigate 使用 Hailo8L 加速
-
 Hailo8/Hailo-8L 是一家以色列的边缘人工智能公司发布的边缘加速器，定位和 [Google Coral TPU](https://coral.ai/products/) 完全一致；Hailo-8 算力为 26 TOPS，Hailo-8L 算力为 13 TOPS
 
 | 特性               | Google Coral TPU                                 | Hailo8                                                                 | Hailo8L                                                                |

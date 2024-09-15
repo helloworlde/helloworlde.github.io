@@ -12,8 +12,6 @@ categories:
   - Trace
 ---
 
-# 服务追踪工具 SkyWorking 搭建使用
-
 > [SkyWalking](https://github.com/apache/incubator-skywalking) 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具
 
 - [Demo](http://49.4.12.44:8080/#/monitor/dashboard)

@@ -10,8 +10,6 @@ categories:
   - Cobra
 ---
 
-# 使用 Go 开发命令行工具-OSS 文件上
-
 > 使用 Go 语言开发一个命令行工具，用于向 OSS 文件上传文件
 > 命令行工具有很多框架，选择使用 [Cobra](https://github.com/spf13/cobra)
 

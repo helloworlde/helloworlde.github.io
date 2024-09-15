@@ -8,8 +8,6 @@ categories:
   - Docker
 ---
 
-# Docker 中使用 Dockerfile
-
 Dockerfile 是一个文件，其包含了一条条的指令（instruction），每一条指令构建一层，因此每一条指令的内容就是描述该层应当如何构建
 
 - 构建一个镜像

@@ -12,8 +12,6 @@ categories:
   - Java
 ---
 
-# 用 Docker 构建 SpringBoot 应用
-
 - 启动 Docker，并生成 SpringBoot 应用
 
 - 修改 `build.gradle` 文件

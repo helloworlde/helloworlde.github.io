@@ -14,8 +14,6 @@ series:
 featured: true
 ---
 
-# 技嘉 B660M AORUS PRO AX 安装黑苹果
-
 ### 系统配置
 
 | 类型      | 明细                                       |

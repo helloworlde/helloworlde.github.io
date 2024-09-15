@@ -14,8 +14,6 @@ series:
 featured: true
 ---
 
-# 在黑群晖使用 Docker 部署 Proxmox Backup Server
-
 Proxmox Backup Server 是 PVE 容器、虚拟机的备份解决方案，支持增量、重复数据消除备份，可以节省存储空间，同时支持加密和完整性校验
 
 Proxmox Backup Server 官方提供了 iso 格式的镜像，同时社区也有开源的 Docker 镜像的部署方式，为了在黑群晖上部署方便，使用 Docker 的方式进行部署，项目地址：[https://github.com/ayufan/pve-backup-server-dockerfiles](https://github.com/ayufan/pve-backup-server-dockerfiles)

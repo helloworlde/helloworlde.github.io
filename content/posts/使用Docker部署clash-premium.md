@@ -11,8 +11,6 @@ categories:
 featured: true
 ---
 
-# 使用 Docker 部署 Clash Premium
-
 Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力
 
 ## 订阅格式转换

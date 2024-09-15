@@ -11,8 +11,6 @@ series:
 featured: true
 ---
 
-# 使用 macOS 制作 macOS 的 ISO 镜像
-
 需要在虚拟机中使用 macOS，但是没有 ISO 镜像，可以使用 macOS 系统制作 ISO 镜像
 
 ## 在 APP Store 下载安装器

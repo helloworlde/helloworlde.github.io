@@ -12,8 +12,6 @@ categories:
   - SpringBoot
 ---
 
-# 使用 Prometheus 和 Grafana 监控 Spring Boot 应用
-
 监控 Spring Boot 应用的状态，以及一些自定义的业务数据
 
 ## 监控 Spring Boot 应用

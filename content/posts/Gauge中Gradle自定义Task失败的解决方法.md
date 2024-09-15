@@ -14,7 +14,7 @@ categories:
   - Test
 ---
 
-##Gauge中加入了Gradle之后根据官方文档自定义task并不能执行
+## Gauge中加入了Gradle之后根据官方文档自定义task并不能执行
 
 ```groovy
 task gaugeTest(type: GaugeTask) {

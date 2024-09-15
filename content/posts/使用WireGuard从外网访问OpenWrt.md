@@ -13,8 +13,6 @@ categories:
 featured: true
 ---
 
-# 使用 WireGuard 从外网访问 OpenWrt
-
 在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt
 
 [WireGuard](https://www.wireguard.com/) 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量

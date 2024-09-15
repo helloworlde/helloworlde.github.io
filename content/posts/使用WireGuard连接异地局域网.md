@@ -11,8 +11,6 @@ categories:
 featured: true
 ---
 
-# 使用 WireGuard 连接异地局域网
-
 最近使用 Frigate 做家庭监控，因为 Frigate 部署在自己的 HomeLab 服务器里，有几个监控在老家，需要跨地域访问；有以下几种方案：
 
 1. 使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP
