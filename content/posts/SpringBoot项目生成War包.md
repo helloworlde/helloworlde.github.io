@@ -1,5 +1,6 @@
 ---
 title: SpringBoot项目生成War包
+type: post
 date: 2018-01-01 00:50:49
 tags:
     - Java

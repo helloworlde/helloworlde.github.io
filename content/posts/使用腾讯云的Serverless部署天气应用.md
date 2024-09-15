@@ -1,5 +1,6 @@
 ---
 title: 使用腾讯云的Serverless部署天气应用
+type: post
 date: 2019-10-13 18:56:40
 tags:
     - Serverless

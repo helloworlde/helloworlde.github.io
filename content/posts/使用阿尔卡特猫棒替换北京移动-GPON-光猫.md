@@ -1,5 +1,6 @@
 ---
 title: "使用阿尔卡特猫棒替换北京移动 GPON 光猫"
+type: post
 date: 2023-11-27T18:08:46+08:00
 tags: 
     - HomeLab

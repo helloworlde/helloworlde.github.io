@@ -1,5 +1,6 @@
 ---
 title: Redis基础知识-数据类型
+type: post
 date: 2018-01-01 12:07:03
 tags:
     - Redis

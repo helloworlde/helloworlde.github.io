@@ -1,5 +1,6 @@
 ---
 title: Tomcat9 配置HTTPS连接
+type: post
 date: 2018-01-01 12:01:18
 tags:
     - Tomcat

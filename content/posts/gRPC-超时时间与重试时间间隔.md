@@ -1,5 +1,6 @@
 ---
 title: gRPC 超时时间与重试时间间隔
+type: post
 date: 2020-09-20 22:41:50
 tags:
     - gRPC

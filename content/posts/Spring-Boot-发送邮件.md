@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 发送邮件
+type: post
 date: 2017-12-31 23:55:11
 tags:
     - Java

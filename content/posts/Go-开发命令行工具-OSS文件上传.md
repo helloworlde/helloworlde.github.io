@@ -1,5 +1,6 @@
 ---
 title: Go 开发命令行工具-OSS文件上传
+type: post
 date: 2019-09-08 18:53:25
 tags:
     - Go

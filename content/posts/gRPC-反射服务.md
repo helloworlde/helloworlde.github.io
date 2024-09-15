@@ -1,5 +1,6 @@
 ---
 title: gRPC 反射服务
+type: post
 date: 2021-01-17 22:34:46
 tags:
     - gRPC

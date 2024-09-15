@@ -1,5 +1,6 @@
 ---
 title: Gauge中执行测试的常用命令
+type: post
 date: 2018-01-01 11:30:51
 tags:
     - Java

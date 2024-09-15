@@ -1,5 +1,6 @@
 ---
 title: 使用 Let’s Encrypt 申请 HTTPS 证书
+type: post
 date: 2022-08-03 11:32:08
 tags:
 - Traefik

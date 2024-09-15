@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 启动时执行加载资源/执行操作
+type: post
 date: 2018-01-01 00:54:49
 tags:
     - Java

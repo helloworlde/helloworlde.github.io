@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 使用 Flyway
+type: post
 date: 2018-01-07 23:20:53
 tags:
     - Java

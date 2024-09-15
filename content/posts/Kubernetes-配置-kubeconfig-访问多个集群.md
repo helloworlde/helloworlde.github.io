@@ -1,5 +1,6 @@
 ---
 title: Kubernetes 配置 kubeconfig 访问多个集群
+type: post
 date: 2018-10-23 21:09:48
 tags:
     - Kubernetes

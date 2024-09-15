@@ -1,5 +1,6 @@
 ---
 title: AngularJS 中ngTable自定义/重写过滤器
+type: post
 date: 2018-01-01 11:56:49
 tags:
     - AngularJs
@@ -53,7 +54,8 @@ $scope.userTable = new NgTableParams({},
 
 ```
 <td data-title="'日期'" filter="customFilter">
-                    {{user.date|date:'yyyy-MM-dd'}}
+                    {{user.date|type: post
+date:'yyyy-MM-dd'}}
                 </td>
 ```
 
@@ -105,7 +107,8 @@ $scope.customFilterFn = function (date, filterValues) {
                 <td data-title="'用户名'" filter="{username: 'text'}" sortable="'username'">{{user.username}}</td>
                 <td data-title="'性别'" filter="{sex: 'select'}" filter-data="sexs" sortable="'sex'">{{user.sex}}</td>
                 <td data-title="'性别'" filter="customFilter" sortable="'date'">
-                    {{user.date|date:'yyyy-MM-dd'}}
+                    {{user.date|type: post
+date:'yyyy-MM-dd'}}
                 </td>
             </tr>
         </table>

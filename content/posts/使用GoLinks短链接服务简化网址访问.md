@@ -1,5 +1,6 @@
 ---
 title: "使用 GoLinks 短链接服务简化网址访问"
+type: post
 date: 2023-11-27T11:40:53+08:00
 tags:
   - Tools
@@ -160,7 +161,8 @@ curl -i go/search
 
 HTTP/1.1 302 Found
 Location: https://www.google.com/
-Date: Mon, 27 Nov 2023 03:22:19 GMT
+type: post
+date: Mon, 27 Nov 2023 03:22:19 GMT
 Content-Length: 0
 ```
 
@@ -171,6 +173,7 @@ curl -i go/search/什么是golinks
 
 HTTP/1.1 302 Found
 Location: https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
-Date: Mon, 27 Nov 2023 03:34:36 GMT
+type: post
+date: Mon, 27 Nov 2023 03:34:36 GMT
 Content-Length: 0
 ```

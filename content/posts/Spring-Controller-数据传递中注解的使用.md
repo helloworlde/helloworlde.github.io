@@ -1,5 +1,6 @@
 ---
 title: Spring Controller 数据传递中注解的使用
+type: post
 date: 2018-01-01 11:54:23
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: 使用Gradle整合Flyway进行数据库迁移
+type: post
 date: 2018-01-01 00:49:34
 tags:
     - Java

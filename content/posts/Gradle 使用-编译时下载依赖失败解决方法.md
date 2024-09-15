@@ -1,5 +1,6 @@
 ---
 title: Gradle 使用-编译时下载依赖失败解决方法
+type: post
 date: 2018-01-01 01:00:20
 tags:
     - Gradle

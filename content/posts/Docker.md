@@ -1,5 +1,6 @@
 ---
 title: Docker
+type: post
 date: 2018-04-08 15:18:49
 tags:   
     - Docker 

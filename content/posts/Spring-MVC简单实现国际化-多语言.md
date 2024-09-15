@@ -1,5 +1,6 @@
 ---
 title: Spring MVC简单实现国际化/多语言
+type: post
 date: 2018-01-01 11:48:46
 tags:
     - Java

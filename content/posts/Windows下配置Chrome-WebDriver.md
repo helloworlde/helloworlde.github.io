@@ -1,5 +1,6 @@
 ---
 title: Windows下配置Chrome WebDriver
+type: post
 date: 2018-01-01 11:59:09
 tags:
     - WebDriver

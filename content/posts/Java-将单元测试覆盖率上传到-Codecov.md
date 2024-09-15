@@ -1,5 +1,6 @@
 ---
 title: Java 将单元测试覆盖率上传到 Codecov
+type: post
 date: 2018-01-01 00:00:19
 tags:
     - Java

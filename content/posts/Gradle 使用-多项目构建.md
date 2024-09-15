@@ -1,5 +1,6 @@
 ---
 title: Gradle 添加多项，依赖其他项目
+type: post
 date: 2018-01-01 00:05:06
 tags:
     - Java

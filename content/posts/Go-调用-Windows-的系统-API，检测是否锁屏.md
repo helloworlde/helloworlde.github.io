@@ -1,5 +1,6 @@
 ---
 title: Go 调用 Windows 的系统 API，检测是否锁屏
+type: post
 date: 2019-09-15 21:56:13
 tags:
     - Go

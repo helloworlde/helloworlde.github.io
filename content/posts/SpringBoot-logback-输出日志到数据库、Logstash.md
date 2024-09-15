@@ -1,5 +1,6 @@
 ---
 title: SpringBoot logback 输出日志到数据库、Logstash
+type: post
 date: 2018-01-19 21:25:42
 tags:
     - Java

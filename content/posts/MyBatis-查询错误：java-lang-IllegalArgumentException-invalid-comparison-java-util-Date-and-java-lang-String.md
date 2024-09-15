@@ -2,6 +2,7 @@
 title: >-
   MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison:
   java.util.Date and java.lang.String
+type: post
 date: 2019-03-29 21:17:57
 tags:
     - MyBatis 

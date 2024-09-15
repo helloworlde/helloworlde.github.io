@@ -1,5 +1,6 @@
 ---
 title: SpringBoot 使用 MySQL保存emoji 表情
+type: post
 date: 2018-12-31 22:59:16
 tags:
     - MySQL

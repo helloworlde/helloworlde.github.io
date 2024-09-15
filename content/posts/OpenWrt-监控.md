@@ -1,5 +1,6 @@
 ---
 title: OpenWrt-监控
+type: post
 date: 2022-09-26 11:32:08
 tags:
 - Netdata

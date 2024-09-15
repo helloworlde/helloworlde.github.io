@@ -1,5 +1,6 @@
 ---
 title: 使用 GitHub 作为 Helm 仓库
+type: post
 date: 2019-12-07 22:16:35
 tags:
     - Kubernetes

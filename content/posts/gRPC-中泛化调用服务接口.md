@@ -1,5 +1,6 @@
 ---
 title: gRPC 中泛化调用服务接口
+type: post
 date: 2021-01-29 22:34:46
 tags:
     - gRPC

@@ -1,5 +1,6 @@
 ---
 title: 解决从GitHub上下载文件慢的问题
+type: post
 date: 2018-01-01 11:34:48
 tags:
     - GitHub

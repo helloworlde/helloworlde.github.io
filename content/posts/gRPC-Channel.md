@@ -1,5 +1,6 @@
 ---
 title: gRPC Channel
+type: post
 date: 2020-11-18 22:34:46
 tags:
     - gRPC

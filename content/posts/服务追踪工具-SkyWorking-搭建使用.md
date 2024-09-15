@@ -1,5 +1,6 @@
 ---
 title: 服务追踪工具 SkyWorking 搭建使用
+type: post
 date: 2018-07-31 23:56:24
 tags:
     - SkyWalking

@@ -1,5 +1,6 @@
 ---
 title: gRPC 命名解析
+type: post
 date: 2020-09-20 22:35:22
 tags:
     - gRPC

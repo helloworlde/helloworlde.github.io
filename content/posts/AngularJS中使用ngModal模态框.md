@@ -1,5 +1,6 @@
 ---
 title: AngularJS中使用ngModal模态框
+type: post
 date: 2018-01-01 11:57:50
 tags:
     - AngularJs

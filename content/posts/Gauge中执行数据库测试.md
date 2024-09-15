@@ -1,5 +1,6 @@
 ---
 title: Gauge中执行数据库测试
+type: post
 date: 2018-01-01 11:34:11
 tags:
     - Java

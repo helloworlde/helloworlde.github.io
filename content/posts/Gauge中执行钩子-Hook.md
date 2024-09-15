@@ -1,5 +1,6 @@
 ---
 title: Gauge中执行钩子(Hook)
+type: post
 date: 2018-01-01 11:31:40
 tags:
     - Java

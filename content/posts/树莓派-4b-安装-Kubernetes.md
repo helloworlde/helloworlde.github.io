@@ -1,5 +1,6 @@
 ---
 title: 树莓派 4b 安装 Kubernetes
+type: post
 date: 2021-04-24 22:55:32
 tags:
     - RaspberryPi

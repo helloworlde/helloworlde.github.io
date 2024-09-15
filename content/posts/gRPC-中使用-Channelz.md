@@ -1,5 +1,6 @@
 ---
 title: gRPC 中使用 Channelz
+type: post
 date: 2021-01-04 22:34:46
 tags:
     - gRPC

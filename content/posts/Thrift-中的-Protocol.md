@@ -1,5 +1,6 @@
 ---
 title: Thrift 中的 Protocol
+type: post
 date: 2021-01-31 22:34:46
 tags:
     - Thrift

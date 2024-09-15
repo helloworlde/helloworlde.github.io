@@ -1,5 +1,6 @@
 ---
 title: SpringMVC应用启动时执行操作
+type: post
 date: 2018-01-01 00:56:03
 tags:
     - Java

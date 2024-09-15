@@ -1,5 +1,6 @@
 ---
 title: gRPC 中的核心概念
+type: post
 date: 2020-09-20 22:40:59
 tags:
     - gRPC

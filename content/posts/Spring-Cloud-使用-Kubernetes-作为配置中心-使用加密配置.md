@@ -1,5 +1,6 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
+type: post
 date: 2019-09-08 19:18:09
 tags:
     - SpringCloud

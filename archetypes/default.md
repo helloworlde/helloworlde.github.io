@@ -4,4 +4,5 @@ date: {{ .Date }}
 tags: []
 series: []
 featured: true
+type: post
 ---

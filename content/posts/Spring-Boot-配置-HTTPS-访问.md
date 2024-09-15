@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 配置 HTTPS 访问
+type: post
 date: 2018-12-31 22:42:17
 tags:
     - Java
@@ -180,7 +181,8 @@ curl -v http://localhost:8080
 < Expires: Thu, 01 Jan 1970 00:00:00 GMT
 < Location: https://localhost:8443/
 < Content-Length: 0
-< Date: Mon, 31 Dec 2018 14:31:44 GMT
+< type: post
+date: Mon, 31 Dec 2018 14:31:44 GMT
 <
 * Connection #0 to host localhost left intact
 ```

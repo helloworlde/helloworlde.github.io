@@ -1,5 +1,6 @@
 ---
 title: Spring Boot Actuator 添加 Git 和 Build 信息
+type: post
 date: 2018-01-01 11:20:12
 tags:
     - Java

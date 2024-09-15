@@ -1,5 +1,6 @@
 ---
 title: MacOS Monterey 制作 Windows 启动盘
+type: post
 date: 2022-06-30 11:37:22
 tags:
 - MacOS

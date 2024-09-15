@@ -1,5 +1,6 @@
 ---
 title: SpringBoot 框架自带插件构建 Docker 镜像
+type: post
 date: 2020-09-20 22:31:43
 tags:
     - SpringBoot 

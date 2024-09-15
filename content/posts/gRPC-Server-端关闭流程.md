@@ -1,5 +1,6 @@
 ---
 title: gRPC Server 端关闭流程
+type: post
 date: 2020-12-05 22:34:46
 tags:
     - gRPC

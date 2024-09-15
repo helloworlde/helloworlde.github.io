@@ -1,5 +1,6 @@
 ---
 title: AngularJS 配置路由
+type: post
 date: 2018-01-01 12:04:04
 tags:
     - AngularJs

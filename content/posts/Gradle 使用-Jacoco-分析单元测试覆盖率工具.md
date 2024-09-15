@@ -1,5 +1,6 @@
 ---
 title: Gradle 使用-添加 Jacoco 分析单元测试覆盖率工具
+type: post
 date: 2018-01-01 00:03:40
 tags:
     - Java

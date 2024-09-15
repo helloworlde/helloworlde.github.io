@@ -1,5 +1,6 @@
 ---
 title: "基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人脸识别"
+type: post
 date: 2024-08-16T09:29:49+08:00
 tags:
     - NVR

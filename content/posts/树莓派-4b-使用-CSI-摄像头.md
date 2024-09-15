@@ -1,5 +1,6 @@
 ---
 title: "树莓派 4b 使用 CSI 摄像头"
+type: post
 date: 2023-03-11T21:38:25+08:00
 tags:
     - RaspberryPi

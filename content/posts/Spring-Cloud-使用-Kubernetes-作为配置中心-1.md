@@ -1,5 +1,6 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为配置中心
+type: post
 date: 2020-09-20 22:28:15
 tags:
     - Java

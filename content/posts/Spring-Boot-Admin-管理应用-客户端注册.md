@@ -1,5 +1,6 @@
 ---
 title: Spring Boot Admin 管理应用-客户端注册
+type: post
 date: 2018-01-01 12:15:48
 tags:
     - Java

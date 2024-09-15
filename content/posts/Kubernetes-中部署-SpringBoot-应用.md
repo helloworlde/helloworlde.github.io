@@ -1,5 +1,6 @@
 ---
 title: 'Kubernetes 中部署 SpringBoot 应用 '
+type: post
 date: 2018-10-22 18:30:37
 tags:
     - Kubernetes

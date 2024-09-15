@@ -1,5 +1,6 @@
 ---
 title: "Frigate 使用 Hailo 8 或 Hailo 8L 进行对象识别"
+type: post
 date: 2024-09-01T11:25:24+08:00
 tags:
     - NVR

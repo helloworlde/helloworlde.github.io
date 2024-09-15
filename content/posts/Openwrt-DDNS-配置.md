@@ -1,5 +1,6 @@
 ---
 title: Openwrt-DDNS 配置
+type: post
 date: 2022-08-26 11:32:08
 tags:
 - Esxi

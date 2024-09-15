@@ -1,5 +1,6 @@
 ---
 title: SpringMVC 生成验证码
+type: post
 date: 2018-01-01 01:04:16
 tags:
     - Java

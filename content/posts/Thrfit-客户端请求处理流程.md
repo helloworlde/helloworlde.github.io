@@ -1,5 +1,6 @@
 ---
 title: Thrfit 客户端请求处理流程
+type: post
 date: 2021-02-20 22:34:46
 tags:
     - Thrift

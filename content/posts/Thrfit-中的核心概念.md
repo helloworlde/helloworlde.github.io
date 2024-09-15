@@ -1,5 +1,6 @@
 ---
 title: Thrfit 中的核心概念
+type: post
 date: 2021-01-17 22:34:46
 tags:
     - Thrift

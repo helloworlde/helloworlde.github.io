@@ -1,5 +1,6 @@
 ---
 title: gRPC 中打印请求二进制日志
+type: post
 date: 2021-01-04 22:34:46
 tags:
     - gRPC

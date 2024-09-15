@@ -1,5 +1,6 @@
 ---
 title: gRPC Transport
+type: post
 date: 2020-10-22 22:34:46
 tags:
     - gRPC

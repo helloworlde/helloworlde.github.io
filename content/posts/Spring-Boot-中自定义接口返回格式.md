@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 中自定义接口返回格式
+type: post
 date: 2019-09-08 18:45:24
 tags:
     - Java

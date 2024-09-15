@@ -1,5 +1,6 @@
 ---
 title: gRPC  健康检查
+type: post
 date: 2020-09-20 22:37:34
 tags:
     - gRPC

@@ -1,5 +1,6 @@
 ---
 title: Ubuntu安装 Redis -编译方式安装
+type: post
 date: 2018-01-01 12:09:09
 tags:
     - Ubuntu

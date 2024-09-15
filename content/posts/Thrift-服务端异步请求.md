@@ -1,5 +1,6 @@
 ---
 title: Thrift 服务端异步请求
+type: post
 date: 2021-02-01 22:34:46
 tags:
     - Thrift

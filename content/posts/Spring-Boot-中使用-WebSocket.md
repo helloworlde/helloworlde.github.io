@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 中使用 WebSocket
+type: post
 date: 2019-09-08 18:48:25
 tags:
     - Java

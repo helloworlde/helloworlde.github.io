@@ -1,5 +1,6 @@
 ---
 title: Windows Server搭建Shadowsocks服务器
+type: post
 date: 2018-01-01 12:18:00
 tags:
     - Shadowsocks 

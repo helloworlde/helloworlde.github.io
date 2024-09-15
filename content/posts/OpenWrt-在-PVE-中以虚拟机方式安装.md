@@ -1,5 +1,6 @@
 ---
 title: "OpenWrt 在 PVE 中以虚拟机方式安装"
+type: post
 date: 2023-03-20T21:35:17+08:00
 tags:
     - Proxmox VE

@@ -1,5 +1,6 @@
 ---
 title: 在IDEA中配置Gauge环境
+type: post
 date: 2018-01-01 11:28:05
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 中使用Spring Cloud Stream
+type: post
 date: 2019-09-08 18:50:09
 tags:
     - Java

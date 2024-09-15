@@ -1,5 +1,6 @@
 ---
 title: gRPC Stream
+type: post
 date: 2020-11-08 22:34:46
 tags:
     - gRPC

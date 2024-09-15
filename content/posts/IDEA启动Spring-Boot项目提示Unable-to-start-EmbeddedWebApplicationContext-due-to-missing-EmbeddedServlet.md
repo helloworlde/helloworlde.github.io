@@ -2,6 +2,7 @@
 title: >-
   IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to
   missing EmbeddedServlet...
+type: post
 date: 2018-01-01 01:03:07
 tags:
     - Java

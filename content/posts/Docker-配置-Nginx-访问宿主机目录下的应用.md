@@ -1,5 +1,6 @@
 ---
 title: Docker 配置 Nginx 访问宿主机目录下的应用
+type: post
 date: 2018-04-10 11:39:09
 tags:
     - Docker

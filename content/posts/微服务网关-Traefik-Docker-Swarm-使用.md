@@ -1,5 +1,6 @@
 ---
 title: 微服务网关 Traefik - Docker Swarm 使用
+type: post
 date: 2019-03-24 22:08:30
 tags:
     - Traefix 

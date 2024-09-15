@@ -1,5 +1,6 @@
 ---
 title: SpringBoot中Junit测试注入Bean失败的解决方法
+type: post
 date: 2018-01-01 11:46:57
 tags:
     - Java

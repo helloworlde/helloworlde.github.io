@@ -1,6 +1,7 @@
 ---
 title: OpenWrt  安装使用 OpenClash
-date: 2022-8-25 11:20:19
+type: post
+date: 2022-08-25T11:20:19+08:00
 tags:
 - OpenClash
 - Clash

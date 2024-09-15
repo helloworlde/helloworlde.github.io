@@ -1,5 +1,6 @@
 ---
 title: Ubuntu安装 Nginx
+type: post
 date: 2018-01-01 12:10:38
 tags:
     - Nginx 

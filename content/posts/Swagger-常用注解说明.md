@@ -1,5 +1,6 @@
 ---
 title: Swagger 常用注解说明
+type: post
 date: 2018-01-07 23:34:23
 tags:
     - Java

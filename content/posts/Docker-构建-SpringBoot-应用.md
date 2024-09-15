@@ -1,5 +1,6 @@
 ---
 title: Docker 构建 SpringBoot 应用
+type: post
 date: 2018-04-08 15:42:39
 tags:
     - Docker

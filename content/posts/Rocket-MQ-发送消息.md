@@ -1,5 +1,6 @@
 ---
 title: Rocket MQ 发送消息
+type: post
 date: 2018-01-01 12:52:39
 tags:
     - Java

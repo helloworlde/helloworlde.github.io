@@ -1,5 +1,6 @@
 ---
 title: Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据
+type: post
 date: 2020-05-16 14:49:38
 tags:
     - Prometheus

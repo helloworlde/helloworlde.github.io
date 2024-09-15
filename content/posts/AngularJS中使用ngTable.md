@@ -1,5 +1,6 @@
 ---
 title: AngularJS中使用ngTable
+type: post
 date: 2018-01-01 11:42:21
 tags:
     - AngularJs

@@ -1,5 +1,6 @@
 ---
 title: gRPC 对冲请求取消流程
+type: post
 date: 2021-02-20 22:34:46
 tags:
     - gRPC

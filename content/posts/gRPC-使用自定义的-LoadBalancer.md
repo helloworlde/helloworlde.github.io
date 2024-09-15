@@ -1,5 +1,6 @@
 ---
 title: gRPC 使用自定义的 LoadBalancer
+type: post
 date: 2020-09-29 22:34:46
 tags:
     - gRPC

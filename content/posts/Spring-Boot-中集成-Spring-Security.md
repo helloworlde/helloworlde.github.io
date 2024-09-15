@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 中集成 Spring Security
+type: post
 date: 2018-01-01 00:09:27
 tags:
     - Java

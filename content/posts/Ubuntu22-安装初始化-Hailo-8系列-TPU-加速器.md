@@ -1,5 +1,6 @@
 ---
 title: "Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器"
+type: post
 date: 2024-09-01T11:22:23+08:00
 tags: 
     - Ubuntu

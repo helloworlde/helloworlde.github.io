@@ -1,5 +1,6 @@
 ---
 title: gRPC 拦截器和监听器
+type: post
 date: 2021-01-03 22:34:46
 tags:
     - gRPC

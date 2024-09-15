@@ -1,5 +1,6 @@
 ---
 title: 小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验
+type: post
 date: 2022-10-09 11:20:19
 tags:
 - MiWiFi

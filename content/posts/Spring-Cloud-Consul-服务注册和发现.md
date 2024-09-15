@@ -1,5 +1,6 @@
 ---
 title: Spring Cloud Consul 服务注册和发现
+type: post
 date: 2020-09-20 22:27:16
 tags:
     - Java

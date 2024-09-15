@@ -1,5 +1,6 @@
 ---
 title: gRPC Client 启动流程
+type: post
 date: 2020-11-17 22:34:46
 tags:
     - gRPC

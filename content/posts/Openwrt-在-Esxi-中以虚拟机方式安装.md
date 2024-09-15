@@ -1,5 +1,6 @@
 ---
 title: Openwrt 在 Esxi 中以虚拟机方式安装
+type: post
 date: 2022-07-22 11:32:08
 tags:
 - Esxi

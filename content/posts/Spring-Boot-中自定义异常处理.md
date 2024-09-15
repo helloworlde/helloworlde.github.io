@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 中自定义异常处理
+type: post
 date: 2019-09-08 18:47:12
 tags:
     - Java

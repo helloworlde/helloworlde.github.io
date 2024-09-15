@@ -1,5 +1,6 @@
 ---
 title: Ubuntu/Docker 替换软件源
+type: post
 date: 2019-05-27 15:06:43
 tags:
     - Docker

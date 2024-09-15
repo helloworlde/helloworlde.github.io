@@ -1,5 +1,6 @@
 ---
 title: "Windows 使用 Yuzu 模拟 Nintendo Switch"
+type: post
 date: 2022-11-20T21:51:48+08:00
 tags:
     - Games

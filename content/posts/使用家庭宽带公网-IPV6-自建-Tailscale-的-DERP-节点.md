@@ -1,5 +1,6 @@
 ---
 title: "使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点"
+type: post
 date: 2024-06-11T21:33:44+08:00
 tags: 
     - HomeLab

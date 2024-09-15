@@ -1,5 +1,6 @@
 ---
 title: SpringBoot 集成 Swagger API 文档工具
+type: post
 date: 2018-01-07 23:28:45
 tags:
     - Java

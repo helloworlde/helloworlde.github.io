@@ -1,5 +1,6 @@
 ---
 title: 使用Gradle编译执行Gague项目
+type: post
 date: 2018-01-01 11:32:34
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: MyBatis 中使用 Collection 嵌套查询
+type: post
 date: 2018-01-01 00:47:05
 tags:
     - Java

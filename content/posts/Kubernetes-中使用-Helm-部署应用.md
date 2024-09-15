@@ -1,5 +1,6 @@
 ---
 title: Kubernetes 中使用 Helm 部署应用
+type: post
 date: 2019-09-08 19:03:06
 tags:
     - Kubernetes
@@ -263,7 +264,8 @@ http get http://192.168.0.110:31381/ping
 HTTP/1.1 200 OK
 Content-Length: 4
 Content-Type: text/plain; charset=utf-8
-Date: Sun, 14 Jul 2019 10:53:18 GMT
+type: post
+date: Sun, 14 Jul 2019 10:53:18 GMT
 
 Pong
 ```

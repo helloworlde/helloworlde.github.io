@@ -1,5 +1,6 @@
 ---
 title: SpringBoot-使用 MyBatis 通用 Mapper
+type: post
 date: 2018-04-08 15:11:45
 tags:
     - Java

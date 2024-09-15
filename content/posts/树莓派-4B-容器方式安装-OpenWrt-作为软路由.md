@@ -1,5 +1,6 @@
 ---
 title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
+type: post
 date: 2022-07-20 11:32:08
 tags:
 - OpenWrt

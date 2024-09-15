@@ -1,5 +1,6 @@
 ---
 title: gRPC  自定义健康检查
+type: post
 date: 2020-09-20 22:38:15
 tags:
     - gRPC

@@ -1,5 +1,6 @@
 ---
 title: Spring Security 中实现 Remember Me 记住密码功能
+type: post
 date: 2018-01-01 00:35:56
 tags:
     - Java

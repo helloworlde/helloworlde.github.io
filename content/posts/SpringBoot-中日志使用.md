@@ -1,5 +1,6 @@
 ---
 title: SpringBoot 中日志使用
+type: post
 date: 2018-01-19 21:23:45
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: Ubuntu 服务器上传和下载文件
+type: post
 date: 2018-04-10 14:47:07
 tags:
     - Ubuntu

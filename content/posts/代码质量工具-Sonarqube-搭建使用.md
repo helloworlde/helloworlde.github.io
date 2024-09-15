@@ -1,5 +1,6 @@
 ---
 title: 代码质量工具 Sonarqube 搭建使用
+type: post
 date: 2018-08-01 00:31:41
 tags:
     - Sonarqube

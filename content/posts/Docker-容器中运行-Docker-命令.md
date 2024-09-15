@@ -1,5 +1,6 @@
 ---
 title: Docker 容器中运行 Docker 命令
+type: post
 date: 2018-08-08 16:04:24
 tags:
     - Docker

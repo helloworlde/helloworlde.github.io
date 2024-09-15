@@ -1,5 +1,6 @@
 ---
 title: gRPC 使用自定义的 NameResolver
+type: post
 date: 2020-09-20 22:34:46
 tags:
     - gRPC

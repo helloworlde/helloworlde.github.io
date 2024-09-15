@@ -1,5 +1,6 @@
 ---
 title: Spring Cloud Gateway 使用 Kubernetes 作为服务发现
+type: post
 date: 2020-09-20 22:25:04
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: 使用 Jib 生成 Java Docker 镜像
+type: post
 date: 2018-07-16 00:17:43
 tags:
     - Docker

@@ -1,5 +1,6 @@
 ---
 title: Kubernetes 中安装 Helm
+type: post
 date: 2019-09-08 19:00:28
 tags:
     - Kubernetes

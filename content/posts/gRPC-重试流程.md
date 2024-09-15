@@ -1,5 +1,6 @@
 ---
 title: gRPC 重试流程
+type: post
 date: 2020-09-20 22:40:07
 tags:
     - gRPC

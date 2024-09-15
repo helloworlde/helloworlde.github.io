@@ -1,5 +1,6 @@
 ---
 title: MySQL 中关于gap lock / next-key lock 的一个问题
+type: post
 date: 2019-01-07 21:40:58
 tags:
     - MySQL

@@ -1,5 +1,6 @@
 ---
 title: "Linux 环境下配置不间断电源 UPS"
+type: post
 date: 2023-10-04T15:22:56+08:00
 tags:
   - HomeLab

@@ -1,5 +1,6 @@
 ---
 title: Java 中计算字符串表达式的值
+type: post
 date: 2018-08-25 10:55:46
 tags:
     - Java

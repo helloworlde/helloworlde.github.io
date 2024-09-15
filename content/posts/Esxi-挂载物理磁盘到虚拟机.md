@@ -1,5 +1,6 @@
 ---
 title: Esxi 挂载物理磁盘到虚拟机
+type: post
 date: 2022-09-12 11:32:08
 tags:
 - Esxi

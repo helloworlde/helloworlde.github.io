@@ -1,5 +1,6 @@
 ---
 title: 使用 Prometheus 和 Grafana 监控 SpringBoot 应用
+type: post
 date: 2020-05-16 14:43:07
 tags:
     - Prometheus

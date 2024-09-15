@@ -1,72 +1,77 @@
 baseURL: 'https://blog.hellowood.dev'
 title: HelloWood
-theme: hugo-theme-ladder
+theme: gokarna
 license: MIT
-licenselink: 'https://github.com/guangzhengli/hugo-theme-ladder/blob/master/LICENSE'
-description: 'HelloWood Note'
-homepage: 'https://blog.hellowood.dev'
-defaultContentLanguage: 'en'
-googleAnalytics: G-3MSGPYTHPZ
+languageCode: "cn"
+defaultContentLanguage: "cn"
+enableEmoji: true
 enableRobotsTXT: true
-paginate: 20
+pygmentsStyle: "doom-one"
+description: "HelloWood Note"
+homepage: "https://blog.hellowood.dev"
+googleAnalytics: G-3MSGPYTHPZ
+
 params:
-  brand: HOME
-  avatarURL: /images/avatar.png
-  author: HelloWood
-  authorDescription: Copy Paste Worker
-  info: Welcome to read my draft notes
+  footer: 'hellowood.dev'
+  description: 'Copy Paste Worker'
+  avatarURL: "/images/avatar.png"
   favicon: /images/avatar.png
-  options:
-    showDarkMode: true
-    enableImgZooming: true
-    enableMultiLang: false
-  darkModeTheme: data-dark-mode
-  comments:
-    giscus:
-      enable: true
-      repo: helloworlde/repo
-      repo_id: helloworlde
-      category: Announcements
-      category_id: xxx
-      mapping: pathname
-      position: top
-      lang: en
-  analytics:
-    google:
-      SiteVerificationTag: G-3MSGPYTHPZ
-    umami:
-      enable: true
-      website_id: 7a9034de-0ce7-4756-942a-829e6cd22301
-      url: https://umami.hellowood.dev/script.js
-    cloudflare:
-      enable: true
-      token: b2e481d136dc428c8c96c8673e2a04cf
-      url: https://static.cloudflareinsights.com/beacon.min.js
-  social:
-    - name: GitHub
-      pre: >-
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-      url: 'https://github.com/helloworlde'
-languages:
-  en:
-    languageName: EN
-    menu:
-      main:
-        - name: Blog
-          url: /posts
-          weight: 1
-        - name: Tags
-          url: /tags
-          weight: 2
-        - name: Archive
-          url: /archives
-          weight: 3
-        - name: Dashboard
-          url: https://umami.hellowood.dev/share/lab/Blog
-          weight: 4
-taxonomies:
-  series: series
-  tag: tags
+  AvatarAltText: "avatar"
+  avatarSize: "size-m"
+  dateFormat: "2006-01-01"
+  showPostsOnHomePage: "recent"
+  ShowBackToTopButton: true
+  socialIcons:
+    - name: "GitHub"
+      url: "https://github.com/helloworlde"
+  metaKeywords: ["blog", "hugo"]
+  customHeadHTML: |
+    <meta name="google-adsense-account" content="ca-pub-3401351766168985">
+    <script defer src="https://umami.hellowood.dev/script.js" data-website-id="7a9034de-0ce7-4756-942a-829e6cd22301"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin="anonymous"></script>
+    <script defer src="https://analytics.us.umami.is/script.js" data-website-id="73ff1c8c-9938-43cf-81af-e77e26b0cca3"></script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "jtbhx98g62");
+    </script>
+  customCommentHTML: |
+    <script src="https://utteranc.es/client.js"
+        repo="helloworlde/helloworlde.github.io"
+        issue-term="title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async></script>
+
+menu:
+  main:
+    - name: "Home"
+      pre: "<span data-feather='home'></span>"
+      url: "/"
+      weight: 1
+    - name: "Posts"
+      pre: "<span data-feather='book'></span>"
+      url: "/posts/"
+      weight: 2
+    - name: "Tags"
+      pre: "<span data-feather='tag'></span>"
+      url: "/tags/"
+      weight: 3
+    - identifier: "github"
+      pre: "<span data-feather='github'></span>"
+      url: "https://github.com/helloworlde"
+      weight: 4
+    - identifier: "dashboard"
+      pre: "<span data-feather='pie-chart'></span>"
+      url: "https://umami.hellowood.dev/share/lab/Blog"
+      weight: 5      
+    - identifier: "rss"
+      pre: "<span data-feather='rss'></span>"
+      url: "/index.xml"
+      weight: 6
 
 sitemap:
   changefreq: monthly

@@ -1,5 +1,6 @@
 ---
 title: gRPC 服务使用 TLS 加密
+type: post
 date: 2021-01-06 22:34:46
 tags:
     - gRPC

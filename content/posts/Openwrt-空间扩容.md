@@ -1,5 +1,6 @@
 ---
 title: Openwrt-空间扩容
+type: post
 date: 2022-07-23 11:32:08
 tags:
 - Esxi

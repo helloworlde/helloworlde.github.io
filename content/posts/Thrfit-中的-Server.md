@@ -1,5 +1,6 @@
 ---
 title: Thrfit 中的 Server
+type: post
 date: 2021-01-18 22:34:46
 tags:
     - Thrift

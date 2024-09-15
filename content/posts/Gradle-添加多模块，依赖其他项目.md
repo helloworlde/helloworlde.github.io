@@ -1,5 +1,6 @@
 ---
 title: Gradle 使用-多项目构建
+type: post
 date: 2018-01-01 00:05:06
 tags:
     - Java

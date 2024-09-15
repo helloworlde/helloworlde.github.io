@@ -1,5 +1,6 @@
 ---
 title: SpringBoot 使用 MyBatis PageHelper 分页插件
+type: post
 date: 2018-02-03 11:56:38
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: JRebel 安装激活
+type: post
 date: 2018-05-30 01:27:34
 tags:
     - Tool

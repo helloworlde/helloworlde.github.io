@@ -1,5 +1,6 @@
 ---
 title: gRPC Gateway 使用
+type: post
 date: 2021-01-06 22:34:46
 tags:
     - gRPC

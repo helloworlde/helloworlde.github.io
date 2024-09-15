@@ -1,5 +1,6 @@
 ---
 title: Ubuntu 搭建 ShadowSocks 服务
+type: post
 date: 2018-10-21 22:39:52
 tags:
     - ShadowSocks

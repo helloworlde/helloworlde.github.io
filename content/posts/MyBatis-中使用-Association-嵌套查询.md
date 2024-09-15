@@ -1,5 +1,6 @@
 ---
 title: MyBatis 中使用 Association 嵌套查询
+type: post
 date: 2018-01-01 00:48:06
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: Mac 客户端访问 Dropbox
+type: post
 date: 2018-10-13 12:54:07
 tags:
     - Dropbox

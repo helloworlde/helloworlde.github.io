@@ -1,5 +1,6 @@
 ---
 title: Gauge中Gradle自定义Task失败的解决方法
+type: post
 date: 2018-01-01 11:26:41
 tags:
     - Java

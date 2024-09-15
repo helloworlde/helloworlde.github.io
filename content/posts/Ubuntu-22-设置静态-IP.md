@@ -1,6 +1,7 @@
 ---
 title: Ubuntu 22 设置静态 IP
-date: 2022-9-5 11:20:19
+type: post
+date: 2022-09-05T11:20:19+08:00
 tags:
 - Ubuntu
 - HomeLab

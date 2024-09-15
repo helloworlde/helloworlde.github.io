@@ -1,5 +1,6 @@
 ---
 title: SpringBoot中配置使用Druid数据库连接池
+type: post
 date: 2018-01-01 00:52:18
 tags:
     - Java

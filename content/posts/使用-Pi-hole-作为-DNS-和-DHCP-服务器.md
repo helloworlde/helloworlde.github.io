@@ -1,5 +1,6 @@
 ---
 title: 使用 Pi-hole 作为 DNS 和 DHCP 服务器
+type: post
 date: 2022-09-05 11:32:08
 tags:
 - Pi-hole

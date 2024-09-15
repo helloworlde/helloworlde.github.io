@@ -1,6 +1,7 @@
 ---
 title: 小米路由器 4A 千兆版刷入 OpenWrt
-date: 2022-8-25 11:20:19
+type: post
+date: 2024-08-25T11:20:19+08:00
 tags:
 - MiWiFi
 - Router

@@ -1,5 +1,6 @@
 ---
 title: gRPC 对冲原理
+type: post
 date: 2020-09-20 22:39:26
 tags:
     - gRPC

@@ -1,5 +1,6 @@
 ---
 title: Spring Boot Mail Could not connect to SMTP host
+type: post
 date: 2017-12-31 23:57:39
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: "HomeAssistant 基于容器搭建与使用"
+type: post
 date: 2022-11-13T21:51:48+08:00
 tags:
     - HomeAssistant

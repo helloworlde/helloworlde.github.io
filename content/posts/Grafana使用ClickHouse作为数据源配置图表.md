@@ -1,5 +1,6 @@
 ---
 title: "Grafana 使用 ClickHouse 作为数据源配置图表"
+type: post
 date: 2023-11-27T15:20:30+08:00
 tags:
   - Grafana
@@ -206,7 +207,9 @@ ORDER BY time
 ```SQL
 SELECT  distinct(toString(env))
 FROM metrics.request_history
-WHERE add_time BETWEEN toDateTime(${__from:date:seconds}) AND toDateTime(${__to:date:seconds}) 
+WHERE add_time BETWEEN toDateTime(${__from:type: post
+date:seconds}) AND toDateTime(${__to:type: post
+date:seconds}) 
 ```
 
 依赖其他变量进行查询，添加到查询条件即可，使用 `singlequote`添加引号，避免查询语法错误
@@ -215,7 +218,9 @@ WHERE add_time BETWEEN toDateTime(${__from:date:seconds}) AND toDateTime(${__to:
 SELECT  distinct(toString(application))
 FROM `logs`.`red_sentinel_metrics` 
 WHERE env in (${env:singlequote})
-AND ActionDate BETWEEN toDateTime(${__from:date:seconds}) AND toDateTime(${__to:date:seconds}) 
+AND ActionDate BETWEEN toDateTime(${__from:type: post
+date:seconds}) AND toDateTime(${__to:type: post
+date:seconds}) 
 ```
 
 - 添加动态查询条件

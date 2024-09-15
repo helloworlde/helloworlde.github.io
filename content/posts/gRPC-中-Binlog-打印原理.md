@@ -1,5 +1,6 @@
 ---
 title: gRPC 中 Binlog 打印原理
+type: post
 date: 2020-09-20 22:33:59
 tags:
     - gRPC

@@ -1,5 +1,6 @@
 ---
 title: "使用培正 PZEM 004T 和 HomeAssistant 监测家庭用电情况"
+type: post
 date: 2023-02-12T21:44:13+08:00
 tags:
     - HomeAssistant

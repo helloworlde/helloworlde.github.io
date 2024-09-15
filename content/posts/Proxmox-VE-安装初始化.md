@@ -1,5 +1,6 @@
 ---
 title: "Proxmox VE 安装初始化"
+type: post
 date: 2023-02-27T21:41:04+08:00
 tags:
     - Proxmox VE

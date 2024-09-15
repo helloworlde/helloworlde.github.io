@@ -1,5 +1,6 @@
 ---
 title: Gauge 中Step使用别名
+type: post
 date: 2018-01-01 11:29:48
 tags:
     - Java

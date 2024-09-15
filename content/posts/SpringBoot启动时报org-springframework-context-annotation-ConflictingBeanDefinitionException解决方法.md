@@ -1,6 +1,7 @@
 ---
 title: >-
   SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法
+type: post
 date: 2018-01-01 00:53:44
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: Raspberry Pi 4 使用 Grafana 监控
+type: post
 date: 2020-09-20 22:30:45
 tags:
     - RaspberryPi

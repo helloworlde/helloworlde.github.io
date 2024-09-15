@@ -1,5 +1,6 @@
 ---
 title: Seata 高可用部署实践
+type: post
 date: 2020-04-10 10:51:17
 tags:
     - Seata

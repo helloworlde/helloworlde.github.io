@@ -1,5 +1,6 @@
 ---
 title: Ubuntu安装JDK
+type: post
 date: 2018-01-01 12:11:39
 tags:
     - Ubuntu

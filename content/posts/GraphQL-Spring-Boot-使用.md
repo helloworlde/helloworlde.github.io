@@ -1,5 +1,6 @@
 ---
 title: GraphQL Spring Boot 使用
+type: post
 date: 2019-01-29 19:57:12
 tags:
     - SpringBoot 
@@ -123,7 +124,8 @@ type Post {
     id: ID,
     title: String,
     content: String,
-    createDate: String
+    createtype: post
+date: String
 }
 
 

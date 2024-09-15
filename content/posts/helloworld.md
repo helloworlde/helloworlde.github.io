@@ -1,5 +1,6 @@
 ---
 title: helloworld
+type: post
 date: 2017-12-24 17:07:56
 ---
 

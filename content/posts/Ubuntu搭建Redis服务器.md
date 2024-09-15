@@ -1,5 +1,6 @@
 ---
 title: Ubuntu搭建Redis服务器
+type: post
 date: 2018-01-01 12:08:07
 tags:
     - Ubuntu

@@ -1,5 +1,6 @@
 ---
 title: Spring Boot 2.3+ Liveness 和 Readness 接口使用
+type: post
 date: 2020-09-20 22:32:48
 tags:
     - SpringBoot

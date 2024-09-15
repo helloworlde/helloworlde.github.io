@@ -1,5 +1,6 @@
 ---
 title: HPA 使用自定义的指标自动扩缩容
+type: post
 date: 2020-09-20 22:36:15
 tags:
     - Kubernetes

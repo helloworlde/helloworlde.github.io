@@ -1,5 +1,6 @@
 ---
 title: Thrift 中的 Transport
+type: post
 date: 2021-02-01 22:34:46
 tags:
     - Thrift

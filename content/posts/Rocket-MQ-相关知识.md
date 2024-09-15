@@ -1,5 +1,6 @@
 ---
 title: Rocket MQ 相关知识
+type: post
 date: 2018-01-01 12:54:02
 tags:
     - Java

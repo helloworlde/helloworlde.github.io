@@ -1,5 +1,6 @@
 ---
 title: Ubuntu安装配置 Jenkins
+type: post
 date: 2018-01-01 12:12:32
 tags:
     - Jenkins 

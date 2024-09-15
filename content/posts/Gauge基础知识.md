@@ -1,5 +1,6 @@
 ---
 title: Gauge基础知识
+type: post
 date: 2018-01-01 11:29:04
 tags:
     - Java

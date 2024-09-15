@@ -1,5 +1,6 @@
 ---
 title: Spring Boot MyBatis 动态数据源常见问题和解决方法
+type: post
 date: 2017-12-31 23:45:52
 tags:
     - Java

@@ -1,5 +1,6 @@
 ---
 title: HTML中使用Ajax进行局部刷新页面
+type: post
 date: 2018-01-01 11:38:52
 tags:
     - HTML

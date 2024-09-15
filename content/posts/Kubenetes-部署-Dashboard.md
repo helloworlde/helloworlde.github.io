@@ -1,5 +1,6 @@
 ---
 title: Kubenetes 部署 Dashboard
+type: post
 date: 2019-09-08 19:28:25
 tags:
     - Kubernetes
@@ -60,7 +61,8 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: admin
   annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
+    rbac.authorization.kubernetes.io/autouptype: post
+date: "true"
 roleRef:
   kind: ClusterRole
   name: cluster-admin

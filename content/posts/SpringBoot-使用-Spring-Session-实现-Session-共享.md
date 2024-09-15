@@ -1,5 +1,6 @@
 ---
 title: SpringBoot-使用 Spring Session 实现 Session 共享
+type: post
 date: 2018-04-08 15:09:41
 tags:   
     - Java

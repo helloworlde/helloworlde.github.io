@@ -1,5 +1,6 @@
 ---
 title: Nginx 配置
+type: post
 date: 2018-01-01 12:03:12
 tags:
     - Nginx 
