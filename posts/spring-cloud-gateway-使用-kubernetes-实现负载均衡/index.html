@@ -1,7 +1,44 @@
 <!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>Spring Cloud Gateway 使用 Kubernetes 实现负载均衡</title>
-<meta charset=utf-8><meta name=description content="Ladder@Spring Cloud Gateway 使用 Kubernetes 实现负载均衡 在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，spring-cloud-kubernetes-discovery 没有像 spring-cloud-consul-discovery一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖
-添加依赖 implementation 'org.springframework.cloud:spring-cloud-starter-gateway' implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-all' implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon' spring-cloud-starter-kubernetes-all包含 Kubernetes 负载均衡的实现
-添加配置 bootstrap.yaml spring: cloud: kubernetes: discovery: catalogServicesWatchDelay: 5000 client: master-url: https://localhost:60002 ca-cert-data: xxxx namespace: develop applicaiton.yaml spring: application: name: gateway cloud: gateway: discovery: locator: enabled: true lower-case-service-id: true management: endpoints: web: exposure: include: '*' "><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡"><meta property="og:description" content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡 在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，spring-cloud-kubernetes-discovery 没有像 spring-cloud-consul-discovery一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖
+<meta charset=utf-8><meta name=description content="Ladder@Spring Cloud Gateway 使用 Kubernetes 实现负载均衡
+在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，spring-cloud-kubernetes-discovery 没有像 spring-cloud-consul-discovery一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖
+添加依赖
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-all'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+spring-cloud-starter-kubernetes-all包含 Kubernetes 负载均衡的实现
+添加配置
+
+bootstrap.yaml
+
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        catalogServicesWatchDelay: 5000
+      client:
+        master-url: https://localhost:60002
+        ca-cert-data: xxxx
+        namespace: develop
+
+applicaiton.yaml
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+          lower-case-service-id: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+"><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡"><meta property="og:description" content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡 在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，spring-cloud-kubernetes-discovery 没有像 spring-cloud-consul-discovery一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖
 添加依赖 implementation 'org.springframework.cloud:spring-cloud-starter-gateway' implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-all' implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon' spring-cloud-starter-kubernetes-all包含 Kubernetes 负载均衡的实现
 添加配置 bootstrap.yaml spring: cloud: kubernetes: discovery: catalogServicesWatchDelay: 5000 client: master-url: https://localhost:60002 ca-cert-data: xxxx namespace: develop applicaiton.yaml spring: application: name: gateway cloud: gateway: discovery: locator: enabled: true lower-case-service-id: true management: endpoints: web: exposure: include: '*' "><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-20T22:23:18+00:00"><meta property="article:modified_time" content="2020-09-20T22:23:18+00:00"><meta property="article:tag" content="Java"><meta property="article:tag" content="SpringCloud"><meta name=twitter:card content="summary"><meta name=twitter:title content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡"><meta name=twitter:description content="Spring Cloud Gateway 使用 Kubernetes 实现负载均衡 在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，spring-cloud-kubernetes-discovery 没有像 spring-cloud-consul-discovery一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖
 添加依赖 implementation 'org.springframework.cloud:spring-cloud-starter-gateway' implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-all' implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon' spring-cloud-starter-kubernetes-all包含 Kubernetes 负载均衡的实现

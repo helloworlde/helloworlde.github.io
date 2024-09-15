@@ -1,9 +1,27 @@
 <!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>SpringBoot中Junit测试注入Bean失败的解决方法</title>
-<meta charset=utf-8><meta name=description content="Ladder@ 在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'hellowood.TestFeedbackMapper': Unsatisfied dependency expressed through field 'feedbackDetailMapper'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)} 在查询了其他项目的Junit后发现Junit的注解是这样的
-@RunWith(SpringJUnit4ClassRunner.class) @SpringApplicationConfiguration(classes = Application.class) @WebAppConfiguration 而新建的项目中是这样的
-@RunWith(SpringRunner.class) @SpringBootTest @WebAppConfiguration 直接修改注解后发现不能引入SpringApplicationConfiguration，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用SpringBootTest代替了SpringApplicationConfiguration，所以将注解改为以下形式就可以正常注入Bean了
-@RunWith(SpringRunner.class) @SpringBootTest(classes = Application.class) @WebAppConfiguration "><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="SpringBoot中Junit测试注入Bean失败的解决方法"><meta property="og:description" content=" 在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：
+<meta charset=utf-8><meta name=description content="Ladder@
+在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'hellowood.TestFeedbackMapper': Unsatisfied dependency expressed through field 'feedbackDetailMapper'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+在查询了其他项目的Junit后发现Junit的注解是这样的
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+
+而新建的项目中是这样的
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebAppConfiguration
+
+直接修改注解后发现不能引入SpringApplicationConfiguration，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用SpringBootTest代替了SpringApplicationConfiguration，所以将注解改为以下形式就可以正常注入Bean了
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
+"><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="SpringBoot中Junit测试注入Bean失败的解决方法"><meta property="og:description" content=" 在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：
 org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'hellowood.TestFeedbackMapper': Unsatisfied dependency expressed through field 'feedbackDetailMapper'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)} 在查询了其他项目的Junit后发现Junit的注解是这样的
 @RunWith(SpringJUnit4ClassRunner.class) @SpringApplicationConfiguration(classes = Application.class) @WebAppConfiguration 而新建的项目中是这样的
 @RunWith(SpringRunner.class) @SpringBootTest @WebAppConfiguration 直接修改注解后发现不能引入SpringApplicationConfiguration，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用SpringBootTest代替了SpringApplicationConfiguration，所以将注解改为以下形式就可以正常注入Bean了
