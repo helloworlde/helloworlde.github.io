@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-# N5105 Promox VE 虚拟机频繁死机问题处理
 
 使用 N5105 作为 HomeLab 的服务器；之前安装的 ESXi，使用 Ubuntu 22 的时候经常会出现 Ubuntu CPU 占用达到100%，然后死机；但是其他的虚拟机都没有问题，因为对 Linux 并不熟，查看了 ESXi 和 Ubuntu 日志并没有异常；后面安装黑群晖一直失败，因此换到了 Proxmox VE
 

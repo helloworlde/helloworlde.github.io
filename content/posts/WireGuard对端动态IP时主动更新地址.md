@@ -11,7 +11,6 @@ categories:
 featured: true
 ---
 
-# WireGuard 对端动态 IP 时主动更新地址
 
 如果 WireGuard 对端的 `Endpoint` 是一个域名，这个域名只会在启动的时候解析一次，后续不会更新；当这个域名发生变化时，WireGuard 连接就会断开
 

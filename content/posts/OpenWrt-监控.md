@@ -11,7 +11,6 @@ categories:
   - HomeLab
 ---
 
-# OpenWrt 监控
 
 OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 [Netdata](https://openwrt.org/packages/pkgdata/netdata) 和 [Prometheus](https://openwrt.org/packages/pkgdata/prometheus)
 

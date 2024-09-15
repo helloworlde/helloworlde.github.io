@@ -8,7 +8,6 @@ categories:
   - Kubernetes
 ---
 
-# HPA 使用自定义的指标自动扩缩容
 
 Kubernetes 支持使用自定义的指标作为 HPA 的依据；
 

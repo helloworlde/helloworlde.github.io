@@ -11,7 +11,6 @@ categories:
 featured: true
 ---
 
-# Linux Docker 容器开启 IPv6
 
 局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持
 

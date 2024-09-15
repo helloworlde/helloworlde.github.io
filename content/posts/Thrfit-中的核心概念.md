@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-# Thrfit 中的核心概念
 
 ## 服务端
 

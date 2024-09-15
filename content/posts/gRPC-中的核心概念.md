@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 中的核心概念
 
 ## Stub
 

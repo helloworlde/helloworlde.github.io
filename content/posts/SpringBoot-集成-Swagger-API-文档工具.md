@@ -12,7 +12,6 @@ categories:
   - Swagger
 ---
 
-# Spring Boot 集成 Swagger API 文档工具
 
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger](https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger)
 

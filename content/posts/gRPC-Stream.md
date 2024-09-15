@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Stream
 
 Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 `ClientStream` 和 `ServerStream`
 

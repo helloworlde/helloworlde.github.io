@@ -10,7 +10,6 @@ categories:
   - SpringBoot
 ---
 
-# SpringBoot 使用 MySQL保存emoji 表情
 
 > 在使用 SpringBoot 开发的应用中，有表单提交的内容中含有 emoji 表情，导致保存失败；这是因为MySQL 默认的 utf8 长度为3位，emoji 表情有4位
 

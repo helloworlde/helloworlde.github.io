@@ -16,7 +16,6 @@ series:
 featured: true
 ---
 
-# OpenWrt-在 PVE 中以虚拟机方式安装
 
 ## 下载镜像
 

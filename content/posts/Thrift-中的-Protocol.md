@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-# Thrift 中的 Protocol
 
 `TProtocol` 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口
 

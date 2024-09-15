@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-# Traefik 使用 Google/GitHub OAuth 进行鉴权登陆
 
 在使用 Traefik 作为 Homelab 的网关时，考虑到部分服务涉及隐私，因此需要限制用户登陆后才能使用；
 

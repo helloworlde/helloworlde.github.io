@@ -14,7 +14,6 @@ categories:
   - SpringBoot
 ---
 
-# MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
 
 项目中用 MyBatis Plus 替换了 MyBatis，原来的 MyBatis版本是 `3.2.8`, MyBatis Plus 的版本是 `3.1.0`，是基于 MyBatis `3.5.0`开发的，测试没啥问题，上线之后有一些功能不能使用，排查日志发现错误`Error querying database.  Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String`
 

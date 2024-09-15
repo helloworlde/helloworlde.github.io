@@ -12,7 +12,6 @@ categories:
   - SpringSecurity
 ---
 
-# SpringBoot 中 Spring Security 403 自定义返回消息
 
 - 自定义处理类 CustomAccessDeniedHandler
 

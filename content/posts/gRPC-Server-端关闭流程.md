@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Server 端关闭流程
 
 ## 关闭 Server
 

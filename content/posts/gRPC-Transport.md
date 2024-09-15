@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Transport
 
 Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端和服务端
 

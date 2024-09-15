@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 超时时间与重试时间间隔
 
 > gRPC 的超时时间生效机制以及重试超时时间间隔
 

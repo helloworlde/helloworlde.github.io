@@ -12,7 +12,6 @@ categories:
   - Ubuntu
 ---
 
-# Ubuntu 搭建 ShadowSocks 服务
 
 > 在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务
 

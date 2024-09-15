@@ -10,7 +10,6 @@ categories:
   - Tool
 ---
 
-# Mac 客户端访问 Dropbox
 
 > 通过使用 ShadowSocks 的 PAC 代理模式可以访问到 [Dropbox](https://www.dropbox.com/) 的网页版，但是在 Mac 上下载客户端，打开后却提示无法连接
 

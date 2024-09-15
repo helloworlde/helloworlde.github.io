@@ -10,7 +10,6 @@ categories:
   - SpringBoot
 ---
 
-# Kubernetes 中部署 SpringBoot 应用
 
 > 在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用
 

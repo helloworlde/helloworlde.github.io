@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Gateway 使用
 
 gRPC Gateway 可以代理 gRPC 服务，接收 HTTP 请求，并转为 gRPC 请求由服务进行处理，并将返回结果转换为 HTTP 响应发送给调用者 gRPC Gateway
 

@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-# HomeAssistant 基于容器搭建与使用
 
 [HomeAssistant](https://www.home-assistant.io/) 是免费开源的智能家庭自动化控制系统，支持接入多种平台，如 HomeKit，米家，ESPHome 等；国内大部分应用场景是将米家的设备通过 HomeAssistant 接入苹果生态，或者使用第三方组件，监控水电气等
 

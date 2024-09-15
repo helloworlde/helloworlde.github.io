@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 服务间调用事件流程
 
 ## 调用流程图
 

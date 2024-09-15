@@ -14,7 +14,6 @@ categories:
   - ELK
 ---
 
-# SpringBoot 使用 ELK 日志收集系统安装配置
 
 ## Elasticsearch
 

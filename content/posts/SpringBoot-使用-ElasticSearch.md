@@ -14,7 +14,6 @@ categories:
   - ELK
 ---
 
-# Spring Boot 使用 ElasticSearch
 
 > 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch)
 

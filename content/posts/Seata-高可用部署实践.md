@@ -8,7 +8,6 @@ categories:
   - Seata
 ---
 
-# Seata 高可用部署实践
 
 使用配置中心和数据库来实现 Seata 的高可用，以 Nacos 和 MySQL 为例，将[cloud-seata-nacos](https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/)应用部署到 Kubernetes 集群中
 

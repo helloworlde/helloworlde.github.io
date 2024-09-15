@@ -12,7 +12,6 @@ categories:
   - Flyway
 ---
 
-# Spring Boot 使用 Flyway
 
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway)
 

@@ -10,7 +10,6 @@ categories:
   - Helm
 ---
 
-# Kubernetes 中使用 Helm 部署应用
 
 ## 创建应用
 

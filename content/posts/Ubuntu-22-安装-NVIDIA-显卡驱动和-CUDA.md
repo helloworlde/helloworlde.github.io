@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-# Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA
 
 在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA
 

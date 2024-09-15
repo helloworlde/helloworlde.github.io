@@ -13,7 +13,6 @@ series:
 featured: true
 ---
 
-# OpenWrt 桥接充当交换机
 
 ## 需求背景
 

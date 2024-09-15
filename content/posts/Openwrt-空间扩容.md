@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-# Openwrt 空间扩容
 
 Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了，因此需要对 Openwrt 的硬盘进行扩容
 

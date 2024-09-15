@@ -10,7 +10,6 @@ categories:
   - SpringBoot
 ---
 
-# Spring Boot 配置 HTTPS 访问
 
 - [相关代码](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Https)
 

@@ -12,7 +12,6 @@ categories:
   - Stream
 ---
 
-# Spring Boot 中使用Spring Cloud Stream
 
 > [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架
 

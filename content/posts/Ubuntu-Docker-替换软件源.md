@@ -10,7 +10,6 @@ categories:
   - Ubuntu
 ---
 
-# Ubuntu/Docker 替换软件源
 
 ## Ubuntu
 

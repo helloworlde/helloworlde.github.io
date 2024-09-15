@@ -11,7 +11,6 @@ series:
 featured: true
 ---
 
-# Windows 使用 yuzu 模拟 Nintendo Switch
 
 [yuzu](https://yuzu-emu.org/) 是一款开源的 Ninetendo Swithc 模拟器，支持在 Linux 或者 Windows 平台运行，能够模拟 Switch 平台的大部分游戏
 

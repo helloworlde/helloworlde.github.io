@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Server 端启动流程
 
 gRPC Server 启动流程，底层实现以 Netty 为例；
 

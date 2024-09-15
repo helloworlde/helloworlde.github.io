@@ -10,7 +10,6 @@ categories:
   - Grafana
 ---
 
-# Raspberry Pi 4 使用 Grafana 监控
 
 ## 运行 Influxdb
 

@@ -8,7 +8,6 @@ categories:
   - MySQL
 ---
 
-# MySQL 中关于gap lock / next-key lock 的一个问题
 
 > 在学习 MySQL 的过程中遇到的一个关于锁的问题，包含多个 MySQL 相关的知识；相关资料在文章末尾
 

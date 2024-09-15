@@ -10,7 +10,6 @@ categories:
   - JDK
 ---
 
-# 在Ubuntu通过Java官网下载安装JDK
 
 ---
 

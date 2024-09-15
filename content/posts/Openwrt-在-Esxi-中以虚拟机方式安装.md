@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-# Openwrt 在 Esxi 中以虚拟机方式安装
 
 ## 下载镜像
 

@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-# Thrfit 中的 Server
 
 Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式
 

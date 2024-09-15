@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-# Traefik 使用 Let's Encrypt 申请 HTTPS 证书
 
 在 Traefik 中，支持通过 Let's Encrypt 从 ACME [自动申请 HTTPS 证书](https://doc.traefik.io/traefik/https/acme/)
 

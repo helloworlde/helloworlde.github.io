@@ -17,7 +17,6 @@ series:
 featured: true
 ---
 
-# Proxmox VE 创建自定义的 LXC 容器 CT 模板
 
 LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 更轻量的容器虚拟机；Docker 适用于为服务提供隔离环境，LXC 容器适用于作为虚拟机进行隔离；在 PVE 上 LXC 称为 CT
 

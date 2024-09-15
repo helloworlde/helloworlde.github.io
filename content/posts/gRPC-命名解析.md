@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 命名解析
 
 命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等
 

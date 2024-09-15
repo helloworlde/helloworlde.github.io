@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-# Thrfit 服务端请求处理流程
 
 使用同步的非阻塞的服务端的请求处理流程
 

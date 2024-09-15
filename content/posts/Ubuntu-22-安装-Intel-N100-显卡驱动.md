@@ -11,7 +11,6 @@ series:
 featured: true
 ---
 
-# Ubuntu 22 安装 Intel N100 显卡驱动
 
 最近 N5105 的 HomeLab Server 负载过高，CPU 长期接近100%，因此新购入一台 N100，将视频和图像相关的服务迁移到 N100，但是发现 Ubuntu 22 默认没有显卡驱动，需要手动安装
 

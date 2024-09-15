@@ -12,7 +12,6 @@ categories:
   - MyBatis
 ---
 
-# SpringBoot 使用 MyBatis 通用 Mapper
 
 > [通用 Mapper](https://github.com/abel533/Mapper) 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 [PageHelper](https://github.com/pagehelper/Mybatis-PageHelper) 一起使用；通用 Mapper 插件虽然没有 [MyBatis Plus](https://github.com/baomidou/mybatis-plus) 强大，但是满足正常项目开发；
 

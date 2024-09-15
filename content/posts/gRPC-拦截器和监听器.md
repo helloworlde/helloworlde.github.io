@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 拦截器和监听器
 
 gRPC 拦截器用于在请求执行之前执行，以实现校验授权，记录调用行为，插入其他逻辑等；拦截器有 `ClientInterceptor` 和 `ServerInterceptor`，分别用于客户端和服务端
 

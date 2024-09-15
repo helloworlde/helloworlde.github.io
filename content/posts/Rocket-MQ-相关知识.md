@@ -10,7 +10,6 @@ categories:
   - Rocket MQ
 ---
 
-# RocketMQ 相关知识
 
 @(消息队列)[RocketMQ, 消息]
 

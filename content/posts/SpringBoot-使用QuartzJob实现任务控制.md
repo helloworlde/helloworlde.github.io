@@ -14,7 +14,6 @@ categories:
   - Job
 ---
 
-# SpringBoot 使用QuartzJob实现任务控制
 
 > 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob)
 

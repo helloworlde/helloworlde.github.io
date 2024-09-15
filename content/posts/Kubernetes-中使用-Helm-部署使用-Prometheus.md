@@ -12,7 +12,6 @@ categories:
   - Prometheus
 ---
 
-# Kubernetes 中使用 Helm 部署使用 Prometheus
 
 > 使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3
 

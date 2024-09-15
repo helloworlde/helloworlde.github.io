@@ -10,7 +10,6 @@ categories:
   - Helm
 ---
 
-# Kubernetes 中安装 Helm
 
 > Helm 是构建于 Kubernetes 之上的包管理器，可以理解为 yum，homebrew 或者 pip，用于简化包分发，安装，版本管理等操作流程
 

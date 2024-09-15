@@ -21,7 +21,6 @@ archives:
   - SpringBoot
 ---
 
-# 在使用 Spring Boot 和 MyBatis 动态切换数据源时遇到的问题以及解决方法
 
 > 相关项目地址:[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)
 

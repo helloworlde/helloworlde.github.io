@@ -12,7 +12,6 @@ categories:
   - WebSocket
 ---
 
-# Spring Boot 中使用 WebSocket
 
 > WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端
 

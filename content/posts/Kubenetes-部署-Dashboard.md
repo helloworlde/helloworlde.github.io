@@ -8,7 +8,6 @@ categories:
   - Kubernetes
 ---
 
-# Kubenetes 部署 Dashboard
 
 > [Kubenestes Dashboard](https://github.com/kubernetes/dashboard) 是提供 Kubernetes信息可视化的 Web 插件
 

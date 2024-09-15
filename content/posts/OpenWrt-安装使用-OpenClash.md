@@ -11,7 +11,6 @@ categories:
   - HomeLab
 ---
 
-# OpenWrt 安装使用 OpenClash
 
 ## Clash 使用方式对比
 

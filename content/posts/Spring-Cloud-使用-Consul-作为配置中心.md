@@ -10,7 +10,6 @@ categories:
   - SpringCloud
 ---
 
-# Spring Cloud 使用 Consul 作为配置中心
 
 ## 加载配置
 

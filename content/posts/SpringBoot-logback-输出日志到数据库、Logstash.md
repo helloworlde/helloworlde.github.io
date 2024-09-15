@@ -14,7 +14,6 @@ categories:
   - ELK
 ---
 
-# SpringBoot logback 输出日志到数据库、Logstash
 
 ## 输入日志到数据库
 

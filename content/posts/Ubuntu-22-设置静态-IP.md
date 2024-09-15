@@ -9,7 +9,6 @@ categories:
   - HomeLab
 ---
 
-# Ubuntu 22 设置静态 IP
 
 在虚拟机中启动了 Ubuntu Server 作为日常使用的服务器，同时将 DHCP 和 DNS 相关的服务也运行在这个 Ubuntu Server上；
 

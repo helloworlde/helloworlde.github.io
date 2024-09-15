@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 服务使用 TLS 加密
 
 gRPC 支持使用 TLS 对请求进行加密
 

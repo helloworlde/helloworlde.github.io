@@ -8,7 +8,6 @@ categories:
   - Thrift
 ---
 
-# Thrift 服务端异步请求
 
 ## 实现
 

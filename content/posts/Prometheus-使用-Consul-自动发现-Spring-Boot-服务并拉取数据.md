@@ -14,7 +14,6 @@ categories:
   - SpringBoot
 ---
 
-# Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据
 
 使用 Prometheus监控 SpringBoot 应用，当应用很多，且上下线频繁时，需要不断的更改 Prometheus 的配置文件，不能灵活的使用，可以通过为 Prometheus配置注册中心，从注册中心拉取应用数据获取监控数据
 

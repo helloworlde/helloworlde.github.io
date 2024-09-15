@@ -12,7 +12,6 @@ categories:
   - Log
 ---
 
-# SpringBoot 中日志使用
 
 ## 配置日志输出到文件
 

@@ -10,7 +10,6 @@ categories:
   - HomeLab
 ---
 
-# Openwrt-初始化配置
 
 ## 语言配置
 

@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 负载均衡
 
 gRPC 内定义了 LoadBalancer 接口，用于负载均衡
 

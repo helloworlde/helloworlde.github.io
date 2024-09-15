@@ -17,7 +17,6 @@ categories:
   - DataSource
 ---
 
-# Spring Boot 和 MyBatis 实现多数据源、动态数据源切换
 
 - 项目地址：[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)
 

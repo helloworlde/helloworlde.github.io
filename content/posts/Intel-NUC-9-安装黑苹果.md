@@ -15,7 +15,6 @@ series:
 featured: true
 ---
 
-# Intel NUC 9 安装 macOS(黑苹果/Hackintosh)
 
 - 为什么要用黑苹果
 

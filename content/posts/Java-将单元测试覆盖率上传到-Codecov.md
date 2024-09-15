@@ -18,7 +18,6 @@ categories:
   - Codecov
 ---
 
-# 将单元测试覆盖率上传到 Codecov
 
 > 通过使用 [Jacoco](http://www.eclemma.org/jacoco/) 生成单元测试覆盖率报告，并将该报告上传到 [Codecov](https://codecov.io)
 

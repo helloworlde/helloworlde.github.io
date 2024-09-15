@@ -11,7 +11,6 @@ categories:
   - HomeLab
 ---
 
-# MacOS Monterey 制作 Windows 启动盘
 
 > 需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘
 

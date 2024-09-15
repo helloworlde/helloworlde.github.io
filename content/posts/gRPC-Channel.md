@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC Channel
 
 `Channel` 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 `Channel` 可以有 0 或多个真实连接
 

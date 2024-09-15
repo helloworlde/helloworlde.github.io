@@ -12,7 +12,6 @@ categories:
   - Actuator
 ---
 
-# SpringBoot Admin管理应用-客户端注册
 
 > 客户端注册可以通过直接注册到管理应用和通过注册中心注册两种方式
 

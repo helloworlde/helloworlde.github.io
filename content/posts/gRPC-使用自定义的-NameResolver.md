@@ -8,7 +8,6 @@ categories:
   - gRPC
 ---
 
-# gRPC 使用自定义的 NameResolver
 
 在使用注册中心时，gRPC 并未提供注册中心的服务发现，需要自己实现 `NameResolverProvider` 和 `NameResolver`
 

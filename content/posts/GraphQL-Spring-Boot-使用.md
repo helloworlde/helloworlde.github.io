@@ -10,7 +10,6 @@ categories:
   - GraphQL
 ---
 
-# GraphQL Spring Boot 使用
 
 项目地址 [https://github.com/helloworlde/spring-boot-graphql-demo](https://github.com/helloworlde/spring-boot-graphql-demo)
 
