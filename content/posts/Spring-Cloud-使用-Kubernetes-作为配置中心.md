@@ -3,11 +3,11 @@ title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
 date: 2019-09-08 19:15:46
 tags:
-    - SpringCloud
-    - Kubernetes
-categories: 
-    - SpringCloud
-    - Kubernetes
+  - SpringCloud
+  - Kubernetes
+categories:
+  - SpringCloud
+  - Kubernetes
 ---
 
 # Spring Cloud 使用 Kubernetes 作为配置中心
@@ -15,10 +15,10 @@ categories:
 > Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
 
 ## 创建应用
- 
+
 ### 添加依赖
 
-- build.gradle 
+- build.gradle
 
 ```groovy
 dependencies {
@@ -28,7 +28,7 @@ dependencies {
 
 ### 添加配置
 
-#### ConfigMap 
+#### ConfigMap
 
 ```yaml
 kind: ConfigMap
@@ -53,7 +53,7 @@ ConfigMap的名称要和应用名称一致，否则需要指定相应的名称�
 通过以下命令将 ConfigMap 添加到 Kubernetes 中
 
 ```bash
-kubectl apply -f config-map.yaml 
+kubectl apply -f config-map.yaml
 ```
 
 #### application.properties
@@ -73,12 +73,12 @@ spring.cloud.kubernetes.reload.strategy=refresh
 
 - `spring.cloud.kubernetes.reload.enabled`默认是关闭的，所以需要主动开启
 - `spring.cloud.kubernetes.reload.mode`有两种模式，`polling`和`event`：
-	- `polling`会启动一个定时任务，定时拉取配置，时间由`spring.cloud.kubernetes.reload.period`配置
-	- `event`会监听 Kubernetes 的事件，当 ConfigMap 或者 Secrets 发生变化时会触发配置更新事件
+  - `polling`会启动一个定时任务，定时拉取配置，时间由`spring.cloud.kubernetes.reload.period`配置
+  - `event`会监听 Kubernetes 的事件，当 ConfigMap 或者 Secrets 发生变化时会触发配置更新事件
 - `spring.cloud.kubernetes.reload.strategy`配置更新策略，有 `refresh`,`restart_context`和`shutdown`：
-	- `refresh`可以通过设置`@RefreshContext`或者`@ConfigurationProperties`更新配置
-	- `restart_context`会主动重启应用
-	- `shutdown`会关闭应用，由 Deployment 检测存活失败后重启应用
+  - `refresh`可以通过设置`@RefreshContext`或者`@ConfigurationProperties`更新配置
+  - `restart_context`会主动重启应用
+  - `shutdown`会关闭应用，由 Deployment 检测存活失败后重启应用
 
 需要注意的是，开启了 reload 后，还需要允许应用重启`management.endpoint.restart.enabled=true`，否则会提示有两个用于重启的 Bean 冲突
 
@@ -120,7 +120,7 @@ public class ConfigMapController {
 }
 ```
 
-### 部署应用 
+### 部署应用
 
 - 构建并上传镜像
 
@@ -144,7 +144,6 @@ spec:
     app.kubernetes.io/name: config-map-service
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -182,7 +181,7 @@ kubectl apply -f config-map-service.yaml
 
 ### 测试
 
-待应用启动后， 访问相应的 URL 
+待应用启动后， 访问相应的 URL
 
 - 查看此时的配置
 

@@ -3,9 +3,9 @@ title: HPA 使用自定义的指标自动扩缩容
 type: post
 date: 2020-09-20 22:36:15
 tags:
-    - Kubernetes
-categories: 
-    - Kubernetes
+  - Kubernetes
+categories:
+  - Kubernetes
 ---
 
 # HPA 使用自定义的指标自动扩缩容
@@ -13,6 +13,7 @@ categories:
 Kubernetes 支持使用自定义的指标作为 HPA 的依据；
 
 KEDA 是基于事件驱动的自动扩缩容组件；主要有两部分：
+
 1. Agent: 用于触发和停用扩缩容，通过 keda-operator 实现
 2. Metrics: 用于收集指标，提供给 Agent，通过 keda-operator-metrics-apiserver 实现
 
@@ -22,7 +23,7 @@ KEDA 适配了多个组件，支持从 Prometheus、MySQL、MQ、Redis、自定�
 
 环境中安装了 metrics-server
 
-## 安装 KEDA 组件 
+## 安装 KEDA 组件
 
 ```bash
 helm repo add kedacore https://kedacore.github.io/charts
@@ -62,6 +63,7 @@ replicaset.apps/keda-operator-metrics-apiserver-58657d68db   1         1        
 ```
 kubectl apply -f demo-api-hpa.yaml
 ```
+
 2. 为 demo 配置 Service，用于访问请求
 
 ```yaml
@@ -81,7 +83,6 @@ spec:
   selector:
     app: demo
   type: NodePort
-
 ```
 
 3. 配置 KEDA 对象
@@ -105,12 +106,12 @@ spec:
       metadata:
         serverAddress: http://prometheus.local
         metricName: http_requests_per_min
-        threshold: '10'
+        threshold: "10"
         query: sum(rate(http_server_requests_seconds_count{application="demo"}[1m]))
 ```
 
 `poolingInterval`: 从 triggers 拉取的周期
-`colldownPeriod`: 缩容的等待时间，从最后一次超过阈值的 tirgger 
+`colldownPeriod`: 缩容的等待时间，从最后一次超过阈值的 tirgger
 `minReplicaCount`: 扩缩容最小的 Pod 数量
 `maxReplicaCount`: 扩缩容最大的 Pod 数量
 `triggers`: 触发器，定义指标
@@ -193,13 +194,13 @@ spec:
       metadata:
         serverAddress: http://prometheus.local
         metricName: http_requests_per_min
-        threshold: '1000'
+        threshold: "1000"
         query: sum(rate(http_server_requests_seconds_count{application="demo"}[1m]))
     - type: prometheus
       metadata:
         serverAddress: http://prometheus.local
         metricName: cpu
-        threshold: '50'
+        threshold: "50"
         query: (sum(process_cpu_usage{application="demo"} * 32) by (application) / sum(system_cpu_count{application="demo"}) by (application)  * 100)
 ```
 
@@ -210,5 +211,3 @@ spec:
 - https://keda.sh/
 - https://keda.sh/docs/1.5/scalers/prometheus/
 - https://github.com/kedacore/keda
-
-

@@ -3,12 +3,12 @@ title: Thrift 中的 Transport
 type: post
 date: 2021-02-01 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
-# Thrift 中的 Transport 
+# Thrift 中的 Transport
 
 Thrift 中有 `TTransport` 和 `TServerTransport`，封装了底层传输层的数据读写；分别用于客户端和服务端
 
@@ -16,9 +16,9 @@ Thrift 中有 `TTransport` 和 `TServerTransport`，封装了底层传输层的�
 
 ![thrift-java-source-class-transport.png](https://img.hellowood.dev/picture/thrift-java-source-class-transport.png)
 
-### 方法 
+### 方法
 
-- open 
+- open
 
 用于建立与 Server 端的连接
 
@@ -61,11 +61,11 @@ public void flush() throws TTransportException {
 
 ### 实现类
 
-#### 非封装的 Transport 
+#### 非封装的 Transport
 
-- `TNonblockingTransport`: 非阻塞的 Transport 的抽象类，底层使用 NIO 
+- `TNonblockingTransport`: 非阻塞的 Transport 的抽象类，底层使用 NIO
 - `TNonblockingSocket`: `TNonblockingTransport` 的实现类，基于 SocketChannel 的 Transport，是非阻塞的
-- `TIOStreamTransport`: 基于 IO 流的 Transport 
+- `TIOStreamTransport`: 基于 IO 流的 Transport
 - `TSocket`: `TIOStreamTransport` 的子类，底层使用 `Socket`
 - `TSimpleFileTransport`：基于文件的 Transport，会将流写入文件或者从文件读取流
 - `TFileTransport`: 基于文件的 Transport，会将流写入文件或者从文件读取流

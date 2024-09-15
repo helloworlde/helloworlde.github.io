@@ -3,12 +3,12 @@ title: Thrfit 中的 Server
 type: post
 date: 2021-01-18 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
-# Thrfit 中的 Server 
+# Thrfit 中的 Server
 
 Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式
 
@@ -34,7 +34,7 @@ Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等�
 public abstract void serve();
 ```
 
-- stop 
+- stop
 
 关闭 Server，断开连接，释放并清除资源
 
@@ -48,7 +48,7 @@ public void stop() {}
 
 ### 阻塞
 
-- TSimpleServer 
+- TSimpleServer
 
 Server 的简单实现，是单线程阻塞的 Server，连接实现取决于 `TServerTransport`具体类型；用于测试场景
 
@@ -87,8 +87,7 @@ public void serve() {
 }
 ```
 
-
-- TThreadPoolServer 
+- TThreadPoolServer
 
 在 `TSimpleServer` 的基础上优化，使用了线程池处理请求；构建参数中可以指定创建线程池的参数，支持线程池饱和后超时；连接实现取决于 `TServerTransport`具体类型
 
@@ -132,7 +131,6 @@ protected void execute() {
     }
 }
 ```
-
 
 ### 非阻塞
 
@@ -189,7 +187,7 @@ protected void handleWrite(SelectionKey key) {
 
 - THsHaServer
 
-`THsHaServer` 是半同步半异步的 Server，继承自`TNonblockingServer`，是指处理连接和 IO 事件是同步的，处理请求使用线程池，是异步的；与 `TThreadPoolServer`类似，不过连接使用的是 NIO；处理连接和 IO 事件的逻辑使用 `AbstractNonblockingServer` 
+`THsHaServer` 是半同步半异步的 Server，继承自`TNonblockingServer`，是指处理连接和 IO 事件是同步的，处理请求使用线程池，是异步的；与 `TThreadPoolServer`类似，不过连接使用的是 NIO；处理连接和 IO 事件的逻辑使用 `AbstractNonblockingServer`
 
 ```java
 // 处理 IO 事件
@@ -233,7 +231,7 @@ public void run() {
 }
 
 // 处理 IO 事件及连接(SelectorThread)
-public void run() { 
+public void run() {
     while (!stopped_) {
         // 选择读取或写入事件
         select();

@@ -3,24 +3,26 @@ title: AngularJS中使用ngTable
 type: post
 date: 2018-01-01 11:42:21
 tags:
-    - AngularJs
-    - ngTable
-categories: 
-    - AngularJs
-    - ngTable
+  - AngularJs
+  - ngTable
+categories:
+  - AngularJs
+  - ngTable
 ---
->在HTML中使用[ngTable](http://ng-table.com/) 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作
+
+> 在HTML中使用[ngTable](http://ng-table.com/) 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作
 
 - 需要引用的文件
-    - angular.js
-    - ng-table.js
-    - ng-table.css
-    - bootrasp.css
+  - angular.js
+  - ng-table.js
+  - ng-table.css
+  - bootrasp.css
 
+---
 
-----------
 - 注入依赖
--  为ng-table 设置属性和数据
+- 为ng-table 设置属性和数据
+
 ```
 var app = angular.module('app', [ 'ngTable']);
 app.controller('controller', function($scope,NgTableParams) {
@@ -33,7 +35,7 @@ app.controller('controller', function($scope,NgTableParams) {
                         total : data.length,
                         getData : data
                         }
-                    }); 
+                    });
             })
         });
 }

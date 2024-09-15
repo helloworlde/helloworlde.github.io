@@ -3,20 +3,20 @@ title: Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解�
 type: post
 date: 2018-01-01 11:51:23
 tags:
-    - Java
-    - SpringBoot 
-    - SpringCloud
-    - Actuator
-    - Issue
-categories: 
-    - Java
-    - SpringBoot
-    - SpringCloud
-    - Actuator
-    - Issue
+  - Java
+  - SpringBoot
+  - SpringCloud
+  - Actuator
+  - Issue
+categories:
+  - Java
+  - SpringBoot
+  - SpringCloud
+  - Actuator
+  - Issue
 ---
-> ## 本项目仅用到了 Spring Cloud，并没有使用 Eureka
 
+> ## 本项目仅用到了 Spring Cloud，并没有使用 Eureka
 
 > 在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册
 
@@ -32,7 +32,7 @@ categories:
 spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}
 ```
 
--------------
+---
 
 ## 说明
 

@@ -3,18 +3,18 @@ title: 使用 Jib 生成 Java Docker 镜像
 type: post
 date: 2018-07-16 00:17:43
 tags:
-    - Docker
-    - Jib
-    - Java
-    - SpringBoot
-categories: 
-    - Docker
-    - Jib
-    - Java
-    - SpringBoot
+  - Docker
+  - Jib
+  - Java
+  - SpringBoot
+categories:
+  - Docker
+  - Jib
+  - Java
+  - SpringBoot
 ---
 
-#  使用 Jib 生成  Java Docker 镜像
+# 使用 Jib 生成 Java Docker 镜像
 
 > [Jib](https://github.com/GoogleContainerTools/jib) 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度
 
@@ -54,10 +54,10 @@ plugins {
 > 以下方式都需要终端能够访问 `gcr.io`或 `hub.docker.com`等 Docker Hub 才能成功
 
 - 直接构建并推送到 [GCR](https://cloud.google.com/container-registry/)
-通过这种方式构建的镜像会以`gcr.io/distroless/java`为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：
+  通过这种方式构建的镜像会以`gcr.io/distroless/java`为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：
 
 ```gradle
-gradle jib 
+gradle jib
 ```
 
 - 指定推送的容器镜像仓库
@@ -68,15 +68,14 @@ gradle jib
 gradle jib --image registry.hub.docker.com/helloworld/java:jib
 ```
 
-或者在`build.gradle`中以下添加之后执行 `gradle jib` 
+或者在`build.gradle`中以下添加之后执行 `gradle jib`
 
 ```
 jib.to.image = 'registry.hub.docker.com/helloworld/java:jib'
 ```
 
-
 - 保存在本地
-需要本地 Docker 应用已经启动
+  需要本地 Docker 应用已经启动
 
 ```
 gradle jibDockerBuild
@@ -121,9 +120,9 @@ jib {
 > - `args`: `main` 方法的传入参数
 > - `ports`: 容器暴露的端口，和 Dockerfile 的`EXPOSE`作用相同
 
-推荐`from` 改为 `registry.hub.docker.com/openjdk:8-jdk-alpine`, `to`改为 `registry.cn-qingdao.aliyuncs.com` 等国内的仓库，同时将  Docker 的镜像源改为[https://registry.docker-cn.com](https://registry.docker-cn.com ) 或 [https://docker.mirrors.ustc.edu.cn](https://docker.mirrors.ustc.edu.cn)以减少构建时间
+推荐`from` 改为 `registry.hub.docker.com/openjdk:8-jdk-alpine`, `to`改为 `registry.cn-qingdao.aliyuncs.com` 等国内的仓库，同时将 Docker 的镜像源改为[https://registry.docker-cn.com](https://registry.docker-cn.com) 或 [https://docker.mirrors.ustc.edu.cn](https://docker.mirrors.ustc.edu.cn)以减少构建时间
 
----------------------------- 
+---
 
 ## 问题
 
@@ -140,4 +139,4 @@ jib {
 
 - 连接超时( Connect to gcr.io/108.177.125.82:443 timed out)
 
-这个问题很容易出现，主要是因为在国内无法访问[gcr.io](https://gcr.io)导致的，推荐使用 SS 的全局模式或者 [Outline](https://www.getoutline.org/en/home) 或其他可以访问到 [gcr.io](https://gcr.io) 的工具；一定要确保 Terminal 或者服务器可以访问到  [gcr.io](https://gcr.io) 才能在不指定仓库时构建成功；或者指定国内的仓库，不需要访问谷歌的仓库
+这个问题很容易出现，主要是因为在国内无法访问[gcr.io](https://gcr.io)导致的，推荐使用 SS 的全局模式或者 [Outline](https://www.getoutline.org/en/home) 或其他可以访问到 [gcr.io](https://gcr.io) 的工具；一定要确保 Terminal 或者服务器可以访问到 [gcr.io](https://gcr.io) 才能在不指定仓库时构建成功；或者指定国内的仓库，不需要访问谷歌的仓库

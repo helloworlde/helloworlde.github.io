@@ -2,14 +2,14 @@
 title: "Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA"
 type: post
 date: 2024-07-08T08:58:48+08:00
-tags: 
-    - Ubuntu
-    - NVIDIA
-    - CUDA
-series: 
-    - Ubuntu
-    - NVIDIA
-    - CUDA
+tags:
+  - Ubuntu
+  - NVIDIA
+  - CUDA
+series:
+  - Ubuntu
+  - NVIDIA
+  - CUDA
 featured: true
 ---
 
@@ -116,8 +116,7 @@ sudo nvidia-smi
 +-----------------------------------------------------------------------------------------+
 ```
 
-
-## 安装 CUDA 
+## 安装 CUDA
 
 ### 安装 gcc
 
@@ -129,7 +128,7 @@ sudo nvidia-smi
 sudo apt install gcc
 ```
 
-- 检查 gcc 
+- 检查 gcc
 
 ```bash
 gcc -v
@@ -189,7 +188,7 @@ sudo reboot
 
 ### 检查 CUDA 状态
 
-重启完成后，在命令行执行 `nvcc`命令检查 
+重启完成后，在命令行执行 `nvcc`命令检查
 
 ```bash
 nvcc -V
@@ -204,7 +203,6 @@ Built on Thu_Jun__6_02:18:23_PDT_2024
 Cuda compilation tools, release 12.5, V12.5.82
 Build cuda_12.5.r12.5/compiler.34385749_0
 ```
-
 
 ## 参考文档
 

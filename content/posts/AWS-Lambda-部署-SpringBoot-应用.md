@@ -3,20 +3,20 @@ title: AWS Lambda 部署 SpringBoot 应用
 type: post
 date: 2019-05-06 11:36:14
 tags:
-    - Serverless 
-    - SpringBoot
-    - Lambda
-    - AWS
-categories: 
-    - Serverless 
-    - SpringBoot
-    - Lambda
-    - AWS
+  - Serverless
+  - SpringBoot
+  - Lambda
+  - AWS
+categories:
+  - Serverless
+  - SpringBoot
+  - Lambda
+  - AWS
 ---
 
 # AWS Lambda 部署 SpringBoot 应用
 
-## 配置 AWS CLI 和  Severless
+## 配置 AWS CLI 和 Severless
 
 AWS CLI 和 Serverless 都可以用于部署 Serverless 应用
 
@@ -38,7 +38,6 @@ AWS CLI 和 Serverless 都可以用于部署 Serverless 应用
 
 ![Serverless3-save-secret](https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png)
 
-
 ### 安装配置 AWS CLI
 
 #### 安装
@@ -56,7 +55,6 @@ aws configure
 
 然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如`us-east-1`
 
-
 ### 安装配置 Severless
 
 #### 安装
@@ -64,14 +62,12 @@ aws configure
 ```bash
 npm install -g serverless
 
-或 
+或
 
 yarn global add serverless
 ```
 
- 
 #### 配置
-
 
 ```bash
 
@@ -79,13 +75,11 @@ serverless config credentials --provider aws --key YOUR_KEY --secret YOUR_SECRET
 
 ```
 
-
 ### 安装配置 AWS SAM Local
 
 aws-sam-local 是用于本地调试 Serverless 应用的工具
 
-#### 安装 
-
+#### 安装
 
 ```bash
 npm install -g aws-sam-local
@@ -95,7 +89,7 @@ npm install -g aws-sam-local
 yarn global add aws-sam-local
 ```
 
-## 创建 Spring Boot 应用 
+## 创建 Spring Boot 应用
 
 ### 通过 Maven 插件快速生成
 
@@ -269,7 +263,7 @@ sam 用于本地测试Serverless 应用，依赖于 Python 和 Docker
 需要注意的是，`Resources.ServerlessSpringBootFunction.Properties.CodeUri`这个路径需要根据使用 Gradle 或 Maven 进行修改
 
 ```yaml
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot
 Globals:
@@ -296,12 +290,12 @@ Resources:
 Outputs:
   ServerlessSpringBootApi:
     Description: URL for application
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping"
     Export:
       Name: ServerlessSpringBootApi
 ```
 
-## 测试 
+## 测试
 
 ### 编译生成 zip
 
@@ -311,7 +305,7 @@ gradle clean build
 
 ### 测试应用接口
 
-1. 启动应用 
+1. 启动应用
 2. 访问 `http://localhost:8080/ping`，应当返回结果：
 
 ```json
@@ -329,16 +323,16 @@ sam local start-api --template sam.yaml
 ```bash
 curl -s http://127.0.0.1:3000/ping
 ```
+
 将会看到输出结果：
 
 ```json
 {"pong":"Hello, World!"}%
 ```
 
+## 部署
 
-## 部署 
-
-### Serverless 部署 
+### Serverless 部署
 
 - 在项目根路径中添加 serverless.yml 配置
 
@@ -362,7 +356,7 @@ functions:
     timeout: 30
 ```
 
-- 发布 
+- 发布
 
 ```bash
 sls deploy
@@ -371,7 +365,7 @@ sls deploy
 日志：
 
 ```bash
-sls deploy                             
+sls deploy
 Serverless: Packaging service...
 Serverless: Uploading CloudFormation file to S3...
 Serverless: Uploading artifacts...
@@ -398,7 +392,7 @@ layers:
 
 ```
 
-- 访问 
+- 访问
 
 访问 [https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping](https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping)
 
@@ -408,7 +402,7 @@ layers:
 }
 ```
 
-### 使用 AWS CLI 发布 
+### 使用 AWS CLI 发布
 
 #### 上传到 S3
 
@@ -420,10 +414,10 @@ layers:
 aws s3 mb s3://spring-boot-serverless --region us-east-1
 ```
 
-- 上传应用 
+- 上传应用
 
 ```bash
-aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket spring-boot-serverless 
+aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket spring-boot-serverless
 ```
 
 这个命令执行之后会在项目根目录下生成一个 `output-sam.yaml`
@@ -456,40 +450,38 @@ aws cloudformation describe-stacks --stack-name spring-boot-serverless-demo
 
 ```json
 {
-    "Stacks": [
+  "Stacks": [
+    {
+      "StackId": "arn:aws:cloudformation:us-east-1:266545579784:stack/spring-boot-serverless-demo/1074b6a0-6f97-11e9-835b-0e348661d726",
+      "StackName": "spring-boot-serverless-demo",
+      "ChangeSetId": "arn:aws:cloudformation:us-east-1:266545579784:changeSet/awscli-cloudformation-package-deploy-1557103210/fe06fc3b-a353-4d42-814a-4e4f736a2026",
+      "Description": "AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot",
+      "CreationTime": "2019-05-06T00:37:01.857Z",
+      "LastUpdatedTime": "2019-05-06T00:40:17.502Z",
+      "RollbackConfiguration": {},
+      "StackStatus": "CREATE_COMPLETE",
+      "DisableRollback": false,
+      "NotificationARNs": [],
+      "Capabilities": ["CAPABILITY_IAM"],
+      "Outputs": [
         {
-            "StackId": "arn:aws:cloudformation:us-east-1:266545579784:stack/spring-boot-serverless-demo/1074b6a0-6f97-11e9-835b-0e348661d726",
-            "StackName": "spring-boot-serverless-demo",
-            "ChangeSetId": "arn:aws:cloudformation:us-east-1:266545579784:changeSet/awscli-cloudformation-package-deploy-1557103210/fe06fc3b-a353-4d42-814a-4e4f736a2026",
-            "Description": "AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot",
-            "CreationTime": "2019-05-06T00:37:01.857Z",
-            "LastUpdatedTime": "2019-05-06T00:40:17.502Z",
-            "RollbackConfiguration": {},
-            "StackStatus": "CREATE_COMPLETE",
-            "DisableRollback": false,
-            "NotificationARNs": [],
-            "Capabilities": [
-                "CAPABILITY_IAM"
-            ],
-            "Outputs": [
-                {
-                    "OutputKey": "ServerlessSpringBootApi",
-                    "OutputValue": "https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping",
-                    "Description": "URL for application",
-                    "ExportName": "ServerlessSpringBootApi"
-                }
-            ],
-            "Tags": [],
-            "EnableTerminationProtection": false,
-            "DriftInformation": {
-                "StackDriftStatus": "NOT_CHECKED"
-            }
+          "OutputKey": "ServerlessSpringBootApi",
+          "OutputValue": "https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping",
+          "Description": "URL for application",
+          "ExportName": "ServerlessSpringBootApi"
         }
-    ]
+      ],
+      "Tags": [],
+      "EnableTerminationProtection": false,
+      "DriftInformation": {
+        "StackDriftStatus": "NOT_CHECKED"
+      }
+    }
+  ]
 }
 ```
 
-- 访问 OutputValue 的 URL 
+- 访问 OutputValue 的 URL
 
 ```bash
 curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
@@ -516,7 +508,7 @@ curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
 
 ![Serverless9-upload-app](https://img.hellowood.dev/blog/serverless/Serverless9-upload-app.png)
 
-#### 测试 
+#### 测试
 
 - 选择配置测试事件 - 创建新测试事件 - 选择 `AWS API Gateway AWS Proxy`，修改相关的path和httpMethod
 
@@ -526,13 +518,13 @@ curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
 
 - Gateway 的 URL 可以点击 API Gateway查看
 
-----------
+---
 
-### 项目地址 
+### 项目地址
 
- [https://github.com/helloworlde/serverless-spring-boot](https://github.com/helloworlde/serverless-spring-boot)
- 
-### 参考文章 
+[https://github.com/helloworlde/serverless-spring-boot](https://github.com/helloworlde/serverless-spring-boot)
+
+### 参考文章
 
 - [A complete guide for running Spring Boot MVC in the cloud using AWS Lambda](https://skryvets.com/blog/2018/06/02/spring-boot-aws-lambda-guide/)
 - [使用 Java 构建 Lambda 函数](https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/java-programming-model.html)

@@ -3,18 +3,19 @@ title: Tomcat启动时一直停留在一个应用的发布的解决办法
 type: post
 date: 2018-01-01 01:05:02
 tags:
-    - Tomcat
-categories: 
-    - Tomcat    
-
+  - Tomcat
+categories:
+  - Tomcat
 ---
+
 > Tomcat在启动时一直停留在某一个应用无法启动或者需要很长时间才能启动，提示`Deploying web application directory [/home/dev/tomcat/apache-tomcat-9.0.0.M26/webapps/ROOT`，可以通过如下配置来加速启动
 
 ## 配置
-###修改**`${JAVA_HOME}/jre/lib/security/java.security`**文件
-###修改**`securerandom.source=file:/dev/random`**为**`securerandom.source=file:/dev/./urandom`**即可
+
+###修改**`${JAVA_HOME}/jre/lib/security/java.security`**文件 ###修改**`securerandom.source=file:/dev/random`**为**`securerandom.source=file:/dev/./urandom`**即可
 
 ## 解释
+
 > 这是因为Tomcat 7以上的版本在启动的时候会使用 `org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom`类产生安全随机类`SecureRandom`的实例作为会话ID
 > SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成器。
 
@@ -24,7 +25,8 @@ categories:
 
 > 这就是为什么会有/dev/urandom和/dev/random这两种不同的文件，后者在不能产生新的随机数时会阻塞程序，而前者不会（ublock），当然产生的随机数效果就不太好了，这对加密解密这样的应用来说就不是一种很好的选择。/dev/random会阻塞当前的程序，直到根据熵池产生新的随机字节之后才返回，所以使用/dev/random比使用/dev/urandom产生大量随机数的速度要慢。
 
----------------
+---
+
 具体参考
 [https://wiki.apache.org/tomcat/HowTo/FasterStartUp](https://wiki.apache.org/tomcat/HowTo/FasterStartUp)
 [https://my.oschina.net/wangnian/blog/687914](https://my.oschina.net/wangnian/blog/687914)

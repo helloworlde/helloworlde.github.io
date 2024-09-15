@@ -3,14 +3,14 @@ title: "使用 Cloudflare Worker 和 R2 代理 OSS 图床"
 type: post
 date: 2023-12-23T19:14:05+08:00
 tags:
-    - Cloudflare
-    - HomeLab
-categories: 
-    - Cloudflare
-    - HomeLab
-series: 
-    - Cloudflare
-featured: true  
+  - Cloudflare
+  - HomeLab
+categories:
+  - Cloudflare
+  - HomeLab
+series:
+  - Cloudflare
+featured: true
 ---
 
 # 使用 Cloudflare Worker 和 R2 代理 OSS 图床
@@ -29,7 +29,6 @@ featured: true
 
 参考 [Install/Update Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/) 进行安装
 
-
 ## 创建 R2
 
 在 Cloudflare 管理平台创建 R2，或者通过 wrangler 进行创建，参考 [Create buckets](https://developers.cloudflare.com/r2/buckets/create-buckets/)
@@ -38,7 +37,7 @@ featured: true
 wrangler r2 bucket create picture
 ```
 
-## 创建 Worker 
+## 创建 Worker
 
 - 创建项目
 
@@ -72,60 +71,60 @@ REMOTE_DATA_ADDRESS="https://xxx.com"
 
 ```javascript
 export default {
-	async fetch(request, env) {
-		const url = new URL(request.url);
-		const resoureName = url.pathname;
-		console.log("ResourceName: ", resoureName);
-		if (resoureName == undefined || resoureName == "" || resoureName == "/") {
-			const html = `<!DOCTYPE html><body><p>Hello World</p></body>`;
-			return new Response(html, {
-				headers: {
-					"content-type": "text/html;charset=UTF-8",
-				},
-			});
-		}
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const resoureName = url.pathname;
+    console.log("ResourceName: ", resoureName);
+    if (resoureName == undefined || resoureName == "" || resoureName == "/") {
+      const html = `<!DOCTYPE html><body><p>Hello World</p></body>`;
+      return new Response(html, {
+        headers: {
+          "content-type": "text/html;charset=UTF-8",
+        },
+      });
+    }
 
-		switch (request.method) {
-			case 'GET':
-				let object = await env.PICTURE.get(resoureName);
+    switch (request.method) {
+      case "GET":
+        let object = await env.PICTURE.get(resoureName);
 
-				if (object === null) {
-					const imageUrl = env.REMOTE_DATA_ADDRESS + "/" + resoureName;
-					console.log("Path ", resoureName, " 不存在，从 OSS 拉取");
-					const imageResponse = await fetch(imageUrl);
-					if (imageResponse.status === 200) {
-						console.log("Path ", resoureName, " 拉取成功，保存到 R2");
-						const imageData = await imageResponse.arrayBuffer();
-						await env.BLOG_PICTURE.put(resoureName, imageData);
-						object = await env.BLOG_PICTURE.get(resoureName);
-					}
-				}
+        if (object === null) {
+          const imageUrl = env.REMOTE_DATA_ADDRESS + "/" + resoureName;
+          console.log("Path ", resoureName, " 不存在，从 OSS 拉取");
+          const imageResponse = await fetch(imageUrl);
+          if (imageResponse.status === 200) {
+            console.log("Path ", resoureName, " 拉取成功，保存到 R2");
+            const imageData = await imageResponse.arrayBuffer();
+            await env.BLOG_PICTURE.put(resoureName, imageData);
+            object = await env.BLOG_PICTURE.get(resoureName);
+          }
+        }
 
-				if (object === null) {
-					return new Response(undefined, { status: 404 })
-				}
+        if (object === null) {
+          return new Response(undefined, { status: 404 });
+        }
 
-				const headers = new Headers();
-				object.writeHttpMetadata(headers);
-				headers.set('etag', object.httpEtag);
+        const headers = new Headers();
+        object.writeHttpMetadata(headers);
+        headers.set("etag", object.httpEtag);
 
-				return new Response(object.body, {
-					headers,
-				});
+        return new Response(object.body, {
+          headers,
+        });
 
-			default:
-				return new Response('Method Not Allowed', {
-					status: 405,
-					headers: {
-						Allow: 'GET',
-					},
-				});
-		}
-	},
+      default:
+        return new Response("Method Not Allowed", {
+          status: 405,
+          headers: {
+            Allow: "GET",
+          },
+        });
+    }
+  },
 };
 ```
 
-## 部署 Worker 
+## 部署 Worker
 
 在本地使用 wrangler 进行部署
 

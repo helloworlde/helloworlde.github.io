@@ -3,15 +3,15 @@ title: 树莓派 4b 安装 Kubernetes
 type: post
 date: 2021-04-24 22:55:32
 tags:
-    - RaspberryPi
-    - Kubernetes
-    - K3S
-    - Rancher
-categories: 
-    - RaspberryPi
-    - Kubernetes
-    - K3S
-    - Rancher
+  - RaspberryPi
+  - Kubernetes
+  - K3S
+  - Rancher
+categories:
+  - RaspberryPi
+  - Kubernetes
+  - K3S
+  - Rancher
 ---
 
 # 树莓派 4b 安装 Kubernetes
@@ -20,9 +20,9 @@ K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基�
 
 ## 安装
 
-在 Ubuntu Server 21.04 上安装 K3S 
+在 Ubuntu Server 21.04 上安装 K3S
 
-### 1. 安装 Docker 
+### 1. 安装 Docker
 
 ```bash
 apt update & apt upgrade & apt install docker.io
@@ -41,7 +41,7 @@ curl -sfL https://get.k3s.io | sh -
 ```bash
 k3s kubectl get node
 
-# 也可以直接使用 kubectl 
+# 也可以直接使用 kubectl
 kubectl get node
 
 NAME     STATUS   ROLES                  AGE   VERSION
@@ -50,30 +50,30 @@ ubuntu   Ready    control-plane,master   1h    v1.20.6+k3s1
 
 ### 3. 本地访问集群
 
-- 获取 Kube Config 
+- 获取 Kube Config
 
 默认的 Kubernetes Config 文件是 `/etc/rancher/k3s/k3s.yaml`，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可
 
 ```yaml
 apiVersion: v1
 clusters:
-- cluster:
-    certificate-authority-data: xxx
-    server: https://127.0.0.1:6443
-  name: default
+  - cluster:
+      certificate-authority-data: xxx
+      server: https://127.0.0.1:6443
+    name: default
 contexts:
-- context:
-    cluster: default
-    user: default
-  name: default
+  - context:
+      cluster: default
+      user: default
+    name: default
 current-context: default
 kind: Config
 preferences: {}
 users:
-- name: default
-  user:
-    client-certificate-data: xxx
-    client-key-data: xxx
+  - name: default
+    user:
+      client-certificate-data: xxx
+      client-key-data: xxx
 ```
 
 - 访问集群
@@ -94,7 +94,6 @@ docker run -d --restart=unless-stopped -p 8080:80 -p 8443:443 rancher/rancher:v2
 ```
 
 ![RaspberryPiRancherCluster.png](https://img.hellowood.dev/picture/RaspberryPiRancherCluster.png)
-
 
 ## 参考文档
 

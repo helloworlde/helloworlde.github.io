@@ -3,21 +3,20 @@ title: SpringBoot 使用QuartzJob实现任务控制
 type: post
 date: 2018-02-12 18:22:43
 tags:
-    - Java
-    - SpringBoot 
-    - Quartz
-    - Job
-categories: 
-    - Java
-    - SpringBoot
-    - Quartz
-    - Job
+  - Java
+  - SpringBoot
+  - Quartz
+  - Job
+categories:
+  - Java
+  - SpringBoot
+  - Quartz
+  - Job
 ---
 
 # SpringBoot 使用QuartzJob实现任务控制
 
 > 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob)
-
 
 > 在 SpringBoot 中通过 `@Schedule`注解就可以简单的实现定时任务，但是这种方式够灵活，如果想要修改执行状态就必须修改代码；另外一种实现方式是通过 [`Quartz`](http://www.quartz-scheduler.org/) 实现任务调度
 
@@ -64,7 +63,7 @@ public class StaticJob {
 }
 ```
 
-----------------------
+---
 
 ## SpringBoot 集成 Quartz 实现可控的任务
 
@@ -618,7 +617,7 @@ public class ApplicationListener implements CommandLineRunner {
 
 ### 使用
 
-- 添加任务 
+- 添加任务
 
 ```
 POST /job/save HTTP/1.1
@@ -690,4 +689,3 @@ Cache-Control: no-cache
 Postman-Token: a1331b4c-1a6a-5499-4106-50880e63e725
 
 ```
-

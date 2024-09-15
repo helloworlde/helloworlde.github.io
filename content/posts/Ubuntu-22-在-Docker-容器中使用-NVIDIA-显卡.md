@@ -2,14 +2,14 @@
 title: "Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡"
 type: post
 date: 2024-08-06T09:15:33+08:00
-tags: 
-    - Ubuntu
-    - NVIDIA
-    - CUDA
-series: 
-    - Ubuntu
-    - NVIDIA
-    - CUDA
+tags:
+  - Ubuntu
+  - NVIDIA
+  - CUDA
+series:
+  - Ubuntu
+  - NVIDIA
+  - CUDA
 featured: true
 ---
 
@@ -55,12 +55,12 @@ INFO[0000] It is recommended that docker daemon be restarted.
 
 ```json
 {
-    "runtimes": {
-        "nvidia": {
-            "args": [],
-            "path": "nvidia-container-runtime"
-        }
+  "runtimes": {
+    "nvidia": {
+      "args": [],
+      "path": "nvidia-container-runtime"
     }
+  }
 }
 ```
 
@@ -133,13 +133,12 @@ services:
       resources:
         reservations:
           devices:
-          - driver: nvidia
-            device_ids: ['0', '3']
-            capabilities: [gpu]
+            - driver: nvidia
+              device_ids: ["0", "3"]
+              capabilities: [gpu]
 ```
 
-
-## 参考文档 
+## 参考文档
 
 - [Installing the NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 - [Turn on GPU access with Docker Compose](https://docs.docker.com/compose/gpu-support/)

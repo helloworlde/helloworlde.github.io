@@ -3,21 +3,20 @@ title: gRPC Server 端启动流程
 type: post
 date: 2020-12-05 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC Server 端启动流程 
+# gRPC Server 端启动流程
 
 gRPC Server 启动流程，底层实现以 Netty 为例；
 
 ## 核心类
 
-- `io.grpc.Server` 
+- `io.grpc.Server`
 
 Server 的定义接口，实现类是 `io.grpc.internal.ServerImpl`，实现了服务、方法与方法处理器的绑定，端口监听，不同类型的 Server 实现的调用，Server 生命周期管理等
-
 
 - `io.grpc.BindableService`
 
@@ -39,7 +38,6 @@ Server 端的拦截器，在方法调用之前会被调用
 
 方法定义，包含方法描述信息，方法处理器
 
-
 ## 启动流程
 
 ### 启动大致流程
@@ -47,27 +45,25 @@ Server 端的拦截器，在方法调用之前会被调用
 1. 创建 `ServerBuilder`
 2. 指定端口
 3. 为 `ServerBuilder` 添加方法
-	1. 构建服务定义
-		1. 通过生成的代码构建方法定义，将方法与处理器绑定
-		2. 将方法处理器添加到方法定义中
-		3. 将服务定义添加到服务注册器中
+   1. 构建服务定义
+      1. 通过生成的代码构建方法定义，将方法与处理器绑定
+      2. 将方法处理器添加到方法定义中
+      3. 将服务定义添加到服务注册器中
 4. 添加拦截器等其他的配置
 5. 构建 `Server` 实例
-	1. 构建 `ServerTransport` 实例
-		2. 遍历所有监听的地址，创建相应的  `NettyServer`
+   1. 构建 `ServerTransport` 实例 2. 遍历所有监听的地址，创建相应的 `NettyServer`
 6. 启动 `Server`
-	1. 遍历所有的 `NettyServer`，调用 `start` 方法启动
-		1. 创建相应的 `ServerBootstrap`，绑定监听的地址，可以接受连接
-		2. 创建 `NettyServerTransport`，调用 `start` 方法启动 `Transport`
-		3. 为 `NettyServerTransport` 创建 `NettyServerHandler`，用于处理请求
+   1. 遍历所有的 `NettyServer`，调用 `start` 方法启动
+      1. 创建相应的 `ServerBootstrap`，绑定监听的地址，可以接受连接
+      2. 创建 `NettyServerTransport`，调用 `start` 方法启动 `Transport`
+      3. 为 `NettyServerTransport` 创建 `NettyServerHandler`，用于处理请求
 7. 保持 `Server` 启动状态，启动完成
-	
 
 ### Server 定义
 
 ```java
-Server server = ServerBuilder.forPort(1234) 
-                             .addService(new HelloServiceImpl()) 
+Server server = ServerBuilder.forPort(1234)
+                             .addService(new HelloServiceImpl())
                              .intercept(new CustomServerInterceptor())
                              .build();
 server.start();
@@ -92,7 +88,7 @@ public static ServerBuilder<?> forPort(int port) {
 protected NettyServerBuilder builderForPort(int port) {
   return NettyServerBuilder.forPort(port);
 }
-``` 
+```
 
 - io.grpc.netty.NettyServerBuilder#NettyServerBuilder(int)
 
@@ -104,7 +100,6 @@ private NettyServerBuilder(int port) {
     this.listenAddresses.add(new InetSocketAddress(port));
 }
 ```
-
 
 #### 绑定服务
 
@@ -159,7 +154,7 @@ public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserv
 
 - io.grpc.stub.ServerCalls#asyncUnaryCall
 
-会根据构建的 `MethodHandlers`  创建相应类型请求的处理器，并将其加入到服务定义中
+会根据构建的 `MethodHandlers` 创建相应类型请求的处理器，并将其加入到服务定义中
 
 ```java
 public static <ReqT, RespT> ServerCallHandler<ReqT, RespT> asyncUnaryCall(UnaryMethod<ReqT, RespT> method) {
@@ -168,7 +163,6 @@ public static <ReqT, RespT> ServerCallHandler<ReqT, RespT> asyncUnaryCall(UnaryM
 ```
 
 创建的 `UnaryServerCallHandler` 会在服务端 `onHalfClose` 时调用构建的 `UnaryMethod`的`invoke`方法，处理请求
-
 
 - io.grpc.ServerServiceDefinition.Builder#build
 
@@ -322,7 +316,7 @@ ServerImpl(AbstractServerImplBuilder<?> builder,
 }
 ```
 
-### 启动 Server 
+### 启动 Server
 
 #### 启动 Server
 
@@ -352,7 +346,7 @@ public ServerImpl start() throws IOException {
 
 - io.grpc.netty.NettyServer#start
 
-启动 Netty Server，会先创建 `ServerBootstrap`，然后在初始化 `Channel` 时会创建  `NettyServerTransport` 并调用其 start 方法启动，并将需要监听的地址绑定在  `ServerBootstrap` 上
+启动 Netty Server，会先创建 `ServerBootstrap`，然后在初始化 `Channel` 时会创建 `NettyServerTransport` 并调用其 start 方法启动，并将需要监听的地址绑定在 `ServerBootstrap` 上
 
 ```java
 @Override
@@ -484,4 +478,3 @@ public void awaitTermination() throws InterruptedException {
     }
 }
 ```
-

@@ -11,7 +11,7 @@ series:
 featured: true
 ---
 
-# Linux 环境下配置不间断电源 UPS 
+# Linux 环境下配置不间断电源 UPS
 
 UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源
 
@@ -19,10 +19,9 @@ UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电�
 
 因为电路不稳定，存在偶尔断电的情况，因此希望通过 UPS 保护树莓派、路由器、光猫、硬盘录像机等设备；将 UPS 通过 USB 接口连接到树莓派，由树莓派控制其他设备在断电时关机
 
-
 ## 安装 NUT
 
-[NUT](https://networkupstools.org/)(Network UPS Tools)  是一种开源软件工具，其主要功能特点是实时监控与管理不间断电源（UPS）设备，支持多种通信协议，自动执行操作以应对电力故障，适用于多平台，并允许集中管理多个UPS设备，以确保与这些设备连接的计算机和设备在电力问题发生时能够继续正常运行或安全关闭
+[NUT](https://networkupstools.org/)(Network UPS Tools) 是一种开源软件工具，其主要功能特点是实时监控与管理不间断电源（UPS）设备，支持多种通信协议，自动执行操作以应对电力故障，适用于多平台，并允许集中管理多个UPS设备，以确保与这些设备连接的计算机和设备在电力问题发生时能够继续正常运行或安全关闭
 
 NUT中的主要软件组件和功能：
 
@@ -37,7 +36,6 @@ NUT中的主要软件组件和功能：
 ```bash
 apt update && apt install -y nut
 ```
-
 
 ## 通过 USB 连接 UPS
 
@@ -82,9 +80,9 @@ IPMI library not found. IPMI search disabled.
 	bus = "001"
 ```
 
-## 配置 UPS 
+## 配置 UPS
 
-###配置 UPS 驱动 
+###配置 UPS 驱动
 
 驱动程序负责与UPS设备建立连接，并获取有关电源状态、电池状态和其他参数的信息
 
@@ -95,7 +93,8 @@ IPMI library not found. IPMI search disabled.
 ```bash
 sudo nut-scanner -q >> /etc/nut/ups.conf
 ```
-- 启动 NUT 
+
+- 启动 NUT
 
 使用 `upsdrvctl` 命令启动 NUT
 
@@ -107,7 +106,7 @@ sudo upsdrvctl start
 
 upsd 负责与UPS设备通信，并将UPS状态信息提供给其他NUT组件和客户端
 
-- 启动 upsd 
+- 启动 upsd
 
 ```bash
 sudo upsd
@@ -158,8 +157,7 @@ upsd 用户对应的配置文件是 `/etc/nut/upsd.users`，配置用户用于�
         upsmon master
 ```
 
-
-- 重启 upsd 
+- 重启 upsd
 
 ```bash
 sudo upsd -c reload
@@ -211,10 +209,9 @@ NOTIFYFLAG LOWBATT SYSLOG+WALL+EXEC
 
 这里监听了 `ONLINE`, `ONBATT`, 和 `LOWBATT`三个事件，分别是电源供电、电池供电和低电量事件；`SYSLOG`声明记录事件日志到系统中，`WALL`声明通知所有在线用户，`EXEC` 声明需要执行命令
 
-### 配置 upssched 
+### 配置 upssched
 
 配置好 upsmon 后，还需要配置 upssched 执行相关的命令，需要将以下内容添加到 `/etc/nut/upssched.conf` 中
-
 
 - 配置 upsmon
 
@@ -235,7 +232,7 @@ AT LOWBATT * EXECUTE      low_battery		 # 低电量
 `PIPEFN`和`LOCKFN`指定了监听事件的管道并加锁，避免被修改
 `AT` 和 `EXECUTE` 指定了监听的事件并执行相关的脚本；当监听到 `ONBATT`, `ONLINE` 和 `LOWBATT` 时执行 `CMDSCRIPT`指定的脚本，并将 `battery_on`, `power_online` 和 `low_battery`作为参数
 `AT` 和 `START-TIMER` 启动了一个计时器，在 60s 后执行
- `AT` 和 `CANCEL-TIMER` 指定如果在启动计时器60s 内发生了 `ONLINE`事件，则取消计时器
+`AT` 和 `CANCEL-TIMER` 指定如果在启动计时器60s 内发生了 `ONLINE`事件，则取消计时器
 
 - 配置 upssched-script.sh
 
@@ -280,7 +277,6 @@ esac
 
 这段脚本用于接收事件，并执行动作；这里通过 Bark 发送了通知
 
-
 ## 记录 UPS 日志
 
 ups 支持通过 `upslog` 记录 UPS 日志
@@ -313,7 +309,7 @@ NUT 支持通过 HTTP 接口对外提供 UPS 的信息，因此可以用于监�
 MODE=netserver
 ```
 
-### 配置 upsd 
+### 配置 upsd
 
 修改 upsd 对应的配置文件 `/etc/nut/upsd.conf`，添加监听的地址和端口；添加局域网 IP 是用于局域网内其他设备进行监控，否则可能会拒绝连接
 
@@ -323,18 +319,18 @@ LISTEN ::1 3493
 LISTEN 192.168.31.11 3493
 ```
 
-- 重启 upsd 
+- 重启 upsd
 
 ```bash
 sudo upsd -c reload
 ```
 
-### 配置 NUT Exporter 
+### 配置 NUT Exporter
 
 - 配置 `docker-compose.yaml`
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   nut-exporter:
@@ -365,7 +361,7 @@ NUT_EXPORTER_PASSWORD=123456
 NUT_EXPORTER_VARIABLES=battery.charge,battery.charge.low,battery.runtime,battery.type,device.mfr,device.model,device.serial,device.type,driver.name,driver.parameter.pollfreq,driver.parameter.pollinterval,driver.parameter.port,driver.parameter.product,driver.parameter.productid,driver.parameter.serial,driver.parameter.synchronous,driver.parameter.vendor,driver.parameter.vendorid,driver.version,driver.version.data,driver.version.internal,input.transfer.high,input.transfer.low,outlet.1.desc,outlet.1.id,outlet.1.status,outlet.1.switchable,outlet.desc,outlet.id,outlet.switchable,output.frequency.nominal,output.voltage,output.voltage.nominal,ups.beeper.status,ups.delay.shutdown,ups.delay.start,ups.firmware,ups.load,ups.mfr,ups.model,ups.power.nominal,ups.productid,ups.serial,ups.status,ups.timer.shutdown,ups.timer.start,ups.type,ups.vendorid
 ```
 
-- 配置 Prometheus 
+- 配置 Prometheus
 
 ```yaml
 - job_name: ups-exporter
@@ -375,11 +371,10 @@ NUT_EXPORTER_VARIABLES=battery.charge,battery.charge.low,battery.runtime,battery
   metrics_path: /ups_metrics
   scheme: http
   static_configs:
-  - targets:
-    - 192.168.31.11:9199
+    - targets:
+        - 192.168.31.11:9199
 ```
 
 - 配置 Grafana 面板
 
 导入 [https://github.com/helloworlde/nut_exporter/blob/master/dashboard/dashboard.json](https://github.com/helloworlde/nut_exporter/blob/master/dashboard/dashboard.json) 即可
-

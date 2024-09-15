@@ -3,11 +3,11 @@ title: 树莓派 4b 使用 WiFi 从 SSD Headless 启动
 type: post
 date: 2021-04-24 21:21:27
 tags:
-    - Ubuntu
-    - RaspberryPi
-categories: 
-    - Ubuntu
-    - RaspberryPi
+  - Ubuntu
+  - RaspberryPi
+categories:
+  - Ubuntu
+  - RaspberryPi
 ---
 
 # 树莓派 4 使用 WiFi 从 SSD Headless 启动
@@ -16,9 +16,9 @@ categories:
 
 ## 依赖
 
-- 树莓派 4 
+- 树莓派 4
 - Mac
-- SSD 
+- SSD
 
 ## 安装 Ubuntu Server
 
@@ -63,6 +63,7 @@ Device         Boot  Start     End Sectors  Size Id Type
 /dev/mmcblk0p1 *      2048  526335  524288  256M  c W95 FAT32 (LBA)
 /dev/mmcblk0p2      526336 6366175 5839840  2.8G 83 Linux
 ```
+
 要修改的配置就在 `/dev/mmcblk0p1` 这个用于 Boot 的目录下
 
 - 挂载
@@ -70,12 +71,12 @@ Device         Boot  Start     End Sectors  Size Id Type
 ```
 # 挂载
 mkdir ssd
-mount /dev/mmcblk0p1 ssd 
+mount /dev/mmcblk0p1 ssd
 ```
 
 #### 修改配置
 
-- network-config 
+- network-config
 
 该文件是用于网络配置，可以修改该文件，添加自己的 WiFi 设置；如 WiFi 名称是 `mywifi`，密码是 `123456`，则修改配置为：
 
@@ -115,12 +116,11 @@ arp -na
 ? (239.255.255.250) at 1:0:5e:7f:ff:fa on en0 ifscope permanent [ethernet]
 ```
 
-
 ### 2. 登录
 
 - 登录
 
-使用默认用户名 `ubuntu`  和密码  `ubuntu`  登录，第一次登录需要修改密码
+使用默认用户名 `ubuntu` 和密码 `ubuntu` 登录，第一次登录需要修改密码
 
 ```bash
 ssh ubuntu@192.168.0.107
@@ -133,7 +133,6 @@ ssh ubuntu@192.168.0.107
 ```bash
 ssh-import-id-gh helloworlde
 ```
-
 
 ## 参考文档
 

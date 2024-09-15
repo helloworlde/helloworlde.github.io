@@ -3,20 +3,20 @@ title: Spring Boot 中使用 WebSocket
 type: post
 date: 2019-09-08 18:48:25
 tags:
-    - Java
-    - SpringBoot 
-    - WebSocket
-categories: 
-    - Java
-    - SpringBoot
-    - WebSocket
+  - Java
+  - SpringBoot
+  - WebSocket
+categories:
+  - Java
+  - SpringBoot
+  - WebSocket
 ---
 
-# Spring Boot  中使用 WebSocket
+# Spring Boot 中使用 WebSocket
 
 > WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端
 
-## 构建应用 
+## 构建应用
 
 ### 添加依赖
 
@@ -108,17 +108,17 @@ SockJS用于提供浏览器兼容性，当浏览器不支持 WebSocket 时，就
 
 ```javascript
 function connect() {
-    var socket = new SockJS('/socket');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/response/message', function (message) {
-            console.log("Receive message from server:" + message);
-        });
+  var socket = new SockJS("/socket");
+  stompClient = Stomp.over(socket);
+  stompClient.connect({}, function (frame) {
+    stompClient.subscribe("/response/message", function (message) {
+      console.log("Receive message from server:" + message);
     });
+  });
 }
 
 function sendMessage() {
-    stompClient.send('/request/message/broadcast', {}, "Message");
+  stompClient.send("/request/message/broadcast", {}, "Message");
 }
 ```
 
@@ -220,17 +220,17 @@ public class CustomHandshakeHandler extends DefaultHandshakeHandler {
 
 ```javascript
 function connect() {
-    var socket = new SockJS('/socket');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/user/response/message', function (message) {
-            console.log("Receive message from server:" + message);
-        });
+  var socket = new SockJS("/socket");
+  stompClient = Stomp.over(socket);
+  stompClient.connect({}, function (frame) {
+    stompClient.subscribe("/user/response/message", function (message) {
+      console.log("Receive message from server:" + message);
     });
+  });
 }
 
 function sendMessage() {
-    stompClient.send('/request/message/specify', {}, "Message");
+  stompClient.send("/request/message/specify", {}, "Message");
 }
 ```
 
@@ -241,7 +241,7 @@ function sendMessage() {
 - 启动应用，用两个不同的浏览器访问 [localhost:8080](localhost:8080)
 - 指定消息建立连接，并发送消息，此时只有发送消息的那个浏览器才能收到消息，另一个没有收到
 - 通过 REST 接口：
-建立连接后可以在控制台看到相应的 username 
+  建立连接后可以在控制台看到相应的 username
 
 ```bash
 curl 'localhost:8080/message/specify?title=hello&username=ff3cb2ca-9579-46fb-973b-b1bd6420f610'
@@ -249,14 +249,13 @@ curl 'localhost:8080/message/specify?title=hello&username=ff3cb2ca-9579-46fb-973
 
 此时相应的客户端会收到发送的消息，而另一个没有
 
--------------
+---
 
-### 参考文档 
+### 参考文档
 
 - [Using WebSocket to build an interactive web application](https://spring.io/guides/gs/messaging-stomp-websocket/)
 - [Spring Boot + WebSockets + Angular 5](https://medium.com/oril/spring-boot-websockets-angular-5-f2f4b1c14cee)
 - [Spring MVC 3.2 Preview: Techniques for Real-time Updates](https://spring.io/blog/2012/05/08/spring-mvc-3-2-preview-techniques-for-real-time-updates/)
-
 
 ### 项目地址
 

@@ -3,13 +3,13 @@ title: 使用 Pi-hole 作为 DNS 和 DHCP 服务器
 type: post
 date: 2022-09-05 11:32:08
 tags:
-- Pi-hole
-- Docker
-- DNS
-- DHCP
-- HomeLab
+  - Pi-hole
+  - Docker
+  - DNS
+  - DHCP
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 @(HomeLab)[Pi-hole]
@@ -172,7 +172,6 @@ sudo pihole -a -p
 
 ![homelab-pihole-dhcp-config.png](https://img.hellowood.dev/picture/homelab-pihole-dhcp-config.png)
 
-
 ## 路由器配置 DHCP 和 DNS 服务
 
 在路由器配置中， 选择关闭 DHCP，并指定 DNS 为 Pi-hole 的地址，重启路由器后，即可生效
@@ -188,6 +187,3 @@ sudo pihole -a -p
 在网络-接口-LAN 配置中，将自定义的 DNS 服务器指向 Pi-hole 的地址
 
 ![homelab-pihole-openwrt-dns-config.png](https://img.hellowood.dev/picture/homelab-pihole-openwrt-dns-config.png)
-
-
-

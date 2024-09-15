@@ -3,11 +3,11 @@ title: 使用腾讯云的Serverless部署天气应用
 type: post
 date: 2019-10-13 18:56:40
 tags:
-    - Serverless
-    - Go
-categories: 
-    - Serverless
-    - Go   
+  - Serverless
+  - Go
+categories:
+  - Serverless
+  - Go
 ---
 
 # 使用腾讯云的Serverless部署应用
@@ -61,7 +61,7 @@ func checkWeather() (string, error) {
 
 ![创建函数](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9oZWxsb3dvb2Rlcy5vc3MtY24tYmVpamluZy5hbGl5dW5jcy5jb20vYmxvZy9xY2xvdWQtc2VydmVybGVzcy8lRTUlODglOUIlRTUlQkIlQkElRTUlODclQkQlRTYlOTUlQjAucG5n?x-oss-process=image/format,png)
 
-## 添加配置 
+## 添加配置
 
 配置共三项：
 
@@ -90,7 +90,7 @@ GOOS=linux GOARCH=amd64 go build -o main main.go
 zip main.zip main
 ```
 
-- Win 
+- Win
 
 ```bash
 set GOOS=linux
@@ -116,15 +116,12 @@ go build -o main main.go
 
 在触发方式中添加定时触发，cron表达式为 `0 30 8-21 * * * *`，这样就可以在每天8点-21点的30分触发查询，如果天气状况不佳，会通过微信通知
 
-
---------
-
+---
 
 ### 参考文档
 
 - [开发语言 Golang](https://cloud.tencent.com/document/product/583/18032)
 - [天气查询](https://lbs.amap.com/api/webservice/guide/api/weatherinfo)
-
 
 ### 项目地址
 

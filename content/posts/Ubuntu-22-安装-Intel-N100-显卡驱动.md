@@ -2,15 +2,14 @@
 title: "Ubuntu 22 安装 Intel N100 显卡驱动"
 type: post
 date: 2024-07-08T08:41:49+08:00
-tags: 
-    - Ubuntu
-    - Intel
-series: 
-    - Ubuntu
-    - Intel
+tags:
+  - Ubuntu
+  - Intel
+series:
+  - Ubuntu
+  - Intel
 featured: true
 ---
-
 
 # Ubuntu 22 安装 Intel N100 显卡驱动
 
@@ -232,7 +231,7 @@ sudo xpu-smi discovery -d 0
 +-----------+--------------------------------------------------------------------------------------+
 ```
 
-### 检查 GPU 使用情况 
+### 检查 GPU 使用情况
 
 ```bash
 intel_gpu_top

@@ -2,12 +2,12 @@
 title: "使用阿尔卡特猫棒替换北京移动 GPON 光猫"
 type: post
 date: 2023-11-27T18:08:46+08:00
-tags: 
-    - HomeLab
-    - Network
-series: 
-    - HomeLab
-    - Network
+tags:
+  - HomeLab
+  - Network
+series:
+  - HomeLab
+  - Network
 featured: true
 ---
 
@@ -33,10 +33,10 @@ featured: true
 
 - 产品名称：吉比特无源光纤接入用户端设备（GPON ONU）
 - 产品类型：中国移动智能家庭网关 类型11
-- 产品型号：SK-D747 
+- 产品型号：SK-D747
 - 电源：12V---1.5A
 - CMIIT ID: 2022XXXXXX
-- 设备标识：XXXXXX-光猫 SN 
+- 设备标识：XXXXXX-光猫 SN
 - MAC: XXXXXXXXXXX
 - SN: 光猫 SN
 
@@ -44,7 +44,7 @@ featured: true
 
 北京移动的认证使用的是光猫的 SN + PLOAM 密码
 
-- SN 
+- SN
 
 光猫 SN 在光猫背面即可看到，也可以登录后在设备信息中查看
 
@@ -60,15 +60,15 @@ PLOAM 密码的路径为网络-远程管理-认证，
 
 ## 配置猫棒
 
-
 ### 配置
 
 猫棒启动后，进入管理后台，这款猫棒默认的地址是 [http://192.168.1.10](http://192.168.1.10)，默认用户名 `root`，密码 `password`
 
 登录后，选择 GPON-互操作兼容配置，配置上面获取到的认证信息
-- GPON SN: 光猫的 SN 
+
+- GPON SN: 光猫的 SN
 - Ploam password: 光猫获取到的认证密码
-- 默认PVID:  VLAN ID `10`
+- 默认PVID: VLAN ID `10`
 
 配置后，点击应用配置
 
@@ -79,4 +79,3 @@ PLOAM 密码的路径为网络-远程管理-认证，
 可以在 GPON-光模块信息中查看当前的状态，注册状态/信号状态为 `5 / true`说明认证成功，此时可以在路由器配置 PPPoE 拨号上网了
 
 ![homelab-network-gpon-pon-stick-setup-auth-success.png](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-auth-success.png)
-

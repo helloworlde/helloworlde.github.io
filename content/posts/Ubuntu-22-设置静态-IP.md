@@ -3,16 +3,15 @@ title: Ubuntu 22 设置静态 IP
 type: post
 date: 2022-09-05T11:20:19+08:00
 tags:
-- Ubuntu
-- HomeLab
+  - Ubuntu
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Ubuntu 22 设置静态 IP
 
 在虚拟机中启动了 Ubuntu Server 作为日常使用的服务器，同时将 DHCP 和 DNS 相关的服务也运行在这个 Ubuntu Server上；
-
 
 因为在 DHCP 服务中使用IP 和 Mac 绑定的方式分配 IP，因此 Ubuntu Server 是以 DHCP 方式获取 IP地址；但是在一次意外重启后，无法访问 Ubuntu Server，查看网络发现是因为网卡没有分配到 IP，这是 Ubuntu Server 依赖 DHCP 服务分配 IP，但是 DHCP 服务因为宿主机没有网络所以无法访问，造成死循环；因此通过为 Ubuntu Server 设置静态 IP 的方式，避免重启后再次出现这样的问题
 
@@ -50,10 +49,9 @@ inet6 ::1  prefixlen 128  scopeid 0x10<host>
     RX errors 0  dropped 0  overruns 0  frame 0
     TX packets 298  bytes 48692 (48.6 KB)
     TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-    ```
+```
 
 ### 2 修改网络配置
-
 
 Ubuntu 22 的配置文件位置是 `/etc/netplan/***.yaml`，通常是 `/etc/netplan/00-installer-config.yaml`，也可能是 `50-cloud-init.yaml`；
 
@@ -94,4 +92,3 @@ sudo netplan apply
 ```
 
 生效后，再次查看网络信息，发现 IP 地址已经修改为配置的静态 IP 地址
-

@@ -2,14 +2,14 @@
 title: "将重新训练的 Yolov8 模型编译为 Hailo 8 和 Hailo 8L 支持的模型"
 type: post
 date: 2024-09-08T21:32:21+08:00
-tags: 
-    - Ubuntu
-    - Hailo
-    - TPU
-series: 
-    - Ubuntu
-    - Hailo
-    - TPU
+tags:
+  - Ubuntu
+  - Hailo
+  - TPU
+series:
+  - Ubuntu
+  - Hailo
+  - TPU
 featured: true
 ---
 
@@ -17,7 +17,7 @@ featured: true
 
 ## 1. 环境准备
 
-- anaconda 
+- anaconda
 
 参考 [Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/) 安装
 
@@ -26,7 +26,7 @@ featured: true
 ### 2.1 安装依赖
 
 - 创建环境
- 
+
 单独创建 ultralytics 的环境，用于训练和导出 yolo 模型为其他格式
 
 ```bash
@@ -66,7 +66,6 @@ imgsz=640 指定输入图片的尺寸（图像大小），即 640x640。这个�
 format=onnx 指定导出的模型格式为 ONNX（Open Neural Network Exchange）。ONNX 是一种支持在不同深度学习框架间转换和共享模型的开放格式
 
 opset=11 指定 ONNX 的操作集版本为 11
-
 
 ## 3. 编译为 Hailo 模型
 
@@ -317,7 +316,7 @@ Reverts on split failed: 0
 
 在编译完成后，会生成 `.hef` 格式的模型文件，此时可以用 `hailortcli` 解析模型的信息
 
-#### 4.1.1 安装 HailoRT 
+#### 4.1.1 安装 HailoRT
 
 从 [Developer Zone](https://hailo.ai/developer-zone/software-downloads/) 下载并安装 HailoRT，通过 dpkg 安装
 
@@ -364,7 +363,7 @@ Network group name: yolov8n, Single Context
 hailortcli run /home/ubuntu/workspace/project/hailo/model/yolov8n.hef --measure-temp
 ```
 
-运行结果表明可以处理的图片帧率为 184.58 
+运行结果表明可以处理的图片帧率为 184.58
 
 ```bash
 Running streaming inference (/home/ubuntu/workspace/project/hailo/model/yolov8n.hef):
@@ -389,7 +388,7 @@ Network yolov8n/yolov8n: 100% | 924 | FPS: 184.58 | ETA: 00:00:00
 
 使用 Hailo 提供的 Demo，使用编译后的模型进行对象检测
 
-#### 4.2.1 下载 Demo 
+#### 4.2.1 下载 Demo
 
 ```bash
 git clone https://github.com/hailo-ai/Hailo-Application-Code-Examples.git

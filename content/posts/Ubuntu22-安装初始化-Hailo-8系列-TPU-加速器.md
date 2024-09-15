@@ -2,14 +2,14 @@
 title: "Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器"
 type: post
 date: 2024-09-01T11:22:23+08:00
-tags: 
-    - Ubuntu
-    - Hailo
-    - TPU
-series: 
-    - Ubuntu
-    - Hailo
-    - TPU
+tags:
+  - Ubuntu
+  - Hailo
+  - TPU
+series:
+  - Ubuntu
+  - Hailo
+  - TPU
 featured: true
 ---
 
@@ -19,9 +19,8 @@ featured: true
 
 > Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 [Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5](https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/)
 
-
-
 Hailo8 发布于 2021年，算力为 26 TOPS，Hailo8L 发布于 2023 年，算力为 13 TOPS；两款产品除了算力外，其他特性差别不大，均支持 TensorFlow，TensorFlow Lite，Keras，PyTorch & ONNX 框架，主机架构支持 X86 和 ARM，操作系统支持 Linux 和 Windows；更多信息参考官网介绍：
+
 - [Hailo-8 AI处理器](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-ai-accelerator/#hailo-8-features)
 - [Hailo-8L M.2 Entry-Level Acceleration Module](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8l-m-2-ai-acceleration-module-for-ai-light-applications/#hailo8lm2-features)
 - [hailo-8-product-brief](https://hailo.ai/files/hailo-8-product-brief-en/)
@@ -41,7 +40,7 @@ Hailo 相关软件功能如图：
 
 - 安装依赖
 
-安装驱动依赖一些软件，需要提前安装 
+安装驱动依赖一些软件，需要提前安装
 
 ```bash
 sudo apt update && sudo apt install dkms linux-headers-$(uname -r)
@@ -55,7 +54,7 @@ Hailo 的软件下载比较麻烦，需要注册其 [Developer Zone](https://hai
 
 ![homelab-tpu-hailo-software-download-page.png](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-page.png)
 
-- 安装 Pcie 驱动 
+- 安装 Pcie 驱动
 
 ```bash
 sudo dpkg --install hailort-pcie-driver_4.18.0_all.deb
@@ -95,7 +94,7 @@ lspci | grep Hailo
 04:00.0 Co-processor: Hailo Technologies Ltd. Hailo-8 AI Processor (rev 01)
 ```
 
-- 检查驱动 
+- 检查驱动
 
 检查驱动是否正常加载
 
@@ -142,7 +141,7 @@ HialoRT 是 Hailo 的运行时库 (Runtime Library)，基于 C/C++ API，用于�
 
 ### 安装 HailoRT
 
-- 下载 HailoRT 
+- 下载 HailoRT
 
 和下载驱动一样，从 [Developer Zone](https://hailo.ai/developer-zone/software-downloads/) 下载 'HailoRT – Ubuntu package (deb) for amd64'
 
@@ -167,14 +166,14 @@ Starting hailort.service
 Created symlink /etc/systemd/system/multi-user.target.wants/hailort.service → /lib/systemd/system/hailort.service.
 ```
 
-### 检查 HailoRT 
+### 检查 HailoRT
 
 - hailort 命令行工具
 
 安装完成后，会在系统中安装 [hailortcli tool](https://hailo.ai/developer-zone/documentation/hailort-v4-18-0/?sp_referrer=cli%2Fcli.html) 命令行应用，用于控制Hailo设备、在设备上运行推理以及收集推理统计数据和设备事件
 
 ```bash
-hailortcli --help 
+hailortcli --help
 ```
 
 ```bash
@@ -256,14 +255,14 @@ hailort 是用于向 Hailo-8/8L 设备加载模型以及发送和接收数据的
 为了不影响其他服务，使用 anaconda 创建独立的虚拟环境并激活（anaconda 的安装请参考 [Installation](https://docs.anaconda.com/anaconda/install/)）
 
 ```bash
-conda create -n hailo python=3.10 
+conda create -n hailo python=3.10
 ```
 
 ```bash
 conda activate hailo
 ```
 
-- 安装 hailort 
+- 安装 hailort
 
 ```bash
 pip install ./hailort-4.18.0-cp310-cp310-linux_x86_64.whl
@@ -352,7 +351,7 @@ ts1_temperature: 41.0089225769043
 - [Hailo人工智能软件套件](https://hailo.ai/zh-hans/products/hailo-software/hailo-ai-software-suite/#sw-hailort)
 - [Hailo-8L 入门级AI加速器](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8l-ai-accelerator-for-ai-light-applications/#hailo8l-features)
 - [Hailo-8 AI处理器](https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-ai-accelerator/)
-- [Developer Zone](https://hailo.ai/developer-zone/software-downloads/) 
+- [Developer Zone](https://hailo.ai/developer-zone/software-downloads/)
 - [Installation](https://hailo.ai/developer-zone/documentation/hailort-v4-18-0/?sp_referrer=install/install.html)
 - [Hacker’s guide to the Raspberry Pi AI kit on Ubuntu](https://ubuntu.com/blog/hackers-guide-to-the-raspberry-pi-ai-kit-on-ubuntu)
 - [Hailo-8 Edge AI Accelerator Deployment Guide](https://tlab.hongo.wide.ad.jp/2024/03/04/hailo-8-edge-ai-accelerator-deployment-guide/)

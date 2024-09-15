@@ -3,28 +3,28 @@ title: gRPC Server 端关闭流程
 type: post
 date: 2020-12-05 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC Server 端关闭流程 
+# gRPC Server 端关闭流程
 
-## 关闭 Server 
+## 关闭 Server
 
 关闭 Server 可以使用 `shutdown` 或者 `shutdownNow` 方法
 
-#### shutdown 
+#### shutdown
 
 ```java
 server.shutdown().awaitTermination(10, TimeUnit.SECONDS);
 ```
 
-- io.grpc.internal.ServerImpl#shutdown 
+- io.grpc.internal.ServerImpl#shutdown
 
 开始顺序的关闭 Server，已经存在的请求会继续执行，新的请求会被拒绝
 
-```java 
+```java
 public ServerImpl shutdown() {
     boolean shutdownTransportServers;
     synchronized (lock) {
@@ -132,7 +132,6 @@ public void serverShutdown() {
 }
 ```
 
-
 - io.grpc.netty.NettyServerTransport#shutdown
 
 最终在 Transport 中调用了 Netty Channel 的关闭方法，进行关闭
@@ -146,7 +145,7 @@ public void shutdown() {
 }
 ```
 
-#### shutdownNow 
+#### shutdownNow
 
 立即关闭 Server，已经存在的请求和新的请求都会被拒绝；尽管是强制的，但是 Server 并不会瞬间关闭
 
@@ -184,7 +183,6 @@ public ServerImpl shutdownNow() {
 }
 ```
 
-
 - io.grpc.netty.NettyServerTransport#shutdownNow
 
 `ServerTransport` 的 `shutdownNow` 会提交一个强制关闭的指令，并清空 channel，执行关闭
@@ -196,4 +194,3 @@ public void shutdownNow(Status reason) {
     }
 }
 ```
-

@@ -3,9 +3,9 @@ title: gRPC 对冲请求取消流程
 type: post
 date: 2021-02-20 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 对冲请求取消流程
@@ -14,12 +14,11 @@ categories:
 
 ![grpc-hedging-request-cancel.svg](https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg)
 
-
 ## 客户端
 
 当客户端成功接收到响应会，会在 io.grpc.internal.RetriableStream.Sublistener#close 中将成功的流进行提交
 
-- io.grpc.internal.RetriableStream#commit$CommitTask#run 
+- io.grpc.internal.RetriableStream#commit$CommitTask#run
 
 在提交时，会通过提交 CommitTask 将其他的流取消
 
@@ -346,7 +345,6 @@ public void cancelled(Context context) {
 }
 ```
 
-
 - io.grpc.internal.ServerCallImpl.ServerStreamListenerImpl#closedInternal
 
 在执行 OnClosed 任务时，会使用 CANCELLED 状态，触发 ServerCall.Listener 的 onCanncel 事件，如果有取消任务，会执行取消任务
@@ -370,4 +368,3 @@ private void closedInternal(Status status) {
     }
 }
 ```
-

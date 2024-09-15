@@ -3,18 +3,18 @@ title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
 date: 2020-09-20 22:28:15
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud 使用 Kubernetes 作为配置中心
 
 Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 Secret，将配置添加到应用中
 
-## 加载配置 
+## 加载配置
 
 加载配置是通过 PropertySourceLocator 来实现的，ConfigMap 使用 `ConfigMapPropertySourceLocator` 加载，Secret 使用 `SecretsPropertySourceLocator`加载
 
@@ -38,7 +38,7 @@ Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 S
 
 获取配置是通过 PropertySourceLocator#locate 方法实现的，最终将获取到属性添加到环境中
 
-#### ConfigMap 
+#### ConfigMap
 
 - ConfigMapPropertySourceLocator#locate
 
@@ -84,8 +84,8 @@ Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 S
 - ConfigMapPropertySource
 
 ```java
-	public ConfigMapPropertySource(KubernetesClient client, 
-	                               String name, 
+	public ConfigMapPropertySource(KubernetesClient client,
+	                               String name,
 	                               String namespace,
 	                               Environment environment) {
 		super(getName(client, name, namespace),
@@ -140,7 +140,7 @@ Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 S
 	}
 ```
 
-#### Secret 
+#### Secret
 
 - SecretsPropertySourceLocator#locate
 
@@ -255,7 +255,7 @@ Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 S
 
 配置的监听必须显式开启
 
-### Bean 初始化 
+### Bean 初始化
 
 Bean 的初始化是在 `org.springframework.cloud.kubernetes.config.reload.ConfigReloadAutoConfiguration.ConfigReloadAutoConfigurationBeans` 中实现的
 
@@ -390,7 +390,7 @@ Bean 的初始化是在 `org.springframework.cloud.kubernetes.config.reload.Conf
 
 #### Event
 
-- EventBasedConfigurationChangeDetector#watch 
+- EventBasedConfigurationChangeDetector#watch
 
 ```java
 	@PostConstruct

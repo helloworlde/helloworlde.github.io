@@ -3,14 +3,14 @@ title: "树莓派 4b 使用 CSI 摄像头"
 type: post
 date: 2023-03-11T21:38:25+08:00
 tags:
-    - RaspberryPi
-    - HomeLab
-categories: 
-    - RaspberryPi
-    - HomeLab
-series: 
-    - RaspberryPi
-featured: true  
+  - RaspberryPi
+  - HomeLab
+categories:
+  - RaspberryPi
+  - HomeLab
+series:
+  - RaspberryPi
+featured: true
 ---
 
 # 树莓派 4b 使用 CSI 摄像头
@@ -28,7 +28,6 @@ featured: true
 如图所示，通过排线连接摄像头和树莓派（图片来自 [Getting started with the Camera Module](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera)）
 
 ![raspberrypi-4b-camara-setup-connect.jpeg](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-connect.jpeg)
-
 
 ### 开启摄像头
 
@@ -49,7 +48,6 @@ apt-get install -y raspi-config
 然后选择第一个，配置摄像头，选择开启即可；开启完成后，需要关闭树莓派，连接摄像头并重新开机
 
 ![raspberrypi-4b-camara-setup-enable-camare-2.png](https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-camare-2.png)
-
 
 ### 检查摄像头信息
 
@@ -72,6 +70,7 @@ supported=1 detected=1, libcamera interfaces=0
 ```bash
 apt-get install -y v4l-utils
 ```
+
 通过 `v4l-utils` 列出设备
 
 ```bash
@@ -140,7 +139,6 @@ ffmpeg -f v4l2 -r 30 -s 640x480 -i /dev/video0 -c:v libx264 -preset ultrafast -t
 ffplay /dev/video0
 ```
 
-
-## 参考文档 
+## 参考文档
 
 - [Getting started with the Camera Module](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/0)

@@ -3,14 +3,14 @@ title: "OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问"
 type: post
 date: 2022-11-11T21:57:52+08:00
 tags:
-    - OpenWrt
-    - HomeLab
-categories: 
-    - OpenWrt
-    - HomeLab
-series: 
-    - OpenWrt
-featured: true  
+  - OpenWrt
+  - HomeLab
+categories:
+  - OpenWrt
+  - HomeLab
+series:
+  - OpenWrt
+featured: true
 ---
 
 # OpenWrt 使用 Let's Encrypt 证书开启 HTTPS 访问
@@ -32,9 +32,9 @@ opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn
 
 ## 安装配置 ACME
 
- [ACME](https://letsencrypt.org/zh-cn/docs/client-options/)  是 Let's Encrypt 官方支持的客户端；OpenWrt 支持使用 ACME 申请证书，在 ACME 应用中添加证书相关配置即可
+[ACME](https://letsencrypt.org/zh-cn/docs/client-options/) 是 Let's Encrypt 官方支持的客户端；OpenWrt 支持使用 ACME 申请证书，在 ACME 应用中添加证书相关配置即可
 
-### 安装 ACME 
+### 安装 ACME
 
 ```bash
 opkg update
@@ -43,7 +43,7 @@ opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 
 安装完成后可以在服务-ACME 证书中进行配置
 
-### 配置 ACME 
+### 配置 ACME
 
 #### 配置账户信息
 
@@ -112,4 +112,4 @@ config uhttpd 'main'
 	option cert '/etc/acme/*.homelab.dev/fullchain.cer'
 ```
 
-这样，就可以在外网通过 
+这样，就可以在外网通过

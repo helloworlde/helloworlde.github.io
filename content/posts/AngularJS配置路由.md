@@ -3,30 +3,32 @@ title: AngularJS 配置路由
 type: post
 date: 2018-01-01 12:04:04
 tags:
-    - AngularJs
-    - Router
-categories: 
-    - AngularJs
-    - Router
+  - AngularJs
+  - Router
+categories:
+  - AngularJs
+  - Router
 ---
+
 > 在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示
 
 ![控制面板](http://img.blog.csdn.net/20170523210031963?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 > 该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动
 
-----------
-##[项目下载](http://download.csdn.net/detail/u013360850/9850266) | [GitHub下载](https://github.com/helloworlde/AngularRouter) | [演示地址](http://119.29.99.89/AngularRouter/pages/admin/index.html) | [GitHub演示地址](https://helloworlde.github.io/AngularRouter) 
+---
 
-----------
+##[项目下载](http://download.csdn.net/detail/u013360850/9850266) | [GitHub下载](https://github.com/helloworlde/AngularRouter) | [演示地址](http://119.29.99.89/AngularRouter/pages/admin/index.html) | [GitHub演示地址](https://helloworlde.github.io/AngularRouter)
 
+---
 
 ## 1.引入所需的CSS和JS文件
+
 - 将所需要的CSS文件和JS文件引入到项目中index.html
- -  angular.min.js
- - ocLazyLoad.js
- - angular-ui-router.js
- 
+- angular.min.js
+- ocLazyLoad.js
+- angular-ui-router.js
+
 ```
 <!DOCTYPE html>
 <html lang="en" class="body">
@@ -115,7 +117,9 @@ categories:
 ```
 
 ##3. 配置路由
+
 - 配置各个页面的路由，通过懒加载加载所需要的文件
+
 ```
 var adminApp = angular.module('adminApp', ['oc.lazyLoad', 'ui.router']);
 angular.element(document).ready(function () {
@@ -184,5 +188,3 @@ angular.module("adminApp").controllerProvider.register('dashboardController', fu
     console.log("dashboardController");
 });
 ```
-
-

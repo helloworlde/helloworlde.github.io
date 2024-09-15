@@ -3,16 +3,18 @@ title: Ubuntu搭建Redis服务器
 type: post
 date: 2018-01-01 12:08:07
 tags:
-    - Ubuntu
-    - Reids 
-categories: 
-    - Ubuntu
-    - Reids 
+  - Ubuntu
+  - Reids
+categories:
+  - Ubuntu
+  - Reids
 ---
+
 > 在Ubuntu中搭建Redis服务器
 
 ## 安装
-###1 安装 
+
+###1 安装
 
 ```
 sudo apt-get install redis-server
@@ -24,26 +26,26 @@ sudo apt-get install redis-server
 redis-server
 ```
 
-```
+````
 5617:C 18 Sep 12:57:10.437 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
 5617:M 18 Sep 12:57:10.437 * Increased maximum number of open files to 10032 (it was originally set to 1024).
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 3.0.6 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                   
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
  |    `-._   `._    /     _.-'    |     PID: 5617
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           http://redis.io        
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           http://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 5617:M 18 Sep 12:57:10.438 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
 5617:M 18 Sep 12:57:10.438 # Server started, Redis version 3.0.6
@@ -51,7 +53,7 @@ redis-server
 5617:M 18 Sep 12:57:10.438 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
 5617:M 18 Sep 12:57:10.438 * DB loaded from disk: 0.000 seconds
 5617:M 18 Sep 12:57:10.438 * The server is now ready to accept connections on port 6379
-```
+````
 
 ###3 启动客户端
 
@@ -82,8 +84,8 @@ netstat -nlt|grep 6379
 ```
 
 ```
-tcp        0      0 0.0.0.0:6379            0.0.0.0:*               LISTEN     
-tcp6       0      0 :::6379                 :::*                    LISTEN  
+tcp        0      0 0.0.0.0:6379            0.0.0.0:*               LISTEN
+tcp6       0      0 :::6379                 :::*                    LISTEN
 ```
 
 ###6 通过启动命令检查 Redis 服务器状态
@@ -95,9 +97,11 @@ sudo /etc/init.d/redis-server status
 ```
 redis-server is running
 ```
------------------
+
+---
 
 ## 配置
+
 ###1 设置登录密码
 
 ```

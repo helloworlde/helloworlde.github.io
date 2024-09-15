@@ -3,12 +3,12 @@ title: Openwrt-DDNS 配置
 type: post
 date: 2022-08-26 11:32:08
 tags:
-- Esxi
-- OpenWrt
-- DDNS
-- HomeLab
+  - Esxi
+  - OpenWrt
+  - DDNS
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Openwrt DDNS 配置
@@ -22,7 +22,6 @@ DDNS(Dynamic DNS) 一般用于从外部访问家庭网络内的设备，因为�
 DDNS 需要能从外部访问，因此需要有一个公网IP；通常打电话给宽带运营商即可搞定，理由可以是需要访问 NAS、安装监控之类的；通常运营商会提供，获取到之后 PPPOE 重新拨号或者重启光猫路由器即可；通过访问 [https://tool.lu/ip/](https://tool.lu/ip/) 等工具，即可获取到自己的公网 IP
 
 需要注意的是，22/80/443/8080 等常用端口被运营商限制，无法访问，因此，配置 DDNS 后只能通过域名+端口的方式访问； 如果域名是 `.dev` 这类强制要求 HTTPS 访问的域名是无法在浏览器访问的
-
 
 ## 配置 DDNS
 
@@ -60,7 +59,6 @@ ddns-scripts-godaddy
 
 ![homelab-openwrt-ddns-basic-config.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-basic-config.png)
 
-
 - 配置公网 IP 来源
 
 如果是由 OpenWrt 拨号上网，IP 地址来源选择使用网络或者 WAN 接口即可；如果 OpenWrt 作为旁路由，可以通过使用 URL 或者自定义脚本进行获取；如 [http://checkip.dyndns.com](http://checkip.dyndns.com)
@@ -78,7 +76,6 @@ ddns-scripts-godaddy
 启用后，会自动检查 IP 信息，并执行脚本更新到 DNS 服务商，随后就可以通过域名访问了
 
 ![homelab-openwrt-ddns-enable-ddns-config-2.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-enable-ddns-config-2.png)
-
 
 ## 公网访问内部服务
 
@@ -132,7 +129,6 @@ Request timeout for icmp_seq 0
 Vr HL TOS  Len   ID Flg  off TTL Pro  cks      Src      Dst
 4  5  00 5400 cc8b   0 0000  38  01 ca23 127.0.0.1  123.123.123.123
 ```
-
 
 ### 添加端口转发
 

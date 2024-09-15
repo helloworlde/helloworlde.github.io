@@ -3,11 +3,11 @@ title: SpringBoot 使用 MySQL保存emoji 表情
 type: post
 date: 2018-12-31 22:59:16
 tags:
-    - MySQL
-    - SpringBoot 
-categories: 
-    - MySQL
-    - SpringBoot
+  - MySQL
+  - SpringBoot
+categories:
+  - MySQL
+  - SpringBoot
 ---
 
 # SpringBoot 使用 MySQL保存emoji 表情
@@ -30,7 +30,7 @@ ALTER DATABASE db_name DEFAULT CHARACTER SET utf8mb4 COLLATE utf8_general_ci;
 
 由于暂时不能重启数据库，这种修改方式只在当前连接中生效，同样未能解决问题
 
-- 修改 SpringBoot 的配置 
+- 修改 SpringBoot 的配置
 
 ```dsconfig
 spring.datasource.hikari.connection-init-sql=SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci

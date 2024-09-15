@@ -3,13 +3,13 @@ title: Kubernetes 中使用 Helm 部署使用 Prometheus
 type: post
 date: 2019-12-29 18:57:38
 tags:
-    - Kubernetes
-    - Helm
-    - Prometheus
-categories: 
-    - Kubernetes
-    - Helm
-    - Prometheus
+  - Kubernetes
+  - Helm
+  - Prometheus
+categories:
+  - Kubernetes
+  - Helm
+  - Prometheus
 ---
 
 # Kubernetes 中使用 Helm 部署使用 Prometheus
@@ -18,7 +18,7 @@ categories:
 
 ## 安装 Prometheus 和 Grafana
 
-### 添加标准仓库 
+### 添加标准仓库
 
 如果没有 stable 仓库，会提示找不到 `prometheus-operator`这个应用，需要先添加stable 仓库：
 
@@ -43,7 +43,7 @@ helm install prometheus stable/prometheus-operator \
 
 #### 指定配置文件安装
 
-- 如果有需要自定义的配置，可以下载应用后修改`values.yaml`，然后指定该配置文件进行安装 
+- 如果有需要自定义的配置，可以下载应用后修改`values.yaml`，然后指定该配置文件进行安装
 
 values.yaml
 
@@ -88,11 +88,11 @@ kubectl edit svc prometheus-prometheus-oper-prometheus
 spec:
   externalTrafficPolicy: Cluster
   ports:
-  - name: web
-    nodePort: 30090
-    port: 9090
-    protocol: TCP
-    targetPort: 9090
+    - name: web
+      nodePort: 30090
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
   selector:
     app: prometheus
     prometheus: prometheus-prometheus-oper-prometheus
@@ -100,7 +100,7 @@ spec:
   type: NodePort
 ```
 
-##### 修改 Grafana 
+##### 修改 Grafana
 
 ```bash
 kubectl edit svc prometheus-grafana
@@ -110,11 +110,11 @@ kubectl edit svc prometheus-grafana
 spec:
   externalTrafficPolicy: Cluster
   ports:
-  - name: service
-    nodePort: 30080
-    port: 80
-    protocol: TCP
-    targetPort: 3000
+    - name: service
+      nodePort: 30080
+      port: 80
+      protocol: TCP
+      targetPort: 3000
   selector:
     app: grafana
     release: prometheus
@@ -134,7 +134,6 @@ Prometheus 默认监控了 Kubernetes 和 Node，可以直接访问节点进行�
 
 ![prometheus-graph.png](https://img.hellowood.dev/picture/prometheus-graph.png)
 
-
 ### 使用 Grafana 查询
 
 Prometheus 查询只能查看指定的指标，如果想要查看多个指标的聚合，或者更复杂的图表，就需要使用 Grafana 来配置查询
@@ -143,7 +142,7 @@ Prometheus 查询只能查看指定的指标，如果想要查看多个指标的
 
 ![grafana-homepage.png](https://img.hellowood.dev/picture/grafana-homepage.png)
 
-#### 配置自定义监控 
+#### 配置自定义监控
 
 点击左侧的加号，选择 Dashboard，添加新的查询，并输入相应的 PromQL 查询即可看到相应的指标
 

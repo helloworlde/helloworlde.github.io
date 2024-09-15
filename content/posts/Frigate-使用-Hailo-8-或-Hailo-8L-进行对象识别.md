@@ -3,17 +3,17 @@ title: "Frigate 使用 Hailo 8 或 Hailo 8L 进行对象识别"
 type: post
 date: 2024-09-01T11:25:24+08:00
 tags:
-    - NVR
-    - HomeLab
-    - Frigate
-    - Hailo
-    - TPU
-series: 
-    - NVR
-    - HomeLab
-    - Frigate
-    - Hailo
-    - TPU
+  - NVR
+  - HomeLab
+  - Frigate
+  - Hailo
+  - TPU
+series:
+  - NVR
+  - HomeLab
+  - Frigate
+  - Hailo
+  - TPU
 featured: true
 ---
 
@@ -21,24 +21,23 @@ featured: true
 
 Hailo8/Hailo-8L 是一家以色列的边缘人工智能公司发布的边缘加速器，定位和 [Google Coral TPU](https://coral.ai/products/) 完全一致；Hailo-8 算力为 26 TOPS，Hailo-8L 算力为 13 TOPS
 
-| 特性             | Google Coral TPU                      | Hailo8                                        | Hailo8L                                     |
-|------------------|----------------------------------------|-----------------------------------------------|---------------------------------------------|
-| **支持框架**     | TensorFlow, TensorFlow Lite            | TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX | TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX |
-| **支持模型**     | MobileNet, Inception, EfficientNet 等  | ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等 | ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等 |
-| **模型功能**     | 对象识别、对象分类，语义分割，姿态识别，音频分类  | 对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等 | 对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等|
-| **硬件性能**     | 4 TOPS                                 | 26 TOPS                                       | 13 TOPS                                      |
-| **发布时间**     | 2019年                                 | 2021年                                       | 2023年                                      |
-| **功耗**         | 0.5-2 W                                | 2.5-4.6 W                                     | 1.8-3.2 W                                    |
-| **每W性能**      | 8 TOPS/W                               | 10.4 TOPS/W                                   | 7.2 TOPS/W                                   |
-| **当前价格**       | 约300~1000¥                          | 约 1300¥                                     | 约550¥                                     |
-| **支持的操作系统**| Linux, Windows, MacOS                                  | Linux, Windows                                | Linux, Windows                              |
-| **可扩展性**     | 不支持多芯片                           | 支持多芯片并行处理                            | 支持多芯片并行处理                          |
-| **应用领域**     | 物联网设备、嵌入式系统                 | 工业自动化、智能监控、自动驾驶                | 工业自动化、智能监控、智能零售              |
-
+| 特性               | Google Coral TPU                                 | Hailo8                                                                 | Hailo8L                                                                |
+| ------------------ | ------------------------------------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **支持框架**       | TensorFlow, TensorFlow Lite                      | TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX                      | TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX                      |
+| **支持模型**       | MobileNet, Inception, EfficientNet 等            | ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等                        | ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等                        |
+| **模型功能**       | 对象识别、对象分类，语义分割，姿态识别，音频分类 | 对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等 | 对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等 |
+| **硬件性能**       | 4 TOPS                                           | 26 TOPS                                                                | 13 TOPS                                                                |
+| **发布时间**       | 2019年                                           | 2021年                                                                 | 2023年                                                                 |
+| **功耗**           | 0.5-2 W                                          | 2.5-4.6 W                                                              | 1.8-3.2 W                                                              |
+| **每W性能**        | 8 TOPS/W                                         | 10.4 TOPS/W                                                            | 7.2 TOPS/W                                                             |
+| **当前价格**       | 约300~1000¥                                      | 约 1300¥                                                               | 约550¥                                                                 |
+| **支持的操作系统** | Linux, Windows, MacOS                            | Linux, Windows                                                         | Linux, Windows                                                         |
+| **可扩展性**       | 不支持多芯片                                     | 支持多芯片并行处理                                                     | 支持多芯片并行处理                                                     |
+| **应用领域**       | 物联网设备、嵌入式系统                           | 工业自动化、智能监控、自动驾驶                                         | 工业自动化、智能监控、智能零售                                         |
 
 Frigate 的最新的代码已经合并了 Hailo8L 的 PR，预计将会在 0.15 版本中正式发布，PR 参考 [Initial support for Hailo-8L](https://github.com/blakeblackshear/frigate/pull/12431) 和 [Hailo amd64 support](https://github.com/blakeblackshear/frigate/pull/12820)；虽然 PR 中支持的设备是 Hailo-8L，但是经过测试验证，只需要替换对应的模型，Hailo-8 也是可以正常运行的（Hailo-8 和 Hailo-8L 的模型不能互相使用）
 
-## Frigate 使用 Hailo8/8L 
+## Frigate 使用 Hailo8/8L
 
 使用之前，需要确保 Hailo 的 PCIE Driver 已经正确安装，参考 [Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器](https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/)
 
@@ -96,18 +95,18 @@ objects:
     - cat
 
 detectors:
- hailo8l:
-   type: hailo8l
-   device: PCIe
-   model:
-     path: /config/model_cache/h8l_cache/ssd_mobilenet_v1.hef
+  hailo8l:
+    type: hailo8l
+    device: PCIe
+    model:
+      path: /config/model_cache/h8l_cache/ssd_mobilenet_v1.hef
 
 model:
- width: 300
- height: 300
- input_tensor: nhwc
- input_pixel_format: bgr
- model_type: ssd
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  model_type: ssd
 ```
 
 如果使用的是 Hailo-8，则需要下载 Hailo-8 的模型到本地挂载到容器中，并修改配置为模型对应的配置；Hailo-8 的模型可以从 [Public Pre-Trained Models](https://github.com/hailo-ai/hailo_model_zoo/blob/master/docs/public_models/HAILO8/HAILO8_object_detection.rst) 下载，以 yolov8n 为例，修改 path、width 和 height 即可
@@ -127,15 +126,15 @@ model:
   input_pixel_format: bgr
 ```
 
-使用 12个 1080p 的监控，以 5fps 进行视频内容识别，使用 hailo-8 和 yolox 模型的推理速度约为 60ms，使用 hailo-8/8L 和 ssd_mobilenet_v1 模型的推理速度约为 15ms，而 Google Coral TPU 的推理速度约为 8ms；在当前的 Frigate 版本下，使用  Google Coral TPU 和小模型检测对象更快
+使用 12个 1080p 的监控，以 5fps 进行视频内容识别，使用 hailo-8 和 yolox 模型的推理速度约为 60ms，使用 hailo-8/8L 和 ssd_mobilenet_v1 模型的推理速度约为 15ms，而 Google Coral TPU 的推理速度约为 8ms；在当前的 Frigate 版本下，使用 Google Coral TPU 和小模型检测对象更快
 
 ![homelab-frigate-tpu-hailo-8-system-metrics.png](https://img.hellowood.dev/picture/homelab-frigate-tpu-hailo-8-system-metrics.png)
 
-## 遇到的问题 
+## 遇到的问题
 
 ### Invalid general ioctl code 0x400c6705
 
-使用官方的镜像启动后包错，提示 hailo_platform.pyhailort._pyhailort.HailoRTStatusException，检查 dmesg 发现错误信息为 `Invalid general ioctl code 0x400c6705`，这是因为驱动版本不一致导致的；官方镜像中的版本为 4.17，而本地安装的驱动版本为 4.18，导致命令无法识别；重新安装 4.17 版本的驱动，或者将 Frigate 镜像中的 HailoRT 版本改为相同的即可
+使用官方的镜像启动后包错，提示 hailo_platform.pyhailort.\_pyhailort.HailoRTStatusException，检查 dmesg 发现错误信息为 `Invalid general ioctl code 0x400c6705`，这是因为驱动版本不一致导致的；官方镜像中的版本为 4.17，而本地安装的驱动版本为 4.18，导致命令无法识别；重新安装 4.17 版本的驱动，或者将 Frigate 镜像中的 HailoRT 版本改为相同的即可
 
 frigate 日志：
 

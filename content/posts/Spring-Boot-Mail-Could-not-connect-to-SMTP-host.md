@@ -3,20 +3,21 @@ title: Spring Boot Mail Could not connect to SMTP host
 type: post
 date: 2017-12-31 23:57:39
 tags:
-    - Java
-    - SpringBoot 
-    - Mail
-    - Exception
-categories: 
-    - Java
-    - SpringBoot
-    - Mail
-    - Exception
+  - Java
+  - SpringBoot
+  - Mail
+  - Exception
+categories:
+  - Java
+  - SpringBoot
+  - Mail
+  - Exception
 ---
+
 > 如果使用了 SSL 连接请添加配置：`spring.mail.properties.mail.smtp.ssl.enable=true`
 > 可以参考 [https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp](https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp)
 
--------------
+---
 
 > 在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：
 
@@ -33,7 +34,6 @@ spring.mail.properties.smtp.starttls.enable=true
 
 - MailUtil.java：
 
-
 ```java
    import org.slf4j.Logger;
    import org.slf4j.LoggerFactory;
@@ -43,23 +43,23 @@ spring.mail.properties.smtp.starttls.enable=true
    import org.springframework.mail.javamail.JavaMailSender;
    import org.springframework.stereotype.Component;
    import org.thymeleaf.TemplateEngine;
-   
+
    @Component
    public class MailUtil {
-   
+
        private final Logger logger = LoggerFactory.getLogger(getClass());
-   
+
        @Autowired
        JavaMailSender mailSender;
-   
+
        @Autowired
        TemplateEngine templateEngine;
-   
+
        public void sendSimpleEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content) throws ServiceException {
-   
+
            long startTimestamp = System.currentTimeMillis();
            logger.info("Start send mail ... ");
-   
+
            try {
                SimpleMailMessage message = new SimpleMailMessage();
                message.setFrom(deliver);
@@ -75,7 +75,7 @@ spring.mail.properties.smtp.starttls.enable=true
                throw new ServiceException(e.getMessage());
            }
        }
-   
+
    }
 ```
 

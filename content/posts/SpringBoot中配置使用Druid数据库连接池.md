@@ -3,18 +3,21 @@ title: SpringBoot中配置使用Druid数据库连接池
 type: post
 date: 2018-01-01 00:52:18
 tags:
-    - Java
-    - SpringBoot 
-    - Druid
-categories: 
-    - Java
-    - SpringBoot
-    - Druid
+  - Java
+  - SpringBoot
+  - Druid
+categories:
+  - Java
+  - SpringBoot
+  - Druid
 ---
+
 > Druid 是阿里巴巴开源的Java数据库连接池插件，Druid能够提供强大的监控和扩展功能
 
 ## 配置使用Druid数据库连接池
+
 ### 添加依赖
+
 - Gradle
 
 ```
@@ -30,12 +33,13 @@ compile('com.alibaba:druid-spring-boot-starter:${version}')
 ```
 
 ### 配置数据库连接
+
 > 数据库配置和默认配置基本一样，按照正常配置就可以，具体可以参考[https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md](https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md)
 
 - JDBC 配置
 
 ```
-spring.datasource.druid.url= # 或spring.datasource.url= 
+spring.datasource.druid.url= # 或spring.datasource.url=
 spring.datasource.druid.username= # 或spring.datasource.username=
 spring.datasource.druid.password= # 或spring.datasource.password=
 spring.datasource.druid.driver-class-name= #或 spring.datasource.driver-class-name=
@@ -49,7 +53,7 @@ spring.datasource.druid.max-active=
 spring.datasource.druid.min-idle=
 spring.datasource.druid.max-wait=
 spring.datasource.druid.pool-prepared-statements=
-spring.datasource.druid.max-pool-prepared-statement-per-connection-size= 
+spring.datasource.druid.max-pool-prepared-statement-per-connection-size=
 spring.datasource.druid.max-open-prepared-statements= #和上面的等价
 spring.datasource.druid.validation-query=
 spring.datasource.druid.validation-query-timeout=
@@ -92,8 +96,8 @@ spring.datasource.druid.aop-patterns= # Spring监控AOP切入点，如x.y.z.serv
 
 > 配置好了之后启动应用就可以正常使用了，查看统计信息可以访问 http://localhost:8080/druid/index.html
 
+---
 
-----------
 ## 参考模板
 
 ```
@@ -121,7 +125,7 @@ spring.datasource.druid.test-while-idle=false
 
 # Druid stat filter config
 spring.datasource.druid.filters=stat,wall,log4j
-spring.datasource.druid.web-stat-filter.enabled=true 
+spring.datasource.druid.web-stat-filter.enabled=true
 spring.datasource.druid.web-stat-filter.url-pattern=/druid/*
 #spring.datasource.druid.web-stat-filter.exclusions=
 spring.datasource.druid.web-stat-filter.session-stat-enable=true

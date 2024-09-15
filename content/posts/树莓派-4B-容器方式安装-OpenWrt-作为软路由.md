@@ -3,12 +3,12 @@ title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
 type: post
 date: 2022-07-20 11:32:08
 tags:
-- OpenWrt
-- RaspberryPi
-- HomeLab
+  - OpenWrt
+  - RaspberryPi
+  - HomeLab
 categories:
-- HomeLab
-- RaspberryPi
+  - HomeLab
+  - RaspberryPi
 ---
 
 # 树莓派 4B 容器方式安装 OpenWrt 作为软路由
@@ -43,7 +43,6 @@ sudo reboot
 
 ## 配置网络
 
-
 - 开启网卡混杂模式
 
 默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；
@@ -62,7 +61,7 @@ ifconfig eth0
 
 网卡 flag 信息有 `PROMISC` 表示开启成功
 
-```
+````
 eth0: flags=4419<UP,BROADCAST,RUNNING,PROMISC,MULTICAST>  mtu 1500
 inet 192.168.31.2  netmask 255.255.255.0  broadcast 192.168.31.255
 inet6 2408:8207:24ac:6fc0::50c  prefixlen 128  scopeid 0x0<global>
@@ -88,7 +87,7 @@ Docker 创建 `macvlan` 时要确定所在的网段，可以在路由器后台�
 
 ```bash
 docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1 -o parent=eth0 macnet
-```
+````
 
 2. 创建容器
 
@@ -112,9 +111,9 @@ docker exec -it openwrt bash
 vi /etc/config/network
 ```
 
--  `ipaddr` 为 OpenWrt 分配 IP 地址，因为 OpenWrt 使用了独立的 Mac 地址，所以这个 IP 地址不能和树莓派的相同，否则会无法访问；如树莓派的 IP 地址为 `192.168.31.2`，可以将 OpenWrt 的 IP 改为 `192.168.31.4`
+- `ipaddr` 为 OpenWrt 分配 IP 地址，因为 OpenWrt 使用了独立的 Mac 地址，所以这个 IP 地址不能和树莓派的相同，否则会无法访问；如树莓派的 IP 地址为 `192.168.31.2`，可以将 OpenWrt 的 IP 改为 `192.168.31.4`
 - `gateway` 为当前局域网的网关地址，即 `192.168.31.1`
-- `dns`  需要指定 DNS，否则无法将域名解析为 IP，建议使用路由器的地址，或者使用 `114.114.114.114`等常用 DNS 服务器
+- `dns` 需要指定 DNS，否则无法将域名解析为 IP，建议使用路由器的地址，或者使用 `114.114.114.114`等常用 DNS 服务器
 
 需要注意的是，使用到的 IP 都应该是固定的，可以在路由器中配置 DHCP 进行 Mac 地址绑定
 
@@ -135,6 +134,7 @@ option dns '114.114.114.114'
 ```bash
 /etc/init.d/network restart
 ```
+
 重启完成后访问 [http://192.168.31.4](http://192.168.31.4)，使用账户 `root` 和密码 `password` 即可进入管理页面
 
 4. OpenWrt 配置
@@ -142,17 +142,14 @@ option dns '114.114.114.114'
 登录后在 `网络-接口`中修改 `LAN` 接口，在底层基本设置中选择`忽略此接口`，使用默认路由器做 DHCP 服务器
 ![openwrt-config-dhcp.png](https://img.hellowood.dev/picture/openwrt-config-dhcp.png)
 
-
 ## 使用 OpenWrt
 
 有两种使用方式：
 
 一种是将 OpenWrt 作为路由器的网关，这样所有使用路由器的设备的流量都会被 OpenWrt 处理，这种方式要求路由器支持指定网关(辣鸡小米路由器没有 root 不支持指定，且官方已不支持 root)，并且 OpenWrt 足够稳定，否则会影响使用；
 
-
 另一种方式是通过在设备端指定 OpenWrt 作为网关，只有这些设备的流量会被软路由处理，这种方式需要设备端支持（大部分 IoT 设备无法配置）
 ![openwrt-usage-mac.png](https://img.hellowood.dev/picture/openwrt-usage-mac.png)
-
 
 ## 配置重启后网卡默认使用混杂模式
 
@@ -215,6 +212,7 @@ ip link set openwrt-bridge up
 ```bash
 ip route add 192.168.31.4 dev openwrt-bridge
 ```
+
 ### 配置重启后自动使用 macvlan 接口
 
 同样通过添加一个 `oneshot`服务的方式配置
@@ -247,7 +245,6 @@ EOS
 ```bash
 sudo systemctl enable openwrt-bridge
 ```
-
 
 ## 参考文档
 

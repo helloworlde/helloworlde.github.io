@@ -3,11 +3,11 @@ title: Spring Cloud Consul 服务注册和发现
 type: post
 date: 2020-09-20 22:27:16
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud Consul 服务注册和发现
@@ -16,14 +16,14 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ## Consul 的核心概念
 
-- server 
-集群的核心节点，用于和 agent 通讯，保存服务的信息
+- server
+  集群的核心节点，用于和 agent 通讯，保存服务的信息
 
 - agent
-集群节点的守护进程，用于服务注册等行为，但不保存数据
+  集群节点的守护进程，用于服务注册等行为，但不保存数据
 
 - catalog
-集群服务通信的接口
+  集群服务通信的接口
 
 ## 初始化 Kubernetes Client
 
@@ -31,7 +31,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 相关 Consul 核心依赖的初始化是通过 `org.springframework.cloud.consul.ConsulAutoConfiguration`实现的
 
--  初始化 ConsulClient
+- 初始化 ConsulClient
 
 ```java
 	@Bean
@@ -53,11 +53,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	}
 ```
 
-
-
 ## 服务注册
 
-### 初始化 Bean 
+### 初始化 Bean
 
 相关 Bean 的初始化是在 `org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationAutoConfiguration` 中完成的
 
@@ -162,7 +160,6 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
     }
 ```
 
-
 - 最终在 `ConsulServiceRegistry` 实现注册逻辑
 
 ```java
@@ -230,8 +227,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ## 服务发现
 
-
-### 初始化 Bean 
+### 初始化 Bean
 
 相关 Bean 的初始化在 `org.springframework.cloud.consul.discovery.ConsulDiscoveryClientConfiguration` 中完成
 
@@ -244,9 +240,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	}
 ```
 
-###  获取服务
+### 获取服务
 
-- getService 
+- getService
 
 调用 `org.springframework.cloud.consul.discovery.ConsulDiscoveryClient#getServices` 方法获取指定条件下的服务名称
 
@@ -264,9 +260,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 最终是调用了 Consul 的 `/v1/catalog/services`接口
 
-### 获取实例 
+### 获取实例
 
-- getInstance 
+- getInstance
 
 调用 `org.springframework.cloud.consul.discovery.ConsulDiscoveryClient#getInstances(java.lang.String, com.ecwid.consul.v1.QueryParams)`，根据服务的名称获取相应的实例列表
 
@@ -325,7 +321,7 @@ Consul 的实例监听是通过定时任务，默认每秒都会拉取服务列�
 	@Bean
 	@ConditionalOnMissingBean
 	public ConsulCatalogWatch consulCatalogWatch(
-			ConsulDiscoveryProperties discoveryProperties, 
+			ConsulDiscoveryProperties discoveryProperties,
 			ConsulClient consulClient,
 			@Qualifier(CATALOG_WATCH_TASK_SCHEDULER_NAME) TaskScheduler taskScheduler) {
 		return new ConsulCatalogWatch(discoveryProperties, consulClient, taskScheduler);

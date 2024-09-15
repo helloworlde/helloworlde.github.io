@@ -3,9 +3,9 @@ title: gRPC 使用自定义的 NameResolver
 type: post
 date: 2020-09-20 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 使用自定义的 NameResolver
@@ -93,7 +93,7 @@ public class CustomNameResolver extends NameResolver {
 }
 ```
 
-- NameResolverProvider 
+- NameResolverProvider
 
 `NameResolverProvider` 主要用于注册 `NameResolver`，可以设置默认的协议，是否可用，优先级等
 优先级有效值是 0-10，gRPC 默认的 `DnsNameResolver` 优先级是5，所以自定义的优先级要大于5
@@ -122,7 +122,7 @@ public class CustomNameResolverProvider extends NameResolverProvider {
 }
 ```
 
-- 注册 NameResolver 
+- 注册 NameResolver
 
 在新版本(1.21+)之后，`NameResolver` 推荐使用 `NameResolverRegistry` 进行注册；
 注册要在创建 Channel 之前执行

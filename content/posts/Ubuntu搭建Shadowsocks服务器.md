@@ -3,11 +3,11 @@ title: Ubuntu搭建Shadowsocks服务器
 type: post
 date: 2018-01-01 00:58:24
 tags:
-    - Ubuntu
-    - Shadowsocks 
-categories: 
-    - Ubuntu
-    - Shadowsocks 
+  - Ubuntu
+  - Shadowsocks
+categories:
+  - Ubuntu
+  - Shadowsocks
 ---
 
 > 在Ubuntu环境中搭建Shadowsocks服务
@@ -33,6 +33,7 @@ pip install shadowsocks
 mkdir shadowsocks
 vi config.json
 ```
+
 - 在config.json文件中添加以下配置
 
 ```
@@ -47,19 +48,19 @@ vi config.json
   "fast_open": false
 }
 ```
+
 - 配置说明
 
-| 字段 | 说明|
-|----|----|
-|server|服务端监听地址|
-|server_port|服务端端口|
-|local_address|本地监听地址|
-|local_port|本地监听端口|
-|password|密码|
-|timeout|超时时间（秒）|
-|method|加密方法|
-|fast_open|是否启用TCP-Fast-Open，true或者false|
-
+| 字段          | 说明                                 |
+| ------------- | ------------------------------------ |
+| server        | 服务端监听地址                       |
+| server_port   | 服务端端口                           |
+| local_address | 本地监听地址                         |
+| local_port    | 本地监听端口                         |
+| password      | 密码                                 |
+| timeout       | 超时时间（秒）                       |
+| method        | 加密方法                             |
+| fast_open     | 是否启用TCP-Fast-Open，true或者false |
 
 ##3 启动Shadowsocks
 
@@ -69,13 +70,11 @@ vi config.json
  sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d start
 ```
 
-
 - 停止：
 
 ```
  sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d stop
 ```
-
 
 - 重启：
 
@@ -88,13 +87,15 @@ vi config.json
 ```
 sudo vi /etc/rc.local
 ```
+
 - 加入以下内容
 
 ```
 sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d start
 ```
 
-## 5  配置多个用户
+## 5 配置多个用户
+
 - 将配置文件修改为以下：
 
 ```

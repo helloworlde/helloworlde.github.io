@@ -3,11 +3,11 @@ title: Go 开发命令行工具-OSS文件上传
 type: post
 date: 2019-09-08 18:53:25
 tags:
-    - Go
-    - Cobra
-categories: 
-    - Go
-    - Cobra
+  - Go
+  - Cobra
+categories:
+  - Go
+  - Cobra
 ---
 
 # 使用 Go 开发命令行工具-OSS 文件上
@@ -69,13 +69,14 @@ go mod init github.com/helloworlde/oss
 
 同时需要改下 `mian.go`中的包名，由`oss/cmd`改为 `github.com/helloworlde/oss/cmd`，如果是在GoLand 这样的 IDE 中，还需要启用`Enable Go Modules (vgo) integration`
 
-## 添加命令 
+## 添加命令
 
 - 添加一个 Upload 命令
 
 ```bash
 cobra add upload
 ```
+
 此时，会在 `cmd/`下新建一个`upload.go`的文件，包含基本的运行 upload 命令的代码
 
 ```bash
@@ -155,7 +156,7 @@ git tag -a v0.0.1 -m "First release"
 git push origin v0.1.0
 ```
 
-- 发布 
+- 发布
 
 ```bash
 goreleaser --rm-dist
@@ -165,7 +166,7 @@ goreleaser --rm-dist
 
 ![oss-tool.png](https://img.hellowood.dev/images/oss-tool.png)
 
-## 使用 
+## 使用
 
 ### 安装
 

@@ -3,12 +3,13 @@ title: Ubuntu安装 Redis -编译方式安装
 type: post
 date: 2018-01-01 12:09:09
 tags:
-    - Ubuntu
-    - Reids 
-categories: 
-    - Ubuntu
-    - Reids 
+  - Ubuntu
+  - Reids
+categories:
+  - Ubuntu
+  - Reids
 ---
+
 > 使用 `sudo apt install redis-server`安装的 Redis 并不是最新的，通过在官网下载来安装最新的 Redis
 
 ## 1 创建文件夹
@@ -33,11 +34,13 @@ wget http://download.redis.io/releases/redis-4.0.1.tar.gz
 
 ```
 cd redis-4.0.1
-make 
+make
 make test
-sudo make install 
+sudo make install
 ```
+
 ## 5 配置
+
 - 设置登录密码
 
 ```

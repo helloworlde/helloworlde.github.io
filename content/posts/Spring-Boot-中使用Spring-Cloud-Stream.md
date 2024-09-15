@@ -3,16 +3,16 @@ title: Spring Boot 中使用Spring Cloud Stream
 type: post
 date: 2019-09-08 18:50:09
 tags:
-    - Java
-    - SpringBoot 
-    - Stream
-categories: 
-    - Java
-    - SpringBoot
-    - Stream
+  - Java
+  - SpringBoot
+  - Stream
+categories:
+  - Java
+  - SpringBoot
+  - Stream
 ---
 
-#  Spring Boot 中使用Spring Cloud Stream
+# Spring Boot 中使用Spring Cloud Stream
 
 > [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架
 
@@ -57,7 +57,7 @@ spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 ```
 
-##### Binding 
+##### Binding
 
 - OrderBinding
 
@@ -76,7 +76,7 @@ public interface OrderBinding {
 ```
 
 `@Input`用于指定订阅消息Topic，当有该 Topic 的消息时会调用监听该消息的处理器
-`@Output`用于指定发送消息Topic，可以通过该MessageChannel发送消息 
+`@Output`用于指定发送消息Topic，可以通过该MessageChannel发送消息
 
 ##### 发送消息
 
@@ -159,7 +159,7 @@ spring.rabbitmq.password=guest
 
 ##### 监听消息
 
-- OrderBinding 
+- OrderBinding
 
 ```java
 public interface OrderBinding {
@@ -287,7 +287,7 @@ curl 'localhost:8082/newOrder?orderId=1&userId=2'
 
 - 然后会看到 WaiterService 和 OrderService 的相应的监听器都接收到了消息并打印日志
 
-----------
+---
 
 ## 其他类型消息
 

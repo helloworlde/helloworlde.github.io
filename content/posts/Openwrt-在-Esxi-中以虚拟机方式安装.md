@@ -3,11 +3,11 @@ title: Openwrt 在 Esxi 中以虚拟机方式安装
 type: post
 date: 2022-07-22 11:32:08
 tags:
-- Esxi
-- OpenWrt
-- HomeLab
+  - Esxi
+  - OpenWrt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Openwrt 在 Esxi 中以虚拟机方式安装
@@ -71,7 +71,7 @@ vmkfstools -X 1G openwrt.vmdk
 ```
 
 5. 再次添加硬盘
-选择添加现有硬盘，将扩容后的 `openwrt.vmdk`作为硬盘文件，保存修改即可
+   选择添加现有硬盘，将扩容后的 `openwrt.vmdk`作为硬盘文件，保存修改即可
 
 至此，完成 Openwrt 虚拟机的创建，接下来启动虚拟机即可
 

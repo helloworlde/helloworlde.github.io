@@ -3,21 +3,22 @@ title: Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问
 type: post
 date: 2018-04-08 15:38:01
 tags:
-    - Docker
-    - Ubuntu
-    - Tomcat
-    - Nginx
-categories: 
-    - Docker  
-    - Ubuntu
-    - Tomcat
-    - Nginx  
+  - Docker
+  - Ubuntu
+  - Tomcat
+  - Nginx
+categories:
+  - Docker
+  - Ubuntu
+  - Tomcat
+  - Nginx
 ---
 
 # Ubuntu Docker 配置 Tomcat 和 Nginx 使用 HTTPS 访问
 
 ## 安装 Docker
-### 使用脚本自动安装 
+
+### 使用脚本自动安装
 
 ```
 curl -fsSL get.docker.com -o get-docker.sh
@@ -36,7 +37,7 @@ sudo sh get-docker.sh --mirror Aliyun
 }
 ```
 
-### 启动 Docker 
+### 启动 Docker
 
 ```
 sudo systemctl daemon-reload
@@ -45,6 +46,7 @@ sudo systemctl start docker
 ```
 
 ## 配置 Tomcat
+
 ### 启动 Tomcat 容器
 
 ```
@@ -74,9 +76,9 @@ docker run --name tomcat -d -p 8080:8080 tomcat
 <user username="tomcat" password="tomcat" roles="manager-gui,admin-gui"/>
 ```
 
--------------------
+---
 
-## 配置 Nginx 
+## 配置 Nginx
 
 ### 配置目录
 
@@ -84,6 +86,7 @@ docker run --name tomcat -d -p 8080:8080 tomcat
 - 下载并解压相应的Nginx证书文件到 `/home/ubuntu/hellowood/dev/nginx/conf`
 
 ### 添加 Nginx 配置
+
 - nginx.conf
 
 ```
@@ -104,13 +107,12 @@ server {
 ### 启动 Nginx 容器
 
 ```
-docker pull nginx 
+docker pull nginx
 docker run --name nginx -d -p 80:80 -p 443:443 \
   --link tomcat:tomcat \
-  -v /home/ubuntu/hellowood/dev/nginx/conf:/etc/nginx/conf.d \ 
-  -v /home/ubuntu/hellowood/dev/nginx/log:/var/log/nginx \ 
+  -v /home/ubuntu/hellowood/dev/nginx/conf:/etc/nginx/conf.d \
+  -v /home/ubuntu/hellowood/dev/nginx/log:/var/log/nginx \
   -v /home/ubuntu/hellowood/dev/nginx/certs:/etc/nginx/certs nginx
 ```
 
 此时，访问相应的域名：`http://hellowood.com.cn`和`https://hellowood.com.cn`会显示`Tomcat` 的首页，配置完成
-

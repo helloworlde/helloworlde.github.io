@@ -3,16 +3,17 @@ title: Gradle 添加多项，依赖其他项目
 type: post
 date: 2018-01-01 00:05:06
 tags:
-    - Java
-    - Gradle
-categories: 
-    - Java
-    - Gradle
+  - Java
+  - Gradle
+categories:
+  - Java
+  - Gradle
 ---
+
 # Gradle 使用-多项目构建
 
- 
 ## 配置
+
 > 如该项目有四个模块，分别是`Controller`, `Service`, `Dao`,`Model`，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目
 
 - 项目根目录下添加 `build.gradle`
@@ -97,12 +98,11 @@ dependencies {
 
 ```
 
-## 编译和使用 
+## 编译和使用
 
 - 在根目录下执行`gradle init`
 - 在根目录下执行`gradle build`
 - 如果需要单独编译某个模块执行`gradle Controller:build`
-
 
 ## 依赖其他项目
 

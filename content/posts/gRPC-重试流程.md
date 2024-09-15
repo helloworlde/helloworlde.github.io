@@ -3,9 +3,9 @@ title: gRPC 重试流程
 type: post
 date: 2020-09-20 22:40:07
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 重试流程
@@ -13,10 +13,10 @@ categories:
 当第一次调用失败，流监听器关闭的时候，会根据请求的处理状态和方法的配置，判断是否需要重试
 
 请求的处理状态有三种，在`io.grpc.internal.ClientStreamListener.RpcProgress`中定义：
+
 - `PROCESSED`: 请求被正常处理，按照返回的状态码决定是否要重试
 - `REFUSED`: 没有被服务端的应用逻辑层处理，直接重试，不计入重试次数
-- `DROPPED`:  请求被负载均衡丢弃了，不重试，如果是对冲则取消其他的对冲请求，直接提交
-
+- `DROPPED`: 请求被负载均衡丢弃了，不重试，如果是对冲则取消其他的对冲请求，直接提交
 
 ## 发起请求
 
@@ -44,8 +44,6 @@ categories:
 
 ![grpc-java-retriable-stream-new-sub-stream.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png)
 
-
-
 1. 通过生成的代码中的方法，调用 `io.grpc.stub.ClientCalls#blockingUnaryCall`
 
 首先通过 channel 创建`ClientCall`，然后通过 `futureUnaryCall` 提交请求，返回 Future，根据返回的 Future 循环等待，通过`executor.waitAndDrain()`执行请求，直到 Future 完成，返回结果
@@ -63,7 +61,7 @@ categories:
       ListenableFuture<RespT> responseFuture = futureUnaryCall(call, req);
       while (!responseFuture.isDone()) {
         try {
-	      // 执行提交的 Runnable 
+	      // 执行提交的 Runnable
           executor.waitAndDrain();
         } catch (InterruptedException e) {
           interrupt = true;
@@ -235,7 +233,6 @@ categories:
     }
   }
 ```
-
 
 #### 计算下次请求时间间隔
 

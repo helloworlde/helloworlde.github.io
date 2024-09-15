@@ -3,11 +3,11 @@ title: Spring Boot 配置 HTTPS 访问
 type: post
 date: 2018-12-31 22:42:17
 tags:
-    - Java
-    - SpringBoot 
-categories: 
-    - Java
-    - SpringBoot
+  - Java
+  - SpringBoot
+categories:
+  - Java
+  - SpringBoot
 ---
 
 # Spring Boot 配置 HTTPS 访问
@@ -83,7 +83,7 @@ public class BaseController {
 ```
 
 - 访问 `http://localhost:8080`，会提示需要使用 HTTPS 进行访问
- 
+
 ```bash
 curl http://localhost:8080/
 Bad Request

@@ -3,15 +3,15 @@ title: OpenWrt  安装使用 OpenClash
 type: post
 date: 2022-08-25T11:20:19+08:00
 tags:
-- OpenClash
-- Clash
-- HomeLab
-- OpenWrt
+  - OpenClash
+  - Clash
+  - HomeLab
+  - OpenWrt
 categories:
-- HomeLab
+  - HomeLab
 ---
 
-#  OpenWrt 安装使用 OpenClash
+# OpenWrt 安装使用 OpenClash
 
 ## Clash 使用方式对比
 
@@ -31,7 +31,7 @@ OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直
 
 ## 安装
 
-需要使用 Clash 配置网络，用于访问特定的资源；[OpenClash](https://github.com/vernesong/OpenClash)  是 Openwrt 的 Clash 客户端；
+需要使用 Clash 配置网络，用于访问特定的资源；[OpenClash](https://github.com/vernesong/OpenClash) 是 Openwrt 的 Clash 客户端；
 
 1. OpenClash 依赖的是 `dnsmasq-full`，所以需要移除默认的`dnsmasq`，否则会导致 OpenClash 安装失败
 
@@ -85,11 +85,11 @@ OpenClash 默认提供 7874 端口用于 DNS 查询；启动后会劫持 Dnsmasq
 
 新增完成后，在该页面选择启用 "自定义上游 DNS 服务器"，这样，就可以使用 SmartDNS 作为主 DNS服务器了；如果有其他的上游，也可以同样配置；
 ![homelab-openwrt-openclash-enable-dns-config.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-enable-dns-config.png)
-配置完成后，DNS的查询流程为 客户端 -> Dnsmasq -> OpenClash -> SmartDNS ->  上游 DNS 服务器
+配置完成后，DNS的查询流程为 客户端 -> Dnsmasq -> OpenClash -> SmartDNS -> 上游 DNS 服务器
 
 ### 配置运行模式
 
-参考 [OpenClash-常规设置](https://github.com/vernesong/OpenClash/wiki/%E5%B8%B8%E8%A7%84%E8%AE%BE%E7%BD%AE)，主要有 Fake-IP 和 Redir-Host 两种模式；经测试，开启了 OpenClash 使用 Redir-Host 会导致部分 UDP 流量超时，如王者荣耀/英雄联盟/吃鸡等使用 UDP 的应用超时或无法连接；使用  Fake-IP TUN 模式则可以正常使用
+参考 [OpenClash-常规设置](https://github.com/vernesong/OpenClash/wiki/%E5%B8%B8%E8%A7%84%E8%AE%BE%E7%BD%AE)，主要有 Fake-IP 和 Redir-Host 两种模式；经测试，开启了 OpenClash 使用 Redir-Host 会导致部分 UDP 流量超时，如王者荣耀/英雄联盟/吃鸡等使用 UDP 的应用超时或无法连接；使用 Fake-IP TUN 模式则可以正常使用
 
 - Fake-IP
 
@@ -98,7 +98,6 @@ OpenClash 默认提供 7874 端口用于 DNS 查询；启动后会劫持 Dnsmasq
 运行模式有 TUN，增强和混合三种模式；区别在与 TUN 可以代理 UDP流量
 
 这个模式会导致客户端获取到的 DNS 查询到的结果与实际不一致，`nslookup`/`dig`等的使用会受影响
-
 
 - Redir-Host
 

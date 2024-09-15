@@ -3,22 +3,22 @@ title: Kubenetes 部署 Dashboard
 type: post
 date: 2019-09-08 19:28:25
 tags:
-    - Kubernetes
-categories: 
-    - Kubernetes
+  - Kubernetes
+categories:
+  - Kubernetes
 ---
 
 # Kubenetes 部署 Dashboard
 
 > [Kubenestes Dashboard](https://github.com/kubernetes/dashboard) 是提供 Kubernetes信息可视化的 Web 插件
 
-## 部署 
+## 部署
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 ```
 
-##  配置
+## 配置
 
 ### 修改为通过 NodePort 访问
 
@@ -33,10 +33,10 @@ spec:
   clusterIP: 10.104.3.252
   externalTrafficPolicy: Cluster
   ports:
-  - nodePort: 32576
-    port: 443
-    protocol: TCP
-    targetPort: 8443
+    - nodePort: 32576
+      port: 443
+      protocol: TCP
+      targetPort: 8443
   selector:
     k8s-app: kubernetes-dashboard
   sessionAffinity: None
@@ -68,9 +68,9 @@ roleRef:
   name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: ServiceAccount
-  name: admin
-  namespace: kubernetes-dashboard
+  - kind: ServiceAccount
+    name: admin
+    namespace: kubernetes-dashboard
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -125,7 +125,7 @@ token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2V
 
 ![DashboardAfterLogin](https://img.hellowood.dev/blog/KubernetesDashboard-2.png)
 
-----------
+---
 
 ## 遇到的问题
 
@@ -235,7 +235,7 @@ docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kubernetes-dashbo
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
 
-#### 2. 重启后使用  kubectl 提示 `The connection to the server 192.168.111.129:6443 was refused - did you specify the right host or port?`
+#### 2. 重启后使用 kubectl 提示 `The connection to the server 192.168.111.129:6443 was refused - did you specify the right host or port?`
 
 重启Ubuntu 后，访问Dashboard timeout，通过`kubectl get pods -n kube-system`查看 Pod 状态，提示
 

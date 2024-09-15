@@ -3,11 +3,11 @@ title: Openwrt-初始化配置
 type: post
 date: 2022-08-08 11:44:37
 tags:
-- Esxi
-- OpenWrt
-- HomeLab
+  - Esxi
+  - OpenWrt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Openwrt-初始化配置
@@ -20,6 +20,7 @@ Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 `o
 opkg update
 opkg install luci-i18n-base-zh-cn
 ```
+
 ![homelab-openwrt-init-config-language.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-language.png)
 
 ## 时间设置
@@ -40,7 +41,6 @@ opkg install argon.ipk
 ```
 
 ![homelab-openwrt-init-config-theme.png](https://img.hellowood.dev/picture/homelab-openwrt-init-config-theme.png)
-
 
 ## 设置密码
 

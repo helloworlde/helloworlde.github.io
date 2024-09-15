@@ -3,12 +3,12 @@ title: gRPC  自定义健康检查
 type: post
 date: 2020-09-20 22:38:15
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC  自定义健康检查
+# gRPC 自定义健康检查
 
 在 gRPC 中自定义健康检查逻辑，用于检查特定的组件(如检查 Redis、MQ 等)，或者结合其他的服务组件一起使用(如使用 Spring Boot 的健康检查)
 
@@ -110,19 +110,19 @@ public class CustomHealthCheckImpl extends HealthGrpc.HealthImplBase {
 }
 ```
 
-### 使用 
+### 使用
 
 在 Server 端添加自定义的健康检查服务
 
 ```java
 Server server = ServerBuilder.forPort(1234)
-                             .addService(new UserInfoServiceImpl()) 
+                             .addService(new UserInfoServiceImpl())
                              .addService(new HelloServiceImpl())
                              .addService(new CustomHealthCheckImpl())
                              .build();
 ```
 
-### 测试 
+### 测试
 
 ```bash
 grpc-health-probe -addr localhost:1234 -service mysql
@@ -134,7 +134,7 @@ service unhealthy (responded with "NOT_SERVING")
 
 ### 使用 Spring Boot 健康检查
 
-通过 Spring Boot  的 HealthIndicator 作为 gRPC 的健康检查，需要将相应的组件状态转为 gRPC 的健康检查状态
+通过 Spring Boot 的 HealthIndicator 作为 gRPC 的健康检查，需要将相应的组件状态转为 gRPC 的健康检查状态
 
 ```java
 public class CustomHealthCheckImpl extends HealthGrpc.HealthImplBase {

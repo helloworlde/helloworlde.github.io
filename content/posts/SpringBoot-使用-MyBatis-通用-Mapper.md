@@ -3,19 +3,21 @@ title: SpringBoot-使用 MyBatis 通用 Mapper
 type: post
 date: 2018-04-08 15:11:45
 tags:
-    - Java
-    - SpringBoot 
-    - MyBatis
-categories: 
-    - Java
-    - SpringBoot
-    - MyBatis
+  - Java
+  - SpringBoot
+  - MyBatis
+categories:
+  - Java
+  - SpringBoot
+  - MyBatis
 ---
+
 # SpringBoot 使用 MyBatis 通用 Mapper
 
 > [通用 Mapper](https://github.com/abel533/Mapper) 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 [PageHelper](https://github.com/pagehelper/Mybatis-PageHelper) 一起使用；通用 Mapper 插件虽然没有 [MyBatis Plus](https://github.com/baomidou/mybatis-plus) 强大，但是满足正常项目开发；
 
-## 添加依赖 
+## 添加依赖
+
 - build.gradle
 
 ```gradle
@@ -269,12 +271,10 @@ public interface ProductDao extends CommonMapper<Product> {
 
 > 直接调用 Service 的方法就可以实现正常的单表 CRUD，但是对于多表的操作依然需要写在 XML 里
 
-
- 
---------------------
+---
 
 ### 注意
 
-- 使用 `CodeGenerator` 生成  `Mapper` 接口后需要添加 `@Mapper` 注解，否则会报错，或者在 `Application.java` 添加 `@MapperScan("MAPPER_INTERFACE_PACKAGE")`
+- 使用 `CodeGenerator` 生成 `Mapper` 接口后需要添加 `@Mapper` 注解，否则会报错，或者在 `Application.java` 添加 `@MapperScan("MAPPER_INTERFACE_PACKAGE")`
 
 - 生成 `Service` 接口后必须有 `Mapper` 接口，因为在 `Service` 中继承了 `BaseService` , 必须要有相应的 `Mapper` 实现其 `CRUD`，如果没有 `Mapper` 接口，会在启动过程中提示无法注入通用` Mapper` 错误

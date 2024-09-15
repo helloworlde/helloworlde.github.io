@@ -3,29 +3,32 @@ title: 在使用 Spring Security 的 Remember Me 记住密码功能时遇到的�
 type: post
 date: 2018-01-01 00:37:35
 tags:
-    - Java
-    - SpringBoot 
-    - Spring Security
-categories: 
-    - Java
-    - SpringBoot
-    - Spring Security
+  - Java
+  - SpringBoot
+  - Spring Security
+categories:
+  - Java
+  - SpringBoot
+  - Spring Security
 ---
+
 > 在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法
 
---------------
+---
 
 ## java.lang.IllegalStateException: UserDetailsService is required.
+
 - 配置信息(`Security.java`)
+
 ```
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider);
     }
-   
+
    //...
-   
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -56,11 +59,12 @@ categories:
         rememberMeServices.setParameter(REMEMBER_ME);
         return rememberMeServices;
     }
-    
+
 
 ```
+
 > 错误信息如下，发生该错误的原因是因为没有提供 UserDetailsService 的实例而出错，虽然调用了 `userDetailsService()` 方法，
-但实际上并没有起作用，所以需要提供自定义的 `UserDetailsService` 实例注入
+> 但实际上并没有起作用，所以需要提供自定义的 `UserDetailsService` 实例注入
 
 ```
 
@@ -131,6 +135,7 @@ java.lang.IllegalStateException: UserDetailsService is required.
     at java.lang.Thread.run(Thread.java:748) [na:1.8.0_141]
 
 ```
+
 ###解决方法：实现 `UserDetailsService`
 
 - UserDetailsService.java
@@ -150,12 +155,12 @@ java.lang.IllegalStateException: UserDetailsService is required.
     import org.springframework.security.core.userdetails.UserDetailsService;
     import org.springframework.security.core.userdetails.UsernameNotFoundException;
     import org.springframework.stereotype.Service;
-    
+
     import javax.servlet.http.HttpSession;
     import java.util.ArrayList;
-    
+
     import static cn.com.hellowood.springsecurity.common.constant.CommonConstant.USER;
-    
+
     /**
      * The type Custom user details service.
      *
@@ -163,15 +168,15 @@ java.lang.IllegalStateException: UserDetailsService is required.
      */
     @Service("userDetailsService")
     public class CustomUserDetailsService implements UserDetailsService {
-    
+
         private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         private UserMapper userMapper;
-    
+
         @Autowired
         private HttpSession session;
-    
+
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
             logger.info("user {} is login by remember me cookie", username);
@@ -187,9 +192,10 @@ java.lang.IllegalStateException: UserDetailsService is required.
 ```
 
 - SecurityConfig.java
+
 ```
     // ...
-    
+
     // 注入自定义的 UserDetailsService
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -197,7 +203,7 @@ java.lang.IllegalStateException: UserDetailsService is required.
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider);
-        
+
         // 在这里将 UserDetailsSercie 实例注入
         try {
             auth.userDetailsService(userDetailsService);
@@ -206,7 +212,7 @@ java.lang.IllegalStateException: UserDetailsService is required.
             e.printStackTrace();
         }
     }
-     
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -238,12 +244,12 @@ java.lang.IllegalStateException: UserDetailsService is required.
         rememberMeServices.setParameter(REMEMBER_ME);
         return rememberMeServices;
     }
-    
+
 
    // ...
 ```
 
-----------------------
+---
 
 ## 通过 Remember Me 的 Cookie 登录时空指针异常
 
@@ -318,7 +324,7 @@ java.lang.NullPointerException: null
 ```
 
 > 该异常是因为实现 `UserDetailsService` 的 `loadUserByUsername(String name)` 方法时没有考虑查询结果为 `null` 的情况，导致了空指针异常，
-如果用户不存在应当直接抛出 `UsernameNotFoundException`
+> 如果用户不存在应当直接抛出 `UsernameNotFoundException`
 
 - CustomUserDetailsService.java
 

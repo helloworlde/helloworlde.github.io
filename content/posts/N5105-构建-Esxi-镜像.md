@@ -3,9 +3,9 @@ title: N5105 构建 Esxi 镜像
 type: post
 date: 2022-08-11 10:53:05
 tags:
-    - Esxi
-categories: 
-    - HomeLab
+  - Esxi
+categories:
+  - HomeLab
 ---
 
 # N5105 构建 Esxi 镜像
@@ -17,7 +17,7 @@ N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并
 考虑到安全问题，想通过官方的镜像添加驱动的方式自行构建镜像；需要用到 Windows 电脑和 PowerShell；手里没有 Windows 电脑的可以用虚拟机或者申请按时付费的云服务器
 
 ## 1. 下载所需的镜像和驱动
- 
+
 ### 1.1 申请 Esxi 授权
 
 Esxi 的软件下载脑洞比较清奇，需要先注册申请，填写个人隐私信息如手机号，住址，公司等，等待三五天人工审核通过后就可以下载免费版本；如果没有任何反馈，可以点击申请页下面的 [Contact us](https://www.vmware.com/support/us_support.html) 提工单给 VMWare；
@@ -37,10 +37,9 @@ Esxi 的软件下载脑洞比较清奇，需要先注册申请，填写个人隐
 
 ![homelab-esxi-build-image-network-driver.png](https://img.hellowood.dev/picture/homelab-esxi-build-image-network-driver.png)
 
-
 ## 2. 安装 PowerCLI
 
-PowerCLI 需要使用 PowerShell，目前只能在 Windows 平台使用，其他平台 PowerShell  都是 Core 版本，会提示 `Exception: The VMware.ImageBuilder module is not currently supported on the Core edition of PowerShell`
+PowerCLI 需要使用 PowerShell，目前只能在 Windows 平台使用，其他平台 PowerShell 都是 Core 版本，会提示 `Exception: The VMware.ImageBuilder module is not currently supported on the Core edition of PowerShell`
 
 参考 [PowerCLI Installation Guide](https://developer.vmware.com/powercli/installation-guide)，支持离线和在线的方式进行安装；在线安装比较慢，建议使用魔法；如果没有魔法建议使用离线方式安装
 
@@ -58,7 +57,7 @@ Install-Module -Name VMware.PowerCLI
 
 #### 2.2.1. 查找 Moudle 位置
 
-首先需要查找 PowerShell 的 Module 位置，在 Windows 下通常有多个位置，建议使用  `C:\Program Files\WindowsPowerShell\Modules`；在 PowerShell 中运行以下命令
+首先需要查找 PowerShell 的 Module 位置，在 Windows 下通常有多个位置，建议使用 `C:\Program Files\WindowsPowerShell\Modules`；在 PowerShell 中运行以下命令
 
 ```powershell
 $env:PSModulePath.split(";")
@@ -93,7 +92,6 @@ cd 'C:\Program Files\WindowsPowerShell\Modules'
 Get-ChildItem * -Recurse | Unblock-File
 ```
 
-
 #### 2.2.4. 检查导入结果
 
 ```powershell
@@ -110,7 +108,6 @@ ModuleType Version    Name                                ExportedCommands
 ---------- -------    ----                                ----------------
 Manifest   12.7.0.... VMware.PowerCLI
 ```
-
 
 ## 3. 将驱动添加到镜像文件中
 
@@ -130,7 +127,7 @@ Depot Url
 zip:C:\Users\admin\Downloads\Esxi\VMware-ESXi-7.0U3d-19482537-depot.zip?index.xml
 ```
 
--  添加网卡驱动
+- 添加网卡驱动
 
 ```powershell
 Add-EsxSoftwareDepot C:\Users\admin\Downloads\Esxi\Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755.zip

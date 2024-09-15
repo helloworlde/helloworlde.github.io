@@ -3,19 +3,19 @@ title: "使用arpl在PVE上安装黑群晖"
 type: post
 date: 2023-07-01T16:12:02+08:00
 tags:
-    - HomeLab
-    - Synology
-    - NAS
-categories: 
-    - HomeLab
-    - Synology   
-    - NAS   
+  - HomeLab
+  - Synology
+  - NAS
+categories:
+  - HomeLab
+  - Synology
+  - NAS
 featured: true
 ---
 
-[arpl](https://github.com/fbelavenuto/arpl)  是 GitHub 上开源的自动装载程序，能够实现使用 arpl 在物理机或虚拟机中安装黑群晖
+[arpl](https://github.com/fbelavenuto/arpl) 是 GitHub 上开源的自动装载程序，能够实现使用 arpl 在物理机或虚拟机中安装黑群晖
 
-## 1. 下载 arpl 
+## 1. 下载 arpl
 
 在 GitHub 项目 [fbelavenuto/arpl](https://github.com/fbelavenuto/arpl) 的 [Releases](https://github.com/fbelavenuto/arpl/releases) 中选择下载最新版本，选择 `img.zip` 后缀的文件进行下载
 
@@ -25,19 +25,17 @@ featured: true
 
 ## 2. 配置虚拟机
 
-### 2.1 上传 arpl 
+### 2.1 上传 arpl
 
 将 `arpl.img` 文件上传到 PVE 的 ISO 镜像中，用于后续引导黑群晖
 
 ![homelab-nas-synology-upload-arpl-img.png](https://img.hellowood.dev/picture/homelab-nas-synology-upload-arpl-img.png)
-
 
 ### 2.2 创建虚拟机
 
 在 PVE 中创建一个新的虚拟机，操作系统选择 '不使用任何介质'，不使用磁盘，或者在创建后将磁盘删除
 
 ![homelab-nas-synology-create-vm-instance.png](https://img.hellowood.dev/picture/homelab-nas-synology-create-vm-instance.png)
-
 
 ### 2.3 配置磁盘
 
@@ -53,20 +51,17 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 ![homelab-nas-synology-arpl-import-as-disk-set-sata.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-import-as-disk-set-sata.png)
 
-
 #### 2.3.2 配置系统硬盘
 
 在控制台再添加一个 SATA 硬盘，用于安装群晖系统及套件
 
 ![homelab-nas-synology-arpl-system-disk.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-system-disk.png)
 
-
 ### 2.4 修改引导顺序
 
 在选项-引导顺序中，启用 arpl 作为的引导，这样启动后就可以使用 arpl 安装和引导群晖了
 
 ![homelab-nas-synology-arpl-change-boot.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-change-boot.png)
-
 
 ## 3. 配置群晖
 
@@ -75,7 +70,6 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 启动虚拟机，等待启动成功后，会出现 arpl 的控制台，其中有控制台的 IP 和端口信息；其中 IP 是通过 DHCP 获取到的局域网IP，端口默认是 7681
 
 ![homelab-nas-synology-arpl-startup.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-startup.png)
-
 
 ### 3.2 配置群晖系统
 
@@ -97,7 +91,6 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 ![homelab-nas-synology-arpl-synology-boot-log.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-boot-log.png)
 
-
 ## 4 安装初始化群晖
 
 ### 4.1 安装
@@ -110,8 +103,7 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 ![homelab-nas-synology-arpl-synology-install-complte-waiting.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-install-complte-waiting.png)
 
-
-### 4.2 初始化配置 
+### 4.2 初始化配置
 
 启动成功后需要进行初始化配置，按照提示配置即可
 
@@ -131,12 +123,12 @@ qm importdisk 101 /var/lib/vz/template/iso/arpl.img local-lvm
 
 ### 5.1 挂载硬盘信息
 
-在命令行查看硬盘 ID，其中  `ata-Hitachi_HTS545050A7380_TE85113RHUAM6R` 就是机械硬盘的ID
+在命令行查看硬盘 ID，其中 `ata-Hitachi_HTS545050A7380_TE85113RHUAM6R` 就是机械硬盘的ID
 
 ```bash
 ls /dev/disk/by-id
 
-ata-Hitachi_HTS545050A7380_TE85113RHUAM6R 
+ata-Hitachi_HTS545050A7380_TE85113RHUAM6R
 ata-Hitachi_HTS545050A7380_TE85113RHUAM6R-part1
 ata-Hitachi_HTS545050A7380_TE85113RHUAM6R-part2
 ata-Hitachi_HTS545050A7380_TE85113 HUAM6R-part3
@@ -152,15 +144,14 @@ nvme-Fanxiang_S690_1B_FX2322025836-part3
 关闭虚拟机挂载磁盘，完成后重新开机
 
 ```bash
-qm set 101 -sata2 /dev/disk/by-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R 
+qm set 101 -sata2 /dev/disk/by-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R
 
-update VM 101: -sata2 /dev/disk/bv-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R 
+update VM 101: -sata2 /dev/disk/bv-id/ata-Hitachi_HTS545050A7380_TE85113RHUAM6R
 ```
 
 挂载完成后可以在虚拟机的配置中看到已经挂在的磁盘信息：
 
 ![homelab-nas-synology-arpl-synology-mount-disk.png](https://img.hellowood.dev/picture/homelab-nas-synology-arpl-synology-mount-disk.png)
-
 
 ### 5.2 挂载为新磁盘
 

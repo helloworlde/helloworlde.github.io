@@ -3,14 +3,14 @@ title: "基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人
 type: post
 date: 2024-08-16T09:29:49+08:00
 tags:
-    - NVR
-    - HomeLab
-    - Frigate
-series: 
-    - NVR
-    - HomeLab
-    - Frigate
-featured: true  
+  - NVR
+  - HomeLab
+  - Frigate
+series:
+  - NVR
+  - HomeLab
+  - Frigate
+featured: true
 ---
 
 Double Take 是一个训练和识别人脸的工具，支持对 Frigate 中检测到的人物对象进行人脸识别，可以用于统计监控中出现的人物信息。不过经过测试，只适用于门禁、闸机等有清晰人脸的场景，日常的监控因安装位置、角度等原因无法提供清晰的人脸，因此识别的准确度和有效性并不高
@@ -25,7 +25,7 @@ Double Take 作者似乎已经放弃维护了，上次更新还是在两年前(2
 
 Double Take 依赖 Frigate、MQTT 和人脸识别服务，部署在使用 Intel CPU 的 NUC 上，系统是 Ubuntu 22，地址是 192.168.31.254
 
-### 部署 MQTT 
+### 部署 MQTT
 
 MQTT 使用 emqx 提供的镜像进行部署，方便本地使用，参考[通过 Docker 运行 EMQX](https://docs.emqx.com/zh/emqx/latest/deploy/install-docker-ce.html)
 
@@ -135,24 +135,23 @@ snapshots:
   bounding_box: False
 ```
 
-启动后，访问 [http://192.168.31.254:5000](http://192.168.31.254:5000) 进入 Frigate 
+启动后，访问 [http://192.168.31.254:5000](http://192.168.31.254:5000) 进入 Frigate
 ![homelab-frigate-double-take-face-frigate.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-frigate.png)
 
 ## 人脸识别服务
 
 Double Take 支持多种探测器，分别是：CompreFace、Amazon Rekognition、DeepStack、CodeProject.AI Server 和 Facebox(Machine Box)，其中 Amazon Rekognition 和 Facebox(Machine Box) 需要上传或者上传部分数据，不符合隐私保护的诉求；其他项目对比如下
 
-| 对比项目             | CompreFace                          | DeepStack                           | CodeProject.AI Server                |
-|:---------------------|:------------------------------------|:------------------------------------|:-------------------------------------|
-| 图形化界面         | 有            | 无              | 有          |
-| 支持模型       | 人脸相关模型                     | 人脸检测、对象识别、对象分类                  | 人脸检测、对象识别、对象分类、自定义模型          |
-| 自定义模型         | 不支持               | 支持自定义模型           | 支持自定义模型          |
-| 最后更新时间       | 2023-11-14                       | 2022-07-01                   | 2024-05-22                     |
-| 是否支持 GPU     | 支持               | 支持             | 支持       |
-| 加速器支持        | 不支持                               | Jetson            | Google Coral TPU  |
-| 人脸检测        | 检测不准确，需有明确人脸                 | 检测准确，正脸/侧脸均可识别            | 检测准确，正脸/侧脸均可识别  |
-| 人脸识别        | 准确度高                               | 小面积人脸识别不准确            | 小面积人脸识别不准确 |
-
+| 对比项目     | CompreFace               | DeepStack                    | CodeProject.AI Server                    |
+| :----------- | :----------------------- | :--------------------------- | :--------------------------------------- |
+| 图形化界面   | 有                       | 无                           | 有                                       |
+| 支持模型     | 人脸相关模型             | 人脸检测、对象识别、对象分类 | 人脸检测、对象识别、对象分类、自定义模型 |
+| 自定义模型   | 不支持                   | 支持自定义模型               | 支持自定义模型                           |
+| 最后更新时间 | 2023-11-14               | 2022-07-01                   | 2024-05-22                               |
+| 是否支持 GPU | 支持                     | 支持                         | 支持                                     |
+| 加速器支持   | 不支持                   | Jetson                       | Google Coral TPU                         |
+| 人脸检测     | 检测不准确，需有明确人脸 | 检测准确，正脸/侧脸均可识别  | 检测准确，正脸/侧脸均可识别              |
+| 人脸识别     | 准确度高                 | 小面积人脸识别不准确         | 小面积人脸识别不准确                     |
 
 DeepStack 使用最简单，因此使用 DeepStack 进行测试
 
@@ -204,7 +203,7 @@ mqtt:
     frigate: frigate/events
     matches: double-take/matches
     cameras: double-take/cameras
-    
+
 detect:
   match:
     save: true
@@ -212,7 +211,7 @@ detect:
     confidence: 60
     # 保留时间，单位是小时
     purge: 168
-  unknown: 
+  unknown:
     save: true # 保留未识别的
 
 frigate:
@@ -240,4 +239,3 @@ detectors:
 - [CodeProject.AI](https://www.codeproject.com/AI/docs/index.html)
 - [Facebox](https://machinebox.io/)
 - [Amazon Rekognition](https://aws.amazon.com/cn/rekognition/)
-

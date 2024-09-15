@@ -1,22 +1,22 @@
 ---
 title: 服务追踪工具 SkyWorking 搭建使用
 type: post
-date: 2018-07-31 23:56:24
+date: 2018-07-31T23:56:24+08:00
 tags:
-    - SkyWalking
-    - Tool
-    - Trace
-categories: 
-    - SkyWalking
-    - Tool
-    - Trace
+  - SkyWalking
+  - Tool
+  - Trace
+categories:
+  - SkyWalking
+  - Tool
+  - Trace
 ---
 
 # 服务追踪工具 SkyWorking 搭建使用
 
 > [SkyWalking](https://github.com/apache/incubator-skywalking) 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具
 
--  [Demo](http://49.4.12.44:8080/#/monitor/dashboard)
+- [Demo](http://49.4.12.44:8080/#/monitor/dashboard)
 
 - 截图
 
@@ -29,11 +29,12 @@ categories:
 ![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png)
 
 > 环境
+>
 > - SkyWalking 5.0.0-beat2
 > - Mac OS
 > - ElasticSearch 5.6.10
 
-## 安装  ElasticSearch 
+## 安装 ElasticSearch
 
 - 下载解压 ElasticSearch 5.6.10
 
@@ -58,7 +59,7 @@ network.host: 10.0.0.34
 ./bin/elasticsearch
 ```
 
-## 安装 SkyWalking 
+## 安装 SkyWalking
 
 - 下载解压 SkyWalking 5.0.0-beat2
 
@@ -116,7 +117,7 @@ storage:
     bulkActions: 2000
     bulkSize: 20
     flushInterval: 10
-    concurrentRequests: 2 
+    concurrentRequests: 2
     traceDataTTL: 90 # Unit is minute
     minuteMetricDataTTL: 90 # Unit is minute
     hourMetricDataTTL: 36 # Unit is hour
@@ -154,7 +155,7 @@ security:
       password: admin
 ```
 
-- 修改 `config/agent.config`  Collector 地址
+- 修改 `config/agent.config` Collector 地址
 
 ```
 agent.application_code=AppService
@@ -190,6 +191,6 @@ logging.level=INFO
 # Linux/Mac
 CATALINA_OPTS="$CATALINA_OPTS -javaagent:/path/to/skywalking-agent/skywalking-agent.jar"; export CATALINA_OPTS
 
-# Win 
+# Win
 set "CATALINA_OPTS=-javaagent:/path/to/skywalking-agent/skywalking-agent.jar"
 ```

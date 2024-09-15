@@ -2,12 +2,12 @@
 title: "Ubuntu 22 安装 Google Coral TPU NVME 驱动"
 type: post
 date: 2024-07-08T09:07:20+08:00
-tags: 
-    - Ubuntu
-    - Coral
-series: 
-    - Ubuntu
-    - Coral
+tags:
+  - Ubuntu
+  - Coral
+series:
+  - Ubuntu
+  - Coral
 featured: true
 ---
 
@@ -26,7 +26,7 @@ Coral TPU 有多种型号，如开发板、USB 配件、M2、Mini PCIE等，这�
 - 系统：Linux、Windows
 - 环境：python3.6-3.9
 
-## 安装 
+## 安装
 
 ### 安装 Coral TPU
 
@@ -62,7 +62,7 @@ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt-get update
 ```
 
-如果提示 "不支持 'i386' 体系结构，跳过配置文件 'main/binary-i386/Packages' 的获取", 则将 `deb https://packages.cloud.google.com/apt coral-edgetpu-stable main` 改为 `deb [arch=amd64] https://packages.cloud.google.com/apt coral-edgetpu-stable main` 
+如果提示 "不支持 'i386' 体系结构，跳过配置文件 'main/binary-i386/Packages' 的获取", 则将 `deb https://packages.cloud.google.com/apt coral-edgetpu-stable main` 改为 `deb [arch=amd64] https://packages.cloud.google.com/apt coral-edgetpu-stable main`
 
 #### 安装 libedgetpu1-std
 
@@ -96,6 +96,7 @@ git clone https://github.com/google/gasket-driver.git
 sudo -i
 cd gasket-driver; debuild -us -uc -tc -b; cd ..
 ```
+
 会进入项目目录编译并在当前目录生成编译后的软件
 
 ```bash
@@ -106,7 +107,7 @@ dpkg-buildpackage: info: source distribution unstable
 dpkg-buildpackage: info: 源码修改者 Coral <coral-support@google.com>
  dpkg-source --before-build .
 dpkg-buildpackage: info: 主机架构 amd64
-... 
+...
 ```
 
 - 检查软件信息
@@ -181,7 +182,6 @@ ls /dev/apex_0
 
 - [Install the PCIe driver and Edge TPU runtime](https://coral.ai/docs/m2/get-started/#2a-on-linux)
 - [Building gasket-dkms broken on linux kernel 6.5.0 (Ubuntu 23.10)](https://github.com/google-coral/edgetpu/issues/808)
-
 
 ## 安装遇到的问题
 

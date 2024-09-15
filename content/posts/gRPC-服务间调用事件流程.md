@@ -3,9 +3,9 @@ title: gRPC 服务间调用事件流程
 type: post
 date: 2021-02-20 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 服务间调用事件流程
@@ -32,10 +32,10 @@ categories:
 
 调用监听器，监听调用事件
 
--  `onReady`：流就绪事件，用于非 `UNARY` 和 `SERVER_STREAM` 的请求
--  `onHeaders`：当接收到 Server 端返回的 Header 时调用
--  `onMessage`：当接收到 Server 端返回的 Message 时调用
--  `onClose`：当流关闭时调用
+- `onReady`：流就绪事件，用于非 `UNARY` 和 `SERVER_STREAM` 的请求
+- `onHeaders`：当接收到 Server 端返回的 Header 时调用
+- `onMessage`：当接收到 Server 端返回的 Message 时调用
+- `onClose`：当流关闭时调用
 
 #### ClientStreamTracer
 
@@ -85,5 +85,3 @@ Server 端调用监听器
 - `onHalfClose`：接收到半关闭事件
 - `onCancel`：流取消事件
 - `onComplete`：流完成事件
-
-

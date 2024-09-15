@@ -3,14 +3,14 @@ title: gRPC 超时时间与重试时间间隔
 type: post
 date: 2020-09-20 22:41:50
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 超时时间与重试时间间隔
 
-> gRPC 的超时时间生效机制以及重试超时时间间隔 
+> gRPC 的超时时间生效机制以及重试超时时间间隔
 
 ## 超时时间配置
 
@@ -18,26 +18,24 @@ categories:
 
 ```json
 {
-    "methodConfig": [
+  "methodConfig": [
+    {
+      "name": [
         {
-            "name": [
-                {
-                    "service": "io.github.helloworlde.grpc.UserInfoService"
-                }
-            ],
-            "retryPolicy": {
-                "maxAttempts": 5,
-                "initialBackoff": "0.01s",
-                "maxBackoff": "0.1s",
-                "backoffMultiplier": 2,
-                "retryableStatusCodes": [
-                    "UNAVAILABLE"
-                ]
-            },
-            "waitForReady": false,
-            "timeout": "3s"
+          "service": "io.github.helloworlde.grpc.UserInfoService"
         }
-    ]
+      ],
+      "retryPolicy": {
+        "maxAttempts": 5,
+        "initialBackoff": "0.01s",
+        "maxBackoff": "0.1s",
+        "backoffMultiplier": 2,
+        "retryableStatusCodes": ["UNAVAILABLE"]
+      },
+      "waitForReady": false,
+      "timeout": "3s"
+    }
+  ]
 }
 ```
 
@@ -66,8 +64,9 @@ if (retryPolicy.maxAttempts > substream.previousAttemptCount + 1 && !isThrottled
 如果服务端没有回推延时时间，第一次重试使用初始时间乘以随机数，作为延时时间；之后的延时时间使用上一次初始延时时间乘以退避指数 backoffMultiplier，与最大延迟时间取最小值，再乘以随机数作为延迟时间
 
 如果 初始延迟时间(initialBackoff)是 1s，最大延迟时间(maxBackoff) 是 10s，退避指数(backoffMultiplier) 是2：
+
 - 第一次延时延时: `d1 = 1s * random.nextDouble() < 1s`
 - 第二次重试延时: `d2 = Math.min(1s * 2, 10s) * random.nextDouble() = 2s * random.nextDouble()  < 2s`
 - 第三次重试延时: `d3 = Math.min(2s * 2, 10s) * random.nextDouble() = 4s * random.nextDouble()  < 4s`
 - 第四次重试延时: `d4 = Math.min(4s * 2, 10s) * random.nextDouble() = 8s * random.nextDouble()  < 8s`
-所有重试延时：1s + 2s + 4s + 8s < 15s，所以此时的 timeout 合理的值应该为 15s
+  所有重试延时：1s + 2s + 4s + 8s < 15s，所以此时的 timeout 合理的值应该为 15s

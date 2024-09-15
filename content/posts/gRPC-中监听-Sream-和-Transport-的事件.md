@@ -3,9 +3,9 @@ title: gRPC 中监听 Sream 和 Transport 的事件
 type: post
 date: 2020-12-23 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 中监听 Sream 和 Transport 的事件
@@ -21,7 +21,6 @@ gRPC 提供了拦截器可以监听请求的事件，但是对于 Stream 或者 
 ### 客户端
 
 客户端的 `StreamTracer` 在拦截器中注入，当有请求被执行时，可以向 `callOptions` 添加自定义的 `ClientStreamTracer.Factory`，这样就会创建相应的 `StreamTracer`，实现监听
-
 
 - CustomClientInterceptor.java
 
@@ -78,7 +77,7 @@ class CustomClientStreamTracer<ReqT, RespT> extends ClientStreamTracer {
 - 构建 Server
 
 ```java
-Server server = ServerBuilder.forPort(1235) 
+Server server = ServerBuilder.forPort(1235)
                              .addStreamTracerFactory(new CustomServerStreamTracerFactory())
                              .build();
 ```
@@ -111,7 +110,7 @@ class CustomServerStreamTracer extends ServerStreamTracer {
 
 ## Transport 监听
 
-可以监听 `Transport` 的就绪和终止事件 
+可以监听 `Transport` 的就绪和终止事件
 
 ### Server 端
 

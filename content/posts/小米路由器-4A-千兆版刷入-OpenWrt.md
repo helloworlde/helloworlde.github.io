@@ -3,12 +3,12 @@ title: 小米路由器 4A 千兆版刷入 OpenWrt
 type: post
 date: 2024-08-25T11:20:19+08:00
 tags:
-- MiWiFi
-- Router
-- HomeLab
-- OpenWrt
+  - MiWiFi
+  - Router
+  - HomeLab
+  - OpenWrt
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # 小米路由器 4A 千兆版刷入 OpenWrt
@@ -93,7 +93,7 @@ ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -c 3des-cbc -o UserKnownHostsFil
 
 - 刷入
 
-通过 SSH 登录路由器，执行以下命令，刷入  Breed 固件，需要注意的是，输入 Breed 后路由器不会开启 WiFi，只能通过网线的方式访问；另外刷入 Breed 后，路由器的指示灯会变得很暗或完全不亮，可以通过网线连接电脑，查看连接属性，如果分配了 IP 则说明路由器正常进入 Breed
+通过 SSH 登录路由器，执行以下命令，刷入 Breed 固件，需要注意的是，输入 Breed 后路由器不会开启 WiFi，只能通过网线的方式访问；另外刷入 Breed 后，路由器的指示灯会变得很暗或完全不亮，可以通过网线连接电脑，查看连接属性，如果分配了 IP 则说明路由器正常进入 Breed
 
 ```bash
 cd /tmp
@@ -117,9 +117,9 @@ mtd write breed-mt7621-pbr-m1.bin Bootloader
 ![homelab-miwifi-openwrt-firmware-official2.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-firmware-official2.png)
 
 - [https://firmware-selector.openwrt.org/](https://firmware-selector.openwrt.org/?version=21.02.3&target=ramips/mt7621&id=xiaomi_mi-router-4a-gigabit)
-![homelab-miwifi-openwrt-firmware-official.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-firmware-official.png)
+  ![homelab-miwifi-openwrt-firmware-official.png](https://img.hellowood.dev/picture/homelab-miwifi-openwrt-firmware-official.png)
 
-###  构建 OpenWrt 镜像
+### 构建 OpenWrt 镜像
 
 可以使用 [unkaer/Actions-OpenWrt-Xiaomi-R4A](https://github.com/unkaer/Actions-OpenWrt-Xiaomi-R4A) 自行构建（需要一个多小时），会预先安装中文和部分常用软件，实测可以正常工作
 

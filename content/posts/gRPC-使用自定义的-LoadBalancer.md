@@ -3,9 +3,9 @@ title: gRPC 使用自定义的 LoadBalancer
 type: post
 date: 2020-09-29 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 使用自定义的 LoadBalancer
@@ -45,7 +45,7 @@ public class CustomLoadBalancerProvider extends LoadBalancerProvider {
 }
 ```
 
-- CustomLoadBalancer.java 
+- CustomLoadBalancer.java
 
 在 CustomLoadBalancer 中实现了地址的处理，根据地址创建 Subchannel，并启动 Subchannel 状态监听器
 
@@ -218,7 +218,7 @@ class CustomSubchannelStateListener implements LoadBalancer.SubchannelStateListe
 
 实现选择 Subchannel 的逻辑，这里使用的是轮询策略
 
-```java 
+```java
 @Slf4j
 class CustomSubchannelPicker extends LoadBalancer.SubchannelPicker {
 
@@ -280,4 +280,4 @@ final class Ref<T> {
         return value;
     }
 }
-``` 
+```

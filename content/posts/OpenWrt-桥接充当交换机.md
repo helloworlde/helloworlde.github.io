@@ -3,14 +3,14 @@ title: "OpenWrt 桥接充当交换机"
 type: post
 date: 2023-03-21T21:33:24+08:00
 tags:
-    - OpenWrt
-    - HomeLab
-categories: 
-    - OpenWrt
-    - HomeLab
-series: 
-    - OpenWrt
-featured: true  
+  - OpenWrt
+  - HomeLab
+categories:
+  - OpenWrt
+  - HomeLab
+series:
+  - OpenWrt
+featured: true
 ---
 
 # OpenWrt 桥接充当交换机
@@ -22,6 +22,7 @@ featured: true
 路由器是小米的 Redmi AX6000， 支持WiFi 6E，协商速度能达到2400Mbps，但却只有千兆的网口；因为家里的两台电脑和 NAS 都是 2.5G 的网口和 WiFi6E 的无线网卡，想要 NAS 高速读写就需要 2.5G 以上的交换机；但是 2.5G 的交换机价格都在 400+，性价比不高
 
 日常将四网口的 N5105 作为 HomeLab 的服务器使用，只有一个网口连接到路由器，其他三个网口空闲；因此想将 N5105 作为交换机，用于连接 NAS 和电脑；有三种方案：
+
 1. 路由器和 N5105 做链路聚合，NAS连接到 N5105，电脑通过 WiFi 访问；速度能达到 2000Mbps，不过这样额外占用了两个网口，但是好处是所有的支持 WiFi6 的设备都能高速访问 NAS
 2. 不做链路聚合，这样能够多三个 2.5G 的网口；NAS 和电脑都通过网线连接到 N5105，通过网线连接的设备均能以 2.5G 的速度访问 NAS
 3. 为 N5105 添加 WiFi6E 无线网卡，并启用混杂模式，NAS 通过网线连接到 N5105，电脑通过 WiFi 访问 NAS；所有支持 WiFi6 的设备可以 2400Mbps 的速度访问 NAS；但是需要额外购买一张 WiFi6 的无线网卡，并且设备需要连接到 N5150 的 WiFi网络上
@@ -51,10 +52,10 @@ featured: true
 
 #### 检查 PCI 设备是否连接
 
-需要安装 `pciutils` 后才能查看 PCI 设备 
+需要安装 `pciutils` 后才能查看 PCI 设备
 
 ```bash
-opkg update 
+opkg update
 opkg install pciutils
 ```
 
@@ -81,7 +82,7 @@ lrwxrwxrwx    1 root     root             0 Mar 20 08:00 eth0 -> ../../devices/p
 lrwxrwxrwx    1 root     root             0 Mar 20 08:00 lo -> ../../devices/virtual/net/lo
 ```
 
-#### 安装驱动 
+#### 安装驱动
 
 ```bash
 opkg update
@@ -111,8 +112,8 @@ lrwxrwxrwx    1 root     root             0 Mar 20 08:00 lo -> ../../devices/vir
 
 ![homelab-openwrt-pve-switch-config-network-1.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-config-network-1.png)
 
-## 测试 
+## 测试
 
 使用网线将 NAS 和电脑都连接到 N5105 的网口中，然后在 NAS 上通过 Docker 启动 [adolfintel/speedtest](https://github.com/librespeed/speedtest)，在电脑上通过浏览器测试；测试结果能达到 2.5G 的速度
 
-![homelab-openwrt-pve-switch-speed-test.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-speed-test.png) 
+![homelab-openwrt-pve-switch-speed-test.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-speed-test.png)

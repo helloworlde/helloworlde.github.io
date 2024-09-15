@@ -3,32 +3,34 @@ title: gRPC Channel
 type: post
 date: 2020-11-18 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC Channel
 
 `Channel` 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 `Channel` 可以有 0 或多个真实连接
 
-`Subchannel` 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport 
+`Subchannel` 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport
 
 ![grpc-source-code-channel-class-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png)
 
 Channel 有多个子类：
+
 - `ManagedChannel`： 实现了生命周期管理能力的抽象子类
-	- `ManagedChannelImpl`： `ManagedChannel` 的实现类，`Channel` 的主要实现
-	- `ManagedChannelOrphanWrapper`: `ManagedChannel` 的包装类，用于引用 `ManagedChannel`
-- `RealChannel`：真正执行创建 `ClientCallImpl` 实例 
+  - `ManagedChannelImpl`： `ManagedChannel` 的实现类，`Channel` 的主要实现
+  - `ManagedChannelOrphanWrapper`: `ManagedChannel` 的包装类，用于引用 `ManagedChannel`
+- `RealChannel`：真正执行创建 `ClientCallImpl` 实例
 - `SubchannelAsChannel`: 将 `Subchannel` 转为 `Channel`
 
 Subchannel 的子类：
+
 - `SubchannelImpl`：Subchannel 的实现类
- 
+
 ## 方法
 
-### Channel 
+### Channel
 
 - 发起调用
 
@@ -36,19 +38,19 @@ Subchannel 的子类：
 public abstract <RequestT, ResponseT> ClientCall<RequestT, ResponseT> newCall(MethodDescriptor<RequestT, ResponseT> methodDescriptor, CallOptions callOptions);
 ```
 
-- 目标地址 
+- 目标地址
 
 ```java
 public abstract String authority();
 ```
 
-### ManagedChannel 
+### ManagedChannel
 
 `ManagedChannel` 是 `Channel` 的子类，提供生命周期管理的 `Channel`；由 `ManagedChannelImpl` 实现功能
 
 ##### 关闭
 
-- shutdown 
+- shutdown
 
 初始化一个顺序关闭，既有的调用会继续执行，但是新的调用会被立即取消
 
@@ -64,16 +66,15 @@ public abstract ManagedChannel shutdown();
 public abstract ManagedChannel shutdownNow();
 ```
 
-
-- isShutdown 
+- isShutdown
 
 返回 `Channel` 是否终止，终止的 `Channel` 没有执行中的调用，相关的资源被释放
 
-```java 
+```java
 public abstract boolean isShutdown();
-``` 
+```
 
-- awiatTermination 
+- awiatTermination
 
 等待 `Channel` 变为终止，如果超时则放弃等待
 
@@ -81,12 +82,11 @@ public abstract boolean isShutdown();
 public abstract boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
 ```
 
-
 #### 状态
 
 - getState
 
-获取当前连接的状态，当参数为 true 是，如果 `Channel` 处于  `IDLE` 模式，则会退出 `IDLE` 模式，尝试建立连接
+获取当前连接的状态，当参数为 true 是，如果 `Channel` 处于 `IDLE` 模式，则会退出 `IDLE` 模式，尝试建立连接
 
 ```java
 public ConnectivityState getState(boolean requestConnection) {
@@ -126,7 +126,7 @@ public void resetConnectBackoff() {
 
 #### 生命周期
 
-- start 
+- start
 
 开始 `Subchannel`，只能调用一次，同时会启动监听器
 
@@ -144,7 +144,7 @@ public void start(SubchannelStateListener listener) {
 public abstract void requestConnection()
 ```
 
-- shutdown 
+- shutdown
 
 关闭 `Subchannel`，当调用这个方法后，`SubchannelPicker` 不会再返回这个 `Subchannel`
 
@@ -154,7 +154,7 @@ public abstract void shutdown();
 
 #### 操作地址
 
-- getAddresses 
+- getAddresses
 
 获取第一个地址集合
 
@@ -186,9 +186,9 @@ public void updateAddresses(List<EquivalentAddressGroup> addrs) {
 }
 ```
 
-#### 其他方法 
+#### 其他方法
 
-- asChannel 
+- asChannel
 
 使用当前的 `Subchannel` 创建 `Channel`，用于健康检查等内部操作
 

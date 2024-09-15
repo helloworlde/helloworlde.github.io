@@ -3,18 +3,17 @@ title: OpenWrt 使用 SmartDNS
 type: post
 date: 2022-09-27 11:32:08
 tags:
-- SmartDNS
-- DNS
-- OpenWrt
-- HomeLab
+  - SmartDNS
+  - DNS
+  - OpenWrt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
-
 
 # OpenWrt 使用 SmartDNS
 
-[SmartDNS](https://pymumu.github.io/smartdns/)  是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等
+[SmartDNS](https://pymumu.github.io/smartdns/) 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等
 
 在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度
 
@@ -60,7 +59,7 @@ smartdns        name = smartdns.
 
 ## 将 SmartDNS 作为主 DNS 服务器
 
-上述配置完成后，DNS的查询流程为 客户端 -> Dnsmasq -> SmartDNS ->  上游 DNS 服务器；Dnsmasq 变成了赚差价的中间商，会影响查询速度；因此，可以将 SmartDNS 作为主 DNS 服务器，不再经过 Dnsmasq
+上述配置完成后，DNS的查询流程为 客户端 -> Dnsmasq -> SmartDNS -> 上游 DNS 服务器；Dnsmasq 变成了赚差价的中间商，会影响查询速度；因此，可以将 SmartDNS 作为主 DNS 服务器，不再经过 Dnsmasq
 
 需要注意的是，如果使用了 OpenClash 等需要劫持 DNS 的服务，不能用这种方式，否则可能会导致服务无法正常使用
 
@@ -76,4 +75,4 @@ smartdns        name = smartdns.
 
 ![homelab-oepnwrt-smart-dns-use-the-53-port.png](https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-use-the-53-port.png)
 
-此时 DNS 的查询流程为 客户端 -> SmartDNS ->  上游 DNS 服务器
+此时 DNS 的查询流程为 客户端 -> SmartDNS -> 上游 DNS 服务器

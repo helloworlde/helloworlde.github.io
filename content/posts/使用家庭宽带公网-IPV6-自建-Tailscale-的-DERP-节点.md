@@ -2,15 +2,14 @@
 title: "使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点"
 type: post
 date: 2024-06-11T21:33:44+08:00
-tags: 
-    - HomeLab
-    - Network
-series: 
-    - HomeLab
-    - Network
+tags:
+  - HomeLab
+  - Network
+series:
+  - HomeLab
+  - Network
 featured: true
 ---
-
 
 # 使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点
 
@@ -50,7 +49,7 @@ Report:
 
 tailscale 的 [Prerequisites](https://tailscale.com/kb/1118/custom-derp-servers#prerequisites)文档中要求开放HTTP/HTTPS/STUN 三个端口，默认是 80/443/3478 端口，实际上有 HTTPS/STUN 就够了
 
-### 2. 申请 Let's Encrypt 证书 
+### 2. 申请 Let's Encrypt 证书
 
 Tailscale 的流量必须通过 HTTPS 进行转发，因此域名需要有有效的 TLS 证书，可以使用免费的 Let's Encrypt 证书；
 
@@ -83,7 +82,7 @@ CLOUDFLARE_PROPAGATION_TIMEOUT=300 \
 另外，需要将申请的证书的 `.key` 和 `.crt` 文件上传到 `cert` 路径下，挂载到容器中
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   derper:
@@ -103,7 +102,7 @@ services:
       - DERP_DEBUG_LOGS=true
 ```
 
-- 启动 
+- 启动
 
 ```shell
 docker-compose up -d
@@ -131,21 +130,22 @@ derper    | 2024/06/09 11:35:54 running STUN server on [::]:3478
 {
   // ...
   "derpMap": {
-    "OmitDefaultRegions": false,// 是否仅使用自定义的 DERP 节点，默认为 false
+    "OmitDefaultRegions": false, // 是否仅使用自定义的 DERP 节点，默认为 false
     "Regions": {
-      "900": { 
+      "900": {
         "RegionID": 900, // 900-999之间
         "RegionCode": "homelab", // 自定义 Code
         "RegionName": "HomeLab", // 自定义名称
-        "Nodes": [ // derp 服务器节点
+        "Nodes": [
+          // derp 服务器节点
           {
-            "Name": "HomeLab Server",// 名称
+            "Name": "HomeLab Server", // 名称
             "RegionID": 900, // 和上面的 regionId 一样
             "HostName": "derp.xxx.xxx", // 域名
             "DERPPort": 12345, // DERP 服务器 HTTPS 端口，默认为 443,用于数据中转
-            "STUNPort": 3478, // DERP 服务器 STUN 端口，默认为3478，用于 NAT 穿越的端口
+            "STUNPort": 3478 // DERP 服务器 STUN 端口，默认为3478，用于 NAT 穿越的端口
             // "IPv6": "2409:xxxx:xxxx:xxxx::xxxx", // IPV6 地址，用于在测试阶段绕过域名解析
-			// "InsecureForTests": true, // 如果 TLS 证书未申请，则可以不检测证书
+            // "InsecureForTests": true, // 如果 TLS 证书未申请，则可以不检测证书
           }
         ]
       }

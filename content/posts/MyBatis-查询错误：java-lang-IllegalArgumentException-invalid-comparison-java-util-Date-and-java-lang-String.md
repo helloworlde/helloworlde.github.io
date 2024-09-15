@@ -5,17 +5,16 @@ title: >-
 type: post
 date: 2019-03-29 21:17:57
 tags:
-    - MyBatis 
-    - Java
-    - SpringBoot
-categories: 
-    - MyBatis 
-    - Java
-    - SpringBoot
+  - MyBatis
+  - Java
+  - SpringBoot
+categories:
+  - MyBatis
+  - Java
+  - SpringBoot
 ---
 
 # MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
-
 
 项目中用 MyBatis Plus 替换了 MyBatis，原来的 MyBatis版本是 `3.2.8`, MyBatis Plus 的版本是 `3.1.0`，是基于 MyBatis `3.5.0`开发的，测试没啥问题，上线之后有一些功能不能使用，排查日志发现错误`Error querying database.  Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String`
 
@@ -24,7 +23,7 @@ categories:
 - 异常信息
 
 ```java
-Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+Caused by: org.apache.ibatis.exceptions.PersistenceException:
 ### Error querying database.  Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
 ### Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
     at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
@@ -86,12 +85,11 @@ result = 1;
 
 在3.3之后，在 `compareWithConversion`方法中移除了 equals 这个参数，判断的逻辑改成了 `result = object1 != null && object2 != null && (object1.equals(object2) || compareWithConversion(object1, object2) == 0);`，`compareWithConversion`方法里当比较的对象 class 不同的时候，会抛出 `IllegalArgumentException`
 
-
 以下是两个版本的比较部分的逻辑代码：
 
-##### MyBatis 3.2.8 相关代码 
+##### MyBatis 3.2.8 相关代码
 
-- org.apache.ibatis.ognl.OgnlOps#isEqual:76 
+- org.apache.ibatis.ognl.OgnlOps#isEqual:76
 
 ```java
 public static boolean isEqual(Object object1, Object object2) {
@@ -116,7 +114,6 @@ public static boolean isEqual(Object object1, Object object2) {
         return result;
     }
 ```
-
 
 - org.apache.ibatis.ognl.OgnlOps#compareWithConversion:21
 
@@ -148,7 +145,7 @@ public static boolean isEqual(Object object1, Object object2) {
                 }
 ```
 
-##### MyBatis 3.5.0 相关代码 
+##### MyBatis 3.5.0 相关代码
 
 - org.apache.ibatis.ognl.OgnlOps#isEqual:58
 
@@ -193,6 +190,7 @@ public static boolean isEqual(Object object1, Object object2) {
 ### 总结
 
 这个问题来自两方面：
+
 1. 开发不规范，使用 Date 和 String 做比较，这个本身就是有问题的， 类似的还有用 String 比较集合或者对象；
 2. MyBatis 3.3 之前的 bug 导致在比较不同类型的时候，本来应该抛出的异常没有被抛出，导致这个问题被隐藏
 
@@ -208,9 +206,9 @@ public static boolean isEqual(Object object1, Object object2) {
 #### 相关 ISSUE
 
 - [java.util.RandomAccessSubList and java.lang.String](https://github.com/mybatis/mybatis-3/issues/445)
-- [3.3.1 java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String](https://github.com/mybatis/mybatis-3/issues/1340) 
+- [3.3.1 java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String](https://github.com/mybatis/mybatis-3/issues/1340)
 
-----------
+---
 
 #### 调用栈
 
@@ -351,7 +349,7 @@ run:61, TaskThread$WrappingRunnable (org.apache.tomcat.util.threads)
 run:748, Thread (java.lang)
 ```
 
-#### 异常堆栈 
+#### 异常堆栈
 
 ```java
 ### Error querying database.  Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
@@ -454,7 +452,7 @@ run:748, Thread (java.lang)
     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
     at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
     at java.lang.Thread.run(Thread.java:748)
-Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+Caused by: org.apache.ibatis.exceptions.PersistenceException:
 ### Error querying database.  Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
 ### Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
     at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)

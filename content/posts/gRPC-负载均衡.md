@@ -3,19 +3,20 @@ title: gRPC  负载均衡
 type: post
 date: 2020-09-20 22:36:58
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC  负载均衡
+# gRPC 负载均衡
 
-gRPC 内定义了  LoadBalancer 接口，用于负载均衡
+gRPC 内定义了 LoadBalancer 接口，用于负载均衡
 
 ![grpc-source-code-loadbalancer-methods.png](https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-methods.png)
 
 LoadBalancer 中的主要方法
-- `handleResolvedAddress`：处理  `NameResolver` 解析的地址，用于创建 `Subchannel`
+
+- `handleResolvedAddress`：处理 `NameResolver` 解析的地址，用于创建 `Subchannel`
 - `handleNameResolutionError`: 处理命名解析失败，会销毁已经存在的 `Suchannel`
 - `requestConnection`: 创建连接，会为 `Subchannel` 初始化 `Transport`，并建立连接
 
@@ -27,13 +28,14 @@ LoadBalancer 接口有多个实现类，如用于代理的 `ForwardingLoadBalanc
 
 LoadBalancer 有多个内部类，用于实现负载均衡
 
-- `Factory`: 用于创建 `LoadBalancer`，通过  `LoadBalancerProvider` 实现
+- `Factory`: 用于创建 `LoadBalancer`，通过 `LoadBalancerProvider` 实现
 - `Subchannel`: 逻辑连接，一个 `Subchannel` 内可能包含多个 `IP:PORT`
 - `Helper`: 用于创建 `LoadBalancer`、`Subchannel` 等
 - `SubchannelPicker`: `Subchannel` 选择器，根据不同的策略使用不同的选择方式
 - `SubchannelStateListener`: `Subchannel` 状态监听器，当 `Subchannel` 状态发生变化时及时更新
 
 LoadBalancer 的工作流程是：
+
 1. 使用 `LoadBalancerRegistry` 或者 SPI 的方式注册 `LoadBalancerProvider`
 2. 调用 Channel Builder 的 `defaultLoadBalancingPolicy` 设置负载均衡策略
 3. 在 `ManagedChannelImpl` 的构造方法中，创建 `Factory`
@@ -43,9 +45,9 @@ LoadBalancer 的工作流程是：
 7. `LoadBalancer` 根据解析的地址创建 `Subchannel`
 8. `Subchannel`调用 `requestConnection` 方法建立连接
 
-## 创建 LoadBalancer 
+## 创建 LoadBalancer
 
-1. 创建 Channel 前注册 Provider 
+1. 创建 Channel 前注册 Provider
 
 ```java
 LoadBalancerRegistry.getDefaultRegistry().register(new HealthCheckingRoundRobinLoadBalancerProvider());
@@ -102,7 +104,7 @@ this.lbHelper = lbHelper;
     }
 ```
 
-- 实现类 `io.grpc.services.internal.HealthCheckingRoundRobinLoadBalancerProvider#newLoadBalancer`  
+- 实现类 `io.grpc.services.internal.HealthCheckingRoundRobinLoadBalancerProvider#newLoadBalancer`
 
 ```java
     public LoadBalancer newLoadBalancer(Helper helper) {
@@ -167,7 +169,7 @@ public void run() {
   // ...
   ManagedChannelServiceConfig effectiveServiceConfig;
     effectiveServiceConfig = defaultServiceConfig == null ? EMPTY_SERVICE_CONFIG : defaultServiceConfig;
-        
+
   // 获取属性
   Attributes effectiveAttrs = resolutionResult.getAttributes();
   // 如果服务发现没有关闭
@@ -197,6 +199,7 @@ public void run() {
 ```
 
 ### 由 LB 处理地址
+
 - `io.grpc.internal.AutoConfiguredLoadBalancerFactory.AutoConfiguredLoadBalancer#tryHandleResolvedAddresses`
 
 先从解析的结果中获取 `LoadBalancerProvider`，如果不存在，则使用默认的的；
@@ -365,7 +368,6 @@ ClientTransport transport = clientTransportProvider.get(new PickSubchannelArgsIm
 如果 Picker 是空的，则说明还没有执行过，则调用 `exitIdleMode` 退出空闲模式，并返回延迟执行的`Transport`;
 如果 Picker 已经初始化了，则调用 `io.grpc.util.RoundRobinLoadBalancer.ReadyPicker#pickSubchannel`选择 Subchannel
 
-
 ```java
     public ClientTransport get(PickSubchannelArgs args) {
       SubchannelPicker pickerCopy = subchannelPicker;
@@ -373,7 +375,7 @@ ClientTransport transport = clientTransportProvider.get(new PickSubchannelArgsIm
       if (shutdown.get()) {
         return delayedTransport;
       }
-      
+
       // 如果是 SubchannelPicker 是空的，则退出 idle 模模式，返回 delayedTransport
       if (pickerCopy == null) {
         final class ExitIdleModeForTransport implements Runnable {

@@ -3,9 +3,9 @@ title: Thrift 中的 Protocol
 type: post
 date: 2021-01-31 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
 # Thrift 中的 Protocol
@@ -75,7 +75,7 @@ public abstract ByteBuffer readBinary() throws TException;
 
 ## 实现类
 
-- `TBinaryProtocol`: 二进制协议，根据 Thrift 的类型按  [Thrift Protocol Structure](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md) 定义写入数据；参考 [Thrift Binary protocol encoding](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-binary-protocol.md)
+- `TBinaryProtocol`: 二进制协议，根据 Thrift 的类型按 [Thrift Protocol Structure](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md) 定义写入数据；参考 [Thrift Binary protocol encoding](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-binary-protocol.md)
 
 ```java
 public void writeMessageBegin(TMessage message) throws TException {
@@ -96,7 +96,7 @@ public void writeMessageBegin(TMessage message) throws TException {
 ```
 
 - `TCompactProtocol`：压缩协议，会将请求内容进行压缩后写入，参考 [Thrift Compact protocol encoding
-](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-compact-protocol.md)
+  ](https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-compact-protocol.md)
 
 ```java
 public void writeMessageBegin(TMessage message) throws TException {
@@ -155,7 +155,7 @@ public void writeMessageBegin(TMessage tMessage) throws TException {
 
 - `TMultiplexedProtocol`：`TProtocolDecorator` 的实现类，在消息头部写入了服务的名称，会被 Server 端解析；用于有多个服务的 Server；其他的类型写入和读取由被代理的协议实现
 
-```java 
+```java
 public void writeMessageBegin(TMessage tMessage) throws TException {
     if (tMessage.type == TMessageType.CALL || tMessage.type == TMessageType.ONEWAY) {
         super.writeMessageBegin(new TMessage(
@@ -168,6 +168,7 @@ public void writeMessageBegin(TMessage tMessage) throws TException {
     }
 }
 ```
+
 - `StoredMessageProtocol`：`TProtocolDecorator` 的实现类，代理其他协议，通常用于 Server 端，只获取请求头，具体的读取由被代理的协议实现
 
 ```java

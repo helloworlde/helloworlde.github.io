@@ -3,16 +3,16 @@ title: Thrfit 客户端请求处理流程
 type: post
 date: 2021-02-20 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
 # Thrfit 客户端请求处理流程
 
 使用同步的非阻塞的服务端和客户端的请求处理流程
 
-## 实现 
+## 实现
 
 ### IDL
 
@@ -89,7 +89,7 @@ public void open() throws TTransportException {
 }
 ```
 
-###  2. 执行请求
+### 2. 执行请求
 
 使用 `TProtocol` 构建 `TServiceClient`，用于发送同步请求
 
@@ -229,7 +229,7 @@ protected void receiveBase(TBase<?, ?> result, String methodName) throws TExcept
 
 - org.apache.thrift.protocol.TBinaryProtocol#readMessageBegin
 
-读取并校验版本，获取方法名称、消息类型、请求 ID 
+读取并校验版本，获取方法名称、消息类型、请求 ID
 
 ```java
 public TMessage readMessageBegin() throws TException {

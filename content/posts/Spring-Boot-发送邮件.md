@@ -3,28 +3,30 @@ title: Spring Boot 发送邮件
 type: post
 date: 2017-12-31 23:55:11
 tags:
-    - Java
-    - SpringBoot 
-    - Mail
-categories: 
-    - Java
-    - SpringBoot
-    - Mail
+  - Java
+  - SpringBoot
+  - Mail
+categories:
+  - Java
+  - SpringBoot
+  - Mail
 ---
 
 > 在 Spring Boot 中使用 Spring Mail 发送邮件
+
 - 项目地址：[https://github.com/helloworlde/SpringBoot-Mail](https://github.com/helloworlde/SpringBoot-Mail)
-----------------
+
+---
 
 ## 添加 Spring Mail 依赖
 
-- build.gradle 
+- build.gradle
 
 ```
    compile('org.springframework.boot:spring-boot-starter-mail')
 ```
 
-## 添加配置文件 
+## 添加配置文件
 
 - application.properties
 
@@ -39,9 +41,9 @@ categories:
     spring.mail.properties.mail.smtp.ssl.enable=true
 ```
 
----------------
+---
 
-## 发送简单邮件 
+## 发送简单邮件
 
 - MailUtil.java
 
@@ -54,23 +56,23 @@ categories:
    import org.springframework.mail.javamail.JavaMailSender;
    import org.springframework.stereotype.Component;
    import org.thymeleaf.TemplateEngine;
-   
+
    @Component
    public class MailUtil {
-   
+
        private final Logger logger = LoggerFactory.getLogger(getClass());
-   
+
        @Autowired
        JavaMailSender mailSender;
-   
+
        @Autowired
        TemplateEngine templateEngine;
-   
+
        public void sendSimpleEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content) throws ServiceException {
-   
+
            long startTimestamp = System.currentTimeMillis();
            logger.info("Start send mail ... ");
-   
+
            try {
                SimpleMailMessage message = new SimpleMailMessage();
                message.setFrom(deliver);
@@ -86,7 +88,7 @@ categories:
                throw new ServiceException(e.getMessage());
            }
        }
-   
+
    }
 ```
 
@@ -100,7 +102,7 @@ categories:
         String[] carbonCopy = {"抄送者邮件地址"};
         String subject = "This is a simple email";
         String content = "This is a simple content";
-        
+
         try {
             mailUtil.sendSimpleEmail(deliver, receiver, carbonCopy, subject, content);
         } catch (Exception e) {
@@ -123,32 +125,32 @@ categories:
     import org.springframework.mail.javamail.JavaMailSender;
     import org.springframework.mail.javamail.MimeMessageHelper;
     import org.springframework.stereotype.Component;
-    
+
     import javax.mail.MessagingException;
     import javax.mail.internet.MimeMessage;
-    
+
     @Component
     public class MailUtil {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         JavaMailSender mailSender;
-    
+
         public void sendHtmlEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content, boolean isHtml) throws ServiceException {
             long startTimestamp = System.currentTimeMillis();
             logger.info("Start send email ...");
-    
+
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-    
+
                 messageHelper.setFrom(deliver);
                 messageHelper.setTo(receiver);
                 messageHelper.setCc(carbonCopy);
                 messageHelper.setSubject(subject);
                 messageHelper.setText(content, isHtml);
-    
+
                 mailSender.send(message);
                 logger.info("Send email success, cost {} million seconds", System.currentTimeMillis() - startTimestamp);
             } catch (MessagingException e) {
@@ -157,7 +159,7 @@ categories:
                 throw new ServiceException(e.getMessage());
             }
         }
-    
+
     }
 
 ```
@@ -172,7 +174,7 @@ categories:
         String[] carbonCopy = {"抄送者邮件地址"};
         String subject = "This is a HTML content email";
         String content = "<h1>This is HTML content email </h1>";
-        
+
         boolean isHtml = true;
         try {
             mailUtil.sendHtmlEmail(deliver, receiver, carbonCopy, subject, content, isHtml);
@@ -189,41 +191,41 @@ categories:
 - MailUtil.java
 
 ```
-    
+
     import org.slf4j.Logger;
     import org.slf4j.LoggerFactory;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.mail.javamail.JavaMailSender;
     import org.springframework.mail.javamail.MimeMessageHelper;
     import org.springframework.stereotype.Component;
-    
+
     import javax.mail.MessagingException;
     import javax.mail.internet.MimeMessage;
     import java.io.File;
-    
+
     @Component
     public class MailUtil {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         JavaMailSender mailSender;
-    
+
         public void sendAttachmentFileEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content, boolean isHtml, String fileName, File file) throws ServiceException {
             long startTimestamp = System.currentTimeMillis();
             logger.info("Start send mail ...");
-    
+
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-    
+
                 messageHelper.setFrom(deliver);
                 messageHelper.setTo(receiver);
                 messageHelper.setCc(carbonCopy);
                 messageHelper.setSubject(subject);
                 messageHelper.setText(content, isHtml);
                 messageHelper.addAttachment(fileName, file);
-    
+
                 mailSender.send(message);
                 logger.info("Send mail success, cost {} million seconds", System.currentTimeMillis() - startTimestamp);
             } catch (MessagingException e) {
@@ -232,7 +234,7 @@ categories:
                 throw new ServiceException(e.getMessage());
             }
         }
-        
+
     }
 
 ```
@@ -245,7 +247,7 @@ categories:
         String FILE_PATH = "文件地址";
         String deliver = "你的邮件地址";
         String[] receiver = {"接收者邮件地址"};
-        String[] carbonCopy = {"抄送者邮件地址"};    
+        String[] carbonCopy = {"抄送者邮件地址"};
         String subject = "This is an attachment file email";
         String content = "<h2>This is an attachment file email</h2>";
         boolean isHtml = true;
@@ -357,36 +359,36 @@ categories:
     import org.springframework.stereotype.Component;
     import org.thymeleaf.TemplateEngine;
     import org.thymeleaf.context.Context;
-    
+
     import javax.mail.MessagingException;
     import javax.mail.internet.MimeMessage;
-    
+
     @Component
     public class MailUtil {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         JavaMailSender mailSender;
-    
+
         @Autowired
         TemplateEngine templateEngine;
-    
+
         public void sendTemplateEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String template, Context context) throws ServiceException {
             long startTimestamp = System.currentTimeMillis();
             logger.info("Start send mail ...");
-    
+
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-    
+
                 String content = templateEngine.process(template, context);
                 messageHelper.setFrom(deliver);
                 messageHelper.setTo(receiver);
                 messageHelper.setCc(carbonCopy);
                 messageHelper.setSubject(subject);
                 messageHelper.setText(content, true);
-    
+
                 mailSender.send(message);
                 logger.info("Send mail success, cost {} million seconds", System.currentTimeMillis() - startTimestamp);
             } catch (MessagingException e) {
@@ -399,7 +401,7 @@ categories:
 
 ```
 
-- 发送模板邮件 
+- 发送模板邮件
 
 ```
     @Test
@@ -435,4 +437,3 @@ categories:
     }
 
 ```
-

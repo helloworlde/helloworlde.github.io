@@ -3,17 +3,17 @@ title: "OpenWrt 在 PVE 中以虚拟机方式安装"
 type: post
 date: 2023-03-20T21:35:17+08:00
 tags:
-    - Proxmox VE
-    - OpenWrt
-    - HomeLab
-categories: 
-    - Proxmox VE
-    - OpenWrt
-    - HomeLab
-series: 
-    - OpenWrt
-    - Proxmox VE
-featured: true  
+  - Proxmox VE
+  - OpenWrt
+  - HomeLab
+categories:
+  - Proxmox VE
+  - OpenWrt
+  - HomeLab
+series:
+  - OpenWrt
+  - Proxmox VE
+featured: true
 ---
 
 # OpenWrt-在 PVE 中以虚拟机方式安装
@@ -28,7 +28,6 @@ featured: true
 
 ![homelab-openwrt-esxi-ima-download.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png)
 
-
 - 解压
 
 使用 `gunzip` 命令解压 `gz` 压缩文件
@@ -38,7 +37,6 @@ gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 ```
 
 将下载的镜像解压后得到 `img`格式的文件
-
 
 ## 虚拟机配置
 
@@ -50,8 +48,8 @@ gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 4. 按需配置 CPU 和内存；通常 1核和 512M就已经足够了
 
 ![homelab-openwrt-pve-init-configuration.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-init-configuration.png)
- 
-### 添加硬盘 
+
+### 添加硬盘
 
 - 上传 img 镜像
 
@@ -96,7 +94,7 @@ qm importdisk 106 /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-c
 
 启动后，需要编辑 Openwrt 的网络配置才可以进行访问
 
-- 修改网络配置 
+- 修改网络配置
 
 编辑 `/etc/config/network`文件，修改 `ipaddr` 为当前局域网网段的 IP；指定 `gateway`为当前网段的网关地址； `dns`可以是当前网关的地址，也可以是 DNS 服务器的地址（建议使用 DNS 服务器，网关可能无法提供 DNS 解析）
 

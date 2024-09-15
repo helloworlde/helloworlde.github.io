@@ -3,13 +3,13 @@ title: Spring Boot 中自定义异常处理
 type: post
 date: 2019-09-08 18:47:12
 tags:
-    - Java
-    - SpringBoot 
-    - Exception
-categories: 
-    - Java
-    - SpringBoot
-    - Exception
+  - Java
+  - SpringBoot
+  - Exception
+categories:
+  - Java
+  - SpringBoot
+  - Exception
 ---
 
 # Spring Boot 中自定义异常处理
@@ -18,6 +18,7 @@ categories:
 
 > Spring Boot 中提供了默认的异常处理，但是对于应用来说，这些信息并不应该直接返回或者不够明确，需要结合自己的情况进行定制
 > 自定义处理异常有两种方式:
+>
 > - `org.springframework.web.servlet.HandlerExceptionResolver#resolveException`方法
 > - `org.springframework.web.bind.annotation.RestControllerAdvice`或`org.springframework.web.bind.annotation.ControllerAdvice`和`org.springframework.web.bind.annotation.ExceptionHandler`注解来实现
 
@@ -81,7 +82,7 @@ public class CustomExceptionHandlerResolver implements HandlerExceptionResolver 
 }
 ```
 
-还需要将该配置添加到应用中 
+还需要将该配置添加到应用中
 
 - CustomWebMvcConfigurer.java
 
@@ -122,7 +123,6 @@ curl localhost:8080/null
 curl localhost:8080/arg
 {"code":500,"status":"fail","data":null,"message":"参数错误"}%
 ```
-
 
 ## 使用 RestControllerAdvice/ControllerAdvice 和 ExceptionHandler 处理异常
 
@@ -171,7 +171,7 @@ public class CustomControllerExceptionResolver {
                                                                      .build();
         return new ResponseEntity<>(responseContent, HttpStatus.BAD_REQUEST);
     }
-    
+
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ResponseEntity<?> handlerException(HttpServletRequest request, Throwable throwable) {
@@ -185,7 +185,7 @@ public class CustomControllerExceptionResolver {
 }
 ```
 
-### 测试 
+### 测试
 
 - 添加接口
 
@@ -271,7 +271,7 @@ curl -X POST \
 
 ### 返回 JSON 数据
 
-- CustomNoHandlerExceptionResolver.java 
+- CustomNoHandlerExceptionResolver.java
 
 ```java
 @Controller

@@ -3,9 +3,9 @@ title: gRPC 中打印请求二进制日志
 type: post
 date: 2021-01-04 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 中打印请求二进制日志
@@ -24,7 +24,7 @@ dependencies {
 }
 ```
 
-#### 2. 添加 BinaryLogSink 实现 
+#### 2. 添加 BinaryLogSink 实现
 
 ```java
 @Slf4j

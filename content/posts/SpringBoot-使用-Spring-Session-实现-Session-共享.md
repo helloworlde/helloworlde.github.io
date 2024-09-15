@@ -2,23 +2,24 @@
 title: SpringBoot-使用 Spring Session 实现 Session 共享
 type: post
 date: 2018-04-08 15:09:41
-tags:   
-    - Java
-    - SpringBoot 
-    - SpringSession
-    - Session
-categories: 
-    - Java
-    - SpringBoot
-    - SpringSession
-    - Session
+tags:
+  - Java
+  - SpringBoot
+  - SpringSession
+  - Session
+categories:
+  - Java
+  - SpringBoot
+  - SpringSession
+  - Session
 ---
 
 # SpringBoot 使用 Spring Session 实现 Session 共享
 
-## 通过 Redis 共享 
+## 通过 Redis 共享
 
 ### 配置
+
 - 配置并启动 Redis
 - 添加依赖
 
@@ -43,7 +44,7 @@ spring.redis.password=123456
 
 ### 使用
 
-- 启用 Redis Session 
+- 启用 Redis Session
 
 ```java
 import org.springframework.boot.SpringApplication;
@@ -60,9 +61,9 @@ public class SessionApplication {
 }
 ```
 
-`@EnableRedisHttpSession` 也可以不写，在配置文件里配置  `spring.session.store-type=redis` 即可
+`@EnableRedisHttpSession` 也可以不写，在配置文件里配置 `spring.session.store-type=redis` 即可
 
-- 添加 Controller 
+- 添加 Controller
 
 ```java
 
@@ -86,14 +87,13 @@ public class SessionController {
 
 访问 `http://localhost:8080`, 此时会显示 `Session ID`, 重新启动应用，再次访问 `http://localhost:8080`，此时 `Session ID` 应该和第一次访问一致，说明 `Session` 已被正确共享
 
--------------------------
+---
 
-
-## 通过 JDBC 共享 
+## 通过 JDBC 共享
 
 ### 配置
 
-- 创建 Spring Session 所需要的表 
+- 创建 Spring Session 所需要的表
 
 ```sql
 CREATE TABLE SPRING_SESSION (
@@ -161,7 +161,7 @@ spring.session.store-type=jdbc
 
 ### 使用
 
-- 启用 JDBC Session 
+- 启用 JDBC Session
 
 ```java
 import org.springframework.boot.SpringApplication;
@@ -178,9 +178,9 @@ public class SessionApplication {
 }
 ```
 
-`@EnableJdbcHttpSession` 也可以不写，在配置文件里配置  `spring.session.store-type=jdbc` 即可
+`@EnableJdbcHttpSession` 也可以不写，在配置文件里配置 `spring.session.store-type=jdbc` 即可
 
-- 添加 Controller 
+- 添加 Controller
 
 ```java
 
@@ -203,6 +203,3 @@ public class SessionController {
 ```
 
 访问 `http://localhost:8080`, 此时会显示 `Session ID`, 重新启动应用，再次访问 `http://localhost:8080`，此时 `Session ID` 应该和第一次访问一致，说明 `Session` 已被正确共享
-
-
-

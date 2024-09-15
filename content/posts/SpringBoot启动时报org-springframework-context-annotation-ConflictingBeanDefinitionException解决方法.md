@@ -4,26 +4,27 @@ title: >-
 type: post
 date: 2018-01-01 00:53:44
 tags:
-    - Java
-    - SpringBoot
-    - Exception 
-categories: 
-    - Java
-    - SpringBoot
-    - Exception
+  - Java
+  - SpringBoot
+  - Exception
+categories:
+  - Java
+  - SpringBoot
+  - Exception
 ---
+
 > 在SpringBoot应用启动的过程中，因为报`org.springframework.context.annotation.ConflictingBeanDefinitionException`导致应用启动失败
 
-----------------------
+---
 
 > **错误信息：**
+
 ```
-Annotation-specified bean name 'personDubboConsumerService' for bean class 
+Annotation-specified bean name 'personDubboConsumerService' for bean class
 [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService]
- conflicts with existing, non-compatible bean definition of same name and class 
+ conflicts with existing, non-compatible bean definition of same name and class
  [cn.com.hellowood.dubbo.PersonDubboConsumerService]
 ```
-
 
 > 这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
 > **通过指定注入对象的名称可以解决这个问题**
@@ -43,6 +44,7 @@ public class PersonDubboConsumerService {
     }
 }
 ```
+
 - 修改后（**Component注解加上名称就可以，要和另一个bean的名称不同**）
 
 ```
@@ -59,8 +61,8 @@ public class PersonDubboConsumerService {
 }
 ```
 
+---
 
-----------
 - 异常信息
 
 ```console

@@ -1,20 +1,20 @@
 ---
-title: 'Google Cloud Run 部署 Knative Serverless 应用 '
+title: "Google Cloud Run 部署 Knative Serverless 应用 "
 type: post
 date: 2019-05-15 08:23:26
 tags:
-    - Serverless
-    - Google
-    - Cloud Run
-    - Go
-categories: 
-    - Serverless
-    - Google
-    - Cloud Run
-    - Go
+  - Serverless
+  - Google
+  - Cloud Run
+  - Go
+categories:
+  - Serverless
+  - Google
+  - Cloud Run
+  - Go
 ---
 
-# Google Cloud Run 部署Knative Serverless 应用 
+# Google Cloud Run 部署Knative Serverless 应用
 
 > Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言
 
@@ -28,7 +28,7 @@ Cloud SDK 是 Google Cloud 的命令行工具，用于访问Google Cloud相关�
 
 以 Go 语言为例，创建一个应用，根据不同的请求返回不同的内容
 
-- main.go 
+- main.go
 
 ```go
 package main
@@ -94,13 +94,13 @@ CMD ["/app/main"]
 gcloud auth configure-docker
 ```
 
-- 构建镜像 
+- 构建镜像
 
 ```bash
 docker build -t gcr.io/genial-post-128203/serverless .
 ```
 
-- 推送镜像 
+- 推送镜像
 
 ```bash
 docker push gcr.io/genial-post-128203/serverless
@@ -125,7 +125,7 @@ curl https://cloudserverless-pae2opltia-uc.a.run.app
 ```
 
 ```json
-{"code":200,"message":"Hello Go Server"}
+{ "code": 200, "message": "Hello Go Server" }
 ```
 
 - 指定参数
@@ -135,11 +135,10 @@ curl https://cloudserverless-pae2opltia-uc.a.run.app?message=HelloWood
 ```
 
 ```json
-{"code":200,"message":"HelloWood"}
+{ "code": 200, "message": "HelloWood" }
 ```
 
-
-----------
+---
 
 ### 代码
 

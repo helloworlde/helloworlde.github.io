@@ -3,21 +3,20 @@ title: 使用 GitHub 作为 Helm 仓库
 type: post
 date: 2019-12-07 22:16:35
 tags:
-    - Kubernetes
-    - Helm
-categories: 
-    - Kubernetes
-    - Helm
+  - Kubernetes
+  - Helm
+categories:
+  - Kubernetes
+  - Helm
 ---
 
 # 使用 GitHub 作为 Helm 仓库
 
 > 使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例
 
-
 ## 准备工作
 
-- 创建仓库 
+- 创建仓库
 
 在 GitHub 上创建名为 `helm-chart`的仓库
 
@@ -73,7 +72,7 @@ helm lint helm-chart-sources/*
 ## 打包发布应用
 
 - 打包应用
- 
+
 ```bash
 helm package helm-chart-sources/*
 ```
@@ -94,16 +93,16 @@ cat index.yaml
 apiVersion: v1
 entries:
   helloworld:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2019-12-07T17:55:16.095749+08:00"
-    description: A Helm chart for Kubernetes
-    digest: 5909523dffde5b12f3c589bcea2d31a5785aa437dc8ea6ed147fcbf57b13a671
-    name: helloworld
-    type: application
-    urls:
-    - https://helloworlde.github.io/helm-chart/helloworld-0.1.0.tgz
-    version: 0.1.0
+    - apiVersion: v2
+      appVersion: 1.16.0
+      created: "2019-12-07T17:55:16.095749+08:00"
+      description: A Helm chart for Kubernetes
+      digest: 5909523dffde5b12f3c589bcea2d31a5785aa437dc8ea6ed147fcbf57b13a671
+      name: helloworld
+      type: application
+      urls:
+        - https://helloworlde.github.io/helm-chart/helloworld-0.1.0.tgz
+      version: 0.1.0
 generated: "2019-12-07T17:55:16.092676+08:00"
 ```
 
@@ -132,13 +131,13 @@ NAME              	CHART VERSION	APP VERSION	DESCRIPTION
 myrepo/helloworlde	0.1.0        	1.0        	A Helm chart for Kubernetes
 ```
 
-- 安装应用 
+- 安装应用
 
 ```
 helm install helloworld helloworld
 ```
 
-## 升级 Helm 版本 
+## 升级 Helm 版本
 
 修改版本号为 `0.1.1`
 
@@ -158,32 +157,32 @@ helm package helm-chart-sources/*
 helm repo index --url https://helloworlde.github.io/helm-chart/ --merge index.yaml .
 ```
 
-此时 index.yaml 内容变为 
+此时 index.yaml 内容变为
 
 ```yaml
 apiVersion: v1
 entries:
   helloworld:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2019-12-07T18:08:17.053158+08:00"
-    description: A Helm chart for Kubernetes
-    digest: aca5feeb8137addab872a98e5da5e4e4aa57d5523faeeedf1cd5c672b26c1274
-    name: helloworld
-    type: application
-    urls:
-    - https://helloworlde.github.io/helm-chart/helloworld-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2019-12-07T18:08:17.052134+08:00"
-    description: A Helm chart for Kubernetes
-    digest: 5909523dffde5b12f3c589bcea2d31a5785aa437dc8ea6ed147fcbf57b13a671
-    name: helloworld
-    type: application
-    urls:
-    - https://helloworlde.github.io/helm-chart/helloworld-0.1.0.tgz
-    version: 0.1.0
+    - apiVersion: v2
+      appVersion: 1.16.0
+      created: "2019-12-07T18:08:17.053158+08:00"
+      description: A Helm chart for Kubernetes
+      digest: aca5feeb8137addab872a98e5da5e4e4aa57d5523faeeedf1cd5c672b26c1274
+      name: helloworld
+      type: application
+      urls:
+        - https://helloworlde.github.io/helm-chart/helloworld-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 1.16.0
+      created: "2019-12-07T18:08:17.052134+08:00"
+      description: A Helm chart for Kubernetes
+      digest: 5909523dffde5b12f3c589bcea2d31a5785aa437dc8ea6ed147fcbf57b13a671
+      name: helloworld
+      type: application
+      urls:
+        - https://helloworlde.github.io/helm-chart/helloworld-0.1.0.tgz
+      version: 0.1.0
 generated: "2019-12-07T18:08:17.050373+08:00"
 ```
 

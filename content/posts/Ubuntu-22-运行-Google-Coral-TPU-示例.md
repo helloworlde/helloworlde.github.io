@@ -2,12 +2,12 @@
 title: "Ubuntu 22 运行 Google Coral TPU 示例"
 type: post
 date: 2024-07-09T09:30:21+08:00
-tags: 
-    - Ubuntu
-    - Coral
-series: 
-    - Ubuntu
-    - Coral
+tags:
+  - Ubuntu
+  - Coral
+series:
+  - Ubuntu
+  - Coral
 featured: true
 ---
 
@@ -17,11 +17,11 @@ featured: true
 
 Coral 只支持 Python 3.6～3.9 的环境，而 Ubuntu 22 的 Python 版本为 3.10；因此需要使用 Anaconda 创建独立的运行环境
 
-### 安装 Anaconda 
+### 安装 Anaconda
 
 参考 [Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/) 安装
 
-### 初始化环境 
+### 初始化环境
 
 使用 Python 3.8 版本创建运行环境
 

@@ -3,11 +3,11 @@ title: JRebel 安装激活
 type: post
 date: 2018-05-30 01:27:34
 tags:
-    - Tool
-    - JRebel
-categories: 
-    - Tool  
-    - JRebel 
+  - Tool
+  - JRebel
+categories:
+  - Tool
+  - JRebel
 ---
 
 # JRebel 安装激活
@@ -16,27 +16,30 @@ categories:
 
 ## 安装
 
-#### Eclipse 
+#### Eclipse
 
 - `Help > Eclipse Marketplace`
 - 查找 `JRebel`并安装
 
 #### MyEclipse
+
 - `Help > Install New Software`
-- 在 `Work With`后面输入 `http://update.zeroturnaround.com/update-site/` 
+- 在 `Work With`后面输入 `http://update.zeroturnaround.com/update-site/`
 - 安装
 
-#### IDEA 
+#### IDEA
+
 - `File > Settings > Plugins > Browse Repositories`
 - 查找 `JRebel`并安装
 
-#### NetBeans IDE 
+#### NetBeans IDE
+
 - `Tools > Plugins`
 - `Available Plugins tab`
 - 查找 `JRebel`并安装
 
+## 激活
 
-## 激活 
 > `JRebel` 通过使用 `Facebook`或者 `Twitter` 可以免费激活
 
 - 访问 [`my.jrebel.com`](my.jrebel.com)

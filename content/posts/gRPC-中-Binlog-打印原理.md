@@ -3,16 +3,16 @@ title: gRPC 中 Binlog 打印原理
 type: post
 date: 2020-09-20 22:33:59
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 中 Binlog 打印原理
 
 gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中
 
-## 使用 
+## 使用
 
 binlog 的依赖在 `grpc-services`中，所以需要有该依赖
 
@@ -32,8 +32,7 @@ this.channel = ManagedChannelBuilder.forAddress(host, port)
 
 ## 实现
 
-在方法调用时，会判断有没有设置 binlog 对象，如果有则会封装方法，添加处理器和监听器；然后重新创建 `ServerMethodDefinition`；通过二进制日志拦截器 `io.grpc.services.BinlogHelper#getClientInterceptor` 拦截请求并写入日志 
-
+在方法调用时，会判断有没有设置 binlog 对象，如果有则会封装方法，添加处理器和监听器；然后重新创建 `ServerMethodDefinition`；通过二进制日志拦截器 `io.grpc.services.BinlogHelper#getClientInterceptor` 拦截请求并写入日志
 
 - io.grpc.internal.ServerImpl.ServerTransportListenerImpl#startCall
 

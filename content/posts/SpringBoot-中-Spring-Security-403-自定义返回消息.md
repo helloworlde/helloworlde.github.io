@@ -3,19 +3,18 @@ title: SpringBoot 中 Spring Security 403 自定义返回消息
 type: post
 date: 2018-12-24 21:15:25
 tags:
-    - Java
-    - SpringBoot 
-    - SpringSecurity
-categories: 
-    - Java
-    - SpringBoot
-    - SpringSecurity
+  - Java
+  - SpringBoot
+  - SpringSecurity
+categories:
+  - Java
+  - SpringBoot
+  - SpringSecurity
 ---
-
 
 # SpringBoot 中 Spring Security 403 自定义返回消息
 
-- 自定义处理类 CustomAccessDeniedHandler 
+- 自定义处理类 CustomAccessDeniedHandler
 
 ```
 import com.fasterxml.jackson.databind.ObjectMapper;

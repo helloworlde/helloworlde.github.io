@@ -3,9 +3,9 @@ title: gRPC 服务使用 TLS 加密
 type: post
 date: 2021-01-06 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 服务使用 TLS 加密
@@ -13,9 +13,9 @@ categories:
 gRPC 支持使用 TLS 对请求进行加密
 
 > SSL(Secure Socket Layer，安全套接字)，是面向连接的网络层和应用层协议之间的一种协议层；SSL 通过互相认证、使用数字签名确保完整性、使用加密确保隐私性，以实现客户端和服务端之间的安全通讯
-> 
+>
 > TLS(Transport Layer Security, 传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性
-> 
+>
 > SSL是基于 HTTP 之下 TCP 之上的一个协议层，在SSL更新到3.0时，IETF对SSL3.0进行了标准化，并添加了少数机制(但是几乎和SSL3.0无差异)，标准化后的IETF更名为TLS1.0(Transport Layer Security 安全传输层协议)，可以说TLS就是SSL的新版本3.1
 
 相关项目参考 [github.com/helloworlde/grpc-java-sample](https://github.com/helloworlde/grpc-java-sample)
@@ -55,20 +55,19 @@ IP.2 = 127.0.0.1
 生成自签名的证书，因为 Netty 的 `SslContextBuilder` 和 `SslContext` 仅支持 `PKCS8` 格式的 key，所以需要将其他格式的 key 转换为 `PKCS8` 格式
 
 ```bash
-openssl genrsa -out ca.key 4096 
-openssl req -new -x509 -key ca.key -sha256 -subj "/C=US/ST=NJ/O=CA, Inc." -days 3650 -out ca.cert 
-openssl genrsa -out private.key 4096 
-openssl req -new -key private.key -out private.csr -config certificate.conf 
-openssl x509 -req -in private.csr -CA ca.cert -CAkey ca.key -CAcreateserial -out server.pem -days 3650 -sha256 -extfile certificate.conf -extensions req_ext 
+openssl genrsa -out ca.key 4096
+openssl req -new -x509 -key ca.key -sha256 -subj "/C=US/ST=NJ/O=CA, Inc." -days 3650 -out ca.cert
+openssl genrsa -out private.key 4096
+openssl req -new -key private.key -out private.csr -config certificate.conf
+openssl x509 -req -in private.csr -CA ca.cert -CAkey ca.key -CAcreateserial -out server.pem -days 3650 -sha256 -extfile certificate.conf -extensions req_ext
 openssl pkcs8 -topk8 -nocrypt -in private.key -out server.key
 ```
 
-执行命名后，会生成多个文件，其中 Server 端需要私钥 `server.key` 以及证书 `server.pem`，客户端需要证书 `server.pem` 
-
+执行命名后，会生成多个文件，其中 Server 端需要私钥 `server.key` 以及证书 `server.pem`，客户端需要证书 `server.pem`
 
 ## Server 端
 
-- 配置 SSL 
+- 配置 SSL
 
 ```diff
 @Slf4j
@@ -150,7 +149,8 @@ public class TlsClient {
 
 ## 测试
 
-1. 调整日志级别 
+1. 调整日志级别
+
 ```java
     setLogger("io.grpc");
 
@@ -163,6 +163,7 @@ public class TlsClient {
         logger.addHandler(handler);
     }
 ```
+
 2. 启动 Serve 端
 
 3. 启动 Client 端，发起请求
@@ -184,7 +185,6 @@ SSLEngine Details: [
 一月 05, 2021 5:22:21 下午 io.grpc.ChannelLogger log
 非常详细: [NettyClientTransport<4>: (/127.0.0.1:9090)] ClientTls completed
 ```
-
 
 ## 参考文档
 

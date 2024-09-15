@@ -3,19 +3,19 @@ title: HTML中使用Ajax进行局部刷新页面
 type: post
 date: 2018-01-01 11:38:52
 tags:
-    - HTML
-    - Jquery
-categories: 
-    - HTML
-    - Jquery
+  - HTML
+  - Jquery
+categories:
+  - HTML
+  - Jquery
 ---
+
 #HTML中使用Ajax进行局部刷新页面，使用JS将数据发送到后台
 
-
-----------
-
+---
 
 ##1.在HTML页面中使用js脚本将请求数据发送给后台servlet
+
 - 由按钮触发事件
 
 ```
@@ -48,6 +48,7 @@ categories:
 ##2.后台获取数据进行处理，将结果返回给前台
 
 - 后台进行处理
+
 ```
      protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             //设置数据编码方式
@@ -105,6 +106,7 @@ categories:
 ##3.返回处理结果，局部刷新页面
 
 - 对返回操作进行处理
+
 ```
     //回调函数
     function callback() {
@@ -152,9 +154,7 @@ categories:
     }
 ```
 
-
-----------
-
+---
 
 - HTML文件
 
@@ -197,6 +197,6 @@ categories:
 </body>
 ```
 
-----------
-##[效果演示](http://project.hellowood.com.cn:8080/Ajax)
-##[源码下载](http://download.csdn.net/detail/u013360850/9662587)
+---
+
+##[效果演示](http://project.hellowood.com.cn:8080/Ajax) ##[源码下载](http://download.csdn.net/detail/u013360850/9662587)

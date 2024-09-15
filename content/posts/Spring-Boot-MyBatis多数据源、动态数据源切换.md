@@ -3,20 +3,22 @@ title: Spring Boot MyBatis Druid 多数据源、动态数据源切换
 type: post
 date: 2017-12-31 23:39:24
 tags:
-    - Java
-    - SpringBoot 
-    - MyBatis
-    - DynamicDataSource
-    - MultipleDataSource
-    - Druid
-categories: 
-    - Java
-    - SpringBoot
-    - MyBatis
-    - Druid
-    - DataSource
+  - Java
+  - SpringBoot
+  - MyBatis
+  - DynamicDataSource
+  - MultipleDataSource
+  - Druid
+categories:
+  - Java
+  - SpringBoot
+  - MyBatis
+  - Druid
+  - DataSource
 ---
+
 # Spring Boot 和 MyBatis 实现多数据源、动态数据源切换
+
 - 项目地址：[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)
 
 > 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：
@@ -31,20 +33,21 @@ categories:
 
 ### 在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 [Issues](https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md) 里面
 
-
-> 该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 `@Transactional` 注解以保证使用主数据源 
+> 该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 `@Transactional` 注解以保证使用主数据源
 
 > 需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 `@Transactional` 注解，而应该添加在方法上，这也是 Spring 推荐的做法
 
 > 动态切换数据源依赖 `configuration` 包下的4个类来实现，分别是：
+>
 > - DataSourceRoutingDataSource.java
 > - DataSourceConfigurer.java
 > - DynamicDataSourceContextHolder.java
 > - DynamicDataSourceAspect.java
 
----------------------
+---
 
 ## 添加依赖
+
 ```groovy
 dependencies {
     compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
@@ -190,6 +193,7 @@ server.port=9999
 ## 配置数据源
 
 - DataSourceKey.java
+
 ```java
 package cn.com.hellowood.dynamicdatasource.common;
 
@@ -250,9 +254,9 @@ public class DataSourceConfigurer {
     /**
      * master DataSource
      * @Primary 注解用于标识默认使用的 DataSource Bean，因为有5个 DataSource Bean，该注解可用于 master
-     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用 
-     * 
-     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性 
+     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
+     *
+     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
      * @return data source
      */
     @Bean("master")
@@ -321,13 +325,13 @@ public class DataSourceConfigurer {
         DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(dataSourceMap.keySet());
         DynamicDataSourceContextHolder.slaveDataSourceKeys.remove(DataSourceKey.master.name());
         return dynamicRoutingDataSource;
-    }   
-    
+    }
+
     /**
      * 配置 SqlSessionFactoryBean
-     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到 
+     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到
      * Bean 的属性中，如果没有使用 *.xml 则可以不用该配置，否则将会产生 invalid bond statement 异常
-     * 
+     *
      * @return the sql session factory bean
      */
     @Bean
@@ -338,7 +342,7 @@ public class DataSourceConfigurer {
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         return sqlSessionFactoryBean;
     }
-    
+
     /**
      * 注入 DataSourceTransactionManager 用于事务管理
      */
@@ -346,7 +350,7 @@ public class DataSourceConfigurer {
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dynamicDataSource());
     }
-    
+
 }
 
 ```
@@ -521,11 +525,10 @@ public class DynamicDataSourceAspect {
 
 ```
 
-
 ## 配置 Product REST API 接口
 
 - ProductController.java
-   
+
 ```java
 package cn.com.hellowood.dynamicdatasource.controller;
 
@@ -574,6 +577,7 @@ public class ProductController {
 ```
 
 - ProductService.java
+
 ```java
 package cn.com.hellowood.dynamicdatasource.service;
 
@@ -665,7 +669,7 @@ public interface ProductDao {
 
 > 启动项目，此时访问 `/product/1` 会返回 `product_master` 数据库中 `product` 表中的所有数据，多次访问 `/product` 会分别返回 `product_slave_alpha`、`product_slave_beta`、`product_slave_gamma` 数据库中 `product` 表中的数据，同时也可以在看到切换数据源的 log，说明动态切换数据源是有效的
 
----------------
+---
 
 ## 注意
 

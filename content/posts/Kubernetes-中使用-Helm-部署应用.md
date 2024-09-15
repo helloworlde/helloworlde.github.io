@@ -3,11 +3,11 @@ title: Kubernetes 中使用 Helm 部署应用
 type: post
 date: 2019-09-08 19:03:06
 tags:
-    - Kubernetes
-    - Helm
-categories: 
-    - Kubernetes
-    - Helm
+  - Kubernetes
+  - Helm
+categories:
+  - Kubernetes
+  - Helm
 ---
 
 # Kubernetes 中使用 Helm 部署应用
@@ -24,7 +24,7 @@ module github.com/helloworlde/rest
 go 1.12
 ```
 
-- main.go 
+- main.go
 
 ```go
 package main
@@ -46,7 +46,7 @@ func main() {
 }
 ```
 
-- Dockerfile 
+- Dockerfile
 
 ```dockerfile
 FROM golang AS build-env
@@ -71,7 +71,7 @@ CMD ["app"]
 - 构建并 push 镜像
 
 ```bash
-docker build -t hellowooeds/rest . 
+docker build -t hellowooeds/rest .
 docker push hellowooeds/rest
 ```
 
@@ -109,10 +109,9 @@ helm create rest
 - charts: 用于存放依赖的 chart 的，当有依赖需要管理时，可以添加 requirements.yaml 文件，可用于管理项目内或者外部的依赖
 - templates: 用于存放需要的配置模板
 
-
 #### 修改配置文件
 
-- Chart.yaml 
+- Chart.yaml
 
 ```yaml
 apiVersion: v1
@@ -124,7 +123,7 @@ maintainers:
   - name: HelloWood
 ```
 
-- 修改 values.yaml 
+- 修改 values.yaml
 
 ```yaml
 backend:
@@ -148,7 +147,7 @@ metadata:
   labels:
     app: backend
   name: backend
-  namespace: {{ .Values.namespace }}
+  namespace: { { .Values.namespace } }
 spec:
   ports:
     - protocol: TCP
@@ -156,7 +155,7 @@ spec:
       targetPort: 8080
   selector:
     app: backend
-  type: {{ .Values.service.type }}
+  type: { { .Values.service.type } }
 ```
 
 - backend-deployment.yaml
@@ -222,7 +221,7 @@ NOTES:
   echo http://$NODE_IP:$NODE_PORT
 ```
 
-#### 查看 
+#### 查看
 
 - 查看 Helm 信息
 
@@ -239,7 +238,7 @@ rest	1       	Sun Jul 14 18:55:25 2019	DEPLOYED	rest-0.1.0	1.0        	default
 
 ```bash
 kubectl get all -l app=backend
-``` 
+```
 
 ```bash
 NAME                           READY   STATUS    RESTARTS   AGE
@@ -255,7 +254,7 @@ NAME                                 DESIRED   CURRENT   READY   AGE
 replicaset.apps/backend-5bc9d6cb99   1         1         1       7m15s
 ```
 
-#### 测试 
+#### 测试
 
 访问通过 NOTES 获取到的 IP 和端口
 
@@ -270,7 +269,7 @@ date: Sun, 14 Jul 2019 10:53:18 GMT
 Pong
 ```
 
-### 打包 
+### 打包
 
 ```bash
 helm package ./rest
@@ -299,7 +298,7 @@ service:
   type: NodePort
 ```
 
-- 执行更新 
+- 执行更新
 
 ```bash
  helm upgrade rest ./rest --repo local
@@ -338,13 +337,13 @@ NOTES:
 kubectl describe pod backend-56876f876-vvbzz
 ```
 
-可以看到 pod 的镜像已经从 1.0 更新到了 1.1 
+可以看到 pod 的镜像已经从 1.0 更新到了 1.1
 
 ```bash
 Normal  Pulled     29s   kubelet, ubuntu-server  Container image "hellowoodes/rest:1.1" already present on machine
 ```
 
-### 
+###
 
 ### 删除应用
 
@@ -367,7 +366,7 @@ Now serving you on 127.0.0.1:8879
 
 ![helm-app-list.png](https://img.hellowood.dev/picture/helm-app-list.png)
 
-----------
+---
 
 ### 项目地址
 

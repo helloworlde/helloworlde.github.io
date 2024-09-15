@@ -3,9 +3,9 @@ title: Docker 容器中运行 Docker 命令
 type: post
 date: 2018-08-08 16:04:24
 tags:
-    - Docker
-categories: 
-    - Docker  
+  - Docker
+categories:
+  - Docker
 ---
 
 # Docker 容器中运行 Docker 命令
@@ -23,7 +23,7 @@ categories:
 > - `--privileged` 表示该容器真正启用 root 权限
 > - `-v /var/run/docker.sock:/var/run/docker.sock`和`-v $(which docker)r:/bin/docker`命令将相关的 Docker 文件挂载到容器
 
------------------------------
+---
 
 - Demo: 启动 GitLab
 

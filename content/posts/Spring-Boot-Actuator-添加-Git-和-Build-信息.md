@@ -3,23 +3,25 @@ title: Spring Boot Actuator 添加 Git 和 Build 信息
 type: post
 date: 2018-01-01 11:20:12
 tags:
-    - Java
-    - SpringBoot 
-    - Actuator
-categories: 
-    - Java
-    - SpringBoot
-    - Actuator
+  - Java
+  - SpringBoot
+  - Actuator
+categories:
+  - Java
+  - SpringBoot
+  - Actuator
 ---
+
 > 在使用 Spring Boot Actuator 时可以通过生成 Git 和编译文件来提供信息
 
 ## 添加 Git 信息
+
 - 添加插件
-> 在 build.gradle 文件中添加一下配置
+  > 在 build.gradle 文件中添加一下配置
 
 ```
 buildscript {
- 
+
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
     }
@@ -32,10 +34,12 @@ buildscript {
 apply plugin: 'com.gorylenko.gradle-git-properties'
 
 ```
+
 > 这样就会在 ` build\main\resource\`下生成 `git.properties`文件，该文件内会包含 Git 仓库的信息
 
 - 其他配置
-> build.gradle
+  > build.gradle
+
 ```
 
 gitProperties {
@@ -50,10 +54,13 @@ gitProperties {
 }
 
 ```
--------------------------------------
+
+---
+
 ## 添加编译信息
+
 - 添加配置信息
-> 在 build.gradle 中添加
+  > 在 build.gradle 中添加
 
 ```
 springBoot {
@@ -67,9 +74,10 @@ springBoot {
 }
 
 ```
+
 > 会在 `build\resources\MATE-INF\` 下生成 `build-info.properties` 文件
 
--------------------------------------
+---
 
 - 访问 `/info`
 
@@ -109,6 +117,6 @@ springBoot {
 }
 ```
 
--------------------------------------
+---
 
 > 参考[https://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-build-info](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-build-info)

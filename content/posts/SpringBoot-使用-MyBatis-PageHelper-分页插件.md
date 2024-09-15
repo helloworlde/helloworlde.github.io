@@ -3,28 +3,29 @@ title: SpringBoot 使用 MyBatis PageHelper 分页插件
 type: post
 date: 2018-02-03 11:56:38
 tags:
-    - Java
-    - SpringBoot 
-    - MyBatis
-categories: 
-    - Java
-    - SpringBoot
-    - MyBatis
+  - Java
+  - SpringBoot
+  - MyBatis
+categories:
+  - Java
+  - SpringBoot
+  - MyBatis
 ---
 
 # SpringBoot 使用 MyBatis 分页插件
 
->  [MyBatis PageHelper](https://github.com/pagehelper/Mybatis-PageHelper) 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页
+> [MyBatis PageHelper](https://github.com/pagehelper/Mybatis-PageHelper) 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页
 
 ## 添加依赖
 
-- build.gradle 
+- build.gradle
 
 ```gradle
 compile('com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3')
 ```
 
-## 添加配置 
+## 添加配置
+
 - application.properties
 
 ```
@@ -37,6 +38,7 @@ pagehelper.offset-as-page-num=true
 pagehelper.page-size-zero=true
 
 ```
+
 - `pagehelper.helper-dialect` : 指定分页插件使用哪种语言
 - `pagehelper.offset-as-page-num` : 默认为 `false`, 该参数对使用`RowBounds`作为分页参数时有效，当为`true`时，会将`RowBounds`的`offset`参数当成`pageNum`使用
 - `pagehelper.row-bounds-with-count` : 默认为`false`，该参数对使用`RowBounds`作为分页参数时有效，当该参数值为`true`时，使用`RowBounds`分页会进行`count`查询
@@ -47,8 +49,8 @@ pagehelper.page-size-zero=true
 - `pagehelper.auto-runtime-dialect` : 默认为`false`, 为`true`时允许在运行时根据多数据源自动识别对应的方言进行分页
 - `pagehelper.close-conn` : 默认为`true`, 当使用运行是动态数据源或者没有设置`helperDialect`属性自动获取数据库类型时，会自动获取一个数据库连接，通过该属性来设置是否关闭获取的这个连接，默认为`true`关闭，`false`不会自动关闭
 
-
 ## 使用
+
 - Product.java
 
 ```java
@@ -79,9 +81,8 @@ public class Product implements Serializable {
 
 ```
 
-
 ### 使用`PageHelper.startPage()`或 `PageHelper.offsetPage()`
- 
+
 ```java
 public PageInfo<Product> getByPageHelper() {
     PageHelper.startPage(request);
@@ -100,11 +101,13 @@ public PageInfo<Product> getByPageHelper() {
 ```
 
 ### 使用`RowBounds`传递分页参数
+
 ```java
 public PageInfo<Product> getByRowBounds(Integer pageNum, Integer pageSize) {
     return new PageInfo<>(productDao.getByRowBounds(new RowBounds(pageNum, pageSize)));
 }
 ```
+
 ```xml
 <select id="getByRowBounds" resultMap="baseResultMap">
     SELECT *
@@ -113,11 +116,13 @@ public PageInfo<Product> getByRowBounds(Integer pageNum, Integer pageSize) {
 ```
 
 ### Dao 接口直接传递分页参数
+
 ```java
 public PageInfo<Product> getByInterfaceArgs(Integer pageNum, Integer pageSize) {
     return new PageInfo<>(productDao.getByInterfaceArgs(pageNum, pageSize));
 }
 ```
+
 ```xml
 <select id="getByInterfaceArgs" resultMap="baseResultMap">
     SELECT *

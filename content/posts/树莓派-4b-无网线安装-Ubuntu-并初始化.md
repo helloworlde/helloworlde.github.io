@@ -3,16 +3,17 @@ title: 树莓派 4b 无网线安装 Ubuntu 并初始化
 type: post
 date: 2019-12-15 22:42:04
 tags:
-    - Ubuntu
-    - RaspberryPi
-categories: 
-    - Ubuntu
-    - RaspberryPi
+  - Ubuntu
+  - RaspberryPi
+categories:
+  - Ubuntu
+  - RaspberryPi
 ---
 
 # 树莓派 4b 无网线安装 Ubuntu 并初始化
 
 > 必需设备：
+
 - 树莓派 4b
 - SD 卡
 - HDMI 线
@@ -20,12 +21,12 @@ categories:
 - 键盘
 - 电源及数据线
 
-## 设置镜像 
+## 设置镜像
 
 在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即[https://ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi)
 ![raspberrypi-ubuntu.png](https://img.hellowood.dev/picture/raspberrypi-ubuntu.png)
 
-###  下载镜像
+### 下载镜像
 
 点击下载 64 位镜像，随后会开始下载[ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584)这个文件
 
@@ -39,7 +40,7 @@ categories:
 
 刻录镜像前，要先将 SD 卡格式化，在 Mac 上，可以使用官方推荐的[SD Card Formatter](https://www.sdcard.org/downloads/formatter/), 也可以用上传到地址进行下载Mac 版：[SDCardFormatterv5_Mac.zip](https://img.hellowood.dev/picture/SDCardFormatterv5_Mac.zip)
 
-#### 刻录镜像 
+#### 刻录镜像
 
 刻录镜像有多种方式，不同平台操作不同，可以参考 [https://ubuntu.com/download/iot/installation-media](https://ubuntu.com/download/iot/installation-media)
 
@@ -75,7 +76,7 @@ diskutil list
 
 其中的 `/dev/disk3`就是 SD卡
 
- - 取消挂载
+- 取消挂载
 
 ```bash
 diskutil unmountDisk /dev/disk3
@@ -99,7 +100,7 @@ sudo sh -c 'gunzip -c /Users/xxx/Downloads/ubuntu-19.10.1-preinstalled-server-ar
 3899999744 bytes transferred in 642.512167 secs (6069924 bytes/sec)
 ```
 
-## 启动树莓派 
+## 启动树莓派
 
 ### 启动
 
@@ -120,7 +121,7 @@ sudo passwd
 #### 查找可用的接口
 
 ```bash
-ip link show 
+ip link show
 ```
 
 ```
@@ -132,7 +133,7 @@ ip link show
     link/ether dc:a6:32:5f:b4:3f brd ff:ff:ff:ff:ff:ff
 ```
 
-#### 编辑配置文件 
+#### 编辑配置文件
 
 ```bash
 cp /etc/netplan/50-cloud-init.yaml /etc/netplan/50-cloud-init.yaml.bk
@@ -148,30 +149,31 @@ vi /etc/netplan/50-cloud-init.yaml
 # /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
 # network: {config: disabled}
 network:
-    ethernets:
-        eth0:
-            dhcp4: true
-            optional: true
-    version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  version: 2
 ```
 
 需要新加 WiFi 的配置
 
 ```yaml
 network:
-    ethernets:
-        eth0:
-            dhcp4: true
-            optional: true
-    wifis:
-        wlan0:
-            optional: true
-            access-points:
-               "YOUR_NETWORK_SSID":
-                    password: "YOUR_PASSWORD"
-            dhcp4: true
-    version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  wifis:
+    wlan0:
+      optional: true
+      access-points:
+        "YOUR_NETWORK_SSID":
+          password: "YOUR_PASSWORD"
+      dhcp4: true
+  version: 2
 ```
+
 将无线网的名称和密码填写上
 
 #### 检查配置
@@ -181,13 +183,15 @@ network:
 ```bash
 sudo netplan --debug try
 ```
+
 如果检查结果中没有 error，则说明正常
 
-- 生成配置 
+- 生成配置
 
 ```bash
 sudo netplan --debug generate
 ```
+
 如果检查结果中没有 error，则说明正常
 
 - 应用配置
@@ -204,23 +208,23 @@ reboot now
 
 待重启完成后即可自动连接上 WiFi
 
-## 配置 SSH 
+## 配置 SSH
 
-### 获取 IP 
+### 获取 IP
 
 获取 IP 可以从路由器的配置界面查看到；也可以使用在树莓派上通过命令找到
 
 - 安装 `net-tools`
 
 ```bash
-apt update 
+apt update
 apt install net-tools
 ```
 
 - 待安装完成后，查找 IP
 
 ```bash
-ifconfig 
+ifconfig
 ```
 
 ```
@@ -286,7 +290,7 @@ scp ~/.ssh/id_rsa.pub ubuntu@192.168.199.5:/root/.ssh/authorized_keys
 curl -O path/to/my/authorized_keys
 ```
 
------------------
+---
 
 ### 参考内容
 

@@ -3,12 +3,12 @@ title: gRPC  健康检查
 type: post
 date: 2020-09-20 22:37:34
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC  健康检查
+# gRPC 健康检查
 
 在 gRPC 中使用健康检查，在负载均衡前通过健康检查，只对健康的 Subchannel 发起请求，保证请求的成功率
 
@@ -35,16 +35,16 @@ Server server = ServerBuilder.forPort(1234)
 
 这样，当 Server 端启动之后，就可以通过访问 `grpc.health.v1.Health`服务获取当前的 Server 端的状态
 
-
 ### 客户端
 
 1. 添加配置
 
 客户端开启健康检查有两个条件：
+
 - 配置了健康检查参数，配置的名称是 `healthCheckConfig`，通过指定 `serviceName` 的方式配置
 - 使用了支持健康检查的 LB (如 round_robin)
 
-需要注意，这里的 `serviceName`可以是组件名称，或者服务名称；服务端默认为 `""`，  如果想检查某个组件，需要自己实现健康检查的逻辑；配置中的 `serviceName`只有在 NameReovler 解析到新的配置，且发生变化时才会更新，所以设置 `serviceName` 意义不大
+需要注意，这里的 `serviceName`可以是组件名称，或者服务名称；服务端默认为 `""`， 如果想检查某个组件，需要自己实现健康检查的逻辑；配置中的 `serviceName`只有在 NameReovler 解析到新的配置，且发生变化时才会更新，所以设置 `serviceName` 意义不大
 
 ```java
 Map<String, Object> configMap = new HashMap<String, Object>() {{
@@ -104,7 +104,6 @@ Exception in thread "main" io.grpc.StatusRuntimeException: UNAVAILABLE: Health-c
 
 ## 实现
 
-
 ### 定义
 
 健康检查通过 `health.proto` 文件定义
@@ -144,7 +143,7 @@ service Health {
   rpc Watch(HealthCheckRequest) returns (stream HealthCheckResponse);
 }
 ```
- 
+
 ### 客户端
 
 #### 执行检查
@@ -181,7 +180,7 @@ if (NameResolverListener.this.helper == ManagedChannelImpl.this.lbHelper) {
 
 2. 为 `Subchannel` 配置健康检查
 
-通过代理调用 `io.grpc.util.RoundRobinLoadBalancer#handleResolvedAddresses`方法，然后调用 `io.grpc.services.HealthCheckingLoadBalancerFactory.HelperImpl#createSubchannel` 方法创建  `Subchannel`；创建用于健康检查的 `SubchannelStateListener`的实例 `HealthCheckState`
+通过代理调用 `io.grpc.util.RoundRobinLoadBalancer#handleResolvedAddresses`方法，然后调用 `io.grpc.services.HealthCheckingLoadBalancerFactory.HelperImpl#createSubchannel` 方法创建 `Subchannel`；创建用于健康检查的 `SubchannelStateListener`的实例 `HealthCheckState`
 
 - `io.grpc.services.HealthCheckingLoadBalancerFactory.HelperImpl#createSubchannel`
 
@@ -236,7 +235,7 @@ void setServiceName(@Nullable String newServiceName) {
 ```
 
 - `io.grpc.internal.InternalSubchannel#gotoState`
-将状态变为 `READY` 状态，
+  将状态变为 `READY` 状态，
 
 ```java
   private void gotoState(final ConnectivityStateInfo newState) {
@@ -326,7 +325,7 @@ private void startRpc() {
 
 - `io.grpc.services.HealthCheckingLoadBalancerFactory.HealthCheckState.HcStream#HcStream`
 
-在  `HcStream` 构造方法中，创建新的 Stream 请求
+在 `HcStream` 构造方法中，创建新的 Stream 请求
 
 ```java
 HcStream() {
@@ -344,7 +343,7 @@ HcStream() {
 ```java
 public <RequestT, ResponseT> ClientCall<RequestT, ResponseT> newCall(MethodDescriptor<RequestT, ResponseT> methodDescriptor, CallOptions callOptions) {
     final Executor effectiveExecutor = callOptions.getExecutor() == null ? executor : callOptions.getExecutor();
-        
+
     return new ClientCallImpl<>(methodDescriptor,
         effectiveExecutor,
         callOptions.withOption(GrpcUtil.CALL_OPTIONS_RPC_OWNED_BY_BALANCER, Boolean.TRUE),
@@ -418,7 +417,7 @@ void handleResponse(HealthCheckResponse response) {
 
 #### 设置服务状态
 
-#####  默认服务
+##### 默认服务
 
 `io.grpc.services.HealthServiceImpl#HealthServiceImpl` 内有一个 Map，用于存放各个服务的状态；默认含有一个 key 为 `""`, value 为 `SERVING`的键值对，当请求参数中没有 seviceName 时直接返回 `SERVING` 状态
 
@@ -437,7 +436,7 @@ public void setStatus(String service, ServingStatus status) {
 
 - `io.grpc.services.HealthServiceImpl#setStatus`
 
-```java 
+```java
 void setStatus(String service, ServingStatus status) {
     synchronized (watchLock) {
         if (terminal) {
@@ -512,7 +511,7 @@ public void check(HealthCheckRequest request,
 
 对于 Stream 请求，是通过 `io.grpc.services.HealthServiceImpl#watch` 处理
 当接收到请求后，会从 Map 中获取服务状态，然后生成响应返回给客户端；
-然后将该 `StreamObserver` 保存到  Service 对应的 Map 中，当 Service 状态发生变化时，通知相应的 Client
+然后将该 `StreamObserver` 保存到 Service 对应的 Map 中，当 Service 状态发生变化时，通知相应的 Client
 同时添加了监听器，当客户端关闭时，从 Map 中移除该 `StreamObserver`
 
 - `io.grpc.services.HealthServiceImpl#watch`

@@ -3,22 +3,22 @@ title: 使用 Prometheus 和 Grafana 监控 SpringBoot 应用
 type: post
 date: 2020-05-16 14:43:07
 tags:
-    - Prometheus
-    - Grafana
-    - SpringBoot
-categories: 
-    - Prometheus
-    - Grafana
-    - SpringBoot
+  - Prometheus
+  - Grafana
+  - SpringBoot
+categories:
+  - Prometheus
+  - Grafana
+  - SpringBoot
 ---
 
 # 使用 Prometheus 和 Grafana 监控 Spring Boot 应用
 
 监控 Spring Boot 应用的状态，以及一些自定义的业务数据
 
-## 监控 Spring Boot 应用 
+## 监控 Spring Boot 应用
 
-- 添加依赖 build.gradle 
+- 添加依赖 build.gradle
 
 ```groovy
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -40,15 +40,15 @@ management.metrics.tags.application=${spring.application.name}
 - 添加 Prometheus 监控
 
 ```yaml
-- job_name: 'spring-prometheus'
-  metrics_path: '/actuator/prometheus'
+- job_name: "spring-prometheus"
+  metrics_path: "/actuator/prometheus"
   scrape_interval: 5s
   static_configs:
     - targets:
-      - host.docker.internal:8081
+        - host.docker.internal:8081
 ```
 
-- 配置 Grafana 
+- 配置 Grafana
 
 从 Grafana Dashboard 市场查找 Spring Boot 的看板，复制 ID 导入到 Grafana 中，如 [6756](https://grafana.com/grafana/dashboards/6756)
 
@@ -142,32 +142,30 @@ curl localhost:8081/actuator/prometheus | grep custom_task
 curl localhost:8081/actuator/prometheus | grep method_time
 ```
 
-
 ## 自定义监控指标
 
 通过自定义监控指标监控业务相关数据
 
-### 监控类型 
+### 监控类型
 
 相关监控类型的文档可以参考 [Metrics types](https://prometheus.io/docs/concepts/metric_types/)
 相关使用文档可以参考 [Prometheus JVM Client](https://github.com/prometheus/client_java#histogram)
 
-- Counter 
+- Counter
 
 一个单调递增的累计计量，在重新启动时值会被置为0，可以用于统计请求数量，错误数量，任务完成的数量等；不能用Counter统计可以减少的值
 
-- Gauge 
+- Gauge
 
 Gauge 表示可以任意增减的值，通常用于计量类似温度，CPU使用率这样的值，或者正在处理的请求数量这样可增可减的值
 
-- Histogram 
+- Histogram
 
 统计直方图，通常用于统计请求的时间，响应body的大小等，并将其计数在可配置的存储桶中，它还提供所有观察值的总和
 
 - Summary
 
 和 Histogram 类似，它在滑动时间窗口内计算可配置的分位数，详细区别可以参考 [Histograms and summaries](https://prometheus.io/docs/practices/histograms/)
-
 
 ### 自定义监控请求统计
 
@@ -292,10 +290,8 @@ rate(custom_request_total{application="$application", instance="$instance"}[1m])
 rate(custom_request_error{application="$application", instance="$instance"}[$__interval])
 ```
 
-
 ![prometheus-grafana-custom-dashboard-result.png](https://img.hellowood.dev/picture/prometheus-grafana-custom-dashboard-result.png)
 
-
----- 
+---
 
 - 相关项目可以参考 [Prometheus](https://github.com/helloworlde/SpringBootCollection/blob/master/prometheus/)

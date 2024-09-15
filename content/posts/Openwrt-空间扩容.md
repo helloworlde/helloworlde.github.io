@@ -3,11 +3,11 @@ title: Openwrt-空间扩容
 type: post
 date: 2022-07-23 11:32:08
 tags:
-- Esxi
-- OpenWrt
-- HomeLab
+  - Esxi
+  - OpenWrt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Openwrt 空间扩容
@@ -16,7 +16,6 @@ Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了�
 
 有多种扩容方式，如新增一块硬盘，以USB挂载的方式扩容；或者修改虚拟机硬盘文件大小的方式扩容；此次通过修改虚拟机硬盘文件大小的方式扩容，这种方式适合新创建的虚拟机
 
-
 ## 修改硬盘文件大小
 
 通过 Esxi 控制台，直接修改挂载的硬盘大小
@@ -24,7 +23,6 @@ Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了�
 - 在 Esxi 修改硬盘大小
 
 ![homelab-openwrt-esxi-disk-size.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-size.png)
-
 
 ## 创建新的分区
 
@@ -58,7 +56,6 @@ opkg install cfdisk
 mkfs.ext4 /dev/sda3
 ```
 
-
 ## 挂载扩容的空间
 
 - 安装 `block-mount`
@@ -78,7 +75,6 @@ reboot
 选择`新增`，选择刚才创建的分区`/dev/sda5`，挂载点为`作为外部 overlay 使用`，并启用
 
 ![homelab-openwrt-esxi-disk-new-partition-a-mount-1.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-mount-1.png)
-
 
 保存并启用修改的配置，重启 Openwrt，进入挂载点，即可看到`/overlay`空间已经扩容
 

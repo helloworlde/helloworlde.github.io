@@ -3,22 +3,22 @@ title: 使用 Prometheus 和 Grafana 监控 Consul
 type: post
 date: 2020-05-16 14:36:34
 tags:
-    - Prometheus
-    - Grafana
-    - Consul
-categories: 
-    - Prometheus
-    - Grafana
-    - Consul
+  - Prometheus
+  - Grafana
+  - Consul
+categories:
+  - Prometheus
+  - Grafana
+  - Consul
 ---
 
 # 使用 Prometheus 和 Grafana 监控 Consul
 
-使用 Prometheus  和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器
+使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器
 
 ## 启动 Consul
 
-- 创建配置文件 
+- 创建配置文件
 
 ```bash
 mkdir -p ~/docker/consul/config
@@ -29,10 +29,10 @@ vi ~/docker/consul/config/config.json
 
 ```json
 {
-    "telemetry": {
-        "prometheus_retention_time": "480h",
-        "disable_hostname": true
-    }
+  "telemetry": {
+    "prometheus_retention_time": "480h",
+    "disable_hostname": true
+  }
 }
 ```
 
@@ -59,7 +59,7 @@ curl http://127.0.0.1:8500/v1/agent/metrics\?format\=prometheus
 
 ## 启动 Prometheus
 
-- 创建配置文件 
+- 创建配置文件
 
 ```bash
 mkdir -p ~/docker/prometheus/config
@@ -75,30 +75,30 @@ global:
   evaluation_interval: 15s
 alerting:
   alertmanagers:
-  - static_configs:
-    - targets: []
-    scheme: http
-    timeout: 10s
-    api_version: v1
+    - static_configs:
+        - targets: []
+      scheme: http
+      timeout: 10s
+      api_version: v1
 scrape_configs:
-- job_name: prometheus
-  honor_timestamps: true
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets:
-    - localhost:9090
-- job_name: consul
-  honor_timestamps: true
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  metrics_path: '/v1/agent/metrics'
-  scheme: http
-  static_configs:
-  - targets:
-    - host.docker.internal:8500
+  - job_name: prometheus
+    honor_timestamps: true
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+          - localhost:9090
+  - job_name: consul
+    honor_timestamps: true
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: "/v1/agent/metrics"
+    scheme: http
+    static_configs:
+      - targets:
+          - host.docker.internal:8500
 ```
 
 其中`targets`的值为 `host.docker.internal:8500`，目的是为了从容器中通过宿主机访问另一个容器
@@ -109,14 +109,14 @@ docker run \
 	--name prometheus \
     -p 9090:9090 \
     -v ~/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml \
-    prom/prometheus    
+    prom/prometheus
 ```
 
 待启动后访问 [http://localhost:9090/graph](http://localhost:9090/graph)，可以看到 Prometheus的页面，选择 Status => Targets，可以看到 Consul 和 Prometheus 的状态都是UP
 
 ![consul-prometheus-targets.png](https://img.hellowood.dev/picture/consul-prometheus-targets.png)
 
-## 启动 Grafana 
+## 启动 Grafana
 
 - 启动容器
 
@@ -128,16 +128,15 @@ docker run \
      grafana/grafana
 ```
 
-- 访问Grafana 
+- 访问Grafana
 
 访问 [http://localhost:3000/](http://localhost:3000/)，用户名和密码都是 `admin`，输入后重新设置密码
 
-- 创建数据源 
+- 创建数据源
 
 Dashboard 点击 `Create a datasource`，选择 Prometheus，URL 输入 `http://host.docker.internal:9090`，点击 `Save & Test`，看到访问成功
 
 ![consul-grafana-datasource.png](https://img.hellowood.dev/picture/consul-grafana-datasource.png)
-
 
 - 添加监控看板
 
@@ -149,14 +148,14 @@ Dashboard 点击 `Create a datasource`，选择 Prometheus，URL 输入 `http://
 
 ---
 
-## 遇到的问题 
+## 遇到的问题
 
 ### 415 Unsupported Media Type
 
 Consul 启动之后Prometheus的Target提示 `415 Unsupported Media Type`
 
 - 415 Unsupported Media Type
-- Prometheus is not enabled since its retention time is not positive* Closing connection 0
+- Prometheus is not enabled since its retention time is not positive\* Closing connection 0
 
 ![consul-prometheus-target-error.png](https://img.hellowood.dev/picture/consul-prometheus-target-error.png)
 
@@ -189,10 +188,10 @@ config.json
 
 ```json
 {
-    "telemetry": {
-        "prometheus_retention_time": "480h",
-        "disable_hostname": true
-    }
+  "telemetry": {
+    "prometheus_retention_time": "480h",
+    "disable_hostname": true
+  }
 }
 ```
 
@@ -205,11 +204,11 @@ config.json
   honor_timestamps: true
   scrape_interval: 15s
   scrape_timeout: 10s
-  metrics_path: '/v1/agent/metrics'
+  metrics_path: "/v1/agent/metrics"
   scheme: http
-  param: 
+  param:
     format: ["prometheus"]
   static_configs:
-  - targets:
-    - host.docker.internal:8500
+    - targets:
+        - host.docker.internal:8500
 ```

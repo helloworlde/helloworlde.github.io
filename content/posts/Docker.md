@@ -2,22 +2,24 @@
 title: Docker
 type: post
 date: 2018-04-08 15:18:49
-tags:   
-    - Docker 
-categories: 
-    - Docker
+tags:
+  - Docker
+categories:
+  - Docker
 ---
 
 # Docker
 
 ## Docker 中的概念
- - 镜像：一个特殊的文件系统，提供容器运行时所需的程序，库，资源，配置和配置参数，不包含任何动态数据，内容在构建之后也不会被改变
- - 容器： 镜像和容器可以看做是面向对象中的类和实例，容器的实质是进程，运行于一个隔离的环境，容器运行时，已当前镜像为基础，在其上创建一个当前容器的存储层，容器消亡时，任何存储于容器存储层的数据也会被被删除
- - 仓库：集中存储，分发镜像的服务
 
+- 镜像：一个特殊的文件系统，提供容器运行时所需的程序，库，资源，配置和配置参数，不包含任何动态数据，内容在构建之后也不会被改变
+- 容器： 镜像和容器可以看做是面向对象中的类和实例，容器的实质是进程，运行于一个隔离的环境，容器运行时，已当前镜像为基础，在其上创建一个当前容器的存储层，容器消亡时，任何存储于容器存储层的数据也会被被删除
+- 仓库：集中存储，分发镜像的服务
 
 ## 安装
-####  Ubuntu：
+
+#### Ubuntu：
+
 - 卸载旧版本
 
 ```
@@ -60,8 +62,8 @@ sudo usermod -aG docker $USER
 docker run hello-world
 ```
 
-- 镜像加速 
-编辑或新建 `/etc/docker/daemon.json` ，添加以下内容
+- 镜像加速
+  编辑或新建 `/etc/docker/daemon.json` ，添加以下内容
 
 ```
 {
@@ -79,14 +81,15 @@ sudo systemctl restart docker
 ```
 
 #### Mac：
+
 - 安装
 
 ```
 brew cask install docker
 ```
 
-- 启动 
-点击 Docker 图标启动
+- 启动
+  点击 Docker 图标启动
 
 - 测试
 
@@ -96,7 +99,7 @@ docker info
 ```
 
 - 镜像加速
-在任务栏点击 Docker 图标 -> Perferences... -> Daemon -> Registry mirrors， 添加以下 URL 后重新启动
+  在任务栏点击 Docker 图标 -> Perferences... -> Daemon -> Registry mirrors， 添加以下 URL 后重新启动
 
 ```
 https://registry.docker-cn.com/
@@ -109,6 +112,7 @@ https://registry.docker-cn.com/
 ```
 docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
 ```
+
 Docker 镜像仓库地址：地址格式为 <域名/IP>[:端口号]
 仓库名：<用户名>/<软件名>，用户名如果不写，则默认为 `library`，即官方镜像
 
@@ -119,7 +123,7 @@ docker pull ubuntu:16.04
 ### 运行
 
 ```
-docker run -it --rm ubuntu:16.04 bash 
+docker run -it --rm ubuntu:16.04 bash
 ```
 
 - `-it`: `-i`:进入交互操作，`-t`:进入终端
@@ -132,6 +136,7 @@ docker run -it --rm ubuntu:16.04 bash
 ```
 docker image ls
 ```
+
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 nginx               latest              e548f1a579cf        11 days ago         109MB
@@ -158,7 +163,7 @@ docker image rm $(docker image ls -q -f before=mongo:3.2)
 ```
 
 - `Untagged` 和 `Deleted`
-`Untagged` 取消标签，当删除镜像时先取消标签，当该镜像的所有标签都被取消且没有其他的镜像依赖该镜像时才会执行 `Deleted`，如果有其他的标签指向该镜像或被其他镜像依赖，则不会删除
+  `Untagged` 取消标签，当删除镜像时先取消标签，当该镜像的所有标签都被取消且没有其他的镜像依赖该镜像时才会执行 `Deleted`，如果有其他的标签指向该镜像或被其他镜像依赖，则不会删除
 
 ### Commit 镜像
 
@@ -176,6 +181,6 @@ docker run --name webserver -d -p 80:80 nginx
 docker exec -it webserver bash
 echo '<h1>Hello, Docker!</h1>' > /usr/share/nginx/html/index.html
 exit
- 
+
 docker commit --author "HelloWood" --message "修改首页" webserver nginx:v2
 ```

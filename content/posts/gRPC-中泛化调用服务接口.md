@@ -3,9 +3,9 @@ title: gRPC 中泛化调用服务接口
 type: post
 date: 2021-01-29 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 中泛化调用服务接口
@@ -225,17 +225,16 @@ private static MethodDescriptor<DynamicMessage, DynamicMessage> generateMethodDe
 
 ---
 
-## 参考文档 
+## 参考文档
 
 - [相关实现代码参考 ReflectionCall.java](https://github.com/helloworlde/grpc-java-sample/blob/main/reflection/src/main/java/io/github/helloworlde/grpc/ReflectionCall.java)
 - [protobuf-dynamic](https://github.com/os72/protobuf-dynamic)
-- [grpcurl](https://github.com/fullstorydev/grpcurl)  
-- [grpc-swagger](https://github.com/grpc-swagger/grpc-swagger)  
+- [grpcurl](https://github.com/fullstorydev/grpcurl)
+- [grpc-swagger](https://github.com/grpc-swagger/grpc-swagger)
 - [gRPC + JSON](https://grpc.io/blog/grpc-with-json/)
 - [gRPC Server Reflection Tutorial](https://github.com/grpc/grpc-java/blob/master/documentation/server-reflection-tutorial.md#enable-server-reflection)
 - [Reflection](https://github.com/grpc/grpc-go/tree/master/reflection)
 - [gRPC Server Reflection Tutorial](https://chromium.googlesource.com/external/github.com/grpc/grpc-go/+/HEAD/Documentation/server-reflection-tutorial.md)
 - [Protocol buffer objects generated at runtime](https://stackoverflow.com/questions/18836727/protocol-buffer-objects-generated-at-runtime)
 - [How can I send a gRPC message whose format is determined at runtime](https://stackoverflow.com/questions/52368593/how-can-i-send-a-grpc-message-whose-format-is-determined-at-runtime)
-- [How to create GRPC client directly from protobuf without compiling it into java code](https://stackoverflow.com/questions/61133529/how-to-create-grpc-client-directly-from-protobuf-without-compiling-it-into-java/61144510#61144510)  
-
+- [How to create GRPC client directly from protobuf without compiling it into java code](https://stackoverflow.com/questions/61133529/how-to-create-grpc-client-directly-from-protobuf-without-compiling-it-into-java/61144510#61144510)

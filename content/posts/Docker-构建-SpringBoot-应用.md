@@ -3,13 +3,13 @@ title: Docker 构建 SpringBoot 应用
 type: post
 date: 2018-04-08 15:42:39
 tags:
-    - Docker
-    - SpringBoot
-    - Java
-categories: 
-    - Docker  
-    - SpringBoot
-    - Java
+  - Docker
+  - SpringBoot
+  - Java
+categories:
+  - Docker
+  - SpringBoot
+  - Java
 ---
 
 # 用 Docker 构建 SpringBoot 应用
@@ -79,7 +79,7 @@ gradle build docker
 此时会生成`Docker`镜像
 
 ```
-$ docker image ls 
+$ docker image ls
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
 cn.com.hellowood/docker   latest              94eefe321973        4 minutes ago       118MB
 
@@ -88,8 +88,7 @@ cn.com.hellowood/docker   latest              94eefe321973        4 minutes ago 
 - 运行
 
 ```
-docker run --name docker -p 8080:8080 cn.com.hellowood/docker 
+docker run --name docker -p 8080:8080 cn.com.hellowood/docker
 ```
 
 此时可以在控制台看到应用的启动日志，项目启动之后可以访问`http://localhost:8080`,和本地启动应用访问一致
-

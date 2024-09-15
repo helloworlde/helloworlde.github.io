@@ -3,37 +3,37 @@ title: Gauge中执行Http请求测试
 type: post
 date: 2018-01-01 11:33:29
 tags:
-    - Java
-    - Gauge
-    - Test
-categories: 
-    - Java
-    - Gauge
-    - Test
+  - Java
+  - Gauge
+  - Test
+categories:
+  - Java
+  - Gauge
+  - Test
 ---
 
 > 通过Gauge执行自动化测试，测试Http请求
-> 
+
 - 通过Java发送Http 请求来测试服务器请求执行状态
 
-
-----------
-
+---
 
 ##GET请求
+
 - .spec文件
 
 ```
     ## query user
     query all user
     tags: query,request,http
-    
+
     * query user
 
 ```
+
 - .java文件
 
-``` java
+```java
     @Step("query user")
     public void queryUser() {
 
@@ -83,17 +83,17 @@ categories:
     }
 ```
 
-
-----------
+---
 
 ##POST请求
+
 - .spec文件
 
-``` Markdown
+```Markdown
     ## add user
     add new user
     tags: add,request,http
-    
+
     * add users from table
     |username|sex   |age|school    |major |address   |
     |--------|------|---|----------|------|----------|
@@ -102,9 +102,10 @@ categories:
     |Vue     |Female|23 |大连理工大学|软件工程|辽宁省大连市|
     |React   |Male  |24 |大连海事大学|网络工程|辽宁省大连市|
 ```
+
 - .java文件
 
-``` java
+```java
     @Step("add users from table <table>")
     public void addUser(Table userTable) {
 
@@ -169,12 +170,11 @@ categories:
     }
 ```
 
-
-----------
+---
 
 - UserModel.java
 
-``` java
+```java
     public class UserModel {
         private int id;
         private String username;
@@ -183,11 +183,11 @@ categories:
         private String school;
         private String major;
         private String address;
-    
+
         public UserModel() {
             super();
         }
-    
+
         public UserModel(int id, String username, String sex, int age, String school, String major, String address) {
             super();
             this.id = id;
@@ -198,63 +198,63 @@ categories:
             this.major = major;
             this.address = address;
         }
-    
+
         public int getId() {
             return id;
         }
-    
+
         public void setId(int id) {
             this.id = id;
         }
-    
+
         public String getUsername() {
             return username;
         }
-    
+
         public void setUsername(String username) {
             this.username = username;
         }
-    
+
         public String getSex() {
             return sex;
         }
-    
+
         public void setSex(String sex) {
             this.sex = sex;
         }
-    
+
         public int getAge() {
             return age;
         }
-    
+
         public void setAge(int age) {
             this.age = age;
         }
-    
+
         public String getSchool() {
             return school;
         }
-    
+
         public void setSchool(String school) {
             this.school = school;
         }
-    
+
         public String getMajor() {
             return major;
         }
-    
+
         public void setMajor(String major) {
             this.major = major;
         }
-    
+
         public String getAddress() {
             return address;
         }
-    
+
         public void setAddress(String address) {
             this.address = address;
         }
-    
+
         @Override
         public String toString() {
             return "UserModel{" +
@@ -271,10 +271,8 @@ categories:
 
 ```
 
-
-----------
-
+---
 
 - 需要把Jar包放在项目的lib目录下
-- 使用了[阿里巴巴的fastjson](https://github.com/alibaba/fastjson) 
-- [下载项目](http://download.csdn.net/detail/u013360850/9760640) 
+- 使用了[阿里巴巴的fastjson](https://github.com/alibaba/fastjson)
+- [下载项目](http://download.csdn.net/detail/u013360850/9760640)

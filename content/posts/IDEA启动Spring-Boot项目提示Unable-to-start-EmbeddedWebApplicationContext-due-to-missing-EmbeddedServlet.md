@@ -5,16 +5,17 @@ title: >-
 type: post
 date: 2018-01-01 01:03:07
 tags:
-    - Java
-    - SpringBoot
-    - Exception 
-    - IDEA
-categories: 
-    - Java
-    - SpringBoot
-    - Exception
-    - IDEA
+  - Java
+  - SpringBoot
+  - Exception
+  - IDEA
+categories:
+  - Java
+  - SpringBoot
+  - Exception
+  - IDEA
 ---
+
 > 导入一个`gradle` 的`Spring Boot`项目，在启动的时候先提示找不到`HttpServletRequest`这个包，错误如下：
 
 ```
@@ -36,8 +37,6 @@ org.springframework.context.ApplicationContextException: Unable to start embedde
 ```
 
 > 找了很久都没有找到解决的方法，但是使用`gradle bootrun`是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，
-
-
 
 > 看到有一篇使用`Maven`也遇到该问题的帖子，对比了依赖：
 

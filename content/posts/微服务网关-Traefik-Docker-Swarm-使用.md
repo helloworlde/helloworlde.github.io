@@ -3,11 +3,11 @@ title: 微服务网关 Traefik - Docker Swarm 使用
 type: post
 date: 2019-03-24 22:08:30
 tags:
-    - Traefix 
-    - Docker
-categories: 
-    - Traefix 
-    - Docker
+  - Traefix
+  - Docker
+categories:
+  - Traefix
+  - Docker
 ---
 
 # 微服务网关 Traefik - Docker Swarm 使用
@@ -21,14 +21,14 @@ categories:
 - docker-compose.yml
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   reverse-proxy:
     image: traefik # The official Traefik docker image
     command: --api --docker # Enables the web UI and tells Traefik to listen to docker
     ports:
-      - "80:80"     # The HTTP port
+      - "80:80" # The HTTP port
       - "8080:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
@@ -37,7 +37,9 @@ services:
     labels:
       - "traefik.frontend.rule=Host:whoami.docker.localhost"
 ```
+
 - 启动
+
 ```
 docker-compose up -d
 ```
@@ -48,7 +50,7 @@ docker-compose up -d
 
 ![02](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/treafik-02.png)
 
-浏览器访问 [http://whoami.docker.localhost](http://whoami.docker.localhost)，会返回以下内容 
+浏览器访问 [http://whoami.docker.localhost](http://whoami.docker.localhost)，会返回以下内容
 
 ```
 Hostname: 460d64ac7842
@@ -95,10 +97,11 @@ services:
 再次启动
 
 ```
-docker-compose up -d 
+docker-compose up -d
 ```
 
 通过浏览器访问 [http://localhost/whoami](http://localhost/whoami) 会输出以下内容：
+
 ```
 Hostname: 9fc59eb66eca
 IP: 127.0.0.1
@@ -122,7 +125,7 @@ X-Real-Ip: 172.22.0.1
 
 #### 指定域名访问
 
-- 修改 docker-compose.yml 
+- 修改 docker-compose.yml
 
 ```
 version: '3'
@@ -172,24 +175,24 @@ services:
 docker-compose.yml
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   reverse-proxy:
     image: traefik # The official Traefik docker image
     command: --api --docker # Enables the web UI and tells Traefik to listen to docker
     ports:
-      - "80:80"     # The HTTP port
+      - "80:80" # The HTTP port
       - "8080:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-  mongo: 
+  mongo:
     image: mongo
-    ports: 
+    ports:
       - "27017:27017"
   angular:
     image: hellowoodes/angular
-    depends_on: 
+    depends_on:
       - reverse-proxy
       - mongo
     expose:

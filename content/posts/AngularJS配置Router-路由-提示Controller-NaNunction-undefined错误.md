@@ -3,13 +3,14 @@ title: AngularJS配置Router(路由)提示Controller NaNunction/undefined错误
 type: post
 date: 2018-01-01 12:05:17
 tags:
-    - AngularJs
-    - Router
-categories: 
-    - AngularJs
-    - Router
+  - AngularJs
+  - Router
+categories:
+  - AngularJs
+  - Router
 ---
->在配置Angular 路由的时候，和以往一样使用如下配置：
+
+> 在配置Angular 路由的时候，和以往一样使用如下配置：
 
 - router.js
 
@@ -39,12 +40,15 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
         });
 });
 ```
+
 - dashboardController.js
+
 ```
 angular.module("adminApp").controller('dashboardController', function ($scope) {
     console.log("dashboardController");
 });
 ```
+
 > 但是提示错误：
 
 ```
@@ -61,13 +65,12 @@ angular.min.js:118 Error: [ng:areq] http://errors.angularjs.org/1.5.8/ng/areq?p0
     at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:58:119
 ```
 
-
-----------
-
+---
 
 > 原因是因为直接写controller无法识别，所有需要使用register来注册该controller
 
 - router.js
+
 ```
 var adminApp = angular.module('adminApp', ['oc.lazyLoad', 'ui.router']);
 angular.element(document).ready(function () {
@@ -79,10 +82,10 @@ adminApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$stateParams = $stateParams;
 });
 adminApp.config(function ($stateProvider, $urlRouterProvider, $controllerProvider) {
-    
+
     //以下是新加入的
     adminApp.controllerProvider = $controllerProvider;
-    
+
     $urlRouterProvider.when("", "dashboard/accountManagement");
     $urlRouterProvider.otherwise("dashboard/accountManagement");
     $stateProvider
@@ -98,7 +101,9 @@ adminApp.config(function ($stateProvider, $urlRouterProvider, $controllerProvide
         });
 });
 ```
+
 - dashboardController.js
+
 ```
 angular.module("adminApp").controllerProvider.register('dashboardController', function ($scope) {
     console.log("dashboardController");

@@ -3,29 +3,29 @@ title: "Intel NUC 9 安装黑苹果"
 type: post
 date: 2022-12-08T21:51:48+08:00
 tags:
-    - Hackintosh
-    - NUC
-    - MacOS
-categories: 
-    - Hackintosh
-    - MacOS 
-series: 
-    - Hackintosh
-    - MacOS 
-featured: true  
+  - Hackintosh
+  - NUC
+  - MacOS
+categories:
+  - Hackintosh
+  - MacOS
+series:
+  - Hackintosh
+  - MacOS
+featured: true
 ---
 
 # Intel NUC 9 安装 macOS(黑苹果/Hackintosh)
 
-- 为什么要用黑苹果 
+- 为什么要用黑苹果
 
 手里有两台 MacBook Pro，分别是 18年的 i9 16G版本和20年的 i7 16G版本，升级到 Ventura 版本后响应变慢，同时公司的监控和通讯软件占用了大量内存，出现了严重的卡顿，切换应用等待三四秒之后才能操作；因为 MBP 无法升级内存，并且新款的 Mac 性价比并不高，因此，想通过黑苹果组建一台可以升级内存的电脑；
 
 黑苹果的中文教程有很多，但是不少都是引流到公众号或者QQ群，下载镜像或相关软件都需要收费；这些人利用信息差，将免费和开源的拿去收费，吃相实在难看
 
-- NUC 9 
+- NUC 9
 
-[NUC 9](https://www.intel.cn/content/www/cn/zh/products/sku/190107/intel-nuc-9-extreme-kit-nuc9i9qnx/specifications.html?erpm_id=12169418_ts1669688200770) 是 Intel 在 2020 年第一季度推出的 ITX 主机，代号 Ghost Canyon（幽灵峡谷），因为与同期的 MBP  配置类似，可以安装黑苹果
+[NUC 9](https://www.intel.cn/content/www/cn/zh/products/sku/190107/intel-nuc-9-extreme-kit-nuc9i9qnx/specifications.html?erpm_id=12169418_ts1669688200770) 是 Intel 在 2020 年第一季度推出的 ITX 主机，代号 Ghost Canyon（幽灵峡谷），因为与同期的 MBP 配置类似，可以安装黑苹果
 
 恰巧 NUC 9 最近降价了，i5版本的价格在 2k 左右，i9版本4k左右；单独购买 i9 的计算卡大概2k，因此购买 i5版本，然后自己更换 i9版本的算力卡性价比更高；兼容的软硬件参考 [兼容硬件列表](https://compatibleproducts.intel.com/ProductDetails?EPMID=190107&erpm_id=12169418_ts1669688262169)
 
@@ -46,7 +46,7 @@ featured: true
 然后选择移动磁盘这个设备，选择抹掉，名称可以是任意名称，如 macOS，后续会在刻录镜像的时候用到；格式选择 "Mac OS 扩展（日志式）"；方案选择 GUID 分区图；这样就会将移动磁盘分为两个分区，一个是 EFI分区，另一个是系统镜像分区
 ![homelab-nuc-hackintosh-format-disk.png](https://img.hellowood.dev/picture/homelab-nuc-hackintosh-format-disk.png)
 
-### 2. 下载 macOS 
+### 2. 下载 macOS
 
 建议使用 Big Sur 或者 Monterey 版本，Venture 版本的蓝牙和无线无法使用
 
@@ -85,7 +85,7 @@ Install media now available at "/Volumes/Install macOS Monterey"
 
 使用到的 EFI 是基于 [OpenCore](https://dortania.github.io/OpenCore-Install-Guide/) 创建的，OpenCore 是一个开源的引导加载程序；用于引导启动 macOS 并提供所需的驱动及配置文件
 
-### 1. 挂载 EFI 
+### 1. 挂载 EFI
 
 可以基于 OpenCore 的配置文件，自行配置 EFI 的相关驱动和配置，但是会比较复杂，这里使用开源的已经配置好的 EFI，如 [liu976336402/NUC9-hackintosh](https://github.com/liu976336402/NUC9-hackintosh/releases)，从 GitHub 下载 Release 中对应显卡的压缩文件到本地（可以选择 UHD630 或者 6600XT）；或着使用关键字 "NUC9 hackintosh EFI" 进行搜索；
 
@@ -128,7 +128,7 @@ diskutil list
    2:                  Apple_HFS Install macOS Monterey  63.7 GB    disk2s2
 ```
 
-- 挂载 EFI 
+- 挂载 EFI
 
 创建一个 Volume 分区并将 EFI 挂载到这个分区
 
@@ -149,12 +149,13 @@ sudo mount -t msdos /dev/disk2s1 /Volumes/efi
 
 至此，磁盘镜像的准备工作已经完成
 
-## 配置 BIOS 
+## 配置 BIOS
 
 在启动出现骷髅头的时候，按下 F2进入到 BIOS，建议先按 F9恢复为默认，然后再修改；
 
 需要修改以下几项：
-- Advanced-STORAGE-SATA Mode Selection: AHCI  
+
+- Advanced-STORAGE-SATA Mode Selection: AHCI
 - Boot-Secure Boot：Disabled
 - Boot-Boot Priority-Fast Boot: 取消勾选
 - Boot-Boot Priority-Boot USB Devices First: 勾选

@@ -3,18 +3,18 @@ title: Kubernetes 中安装 Helm
 type: post
 date: 2019-09-08 19:00:28
 tags:
-    - Kubernetes
-    - Helm
-categories: 
-    - Kubernetes
-    - Helm
+  - Kubernetes
+  - Helm
+categories:
+  - Kubernetes
+  - Helm
 ---
 
 # Kubernetes 中安装 Helm
 
 > Helm 是构建于 Kubernetes 之上的包管理器，可以理解为 yum，homebrew 或者 pip，用于简化包分发，安装，版本管理等操作流程
 
-## 基本概念 
+## 基本概念
 
 - Chart
 
@@ -29,14 +29,13 @@ Release 就是 chart 在 Kubernetes 上部署后的实例，chart 每次部署�
 存储chart 的仓库，初始化 Helm 时会添加两个仓库，一个是 stable 仓库，地址是[https://kubernetes-charts.storage.googleapis.com/](https://kubernetes-charts.storage.googleapis.com/) ，另一个则是 local 仓库，地址是 [http://127.0.0.1:8879/charts](http://127.0.0.1:8879/charts)
 
 - Config
-Config 用于部署 chart 时自定义配置，在部署的时候，会将 Config 和 chart 进行合并，共同构成将部署的应用
+  Config 用于部署 chart 时自定义配置，在部署的时候，会将 Config 和 chart 进行合并，共同构成将部署的应用
 
-
-## 安装 
+## 安装
 
 Helm 是一个 C/S 架构，分为客户端helm 和服务端Tiller
 
-### 客户端 
+### 客户端
 
 - Mac
 
@@ -44,7 +43,7 @@ Helm 是一个 C/S 架构，分为客户端helm 和服务端Tiller
 brew install kubernetes-helm
 ```
 
-- Ubuntu 
+- Ubuntu
 
 ```bash
 sudo snap install helm --classic
@@ -54,7 +53,7 @@ sudo snap install helm --classic
 
 服务端安装要求 `$HOME/.kube/config`配置正确且有`kubectl`操作权限
 
-- 创建账户 
+- 创建账户
 
 tiller-rbac.yaml
 
@@ -83,7 +82,7 @@ subjects:
 kubectl apply -f tiller-rbac.yaml
 ```
 
-- 安装 
+- 安装
 
 ```bash
 helm init --service-account tiller

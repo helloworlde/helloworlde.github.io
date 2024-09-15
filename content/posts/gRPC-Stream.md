@@ -3,31 +3,32 @@ title: gRPC Stream
 type: post
 date: 2020-11-08 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC Stream 
+# gRPC Stream
 
 Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 `ClientStream` 和 `ServerStream`
 
 ![grpc-source-code-stream-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png)
 
-## ClientStream 
+## ClientStream
 
 `ClientStream` 接口继承 Stream 接口，有多个实现类或抽象实现类：
+
 - `ForwardingClientStream`: 用于转发的 `ClientStream`，支持代理真正的流，可以用于触发一些动作，如统计等
 - `NoopClientStream`: 不做任何操作的 `ClientStream`，用于空实现
-	- `FailingClientStream`: 用于失败的 `ClientStream`，处理请求失败的场景
+  - `FailingClientStream`: 用于失败的 `ClientStream`，处理请求失败的场景
 - `InProcessClientStream`: 进程内的 `ClientStream`，用于测试，不会发出实际请求
 - `AbstractClientStream`: `ClientStream` 的抽象实现类，实现了部分基础操作，如发送header，写入消息，半关闭等
-	- `NettyClientStream`: 基于 Netty 实现的 `ClientStream`，实现了基于 Netty 的帧操作等
-	- `OkHttpClientStream`: 基于 OkHttp 实现的 `ClientStream`，实现了基于 OkHttp 的帧操作等
+  - `NettyClientStream`: 基于 Netty 实现的 `ClientStream`，实现了基于 Netty 的帧操作等
+  - `OkHttpClientStream`: 基于 OkHttp 实现的 `ClientStream`，实现了基于 OkHttp 的帧操作等
 
 ### 方法
 
-- start 
+- start
 
 开始一个新的流，对于每一个流，只能调用一次
 
@@ -71,7 +72,7 @@ Attributes getAttributes();
 
 ClientStreamListener 用于监听客户端流的事件
 
-- onReady 
+- onReady
 
 当接收得此事件说明 Transport 已经准备好发送附加消息了
 
@@ -95,7 +96,7 @@ void messagesAvailable(MessageProducer producer);
 void headersRead(Metadata headers);
 ```
 
-- closed 
+- closed
 
 当流被关闭时调用
 
@@ -109,7 +110,7 @@ void closed(Status status, RpcProgress rpcProgress, Metadata trailers);
 
 #### 发起请求
 
-生成的代码中通过  `blockingUnaryCall` 开始发起请求
+生成的代码中通过 `blockingUnaryCall` 开始发起请求
 
 - io.grpc.stub.ClientCalls#blockingUnaryCall
 
@@ -181,7 +182,7 @@ private static <ReqT, RespT> void asyncUnaryRequestCall(ClientCall<ReqT, RespT> 
 }
 ```
 
-#### 创建 ClientStream 
+#### 创建 ClientStream
 
 当调用了 `io.grpc.internal.ClientCallImpl#start` 方法后，会创建客户端流；
 如果已经过了超时时间，则会使用 `DEADLINE_EXECEEDED` 状态创建 `FailingClientStream`；如果还为超时，则根据是否开启了重试创建相应的流
@@ -304,8 +305,7 @@ private void writeHeadersInternal(Metadata headers, byte[] requestPayload) {
 }
 ```
 
-
-#### 发起请求 
+#### 发起请求
 
 当在 `io.grpc.stub.ClientCalls#startCall`中调用了`responseListener.onStart()`后，会开始发送请求
 
@@ -315,7 +315,7 @@ private void writeHeadersInternal(Metadata headers, byte[] requestPayload) {
 void onStart() {
   responseFuture.call.request(2);
 }
-```  
+```
 
 - io.grpc.internal.ClientCallImpl#request
 
@@ -411,9 +411,9 @@ public final void writeMessage(InputStream message) {
 }
 ```
 
- - io.grpc.internal.AbstractClientStream#deliverFrame
+- io.grpc.internal.AbstractClientStream#deliverFrame
 
-将 Framer 的内容传递给 Transport 
+将 Framer 的内容传递给 Transport
 
 ```java
 public final void deliverFrame(WritableBuffer frame,
@@ -458,7 +458,7 @@ private void writeFrameInternal(WritableBuffer frame, boolean endOfStream, boole
         writeQueue.enqueue(new SendGrpcFrameCommand(transportState(), bytebuf, endOfStream), flush);
     }
 }
-``` 
+```
 
 #### 半关闭
 
@@ -509,6 +509,7 @@ public void close() {
 - io.grpc.stub.ClientCalls#blockingUnaryCall
 
 会不断的循环，监听线程池返回的结果
+
 ```java
 ListenableFuture<RespT> responseFuture = futureUnaryCall(call, req);
 while (!responseFuture.isDone()) {

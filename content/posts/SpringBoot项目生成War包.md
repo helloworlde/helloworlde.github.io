@@ -3,18 +3,20 @@ title: SpringBoot项目生成War包
 type: post
 date: 2018-01-01 00:50:49
 tags:
-    - Java
-    - SpringBoot 
-categories: 
-    - Java
-    - SpringBoot
+  - Java
+  - SpringBoot
+categories:
+  - Java
+  - SpringBoot
 ---
+
 > Spring Boot 项目默认生成Jar包，如果想发布到Tomcat还需要生成War包才能运行，SpringBoot官方文档中已经阐述了具体的操作方法，可以参考：[howto-create-a-deployable-war-file](http://docs.spring.io/spring-boot/docs/2.0.0.M3/reference/htmlsingle/#howto-create-a-deployable-war-file)；
 > 以下使用Gradle作为Build工具
 
 ## 1. 向build.gradle文件添加依赖
 
 - build.gradle
+
 ```
 buildscript {
     ext {
@@ -58,6 +60,7 @@ dependencies {
 ## 2. 修改Application.java文件
 
 - Application.java
+
 ```
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -72,6 +75,7 @@ public class Application extends SpringBootServletInitializer {
     }
 }
 ```
+
 > 也可以单独写在另一个类中，效果是一样的
 
 - ServletInitializer.java

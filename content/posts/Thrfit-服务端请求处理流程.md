@@ -3,16 +3,16 @@ title: Thrfit 服务端请求处理流程
 type: post
 date: 2021-02-20 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
 # Thrfit 服务端请求处理流程
 
 使用同步的非阻塞的服务端的请求处理流程
 
-## 实现 
+## 实现
 
 ### IDL
 
@@ -62,8 +62,7 @@ public class NonblockingServer {
 }
 ```
 
-## 请求处理流程 
-
+## 请求处理流程
 
 ### 1. 启动 Server
 
@@ -72,9 +71,9 @@ TServer server = new TThreadedSelectorServer(serverArgs);
 server.serve();
 ```
 
--  org.apache.thrift.server.AbstractNonblockingServer#serve
+- org.apache.thrift.server.AbstractNonblockingServer#serve
 
-启动 Server，启动用于连接的线程 `AcceptThread` 和用于处理 IO 事件的多个线程  `SelectorThread`；然后开始监听 IO 事件，由线程池处理请求
+启动 Server，启动用于连接的线程 `AcceptThread` 和用于处理 IO 事件的多个线程 `SelectorThread`；然后开始监听 IO 事件，由线程池处理请求
 
 ```java
 public void serve() {
@@ -98,7 +97,7 @@ public void serve() {
 
 - org.apache.thrift.server.TThreadedSelectorServer#startThreads
 
-启动用于连接的线程 `AcceptThread` 和用于处理 IO 事件的多个线程  `SelectorThread` 
+启动用于连接的线程 `AcceptThread` 和用于处理 IO 事件的多个线程 `SelectorThread`
 
 ```java
 protected boolean startThreads() {
@@ -260,7 +259,7 @@ protected TNonblockingSocket acceptImpl() throws TTransportException {
 
 - org.apache.thrift.server.TThreadedSelectorServer.SelectorThread#addAcceptedConnection
 
-将连接添加到 `SelectorThread`的队列中，由 `SelectorThread`处理 IO 事件 
+将连接添加到 `SelectorThread`的队列中，由 `SelectorThread`处理 IO 事件
 
 ```java
 public boolean addAcceptedConnection(TNonblockingTransport accepted) {
@@ -278,7 +277,7 @@ public boolean addAcceptedConnection(TNonblockingTransport accepted) {
 
 ### 3. 处理 IO 事件
 
-IO  事件由 `SelectorThread` 处理
+IO 事件由 `SelectorThread` 处理
 
 - org.apache.thrift.server.TThreadedSelectorServer.SelectorThread#run
 
@@ -347,7 +346,6 @@ private void select() {
 }
 ```
 
-
 #### 处理读取事件
 
 - org.apache.thrift.server.AbstractNonblockingServer.AbstractSelectThread#handleRead
@@ -397,7 +395,7 @@ protected boolean requestInvoke(FrameBuffer frameBuffer) {
         return true;
     }
 }
-``` 
+```
 
 #### 处理写入事件
 
@@ -441,7 +439,7 @@ public boolean write() {
 - org.apache.thrift.server.AbstractNonblockingServer.FrameBuffer#invoke
 
 在处理读取事件时，会将 `FrameBuffer` 包装为 `Runnable`，提交给线程池执行；最终由 `FrameBuffer`处理
-会获取  Processor，然后调用  process 方法进行处理
+会获取 Processor，然后调用 process 方法进行处理
 
 ```java
 public void invoke() {

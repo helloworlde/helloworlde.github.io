@@ -3,18 +3,17 @@ title: MacOS Monterey 制作 Windows 启动盘
 type: post
 date: 2022-06-30 11:37:22
 tags:
-- MacOS
-- Windows
-- ISO
-- HomeLab
+  - MacOS
+  - Windows
+  - ISO
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # MacOS Monterey 制作 Windows 启动盘
 
 > 需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘
-
 
 > 搜到的一些方法，如启动转换助理，或者 [balenaEtcher](https://www.balena.io/etcher/) 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作
 
@@ -38,7 +37,7 @@ hdiutil mount ~/Downloads/Win10_21H2_Chinese\(Simplified\)_x64.iso
 ### 格式化 U 盘
 
 1. 查找 U 盘路径
-使用 `diskutil`查看所有挂载的硬盘，可以通过名称及容量查找；如果已经执行上面的命令挂载了 ISO 镜像，且没有其他硬盘，那么路径一般为 `/dev/disk3`
+   使用 `diskutil`查看所有挂载的硬盘，可以通过名称及容量查找；如果已经执行上面的命令挂载了 ISO 镜像，且没有其他硬盘，那么路径一般为 `/dev/disk3`
 
 ```bash
 diskutil list | grep external

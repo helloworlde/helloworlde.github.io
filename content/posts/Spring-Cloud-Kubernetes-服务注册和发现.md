@@ -3,11 +3,11 @@ title: Spring Cloud Kubernetes 服务注册和发现
 type: post
 date: 2020-09-20 22:26:03
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud Kubernetes 服务注册和发现
@@ -16,10 +16,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ## 初始化 Kubernetes Client
 
-### 初始化环境配置 
+### 初始化环境配置
 
 环境初始化是通过 `org.springframework.cloud.kubernetes.profile.KubernetesProfileEnvironmentPostProcessor`类实现的，当环境初始化完成时，会检查 Kubernetes 是否开启，如果开启则会判断 Profile 是否注入到容器中，没有时将会注入 Profile 到容器中
-
 
 ```java
 	@Override
@@ -46,12 +45,11 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	}
 ```
 
-
 ### 初始化 Kubernetes 依赖
 
 相关 Kubernetes 核心依赖的初始化是通过 `org.springframework.cloud.kubernetes.KubernetesAutoConfiguration`实现的
 
--  初始化 Kubernetes Config
+- 初始化 Kubernetes Config
 
 ```java
 	@Bean
@@ -62,7 +60,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 		Config base = Config.autoConfigure(null);
 		Config properties = new ConfigBuilder(base)
 		//	...
-		return properties;		
+		return properties;
 }
 ```
 
@@ -78,13 +76,13 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	}
 ```
 
- 通过生成的配置初始化 KubernetesClient
+通过生成的配置初始化 KubernetesClient
 
 ## 服务注册
 
 服务注册是通过 `org.springframework.cloud.kubernetes.registry.KubernetesAutoServiceRegistration` 实现的，但是这个类在 2.x 中已经被标记为废弃，因为部署在 Kubernetes 中的服务已经存在于 etcd 中，所以注册并不会真正执行
 
-### 初始化 Bean 
+### 初始化 Bean
 
 相关 Bean 的初始化是在 `org.springframework.cloud.kubernetes.discovery.KubernetesDiscoveryClientAutoConfiguration` 中完成的
 
@@ -93,7 +91,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	public KubernetesServiceRegistry getServiceRegistry() {
 		return new KubernetesServiceRegistry();
 	}
-	
+
 	@Bean
 	public KubernetesRegistration getRegistration(KubernetesClient client,
 	                                              KubernetesDiscoveryProperties properties) {
@@ -108,8 +106,8 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ### 注册流程
 
--  实例化 KubernetesAutoServiceRegistration 类
--  因为实现了 `SmartLifecycle` 接口，所以在应用启动完成，收到 `ServletWebServerInitializedEvent`事件时开始注册
+- 实例化 KubernetesAutoServiceRegistration 类
+- 因为实现了 `SmartLifecycle` 接口，所以在应用启动完成，收到 `ServletWebServerInitializedEvent`事件时开始注册
 
 ```java
 	@EventListener(ServletWebServerInitializedEvent.class)
@@ -146,7 +144,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ### 取消注册流程
 
-- 监听容器关闭事件 
+- 监听容器关闭事件
 
 收到事件后，调用 stop 方法，执行关闭逻辑；在 stop 方法中调用 deregister 方法，取消注册
 
@@ -176,8 +174,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ## 服务发现
 
-
-### 初始化 Bean 
+### 初始化 Bean
 
 相关 Bean 的初始化在 `org.springframework.cloud.kubernetes.discovery.KubernetesDiscoveryClient` 中完成
 
@@ -194,9 +191,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 		}
 ```
 
-###  获取服务
+### 获取服务
 
-- getService 
+- getService
 
 调用 `org.springframework.cloud.kubernetes.discovery.KubernetesDiscoveryClient#getServices()` 方法获取指定条件下的服务名称
 
@@ -233,9 +230,9 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 	}
 ```
 
-### 获取实例 
+### 获取实例
 
-- getInstance 
+- getInstance
 
 调用 `org.springframework.cloud.kubernetes.discovery.KubernetesDiscoveryClient#getInstances`，根据服务的名称获取相应的实例列表
 
@@ -332,7 +329,7 @@ Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:s
 
 ### 服务列表更新
 
-Kubernetes 的服务列表更新是通过定时任务实现的，核心类是 `KubernetesDiscoveryClient` 
+Kubernetes 的服务列表更新是通过定时任务实现的，核心类是 `KubernetesDiscoveryClient`
 
 Kubernetes 不支持通过服务实例更新，因为调用时是通过 Service 的名称实现的，Kubernetes会做负载均衡，所以不需要在实例维度监听
 
@@ -347,7 +344,7 @@ Kubernetes 不支持通过服务实例更新，因为调用时是通过 Service 
 	}
 ```
 
-#### 监听实现 
+#### 监听实现
 
 `KubernetesCatalogWatch` 类实现了 `ApplicationEventPublisherAware`接口，用于发现服务列表更新后发送相应的事件
 
@@ -376,7 +373,7 @@ Kubernetes 不支持通过服务实例更新，因为调用时是通过 Service 
 			                                          .flatMap(Collection::stream)
 			                                          .map(EndpointAddress::getTargetRef)
 			                                          .filter(Objects::nonNull)
-			                                          .map(ObjectReference::getName) 
+			                                          .map(ObjectReference::getName)
 			                                          .sorted(String::compareTo)
 			                                          .collect(Collectors.toList());
 

@@ -23,7 +23,7 @@ featured: true
 
 为了安全和隐私，可以基于 [https://github.com/CareyWang/sub-web](https://github.com/CareyWang/sub-web) 和 [https://github.com/tindy2013/subconverter](https://github.com/tindy2013/subconverter) 服务搭建，分别是前端和后端服务
 
-- docker-compose.yaml 
+- docker-compose.yaml
 
 ```yaml
 version: "3"
@@ -37,7 +37,7 @@ services:
     ports:
       - 18080:80
     environment:
-      - TZ=Asia/Shanghai 
+      - TZ=Asia/Shanghai
 
   subconverter:
     image: tindy2013/subconverter
@@ -67,7 +67,7 @@ subconverter 默认的配置是 `/base/pref.toml`文件，其中指定了 clash 
 # 以下是新增内容
 profile:
   tracing: true
-  
+
 # ...
 {% endif %}
 ```
@@ -81,7 +81,6 @@ services:
     # ...
     volumes:
       - ./config/all_base.tpl://base/base/all_base.tpl
-
 ```
 
 ## 配置文件
@@ -112,27 +111,39 @@ dns:
   listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
   nameserver:
-    - '114.114.114.114'
-    - '223.5.5.5'
+    - "114.114.114.114"
+    - "223.5.5.5"
   fallback:
-    - 'tls://1.1.1.1:853'
-    - 'tcp://1.1.1.1:53'
-    - 'tcp://208.67.222.222:443'
-    - 'tls://dns.google'
+    - "tls://1.1.1.1:853"
+    - "tcp://1.1.1.1:53"
+    - "tcp://208.67.222.222:443"
+    - "tls://dns.google"
 
 # 代理节点
 proxies:
-  - {name: node1, server: 0.0.0.0, port: 5601, type: ss, cipher: aes-256-gcm, password: 1234, udp: true}
+  - {
+      name: node1,
+      server: 0.0.0.0,
+      port: 5601,
+      type: ss,
+      cipher: aes-256-gcm,
+      password: 1234,
+      udp: true,
+    }
 
 # 代理组
 proxy-groups:
-    - { name: '🚀 节点选择', type: select, proxies: ['♻️ 自动选择', '🚀 手动切换', DIRECT] }
+  - {
+      name: "🚀 节点选择",
+      type: select,
+      proxies: ["♻️ 自动选择", "🚀 手动切换", DIRECT],
+    }
 
-# 分流规则 
+# 分流规则
 rules:
-    - 'DOMAIN-SUFFIX,local,🎯 全球直连'
-    - 'DOMAIN-SUFFIX,localhost,🎯 全球直连'
-    - 'IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve'
+  - "DOMAIN-SUFFIX,local,🎯 全球直连"
+  - "DOMAIN-SUFFIX,localhost,🎯 全球直连"
+  - "IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve"
 ```
 
 ## 部署
@@ -141,7 +152,7 @@ Clash 有两个版本，一个是 clash，一个是 clash-premium，区别在于
 
 yacd 是一个开源的 Clash 控制面板，功能较丰富
 
-- Docker 命令运行 
+- Docker 命令运行
 
 ```bash
 docker run --name clash \
@@ -190,7 +201,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     depends_on:
-      - clash      
+      - clash
 ```
 
 ## 客户端使用
@@ -199,15 +210,15 @@ services:
 
 ### 命令行
 
-开启代理 
+开启代理
 
 ```bash
-export https_proxy=http://192.168.2.2:7890 
-export http_proxy=http://192.168.2.2:7890 
+export https_proxy=http://192.168.2.2:7890
+export http_proxy=http://192.168.2.2:7890
 export all_proxy=socks5://192.168.2.2:7891
 ```
 
-关闭代理 
+关闭代理
 
 ```bash
 unset http_proxy
@@ -215,7 +226,7 @@ unset https_proxy
 unset all_proxy
 ```
 
-###  系统
+### 系统
 
 在网络-代理中添加配置，指定 HTTP/HTTPS/SOCKS 代理为配置的代理即可
 

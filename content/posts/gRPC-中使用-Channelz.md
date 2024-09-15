@@ -3,9 +3,9 @@ title: gRPC 中使用 Channelz
 type: post
 date: 2021-01-04 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 中使用 Channelz
@@ -151,12 +151,11 @@ public class ChannelzClient {
 
 分别启动 Server 端和 Client 端，发送请求；使用其他工具观察
 
-
-### grpc-zpages 
+### grpc-zpages
 
 gRPC 官方提供了 [grpc-zpages](https://github.com/grpc/grpc-experiments/tree/master/gdebug) 工具，可用通过 Web 查看指定服务的信息，不过该工具已经很久没有维护，使用较为复杂，具体可以参考 [A short introduction to Channelz](https://grpc.io/blog/a-short-introduction-to-channelz/)
 
-### channelzcli 
+### channelzcli
 
 是一个 CLI 工具，可以通过命令行实现获取 Channelz 的信息，对 Channelz 的数据做了一定的处理，较为友好，具体使用参考 [channelzcli](https://github.com/kazegusuri/channelzcli)
 
@@ -193,7 +192,7 @@ Calls:
 
 - 列出 Channel 信息
 
-```bash
+````bash
 channelzcli tree channel -k --addr localhost:9091
 
 127.0.0.1:9090 (ID:4) [READY]
@@ -202,9 +201,9 @@ channelzcli tree channel -k --addr localhost:9091
     |-- [[[/127.0.0.1:9090]/{}]] (ID:6) [READY]
           [Calls]: Started:4627, Succeeded:4627, Failed:0, Last:638ms
           [Socket] ID:7, Name:CallTracingTransport{delegate=CallCredentialsApplyingTransport{delegate=NettyClientTransport{logId=7, remoteAddress=/127.0.0.1:9090, channel=[id: 0x83c4d921, L:/127.0.0.1:52321 - R:/127.0.0.1:9090]}}}, RemoteName:, Local:[127.0.0.1]:52321 Remote:[127.0.0.1]:9090```
-```
+````
 
-### grpcurl 
+### grpcurl
 
 是一个 CLI 工具，可以像 CURL 一样对 gRPC 服务发起请求，但是需要服务添加[反射服务](https://github.com/grpc/proposal/blob/master/A15-promote-reflection.md)，详情参考 [grpcurl](https://github.com/fullstorydev/grpcurl)
 

@@ -3,11 +3,11 @@ title: Spring Cloud Gateway 使用 Kubernetes 实现负载均衡
 type: post
 date: 2020-09-20 22:23:18
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud Gateway 使用 Kubernetes 实现负载均衡
@@ -24,7 +24,7 @@ categories:
 
 `spring-cloud-starter-kubernetes-all`包含 Kubernetes 负载均衡的实现
 
-### 添加配置 
+### 添加配置
 
 - bootstrap.yaml
 
@@ -58,5 +58,5 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: "*"
 ```

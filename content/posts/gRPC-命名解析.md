@@ -3,9 +3,9 @@ title: gRPC 命名解析
 type: post
 date: 2020-09-20 22:35:22
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 命名解析
@@ -23,14 +23,15 @@ gRPC 的命名解析的父类接口是 `NameResolver`
 ![grpc-source-code-name-resolver-with-sub-class.png](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-with-sub-class.png)
 
 命名解析的整个工作流程是：
+
 1. 使用 `NameResolverRegistry` 或者 SPI 方式注册 Provider
 2. 调用 Channel 的 `build` 方法创建 `NameResovler.Factory`
 3. 根据 Factory 最终调用 Provider 创建 `NameResolver`，
-2. 创建 `Listener` 的实例
-3. 调用 `NameResolver` 的 `start` 方法，传入 `Listener` 实例
-4. 创建 `Runnable` 任务，通过调用 `Listener` 的 `onResult` 方法进行更新
+4. 创建 `Listener` 的实例
+5. 调用 `NameResolver` 的 `start` 方法，传入 `Listener` 实例
+6. 创建 `Runnable` 任务，通过调用 `Listener` 的 `onResult` 方法进行更新
 
-## 创建 NameResolver 
+## 创建 NameResolver
 
 在 Channel 调用 `build` 方式时，会在 `io.grpc.internal.ManagedChannelImpl#ManagedChannelImpl`的构造方法中获取 `NameResolver.Factory`，这个属性的值是由调用 `io.grpc.internal.AbstractManagedChannelImplBuilder#getNameResolverFactory` 方法获取的，这个方法里面的属性值来自于 `io.grpc.NameResolverRegistry#asFactory`,`NameResolverRegistry` 自己通过内部类 `NameResolverFactory`创建了`NameResovler.Factory` 的实例，在`io.grpc.internal.ManagedChannelImpl#getNameResolver`中调用 Factory 的 `newNameResolver`时，从 `provider` 属性中获取根据优先级排序后的 Provider，通过 Provider 创建 `NameResolver` 实例并返回第一个有效实例
 
@@ -194,7 +195,7 @@ private NameResolver.Factory nameResolverFactory = nameResolverRegistry.asFactor
 - io.grpc.internal.DnsNameResolver.Resolve
 
 `Resolve` 实现了 `Runnable` 接口，在 `run` 方法中，先调用 `doResolve` 方法，将目标 URI 解析为地址集合，同时也会获取配置
-然后根据获取的地址和配置为 `ResolutionResult.Builder`  赋值，调用 `Listener2` 的 `onResult` 方法处理更新的结果
+然后根据获取的地址和配置为 `ResolutionResult.Builder` 赋值，调用 `Listener2` 的 `onResult` 方法处理更新的结果
 
 ```java
     private final class Resolve implements Runnable {
@@ -253,7 +254,7 @@ private NameResolver.Factory nameResolverFactory = nameResolverRegistry.asFactor
         public void run() {
           List<EquivalentAddressGroup> servers = resolutionResult.getAddresses();
           // 更新传入的配置 ...
-          
+
           ManagedChannelServiceConfig effectiveServiceConfig;
           handleServiceConfigUpdate();
 

@@ -3,9 +3,9 @@ title: gRPC Gateway 使用
 type: post
 date: 2021-01-06 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC Gateway 使用
@@ -20,7 +20,7 @@ gRPC Gateway 可以代理 gRPC 服务，接收 HTTP 请求，并转为 gRPC 请�
 
 ```bash
 git clone https://github.com/helloworlde/grpc-gateway.git & cd grpc-gateway
-make all 
+make all
 ```
 
 - 访问
@@ -248,8 +248,6 @@ curl localhost:8090/hello\?message=world
 
 {"result":"Hello world"}%
 ```
-
-
 
 ## 参考文档
 

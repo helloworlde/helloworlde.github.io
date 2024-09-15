@@ -3,12 +3,13 @@ title: Rocket MQ 相关知识
 type: post
 date: 2018-01-01 12:54:02
 tags:
-    - Java
-    - Rocket MQ 
-categories: 
-    - Java
-    - Rocket MQ
+  - Java
+  - Rocket MQ
+categories:
+  - Java
+  - Rocket MQ
 ---
+
 # RocketMQ 相关知识
 
 @(消息队列)[RocketMQ, 消息]
@@ -23,30 +24,34 @@ categories:
 - Broker 消息中转角色，负责存储消息，转发消息
 - Topic 消息的逻辑管理单位
 - Message 消息
-    - body 消息体，用于携带消息具体内容
-    - key 消息的key，用于区别不同的消息
-    - tags 消息的Tag，用于不同的订阅者过滤消息
+  - body 消息体，用于携带消息具体内容
+  - key 消息的key，用于区别不同的消息
+  - tags 消息的Tag，用于不同的订阅者过滤消息
 
 ## 消息发送方式
+
 - 同步方式
-> 发送消息，接收到结果之后再发送下一条消息，速度最慢，耗时最长
+  > 发送消息，接收到结果之后再发送下一条消息，速度最慢，耗时最长
 - 异步方式
-> 发送消息，不论是否收到结果，直接发送下一条消息，发送速度介于同步和单向方式之间
-- 单向方式 
-> 发送消息，直接发送消息，不返回发送结果，发送速度最快
+  > 发送消息，不论是否收到结果，直接发送下一条消息，发送速度介于同步和单向方式之间
+- 单向方式
+  > 发送消息，直接发送消息，不返回发送结果，发送速度最快
 
 ## 消息类型
+
 - 定时消息
-> 在指定的发送时间发送消息
+  > 在指定的发送时间发送消息
 - 延时消息
-> 从当前时间开始，经过延时时间后再发送消息
+  > 从当前时间开始，经过延时时间后再发送消息
 - 顺序消息
-> 立即发送消息
+  > 立即发送消息
 - 事务消息
-> MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致
+  > MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致
 
 # 实例代码
+
 ## Producer
+
 ```
 public class ProducerDelayTest {
     public static void main(String[] args) {
@@ -63,12 +68,12 @@ public class ProducerDelayTest {
         Producer producer = ONSFactory.createProducer(properties);
         // 在发送消息前，必须调用start方法来启动Producer，只需调用一次即可。
         producer.start();
-      
+
             /**
-              *  消息类型代码，参考下面消息类型代码        
+              *  消息类型代码，参考下面消息类型代码
               */
              /**
-               *  消息发送方式代码，参考下面发送方式代码        
+               *  消息发送方式代码，参考下面发送方式代码
                */
         System.out.println("Message Id:" + sendResult.getMessageId());
         // 在应用退出前，销毁 Producer 对象
@@ -79,8 +84,10 @@ public class ProducerDelayTest {
 ```
 
 ### 消息类型代码
+
 - 定时消息
-``` 
+
+```
         Message msg = new Message();
         msg.setTag("TAG");
         msg.setKey("KEY");
@@ -88,35 +95,41 @@ public class ProducerDelayTest {
         msg.setBody("BODY".getBytes());
         long timeStamp =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-09-03 16:21:00").getTime();
         msg.setStartDeliverTime(timeStamp);
-       
+
 ```
+
 - 延时消息
+
 ```
         Message msg = new Message();
         msg.setTag("TAG");
         msg.setKey("KEY");
         msg.setTopic("TOPIC");
-        msg.setBody("BODY".getBytes()); 
+        msg.setBody("BODY".getBytes());
         long delayTime = 3000;//30秒后再发送
         msg.setStartDeliverTime(System.currentTimes() + delayTime);
 ```
 
 - 顺序消息
+
 ```
         Message msg = new Message();
         msg.setTag("TAG");
         msg.setKey("KEY");
         msg.setTopic("TOPIC".getBytes());
-        msg.setBody("BODY"); 
+        msg.setBody("BODY");
 ```
 
 ### 消息发送方式代码
+
 - 同步方式发送
+
 ```
         SendResult sendResult = producer.send(msg);
 ```
 
 - 异步方式发送
+
 ```
         producer.sendAsync(message, new SendCallback() {
             @Override
@@ -130,12 +143,15 @@ public class ProducerDelayTest {
             }
         });
 ```
+
 - 单向方式发送
+
 ```
          producer.sendOneway(message);
 ```
 
 ## Consumer
+
 ```
 public class ConsumerTest {
     public static void main(String[] args) {

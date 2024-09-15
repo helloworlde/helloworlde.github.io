@@ -3,15 +3,15 @@ title: SpringBoot 使用 ElasticSearch
 type: post
 date: 2018-01-16 00:45:05
 tags:
-    - Java
-    - SpringBoot 
-    - ElasticSearch
-    - ELK
-categories: 
-    - Java
-    - SpringBoot
-    - ElasticSearch
-    - ELK
+  - Java
+  - SpringBoot
+  - ElasticSearch
+  - ELK
+categories:
+  - Java
+  - SpringBoot
+  - ElasticSearch
+  - ELK
 ---
 
 # Spring Boot 使用 ElasticSearch
@@ -23,6 +23,7 @@ categories:
 > 使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能
 
 ## 添加依赖
+
 ```groovy
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
@@ -31,16 +32,20 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 ```
+
 不添加 `'net.java.dev.jna:jna'` 依赖会提示 `java.lang.ClassNotFoundException: com.sun.jna.Native` 错误
 
 ## 添加配置
+
 ```properties
 spring.data.elasticsearch.repositories.enabled=true
 #spring.data.elasticsearch.cluster-nodes=localhost:9300
 ```
+
 `spring.data.elasticsearch.cluster-nodes=localhost:9300` 只有当使用外部集群时配置，只使用本机时会提示错误
 
 ## Modal
+
 ```java
 package cn.com.hellowood.elasticsearch.modal;
 
@@ -67,6 +72,7 @@ public class Product implements Serializable {
 ```
 
 ## 实现 Repository 接口
+
 ```java
 package cn.com.hellowood.elasticsearch.repository;
 
@@ -98,6 +104,7 @@ public interface ProductRepository extends ElasticsearchRepository<Product, Long
 ## 添加逻辑
 
 - ProductController.java
+
 ```java
 package cn.com.hellowood.elasticsearch.controller;
 
@@ -151,7 +158,9 @@ public class ProductController {
 }
 
 ```
+
 - ProductServiceImpl.java
+
 ```java
 package cn.com.hellowood.elasticsearch.service.impl;
 
@@ -216,45 +225,46 @@ public class ProductServiceImpl implements ProductService {
 ```
 
 ## 插入数据
+
 分别插入以下数据：
 
 ```json
 {
-    "id":"1",
-    "name":"手机",
-    "price":"500"
+  "id": "1",
+  "name": "手机",
+  "price": "500"
 }
 ```
 
 ```json
 {
-    "id":"2",
-    "name":"小米手机",
-    "price":"600"
+  "id": "2",
+  "name": "小米手机",
+  "price": "600"
 }
 ```
 
 ```json
 {
-    "id":"3",
-    "name":"小米笔记本",
-    "price":"700"
+  "id": "3",
+  "name": "小米笔记本",
+  "price": "700"
 }
 ```
 
 ```json
 {
-    "id":"4",
-    "name":"苹果手机",
-    "price":"800"
+  "id": "4",
+  "name": "苹果手机",
+  "price": "800"
 }
 ```
 
 ```json
 {
-    "id":"5",
-    "name":"苹果笔记本",
-    "price":"900"
+  "id": "5",
+  "name": "苹果笔记本",
+  "price": "900"
 }
 ```
 
@@ -263,6 +273,7 @@ public class ProductServiceImpl implements ProductService {
 使用 Postman 分别调用各个接口：
 
 - 保存 `/product`
+
 ```
 POST /product
 ```
@@ -274,7 +285,6 @@ POST /product
     "price":"500"
 }
 ```
-
 
 - 通过 id 查找 `/product/find/id`
 
@@ -325,7 +335,7 @@ GET /product/find/name?name=手机
 GET /product/find/name/like?name=苹果
 ```
 
-``` 
+```
 [
     {
         "id": 4,
@@ -342,11 +352,11 @@ GET /product/find/name/like?name=苹果
 
 - 通过不包含该名称 `/product/find/name/notLike`
 
-``` 
+```
 GET /product/find/name/notLike?name=手机
 ```
 
-``` 
+```
 [
     {
         "id": 5,
@@ -363,11 +373,11 @@ GET /product/find/name/notLike?name=手机
 
 - 通过范围查找 `/product/find/price/between`
 
-``` 
+```
 GET /product/find/price/between?priceFrom=600&priceTo=700
 ```
 
-``` 
+```
 [
     {
         "id": 2,

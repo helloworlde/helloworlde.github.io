@@ -3,16 +3,16 @@ title: Thrift 服务端异步请求
 type: post
 date: 2021-02-01 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
 # Thrift 服务端异步请求
 
 ## 实现
 
-### IDL 
+### IDL
 
 - helloworld.thrift
 
@@ -90,8 +90,8 @@ Server 端同步与异步处理的流程区别在于使用的 `TProcessor` 不�
 
 - org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer#invoke
 
-在处理读取事件时，会将 AsyncFrameBuffer 包装为 Runnable，提交给线程池执行；最终由 AsyncFrameBuffer 处理 
-会获取  Processor，然后调用  process 方法进行处理
+在处理读取事件时，会将 AsyncFrameBuffer 包装为 Runnable，提交给线程池执行；最终由 AsyncFrameBuffer 处理
+会获取 Processor，然后调用 process 方法进行处理
 
 ```java
 public void invoke() {
@@ -162,7 +162,7 @@ public void process(final AsyncFrameBuffer fb) throws TException {
 - io.github.helloworlde.thrift.HelloService.AsyncProcessor.sayHello#start
 
 ```java
-public void start(I iface, sayHello_args args, org.apache.thrift.async.AsyncMethodCallback<HelloResponse> resultHandler) 
+public void start(I iface, sayHello_args args, org.apache.thrift.async.AsyncMethodCallback<HelloResponse> resultHandler)
 throws org.apache.thrift.TException {
     iface.sayHello(args.request, resultHandler);
 }

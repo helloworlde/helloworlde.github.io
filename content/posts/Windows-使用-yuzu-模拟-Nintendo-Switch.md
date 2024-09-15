@@ -3,12 +3,12 @@ title: "Windows 使用 Yuzu 模拟 Nintendo Switch"
 type: post
 date: 2022-11-20T21:51:48+08:00
 tags:
-    - Games
-categories: 
-    - Games
-series: 
-    - Games
-featured: true  
+  - Games
+categories:
+  - Games
+series:
+  - Games
+featured: true
 ---
 
 # Windows 使用 yuzu 模拟 Nintendo Switch
@@ -48,7 +48,7 @@ yuzu 支持大部分的游戏，模拟器需要 XCI 或者 NCA 格式的游戏�
 
 如果没有 Switch，可以从其他平台搜索游戏的 XCI 或者 NCA 格式的文件；如 [https://nsw2u.in/](https://nsw2u.in/) 或者 [https://www.ziperto.com/](https://www.ziperto.com/nintendo/nintendo-switch-xci/) 下载（建议使用迅雷或其他下载工具下载）
 
-- 导入游戏 
+- 导入游戏
 
 当下载完成后在 yuzu 主页将游戏文件导入；即可开始体验游戏
 
@@ -62,6 +62,7 @@ yuzu 支持大部分的游戏，模拟器需要 XCI 或者 NCA 格式的游戏�
 
 通过 Macbook Pro 在没有安装独立显卡的 NUC9 i5 版本上以远程桌面的方式测试，发现运行卡顿，fps 大约在10-20之间，延迟大约 60-100ms；体验不佳；
 配置：
+
 - CPU：Intel i5-9300H，占用 40% 左右
 - 显卡：Intel UHD 630 核显，占用 75% 左右
 - 内存：DDR4 16G 2666Mhz，占用 3300M 左右
@@ -69,6 +70,7 @@ yuzu 支持大部分的游戏，模拟器需要 XCI 或者 NCA 格式的游戏�
 ![nintendo-switch-yuzu-resource-usage.png](https://img.hellowood.dev/picture/nintendo-switch-yuzu-resource-usage.png)
 
 通过 Macbook Pro 在另一台性能较好的台式机上通过远程桌面方式测试，能够稳定运行在 30帧，延迟在 30ms 左右，相对体验较好
+
 - CPU：intel i9-12900K，占用 16% 左右
 - 显卡：Nvdia 3070Ti，占用 38% 左右
 - 内存：DDR4 32G 3200Mhz，占用 2600M 左右

@@ -3,12 +3,13 @@ title: Ubuntu安装 Nginx
 type: post
 date: 2018-01-01 12:10:38
 tags:
-    - Nginx 
-    - Ubuntu
-categories: 
-    - Nginx
-    - Ubuntu
+  - Nginx
+  - Ubuntu
+categories:
+  - Nginx
+  - Ubuntu
 ---
+
 > 在 Ubuntu 上安装 Nginx
 
 # 1. 通过 Ubuntu 的仓库安装
@@ -22,10 +23,10 @@ categories:
 ```
 
 - 目录结构
-    - 所有文件都在 `/etc/nginx/`目录下
-    - 程序文件在`/user/local/nginx/sbin/`目录下 
-    - 日志在`/var/log/nginx/`目录下
-    - 启动脚本为`/etc/init.d/nginx`
+  - 所有文件都在 `/etc/nginx/`目录下
+  - 程序文件在`/user/local/nginx/sbin/`目录下
+  - 日志在`/var/log/nginx/`目录下
+  - 启动脚本为`/etc/init.d/nginx`
 
 ## 启动
 
@@ -33,7 +34,7 @@ categories:
     sudo /etc/init.d/nginx start
 ```
 
------------------------------
+---
 
 # Nginx 源代码安装
 
@@ -42,7 +43,7 @@ categories:
 - 下载
 
 ```
-    cd /usr/local 
+    cd /usr/local
     //下载源码
     wget http://nginx.org/download/nginx-1.2.8.tar.gz
 
@@ -64,7 +65,7 @@ categories:
     cd nginx-1.2.8
     // 检查环境
     ./configure
-        
+
     // 编译
     make
 
@@ -73,8 +74,8 @@ categories:
 ```
 
 ## 配置
- 
- - 默认启动
+
+- 默认启动
 
 ```
     cd /usr/local/nginx

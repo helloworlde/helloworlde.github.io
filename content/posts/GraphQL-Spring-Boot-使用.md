@@ -3,14 +3,14 @@ title: GraphQL Spring Boot 使用
 type: post
 date: 2019-01-29 19:57:12
 tags:
-    - SpringBoot 
-    - GraphQL
-categories: 
-    - SpringBoot 
-    - GraphQL
+  - SpringBoot
+  - GraphQL
+categories:
+  - SpringBoot
+  - GraphQL
 ---
 
-# GraphQL Spring Boot 使用 
+# GraphQL Spring Boot 使用
 
 项目地址 [https://github.com/helloworlde/spring-boot-graphql-demo](https://github.com/helloworlde/spring-boot-graphql-demo)
 
@@ -30,7 +30,7 @@ dependencies {
 }
 ```
 
-### 添加基础接口 
+### 添加基础接口
 
 - 添加 Model
 
@@ -54,7 +54,7 @@ public class Post {
 }
 ```
 
-- 添加 Repository 
+- 添加 Repository
 
 ```java
 public interface PostRepository extends MongoRepository<Post, String> {
@@ -104,15 +104,15 @@ public class DataInitializer implements ApplicationRunner {
 }
 ```
 
-### 添加 GraphQL 配置 
+### 添加 GraphQL 配置
 
 - 添加 GraphQL 依赖
 
 ```groovy
     implementation('com.graphql-java:graphql-spring-boot-starter:5.0.2')
-    // 提供 UI    
+    // 提供 UI
     implementation('com.graphql-java:graphiql-spring-boot-starter:5.0.2')
-    // 用于 Resolver    
+    // 用于 Resolver
     implementation('com.graphql-java:graphql-java-tools:5.2.4')
 ```
 
@@ -121,31 +121,30 @@ public class DataInitializer implements ApplicationRunner {
 ```graphql
 # io.github.helloworlde.graphql.model.Post 对应的Model
 type Post {
-    id: ID,
-    title: String,
-    content: String,
-    createtype: post
-date: String
+  id: ID
+  title: String
+  content: String
+  createtype: post
+  date: String
 }
 
-
 # io.github.helloworlde.graphql.resolver.PostMutation.updatePost 的入参 post
-input PostInput{
-    title: String!,
-    content: String!
+input PostInput {
+  title: String!
+  content: String!
 }
 
 # 查询 io.github.helloworlde.graphql.resolver.PostQuery
-type Query{
-    posts: [Post]
-    post(id: ID!): Post
+type Query {
+  posts: [Post]
+  post(id: ID!): Post
 }
 
 # 修改 io.github.helloworlde.graphql.resolver.PostMutation
-type Mutation{
-    createPost(post: PostInput): Post!
-    updatePost(id: ID!, post: PostInput): Post!
-    deletePost(id: ID!): String
+type Mutation {
+  createPost(post: PostInput): Post!
+  updatePost(id: ID!, post: PostInput): Post!
+  deletePost(id: ID!): String
 }
 ```
 
@@ -209,14 +208,13 @@ public class PostMutation implements GraphQLMutationResolver {
 }
 ```
 
-## 测试 
+## 测试
 
-- 启动应用 
+- 启动应用
 
 - 访问 [http://localhost:8080/graphiql](http://localhost:8080/graphiql)
 
-
-#### 查询 
+#### 查询
 
 - 查询列表
 
@@ -280,11 +278,11 @@ public class PostMutation implements GraphQLMutationResolver {
 
 #### 修改
 
-- 新增 
+- 新增
 
 ```graphql
 mutation {
-  createPost(post: {title: "New Posts", content: "New Post Content"}) {
+  createPost(post: { title: "New Posts", content: "New Post Content" }) {
     id
     title
     content
@@ -306,11 +304,14 @@ mutation {
 }
 ```
 
-- 修改 
+- 修改
 
 ```graphql
 mutation {
-  updatePost(id: "5c5027197ed65eaf47a0854d", post: {title: "Update Posts", content: "Update Post Content"}) {
+  updatePost(
+    id: "5c5027197ed65eaf47a0854d"
+    post: { title: "Update Posts", content: "Update Post Content" }
+  ) {
     id
     title
     content
@@ -348,7 +349,7 @@ mutation {
 }
 ```
 
---- 
+---
 
 ### 参考文章
 

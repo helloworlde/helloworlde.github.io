@@ -3,18 +3,18 @@ title: "Proxmox VE 创建自定义的 LXC 容器 CT 模板"
 type: post
 date: 2024-01-07T12:00:10+08:00
 tags:
-    - Proxmox
-    - HomeLab
-    - LXC
-categories: 
-    - Proxmox
-    - HomeLab
-    - LXC
-series: 
-    - Proxmox
-    - HomeLab
-    - LXC
-featured: true 
+  - Proxmox
+  - HomeLab
+  - LXC
+categories:
+  - Proxmox
+  - HomeLab
+  - LXC
+series:
+  - Proxmox
+  - HomeLab
+  - LXC
+featured: true
 ---
 
 # Proxmox VE 创建自定义的 LXC 容器 CT 模板
@@ -43,7 +43,7 @@ LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 
 
 ```bash
 apt autoremove
-``` 
+```
 
 - 清除 DNS 和主机名配置
 
@@ -85,7 +85,6 @@ mv /var/lib/vz/dump/vzdump-lxc-110-2023_12_31-16_13_12.tar.gz /var/lib/vz/templa
 ## 配置 LXC 容器
 
 使用 Docker 时需要挂载 NFS，所以需要使用特权容器，并配置访问权限；登录 PVE 命令行，在 `/etc/pve/lxc` 下修改对应的 LXC 容器的配置：
-
 
 - `/etc/pve/lxc/110.conf`
 

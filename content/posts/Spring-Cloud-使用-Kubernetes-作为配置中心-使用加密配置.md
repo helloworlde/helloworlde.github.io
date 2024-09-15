@@ -3,11 +3,11 @@ title: Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
 type: post
 date: 2019-09-08 19:18:09
 tags:
-    - SpringCloud
-    - Kubernetes
-categories: 
-    - SpringCloud
-    - Kubernetes
+  - SpringCloud
+  - Kubernetes
+categories:
+  - SpringCloud
+  - Kubernetes
 ---
 
 # Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
@@ -15,7 +15,7 @@ categories:
 > Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置
 
 ## 创建应用
- 
+
 ### 添加依赖
 
 - build.gradle
@@ -23,12 +23,12 @@ categories:
 ```groovy
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-config'
-}	
+}
 ```
 
 ### 添加配置
 
-#### 编码 
+#### 编码
 
 内容通过 Base64 编码后添加到 Kubernetes 中
 
@@ -74,7 +74,6 @@ spring.datasource.password=${DB_PASSWORD}
 - `spring.cloud.kubernetes.secrets.namespace`指定 Namespace
 - `spring.cloud.kubernetes.reload.monitoring-secrets`监听配置更新事件
 
-
 ### 添加接口
 
 - ConfigProperties.java
@@ -99,7 +98,7 @@ public class SecretsController {
 
     @Autowired
     private ConfigProperties configProperties;
-    
+
     @GetMapping("/db")
     public String config() {
         return String.format("url:%s\nusername:%s\npassword:%s",
@@ -110,7 +109,7 @@ public class SecretsController {
 }
 ```
 
-### 部署应用 
+### 部署应用
 
 - 构建并上传镜像
 
@@ -134,7 +133,6 @@ spec:
     app.kubernetes.io/name: secrets-service
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:

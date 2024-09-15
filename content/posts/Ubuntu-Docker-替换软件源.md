@@ -3,16 +3,16 @@ title: Ubuntu/Docker 替换软件源
 type: post
 date: 2019-05-27 15:06:43
 tags:
-    - Docker
-    - Ubuntu
-categories: 
-    - Docker
-    - Ubuntu
+  - Docker
+  - Ubuntu
+categories:
+  - Docker
+  - Ubuntu
 ---
 
 # Ubuntu/Docker 替换软件源
 
-## Ubuntu 
+## Ubuntu
 
 ### 使用 sed 命令
 
@@ -33,22 +33,22 @@ sudo vi sources.list
 输入以下内容
 
 ```
-deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse  
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse  
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse  
-deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse  
+deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 
-deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse  
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse  
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse  
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse  
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse  
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse  
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
 
-deb http://archive.canonical.com/ubuntu/ xenial partner  
-deb http://extras.ubuntu.com/ubuntu/ xenial main  
+deb http://archive.canonical.com/ubuntu/ xenial partner
+deb http://extras.ubuntu.com/ubuntu/ xenial main
 ```
 
 ```bash
@@ -77,6 +77,7 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 ```bash
 vi etc/apk/repositories
 ```
+
 输入以下内容
 
 ```
@@ -84,7 +85,7 @@ http://mirrors.aliyun.com/alpine/latest-stable/main/
 http://mirrors.aliyun.com/alpine/latest-stable/community/
 ```
 
-----------
+---
 
 ### 参考文档(包含其他平台的修改)
 

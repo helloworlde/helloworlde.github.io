@@ -3,12 +3,12 @@ title: 小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验
 type: post
 date: 2022-10-09 11:20:19
 tags:
-- MiWiFi
-- Router
-- HomeLab
-- OpenWrt
+  - MiWiFi
+  - Router
+  - HomeLab
+  - OpenWrt
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # 小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验
@@ -31,7 +31,6 @@ Trying 192.168.31.1...
 telnet: connect to address 192.168.31.1: Connection refused
 telnet: Unable to connect to remote host
 ```
-
 
 1. 下载测试版固件并升级
 
@@ -104,7 +103,6 @@ cd /tmp
 wget http://192.168.31.100/factory.bin -O factory.bin
 ```
 
-
 #### 2 开启 SSH 并准备刷入 OpenWrt
 
 登陆后，执行以下命令，准备输入 OpenWrt 固件
@@ -130,8 +128,7 @@ mtd -r write factory.bin firmware
 
 ![homelab-miwifi-ax6s-openwrt-execute-install.png](https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-execute-install.png)
 
-写入完成后，路由器会自动重启；重启后的路由器的 IP 地址变为 `192.168.1.1`；此时 Wi-Fi 没有开启，需要使用网线连接到路由器，访问  `192.168.1.1` 进行配置
-
+写入完成后，路由器会自动重启；重启后的路由器的 IP 地址变为 `192.168.1.1`；此时 Wi-Fi 没有开启，需要使用网线连接到路由器，访问 `192.168.1.1` 进行配置
 
 ## 使用体验
 
@@ -141,15 +138,15 @@ mtd -r write factory.bin firmware
 
 两者硬件配置基本相同，AX6S CPU 频率更高，支持 4x4 通道 80Mhz 的 5G WiFi，AX3000 支持 2x2 160Mhz 的 5G WiFi；可以理解为 AX3000 单设备速度上限更高，AX6S 支持更多设备并发，两者理论速度上限相同
 
-|配置| AX3000| AX6S |
-|:--|:---|:----|
-|CPU|IPQ5000双核1Ghz|MT7622B双核1.35Ghz|
-|内存|256M|256M|
-|闪存|128M|128M|
-|尺寸|247x141x180mm|284x186x186mm|
-|网口|千兆WANx1/LANx3|千兆WANx1/LANx3|
-|无线|2x2 160Mhz,最高可达2402Mbps，4根天线|4x4 80Mhz,最高可达2402Mbps，6根天线|
-|价格|239|299|
+| 配置 | AX3000                               | AX6S                                |
+| :--- | :----------------------------------- | :---------------------------------- |
+| CPU  | IPQ5000双核1Ghz                      | MT7622B双核1.35Ghz                  |
+| 内存 | 256M                                 | 256M                                |
+| 闪存 | 128M                                 | 128M                                |
+| 尺寸 | 247x141x180mm                        | 284x186x186mm                       |
+| 网口 | 千兆WANx1/LANx3                      | 千兆WANx1/LANx3                     |
+| 无线 | 2x2 160Mhz,最高可达2402Mbps，4根天线 | 4x4 80Mhz,最高可达2402Mbps，6根天线 |
+| 价格 | 239                                  | 299                                 |
 
 - 外观
 

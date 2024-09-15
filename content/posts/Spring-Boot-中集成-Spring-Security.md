@@ -3,23 +3,27 @@ title: Spring Boot 中集成 Spring Security
 type: post
 date: 2018-01-01 00:09:27
 tags:
-    - Java
-    - SpringBoot 
-    - Spring Security
-categories: 
-    - Java
-    - SpringBoot
-    - Spring Security
+  - Java
+  - SpringBoot
+  - Spring Security
+categories:
+  - Java
+  - SpringBoot
+  - Spring Security
 ---
+
 > Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板
 
------------------------
+---
+
 ### 项目地址 [https://github.com/helloworlde/SpringSecurity](https://github.com/helloworlde/SpringSecurity)
+
 ### 演示 [http://project.hellowood.com.cn/Security/](http://project.hellowood.com.cn/Security/)
 
 ## 创建 Spring Boot 应用
 
 ## 添加依赖
+
 ```
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -28,10 +32,11 @@ categories:
     runtime('mysql:mysql-connector-java')
     runtime('org.springframework.boot:spring-boot-starter-tomcat')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.security:spring-security-test')    
+    testCompile('org.springframework.security:spring-security-test')
 ```
 
 ## 创建用户表并插入数据
+
 ```
     CREATE TABLE user (
       id       INT                  AUTO_INCREMENT PRIMARY KEY,
@@ -39,11 +44,13 @@ categories:
       password VARCHAR(45) NOT NULL,
       enabled  INT         NOT NULL DEFAULT 1
     );
-    
-   
+
+
     INSERT INTO user (username, password, enabled) VALUES ('username', 'password', TRUE);
 ```
-## 添加配置信息 
+
+## 添加配置信息
+
 ```
     spring.datasource.url=jdbc:mysql://localhost:3306/security?useSSL=false
     spring.datasource.username=security
@@ -54,33 +61,34 @@ categories:
 ```
 
 ## 添加 Security 配置文件
+
 ```
-    
+
     import cn.com.hellowood.springsecurity.security.CustomAuthenticationProvider;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
     import org.springframework.security.config.annotation.web.builders.HttpSecurity;
     import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
     import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-    
+
     @EnableWebSecurity
     public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
         @Autowired
         private CustomAuthenticationProvider customAuthenticationProvider;
-    
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // 所有请求均可访问
             http.authorizeRequests()
                     .antMatchers("/", "/login", "/login-error", "/css/**", "/index")
                     .permitAll();
-            
+
             // 其余所有请求均需要权限
             http.authorizeRequests()
                     .anyRequest()
                     .authenticated();
-    
+
             // 配置登录页面的表单 action 必须是 '/login', 用户名和密码的参数名必须是 'username' 和 'password'，
             // 登录失败的 url 是 '/login-error'
             http.formLogin()
@@ -90,7 +98,7 @@ categories:
                     .passwordParameter("password")
                     .failureUrl("/login-error");
         }
-    
+
         /**
          * Configure global.
          *
@@ -107,6 +115,7 @@ categories:
 ```
 
 ## 添加自定义的 Authentication Provider 类
+
 ```
     import cn.com.hellowood.springsecurity.model.UserModel;
     import cn.com.hellowood.springsecurity.service.UserService;
@@ -121,22 +130,22 @@ categories:
     import org.springframework.security.core.AuthenticationException;
     import org.springframework.security.core.GrantedAuthority;
     import org.springframework.stereotype.Component;
-    
+
     import javax.servlet.http.HttpSession;
     import java.util.ArrayList;
     import java.util.List;
-    
+
     @Component
     public class CustomAuthenticationProvider implements AuthenticationProvider {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         private HttpSession session;
-    
+
         @Autowired
         private UserService userService;
-    
+
         /**
          * Validate user info is correct form database
          *
@@ -149,7 +158,7 @@ categories:
             String username = authentication.getName();
             String password = authentication.getCredentials().toString();
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-    
+
             // 检查用户名密码是否正确
             UserModel user = userService.loadUserByUsernameAndPassword(username, password);
             if (user == null) {
@@ -158,43 +167,44 @@ categories:
             } else if (!user.getEnabled()) {
                 throw new AccountExpiredException("Account had expired");
             }
-    
+
             // 用户信息有效时将其放入 session 中
             session.setAttribute("user", user);
             Authentication auth = new UsernamePasswordAuthenticationToken(username, password, grantedAuthorities);
             return auth;
         }
-    
-    
+
+
         @Override
         public boolean supports(Class<?> authentication) {
             return authentication.equals(UsernamePasswordAuthenticationToken.class);
         }
-    
+
     }
 ```
 
 ## 添加校验用户信息所需要的类
 
 - 添加 UserModel.java
+
 ```
 
     public class UserModel {
-    
+
         private Integer id;
-    
+
         private String username;
-    
+
         private String password;
-    
+
         private Boolean enabled;
-    
+
         /**
          * Instantiates a new User model.
          */
         public UserModel() {
         }
-    
+
         /**
          * Instantiates a new User model.
          *
@@ -209,7 +219,7 @@ categories:
             this.password = password;
             this.enabled = enabled;
         }
-    
+
         /**
          * Gets id.
          *
@@ -218,7 +228,7 @@ categories:
         public Integer getId() {
             return id;
         }
-    
+
         /**
          * Sets id.
          *
@@ -227,7 +237,7 @@ categories:
         public void setId(Integer id) {
             this.id = id;
         }
-    
+
         /**
          * Gets username.
          *
@@ -236,7 +246,7 @@ categories:
         public String getUsername() {
             return username;
         }
-    
+
         /**
          * Sets username.
          *
@@ -245,7 +255,7 @@ categories:
         public void setUsername(String username) {
             this.username = username;
         }
-    
+
         /**
          * Gets password.
          *
@@ -254,7 +264,7 @@ categories:
         public String getPassword() {
             return password;
         }
-    
+
         /**
          * Sets password.
          *
@@ -263,7 +273,7 @@ categories:
         public void setPassword(String password) {
             this.password = password;
         }
-    
+
         /**
          * Gets enabled.
          *
@@ -272,7 +282,7 @@ categories:
         public Boolean getEnabled() {
             return enabled;
         }
-    
+
         /**
          * Sets enabled.
          *
@@ -281,7 +291,7 @@ categories:
         public void setEnabled(Boolean enabled) {
             this.enabled = enabled;
         }
-    
+
         @Override
         public String toString() {
             return "UserModel{" +
@@ -293,20 +303,22 @@ categories:
         }
     }
 ```
+
 - 添加 UserService.java
+
 ```
 
     import cn.com.hellowood.springsecurity.mapper.UserMapper;
     import cn.com.hellowood.springsecurity.model.UserModel;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
-    
+
     @Service("userService")
     public class UserService {
-    
+
         @Autowired
         private UserMapper userMapper;
-    
+
         /**
          * Load user by username and password user model.
          *
@@ -319,15 +331,17 @@ categories:
         }
     }
 ```
+
 - 添加 UserMapper.java
+
 ```
     import cn.com.hellowood.springsecurity.model.UserModel;
     import org.apache.ibatis.annotations.Mapper;
     import org.apache.ibatis.annotations.Param;
-    
+
     @Mapper
     public interface UserMapper {
-    
+
         /**
          * Gets user by username and password.
          *
@@ -339,19 +353,21 @@ categories:
                                                @Param("password") String password);
     }
 ```
-- 添加 UserMapper.xml 
+
+- 添加 UserMapper.xml
+
 ```
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
     <mapper namespace="cn.com.hellowood.springsecurity.mapper.UserMapper">
-    
+
         <resultMap id="baseResultMap" type="cn.com.hellowood.springsecurity.model.UserModel">
             <id column="id" property="id" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
             <result column="username" property="username" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="password" property="password" javaType="java.lang.String" jdbcType="VARCHAR"></result>
             <result column="enabled" property="enabled" javaType="java.lang.Boolean" jdbcType="INTEGER"></result>
         </resultMap>
-    
+
         <select id="getUserByUsernameAndPassword" resultType="cn.com.hellowood.springsecurity.model.UserModel">
             SELECT
                 id,
@@ -364,9 +380,11 @@ categories:
         </select>
     </mapper>
 ```
+
 ## 添加页面
 
 - index.html
+
 ```
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
@@ -399,7 +417,9 @@ categories:
     </body>
     </html>
 ```
-- login.html 
+
+- login.html
+
 ```
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
@@ -436,7 +456,9 @@ categories:
     </body>
     </html>
 ```
+
 - user/index.html
+
 ```
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
@@ -464,14 +486,15 @@ categories:
 ```
 
 ## 添加 Controller
+
 ```
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.RequestMapping;
-    
+
     @Controller
     public class MainController {
-    
+
         /**
          * Root page.
          *
@@ -481,7 +504,7 @@ categories:
         public String root() {
             return "redirect:/index";
         }
-    
+
         /**
          * Index page.
          *
@@ -491,7 +514,7 @@ categories:
         public String index() {
             return "index";
         }
-    
+
         /**
          * User index page.
          *
@@ -501,7 +524,7 @@ categories:
         public String userIndex() {
             return "user/index";
         }
-    
+
         /**
          * Login page.
          *
@@ -511,7 +534,7 @@ categories:
         public String login() {
             return "login";
         }
-    
+
         /**
          * Login error page.
          *
@@ -523,9 +546,10 @@ categories:
             model.addAttribute("loginError", true);
             return "login";
         }
-    
+
     }
 ```
-----------------
+
+---
 
 > 启动应用，访问[http://localhost:8080/user/index](http://localhost:8080/user/index)，此时没有登录，会被拦截并重定向到登录页面[http://localhost:8080/login](http://localhost:8080/login)，输入用户名 `username` 和密码 `password`，登录成功后再次访问[http://localhost:8080/user/index](http://localhost:8080/user/index)，此时该 url 可以正常访问，当输入错误的用户名或密码时会提示错误信息，说明 Spring Security 配置正确

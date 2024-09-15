@@ -3,12 +3,12 @@ title: "使用 MacOS 制作 MacOS 的 ISO 镜像"
 type: post
 date: 2022-11-20T21:51:48+08:00
 tags:
-    - MacOS
-categories: 
-    - MacOS
-series: 
-    - MacOS
-featured: true  
+  - MacOS
+categories:
+  - MacOS
+series:
+  - MacOS
+featured: true
 ---
 
 # 使用 macOS 制作 macOS 的 ISO 镜像
@@ -45,7 +45,7 @@ hdiutil create -o /tmp/Monterey -size 14500m -volname Monterey -layout SPUD -fs 
 created: /tmp/Monterey.dmg
 ```
 
-### 2 将 dmg 挂载为数据卷 
+### 2 将 dmg 挂载为数据卷
 
 ```bash
 hdiutil attach /tmp/Monterey.dmg -noverify -mountpoint /Volumes/Monterey
@@ -79,7 +79,6 @@ Install media now available at "/Volumes/Install macOS Monterey"
 ```bash
 hdiutil detach /volumes/Install\ macOS\ Monterey
 ```
-
 
 ### 5 将 dmg 格式转换为 iso 格式
 

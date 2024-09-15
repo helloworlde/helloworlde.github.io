@@ -3,21 +3,21 @@ title: Spring Boot 2.3+ Liveness 和 Readness 接口使用
 type: post
 date: 2020-09-20 22:32:48
 tags:
-    - SpringBoot
-categories: 
-    - SpringBoot
+  - SpringBoot
+categories:
+  - SpringBoot
 ---
 
 # Spring Boot 2.3+ Liveness 和 Readness 接口使用
 
-在 Spring Boot  2.3+ 中，提供了单独的 liveness 和 readness，用于为 Kubernetes 提供相应检查接口
+在 Spring Boot 2.3+ 中，提供了单独的 liveness 和 readness，用于为 Kubernetes 提供相应检查接口
 
 - liveness
-用于检查应用是否存活，当应用组件因故障不健康时，可以通过这个接口的结果，配置相应策略，重启应用或重新调度 Pod
+  用于检查应用是否存活，当应用组件因故障不健康时，可以通过这个接口的结果，配置相应策略，重启应用或重新调度 Pod
 - readness
-用于检查应用是否就绪，是否可以提供服务，如当流量太大超过应用的承载范围时，可以将这个接口的状态改为不健康，这样可以停止接收流量，当处理完后再次检查时变为健康，继续处理请求
+  用于检查应用是否就绪，是否可以提供服务，如当流量太大超过应用的承载范围时，可以将这个接口的状态改为不健康，这样可以停止接收流量，当处理完后再次检查时变为健康，继续处理请求
 
-## 配置 
+## 配置
 
 - build.gradle 添加依赖
 
@@ -48,7 +48,7 @@ management.endpoint.health.group.liveness.include=*
 management.endpoint.health.group.liveness.exclude=${management.endpoint.health.group.readiness.include}
 ```
 
-## 测试 
+## 测试
 
 - 启动应用
 
@@ -62,31 +62,28 @@ curl http://localhost:8080/actuator/health
 
 ```json
 {
-    "status": "UP",
-    "components": {
-        "diskSpace": {
-            "status": "UP",
-            "details": {
-                "total": 499963174912,
-                "free": 380364800000,
-                "threshold": 10485760,
-                "exists": true
-            }
-        },
-        "livenessStateProbeIndicator": {
-            "status": "UP"
-        },
-        "ping": {
-            "status": "UP"
-        },
-        "readinessStateProbeIndicator": {
-            "status": "UP"
-        }
+  "status": "UP",
+  "components": {
+    "diskSpace": {
+      "status": "UP",
+      "details": {
+        "total": 499963174912,
+        "free": 380364800000,
+        "threshold": 10485760,
+        "exists": true
+      }
     },
-    "groups": [
-        "liveness",
-        "readiness"
-    ]
+    "livenessStateProbeIndicator": {
+      "status": "UP"
+    },
+    "ping": {
+      "status": "UP"
+    },
+    "readinessStateProbeIndicator": {
+      "status": "UP"
+    }
+  },
+  "groups": ["liveness", "readiness"]
 }
 ```
 
@@ -98,12 +95,12 @@ curl http://localhost:8080/actuator/health/readiness
 
 ```json
 {
-    "components": {
-        "ping": {
-            "status": "UP"
-        }
-    },
-    "status": "UP"
+  "components": {
+    "ping": {
+      "status": "UP"
+    }
+  },
+  "status": "UP"
 }
 ```
 
@@ -115,24 +112,24 @@ curl http://localhost:8080/actuator/health/liveness
 
 ```json
 {
-    "components": {
-        "custom": {
-            "details": {
-                "Status": "Health"
-            },
-            "status": "UP"
-        },
-        "diskSpace": {
-            "details": {
-                "exists": true,
-                "free": 380286464000,
-                "threshold": 10485760,
-                "total": 499963174912
-            },
-            "status": "UP"
-        }
+  "components": {
+    "custom": {
+      "details": {
+        "Status": "Health"
+      },
+      "status": "UP"
     },
-    "status": "UP"
+    "diskSpace": {
+      "details": {
+        "exists": true,
+        "free": 380286464000,
+        "threshold": 10485760,
+        "total": 499963174912
+      },
+      "status": "UP"
+    }
+  },
+  "status": "UP"
 }
 ```
 
@@ -178,18 +175,17 @@ curl http://localhost:8080/actuator/health/readiness
 
 ```json
 {
-    "components": {
-        "custom": {
-            "details": {
-                "Status": "Health"
-            },
-            "status": "UP"
-        },
-        "ping": {
-            "status": "UP"
-        }
+  "components": {
+    "custom": {
+      "details": {
+        "Status": "Health"
+      },
+      "status": "UP"
     },
-    "status": "UP"
+    "ping": {
+      "status": "UP"
+    }
+  },
+  "status": "UP"
 }
 ```
-

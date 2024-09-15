@@ -3,9 +3,9 @@ title: Kubernetes 配置 kubeconfig 访问多个集群
 type: post
 date: 2018-10-23 21:09:48
 tags:
-    - Kubernetes
-categories: 
-    - Kubernetes
+  - Kubernetes
+categories:
+  - Kubernetes
 ---
 
 # Kubernetes 配置 kubeconfig 访问多个集群
@@ -14,7 +14,7 @@ categories:
 
 > 可以参考文档 [https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)配置，但是这个文档描述不够直接简单，可以参考以下内容直接修改
 
-假设现在有两个集群，一个是本地的 `docker-for-desktop-cluster`，另一个是部署在测试环境的 `kubernetes` ，本地只有 `docker-for-desktop-cluster`的配置 
+假设现在有两个集群，一个是本地的 `docker-for-desktop-cluster`，另一个是部署在测试环境的 `kubernetes` ，本地只有 `docker-for-desktop-cluster`的配置
 
 根据官方文档合并后的 Demo，其实是将两个 Config 文件的相同类型的字段直接合并了，所以直接将相同的字段的其他集群的配置内容复制到当前的配置中即可，如：将`kubernetes`中 `cluster` 的配置直接复制到当前配置中：
 
@@ -22,13 +22,13 @@ categories:
 
 ```
 - cluster:
-    certificate-authority-data: CERTIFICATE_AUTHORITY_DATA 
+    certificate-authority-data: CERTIFICATE_AUTHORITY_DATA
     server: https://192.168.111.129:6443
   name: kubernetes
 
 ```
 
-- 本地集群  cluster 配置
+- 本地集群 cluster 配置
 
 ```
 - cluster:
@@ -57,7 +57,7 @@ clusters:
 export KUBECONFIG=~/.kube/config
 ```
 
-- 查看合并后的 kubeconfig 
+- 查看合并后的 kubeconfig
 
 ```
 kubectl config view
@@ -97,7 +97,7 @@ users:
     client-key-data: REDACTED
 ```
 
-- 查看集群 
+- 查看集群
 
 ```
 kubectl config get-contexts
@@ -126,7 +126,7 @@ kubectl config use-context kubernetes-admin@kubernetes
   name: docker-for-desktop
 ```
 
-----------
+---
 
 - 本地`docker-for-desktop-cluster` 的配置 (`~/.kube/config`)内容
 
@@ -152,14 +152,13 @@ users:
     client-key-data: CLIENT_KEY_DATA
 ```
 
-
 - 测试环境 `kubernetes` 的 配置(`~/.kube/config`)内容
 
 ```
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: CERTIFICATE_AUTHORITY_DATA 
+    certificate-authority-data: CERTIFICATE_AUTHORITY_DATA
     server: https://192.168.111.129:6443
   name: kubernetes
 contexts:

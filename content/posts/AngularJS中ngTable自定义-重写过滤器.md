@@ -3,31 +3,34 @@ title: AngularJS 中ngTable自定义/重写过滤器
 type: post
 date: 2018-01-01 11:56:49
 tags:
-    - AngularJs
-    - ngTable
-categories: 
-    - AngularJs
-    - ngTable
+  - AngularJs
+  - ngTable
+categories:
+  - AngularJs
+  - ngTable
 ---
->- 在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器
 
->- ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤
+> - 在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器
+
+> - ###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤
 
 > - text:根据字符匹配，如果被过滤的值有该字符，则显示该记录
+
 - number:根据数值进行匹配，如果数值相等，则显示该记录
 - select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录
 
 - 添加自定义的过滤器控件
-    - 在HTML中
+  - 在HTML中
+
 ```
 <script type="text/ng-template" id="/filter/js/startDateFilter.html">
     <input type="text">
 </script>
 
 ```
-- 添加自定义的过滤器控件 
-    - 在js中
-    
+
+- 添加自定义的过滤器控件
+  - 在js中
 
 ```
 $scope.customFilter = {
@@ -81,8 +84,8 @@ $scope.customFilterFn = function (date, filterValues) {
         }
 ```
 
+---
 
-----------
 - 页面代码
 
 ```

@@ -3,12 +3,12 @@ title: "Docker 开启外部 HTTP 访问"
 type: post
 date: 2023-03-05T21:39:29+08:00
 tags:
-    - Docker
-categories: 
-    - Docker
-series: 
-    - Docker
-featured: true  
+  - Docker
+categories:
+  - Docker
+series:
+  - Docker
+featured: true
 ---
 
 # Docker 开启外部 HTTP 访问
@@ -17,11 +17,9 @@ featured: true
 
 Docker 除了支持 socket 方式之外，还支持通过 HTTP 的方式获取容器的信息
 
-
 ## 开启 HTTP 访问
 
 HTTP 访问是通过在启动 Docker 服务的时候添加参数的方式开启的；需要在 docker service 的启动命令中添加 `-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock`，即允许通过 HTTP 方式和 socket 方式访问
-
 
 ### 配置启动参数
 
@@ -53,7 +51,7 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 
-### 检查端口 
+### 检查端口
 
 通过 telnet 命令检查 2375 端口，可以访问说明端口正常
 

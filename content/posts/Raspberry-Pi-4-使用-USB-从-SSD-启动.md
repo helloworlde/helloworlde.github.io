@@ -3,9 +3,9 @@ title: Raspberry Pi 4 使用 USB 从 SSD 启动
 type: post
 date: 2020-09-20 22:29:28
 tags:
-    - RaspberryPi
-categories: 
-    - RaspberryPi
+  - RaspberryPi
+categories:
+  - RaspberryPi
 ---
 
 # Raspberry Pi 4 使用 USB 从 SSD 启动
@@ -14,7 +14,7 @@ categories:
 
 ## 安装 Raspberry Pi OS
 
-- 下载 Imager 
+- 下载 Imager
 
 从 [https://www.raspberrypi.org/downloads/](https://www.raspberrypi.org/downloads/) 下载相应 Imager
 
@@ -43,7 +43,7 @@ timestamp 1587057086
 
 如果日期是 `May 15 2020` 之前的，则需要修改配置以启用新的固件
 
-- 更新 
+- 更新
 
 ```bash
 sudo apt update
@@ -78,15 +78,14 @@ BOOT_ORDER=0xf41
 
 - 拷贝 SD 卡的内容到硬盘
 
-点击左上角的树莓派图标，选择附件 -> SD Card Copier 
+点击左上角的树莓派图标，选择附件 -> SD Card Copier
 然后选择 From 和 To Device 为相应的 SD 卡和硬盘，点击 Start 开始复制
 
 - 覆盖系统文件
-下载 [raspberrypi/firmware](https://github.com/raspberrypi/firmware)  master 分支，解压后将 boot 目录下的所有 `dat` 和 `elf` 后缀的文件拷贝到硬盘中，替换原有的内容，这么因为镜像中的文件尚未支持 USB 启动，所以需要替换，待镜像中支持后，这个操作就可以省略了
+  下载 [raspberrypi/firmware](https://github.com/raspberrypi/firmware) master 分支，解压后将 boot 目录下的所有 `dat` 和 `elf` 后缀的文件拷贝到硬盘中，替换原有的内容，这么因为镜像中的文件尚未支持 USB 启动，所以需要替换，待镜像中支持后，这个操作就可以省略了
 
 - 从 USB 启动
-关闭树莓派，拔出 SD 卡，连接硬盘后重新启动，就可以从 USB 硬盘启动系统了
-
+  关闭树莓派，拔出 SD 卡，连接硬盘后重新启动，就可以从 USB 硬盘启动系统了
 
 ## 参考文章
 

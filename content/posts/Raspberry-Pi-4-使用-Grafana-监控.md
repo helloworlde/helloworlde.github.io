@@ -3,11 +3,11 @@ title: Raspberry Pi 4 使用 Grafana 监控
 type: post
 date: 2020-09-20 22:30:45
 tags:
-    - RaspberryPi
-    - Grafana
-categories: 
-    - RaspberryPi
-    - Grafana
+  - RaspberryPi
+  - Grafana
+categories:
+  - RaspberryPi
+  - Grafana
 ---
 
 # Raspberry Pi 4 使用 Grafana 监控
@@ -64,7 +64,7 @@ docker run --name telegraf -d  \
 	telegraf
 ```
 
-## 运行 Grafana 
+## 运行 Grafana
 
 - 运行
 
@@ -83,10 +83,10 @@ docker run \
 - 进入容器
 
 ```bash
-docker exec -it influxdb bash 
+docker exec -it influxdb bash
 ```
 
-- 启动 influxdb 客户端 
+- 启动 influxdb 客户端
 
 ```bash
 influx
@@ -107,13 +107,13 @@ create user admin with password '123456' with all privileges
 
 访问树莓派的地址和相应的端口 http://192.168.31.5:3000，输入用户名 `admin` 和密码 `admin`，输入新的密码后进入面板主页
 
-- 添加数据源 
+- 添加数据源
 
 访问设置 -> DataSources -> Add Data Source，输入相应的信息
 
 ![raspberrypi-metrics-grafana-datasource.png](https://img.hellowood.dev/picture/raspberrypi-metrics-grafana-datasource.png)
 
-- 导入监控看板 
+- 导入监控看板
 
 点击侧边栏加号，import，然后输入面板的 id [10587](https://grafana.com/grafana/dashboards/10578)，然后 load
 

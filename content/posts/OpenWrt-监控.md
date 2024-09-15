@@ -3,12 +3,12 @@ title: OpenWrt-监控
 type: post
 date: 2022-09-26 11:32:08
 tags:
-- Netdata
-- Prometheus
-- OpenWrt
-- HomeLab
+  - Netdata
+  - Prometheus
+  - OpenWrt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # OpenWrt 监控
@@ -30,11 +30,9 @@ opkg install netdata
 
 ![homelab-openwrt-metrics-netdata.png](https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png)
 
-
 - 通过 Prometheus 抓取数据
 
 Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是`/api/v1/allmetrics?format=prometheus_all_hosts`；如 [http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts](http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts)
-
 
 Prometheus 任务配置：需要注意，要添加参数 `format=prometheus_all_hosts` 才可以抓取到 Prometheus 格式
 

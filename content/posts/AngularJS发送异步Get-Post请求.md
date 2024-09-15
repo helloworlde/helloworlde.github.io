@@ -3,15 +3,14 @@ title: AngularJS发送异步Get/Post请求
 type: post
 date: 2018-01-01 11:40:58
 tags:
-    - AngularJs
-    - Request
-categories: 
-    - AngularJs
-    - Request
+  - AngularJs
+  - Request
+categories:
+  - AngularJs
+  - Request
 ---
 
- 1 . 在页面中加入AngularJS并为页面绑定ng-app 和 ng-controller
- 
+1 . 在页面中加入AngularJS并为页面绑定ng-app 和 ng-controller
 
 ```
 <body ng-app="MyApp" ng-controller="MyCtrl" >
@@ -20,8 +19,7 @@ categories:
 <script src="js/sbt.js"></script>
 ```
 
- 2 . 添加必要的控件并绑定相应的事件
- 
+2 . 添加必要的控件并绑定相应的事件
 
 ```
     get:<input type="text" ng-model="param">{{param}} <br>
@@ -30,10 +28,10 @@ categories:
     <button ng-click="post()">Post</button>
 ```
 
- 3 . 在JS脚本中发送进行Get/Post请求
-  
-  - get
- 
+3 . 在JS脚本中发送进行Get/Post请求
+
+- get
+
 ```
 $scope.get = function () {
         $http.get("/get", {params: {param: $scope.param}})
@@ -47,8 +45,9 @@ $scope.get = function () {
     }
 
 ```
-  - get 将参数放在URL中
- 
+
+- get 将参数放在URL中
+
 ```
 $scope.get = function () {
         $http.get("/get?param="+$scope.param)
@@ -63,10 +62,9 @@ $scope.get = function () {
 
 ```
 
-----------
+---
 
-
-- post 
+- post
 
 ```
 $scope.post = function () {
@@ -81,9 +79,10 @@ $scope.post = function () {
     }
 ```
 
- 4 . 由Controller处理请求并返回结果
- 
+4 . 由Controller处理请求并返回结果
+
 - get
+
 ```
     @RequestMapping("/get")
     @ResponseBody
@@ -93,6 +92,7 @@ $scope.post = function () {
         return response;
     }
 ```
+
 - post
 
 ```
@@ -108,6 +108,7 @@ $scope.post = function () {
         }
     }
 ```
+
 - 如果需要配置请求头部
 
 ```
@@ -122,10 +123,10 @@ $scope.post = function () {
         });
 ```
 
- 5 . 由JS http请求的回调函数处理并执行下一步操作
+5 . 由JS http请求的回调函数处理并执行下一步操作
 
+---
 
-----------
 - HTML
 
 ```
@@ -146,6 +147,7 @@ post: <input type="text" ng-model="user.name"><input type="text" ng-model="user.
 <script src="js/sbt.js"></script>
 </html>
 ```
+
 - sbt.js
 
 ```
@@ -162,7 +164,7 @@ app.controller("MyCtrl", function ($scope, $http) {
             })
         ;
     }
-   
+
     $scope.post = function () {
         $http.post("/post", $scope.user)
             .success(function (data, header, config, status) {
@@ -175,4 +177,3 @@ app.controller("MyCtrl", function ($scope, $http) {
     }
 });
 ```
-

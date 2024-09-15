@@ -3,16 +3,16 @@ title: Spring Cloud 使用 Consul 作为配置中心
 type: post
 date: 2020-09-20 22:28:50
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud 使用 Consul 作为配置中心
 
-## 加载配置 
+## 加载配置
 
 加载配置是通过 `ConsulPropertySourceLocator` 来实现的，该类是 `PropertySourceLocator`接口的实现类
 
@@ -122,13 +122,11 @@ categories:
 	}
 ```
 
-
-
 ## 监听配置
 
 Consul 监听配置是通过定时任务实现的，
 
-### Bean 初始化 
+### Bean 初始化
 
 Bean 的初始化是在 `org.springframework.cloud.consul.config.ConsulConfigAutoConfiguration` 中实现的
 

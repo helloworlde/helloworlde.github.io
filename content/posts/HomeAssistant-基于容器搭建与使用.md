@@ -3,14 +3,14 @@ title: "HomeAssistant 基于容器搭建与使用"
 type: post
 date: 2022-11-13T21:51:48+08:00
 tags:
-    - HomeAssistant
-    - HomeLab
-categories: 
-    - HomeAssistant
-    - HomeLab
-series: 
-    - HomeAssistant
-featured: true  
+  - HomeAssistant
+  - HomeLab
+categories:
+  - HomeAssistant
+  - HomeLab
+series:
+  - HomeAssistant
+featured: true
 ---
 
 # HomeAssistant 基于容器搭建与使用
@@ -23,11 +23,11 @@ HomeAssistant 支持多种运行方式，如以OS方式运行，或者使用二�
 
 ### 使用 Docker 直接运行
 
-在 Linux 服务器使用容器启动 HomeAssistant，HomeAssistant 的所有配置和数据都在 `/config` 目录下，为了持久化数据，将当前路径挂载到 HomeAssistant 的 config 目录下；因为 HomeAssistant 需要访问局域网内的其他设备，因此，建议容器的网络模式使用 `host`，或者通过  `macvlan` 驱动为其单独创建网络
+在 Linux 服务器使用容器启动 HomeAssistant，HomeAssistant 的所有配置和数据都在 `/config` 目录下，为了持久化数据，将当前路径挂载到 HomeAssistant 的 config 目录下；因为 HomeAssistant 需要访问局域网内的其他设备，因此，建议容器的网络模式使用 `host`，或者通过 `macvlan` 驱动为其单独创建网络
 
 ```bash
 docker run -d \
- --name="home-assistant" 
+ --name="home-assistant"
  -v ${pwd}:/config \
  -v /etc/localtime:/etc/localtime:ro \
  --net=host \

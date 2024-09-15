@@ -1,16 +1,16 @@
 ---
-title: 'Kubernetes 中部署 SpringBoot 应用 '
+title: "Kubernetes 中部署 SpringBoot 应用 "
 type: post
 date: 2018-10-22 18:30:37
 tags:
-    - Kubernetes
-    - SpringBoot
-categories: 
-    - Kubernetes
-    - SpringBoot
+  - Kubernetes
+  - SpringBoot
+categories:
+  - Kubernetes
+  - SpringBoot
 ---
 
-# Kubernetes 中部署 SpringBoot 应用 
+# Kubernetes 中部署 SpringBoot 应用
 
 > 在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用
 
@@ -18,9 +18,9 @@ categories:
 
 ## 创建 SpringBoot 应用
 
-- 创建名为  k8s-service 的 SpringBoot 应用
+- 创建名为 k8s-service 的 SpringBoot 应用
 - 添加 REST API
-	- K8sController.java
+  - K8sController.java
 
 ```java
 package cn.com.hellowood.k8sservice.controller;
@@ -57,7 +57,7 @@ ADD ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Duser.timezone=GMT+08", "-jar","/app.jar"]
 ```
 
-- 编译打包 
+- 编译打包
 
 ```bash
 ./gradlew clean build -x test
@@ -69,9 +69,9 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Duser.timezone=G
 ./gradlew dockerPush -i
 ```
 
-## 在  Kubernetes 中添加服务
+## 在 Kubernetes 中添加服务
 
-- 添加 k8s-demo.yaml 
+- 添加 k8s-demo.yaml
 
 ```yaml
 apiVersion: v1
@@ -84,13 +84,12 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8080
-    nodePort: 30002
+    - port: 8080
+      nodePort: 30002
   selector:
     app: k8s-service
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -108,25 +107,24 @@ spec:
         app: k8s-service
     spec:
       containers:
-      - name: k8s-service
-        image: registry.cn-qingdao.aliyuncs.com/hellowoodes/k8s-service
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8080
-        livenessProbe:
-          httpGet:
-            port: 8080
-            path: /healthz
-            scheme: HTTP
-          periodSeconds: 15
-          initialDelaySeconds: 30
+        - name: k8s-service
+          image: registry.cn-qingdao.aliyuncs.com/hellowoodes/k8s-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /healthz
+              scheme: HTTP
+            periodSeconds: 15
+            initialDelaySeconds: 30
 ```
-
 
 - 创建服务
 
 ```
-kubectl apply -f k8s-service.yaml 
+kubectl apply -f k8s-service.yaml
 ```
 
 - 等待服务启动之后访问 `${NodeIP}:30090`，会返回 `Hello Kubernetes`，部署完成

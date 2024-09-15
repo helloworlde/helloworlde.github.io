@@ -3,14 +3,14 @@ title: "Ubuntu 22 环境初始化"
 type: post
 date: 2024-01-07T18:03:00+08:00
 tags:
-    - Ubuntu
-    - HomeLab
-categories: 
-    - Ubuntu
-    - HomeLab
-series: 
-    - Ubuntu
-    - HomeLab
+  - Ubuntu
+  - HomeLab
+categories:
+  - Ubuntu
+  - HomeLab
+series:
+  - Ubuntu
+  - HomeLab
 featured: true
 ---
 
@@ -18,7 +18,7 @@ featured: true
 
 在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置
 
-## 修改主机名 
+## 修改主机名
 
 将主机名改为 `homelab`
 
@@ -36,7 +36,6 @@ hostnamectl hostname homelab
 ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
 ```
 
-
 ## 修改 APT 源
 
 将默认的 APT 源替换为[清华](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)的源
@@ -46,7 +45,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
 ```bash
 mv /etc/apt/sources.list /etc/apt/sources.list.backup
 
-sudo bash -c "cat << EOF > /etc/apt/sources.list && apt update 
+sudo bash -c "cat << EOF > /etc/apt/sources.list && apt update
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
@@ -63,7 +62,6 @@ EOF"
 ```bash
 apt-get update
 ```
-
 
 ## 安装常用软件
 
@@ -87,7 +85,7 @@ sudo timedatectl set-timezone Asia/Shanghai
 sudo apt install -y zsh git
 ```
 
-2. 添加 on-my-zsh 
+2. 添加 on-my-zsh
 
 ```bash
 sudo sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -116,7 +114,7 @@ source ~/.zshrc
 
 ## 安装 Docker
 
-- docker 
+- docker
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -152,7 +150,7 @@ EOF
 docker plugin install grafana/loki-docker-driver --alias loki --grant-all-permissions
 ```
 
-## vim 配置修改 
+## vim 配置修改
 
 ```bash
 cat <<EOT > /etc/vim/vimrc.local
@@ -173,7 +171,7 @@ EOT
 apt install language-pack-zh-hant language-pack-zh-hans -y
 ```
 
-## 配置  ssh
+## 配置 ssh
 
 ```bash
 touch /etc/ssh/sshd_config.d/homelab.conf

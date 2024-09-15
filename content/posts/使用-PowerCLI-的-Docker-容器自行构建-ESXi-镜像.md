@@ -3,14 +3,14 @@ title: "使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像"
 type: post
 date: 2023-02-07T21:45:26+08:00
 tags:
-    - Esxi
-    - HomeLab
-categories: 
-    - Esxi
-    - HomeLab
-series: 
-    - Esxi
-featured: true  
+  - Esxi
+  - HomeLab
+categories:
+  - Esxi
+  - HomeLab
+series:
+  - Esxi
+featured: true
 ---
 
 # 使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像
@@ -24,7 +24,7 @@ PowerCLI 新版本已经支持了 Core 版本的 PowerShell，因此可以通过
 本次使用 PowerCLI 的 Docker 容器，为 ESXi 8 镜像添加 NVMe 和网卡驱动
 
 ## 1. 下载所需的镜像和驱动
- 
+
 ### 1.1 申请 ESXi 授权
 
 ESXi 需要先注册申请，等待人工审核通过后就可以下载免费版本；如果没有任何反馈，可以点击申请页下面的 [Contact us](https://www.vmware.com/support/us_support.html) 提工单给 VMWare；
@@ -50,7 +50,7 @@ ESXi 需要先注册申请，等待人工审核通过后就可以下载免费版
 
 - 启动 PowerCLI 容器并挂载镜像和驱动
 
-将镜像文件挂载到 `/data`目录下，并进入容器的 `bash` 
+将镜像文件挂载到 `/data`目录下，并进入容器的 `bash`
 
 ```bash
 docker run --name powercli \
@@ -60,7 +60,7 @@ docker run --name powercli \
    bash
 ```
 
-- 进入 PowerShell 
+- 进入 PowerShell
 
 ```bash
 pwsh
@@ -94,7 +94,7 @@ Depot Url
 zip:/data/VMware-ESXi-8.0-20513097-depot.zip?index.xml
 ```
 
--  添加网卡驱动
+- 添加网卡驱动
 
 ```powershell
 Add-EsxSoftwareDepot /data/Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755.zip

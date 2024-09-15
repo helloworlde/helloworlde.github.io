@@ -3,15 +3,15 @@ title: "在黑群晖使用 Docker 部署 Proxmox Backup Server"
 type: post
 date: 2023-12-23T21:52:00+08:00
 tags:
-    - Proxmox
-    - HomeLab
-categories: 
-    - Proxmox
-    - HomeLab
-series: 
-    - Proxmox
-    - HomeLab
-featured: true 
+  - Proxmox
+  - HomeLab
+categories:
+  - Proxmox
+  - HomeLab
+series:
+  - Proxmox
+  - HomeLab
+featured: true
 ---
 
 # 在黑群晖使用 Docker 部署 Proxmox Backup Server
@@ -34,7 +34,7 @@ Proxmox Backup Server 官方提供了 iso 格式的镜像，同时社区也有�
 `/backups`：存储容器、虚拟机的备份数据
 
 ```yaml
-version: '2.1'
+version: "2.1"
 
 services:
   pve-backup-server:

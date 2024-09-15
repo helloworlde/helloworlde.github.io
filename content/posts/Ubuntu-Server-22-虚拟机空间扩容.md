@@ -3,10 +3,10 @@ title: Ubuntu Server 22 虚拟机空间扩容
 type: post
 date: 2022-09-09T11:20:19+08:00
 tags:
-- Ubuntu
-- HomeLab
+  - Ubuntu
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
 # Ubuntu Server 22 虚拟机空间扩容
@@ -46,6 +46,7 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 ```bash
 df -h
 ```
+
 结果：
 
 ```bash
@@ -148,7 +149,7 @@ The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 9684992 (4k) blocks l
 
 5. 检查分区大小
 
-使用  `df` 命令再次检查分区大小，发现 `/` 挂载的空间大小已经扩容完成了
+使用 `df` 命令再次检查分区大小，发现 `/` 挂载的空间大小已经扩容完成了
 
 ```bash
 ➜  ~ df -hT

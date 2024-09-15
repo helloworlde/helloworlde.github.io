@@ -3,13 +3,12 @@ title: Spring Boot 中自定义接口返回格式
 type: post
 date: 2019-09-08 18:45:24
 tags:
-    - Java
-    - SpringBoot 
-categories: 
-    - Java
-    - SpringBoot
+  - Java
+  - SpringBoot
+categories:
+  - Java
+  - SpringBoot
 ---
-
 
 # Spring Boot 中自定义接口返回格式
 
@@ -129,7 +128,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 }
 ```
 
-## 测试 
+## 测试
 
 ### 添加接口
 

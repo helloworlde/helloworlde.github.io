@@ -3,22 +3,22 @@ title: Traefik 使用 Let’s Encrypt 申请 HTTPS 证书
 type: post
 date: 2022-08-07 11:32:08
 tags:
-- Traefik
-- LetsEncrypt
-- HomeLab
+  - Traefik
+  - LetsEncrypt
+  - HomeLab
 categories:
-- HomeLab
+  - HomeLab
 ---
 
-#  Traefik 使用 Let's Encrypt 申请 HTTPS 证书
+# Traefik 使用 Let's Encrypt 申请 HTTPS 证书
 
 在 Traefik 中，支持通过 Let's Encrypt 从 ACME [自动申请 HTTPS 证书](https://doc.traefik.io/traefik/https/acme/)
 
 ## 从 ACME 申请证书
 
- Traefik 申请证书基于 [Lego](https://github.com/go-acme/lego) ，所以同样支持基于 TLS、HTTP、DNS 三种申请方式
+Traefik 申请证书基于 [Lego](https://github.com/go-acme/lego) ，所以同样支持基于 TLS、HTTP、DNS 三种申请方式
 
- 因为要申请的域名没有部署服务，所以基于 DNS 的方式验证；在申请证书时会向域名解析中添加 `_acme-challenge`前缀的 TXT 记录用于验证
+因为要申请的域名没有部署服务，所以基于 DNS 的方式验证；在申请证书时会向域名解析中添加 `_acme-challenge`前缀的 TXT 记录用于验证
 
 ### 添加配置
 
@@ -43,7 +43,7 @@ certificatesResolvers:
 因为使用的是 DNS Provider 是阿里云，所以需要将阿里云的鉴权方式通过环境变量的方式添加到容器中
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   reverse-proxy:
@@ -68,7 +68,7 @@ services:
 在服务路由规则中指定域名，这样 Traefik 就会为这个域名自动申请证书；需要开启 TLS 并且指定 `certresolver`，名称即为配置文件 `certificatesResolvers`中定义的名称，即 `defualt`
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   whoami:
@@ -92,9 +92,7 @@ services:
       "Registration": {
         "body": {
           "status": "valid",
-          "contact": [
-            "mailto:yourname@mail.com"
-          ]
+          "contact": ["mailto:yourname@mail.com"]
         },
         "uri": "https://acme-v02.api.letsencrypt.org/acme/acct/1234"
       },
@@ -114,7 +112,6 @@ services:
   }
 }
 ```
-
 
 ## 泛域名证书申请
 
@@ -144,10 +141,10 @@ entryPoints:
       tls:
         certResolver: default
         domains:
-        - main: "homelab.example.com"
-          sans:
-            - "homelab.example.com"
-            - "*.homelab.example.com"
+          - main: "homelab.example.com"
+            sans:
+              - "homelab.example.com"
+              - "*.homelab.example.com"
 ```
 
 申请后得到的证书内容为：
@@ -160,9 +157,7 @@ entryPoints:
       "Registration": {
         "body": {
           "status": "valid",
-          "contact": [
-            "mailto:yourname@mail.com"
-          ]
+          "contact": ["mailto:yourname@mail.com"]
         },
         "uri": "https://acme-v02.api.letsencrypt.org/acme/acct/1234"
       },
@@ -173,10 +168,7 @@ entryPoints:
       {
         "domain": {
           "main": "homelab.example.com",
-          "sans": [
-            "homelab.example.com",
-            "*.homelab.example.com"
-          ]
+          "sans": ["homelab.example.com", "*.homelab.example.com"]
         },
         "certificate": "xxx",
         "key": "xxx",
@@ -186,4 +178,3 @@ entryPoints:
   }
 }
 ```
-

@@ -3,11 +3,11 @@ title: SpringBoot 框架自带插件构建 Docker 镜像
 type: post
 date: 2020-09-20 22:31:43
 tags:
-    - SpringBoot 
-    - Docker 
-categories: 
-    - SpringBoot 
-    - Docker 
+  - SpringBoot
+  - Docker
+categories:
+  - SpringBoot
+  - Docker
 ---
 
 # SpringBoot 框架自带插件构建 Docker 镜像
@@ -30,15 +30,15 @@ Spring Boot 2.3.0 之后支持通过 buildpacks 插件构建 Docker 镜像，原
 - 不支持直接使用历史版本镜像的分层，当tag改变时会完全重新构建
 - builder 和 runImage 中的内容是动态下载的，访问 GitHub 可能失败，也不安全
 
-## 使用 
+## 使用
 
-1. 更新 SpringBoot 版本为 2.3.2.RELEASE 
+1. 更新 SpringBoot 版本为 2.3.2.RELEASE
 2. 启用分层
 
 ```groovy
 bootJar {
     layered()
-}    
+}
 ```
 
 3. 执行构建
@@ -76,7 +76,6 @@ bootBuildImage {
 - spring-boot-loader SpringBoot 启动文件
 - snapshot-dependencies 快照版的依赖
 - application 应用文件，即编译后的类，resource下面的文件
-
 
 ### 添加新的 layer
 
@@ -123,7 +122,7 @@ bootJar {
 - [java-buildpack-memory-calculator](https://github.com/cloudfoundry/java-buildpack-memory-calculator)
 - [bell-sw/Liberica](https://github.com/bell-sw/Liberica)
 - [HotSpot GC Tuning Guide](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/considerations.html)
-- [Java Buildpack Memory Calculator v3](https://docs.google.com/document/d/1vlXBiwRIjwiVcbvUGYMrxx2Aw1RVAtxq3iuZ3UK2vXA/edit#heading=h.uy41ishpv9zc) 
+- [Java Buildpack Memory Calculator v3](https://docs.google.com/document/d/1vlXBiwRIjwiVcbvUGYMrxx2Aw1RVAtxq3iuZ3UK2vXA/edit#heading=h.uy41ishpv9zc)
 - [paketo-buildpacks/spring-boot](https://github.com/paketo-buildpacks/spring-boot)
 - [Spring Boot Docker](https://spring.io/guides/topicals/spring-boot-docker)
 - [Spring-Boot-2.3-Release-Notes](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3-Release-Notes)

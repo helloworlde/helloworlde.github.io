@@ -3,15 +3,14 @@ title: Ubuntu 搭建 ShadowSocks 服务
 type: post
 date: 2018-10-21 22:39:52
 tags:
-    - ShadowSocks
-    - Tool
-    - Ubuntu
-categories: 
-    - ShadowSocks
-    - Tool
-    - Ubuntu
+  - ShadowSocks
+  - Tool
+  - Ubuntu
+categories:
+  - ShadowSocks
+  - Tool
+  - Ubuntu
 ---
-
 
 # Ubuntu 搭建 ShadowSocks 服务
 
@@ -19,28 +18,28 @@ categories:
 
 > 来自 [https://teddysun.com/342.html](https://teddysun.com/342.html)
 
-## 安装 
+## 安装
 
-- 下载安装脚本 
+- 下载安装脚本
 
 ```
 wget --no-check-certificate  https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
 ```
 
-- 改变脚本执行权限 
+- 改变脚本执行权限
 
 ```
 chmod +x shadowsocks.sh
 ```
 
-- 执行 
+- 执行
 
 ```
 ./shadowsocks.sh 2>&1 | tee shadowsocks.log
 ```
 
-- 添加配置 
-在执行过程中会提示设置端口，密码，加密算法等配置，根据需要自己选择即可，端口默认`8899`，加密算法可选`aes-256-cfb`，适合大多数设备使用
+- 添加配置
+  在执行过程中会提示设置端口，密码，加密算法等配置，根据需要自己选择即可，端口默认`8899`，加密算法可选`aes-256-cfb`，适合大多数设备使用
 
 ```
 Congratulations, Shadowsocks-python server install completed!
@@ -52,6 +51,7 @@ Your Encryption Method:  aes-256-cfb
 Welcome to visit:https://teddysun.com/342.html
 Enjoy it!
 ```
+
 安装完成，在客户端设备添加配置即可
 
 - 后续修改设置可以在 `/etc/shadowsocks.json`中修改
@@ -76,9 +76,8 @@ Enjoy it!
 }
 ```
 
-## 卸载 
+## 卸载
 
 ```
 ./shadowsocks.sh uninstall
 ```
-

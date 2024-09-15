@@ -3,9 +3,9 @@ title: gRPC 反射服务
 type: post
 date: 2021-01-17 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 反射服务
@@ -18,7 +18,7 @@ gRPC 提供了 `grpc.reflection.v1alpha.ServerReflection` 服务，在 Server �
 
 参考 [GRPC Server Reflection Protocol](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md) 和 [reflection.proto](https://github.com/grpc/grpc/blob/master/src/proto/grpc/reflection/v1alpha/reflection.proto)
 
-该服务只有一个双向流的方法 `ServerReflectionInfo`，调用时根据请求参数不同，调用不同的方法进行处理，并返回响应；该方法的流控是非自动的，只有当一个请求完成之后才会获取下一个请求 
+该服务只有一个双向流的方法 `ServerReflectionInfo`，调用时根据请求参数不同，调用不同的方法进行处理，并返回响应；该方法的流控是非自动的，只有当一个请求完成之后才会获取下一个请求
 
 ```protobuf
 service ServerReflection {
@@ -79,7 +79,7 @@ public class ReflectionServer {
         // 保持运行
         server.awaitTermination();
     }
-}    
+}
 ```
 
 ## Client 端
@@ -146,8 +146,8 @@ public class ReflectionClient {
                 serverReflectionIndexes.put(server, index);
                 return index;
             }
-            
-            // 更新可变服务信息 ... 
+
+            // 更新可变服务信息 ...
             return index;
         }
     }

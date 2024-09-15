@@ -3,9 +3,9 @@ title: gRPC 对冲原理
 type: post
 date: 2020-09-20 22:39:26
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 对冲原理
@@ -16,10 +16,9 @@ gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会
 
 对冲和重试的流程相似，在第一次发起请求的时候根据服务名和方法名决定使用哪种策略；如果是对冲策略，则在发起请求时提交一个延时任务，这个任务会发起一个新的请求，并在执行的时候再发起一个请求，并将这些请求添加到队列中；多个请求哪个先返回就使用哪个请求的结果，将其他的请求取消并提交流
 
-
 ## 执行流程
 
-- io.grpc.internal.RetriableStream#start 
+- io.grpc.internal.RetriableStream#start
 
 开始第一个 RPC 调用
 
@@ -130,4 +129,3 @@ gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会
     }
   }
 ```
-

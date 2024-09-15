@@ -26,12 +26,12 @@ ClickHouse 是一种开源的列式数据库管理系统，专注于处理大规
 使用 Docker Compose 启动
 
 ```yaml
-version: '3.7'
+version: "3.7"
 services:
   grafana:
     image: grafana/grafana
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./data/grafana:/var/lib/grafana
       - ./data/plugins/:/var/lib/grafana/plugins
@@ -40,11 +40,11 @@ services:
       - grafana
 
   clickhouse:
-    image: 'clickhouse/clickhouse-server'
-    container_name: 'grafana-clickhouse-server'
+    image: "clickhouse/clickhouse-server"
+    container_name: "grafana-clickhouse-server"
     ports:
-      - '8123:8123'
-      - '9000:9000'
+      - "8123:8123"
+      - "9000:9000"
     volumes:
       - ./data/data:/var/lib/clickhouse
       - ./data/temp:/temp
@@ -56,10 +56,10 @@ services:
       - grafana
 
 networks:
-  grafana: 
+  grafana:
 ```
 
-### 添加数据  
+### 添加数据
 
 - 登陆数据库
 
@@ -134,7 +134,6 @@ ClickHouse 有两个插件，分别是 Grafana 官方提供的 [ClickHouse](http
 
 在 Grafana 面板 Connections -> Data sources 中添加 ClickHouse 数据源
 
-
 ## 配置图表
 
 选择新增图表，并选择 ClickHouse 作为数据源
@@ -144,12 +143,12 @@ ClickHouse 有两个插件，分别是 Grafana 官方提供的 [ClickHouse](http
 创建 Table 图表直接使用 SQL 查询需要的列即可
 
 ```SQL
-SELECT  env, 
+SELECT  env,
         hostname,
         uri,
         value
 FROM metrics.request_history
-ORDER BY add_time 
+ORDER BY add_time
 LIMIT 10
 ```
 
@@ -158,8 +157,8 @@ LIMIT 10
 时间序列的图表需要至少有三列，分别是时间、名称、值；此时列需要聚合
 
 ```SQL
-SELECT  toDateTime64(add_time, 0) as time , 
-        uri as label, 
+SELECT  toDateTime64(add_time, 0) as time ,
+        uri as label,
         sum(value) as value
 FROM metrics.request_history
 GROUP BY label, time
@@ -176,8 +175,8 @@ ClickHouse 插件支持多个宏(Macro)，在向 ClickHouse 发送查询前会�
 对应的列，如 `where $__timeFilter(add_time)` 会被替换为 `where add_time >= xxx and add_time <= xxx`
 
 ```SQL
-SELECT  toDateTime64(add_time, 0) as time , 
-        uri as label, 
+SELECT  toDateTime64(add_time, 0) as time ,
+        uri as label,
         sum(value) as value
 FROM metrics.request_history
 WHERE $__timeFilter(add_time)
@@ -188,8 +187,8 @@ ORDER BY time
 最终查询的 SQL 为:
 
 ```SQL
-SELECT  toDateTime64(add_time, 0) as time , 
-        uri as label, 
+SELECT  toDateTime64(add_time, 0) as time ,
+        uri as label,
         sum(value) as value
 FROM metrics.request_history
 WHERE add_time >= '1699940462' AND add_time <= '1699962062'
@@ -209,18 +208,18 @@ SELECT  distinct(toString(env))
 FROM metrics.request_history
 WHERE add_time BETWEEN toDateTime(${__from:type: post
 date:seconds}) AND toDateTime(${__to:type: post
-date:seconds}) 
+date:seconds})
 ```
 
 依赖其他变量进行查询，添加到查询条件即可，使用 `singlequote`添加引号，避免查询语法错误
 
 ```SQL
 SELECT  distinct(toString(application))
-FROM `logs`.`red_sentinel_metrics` 
+FROM `logs`.`red_sentinel_metrics`
 WHERE env in (${env:singlequote})
 AND ActionDate BETWEEN toDateTime(${__from:type: post
 date:seconds}) AND toDateTime(${__to:type: post
-date:seconds}) 
+date:seconds})
 ```
 
 - 添加动态查询条件
@@ -233,7 +232,7 @@ date:seconds})
 
 ```SQL
 SELECT toDateTime64(add_time, 0) as time,
-       uri as label, 
+       uri as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE $__timeFilter(add_time)
@@ -246,7 +245,7 @@ ORDER BY time
 
 ```SQL
 SELECT add_time as time,
-       uri as label, 
+       uri as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE add_time >= '1699861790' AND add_time <= '1699883390'
@@ -267,7 +266,7 @@ ORDER BY time
 
 ```SQL
 SELECT $__timeInterval(add_time) as time,
-       uri as label, 
+       uri as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE $__timeFilter(add_time)
@@ -280,7 +279,7 @@ ORDER BY time
 
 ```SQL
 SELECT toDateTime64(add_time, 0) as time,
-       uri as label, 
+       uri as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE add_time >= '1699944714' AND add_time <= '1699966314'
@@ -295,7 +294,7 @@ ORDER BY time
 
 ```SQL
 SELECT toDateTime64(add_time, 0) as time,
-       concat(application, ': ', uri) as label, 
+       concat(application, ': ', uri) as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE $__timeFilter(add_time)
@@ -308,7 +307,7 @@ ORDER BY time
 
 ```SQL
 SELECT toDateTime64(add_time, 0) as time,
-       concat(application, ': ', uri) as label, 
+       concat(application, ': ', uri) as label,
        sum(value) as value
 FROM metrics.request_history
 WHERE add_time >= '1699944327' AND add_time <= '1699965927'
@@ -316,4 +315,3 @@ AND uri in ('/status','/actuator/health')
 GROUP BY label, time
 ORDER BY time
 ```
-

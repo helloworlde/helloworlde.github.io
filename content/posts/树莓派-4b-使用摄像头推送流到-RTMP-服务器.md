@@ -3,14 +3,14 @@ title: "树莓派 4b 使用摄像头推送流到 RTMP 服务器"
 type: post
 date: 2023-03-11T21:36:47+08:00
 tags:
-    - RaspberryPi
-    - HomeLab
-categories: 
-    - RaspberryPi
-    - HomeLab
-series: 
-    - RaspberryPi
-featured: true  
+  - RaspberryPi
+  - HomeLab
+categories:
+  - RaspberryPi
+  - HomeLab
+series:
+  - RaspberryPi
+featured: true
 ---
 
 # 树莓派 4b 使用摄像头推送流到 RTMP 服务器
@@ -18,7 +18,7 @@ featured: true
 使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
 树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 [SRS](https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction) 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）
 
-树莓派连接摄像头可以参考 [树莓派 4b 使用摄像头](https://blog.hellowood.dev) 
+树莓派连接摄像头可以参考 [树莓派 4b 使用摄像头](https://blog.hellowood.dev)
 
 ## 安装 ffmpeg
 
@@ -33,7 +33,7 @@ SRS 使用 Docker Compose 进行部署；用于处理 ffmpeg 推送的视频流
 - docker-compose.yaml
 
 ```yaml
-version: '3'
+version: "3"
 
 services:
   srs:
@@ -44,12 +44,12 @@ services:
     ports:
       - "1935:1935"
       - "1985:1985"
-      - "8080:8080"    
+      - "8080:8080"
     volumes:
       - "./data:/srs"
 ```
 
-## 使用 ffmpeg 推送流到 SRS 
+## 使用 ffmpeg 推送流到 SRS
 
 通过 ffmpeg 将视频内容推送到 SRS
 
@@ -92,10 +92,10 @@ services:
     ports:
       - "1935:1935"
       - "1985:1985"
-      - "8088:8080"    
+      - "8088:8080"
     volumes:
       - "./data:/srs"
-      
+
   ffmpeg:
     image: "hellowoodes/ffmpeg-rasp"
     restart: unless-stopped
@@ -103,7 +103,7 @@ services:
     hostname: ffmpeg
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    command: > 
+    command: >
       sh -c "ffmpeg -f v4l2 \
               -input_format mjpeg \
               -video_size 1920x1080 \

@@ -3,18 +3,18 @@ title: SpringBoot 集成 Swagger API 文档工具
 type: post
 date: 2018-01-07 23:28:45
 tags:
-    - Java
-    - SpringBoot 
-    - Swagger
-categories: 
-    - Java
-    - SpringBoot
-    - Swagger
+  - Java
+  - SpringBoot
+  - Swagger
+categories:
+  - Java
+  - SpringBoot
+  - Swagger
 ---
+
 # Spring Boot 集成 Swagger API 文档工具
+
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger](https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger)
-
-
 
 > [Swaager](https://swagger.io/) 是一个开源用于设计、撰写、测试 RESTful API 的工具
 
@@ -26,6 +26,7 @@ categories:
 ```
 
 ## 配置 Swagger
+
 ```java
 package cn.com.hellowood.swagger.configuration;
 
@@ -108,6 +109,7 @@ public class Product implements Serializable {
 ```
 
 - CommonResponse.java
+
 ```java
 package cn.com.hellowood.swagger.common;
 
@@ -124,7 +126,7 @@ public class CommonResponse {
 
     @ApiModelProperty(notes = "返回的数据")
     private Object data;
-    
+
     // ...
 }
 
@@ -133,6 +135,7 @@ public class CommonResponse {
 ## 添加 API 接口及描述
 
 - ProductController.java
+
 ```java
 package cn.com.hellowood.swagger.controller;
 
@@ -167,7 +170,7 @@ public class ProductController {
     public CommonResponse getAllProduct() {
         return ResponseUtil.generateResponse(productService.getAllProduct());
     }
-    
+
 
     @ApiOperation(value = "通过 ID 查询商品信息", notes = "通过 ID 查询商品信息", httpMethod = "GET", response = CommonResponse.class)
     @ApiImplicitParam(name = "id", value = " Product ID", required = true, paramType = "path", dataType = "Long")
@@ -205,8 +208,9 @@ public class ProductController {
 }
 
 ```
-## 查看及测试 API 
 
-启动应用并访问[http://localhost:8080/swagger-ui.html]() 即可查看和测试相关 API 
+## 查看及测试 API
+
+启动应用并访问[http://localhost:8080/swagger-ui.html]() 即可查看和测试相关 API
 
 ## [相关注解说明](https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger/Swagger.md)

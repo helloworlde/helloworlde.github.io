@@ -3,14 +3,14 @@ title: "N5105 Promox VE 虚拟机频繁死机问题处理"
 type: post
 date: 2023-03-25T21:31:50+08:00
 tags:
-    - Proxmox VE
-    - HomeLab
-categories: 
-    - Proxmox VE
-    - HomeLab
-series: 
-    - Proxmox VE
-featured: true  
+  - Proxmox VE
+  - HomeLab
+categories:
+  - Proxmox VE
+  - HomeLab
+series:
+  - Proxmox VE
+featured: true
 ---
 
 # N5105 Promox VE 虚拟机频繁死机问题处理
@@ -55,13 +55,13 @@ mv /etc/apt/sources.list.d/pve-enterprise.list /etc/apt/sources.list.d/pve-enter
 
 - 添加非订阅源
 
-"pve-no-subscription" 是 Proxmox VE 软件包源名称中的一个参数，代表这个软件包源提供的是免费版本的 Proxmox VE 软件包， "bullseye" 是 Debian GNU/Linux 操作系统的一个版本号，是该操作系统的第11个主要发行版 
+"pve-no-subscription" 是 Proxmox VE 软件包源名称中的一个参数，代表这个软件包源提供的是免费版本的 Proxmox VE 软件包， "bullseye" 是 Debian GNU/Linux 操作系统的一个版本号，是该操作系统的第11个主要发行版
 
 ```bash
 echo 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription' >> /etc/apt/sources.list.d/pve-no-subscription.list
 ```
 
-- 添加 Debian non-free 源 
+- 添加 Debian non-free 源
 
 添加 non-free 是为了更新 Microcode，默认的软件源不包含 non-free
 
@@ -81,7 +81,7 @@ EOF
 
 `deb http://security.debian.org/debian-security bullseye-security main contrib non-free` 这个源提供了Debian操作系统安全更新的软件包。这些软件包通常修复已知的漏洞和安全问题。
 
-`deb http://deb.debian.org/debian bullseye-updates main contrib non-free`  这个源提供了针对Debian操作系统稳定版本的非安全更新的软件包。这些软件包通常修复错误并提供新功能。
+`deb http://deb.debian.org/debian bullseye-updates main contrib non-free` 这个源提供了针对Debian操作系统稳定版本的非安全更新的软件包。这些软件包通常修复错误并提供新功能。
 
 ### 更新 5.19 版本的内核
 
@@ -99,7 +99,6 @@ apt install pve-kernel-5.19 -y
 intel-microcode 作用是为英特尔处理器提供微码（[microcode](https://wiki.debian.org/Microcode)）更新。微码是一组指令，类似于处理器固件，可以在处理器上执行，以改变其行为或修复错误，内核能够在不需要通过BIOS更新的情况下更新处理器的固件。微码更新保存在易失性存储器中，因此BIOS/UEFI或内核会在每次启动时更新微码
 
 intel-microcode 的更新通常由操作系统或设备厂商提供，旨在提高处理器的性能、稳定性和安全性。
-
 
 ```bash
 apt update -y

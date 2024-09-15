@@ -3,9 +3,9 @@ title: MySQL 中关于gap lock / next-key lock 的一个问题
 type: post
 date: 2019-01-07 21:40:58
 tags:
-    - MySQL
-categories: 
-    - MySQL
+  - MySQL
+categories:
+  - MySQL
 ---
 
 # MySQL 中关于gap lock / next-key lock 的一个问题
@@ -102,7 +102,7 @@ FROM z;
 
 ![(0,4)插入后查询结果.png](https://img.hellowood.dev/blog/mysql/lock/%280%2C4%29%E6%8F%92%E5%85%A5%E5%90%8E%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C.png)
 
-- 对此，MySQL 官方文档中的解释是：在非 `NO_AUTO_VALUE_ON_ZERO`模式下，给自增的列赋值为 0，都会被替换为自增序列的下一个值；当该自增列值指定 NOT NULL 时赋值 NULL，也会被替换；当插入其他值时，自增序列的值会被替换为当前列中最大值的下一个值；参考 [MySQL 8.0 Reference Manual  文档，Tutorial 的 Examples of Common Queries , 3.6.9 Using AUTO_INCREMENT](https://dev.mysql.com/doc/refman/8.0/en/example-auto-increment.html)
+- 对此，MySQL 官方文档中的解释是：在非 `NO_AUTO_VALUE_ON_ZERO`模式下，给自增的列赋值为 0，都会被替换为自增序列的下一个值；当该自增列值指定 NOT NULL 时赋值 NULL，也会被替换；当插入其他值时，自增序列的值会被替换为当前列中最大值的下一个值；参考 [MySQL 8.0 Reference Manual 文档，Tutorial 的 Examples of Common Queries , 3.6.9 Using AUTO_INCREMENT](https://dev.mysql.com/doc/refman/8.0/en/example-auto-increment.html)
 
 > No value was specified for the AUTO_INCREMENT column, so MySQL assigned sequence numbers automatically. You can also explicitly assign 0 to the column to generate sequence numbers, unless the NO_AUTO_VALUE_ON_ZERO SQL mode is enabled.
 >
@@ -114,7 +114,7 @@ FROM z;
 
 ---
 
-- 特别感谢 [@__丁奇](https://weibo.com/tdingqi?is_all=1) 老师的耐心解答，老师的专栏 [MySQL 实战 45讲](http://gk.link/a/101Si) 是一个非常好的专栏，内容和评论的质量都很高，想学习 MySQL 的同学可以订阅
+- 特别感谢 [@\_\_丁奇](https://weibo.com/tdingqi?is_all=1) 老师的耐心解答，老师的专栏 [MySQL 实战 45讲](http://gk.link/a/101Si) 是一个非常好的专栏，内容和评论的质量都很高，想学习 MySQL 的同学可以订阅
 - 文章相关的极客专栏为 [21 | 为什么我只改一行的语句，锁这么多？](https://time.geekbang.org/column/article/75659)
 
 ![专栏海报](https://img.hellowood.dev/blog/mysql/lock/MySQL%20%E4%B8%93%E6%A0%8F%E6%B5%B7%E6%8A%A5.jpeg)

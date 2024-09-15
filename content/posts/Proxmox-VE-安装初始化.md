@@ -3,14 +3,14 @@ title: "Proxmox VE 安装初始化"
 type: post
 date: 2023-02-27T21:41:04+08:00
 tags:
-    - Proxmox VE
-    - HomeLab
-categories: 
-    - Proxmox VE
-    - HomeLab
-series: 
-    - Proxmox VE
-featured: true  
+  - Proxmox VE
+  - HomeLab
+categories:
+  - Proxmox VE
+  - HomeLab
+series:
+  - Proxmox VE
+featured: true
 ---
 
 # Proxmox VE(PVE) 安装初始化
@@ -19,13 +19,13 @@ featured: true
 
 PVE 和 Vmware ESXi 类似，都支持虚拟化环境；PVE 基于 Linux，扩展性更强
 
-## 安装 
+## 安装
 
-- 下载 ISO 镜像 
+- 下载 ISO 镜像
 
-PVE的镜像可在 PVE 官网的[下载页面](https://www.proxmox.com/en/downloads/category/iso-images-pve)进行下载 
+PVE的镜像可在 PVE 官网的[下载页面](https://www.proxmox.com/en/downloads/category/iso-images-pve)进行下载
 
-- 制作启动盘 
+- 制作启动盘
 
 使用 [Rufus](https://rufus.ie/zh/) 或者 [balenaEtcher](https://www.balena.io/etcher) 将下载的 ISO 镜像写入到 U 盘或者移动硬盘中
 
@@ -39,7 +39,7 @@ PVE的镜像可在 PVE 官网的[下载页面](https://www.proxmox.com/en/downlo
 
 - 设置 IP 地址
 
-IP地址用于后续访问，可以通过DHCP获取，也可以设置为固定的 IP 
+IP地址用于后续访问，可以通过DHCP获取，也可以设置为固定的 IP
 
 ![homelab-pve-install-set-ip.png](https://img.hellowood.dev/picture/homelab-pve-install-set-ip.png)
 
@@ -49,8 +49,7 @@ IP地址用于后续访问，可以通过DHCP获取，也可以设置为固定�
 
 ![homelab-pve-install-completed.png](https://img.hellowood.dev/picture/homelab-pve-install-completed.png)
 
-- 登录 
-
+- 登录
 
 重启完成后，在命令行会提示访问的地址，默认端口是 8006，
 

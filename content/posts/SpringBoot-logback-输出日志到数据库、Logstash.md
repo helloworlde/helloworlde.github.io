@@ -3,16 +3,17 @@ title: SpringBoot logback 输出日志到数据库、Logstash
 type: post
 date: 2018-01-19 21:25:42
 tags:
-    - Java
-    - SpringBoot 
-    - ElasticSearch
-    - ELK
-categories: 
-    - Java
-    - SpringBoot
-    - ElasticSearch
-    - ELK
+  - Java
+  - SpringBoot
+  - ElasticSearch
+  - ELK
+categories:
+  - Java
+  - SpringBoot
+  - ElasticSearch
+  - ELK
 ---
+
 # SpringBoot logback 输出日志到数据库、Logstash
 
 ## 输入日志到数据库
@@ -76,13 +77,12 @@ CREATE TABLE logging_event_exception
             <password>123456</password>
         </connectionSource>
     </appender>
-    
+
     <root level="INFO">
         <appender-ref ref="DB"/>
     </root>
 </configuration>
 ```
-
 
 ## 输入日志到 [`Logstash`](https://www.elastic.co/cn/products/logstash)
 
@@ -91,7 +91,7 @@ CREATE TABLE logging_event_exception
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-  
+
     <!--日志导出的到 Logstash-->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>127.0.0.1:4560</destination>

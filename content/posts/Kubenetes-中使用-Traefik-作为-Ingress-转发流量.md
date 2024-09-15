@@ -3,15 +3,15 @@ title: Kubenetes 中使用 Traefik 作为 Ingress 转发流量
 type: post
 date: 2019-09-08 19:06:11
 tags:
-    - Kubernetes
-    - Helm
-    - Traefik
-    - Ingress
-categories: 
-    - Kubernetes
-    - Helm
-    - Traefik
-    - Ingress
+  - Kubernetes
+  - Helm
+  - Traefik
+  - Ingress
+categories:
+  - Kubernetes
+  - Helm
+  - Traefik
+  - Ingress
 ---
 
 # Kubenetes 中使用 Traefik 作为 Ingress 转发流量
@@ -25,7 +25,7 @@ Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的
 
 ### 配置
 
-- Ingress-rbac.yaml  
+- Ingress-rbac.yaml
 
 用于 Service Account 验证
 
@@ -37,7 +37,6 @@ metadata:
   namespace: kube-system
 
 ---
-
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
@@ -76,26 +75,26 @@ spec:
       restartPolicy: Always
       serviceAccountName: ingress
       containers:
-      - image: traefik
-        name: traefik-ingress-lb
-        resources:
-          limits:
-            cpu: 200m
-            memory: 30Mi
-          requests:
-            cpu: 100m
-            memory: 20Mi
-        ports:
-        - name: http
-          containerPort: 80
-          hostPort: 80
-        - name: admin
-          containerPort: 8580
-          hostPort: 8580
-        args:
-        - --web
-        - --web.address=:8580
-        - --kubernetes
+        - image: traefik
+          name: traefik-ingress-lb
+          resources:
+            limits:
+              cpu: 200m
+              memory: 30Mi
+            requests:
+              cpu: 100m
+              memory: 20Mi
+          ports:
+            - name: http
+              containerPort: 80
+              hostPort: 80
+            - name: admin
+              containerPort: 8580
+              hostPort: 8580
+          args:
+            - --web
+            - --web.address=:8580
+            - --kubernetes
 ```
 
 - traefik-ui.yaml
@@ -111,11 +110,11 @@ metadata:
 spec:
   selector:
     k8s-app: traefik-ingress-lb
-  type: NodePort  
+  type: NodePort
   ports:
-  - name: web
-    port: 80
-    targetPort: 8580
+    - name: web
+      port: 80
+      targetPort: 8580
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -124,13 +123,13 @@ metadata:
   namespace: kube-system
 spec:
   rules:
-  - host: traefik-ui.local
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: traefik-web-ui
-          servicePort: web
+    - host: traefik-ui.local
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: traefik-web-ui
+              servicePort: web
 ```
 
 ### 部署
@@ -141,7 +140,7 @@ kubectl apply -f .
 
 ## 通过 Helm 部署 Traefik
 
-- 创建 values.yaml 
+- 创建 values.yaml
 
 ```yaml
 dashboard:
@@ -179,7 +178,7 @@ tar -xvf traefik-1.24.1.tgz
 helm install --values values.yaml ./traefik --name traefik
 ```
 
-## 部署应用 
+## 部署应用
 
 - backend-ingress.yaml
 
@@ -191,17 +190,16 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: rest.hellowoodes.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: backend
-          servicePort: 8080
+    - host: rest.hellowoodes.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: backend
+              servicePort: 8080
 ```
 
 修改 Host 将域名指向相应的节点 IP
-
 
 ## 测试
 
@@ -223,15 +221,15 @@ traefik-dashboard  ClusterIP     10.108.91.184   <none>       80/TCP            
 
 ![traefik-dashboard-page.png](https://img.hellowood.dev/picture/traefik-dashboard-page.png)
 
-- 访问backend 应用 
+- 访问backend 应用
 
 ```bash
 curl http://rest.hellowoodes.com/ping
 Pong%
 ```
 
-----------
- 
+---
+
 ## 参考资料
 
 - [Helm Traefik](https://github.com/helm/charts/tree/master/stable/traefik)

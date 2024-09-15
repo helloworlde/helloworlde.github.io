@@ -11,7 +11,6 @@ categories:
 featured: true
 ---
 
-
 # 使用 Docker 部署 Clash Premium
 
 Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力
@@ -50,7 +49,7 @@ tun:
 
 # 用于性能分析
 profile:
-    tracing: true
+  tracing: true
 ```
 
 ### 配置策略组
@@ -71,7 +70,7 @@ proxy-providers:
       enable: true
       interval: 600
       url: http://www.gstatic.com/generate_204
-  # 来自 GitHub  https://github.com/Pawdroid/Free-servers    
+  # 来自 GitHub  https://github.com/Pawdroid/Free-servers
   free:
     type: http
     url: "https://sub.xeton.dev/sub?target=clash&new_name=true&url=https%3A%2F%2Fghproxy.com%2Fhttps%3A%2F%2Fraw.githubusercontent.com%2FPawdroid%2FFree-servers%2Fmain%2Fsub&insert=false"
@@ -89,7 +88,7 @@ proxy-groups:
     use:
       - self
       - free
-    url: 'http://www.gstatic.com/generate_204'
+    url: "http://www.gstatic.com/generate_204"
     interval: 300
 ```
 
@@ -212,7 +211,6 @@ rules:
   - MATCH,DIRECT
 ```
 
-
 ## 部署
 
 使用 Docker Compose 部署 Clash 和 yacd 面板
@@ -260,15 +258,15 @@ services:
 
 ### 命令行
 
-开启代理 
+开启代理
 
 ```bash
-export https_proxy=http://192.168.2.2:7890 
-export http_proxy=http://192.168.2.2:7890 
+export https_proxy=http://192.168.2.2:7890
+export http_proxy=http://192.168.2.2:7890
 export all_proxy=socks5://192.168.2.2:7891
 ```
 
-关闭代理 
+关闭代理
 
 ```bash
 unset http_proxy
@@ -276,7 +274,7 @@ unset https_proxy
 unset all_proxy
 ```
 
-###  系统
+### 系统
 
 在网络-代理中添加配置，指定 HTTP/HTTPS/SOCKS 代理为配置的代理即可
 

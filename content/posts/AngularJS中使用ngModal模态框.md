@@ -3,27 +3,26 @@ title: AngularJS中使用ngModal模态框
 type: post
 date: 2018-01-01 11:57:50
 tags:
-    - AngularJs
-    - ngModal
-categories: 
-    - AngularJs
-    - ngModal
+  - AngularJs
+  - ngModal
+categories:
+  - AngularJs
+  - ngModal
 ---
+
 - 在AngularJS中使用模态框需要引用的文件：
-    - angular.js 1.5.5
-    - ui.bootstrap-tpls.js 0.11.2
-    - bootstrap.css 3.3.7
+  - angular.js 1.5.5
+  - ui.bootstrap-tpls.js 0.11.2
+  - bootstrap.css 3.3.7
 
 > 需要注意版本要一致，高版本的不支持这种方法，会出错
 
-
-----------
-
+---
 
 - 将需要弹出的模态框的内容写在 script 标签中，指明属性，放在页面中
 
 ```
-<script type="text/ng-template" id="modal.html"> 
+<script type="text/ng-template" id="modal.html">
 <div>
     <div class="modal-header">
         <h3 class="modal-title" align="center">
@@ -48,6 +47,7 @@ categories:
 ```
 
 - 在App和Controller中注入模态框
+
 ```
 var app = angular.module('app', ['ui.bootstrap']);
 app.controller('modalController', function($scope, $rootScope,$modal) {
@@ -68,7 +68,7 @@ app.controller('modalController', function($scope, $rootScope,$modal) {
 app.controller('modalCtrl', function($scope, $modalInstance, data) {
     $scope.data= data;
 
-    //在这里处理要进行的操作   
+    //在这里处理要进行的操作
     $scope.ok = function() {
         $modalInstance.close();
     };
@@ -84,8 +84,8 @@ app.controller('modalCtrl', function($scope, $modalInstance, data) {
 <button ng-click="openModal()">打开模态框</button>
 ```
 
+---
 
-----------
 - html
 
 ```
@@ -98,7 +98,7 @@ app.controller('modalCtrl', function($scope, $modalInstance, data) {
 <body>
 <button ng-click="openModal()">打开模态框</button>
 
-<script type="text/ng-template" id="modal.html"> 
+<script type="text/ng-template" id="modal.html">
     <div>
         <div class="modal-header">
             <h3 class="modal-title" align="center">

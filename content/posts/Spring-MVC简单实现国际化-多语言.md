@@ -3,14 +3,15 @@ title: Spring MVC简单实现国际化/多语言
 type: post
 date: 2018-01-01 11:48:46
 tags:
-    - Java
-    - SrpingMVC 
-    - i18n
-categories: 
-    - Java
-    - SrpingMVC 
-    - i18n
+  - Java
+  - SrpingMVC
+  - i18n
+categories:
+  - Java
+  - SrpingMVC
+  - i18n
 ---
+
 > SpringMVC 可以通过Spring框架来实现多语言
 
 ## 1. 创建SpringMVC项目
@@ -84,7 +85,7 @@ categories:
     </bean>
 </beans>
 ```
-    
+
 ## 2. 添加多语言的配置文件
 
 - 添加language_en_US.properties到src目录下
@@ -94,7 +95,7 @@ language.cn = \u4e2d\u6587
 language.en = English
 internationalisation = \u0020Internationalisation
 welcome = This is the English environment
-introduce= This is I18N Demo 
+introduce= This is I18N Demo
 ```
 
 - 添加language_zh_CN.properties到src目录下
@@ -108,7 +109,9 @@ introduce= \u8fd9\u662f\u56fd\u9645\u5316\u7684\u4e8b\u4f8b
 ```
 
 ## 3. 加入i18n 过滤器到配置文件中
+
 - 将配置添加到dispatcher-servelet中
+
 ```
     <!-- 国际化资源文件 -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -123,6 +126,7 @@ introduce= \u8fd9\u662f\u56fd\u9645\u5316\u7684\u4e8b\u4f8b
         </bean>
     </mvc:interceptors>
 ```
+
 ## 4. 在页面中使用多语言
 
 - 在Controller中添加路径
@@ -138,7 +142,8 @@ public class HelloController {
 ```
 
 - 在JSP页面中使用
-> 通过`<spring:message code="welcome"/>`将配置文件中的内容读取
+  > 通过`<spring:message code="welcome"/>`将配置文件中的内容读取
+
 ```
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -160,17 +165,15 @@ public class HelloController {
 
 - 访问该项目的`/hello.action`，通过链接可以切换语言
 
-
-----------
+---
 
 - 中文
-![cn](http://img.blog.csdn.net/20170427170202803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+  ![cn](http://img.blog.csdn.net/20170427170202803?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 - 英文
-![en](http://img.blog.csdn.net/20170427170214553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+  ![en](http://img.blog.csdn.net/20170427170214553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 - 项目结构
-![项目结构](http://img.blog.csdn.net/20170427170229926?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+  ![项目结构](http://img.blog.csdn.net/20170427170229926?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
+---
 
-----------
-##[效果演示](http://project.hellowood.com.cn:8080/i18n/)
-##[项目下载](http://download.csdn.net/detail/u013360850/9827744)
+##[效果演示](http://project.hellowood.com.cn:8080/i18n/) ##[项目下载](http://download.csdn.net/detail/u013360850/9827744)

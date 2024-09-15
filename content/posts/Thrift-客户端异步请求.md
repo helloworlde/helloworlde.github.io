@@ -3,16 +3,16 @@ title: Thrift 客户端异步请求
 type: post
 date: 2021-02-20 22:34:46
 tags:
-    - Thrift
-categories: 
-    - Thrift
+  - Thrift
+categories:
+  - Thrift
 ---
 
 # Thrift 客户端异步请求
 
 ## 实现
 
-### IDL 
+### IDL
 
 - helloworld.thrift
 
@@ -163,7 +163,7 @@ public void call(TAsyncMethodCall method) throws TException {
 
 - org.apache.thrift.async.TAsyncMethodCall#prepareMethodCall
 
-执行初始化请求，，将请求消息写入到 Protocol 中，然后封装为 ByteBuffer 
+执行初始化请求，，将请求消息写入到 Protocol 中，然后封装为 ByteBuffer
 
 ```java
 protected void prepareMethodCall() throws TException {
@@ -288,7 +288,6 @@ void start(Selector sel) throws IOException {
     key.attach(this);
 }
 ```
-
 
 - org.apache.thrift.async.TAsyncMethodCall#doWritingRequestBody
 

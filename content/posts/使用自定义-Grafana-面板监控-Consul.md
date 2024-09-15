@@ -3,13 +3,13 @@ title: 使用自定义 Grafana 面板监控 Consul
 type: post
 date: 2020-05-16 14:47:24
 tags:
-    - Prometheus
-    - Grafana
-    - Consul
-categories: 
-    - Prometheus
-    - Grafana
-    - Consul
+  - Prometheus
+  - Grafana
+  - Consul
+categories:
+  - Prometheus
+  - Grafana
+  - Consul
 ---
 
 # 使用自定义 Grafana 面板监控 Consul
@@ -52,7 +52,7 @@ curl localhost:9107/metrics
     )
 ```
 
-2. 实现统计方法 
+2. 实现统计方法
 
 ```go
 func (e *Exporter) collectResponseTime(ch chan<- prometheus.Metric) bool {
@@ -63,9 +63,9 @@ func (e *Exporter) collectResponseTime(ch chan<- prometheus.Metric) bool {
         return false
     }
     costTime := time.Now().Nanosecond() - start
-    
+
     ch <- prometheus.MustNewConstMetric(responseTime, prometheus.GaugeValue, float64(costTime), "leader", serverIp)
-    
+
     return true
 }
 ```
@@ -84,10 +84,9 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 这样，就会在启动后获取相应的数据，之后在 Prometheus 和 Grafana 中可以看到相应的数据
 
+## 自定义 Dashboard
 
-## 自定义 Dashboard 
-
-自定义的  Dashboard 是通过展示 [PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/) 查询的结果来实现的
+自定义的 Dashboard 是通过展示 [PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/) 查询的结果来实现的
 
 如在应用中有错误请求的统计，是通过累加错误的请求次数实现的，如统计值 `consul_response_time`
 
@@ -104,6 +103,7 @@ consul_response_time{node="leader",server_ip="172.19.0.2:8300"} 2.238e+06
 ```sql
 consul_response_time
 ```
+
 ![grafana-custom-dashboard-cosnul-reponse-time-prometheus.png](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-reponse-time-prometheus.png)
 
 这样，就可以得到相应的错误数据，接下来只需要在Grafana中展示就可以
@@ -146,19 +146,19 @@ sum(consul_health_node_status{status!="passing"})
 count(sum(consul_health_service_status) by (service_name))
 ```
 
-- 实例数量 
+- 实例数量
 
 ```sql
 sum(consul_health_service_status)
 ```
 
-- 健康实例数量 
+- 健康实例数量
 
 ```sql
 sum(consul_health_service_status{status="passing"})
 ```
 
-- 不健康实例数量 
+- 不健康实例数量
 
 ```sql
 sum(consul_health_service_status{status!="passing"})
@@ -170,7 +170,7 @@ sum(consul_health_service_status{status!="passing"})
 consul_response_time/1000000
 ```
 
-- 服务状态 
+- 服务状态
 
 ```sql
 sum(consul_health_service_status{status!="passing"}) by (service_name)
@@ -178,7 +178,7 @@ sum(consul_health_service_status{status!="passing"}) by (service_name)
 sum(consul_health_service_status) by (service_name)
 ```
 
-- 服务注册信息 
+- 服务注册信息
 
 ```sql
 sum(consul_health_service_status)
@@ -198,10 +198,10 @@ sum(consul_health_node_status{status="passing"})
 sum(consul_health_node_status{status!~"passing"})
 ```
 
-最终效果 
+最终效果
 
 ![grafana-custom-dashboard-cosnul-panel.png](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-panel.png)
 
-- 面板的 JSON文件 
+- 面板的 JSON文件
 
 根据 [Dashboard 的JSON配置文件](https://img.hellowood.dev/picture/custom-consul-grafana-dashboard.json) 导入即可快速使用这个 Dashboard

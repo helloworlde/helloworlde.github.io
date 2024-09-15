@@ -3,11 +3,11 @@ title: "在PVE的LXC容器中直通核心显卡"
 type: post
 date: 2023-09-09T17:53:36+08:00
 tags:
-    - LXC
-    - Proxmox
-    - HomeLab
+  - LXC
+  - Proxmox
+  - HomeLab
 categories:
-    - HomeLab
+  - HomeLab
 featured: true
 ---
 
@@ -37,7 +37,6 @@ by-path  card0	renderD128
 
 通常不需要安装驱动，如果设备没有正确识别，可以参考 [https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps](https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps) 进行安装
 
-
 ## 创建 LXC 容器
 
 如图，在 PVE的控制界面，选择创建 CT 容器；配置中取消 "无特权容器" 的勾选，模板选择 CentOS 或 Ubuntu 等均可
@@ -54,7 +53,7 @@ by-path  card0	renderD128
 
 - 添加核心显卡直通
 
-使用 nano 编辑容器对应的配置文件，容器ID 104对应的文件是  `104.conf`，路径是 `/etc/pve/lxc/`
+使用 nano 编辑容器对应的配置文件，容器ID 104对应的文件是 `104.conf`，路径是 `/etc/pve/lxc/`
 
 ```bash
 nano /etc/pve/lxc/104.conf
@@ -95,7 +94,7 @@ lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,creat
 
 `lxc.cgroup2.devices.allow: c 226:0 rwm` 和 `lxc.cgroup2.devices.allow: c 226:128 rwm`： 允许容器内的进程对设备号为 `226:0` 和 `226:128` 的字符设备节点拥有读、写和映射（rwm）的权限。用于允许容器内的进程访问特定的设备，如图形加速设备。
 
-`lxc.mount.entry: /dev/dri/card0 dev/dri/card0 none bind,optional,create=file` 和 
+`lxc.mount.entry: /dev/dri/card0 dev/dri/card0 none bind,optional,create=file` 和
 `lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file`：将主机系统上的两个设备节点 `/dev/dri/card0` 和 `/dev/dri/renderD128` 挂载到容器内的相同位置，用于允许容器内的应用程序访问图形硬件加速功能，以便执行图形相关的任务
 
 修改完成后保存，启动 LXC 容器

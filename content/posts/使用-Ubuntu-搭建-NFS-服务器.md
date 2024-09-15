@@ -3,14 +3,14 @@ title: 使用 Ubuntu 搭建 NFS 服务器
 type: post
 date: 2024-01-27T11:20:19+08:00
 tags:
-    - Ubuntu
-    - HomeLab
-categories: 
-    - Ubuntu
-    - HomeLab
-series: 
-    - Ubuntu
-    - HomeLab
+  - Ubuntu
+  - HomeLab
+categories:
+  - Ubuntu
+  - HomeLab
+series:
+  - Ubuntu
+  - HomeLab
 featured: true
 ---
 
@@ -27,7 +27,7 @@ apt update
 apt install -y nfs-kernel-server
 ```
 
-安装完成后，使用 	`systemctl` 查看状态
+安装完成后，使用 `systemctl` 查看状态
 
 ```bash
 systemctl status nfs-mountd.service
@@ -58,6 +58,7 @@ Sep 22 18:43:43 rasp systemd[1]: Started NFS Mount Daemon.
 ```bash
 mkdir -p /data/nfs
 ```
+
 创建后的文件夹属于当前用户，被挂载后可能会提示权限不足，导致无法操作；因此需要先将这个目录的用户和组修改为 `nobody` 和 `nogroup`
 
 ```bash
@@ -78,9 +79,9 @@ sudo chown nobody:nogroup /data/nfs
 sudo systemctl restart nfs-kernel-server.service
 ```
 
-## 客户使用 NFS 
+## 客户使用 NFS
 
-### 挂载 NFS 
+### 挂载 NFS
 
 在 Mac 或其他的 Linux 服务器上挂载该 NFS 文件夹
 
@@ -103,7 +104,7 @@ tmpfs                              393M  4.0K  393M   1% /run/user/0
 192.168.2.5:/data/nfs              118G  4.7G  108G   5% /data/nfs
 ```
 
-### 开机后自动挂载 
+### 开机后自动挂载
 
 编辑 `/etc/fstab`，将要挂载的目录添加进去
 

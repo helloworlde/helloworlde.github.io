@@ -3,19 +3,19 @@ title: Java 将单元测试覆盖率上传到 Codecov
 type: post
 date: 2018-01-01 00:00:19
 tags:
-    - Java
-    - Gradle
-    - SpringBoot 
-    - Junit
-    - Test
-    - Codecov
-categories: 
-    - Java
-    - Gradle
-    - SpringBoot
-    - Junit
-    - Test
-    - Codecov
+  - Java
+  - Gradle
+  - SpringBoot
+  - Junit
+  - Test
+  - Codecov
+categories:
+  - Java
+  - Gradle
+  - SpringBoot
+  - Junit
+  - Test
+  - Codecov
 ---
 
 # 将单元测试覆盖率上传到 Codecov
@@ -82,7 +82,7 @@ dependencies {
 
 // 添加 task 用于生成 Jacoco 测试结果
 task codeCoverageReport(type: JacocoReport) {
-    
+
     // 需指定生成的类文件位置和源文件位置
     classDirectories = files('build/classes')
     sourceDirectories = files('src/main/java')
@@ -116,6 +116,7 @@ check.dependsOn codeCoverageReport
     gradle check
     gradle codeCoverageReport
 ```
+
 > 此时在 `build/reports/jacoco` 下生成 Jacoco 的测试报告
 
 ## 上传测试结果
@@ -148,8 +149,7 @@ check.dependsOn codeCoverageReport
           - run: bash <(curl -s https://codecov.io/bash) -t 92b3ad6b-92f7-49bb-94e7-ea233b860e47
 ```
 
-
---------------
+---
 
 > 需要注意的是只有 xml 格式的测试报告才会被上传
 

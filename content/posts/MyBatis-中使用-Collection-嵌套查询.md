@@ -3,21 +3,22 @@ title: MyBatis 中使用 Collection 嵌套查询
 type: post
 date: 2018-01-01 00:47:05
 tags:
-    - Java
-    - MyBatis
-categories: 
-    - Java
-    - MyBatis
+  - Java
+  - MyBatis
+categories:
+  - Java
+  - MyBatis
 ---
 
 > 当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
 > 以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询
 
-------------
+---
 
-## JavaBean 
+## JavaBean
 
 - RoleModel
+
 ```
 public class RoleModel {
     private Integer id;
@@ -27,10 +28,11 @@ public class RoleModel {
     private Date lastUpdateTime;
     private List<MenuModel> menus;
     ···
-}   
+}
 ```
 
 - MenuModel
+
 ```
 public class MenuModel {
     private Integer id;
@@ -41,11 +43,10 @@ public class MenuModel {
     private String description;
     private Boolean isActive;
     private Date lastUpdateTime;
-    
-    ···
-}   
-```
 
+    ···
+}
+```
 
 ## 表
 
@@ -67,6 +68,7 @@ VALUES ('ROLE_USER', 'User', TRUE, current_timestamp);
 ```
 
 - Menu
+
 ```
 CREATE TABLE menu (
   id               INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -93,7 +95,9 @@ INSERT INTO menu (value, display_value, url, description, is_active, last_update
 VALUES ('/user/profile', 'User Profile', '/user/profile', 'User Profile', TRUE, current_timestamp);
 
 ```
+
 - RoleMenuXref
+
 ```
 CREATE TABLE role_menu_xref (
   id               INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -120,10 +124,9 @@ VALUES (2, 4, current_timestamp);
 
 ```
 
+---
 
-------------------
-
-##  Collection 一个查询调用另一个查询实现的嵌套
+## Collection 一个查询调用另一个查询实现的嵌套
 
 ```
         <resultMap id="BaseRoleResultMap" type="cn.com.hellowood.springsecurity.model.RoleModel">
@@ -149,7 +152,7 @@ VALUES (2, 4, current_timestamp);
         <result column="is_active" property="isActive" jdbcType="BIT"/>
         <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
-    
+
     <select id="getRoles" parameterType="java.lang.Integer" resultMap="BaseRoleResultMap">
         SELECT
             id,
@@ -159,7 +162,7 @@ VALUES (2, 4, current_timestamp);
             last_update_time
         FROM role
     </select>
-    
+
     <select id="getMenus" parameterType="java.lang.Integer" resultMap="BaseMenuResultMap">
         SELECT
             m.id,
@@ -187,6 +190,7 @@ VALUES (2, 4, current_timestamp);
                     column="id">
         </collection>
 ```
+
 > - collection : 一个复杂的类型关联，许多结果将映射为这种类型
 > - property : 这是关联的 JavaBean 中的属性名， 在 RoleModel 中对应 `private List<MenuModel> menus;`
 > - javaType : property 属性对应的集合类型
@@ -194,9 +198,10 @@ VALUES (2, 4, current_timestamp);
 > - column : RoleModel 的 id ，作为参数传入被调用的 Select 语句
 > - select : 另外一个映射语句的 ID
 
---------------
+---
 
-## Collection 同一个查询映射到属性的嵌套 
+## Collection 同一个查询映射到属性的嵌套
+
 > 如果再一个查询中可以直接查询到所需要的数据，但是需要映射到该对象的属性上，则可以使用该方式
 
 ```
@@ -218,7 +223,7 @@ VALUES (2, 4, current_timestamp);
             <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
         </collection>
     </resultMap>
-    
+
     <select id="getRoles" parameterType="java.lang.Integer" resultMap="BaseRoleResultMap">
         SELECT
             r.id,

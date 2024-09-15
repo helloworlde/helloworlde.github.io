@@ -3,20 +3,20 @@ title: SpringBoot 使用 ELK 日志收集系统安装配置
 type: post
 date: 2018-01-21 21:16:10
 tags:
-    - Java
-    - SpringBoot 
-    - Log
-    - ELK
-categories: 
-    - Java
-    - SpringBoot
-    - Log
-    - ELK
+  - Java
+  - SpringBoot
+  - Log
+  - ELK
+categories:
+  - Java
+  - SpringBoot
+  - Log
+  - ELK
 ---
 
 # SpringBoot 使用 ELK 日志收集系统安装配置
 
-## Elasticsearch 
+## Elasticsearch
 
 - 下载 [Elasticsearch](https://www.elastic.co/cn/downloads/elasticsearch)
 
@@ -81,6 +81,7 @@ output {
 这是从本地通过 TCP 读取读取日志并发送到 ElasticSearch
 
 - 启动
+
 ```
 bin/logstash -f log_to_es.conf
 ```
@@ -132,6 +133,7 @@ dependencies {
     </root>
 </configuration>
 ```
+
 - 在应用中输出日志
 
 ```java

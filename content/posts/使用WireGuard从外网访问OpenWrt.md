@@ -3,13 +3,13 @@ title: "使用WireGuard从外网访问OpenWrt"
 type: post
 date: 2023-06-12T16:30:22+08:00
 tags:
-    - HomeLab
-    - WireGuard
-    - OpenWrt
-categories: 
-    - HomeLab
-    - WireGuard   
-    - OpenWrt
+  - HomeLab
+  - WireGuard
+  - OpenWrt
+categories:
+  - HomeLab
+  - WireGuard
+  - OpenWrt
 featured: true
 ---
 
@@ -18,7 +18,6 @@ featured: true
 在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt
 
 [WireGuard](https://www.wireguard.com/) 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量
-
 
 ## 核心概念
 
@@ -34,9 +33,9 @@ WireGuard中主要涉及以下几个概念：
 - 预共享密钥（Pre-shared Key）：在 Peer 之间建立安全连接时使用的共享密钥，用于加密数据包。
 - Listen Port（监听端口）：一个 Peer 监听的 UDP 端口号。其他 Peer 使用此端口发送数据包到该 Peer
 
-##  配置 OpenWrt 
+## 配置 OpenWrt
 
-### 安装 WireGuard 
+### 安装 WireGuard
 
 ```bash
 opkg update && \
@@ -118,7 +117,7 @@ wg pubkey < peer_private_key > peer_public_key
 
 ### 添加配置文件
 
-- openwrt.conf 
+- openwrt.conf
 
 ```dsconfig
 [Interface]
@@ -134,16 +133,16 @@ PersistentKeepalive = 25
 ```
 
 - `Interface`：表示本地节点的网络接口属性配置
-	- `PrivateKey` 是本地节点的私钥，用于加解密网络数据包
-	- `Address` 是该节点所在子网的 IPv4 地址，需要和在 OpenWrt 配置的对端的地址一致
+
+  - `PrivateKey` 是本地节点的私钥，用于加解密网络数据包
+  - `Address` 是该节点所在子网的 IPv4 地址，需要和在 OpenWrt 配置的对端的地址一致
 
 - `Peer`：表示需要连接的远程节点的属性配置
-	-  `PublicKey` 是对端公钥，可以通过与远程节点交换公钥获取
-	-  `PresharedKey` 是本地和远程节点之间协商设定的预共享密钥，用于增强对连接双方身份验证的安全性，以及生成对称加密密钥来保护通信中的数据隐私和完整性
-	-  `AllowedIPs` 是指定允许通过 VPN 通道的 IP 地址范围，用于筛选所有通过该 VPN 的流量；这里只有访问 `10.0.0.0/24`网段的会使用该 VPN 访问
-	-  `Endpoint` 是指定远程节点的 IP 地址和端口号，如果在公网访问需要对端有公网的IP
-	-  `PersistentKeepalive` 是指定保持连接的活跃性，以防止 VPN 连接因长时间不活跃而断开。
-
+  - `PublicKey` 是对端公钥，可以通过与远程节点交换公钥获取
+  - `PresharedKey` 是本地和远程节点之间协商设定的预共享密钥，用于增强对连接双方身份验证的安全性，以及生成对称加密密钥来保护通信中的数据隐私和完整性
+  - `AllowedIPs` 是指定允许通过 VPN 通道的 IP 地址范围，用于筛选所有通过该 VPN 的流量；这里只有访问 `10.0.0.0/24`网段的会使用该 VPN 访问
+  - `Endpoint` 是指定远程节点的 IP 地址和端口号，如果在公网访问需要对端有公网的IP
+  - `PersistentKeepalive` 是指定保持连接的活跃性，以防止 VPN 连接因长时间不活跃而断开。
 
 ### 安装 WireGuard
 
@@ -158,4 +157,3 @@ PersistentKeepalive = 25
 使用浏览器访问 [http://10.0.0.1/](http://10.0.0.1/)，可以正常访问到 OpenWrt 的页面
 
 ![homelab-wireguard-openwrt-peers-connect-login-page2.png](https://img.hellowood.dev/picture/homelab-wireguard-openwrt-peers-connect-login-page2.png)
-

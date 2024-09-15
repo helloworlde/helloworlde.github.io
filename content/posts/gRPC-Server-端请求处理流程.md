@@ -3,9 +3,9 @@ title: gRPC Server 端请求处理流程
 type: post
 date: 2020-12-15 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC Server 端请求处理流程
@@ -18,7 +18,7 @@ categories:
 
 在 Server 启动的时候，最终调用 `NettyServer` 的 `start()` 方法，为 `ServerBootstrap` 添加了 `ChannelInitializer`，最终，当有新的连接建立时，会由 `NettyServerHandler` 调用该类的 `initChannel` 方法，初始化一个 `NettyServerTransport`
 
--  io.grpc.netty.NettyServer#start
+- io.grpc.netty.NettyServer#start
 
 在初始化 Netty Channel 时，会先创建 `NettyServerTransport`，然后调用监听器的 `Transport` 创建事件，添加一个超时取消任务；
 然后会调用 `Transport` 的 `start` 方法启动 `Transport`
@@ -47,7 +47,7 @@ b.childHandler(new ChannelInitializer<Channel>() {
 
 - io.grpc.netty.NettyServerTransport#start
 
-在启动 `Transport` 时，会为当前的 `Transport` 创建一个处理器，并绑定到 Netty  的 Channel 中
+在启动 `Transport` 时，会为当前的 `Transport` 创建一个处理器，并绑定到 Netty 的 Channel 中
 
 ```java
 public void start(ServerTransportListener listener) {
@@ -74,76 +74,17 @@ public void start(ServerTransportListener listener) {
 当 Server 与 Client 的连接建立成功之后，可以开始处理请求
 
 #### 请求整体处理流程
+
 1. 读取 `Settings` 帧，触发 `Transport` `ready` 事件
-2. 读取 `Header` 帧，触发 `FrameListener#onHeadersRead` 事件
-	3. 由 `NettyServerHandler` 处理
-		4. 根据 `Header` 里面的信息，获取相应的方法
-		4. 将 HTTP 流转换为 `NettyServerStream`
-		5. 触发 `Transport#streamCreated` 事件
-			6. 检查编解码、解压缩等信息，创建可取消的上下文
-			11. 初始化流监听器
-			6. 提交 `StreamCreated` 任务
-		7. 触发 `NettyServerStream.TransportState#onStreamAllocated` 事件
-			8. 提交 `OnReady` 任务
-9. 执行 `StreamCreated` 任务
-	10. 根据方法名查找方法定义
-	11. 调用 `startCall` 开始处理
-		12. 遍历拦截器，使用拦截器包装方法处理器
-		13. 调用 `startWrappedCall` 处理
-			14. 创建 `ServerCallImpl` 实例
-			15. 通过方法定义的请求处理器 `startCall` 方法处理
-				16. 创建响应观察器 `ServerCallStreamObserverImpl` 实例
-				17. 调用 `call.request()` 获取指定数量的消息
-					18. 提交 `RequestRunnable` 任务获取指定数量的消息
-				18. 创建调用监听器 `UnaryServerCallListener`
-			19. 创建 `ServerStreamListenerImpl` 流监听器实例
-20. 执行 `OnReady` 任务
-	21. 调用 `UnaryServerCallListener#onReady` 处理 `Ready` 事件
-		22. 修改 `ready` 状态
-		23. 如果有 `onReadyHandler` 任务，则执行
-24. 执行 `RequestRunnable` 任务
-	25. 要求指定数量的消息
-	25. 修改等待投递的消息数量
-	26. 调用 `deliver` 方法投递
-		27. 如果有待投递的消息，根据类型进行投递
-			28. 当消息类型是消息体时，处理消息体
-				29. 读取消息体的流
-				30. 调用 `MessageFramer.Listener#messagesAvailable` 事件，通知新的消息
-				31. 提交 `MessagesAvailable` 任务
-   32. 调用 `MessageDeframer#close` 方法关闭帧
-	   33. 调用流监听器半关闭事件
-	   34. 提交 `HalfClosed` 任务
-31.  执行 `MessagesAvailable` 任务
-	32. 从 `MessageProducer` 中获取消息，解析为请求对象
-	33. 调用 `SeverCall.Listener#onMessage` 方法处理消息
-		34. 将 `request` 对象赋值给相应的对象，该对象会在 `halfClose` 时处理
-35. 执行 `HalfClosed` 任务
-	36. 调用 `invoke` 方法，处理业务逻辑
-		37. 根据方法 ID，使用相应的实现调用业务逻辑
-			38. 调用 `StreamObserver#onNext` 发送响应
-				39. 发送响应 `Header`
-					40. 设置编码和压缩的请求头
-					41. 写入 `Header`
-				40. 发送响应 `body`
-					41. 将响应对象序列化为流
-					42. 写入响应
-					43. 清空缓存
-			44. 调用 `StreamObserver#onComplete` 完成请求
-				45. 使用 `OK` 状态关闭调用
-					46. 修改关闭状态
-					47. 调用流关闭事件
-						48. 关闭帧
-						49. 将响应状态加入响应元数据中
-						50. 修改 `TransportState` 的状态
-						51. 写入响应元数据，发送给客户端
-	37. 冻结响应
-	38. 如果 `ready` 状态，再次执行 `onReady` 事件
-	39. 当流关闭时，调用 `TransportState#complete` 事件
-		40. 关闭监听器
-		41. 提交 `Closed` 任务
-	42. 执行 `Closed` 任务
-		43. 调用 `stream#complete`  事件
-		44. 取消上下文
+2. 读取 `Header` 帧，触发 `FrameListener#onHeadersRead` 事件 3. 由 `NettyServerHandler` 处理 4. 根据 `Header` 里面的信息，获取相应的方法 4. 将 HTTP 流转换为 `NettyServerStream` 5. 触发 `Transport#streamCreated` 事件 6. 检查编解码、解压缩等信息，创建可取消的上下文 11. 初始化流监听器 6. 提交 `StreamCreated` 任务 7. 触发 `NettyServerStream.TransportState#onStreamAllocated` 事件 8. 提交 `OnReady` 任务
+3. 执行 `StreamCreated` 任务 10. 根据方法名查找方法定义 11. 调用 `startCall` 开始处理 12. 遍历拦截器，使用拦截器包装方法处理器 13. 调用 `startWrappedCall` 处理 14. 创建 `ServerCallImpl` 实例 15. 通过方法定义的请求处理器 `startCall` 方法处理 16. 创建响应观察器 `ServerCallStreamObserverImpl` 实例 17. 调用 `call.request()` 获取指定数量的消息 18. 提交 `RequestRunnable` 任务获取指定数量的消息 18. 创建调用监听器 `UnaryServerCallListener` 19. 创建 `ServerStreamListenerImpl` 流监听器实例
+4. 执行 `OnReady` 任务 21. 调用 `UnaryServerCallListener#onReady` 处理 `Ready` 事件 22. 修改 `ready` 状态 23. 如果有 `onReadyHandler` 任务，则执行
+5. 执行 `RequestRunnable` 任务 25. 要求指定数量的消息 25. 修改等待投递的消息数量 26. 调用 `deliver` 方法投递 27. 如果有待投递的消息，根据类型进行投递 28. 当消息类型是消息体时，处理消息体 29. 读取消息体的流 30. 调用 `MessageFramer.Listener#messagesAvailable` 事件，通知新的消息 31. 提交 `MessagesAvailable` 任务
+6. 调用 `MessageDeframer#close` 方法关闭帧 33. 调用流监听器半关闭事件 34. 提交 `HalfClosed` 任务
+7. 执行 `MessagesAvailable` 任务
+8. 从 `MessageProducer` 中获取消息，解析为请求对象
+9. 调用 `SeverCall.Listener#onMessage` 方法处理消息 34. 将 `request` 对象赋值给相应的对象，该对象会在 `halfClose` 时处理
+10. 执行 `HalfClosed` 任务 36. 调用 `invoke` 方法，处理业务逻辑 37. 根据方法 ID，使用相应的实现调用业务逻辑 38. 调用 `StreamObserver#onNext` 发送响应 39. 发送响应 `Header` 40. 设置编码和压缩的请求头 41. 写入 `Header` 40. 发送响应 `body` 41. 将响应对象序列化为流 42. 写入响应 43. 清空缓存 44. 调用 `StreamObserver#onComplete` 完成请求 45. 使用 `OK` 状态关闭调用 46. 修改关闭状态 47. 调用流关闭事件 48. 关闭帧 49. 将响应状态加入响应元数据中 50. 修改 `TransportState` 的状态 51. 写入响应元数据，发送给客户端 37. 冻结响应 38. 如果 `ready` 状态，再次执行 `onReady` 事件 39. 当流关闭时，调用 `TransportState#complete` 事件 40. 关闭监听器 41. 提交 `Closed` 任务 42. 执行 `Closed` 任务 43. 调用 `stream#complete` 事件 44. 取消上下文
 
 #### 1. 读取 Settings 帧
 
@@ -346,7 +287,7 @@ public void onReady() {
 }
 ```
 
-#### 5. 执行流创建任务 
+#### 5. 执行流创建任务
 
 执行 `StreamCreated`任务
 
@@ -357,7 +298,7 @@ public void onReady() {
 ```java
 // 流创建任务处理
     final class StreamCreated extends ContextRunnable {
- 
+
         private void runInternal() {
             ServerStreamListener listener = NOOP_LISTENER;
             try {
@@ -383,7 +324,7 @@ public void onReady() {
             } finally {
                  jumpListener.setListener(listener);
             }
-           
+
             final class ServerStreamCancellationListener implements Context.CancellationListener {
                 @Override
                 public void cancelled(Context context) {
@@ -472,7 +413,7 @@ public ServerCall.Listener<ReqT> startCall(ServerCall<ReqT, RespT> call, Metadat
 }
 ```
 
-#### 6.  提交要求指定数量的消息任务
+#### 6. 提交要求指定数量的消息任务
 
 在执行 `StreamCreated` 任务时，会调用 `startCall` 方法，提交 `RequestRunnable`任务，要求指定数量的消息
 
@@ -548,7 +489,6 @@ public void onReady() {
     }
 }
 ```
-
 
 #### 8. 执行读取指定数量的消息任务并提交有可用消息任务
 
@@ -658,7 +598,7 @@ public void messagesAvailable(final MessageProducer producer) {
 }
 ```
 
-####  9. 执行有新的可用消息任务
+#### 9. 执行有新的可用消息任务
 
 - io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener#messagesAvailable
 
@@ -686,7 +626,7 @@ public void messagesAvailable(final MessageProducer producer) {
 
 - io.grpc.internal.ServerCallImpl.ServerStreamListenerImpl#messagesAvailableInternal
 
-执行时，会先将流解析为请求对象，然后调用监听器的 `onMessage`方法，处理消息 
+执行时，会先将流解析为请求对象，然后调用监听器的 `onMessage`方法，处理消息
 
 ```java
 private void messagesAvailableInternal(final MessageProducer producer) {
@@ -802,7 +742,7 @@ public void deframerClosed(boolean hasPartialMessage) {
 public void halfClosed() {
     try {
         callExecutor.execute(new HalfClosed());
-    } 
+    }
 }
 ```
 
@@ -886,7 +826,7 @@ public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserv
 
 - io.github.helloworlde.service.HelloServiceImpl#howAreYou
 
-需要实现生成的接口，在方法中实现逻辑，并将响应通过 `StreamObserver` 发送出去 
+需要实现生成的接口，在方法中实现逻辑，并将响应通过 `StreamObserver` 发送出去
 
 ```java
 public void howAreYou(HelloMessage request, StreamObserver<HelloResponse> responseObserver) {
@@ -895,7 +835,7 @@ public void howAreYou(HelloMessage request, StreamObserver<HelloResponse> respon
 }
 ```
 
-###  2. 发送响应内容
+### 2. 发送响应内容
 
 - io.grpc.stub.ServerCalls.ServerCallStreamObserverImpl#onNext
 
@@ -1118,7 +1058,7 @@ protected final void endOfMessages() {
 }
 ```
 
-####  1. 发送响应结尾 header
+#### 1. 发送响应结尾 header
 
 在关闭流时，会将相应的状态和其他 header 发送给客户端
 
@@ -1156,8 +1096,8 @@ private void closeStreamWhenDone(ChannelPromise promise, int streamId) throws Ht
     });
 }
 ```
- 
- - io.grpc.internal.AbstractServerStream.TransportState#complete
+
+- io.grpc.internal.AbstractServerStream.TransportState#complete
 
 然后调用流的完成事件，关闭监听器
 
@@ -1182,7 +1122,7 @@ public void complete() {
 ```
 
 - io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener#closedInternal
-提交流关闭任务`Closed`
+  提交流关闭任务`Closed`
 
 ```java
 private void closedInternal(final Status status) {
@@ -1225,7 +1165,7 @@ final class Closed extends ContextRunnable {
         try {
             // 调用监听器的关闭事件
             getListener().closed(status);
-        } 
+        }
     }
 }
 ```
@@ -1253,7 +1193,7 @@ private void closedInternal(Status status) {
 ```
 
 - io.grpc.Context.CancellableContext#cancel
-取消上下文，取消所有的超时时间任务
+  取消上下文，取消所有的超时时间任务
 
 ```java
 public boolean cancel(Throwable cause) {
@@ -1278,5 +1218,3 @@ public boolean cancel(Throwable cause) {
     return triggeredCancel;
 }
 ```
-
-

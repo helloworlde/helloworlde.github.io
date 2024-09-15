@@ -3,9 +3,9 @@ title: Seata 高可用部署实践
 type: post
 date: 2020-04-10 10:51:17
 tags:
-    - Seata
-categories: 
-    - Seata
+  - Seata
+categories:
+  - Seata
 ---
 
 # Seata 高可用部署实践
@@ -18,7 +18,7 @@ categories:
 
 需要准备可用的注册中心、配置中心 Nacos 和 MySQL，通常情况下，注册中心、配置中心和数据库都是已有的，不需要特别配置，在这个实践中，为了简单，只部署单机的注册中心、配置中心和数据库，假设他们是可靠的
 
-- 部署 Nacos 
+- 部署 Nacos
 
 在服务器部署 Nacos，开放 8848 端口，用于 seata-server 注册，服务器地址为 `192.168.199.2`
 
@@ -26,7 +26,7 @@ categories:
 docker run --name nacos -p 8848:8848 -e MODE=standalone nacos/nacos-server
 ```
 
-- 部署 MySQL 
+- 部署 MySQL
 
 部署一台MySQL 数据库，用于保存事务数据，服务器地址为 `192.168.199.2`
 
@@ -81,7 +81,6 @@ spec:
     app.kubernetes.io/name: seata-ha-server
 
 ---
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -118,7 +117,6 @@ spec:
         - name: seata-config
           configMap:
             name: seata-ha-server-config
-
 
 ---
 apiVersion: v1
@@ -161,7 +159,7 @@ seata-ha-server-645844b8b6-wkpw8    1/1     Running   0          3m14s
 
 待启动完成后，可以在 Nacos 的服务列表中发现三个 seata-server 的实例，至此，已经完成 seata-server 的高可用部署
 
-- 查看服务日志 
+- 查看服务日志
 
 ```bash
 kubelet logs -f seata-ha-server-645844b8b6-9qh5j
@@ -172,7 +170,7 @@ kubelet logs -f seata-ha-server-645844b8b6-9qh5j
 2020-04-15 00:55:09.880 INFO [main]io.seata.server.ParameterParser.init:90 -The server is running in container.
 2020-04-15 00:55:10.013 INFO [main]io.seata.config.FileConfiguration.<init>:110 -The configuration file used is file:/root/seata-config/registry.conf
 2020-04-15 00:55:12.426 INFO [main]com.alibaba.druid.pool.DruidDataSource.init:947 -{dataSource-1} inited
-2020-04-15 00:55:13.127 INFO [main]io.seata.core.rpc.netty.RpcServerBootstrap.start:155 -Server started 
+2020-04-15 00:55:13.127 INFO [main]io.seata.core.rpc.netty.RpcServerBootstrap.start:155 -Server started
 ```
 
 其中`{dataSource-1} `说明使用了数据库，并正常初始化完成
@@ -180,7 +178,6 @@ kubelet logs -f seata-ha-server-645844b8b6-9qh5j
 - 查看注册中心，此时seata-serve 这个服务会有三个实例
 
 ![seata-ha-nacos-list.png](https://img.hellowood.dev/picture/seata-ha-nacos-list.png)
-
 
 ## 部署业务服务
 
@@ -238,7 +235,7 @@ kind: ServiceAccount
 metadata:
   name: seata-ha-account
   namespace: default
-  
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
@@ -348,9 +345,7 @@ kubelet logs -f seata-ha-server-645844b8b6-9qh5j
 
 ![seata-ha-tc-register.png](https://img.hellowood.dev/picture/seata-ha-tc-register.png)
 
-
 ## 测试
-
 
 ### 测试成功场景
 
@@ -370,7 +365,7 @@ curl -X POST \
 此时返回结果为：
 
 ```json
-{"success":true,"message":null,"data":null}
+{ "success": true, "message": null, "data": null }
 ```
 
 查看TC 的日志，事务成功提交：
@@ -379,7 +374,6 @@ curl -X POST \
 
 查看 order-service 服务日志
 ![seata-ha-commit-success.png](https://img.hellowood.dev/picture/seata-ha-commit-success.png)
-
 
 ### 测试失败场景
 

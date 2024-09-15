@@ -3,18 +3,19 @@ title: "使用WireGuard连接异地局域网"
 type: post
 date: 2023-09-24T17:56:49+08:00
 tags:
-    - HomeLab
-    - WireGuard
-categories: 
-    - HomeLab
-    - WireGuard   
+  - HomeLab
+  - WireGuard
+categories:
+  - HomeLab
+  - WireGuard
 featured: true
 ---
 
 # 使用 WireGuard 连接异地局域网
 
 最近使用 Frigate 做家庭监控，因为 Frigate 部署在自己的 HomeLab 服务器里，有几个监控在老家，需要跨地域访问；有以下几种方案：
-1. 使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP 
+
+1. 使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP
 2. 使用 TailScale 组网：测试过程中发现 TailScale 需要从香港中转，延迟很高，视频经常断开；自己部署 DERP 服务端同样需要在公网开放多个端口，不安全并且比较麻烦
 3. 使用 Cloudflare Tunnel 转发：使用 Tunnel 延迟也很高，并不稳定
 4. 使用 WireGuard 组网：对端直接连接，延迟低，仅需要开放一个 UDP 端口，较安全
@@ -23,11 +24,11 @@ featured: true
 
 > 注意：需要对端其中一方有可以直接访问的公网IP
 
-关于 WireGuard 的介绍可以参考 [WireGuard](https://www.wireguard.com/) 
+关于 WireGuard 的介绍可以参考 [WireGuard](https://www.wireguard.com/)
 
 ![homelab-wireguard-vpn-for-sub-network.svg](https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg)
 
-## 安装配置 WireGuard 
+## 安装配置 WireGuard
 
 ### 安装 wireguard
 
@@ -112,9 +113,9 @@ Endpoint = 公网IP:12345
 PersistentKeepalive = 15
 ```
 
-### 启动验证 
+### 启动验证
 
-在 HomeLab 和 Rasp 节点先后使用 wireguard-tools 的命令  `wg-quick`启动 WireGuard 进行测试验证
+在 HomeLab 和 Rasp 节点先后使用 wireguard-tools 的命令 `wg-quick`启动 WireGuard 进行测试验证
 
 - 启动 WireGuard
 
@@ -221,14 +222,14 @@ PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACC
 ```
 
 - PostUp
-`iptables -A FORWARD -i %i -j ACCEPT`: 此命令添加一个规则，允许从接口`%i`（即wg0）进入的数据包通过防火墙的FORWARD链
-`iptables -A FORWARD -o %i -j ACCEPT`: 此命令添加一个规则，允许从接口`%i`（即wg0）出去的数据包通过防火墙的FORWARD链
-`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`: 此命令添加一个NAT（网络地址转换）规则，将从eth0出去的数据包的源地址修改为设备的地址，以便它们可以正确路由回来。这通常用于创建网络地址转换（NAT）以允许多台内部设备共享单个公共IP地址。
+  `iptables -A FORWARD -i %i -j ACCEPT`: 此命令添加一个规则，允许从接口`%i`（即wg0）进入的数据包通过防火墙的FORWARD链
+  `iptables -A FORWARD -o %i -j ACCEPT`: 此命令添加一个规则，允许从接口`%i`（即wg0）出去的数据包通过防火墙的FORWARD链
+  `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`: 此命令添加一个NAT（网络地址转换）规则，将从eth0出去的数据包的源地址修改为设备的地址，以便它们可以正确路由回来。这通常用于创建网络地址转换（NAT）以允许多台内部设备共享单个公共IP地址。
 
 - PostDown
-`iptables -D FORWARD -i %i -j ACCEPT`: 此命令删除允许从接口`%i`（即wg0）进入的数据包通过防火墙的FORWARD链的规则
-`iptables -D FORWARD -o %i -j ACCEPT`: 此命令删除允许从接口`%i`（即wg0）出去的数据包通过防火墙的FORWARD链的规则
-`iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE`: 此命令删除之前添加的NAT规则，将从eth0出去的数据包的源地址修改为设备的地址的规则
+  `iptables -D FORWARD -i %i -j ACCEPT`: 此命令删除允许从接口`%i`（即wg0）进入的数据包通过防火墙的FORWARD链的规则
+  `iptables -D FORWARD -o %i -j ACCEPT`: 此命令删除允许从接口`%i`（即wg0）出去的数据包通过防火墙的FORWARD链的规则
+  `iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE`: 此命令删除之前添加的NAT规则，将从eth0出去的数据包的源地址修改为设备的地址的规则
 
 #### 添加允许访问的 IP 范围
 
@@ -341,7 +342,7 @@ config zone
         option network 'lan'
         option input 'ACCEPT'
         option output 'ACCEPT'
-        #REJECT 改为 ACCEPT        
+        #REJECT 改为 ACCEPT
         option forward 'ACCEPT'
 ```
 
@@ -379,7 +380,7 @@ PresharedKey = pre_share_key
 AllowedIPs = 10.0.1.1/32,192.168.31.0/24
 ```
 
-- Rasp 
+- Rasp
 
 ```
 [Interface]

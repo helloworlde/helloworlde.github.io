@@ -3,24 +3,27 @@ title: Gauge中执行数据库测试
 type: post
 date: 2018-01-01 11:34:11
 tags:
-    - Java
-    - Gauge
-    - Test
-categories: 
-    - Java
-    - Gauge
-    - Test
+  - Java
+  - Gauge
+  - Test
+categories:
+  - Java
+  - Gauge
+  - Test
 ---
+
 > 使用Gauge对数据库的增删改查进行测试
 
+---
 
-----------
 ## 打开数据库连接
+
 - .spec文件
 
 ```Markdown
     * open connection before crud
 ```
+
 - .java文件
 
 ```java
@@ -43,15 +46,17 @@ categories:
     }
 ```
 
-----------
+---
+
 ## insert
+
 - .spec文件
 
 ```Markdown
     ## insert
     insert record to database
      tags: crud,insert
-    
+
     * insert new record named "Gauge",sex is "Male",age is "25"
 
 ```
@@ -77,16 +82,17 @@ categories:
     }
 ```
 
+---
 
-----------
 ## select
+
 - .spec文件
 
 ```Markdown
     ## query
     query all records from database
      tags: crud,select
-    
+
     * query all records
 ```
 
@@ -121,15 +127,17 @@ categories:
     }
 ```
 
-----------
+---
+
 ## update
+
 - .spec文件
 
 ```
     ## update
     update record
      tags: crud,update
-     
+
     * update record sex to "Female" which named "Gauge"
 ```
 
@@ -150,16 +158,17 @@ categories:
     }
 ```
 
+---
 
-----------
 ## delete
+
 - .spec文件
 
 ```Markdown
     ## delete
     delete record
      tags: crud,delete
-    
+
     * delete the record which named "Gauge"
 
 ```
@@ -180,9 +189,10 @@ categories:
     }
 ```
 
+---
 
-----------
 ## 关闭连接
+
 - .spec文件
 
 ```Markdown
@@ -203,9 +213,8 @@ categories:
     }
 ```
 
+---
 
-----------
 - 需要把Jar包放在项目的lib目录下
 - 使用了[MySQL驱动](https://dev.mysql.com/downloads/file/?id=465644)
 - [下载项目](http://download.csdn.net/detail/u013360850/9760640)
-

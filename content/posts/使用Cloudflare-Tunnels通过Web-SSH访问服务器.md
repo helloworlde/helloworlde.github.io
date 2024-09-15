@@ -2,10 +2,10 @@
 title: "使用 Cloudflare Tunnels 通过 Web SSH 访问服务器"
 type: post
 date: 2023-10-06T15:25:13+08:00
-tags: 
+tags:
   - HomeLab
   - Cloudflare
-series: 
+series:
   - HomeLab
   - Cloudflare
 featured: true
@@ -106,7 +106,7 @@ usermod -aG wheel abc
 
 将刚才生成的公钥添加在要登陆的服务器上，路径可以自己配置，最好和 SSH 的配置放在一起
 
--  将公钥添加到 `/etc/ssh/cloudflare-ca.pub`
+- 将公钥添加到 `/etc/ssh/cloudflare-ca.pub`
 
 ```bash
 cat <<EOF > /etc/ssh/cloudflare-ca.pub
@@ -125,7 +125,7 @@ TrustedUserCAKeys /etc/ssh/cloudflare-ca.pub
 
 - 连接 SSH 用户
 
-用 `cloudflare` 生成用户配置，并写入到	 `~/.ssh/config`文件中
+用 `cloudflare` 生成用户配置，并写入到 `~/.ssh/config`文件中
 
 ```bash
 cloudflared access ssh-config --hostname terminal.mydomain.com --short-lived-cert >> ~/.ssh/config
@@ -141,8 +141,7 @@ Match host terminal.mydomain.com exec "/usr/local/bin/cloudflared access ssh-gen
     CertificateFile ~/.cloudflared/terminal.mydomain.com-cf_key-cert.pub
 ```
 
-
-### 重启 SSH 
+### 重启 SSH
 
 ```bash
 sudo systemctl restart ssh

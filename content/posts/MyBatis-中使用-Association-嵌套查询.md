@@ -3,20 +3,22 @@ title: MyBatis 中使用 Association 嵌套查询
 type: post
 date: 2018-01-01 00:48:06
 tags:
-    - Java
-    - MyBatis
-categories: 
-    - Java
-    - MyBatis
+  - Java
+  - MyBatis
+categories:
+  - Java
+  - MyBatis
 ---
 
 > 当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
 > 以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询
 
-------------
+---
 
-## JavaBean 
+## JavaBean
+
 - UserModel
+
 ```
 public class UserModel {
     private Integer id;
@@ -29,9 +31,11 @@ public class UserModel {
     private List<MenuModel> menus;
 
     ···
-}   
+}
 ```
+
 - RoleModel
+
 ```
 public class RoleModel {
     private Integer id;
@@ -41,11 +45,13 @@ public class RoleModel {
     private Date lastUpdateTime;
 
     ···
-}   
+}
 ```
 
 ## 表
-- User 
+
+- User
+
 ```
 CREATE TABLE user (
   id               INT                  AUTO_INCREMENT PRIMARY KEY,
@@ -82,6 +88,7 @@ VALUES ('ROLE_USER', 'User', TRUE, current_timestamp);
 ```
 
 - UserRoleXref
+
 ```
 CREATE TABLE user_role_xref (
   id               INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -96,9 +103,9 @@ INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CU
 INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP);
 ```
 
-------------------
+---
 
-##  一个查询调用另一个查询实现的嵌套
+## 一个查询调用另一个查询实现的嵌套
 
 ```
     <resultMap id="BaseUserModelResultMap" type="cn.com.hellowood.springsecurity.model.UserModel">
@@ -154,14 +161,16 @@ INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CU
                      column="id" select="getRoleByUserId">
         </association>
 ```
+
 > - association : 一个复杂的类型关联，许多结果将映射为这种类型
 > - property : 这是关联的 JavaBean 中的属性名， 在 UserModel 中对应 `private RoleModel role;`
 > - column : UserModel 的 id ，作为参数传入被调用的 Select 语句
 > - select : 另外一个映射语句的 ID
 
---------------
+---
 
-## 同一个查询映射到属性的嵌套 
+## 同一个查询映射到属性的嵌套
+
 > 如果再一个查询中可以直接查询到所需要的数据，但是需要映射到该对象的属性上，则可以使用该方式
 
 ```

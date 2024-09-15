@@ -3,11 +3,11 @@ title: Spring Cloud Gateway 使用 Kubernetes 作为服务发现
 type: post
 date: 2020-09-20 22:25:04
 tags:
-    - Java
-    - SpringCloud
-categories: 
-    - Java
-    - SpringCloud
+  - Java
+  - SpringCloud
+categories:
+  - Java
+  - SpringCloud
 ---
 
 # Spring Cloud Gateway 使用 Kubernetes 作为服务发现
@@ -16,11 +16,11 @@ Spring Cloud Gateway 作为网关，通过用于执行一些通用逻辑后做�
 
 ## 应用
 
-### Gateway 
+### Gateway
 
 #### 添加依赖
 
-- build.gradle 
+- build.gradle
 
 ```groovy
 plugins {
@@ -38,7 +38,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.cloud:spring-cloud-kubernetes-discovery'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-   
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -60,7 +60,7 @@ dependencyManagement {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
 ```
 
-#### 添加路由配置 
+#### 添加路由配置
 
 - bootstrap.yaml
 
@@ -88,12 +88,12 @@ spring:
           enabled: true
           url-expression: "'http://'+serviceId+':'+port"
           lower-case-service-id: true
-          
+
 management:
   endpoints:
     web:
       exposure:
-        include: '*'          
+        include: "*"
 ```
 
 配置 `url-expression` 目的是为了在转发的时候直接转发到 Kubernetes 中相应的 Service 上去，默认的表达式为 `"'lb://'+serviceId"`，这种适用于通过 Consul 或者 Eureka，最终是根据服务的IP和端口访问，`spring-cloud-kubernetes`没有实现`com.netflix.loadbalancer.AbstractServerList`，所以不会进行IP转换，最终是通过服务名称查找Service 实现调用，所以不需要负载均衡
@@ -104,7 +104,7 @@ management:
 
 通过 Gateway 调用后端的 API 应用，该应用提供 REST 接口
 
-#### 部署后端API应用 
+#### 部署后端API应用
 
 - api.yaml
 
@@ -124,7 +124,6 @@ spec:
     app: api
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -158,7 +157,7 @@ spec:
 kubectl apply -f api.yaml
 ```
 
-#### 部署 Gateway 
+#### 部署 Gateway
 
 - gateway.yaml
 
@@ -179,7 +178,6 @@ spec:
     app: gateway
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -213,7 +211,6 @@ spec:
 kubectl apply -f gateway.yaml
 ```
 
-
 ### 测试
 
 - 查询所有路由
@@ -222,7 +219,7 @@ kubectl apply -f gateway.yaml
 http get localhost:30080/actuator/gateway/routes
 ```
 
-- 请求 API 服务接口 
+- 请求 API 服务接口
 
 ```bash
 http get localhost:30080/api/hello
@@ -230,17 +227,17 @@ http get localhost:30080/api/hello
 
 这里会根据 `api`这个path 查找名为 `api`的 Service，然后调用 `http://api:8080/hello`，这个接口返回hostname，也就是pod的名称
 
-- 负载均衡 
+- 负载均衡
 
-启动多个 API 服务实例 
+启动多个 API 服务实例
 
 ```bash
 kubectl scale --replicas=2 deploy/api
 ```
+
 待服务启动后多次调用`http://localhost:30080/api/hello`，返回的pod名称会变化，说明负载均衡生效
 
-
-##  参考
+## 参考
 
 - [how-to-set-up-spring-cloud-gateway-application-so-it-can-use-the-service-discove](https://stackoverflow.com/questions/56170511/how-to-set-up-spring-cloud-gateway-application-so-it-can-use-the-service-discove)
 - [spring-cloud-kubernetes-spring-cloud-gateway-unable-to-find-instance-for-k8s](https://stackoverflow.com/questions/57594228/spring-cloud-kubernetes-spring-cloud-gateway-unable-to-find-instance-for-k8s)

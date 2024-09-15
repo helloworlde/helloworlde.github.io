@@ -3,12 +3,12 @@ title: gRPC Transport
 type: post
 date: 2020-10-22 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
-# gRPC Transport 
+# gRPC Transport
 
 Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端和服务端
 
@@ -21,20 +21,21 @@ Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端
 ### 实现
 
 `ClientTransport` 有多个继承接口和实现类:
+
 - 支持失败的实现类 `FailingClientTransport`，客户端启动时创建的流会快速失败
 - 支持生命周期管理的接口 `ManagedClientTransport`
-	- 支持延迟处理的实现类 `DelayedClientTransport`
-	- 基于连接的接口 `ConnectionClientTransport`
-		- 基于 Netty 实现的 `NettyClientTransport`
-		- 基于 OkHttp 实现的 `OkHttpClientTransport` 
-		- 用于进程内处理请求 `InProcessTransport`
-		- 支持代理的抽象实现类 `ForwardingConnectionClientTransport`
-			- 支持授权检查的实现类 `CallCredentialsApplyingTransportFactory`
-			- 用于统计的 `CallTracingTransport`
+  - 支持延迟处理的实现类 `DelayedClientTransport`
+  - 基于连接的接口 `ConnectionClientTransport`
+    - 基于 Netty 实现的 `NettyClientTransport`
+    - 基于 OkHttp 实现的 `OkHttpClientTransport`
+    - 用于进程内处理请求 `InProcessTransport`
+    - 支持代理的抽象实现类 `ForwardingConnectionClientTransport`
+      - 支持授权检查的实现类 `CallCredentialsApplyingTransportFactory`
+      - 用于统计的 `CallTracingTransport`
 
 ### 方法
 
-- ClientTransport#newStream 
+- ClientTransport#newStream
 
 创建新的流，用于给远程服务端发送消息
 
@@ -42,7 +43,7 @@ Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端
 ClientStream newStream(MethodDescriptor<?, ?> method, Metadata headers, CallOptions callOptions);
 ```
 
-- ClientTransport#ping 
+- ClientTransport#ping
 
 ping 远程的端点，当收到 ack 之后，会使用所给的 Executor 执行回调
 
@@ -90,13 +91,14 @@ void transportTerminated();
 
 Transport 在 Channel 退出空闲模式时会被创建，然后通过 `start` 方法启动，建立连接，当连接成功后触发 ready 回调，然后更新 LB 状态为 READY，然后可以执行发送请求到服务端
 
-#### 1. 创建 Transport 
+#### 1. 创建 Transport
 
 有两个地方可以创建 Transport：
- - LB 通过 `handleResolvedAddresses`处理地址时通过`ManagedChannelImpl.SubchannelImpl#requestConnection`建立连接，会创建 Transport
- - `ClientCallImpl#start` 时，通过 `ClientTransportProvider#get` 方法获取 Transport
 
-这两个方法最终在 `InternalSubchannel#obtainActiveTransport` 中调用 `startNewTransport` 执行创建 
+- LB 通过 `handleResolvedAddresses`处理地址时通过`ManagedChannelImpl.SubchannelImpl#requestConnection`建立连接，会创建 Transport
+- `ClientCallImpl#start` 时，通过 `ClientTransportProvider#get` 方法获取 Transport
+
+这两个方法最终在 `InternalSubchannel#obtainActiveTransport` 中调用 `startNewTransport` 执行创建
 
 ##### 启动 Transport
 
@@ -117,7 +119,7 @@ private void startNewTransport() {
 }
 ```
 
-##### 执行创建 Transport 
+##### 执行创建 Transport
 
 `io.grpc.netty.NettyChannelBuilder.NettyTransportFactory#newClientTransport`
 
@@ -140,7 +142,7 @@ public ConnectionClientTransport newClientTransport(SocketAddress serverAddress,
 }
 ```
 
-####  2. 启动监听器，建立连接
+#### 2. 启动监听器，建立连接
 
 `io.grpc.netty.NettyClientTransport#start`
 

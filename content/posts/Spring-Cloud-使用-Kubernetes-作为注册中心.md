@@ -3,11 +3,11 @@ title: Spring Cloud 使用 Kubernetes 作为注册中心
 type: post
 date: 2019-09-08 19:12:29
 tags:
-    - SpringCloud
-    - Kubernetes
-categories: 
-    - SpringCloud
-    - Kubernetes
+  - SpringCloud
+  - Kubernetes
+categories:
+  - SpringCloud
+  - Kubernetes
 ---
 
 # Spring Cloud 使用 Kubernetes 作为注册中心
@@ -16,11 +16,11 @@ categories:
 
 创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用
 
-## Provider 
+## Provider
 
 ### 添加依赖
 
-- build.gradle 
+- build.gradle
 
 ```groovy
 dependencies {
@@ -37,9 +37,9 @@ dependencies {
 }
 ```
 
-### 添加配置 
+### 添加配置
 
-- application.properties 
+- application.properties
 
 指定服务的名称，用于实现调用
 
@@ -63,7 +63,7 @@ public class ProviderApplication {
 }
 ```
 
-### 添加接口 
+### 添加接口
 
 ```java
     @GetMapping("/ping")
@@ -91,9 +91,9 @@ ADD discovery/provider/build/libs/provider-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Duser.timezone=GMT+08", "-jar","/app.jar"]
 ```
 
-构建并上传镜像 
+构建并上传镜像
 
-- provider-service.yaml 
+- provider-service.yaml
 
 ```yaml
 apiVersion: v1
@@ -140,11 +140,11 @@ spec:
               protocol: TCP
 ```
 
-## Consumer 
+## Consumer
 
 ### 添加依赖
 
-- build.gradle 
+- build.gradle
 
 ```groovy
 dependencies {
@@ -264,7 +264,7 @@ ADD discovery/consumer/build/libs/consumer-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Duser.timezone=GMT+08", "-jar","/app.jar"]
 ```
 
-构建并上传镜像 
+构建并上传镜像
 
 - consumer-service.yaml
 
@@ -286,7 +286,6 @@ spec:
     app.kubernetes.io/name: consumer-service
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -322,13 +321,13 @@ kubectl apply -f discovery/provider/provider-service.yaml
 kubectl apply -f discovery/consumer/consumer-service.yaml
 ```
 
-### 测试 
+### 测试
 
 待部署完成后，访问 `${NODE_IP}:30081/${PATH}`即可得到服务信息
 
 #### 测试接口
 
-- ping 
+- ping
 
 ```bash
 curl http://192.168.0.110:30081/ping
@@ -342,7 +341,7 @@ curl http://192.168.0.110:30081/service
 ["backend","consumer-service","kubernetes","provider-service","traefik","traefik-dashboard"]%
 ```
 
-- instance 
+- instance
 
 ```bash
 curl http://192.168.0.110:30081/instance\?instanceId\=provider-service

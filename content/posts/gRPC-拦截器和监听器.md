@@ -3,9 +3,9 @@ title: gRPC 拦截器和监听器
 type: post
 date: 2021-01-03 22:34:46
 tags:
-    - gRPC
-categories: 
-    - gRPC
+  - gRPC
+categories:
+  - gRPC
 ---
 
 # gRPC 拦截器和监听器
@@ -18,7 +18,7 @@ gRPC 拦截器用于在请求执行之前执行，以实现校验授权，记录
 
 ### 拦截器接口定义
 
-- ClientInterceptor 
+- ClientInterceptor
 
 ```java
 @ThreadSafe
@@ -37,7 +37,7 @@ public interface ClientInterceptor {
 
 ```java
 this.channel = ManagedChannelBuilder
-        .forAddress(host, port) 
+        .forAddress(host, port)
         .intercept(new CustomClientInterceptor())
         .build();
 ```
@@ -81,7 +81,7 @@ public <ReqT, RespT> ClientCall<ReqT, RespT> newCall(MethodDescriptor<ReqT, Resp
 
 然后返回自定义的 `CustomForwardingClientCall`，在这个类的`checkedStart`方法中，还创建了 `CustomCallListener`, 这样在调用时，就可以实现 `ClientCall` 和 `ClientCallListener` 的事件监听，从而实现自定义的逻辑
 
-#### 自定义拦截器 
+#### 自定义拦截器
 
 客户端拦截器通常和 `CheckedForwardingClientCall`，`SimpleForwardingClientCallListener` 一起使用，以实现监听调用整个生命周期
 
@@ -115,7 +115,7 @@ class CustomForwardingClientCall<ReqT, RespT> extends ClientInterceptors.Checked
     protected void checkedStart(Listener<RespT> responseListener, Metadata headers) throws Exception {
         CustomCallListener<RespT> listener = new CustomCallListener<>(responseListener);
         delegate().start(listener, headers);
-    }    
+    }
 }
 ```
 
@@ -143,7 +143,7 @@ public interface ServerInterceptor {
 在构建 Server 时添加拦截器
 
 ```java
-Server server = ServerBuilder.forPort(1235) 
+Server server = ServerBuilder.forPort(1235)
                              .intercept(new CustomServerInterceptor())
                              .build();
 ```
