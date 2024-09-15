@@ -1,1 +1,62 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MiWiFi on HelloWood</title><link>https://blog.hellowood.dev/tags/miwifi/</link><description>Recent content in MiWiFi on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 09 Oct 2022 11:20:19 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/miwifi/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MiWiFi on HelloWood</title><link>https://blog.hellowood.dev/tags/miwifi/</link><description>Recent content in MiWiFi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 25 Aug 2024 11:20:19 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/miwifi/index.xml" rel="self" type="application/rss+xml"/><item><title>小米路由器 4A 千兆版刷入 OpenWrt</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</link><pubDate>Sun, 25 Aug 2024 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</guid><description>&lt;h1 id="小米路由器-4a-千兆版刷入-openwrt">小米路由器 4A 千兆版刷入 OpenWrt&lt;/h1>
+&lt;p>因为买了新的路由器，之前的小米 4A 千兆版被淘汰下来了，因此想刷个 OpenWrt 测试一下&lt;/p>
+&lt;h2 id="依赖">依赖&lt;/h2>
+&lt;ul>
+&lt;li>电脑 Win/Mac/Linux，需要支持网线连接，如果是 Mac，需要一个网线转接器&lt;/li>
+&lt;li>小米路由器 4A 千兆版&lt;/li>
+&lt;li>Python3 环境&lt;/li>
+&lt;li>网线&lt;/li>
+&lt;/ul>
+&lt;h2 id="开启路由器-ssh">开启路由器 SSH&lt;/h2>
+&lt;p>需要先开启路由器的 SSH，小米的固件只有开发版支持 SSH，但是现在所有的版本基本都不会放出开发版；所以只能通过破解的方式开启(开启后不支持保修)；&lt;/p>
+&lt;p>因为小米路由器系统存在 &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2019-18370">CVE-2019-18370&lt;/a> 漏洞，所以可以通过该漏洞开启 SSH；需要使用项目 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> 提供的脚本&lt;/p>
+&lt;ul>
+&lt;li>下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> ，并安装依赖&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/acecilia/OpenWRTInvasion.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> OpenWRTInvasion
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip3 install -r requirements.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>执行脚本&lt;/li>
+&lt;/ul>
+&lt;p>通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code>remote_command_execution_vulnerability.py&lt;/code> 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code>192.168.31.1&lt;/code>，或者访问 &lt;code>miwifi.com&lt;/code>也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>python3 remote_command_execution_vulnerability.py
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>here two options to provide the files needed &lt;span style="color:#c678dd">for&lt;/span> invasion:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1. Use a &lt;span style="color:#ef8383">local&lt;/span> TCP file server runing on random port to provide files in &lt;span style="color:#ef8383">local&lt;/span> directory &lt;span style="color:#98c379">`&lt;/span>script_tools&lt;span style="color:#98c379">`&lt;/span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>2. Download needed files from remote github repository. &lt;span style="color:#c7bf54">(&lt;/span>choose this option only &lt;span style="color:#c678dd">if&lt;/span> github is accessable inside router device.&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Which option &lt;span style="color:#c678dd">do&lt;/span> you prefer? &lt;span style="color:#c7bf54">(&lt;/span>default: 1&lt;span style="color:#c7bf54">)&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>router_ip_address: miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>stok: f19c778f7bc6fbe92cc70a6c6bd2bd4f
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>file provider: &lt;span style="color:#ef8383">local&lt;/span> file server
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start uploading config file...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start &lt;span style="color:#ef8383">exec&lt;/span> command...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is runing on 0.0.0.0:57165. &lt;span style="color:#dcaeea">root&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">&amp;#39;script_tools&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is getting &lt;span style="color:#98c379">&amp;#39;busybox-mipsel&amp;#39;&lt;/span> &lt;span style="color:#c678dd">for&lt;/span> 192.168.31.1.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is getting &lt;span style="color:#98c379">&amp;#39;dropbearStaticMipsel.tar.bz2&amp;#39;&lt;/span> &lt;span style="color:#c678dd">for&lt;/span> 192.168.31.1.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">done&lt;/span>! Now you can connect to the router using several options: &lt;span style="color:#c7bf54">(&lt;/span>user: root, password: root&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* telnet miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ssh -oKexAlgorithms&lt;span style="color:#c7bf54">=&lt;/span>+diffie-hellman-group1-sha1 -c 3des-cbc -o &lt;span style="color:#dcaeea">UserKnownHostsFile&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>/dev/null root@miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ftp: using a program like cyberduck
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>SSH 访问路由器&lt;/li>
+&lt;/ul>
+&lt;p>通过指定参数的方式，使用 SSH 访问路由器，用户名密码都是 &lt;code>root&lt;/code>&lt;/p></description></item><item><title>小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</link><pubDate>Sun, 09 Oct 2022 11:20:19 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</guid><description>&lt;h1 id="小米-redmi-ax6sax3200-刷入-openwrt-及使用体验">小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验&lt;/h1>
+&lt;p>买了小米 Redmi AX3000 路由器后发现是 RA81 型号，这个型号目前无法刷入 OpenWrt；但是因为当前使用的 OpenWrt 作为旁路由的方式并不稳定，所以想更换一个可以刷入 OpenWrt 的路由器&lt;/p>
+&lt;p>一番搜索之后发现 Redmi AX6S 相对更稳定，且已有 OpenWrt 的正式版本固件，因此又购入了一台新的 AX6S，准备刷入 OpenWrt 作为主路由使用&lt;/p>
+&lt;p>AX6S有 RB01 和 RB03 两个版本，硬件完全相同；国内售卖的基本都是 RB03，可以通过刷入开发版固件的方式开启 telnet，RB01 只能拆机后通过 UART 接口写入的方式开启 telnet&lt;/p>
+&lt;h2 id="刷入-openwrt">刷入 OpenWrt&lt;/h2>
+&lt;h3 id="将固件升级为测试版">将固件升级为测试版&lt;/h3>
+&lt;p>将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code>telnet 192.168.31.1&lt;/code> 测试，通常是没有开启的。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>telnet 192.168.31.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Trying 192.168.31.1...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: connect to address 192.168.31.1: Connection refused
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: Unable to connect to remote host
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>下载测试版固件并升级&lt;/li>
+&lt;/ol>
+&lt;p>首先下载测试版本固件&lt;a href="https://github.com/YangWang92/AX6S-unlock/raw/master/miwifi_rb03_firmware_stable_1.2.7.bin">miwifi_rb03_firmware_stable_1.2.7 &lt;/a>；在初始化路由器配置后，进入到路由器控制台，选择升级；
+&lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade.png" alt="homelab-miwifi-ax6s-openwrt-upgrade.png">&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png">&lt;/p></description></item></channel></rss>

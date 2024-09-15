@@ -1,1 +1,33 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Netdata on HelloWood</title><link>https://blog.hellowood.dev/tags/netdata/</link><description>Recent content in Netdata on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 26 Sep 2022 11:32:08 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/netdata/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Netdata on HelloWood</title><link>https://blog.hellowood.dev/tags/netdata/</link><description>Recent content in Netdata on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 26 Sep 2022 11:32:08 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/netdata/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt-监控</title><link>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</link><pubDate>Mon, 26 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h1 id="openwrt-监控">OpenWrt 监控&lt;/h1>
+&lt;p>OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 &lt;a href="https://openwrt.org/packages/pkgdata/netdata">Netdata&lt;/a> 和 &lt;a href="https://openwrt.org/packages/pkgdata/prometheus">Prometheus&lt;/a>&lt;/p>
+&lt;h2 id="通过-netdata-监控">通过 Netdata 监控&lt;/h2>
+&lt;p>Netdata 提供了可以在 OpenWrt 直接查看的 UI，可以查看包括 CPU，负载，内存，网络，硬盘，防火墙等常用信息的实时监控&lt;/p>
+&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install netdata
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="homelab-openwrt-metrics-netdata.png">&lt;/p>
+&lt;ul>
+&lt;li>通过 Prometheus 抓取数据&lt;/li>
+&lt;/ul>
+&lt;p>Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是&lt;code>/api/v1/allmetrics?format=prometheus_all_hosts&lt;/code>；如 &lt;a href="http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts">http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts&lt;/a>&lt;/p>
+&lt;p>Prometheus 任务配置：需要注意，要添加参数 &lt;code>format=prometheus_all_hosts&lt;/code> 才可以抓取到 Prometheus 格式&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">job_name&lt;/span>: &lt;span style="color:#98c379">openwrt-netdata&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">honor_timestamps&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_timeout&lt;/span>: &lt;span style="color:#98c379">5s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metrics_path&lt;/span>: &lt;span style="color:#98c379">/api/v1/allmetrics&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scheme&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">params&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">format&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;prometheus_all_hosts&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">targets&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#d19a66">192.168.2.2&lt;/span>:&lt;span style="color:#d19a66">19999&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="通过-grafana-监控">通过 Grafana 监控&lt;/h2>
+&lt;p>OpenWrt 提供了 Prometheus 数据导出的软件，安装软件后便可以配置 Prometheus 抓取数据&lt;/p>
+&lt;ul>
+&lt;li>安装软件&lt;/li>
+&lt;/ul>
+&lt;p>安装需要的 Prometheus 数据导出软件&lt;/p></description></item></channel></rss>

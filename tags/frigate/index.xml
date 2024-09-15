@@ -1,1 +1,103 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Frigate on HelloWood</title><link>https://blog.hellowood.dev/tags/frigate/</link><description>Recent content in Frigate on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 01 Sep 2024 11:25:24 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/frigate/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Frigate on HelloWood</title><link>https://blog.hellowood.dev/tags/frigate/</link><description>Recent content in Frigate on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 01 Sep 2024 11:25:24 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/frigate/index.xml" rel="self" type="application/rss+xml"/><item><title>Frigate 使用 Hailo 8 或 Hailo 8L 进行对象识别</title><link>https://blog.hellowood.dev/posts/frigate-%E4%BD%BF%E7%94%A8-hailo-8-%E6%88%96-hailo-8l-%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB/</link><pubDate>Sun, 01 Sep 2024 11:25:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/frigate-%E4%BD%BF%E7%94%A8-hailo-8-%E6%88%96-hailo-8l-%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB/</guid><description>&lt;h1 id="frigate-使用-hailo8l-加速">Frigate 使用 Hailo8L 加速&lt;/h1>
+&lt;p>Hailo8/Hailo-8L 是一家以色列的边缘人工智能公司发布的边缘加速器，定位和 &lt;a href="https://coral.ai/products/">Google Coral TPU&lt;/a> 完全一致；Hailo-8 算力为 26 TOPS，Hailo-8L 算力为 13 TOPS&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">特性&lt;/th>
+ &lt;th style="text-align: left">Google Coral TPU&lt;/th>
+ &lt;th style="text-align: left">Hailo8&lt;/th>
+ &lt;th style="text-align: left">Hailo8L&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>支持框架&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">TensorFlow, TensorFlow Lite&lt;/td>
+ &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>支持模型&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">MobileNet, Inception, EfficientNet 等&lt;/td>
+ &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>模型功能&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，音频分类&lt;/td>
+ &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>硬件性能&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">4 TOPS&lt;/td>
+ &lt;td style="text-align: left">26 TOPS&lt;/td>
+ &lt;td style="text-align: left">13 TOPS&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>发布时间&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">2019年&lt;/td>
+ &lt;td style="text-align: left">2021年&lt;/td>
+ &lt;td style="text-align: left">2023年&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>功耗&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">0.5-2 W&lt;/td>
+ &lt;td style="text-align: left">2.5-4.6 W&lt;/td>
+ &lt;td style="text-align: left">1.8-3.2 W&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>每W性能&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">8 TOPS/W&lt;/td>
+ &lt;td style="text-align: left">10.4 TOPS/W&lt;/td>
+ &lt;td style="text-align: left">7.2 TOPS/W&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>当前价格&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">约300~1000¥&lt;/td>
+ &lt;td style="text-align: left">约 1300¥&lt;/td>
+ &lt;td style="text-align: left">约550¥&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>支持的操作系统&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">Linux, Windows, MacOS&lt;/td>
+ &lt;td style="text-align: left">Linux, Windows&lt;/td>
+ &lt;td style="text-align: left">Linux, Windows&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>可扩展性&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">不支持多芯片&lt;/td>
+ &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
+ &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;strong>应用领域&lt;/strong>&lt;/td>
+ &lt;td style="text-align: left">物联网设备、嵌入式系统&lt;/td>
+ &lt;td style="text-align: left">工业自动化、智能监控、自动驾驶&lt;/td>
+ &lt;td style="text-align: left">工业自动化、智能监控、智能零售&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>Frigate 的最新的代码已经合并了 Hailo8L 的 PR，预计将会在 0.15 版本中正式发布，PR 参考 &lt;a href="https://github.com/blakeblackshear/frigate/pull/12431">Initial support for Hailo-8L&lt;/a> 和 &lt;a href="https://github.com/blakeblackshear/frigate/pull/12820">Hailo amd64 support&lt;/a>；虽然 PR 中支持的设备是 Hailo-8L，但是经过测试验证，只需要替换对应的模型，Hailo-8 也是可以正常运行的（Hailo-8 和 Hailo-8L 的模型不能互相使用）&lt;/p></description></item><item><title>基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人脸识别</title><link>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</link><pubDate>Fri, 16 Aug 2024 09:29:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</guid><description>&lt;p>Double Take 是一个训练和识别人脸的工具，支持对 Frigate 中检测到的人物对象进行人脸识别，可以用于统计监控中出现的人物信息。不过经过测试，只适用于门禁、闸机等有清晰人脸的场景，日常的监控因安装位置、角度等原因无法提供清晰的人脸，因此识别的准确度和有效性并不高&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png" alt="homelab-frigate-double-take-face-double-take-detect.png">&lt;/p>
+&lt;p>Double Take 的原理是通过监听 Frigate 识别到对象后发出的 MQTT 消息，根据消息获取对应事件的快照，并将其发送给识别的服务，如 Deepstack/CodeProject.AI 等，然后根据识别结果显示该事件中出现的人脸信息&lt;/p>
+&lt;p>Double Take 作者似乎已经放弃维护了，上次更新还是在两年前(2022-10-28)，尽管作者在今年的一月份(2024-1-7)声明计划&lt;a href="https://github.com/jakowenko/double-take/issues/343">开发 2.0 版本&lt;/a>，但是截止到8月份也没有任何进展，看起来作者在21年成为 24G.com 这家公司的 DevOps 总监后便没有精力投入到开源项目中了；不过，另外一位作者 skrashevich 在其 fork 的仓库 &lt;a href="https://github.com/skrashevich/double-take">skrashevich/double-take&lt;/a>中提交了不少 2.0 版本的计划的功能&lt;/p>
+&lt;h2 id="部署依赖服务">部署依赖服务&lt;/h2>
+&lt;p>Double Take 依赖 Frigate、MQTT 和人脸识别服务，部署在使用 Intel CPU 的 NUC 上，系统是 Ubuntu 22，地址是 192.168.31.254&lt;/p>
+&lt;h3 id="部署-mqtt">部署 MQTT&lt;/h3>
+&lt;p>MQTT 使用 emqx 提供的镜像进行部署，方便本地使用，参考&lt;a href="https://docs.emqx.com/zh/emqx/latest/deploy/install-docker-ce.html">通过 Docker 运行 EMQX&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>docker-compose.yaml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">mqtt&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">emqx/emqx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">mqtt&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;1883:1883&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8083:8083&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8084:8084&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8883:8883&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;18083:18083&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动后访问 18083端口，&lt;a href="http://192.168.31.254:18083/">http://192.168.31.254:18083/&lt;/a>，默认的用户名密码是 &lt;code>admin&lt;/code>，密码是 &lt;code>public&lt;/code>&lt;/p></description></item></channel></rss>

@@ -1,1 +1,72 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NVIDIA on HelloWood</title><link>https://blog.hellowood.dev/tags/nvidia/</link><description>Recent content in NVIDIA on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 06 Aug 2024 09:15:33 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/nvidia/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NVIDIA on HelloWood</title><link>https://blog.hellowood.dev/tags/nvidia/</link><description>Recent content in NVIDIA on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 06 Aug 2024 09:15:33 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/nvidia/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
+&lt;h2 id="安装-nvidia-容器工具包">安装 NVIDIA 容器工具包&lt;/h2>
+&lt;ul>
+&lt;li>添加软件源&lt;/li>
+&lt;/ul>
+&lt;p>需要添加 NVIDIA 容器工具包的软件源和 gpg 签名&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sed &lt;span style="color:#98c379">&amp;#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&amp;#39;&lt;/span> | &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>更新软件并安装 NVIDIA 容器工具包&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> sudo apt-get install -y nvidia-container-toolkit
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-docker">配置 Docker&lt;/h2>
+&lt;ul>
+&lt;li>使用 nvidia-ctk 修改 Docker 配置&lt;/li>
+&lt;/ul>
+&lt;p>修改 Docker 配置，允许将显卡挂载到容器中&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo nvidia-ctk runtime configure --runtime&lt;span style="color:#c7bf54">=&lt;/span>docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>WARN&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Ignoring runtime-config-override flag &lt;span style="color:#c678dd">for&lt;/span> docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Loading config from /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Wrote updated config to /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> It is recommended that docker daemon be restarted.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样会自动修改 &lt;code>/etc/docker/daemon.json&lt;/code> 文件，添加显卡 &lt;code>runtimes&lt;/code> 相关的内容：&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;h1 id="ubuntu-22-安装-nvidia-显卡驱动和-cuda">Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA&lt;/h1>
+&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
+&lt;h2 id="安装驱动">安装驱动&lt;/h2>
+&lt;h3 id="获取支持的驱动">获取支持的驱动&lt;/h3>
+&lt;ul>
+&lt;li>更新 Ubuntu 依赖&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装 ubuntu-drivers-common&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>ubuntu-drivers-common&lt;/code> 是 Ubuntu 用于管理和安装第三方硬件驱动程序的工具，能够管理和安装硬件驱动程序&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install ubuntu-drivers-common
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>获取支持的驱动列表&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>ubuntu-drivers&lt;/code> 获取适用于系统的 NVIDIA 驱动程序列表&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ubuntu-drivers devices
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在输出信息中，可以看到设备是 &lt;code>GeForce RTX 3070 Ti&lt;/code>, 推荐使用的驱动是 &lt;code>nvidia-driver-555&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">==&lt;/span> /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 &lt;span style="color:#c7bf54">==&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modalias : pci:v000010DEd00002482sv000010DEsd0000146Abc03sc00i00
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vendor : NVIDIA Corporation
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>model : GA104 &lt;span style="color:#c7bf54">[&lt;/span>GeForce RTX &lt;span style="color:#d19a66">3070&lt;/span> Ti&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-550 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-520 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-525 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-555 - third-party non-free recommended
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-545-open - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-470-server - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-470 - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-535-open - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-515 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-535-server - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-550-open - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-535 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-545 - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-535-server-open - distro non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-555-open - third-party non-free
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : xserver-xorg-video-nouveau - distro free &lt;span style="color:#ef8383">builtin&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-nvidia-驱动">安装 NVIDIA 驱动&lt;/h3>
+&lt;ul>
+&lt;li>安装驱动&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install nvidia-driver-555
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>重启系统&lt;/li>
+&lt;/ul>
+&lt;p>等待安装完成后重启系统&lt;/p></description></item></channel></rss>

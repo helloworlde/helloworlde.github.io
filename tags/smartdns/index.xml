@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SmartDNS on HelloWood</title><link>https://blog.hellowood.dev/tags/smartdns/</link><description>Recent content in SmartDNS on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 27 Sep 2022 11:32:08 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/smartdns/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SmartDNS on HelloWood</title><link>https://blog.hellowood.dev/tags/smartdns/</link><description>Recent content in SmartDNS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 27 Sep 2022 11:32:08 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/smartdns/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</guid><description>&lt;h1 id="openwrt-使用-smartdns">OpenWrt 使用 SmartDNS&lt;/h1>
+&lt;p>&lt;a href="https://pymumu.github.io/smartdns/">SmartDNS&lt;/a> 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p>
+&lt;p>在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install smartdns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-smartdns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-smartdns-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-smartdns">配置 SmartDNS&lt;/h2>
+&lt;p>安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code>/etc/config/smartdns&lt;/code> 配置文件）&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png">&lt;/p>
+&lt;p>这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p>
+&lt;h2 id="配置-dnsmasq">配置 Dnsmasq&lt;/h2>
+&lt;p>OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p>
+&lt;p>在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
+&lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png">&lt;/p></description></item></channel></rss>

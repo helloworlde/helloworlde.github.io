@@ -1,1 +1,98 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on HelloWood</title><link>https://blog.hellowood.dev/tags/network/</link><description>Recent content in Network on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 11 Jun 2024 21:33:44 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/network/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on HelloWood</title><link>https://blog.hellowood.dev/tags/network/</link><description>Recent content in Network on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 11 Jun 2024 21:33:44 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/</link><pubDate>Tue, 11 Jun 2024 21:33:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/</guid><description>&lt;h1 id="使用家庭宽带公网-ipv6-自建-tailscale-的-derp-节点">使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点&lt;/h1>
+&lt;p>日常使用 Tailscale 连接异地的设备，但是因为经常出现无法直接连接，需要通过香港或东京的 DERP 服务器进行转发，导致延迟很高，影响网络质量；因此计划使用自建的 DERP 解决无法直连的问题；如果部署在国内的服务器上绑定域名需要备案，但是活动购买的服务器限制性能限制带宽限制流量还要单独购买公网 IP，并不合适；国外的延迟高可能还不如 Tailscale 官方的 DERP；&lt;/p>
+&lt;p>另外自建的 DERP 服务器要求节点能够直接通过公网访问，不能在 NAT 或者负载均衡后面，因此基于家庭宽带的公网 IPV6 自建 DERP 服务器最合适&lt;/p>
+&lt;h2 id="现状">现状&lt;/h2>
+&lt;p>检测 tailscale 的网络节点，延迟最低的是东京的节点，延迟在 70 ms 左右&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>tailscale netcheck
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Report:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* UDP: &lt;span style="color:#ef8383">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* IPv4: yes, xxx.xxx.xxx.xxx:39325
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* IPv6: yes, &lt;span style="color:#c7bf54">[&lt;/span>2409:xxxx:xxxx:xxxx::xxxx&lt;span style="color:#c7bf54">]&lt;/span>:34341
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* MappingVariesByDestIP: &lt;span style="color:#ef8383">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* HairPinning: &lt;span style="color:#ef8383">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* PortMapping:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* CaptivePortal: &lt;span style="color:#ef8383">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* Nearest DERP: Tokyo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	* DERP latency:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		- tok: 71.6ms &lt;span style="color:#c7bf54">(&lt;/span>Tokyo&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		- hkg: 93.1ms &lt;span style="color:#c7bf54">(&lt;/span>Hong Kong&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		- sin: 100.5ms &lt;span style="color:#c7bf54">(&lt;/span>Singapore&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="自建-derp-节点">自建 DERP 节点&lt;/h2>
+&lt;h3 id="1-要求">1. 要求&lt;/h3>
+&lt;ul>
+&lt;li>可访问的公网 IPV4 或 IPV6 地址&lt;/li>
+&lt;li>域名，DERP 不修改源码必须要使用域名访问&lt;/li>
+&lt;li>开放 DERP和 STUN端口&lt;/li>
+&lt;/ul>
+&lt;p>tailscale 的 &lt;a href="https://tailscale.com/kb/1118/custom-derp-servers#prerequisites">Prerequisites&lt;/a>文档中要求开放HTTP/HTTPS/STUN 三个端口，默认是 80/443/3478 端口，实际上有 HTTPS/STUN 就够了&lt;/p></description></item><item><title>使用阿尔卡特猫棒替换北京移动 GPON 光猫</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E5%B0%94%E5%8D%A1%E7%89%B9%E7%8C%AB%E6%A3%92%E6%9B%BF%E6%8D%A2%E5%8C%97%E4%BA%AC%E7%A7%BB%E5%8A%A8-gpon-%E5%85%89%E7%8C%AB/</link><pubDate>Mon, 27 Nov 2023 18:08:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E5%B0%94%E5%8D%A1%E7%89%B9%E7%8C%AB%E6%A3%92%E6%9B%BF%E6%8D%A2%E5%8C%97%E4%BA%AC%E7%A7%BB%E5%8A%A8-gpon-%E5%85%89%E7%8C%AB/</guid><description>&lt;h1 id="使用阿尔卡特猫棒替换北京移动-gpon-光猫">使用阿尔卡特猫棒替换北京移动 GPON 光猫&lt;/h1>
+&lt;p>最近移动送了条免费宽带，刚好联通宽带到期了，可以无缝衔接上；之前使用的是 ODI 猫棒+兮克的 SKS3200M-8GPY1XF 交换机，因此想继续使用 ODI 猫棒，但是一番尝试后始终无法成功拨号，于是改成了使用阿尔卡特猫棒&lt;/p>
+&lt;p>阿尔卡特猫棒型号为 G-010S-P，版本为 6BA1896SPE2C05&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-status.png" alt="homelab-network-gpon-pon-stick-setup-status.png">&lt;/p>
+&lt;h2 id="宽带配置">宽带配置&lt;/h2>
+&lt;ul>
+&lt;li>改为桥接模式&lt;/li>
+&lt;/ul>
+&lt;p>首先要将宽带改为桥接模式，在安装时直接让运维小哥改了；如果没有修改可以联系宽带帮忙修改&lt;/p>
+&lt;ul>
+&lt;li>获取光猫的超级管理员密码&lt;/li>
+&lt;/ul>
+&lt;p>北京移动的超级管理员用户名是 &lt;code>CMCCAdmin&lt;/code>，密码是 &lt;code>aDm8H%MdA&lt;/code>；但是我尝试登陆时提示失败，然后联系运维小哥，使用光猫的 SN 和宽带账号授权之后可以正常登录了&lt;/p>
+&lt;p>光猫信息如下：&lt;/p>
+&lt;ul>
+&lt;li>产品名称：吉比特无源光纤接入用户端设备（GPON ONU）&lt;/li>
+&lt;li>产品类型：中国移动智能家庭网关 类型11&lt;/li>
+&lt;li>产品型号：SK-D747&lt;/li>
+&lt;li>电源：12V&amp;mdash;1.5A&lt;/li>
+&lt;li>CMIIT ID: 2022XXXXXX&lt;/li>
+&lt;li>设备标识：XXXXXX-光猫 SN&lt;/li>
+&lt;li>MAC: XXXXXXXXXXX&lt;/li>
+&lt;li>SN: 光猫 SN&lt;/li>
+&lt;/ul>
+&lt;h2 id="获取认证信息">获取认证信息&lt;/h2>
+&lt;p>北京移动的认证使用的是光猫的 SN + PLOAM 密码&lt;/p>
+&lt;ul>
+&lt;li>SN&lt;/li>
+&lt;/ul>
+&lt;p>光猫 SN 在光猫背面即可看到，也可以登录后在设备信息中查看&lt;/p>
+&lt;ul>
+&lt;li>PLOAM 密码&lt;/li>
+&lt;/ul>
+&lt;p>PLOAM 密码的路径为网络-远程管理-认证，&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-model-info-ploam-password.png" alt="homelab-network-gpon-model-info-ploam-password.png">&lt;/p>
+&lt;ul>
+&lt;li>VLAN ID&lt;/li>
+&lt;/ul>
+&lt;p>北京移动的 VLAN ID 为 10&lt;/p>
+&lt;h2 id="配置猫棒">配置猫棒&lt;/h2>
+&lt;h3 id="配置">配置&lt;/h3>
+&lt;p>猫棒启动后，进入管理后台，这款猫棒默认的地址是 &lt;a href="http://192.168.1.10">http://192.168.1.10&lt;/a>，默认用户名 &lt;code>root&lt;/code>，密码 &lt;code>password&lt;/code>&lt;/p>
+&lt;p>登录后，选择 GPON-互操作兼容配置，配置上面获取到的认证信息&lt;/p>
+&lt;ul>
+&lt;li>GPON SN: 光猫的 SN&lt;/li>
+&lt;li>Ploam password: 光猫获取到的认证密码&lt;/li>
+&lt;li>默认PVID: VLAN ID &lt;code>10&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>配置后，点击应用配置&lt;/p></description></item><item><title>使用兮克 2.5G 交换机将北京联通 EPON 改为 ODI 猫棒接入</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AE%E5%85%8B-2.5g-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%B0%86%E5%8C%97%E4%BA%AC%E8%81%94%E9%80%9A-epon-%E6%94%B9%E4%B8%BA-odi-%E7%8C%AB%E6%A3%92%E6%8E%A5%E5%85%A5/</link><pubDate>Mon, 19 Jun 2023 08:54:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AE%E5%85%8B-2.5g-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%B0%86%E5%8C%97%E4%BA%AC%E8%81%94%E9%80%9A-epon-%E6%94%B9%E4%B8%BA-odi-%E7%8C%AB%E6%A3%92%E6%8E%A5%E5%85%A5/</guid><description>&lt;h1 id="使用兮克-25g-交换机将北京联通-epon-改为-odi-猫棒接入">使用兮克 2.5G 交换机将北京联通 EPON 改为 ODI 猫棒接入&lt;/h1>
+&lt;p>最近入手了兮克2.5G交换机（兮克SKS1200-8GPY1XF），有 8 个 2.5G 电口和 1 个 10G SFP+ 光口；支持多种组网模式，其中一种是支持使用猫棒接入，由路由器拨号后再回接到交换机，这样就可以替换掉光猫了
+(注意：兮克 SKS1200-8GPY1XF 不支持 VLAN 隔离，将网线接到路由器再回接会形成环路，导致网络频繁抖动；建议使用最新的支持 VLAN 隔离的版本)&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-switch-sfp-network.png" alt="homelab-switch-sfp-network.png">&lt;/p>
+&lt;p>替换光猫有以下原因：&lt;/p>
+&lt;ol>
+&lt;li>千兆及以上宽带突破不到千兆限制：运营商的千兆光猫一般只能跑到 950M左右，而 EPON 支持 1.25G 下行，GPON 支持 2.5G 下行&lt;/li>
+&lt;li>减少光猫空间占用：光猫体积较大，替换成猫棒可以减少空间占用，对于将网络设备放在弱电箱的用户比较合适&lt;/li>
+&lt;li>瞎折腾：纯粹为了体验和折腾&lt;/li>
+&lt;/ol>
+&lt;h2 id="名词解释">名词解释&lt;/h2>
+&lt;ul>
+&lt;li>猫棒&lt;/li>
+&lt;/ul>
+&lt;p>猫棒(Pon Stick) 就是 SFP 封装的猫，分为 GPON、EPON 等，接口是 SFP，可插到有 SFP 口的交换机、路由器或者网卡上来代替光猫，具有光猫完整的功能；优点是体积小，网速比普通光猫高；缺点是性能羸弱，发热量大，不够稳定&lt;/p>
+&lt;ul>
+&lt;li>光模块&lt;/li>
+&lt;/ul>
+&lt;p>光模块工作在OSI模型的物理层，是光纤通信系统中的核心器件之一。它主要由光电子器件（光发射器、光接收器）、功能电路和光接口等部分组成，主要作用就是实现光纤通信中的光电转换和电光转换功能；光模块是一个光电转换器，而猫棒是有 CPU、内存、系统的光猫，两者都使用 SFP 接口&lt;/p>
+&lt;ul>
+&lt;li>SFP/SFP+&lt;/li>
+&lt;/ul>
+&lt;p>SFP（Small Form-Factor Pluggable）和SFP+（Enhanced Small Form-Factor Pluggable）是两种不同的光模块类型，主要区别是它们支持的传输速率不同；SFP 模块支持最高传输速率为1.25 Gbps，而 SFP+ 模块支持最高传输速率为10 Gbps。此外，SFP+ 可以向下兼容 SFP 插槽，因此可以将 SFP+ 插入 SFP 插槽中，但反之则不行&lt;/p></description></item></channel></rss>

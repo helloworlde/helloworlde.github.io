@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Trace on HelloWood</title><link>https://blog.hellowood.dev/categories/trace/</link><description>Recent content in Trace on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 31 Jul 2018 23:56:24 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/trace/index.xml" rel="self" type="application/rss+xml"/><item><title>服务追踪工具 SkyWorking 搭建使用</title><link>https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 31 Jul 2018 23:56:24 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="服务追踪工具-skyworking-搭建使用">服务追踪工具 SkyWorking 搭建使用&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/apache/incubator-skywalking">SkyWalking&lt;/a> 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="http://49.4.12.44:8080/#/monitor/dashboard">Demo&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>截图&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo1.png" alt="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo1.png">&lt;/p>
+&lt;p>&lt;img src="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo2.png" alt="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo2.png">&lt;/p>
+&lt;p>&lt;img src="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo3.png" alt="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo3.png">&lt;/p>
+&lt;p>&lt;img src="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png" alt="https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png">&lt;/p>
+&lt;blockquote>
+&lt;p>环境&lt;/p>
+&lt;ul>
+&lt;li>SkyWalking 5.0.0-beat2&lt;/li>
+&lt;li>Mac OS&lt;/li>
+&lt;li>ElasticSearch 5.6.10&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h2 id="安装--elasticsearch">安装 ElasticSearch&lt;/h2>
+&lt;ul>
+&lt;li>下载解压 ElasticSearch 5.6.10&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -vxf elasticsearch-5.6.10.tar.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改配置文件&lt;code>config/elasticsearch.yml&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">cluster.name&lt;/span>: &lt;span style="color:#98c379">CollectorDBCluster&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">node.name&lt;/span>: &lt;span style="color:#98c379">CollectorDBCluster1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">network.host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要注意的是&lt;code>cluster.name&lt;/code>最好是&lt;code>CollectorDBCluster&lt;/code>，&lt;code>network.host&lt;/code>最好是局域网 IP，否则可能会在使用时出现很多问题&lt;/p>
+&lt;ul>
+&lt;li>启动&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>./bin/elasticsearch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装-skywalking">安装 SkyWalking&lt;/h2>
+&lt;ul>
+&lt;li>下载解压 SkyWalking 5.0.0-beat2&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -L -O https://mirrors.tuna.tsinghua.edu.cn/apache/incubator/skywalking/5.0.0-beta/apache-skywalking-apm-incubating-5.0.0-beta.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -vxf apache-skywalking-apm-incubating-5.0.0-beta.tar.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改配置文件&lt;code>config/application.yml&lt;/code>，修改所有的&lt;code>localhost&lt;/code>为局域网 IP&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">cluster&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">10800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">contextPath&lt;/span>: &lt;span style="color:#98c379">/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">cache&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">caffeine&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">remote&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">gRPC&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">11800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">agent_gRPC&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">gRPC&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">11800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">agent_jetty&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">jetty&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">12800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">contextPath&lt;/span>: &lt;span style="color:#98c379">/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">analysis_register&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">default&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">analysis_jvm&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">default&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">analysis_segment_parser&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">default&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bufferFilePath&lt;/span>: &lt;span style="color:#98c379">../buffer/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bufferOffsetMaxFileSize&lt;/span>: &lt;span style="color:#98c379">10M&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bufferSegmentMaxFileSize&lt;/span>: &lt;span style="color:#98c379">500M&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bufferFileCleanWhenRestart&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">ui&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">jetty&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">host&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">12800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">contextPath&lt;/span>: &lt;span style="color:#98c379">/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">storage&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">elasticsearch&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">clusterName&lt;/span>: &lt;span style="color:#98c379">CollectorDBCluster&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">clusterTransportSniffer&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">clusterNodes&lt;/span>: &lt;span style="color:#98c379">localhost:9300&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">indexShardsNumber&lt;/span>: &lt;span style="color:#d19a66">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">indexReplicasNumber&lt;/span>: &lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">highPerformanceMode&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bulkActions&lt;/span>: &lt;span style="color:#d19a66">2000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">bulkSize&lt;/span>: &lt;span style="color:#d19a66">20&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">flushInterval&lt;/span>: &lt;span style="color:#d19a66">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">concurrentRequests&lt;/span>: &lt;span style="color:#d19a66">2&lt;/span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">traceDataTTL&lt;/span>: &lt;span style="color:#d19a66">90&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Unit is minute&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">minuteMetricDataTTL&lt;/span>: &lt;span style="color:#d19a66">90&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Unit is minute&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hourMetricDataTTL&lt;/span>: &lt;span style="color:#d19a66">36&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Unit is hour&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">dayMetricDataTTL&lt;/span>: &lt;span style="color:#d19a66">45&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Unit is day&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">monthMetricDataTTL&lt;/span>: &lt;span style="color:#d19a66">18&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Unit is month&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">configuration&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">default&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">applicationApdexThreshold&lt;/span>: &lt;span style="color:#d19a66">2000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">serviceErrorRateThreshold&lt;/span>: &lt;span style="color:#d19a66">10.00&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">serviceAverageResponseTimeThreshold&lt;/span>: &lt;span style="color:#d19a66">2000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">instanceErrorRateThreshold&lt;/span>: &lt;span style="color:#d19a66">10.00&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">instanceAverageResponseTimeThreshold&lt;/span>: &lt;span style="color:#d19a66">2000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">applicationErrorRateThreshold&lt;/span>: &lt;span style="color:#d19a66">10.00&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">applicationAverageResponseTimeThreshold&lt;/span>: &lt;span style="color:#d19a66">2000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">thermodynamicResponseTimeStep&lt;/span>: &lt;span style="color:#d19a66">50&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">thermodynamicCountOfResponseTimeSteps&lt;/span>: &lt;span style="color:#d19a66">40&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">workerCacheMaxSize&lt;/span>: &lt;span style="color:#d19a66">10000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改 &lt;code>webapp/webapp.yml&lt;/code> Collector 地址&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">server&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">8080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">collector&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">path&lt;/span>: &lt;span style="color:#98c379">/graphql&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ribbon&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ReadTimeout&lt;/span>: &lt;span style="color:#d19a66">10000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">listOfServers&lt;/span>: &lt;span style="color:#d19a66">10.0.0.34&lt;/span>:&lt;span style="color:#d19a66">10800&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">security&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">user&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">admin&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">password&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改 &lt;code>config/agent.config&lt;/code> Collector 地址&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>agent.application_code=AppService
+collector.servers=10.0.0.34:10800
+logging.level=INFO
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>启动 Collector 和 Webapp&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>./bin/startup.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或单独启动 Collector 和 Webapp&lt;/p></description></item></channel></rss>

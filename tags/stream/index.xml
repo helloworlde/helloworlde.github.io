@@ -1,1 +1,75 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stream on HelloWood</title><link>https://blog.hellowood.dev/tags/stream/</link><description>Recent content in Stream on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 08 Sep 2019 18:50:09 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/stream/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stream on HelloWood</title><link>https://blog.hellowood.dev/tags/stream/</link><description>Recent content in Stream on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 18:50:09 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/stream/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中使用Spring Cloud Stream</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8spring-cloud-stream/</link><pubDate>Sun, 08 Sep 2019 18:50:09 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8spring-cloud-stream/</guid><description>&lt;h1 id="spring-boot-中使用spring-cloud-stream">Spring Boot 中使用Spring Cloud Stream&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://spring.io/projects/spring-cloud-stream">Spring Cloud Stream&lt;/a> 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>Binder: 负责提供与外部消息系统集成的组件&lt;/li>
+&lt;li>Binding: 提供外部消息系统与应用之间桥接的生产者和消费者&lt;/li>
+&lt;li>Message: 生产者和消费者与外部消息系统之间通信的数据结构&lt;/li>
+&lt;/ul>
+&lt;h2 id="构建应用">构建应用&lt;/h2>
+&lt;p>假设一个点咖啡场景：调用下单接口后，需要通知店员制作咖啡，待制作完成后，需要更新订单状态为完成，并通知客户；假设有两个服务，一个是订单服务(Order Service)，一个是店员服务(Waiter Service)&lt;/p>
+&lt;p>使用 RabbitMQ 作为MQ 服务&lt;/p>
+&lt;h3 id="order-service">Order Service&lt;/h3>
+&lt;h5 id="添加依赖">添加依赖&lt;/h5>
+&lt;ul>
+&lt;li>build.gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.cloud:spring-cloud-stream-binder-rabbit&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compileOnly&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">annotationProcessor&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testImplementation&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testImplementation&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.cloud:spring-cloud-stream-test-support&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="添加配置">添加配置&lt;/h5>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.application.name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">producer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">server.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">8082&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.rabbitmq.host&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">localhost&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.rabbitmq.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">5672&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.rabbitmq.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">guest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.rabbitmq.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">guest&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="binding">Binding&lt;/h5>
+&lt;ul>
+&lt;li>OrderBinding&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">OrderBinding&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">NEW_ORDERS&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;newOrders&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">FINISHED_ORDERS&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;finishedOrders&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Input&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">SubscribableChannel&lt;/span> &lt;span style="color:#00b1f7">finishedOrders&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">MessageChannel&lt;/span> &lt;span style="color:#00b1f7">newOrders&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>@Input&lt;/code>用于指定订阅消息Topic，当有该 Topic 的消息时会调用监听该消息的处理器
+&lt;code>@Output&lt;/code>用于指定发送消息Topic，可以通过该MessageChannel发送消息&lt;/p>
+&lt;h5 id="发送消息">发送消息&lt;/h5>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@RestController&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">OrderController&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">OrderBinding&lt;/span> &lt;span style="color:#c1abea">orderBinding&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/newOrder&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Object&lt;/span> &lt;span style="color:#00b1f7">sendMessage&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">orderId&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">userId&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">OrderVO&lt;/span> &lt;span style="color:#c1abea">orderVO&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">OrderVO&lt;/span>.&lt;span style="color:#b3d23c">builder&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">orderId&lt;/span>(&lt;span style="color:#c1abea">orderId&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">userId&lt;/span>(&lt;span style="color:#c1abea">userId&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">boolean&lt;/span> &lt;span style="color:#c1abea">result&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">orderBinding&lt;/span>.&lt;span style="color:#b3d23c">newOrders&lt;/span>().&lt;span style="color:#b3d23c">send&lt;/span>(&lt;span style="color:#c1abea">MessageBuilder&lt;/span>.&lt;span style="color:#b3d23c">withPayload&lt;/span>(&lt;span style="color:#c1abea">orderVO&lt;/span>).&lt;span style="color:#b3d23c">build&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">HashMap&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">String&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>() {{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">put&lt;/span>(&lt;span style="color:#98c379">&amp;#34;message&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">result&lt;/span> &lt;span style="color:#c7bf54">?&lt;/span> &lt;span style="color:#98c379">&amp;#34;下单成功&amp;#34;&lt;/span> : &lt;span style="color:#98c379">&amp;#34;下单失败&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }};
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>发送消息可以通过注入 Binding 对象，或者注入 &lt;code>MessageChannel&lt;/code>对象时指定 Bean 来实现&lt;/p></description></item></channel></rss>

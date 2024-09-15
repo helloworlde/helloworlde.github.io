@@ -1,1 +1,293 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mail on HelloWood</title><link>https://blog.hellowood.dev/tags/mail/</link><description>Recent content in Mail on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 31 Dec 2017 23:57:39 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/mail/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mail on HelloWood</title><link>https://blog.hellowood.dev/tags/mail/</link><description>Recent content in Mail on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 31 Dec 2017 23:57:39 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/mail/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot Mail Could not connect to SMTP host</title><link>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</link><pubDate>Sun, 31 Dec 2017 23:57:39 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</guid><description>&lt;blockquote>
+&lt;p>如果使用了 SSL 连接请添加配置：&lt;code>spring.mail.properties.mail.smtp.ssl.enable=true&lt;/code>
+可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;blockquote>
+&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.host&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">smtpdm.aliyun.com&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">465&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">username&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">password&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.properties.smtp.auth&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.mail.properties.smtp.starttls.enable&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>MailUtil.java：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.mail.MailException&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.mail.SimpleMailMessage&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.mail.javamail.JavaMailSender&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Component&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.thymeleaf.TemplateEngine&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Component&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">MailUtil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">JavaMailSender&lt;/span> &lt;span style="color:#c1abea">mailSender&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">TemplateEngine&lt;/span> &lt;span style="color:#c1abea">templateEngine&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">sendSimpleEmail&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">deliver&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">[]&lt;/span> &lt;span style="color:#c1abea">receiver&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">[]&lt;/span> &lt;span style="color:#c1abea">carbonCopy&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">subject&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">content&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">startTimestamp&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">System&lt;/span>.&lt;span style="color:#b3d23c">currentTimeMillis&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">logger&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Start send mail ... &amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">SimpleMailMessage&lt;/span> &lt;span style="color:#c1abea">message&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">SimpleMailMessage&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setFrom&lt;/span>(&lt;span style="color:#c1abea">deliver&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setTo&lt;/span>(&lt;span style="color:#c1abea">receiver&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setCc&lt;/span>(&lt;span style="color:#c1abea">carbonCopy&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setSubject&lt;/span>(&lt;span style="color:#c1abea">subject&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setText&lt;/span>(&lt;span style="color:#c1abea">content&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mailSender&lt;/span>.&lt;span style="color:#b3d23c">send&lt;/span>(&lt;span style="color:#c1abea">message&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">logger&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Send mail success, cost {} million seconds&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">System&lt;/span>.&lt;span style="color:#b3d23c">currentTimeMillis&lt;/span>() &lt;span style="color:#c7bf54">-&lt;/span> &lt;span style="color:#c1abea">startTimestamp&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#c678dd">catch&lt;/span> (&lt;span style="color:#c1abea">MailException&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">logger&lt;/span>.&lt;span style="color:#b3d23c">error&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Send mail failed, error message is : {} \n&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">getMessage&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">printStackTrace&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">throw&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span>(&lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">getMessage&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>但是邮件发送一直失败，异常信息如下：&lt;/p></description></item><item><title>Spring Boot 发送邮件</title><link>https://blog.hellowood.dev/posts/spring-boot-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</link><pubDate>Sun, 31 Dec 2017 23:55:11 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</guid><description>&lt;blockquote>
+&lt;p>在 Spring Boot 中使用 Spring Mail 发送邮件&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-Mail">https://github.com/helloworlde/SpringBoot-Mail&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="添加-spring-mail-依赖">添加 Spring Mail 依赖&lt;/h2>
+&lt;ul>
+&lt;li>build.gradle&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> compile(&amp;#39;org.springframework.boot:spring-boot-starter-mail&amp;#39;)
+&lt;/code>&lt;/pre>&lt;h2 id="添加配置文件">添加配置文件&lt;/h2>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> spring.mail.host=smtpdm.aliyun.com
+ spring.mail.port=465
+ spring.mail.username=&amp;#34;你的邮箱&amp;#34;
+ spring.mail.password=&amp;#34;你的密码&amp;#34;
+ spring.mail.properties.smtp.auth=true
+ spring.mail.properties.smtp.starttls.enable=true
+ spring.mail.properties.smtp.starttls.required=true
+ spring.mail.properties.mail.smtp.ssl.enable=true
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;h2 id="发送简单邮件">发送简单邮件&lt;/h2>
+&lt;ul>
+&lt;li>MailUtil.java&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.mail.MailException;
+ import org.springframework.mail.SimpleMailMessage;
+ import org.springframework.mail.javamail.JavaMailSender;
+ import org.springframework.stereotype.Component;
+ import org.thymeleaf.TemplateEngine;
+ 
+ @Component
+ public class MailUtil {
+ 
+ private final Logger logger = LoggerFactory.getLogger(getClass());
+ 
+ @Autowired
+ JavaMailSender mailSender;
+ 
+ @Autowired
+ TemplateEngine templateEngine;
+ 
+ public void sendSimpleEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content) throws ServiceException {
+ 
+ long startTimestamp = System.currentTimeMillis();
+ logger.info(&amp;#34;Start send mail ... &amp;#34;);
+ 
+ try {
+ SimpleMailMessage message = new SimpleMailMessage();
+ message.setFrom(deliver);
+ message.setTo(receiver);
+ message.setCc(carbonCopy);
+ message.setSubject(subject);
+ message.setText(content);
+ mailSender.send(message);
+ logger.info(&amp;#34;Send mail success, cost {} million seconds&amp;#34;, System.currentTimeMillis() - startTimestamp);
+ } catch (MailException e) {
+ logger.error(&amp;#34;Send mail failed, error message is : {} \n&amp;#34;, e.getMessage());
+ e.printStackTrace();
+ throw new ServiceException(e.getMessage());
+ }
+ }
+ 
+ }
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>发送邮件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> @Test
+ public void sendSimpleEmail() {
+ String deliver = &amp;#34;你的邮件地址&amp;#34;;
+ String[] receiver = {&amp;#34;接收者邮件地址&amp;#34;};
+ String[] carbonCopy = {&amp;#34;抄送者邮件地址&amp;#34;};
+ String subject = &amp;#34;This is a simple email&amp;#34;;
+ String content = &amp;#34;This is a simple content&amp;#34;;
+ 
+ try {
+ mailUtil.sendSimpleEmail(deliver, receiver, carbonCopy, subject, content);
+ } catch (Exception e) {
+ assertFalse(&amp;#34;Send simple email failed&amp;#34;, true);
+ e.printStackTrace();
+ }
+ }
+&lt;/code>&lt;/pre>&lt;h2 id="发送-html-内容的邮件">发送 HTML 内容的邮件&lt;/h2>
+&lt;ul>
+&lt;li>MailUtil.java&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> import cn.com.hellowood.mail.util.ServiceException;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.mail.javamail.JavaMailSender;
+ import org.springframework.mail.javamail.MimeMessageHelper;
+ import org.springframework.stereotype.Component;
+ 
+ import javax.mail.MessagingException;
+ import javax.mail.internet.MimeMessage;
+ 
+ @Component
+ public class MailUtil {
+ 
+ private final Logger logger = LoggerFactory.getLogger(getClass());
+ 
+ @Autowired
+ JavaMailSender mailSender;
+ 
+ public void sendHtmlEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content, boolean isHtml) throws ServiceException {
+ long startTimestamp = System.currentTimeMillis();
+ logger.info(&amp;#34;Start send email ...&amp;#34;);
+ 
+ try {
+ MimeMessage message = mailSender.createMimeMessage();
+ MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+ 
+ messageHelper.setFrom(deliver);
+ messageHelper.setTo(receiver);
+ messageHelper.setCc(carbonCopy);
+ messageHelper.setSubject(subject);
+ messageHelper.setText(content, isHtml);
+ 
+ mailSender.send(message);
+ logger.info(&amp;#34;Send email success, cost {} million seconds&amp;#34;, System.currentTimeMillis() - startTimestamp);
+ } catch (MessagingException e) {
+ logger.error(&amp;#34;Send email failed, error message is {} \n&amp;#34;, e.getMessage());
+ e.printStackTrace();
+ throw new ServiceException(e.getMessage());
+ }
+ }
+ 
+ }
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>发送 HTML 邮件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> @Test
+ public void sendHtmlEmail() {
+ String deliver = &amp;#34;你的邮件地址&amp;#34;;
+ String[] receiver = {&amp;#34;接收者邮件地址&amp;#34;};
+ String[] carbonCopy = {&amp;#34;抄送者邮件地址&amp;#34;};
+ String subject = &amp;#34;This is a HTML content email&amp;#34;;
+ String content = &amp;#34;&amp;lt;h1&amp;gt;This is HTML content email &amp;lt;/h1&amp;gt;&amp;#34;;
+ 
+ boolean isHtml = true;
+ try {
+ mailUtil.sendHtmlEmail(deliver, receiver, carbonCopy, subject, content, isHtml);
+ } catch (ServiceException e) {
+ assertFalse(&amp;#34;Send HTML content email failed&amp;#34;, true);
+ e.printStackTrace();
+ }
+ }
+&lt;/code>&lt;/pre>&lt;h2 id="发送带附件的邮件">发送带附件的邮件&lt;/h2>
+&lt;ul>
+&lt;li>MailUtil.java&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> 
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.mail.javamail.JavaMailSender;
+ import org.springframework.mail.javamail.MimeMessageHelper;
+ import org.springframework.stereotype.Component;
+ 
+ import javax.mail.MessagingException;
+ import javax.mail.internet.MimeMessage;
+ import java.io.File;
+ 
+ @Component
+ public class MailUtil {
+ 
+ private final Logger logger = LoggerFactory.getLogger(getClass());
+ 
+ @Autowired
+ JavaMailSender mailSender;
+ 
+ public void sendAttachmentFileEmail(String deliver, String[] receiver, String[] carbonCopy, String subject, String content, boolean isHtml, String fileName, File file) throws ServiceException {
+ long startTimestamp = System.currentTimeMillis();
+ logger.info(&amp;#34;Start send mail ...&amp;#34;);
+ 
+ try {
+ MimeMessage message = mailSender.createMimeMessage();
+ MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
+ 
+ messageHelper.setFrom(deliver);
+ messageHelper.setTo(receiver);
+ messageHelper.setCc(carbonCopy);
+ messageHelper.setSubject(subject);
+ messageHelper.setText(content, isHtml);
+ messageHelper.addAttachment(fileName, file);
+ 
+ mailSender.send(message);
+ logger.info(&amp;#34;Send mail success, cost {} million seconds&amp;#34;, System.currentTimeMillis() - startTimestamp);
+ } catch (MessagingException e) {
+ logger.error(&amp;#34;Send mail failed, error message is {}\n&amp;#34;, e.getMessage());
+ e.printStackTrace();
+ throw new ServiceException(e.getMessage());
+ }
+ }
+ 
+ }
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>发送带附件的邮件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> @Test
+ public void sendAttachmentFileEmail() {
+ String FILE_PATH = &amp;#34;文件地址&amp;#34;;
+ String deliver = &amp;#34;你的邮件地址&amp;#34;;
+ String[] receiver = {&amp;#34;接收者邮件地址&amp;#34;};
+ String[] carbonCopy = {&amp;#34;抄送者邮件地址&amp;#34;}; 
+ String subject = &amp;#34;This is an attachment file email&amp;#34;;
+ String content = &amp;#34;&amp;lt;h2&amp;gt;This is an attachment file email&amp;lt;/h2&amp;gt;&amp;#34;;
+ boolean isHtml = true;
+
+ File file = new File(FILE_PATH);
+ String fileName = FILE_PATH.substring(FILE_PATH.lastIndexOf(File.separator));
+
+ try {
+ mailUtil.sendAttachmentFileEmail(deliver, receiver, carbonCopy, subject, content, isHtml, fileName, file);
+ } catch (ServiceException e) {
+ assertFalse(&amp;#34;Send attachment file email failed&amp;#34;, true);
+ e.printStackTrace();
+ }
+ }
+&lt;/code>&lt;/pre>&lt;h2 id="发送模板邮件">发送模板邮件&lt;/h2>
+&lt;blockquote>
+&lt;p>使用 Thymeleaf 作为模板&lt;/p></description></item></channel></rss>

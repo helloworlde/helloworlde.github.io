@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Router on HelloWood</title><link>https://blog.hellowood.dev/categories/router/</link><description>Recent content in Router on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 12:05:17 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/router/index.xml" rel="self" type="application/rss+xml"/><item><title>AngularJS配置Router(路由)提示Controller NaNunction/undefined错误</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 12:05:17 +0000</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
+&lt;p>在配置Angular 路由的时候，和以往一样使用如下配置：&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>router.js&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>var adminApp = angular.module(&amp;#39;adminApp&amp;#39;, [&amp;#39;oc.lazyLoad&amp;#39;, &amp;#39;ui.router&amp;#39;]);
+angular.element(document).ready(function () {
+ angular.bootstrap(document, [&amp;#39;adminApp&amp;#39;]);
+});
+
+adminApp.run(function ($rootScope, $state, $stateParams) {
+ $rootScope.$state = $state;
+ $rootScope.$stateParams = $stateParams;
+});
+adminApp.config(function ($stateProvider, $urlRouterProvider) {
+ $urlRouterProvider.when(&amp;#34;&amp;#34;, &amp;#34;dashboard/accountManagement&amp;#34;);
+ $urlRouterProvider.otherwise(&amp;#34;dashboard/accountManagement&amp;#34;);
+ $stateProvider
+ .state(&amp;#39;dashboard&amp;#39;, {
+ url: &amp;#39;/dashboard&amp;#39;,
+ templateUrl: &amp;#39;dashboard/dashboard.html&amp;#39;,
+ controller: &amp;#39;dashboardController&amp;#39;,
+ resolve: {
+ deps: [&amp;#39;$ocLazyLoad&amp;#39;, function ($ocLazyLoad) {
+ return $ocLazyLoad.load([&amp;#39;dashboard/dashboard.js&amp;#39;]);
+ }]
+ }
+ });
+});
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>dashboardController.js&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>angular.module(&amp;#34;adminApp&amp;#34;).controller(&amp;#39;dashboardController&amp;#39;, function ($scope) {
+ console.log(&amp;#34;dashboardController&amp;#34;);
+});
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>但是提示错误：&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>angular.min.js:118 Error: [ng:areq] http://errors.angularjs.org/1.5.8/ng/areq?p0=dashboardController&amp;amp;p1=not%20aNaNunction%2C%20got%20undefined
+ at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:6:412
+ at sb (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:23:18)
+ at Pa (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:23:105)
+ at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:89:310
+ at Object.&amp;lt;anonymous&amp;gt; (http://localhost:63342/static/plugin/angular-1.5.8/angular-ui-router.js:3971:42)
+ at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:16:71
+ at la (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:81:90)
+ at p (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:66:341)
+ at g (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:58:481)
+ at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:58:119
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;blockquote>
+&lt;p>原因是因为直接写controller无法识别，所有需要使用register来注册该controller&lt;/p></description></item><item><title>AngularJS 配置路由</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</link><pubDate>Mon, 01 Jan 2018 12:04:04 +0000</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
+&lt;p>在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://img.blog.csdn.net/20170523210031963?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="控制面板">&lt;/p>
+&lt;blockquote>
+&lt;p>该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;p>##&lt;a href="http://download.csdn.net/detail/u013360850/9850266">项目下载&lt;/a> | &lt;a href="https://github.com/helloworlde/AngularRouter">GitHub下载&lt;/a> | &lt;a href="http://119.29.99.89/AngularRouter/pages/admin/index.html">演示地址&lt;/a> | &lt;a href="https://helloworlde.github.io/AngularRouter">GitHub演示地址&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h2 id="1引入所需的css和js文件">1.引入所需的CSS和JS文件&lt;/h2>
+&lt;ul>
+&lt;li>将所需要的CSS文件和JS文件引入到项目中index.html&lt;/li>
+&lt;li>angular.min.js&lt;/li>
+&lt;li>ocLazyLoad.js&lt;/li>
+&lt;li>angular-ui-router.js&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;#34;en&amp;#34; class=&amp;#34;body&amp;#34;&amp;gt;
+&amp;lt;head&amp;gt;
+ &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt;
+ &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, height=device-height, initial-scale=1, maximum-scale=1&amp;#34;/&amp;gt;
+ &amp;lt;link href=&amp;#34;../../plugin/bootstrap-3.3.7/css/bootstrap.min.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34;&amp;gt;
+ &amp;lt;link href=&amp;#34;dashboard/dashboard.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34;&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body &amp;gt;
+&amp;lt;div data-ui-view=&amp;#34;&amp;#34; style=&amp;#34;height: 100%;overflow: hidden;&amp;#34;&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;script src=&amp;#34;../../plugin/angular-1.5.8/angular.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;#34;../../plugin/angular-1.5.8/angular-ui-router.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;#34;../../plugin/oclazyload/ocLazyLoad.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;#34;app.route.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="2-配置dashboard页面">2. 配置dashboard页面&lt;/h2>
+&lt;pre tabindex="0">&lt;code>&amp;lt;div class=&amp;#34;app app-header-fixed&amp;#34; id=&amp;#34;app&amp;#34;&amp;gt;
+ &amp;lt;!-- navbar --&amp;gt;
+ &amp;lt;div class=&amp;#34;app-header navbar&amp;#34;&amp;gt;
+ &amp;lt;div class=&amp;#34;collapse pos-rlt navbar-collapse box-shadow bg-white-only&amp;#34;&amp;gt;
+ &amp;lt;ul class=&amp;#34;nav navbar-nav navbar-right&amp;#34;&amp;gt;
+ &amp;lt;li class=&amp;#34;dropdown&amp;#34;&amp;gt;
+ &amp;lt;a href=&amp;#34;#&amp;#34; data-toggle=&amp;#34;dropdown&amp;#34; class=&amp;#34;dropdown-toggle clear&amp;#34;&amp;gt;
+ &amp;lt;span class=&amp;#34;thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm&amp;#34;&amp;gt;
+ &amp;lt;img src=&amp;#34;/static/images/head.jpg&amp;#34;&amp;gt;
+ &amp;lt;i class=&amp;#34;on md b-white bottom&amp;#34;&amp;gt;&amp;lt;/i&amp;gt;
+ &amp;lt;/span&amp;gt;
+ &amp;lt;span class=&amp;#34;hidden-sm hidden-md&amp;#34;&amp;gt;Administrator&amp;lt;/span&amp;gt; &amp;lt;b class=&amp;#34;caret&amp;#34;&amp;gt;&amp;lt;/b&amp;gt;
+ &amp;lt;/a&amp;gt;
+ &amp;lt;!-- dropdown --&amp;gt;
+ &amp;lt;ul class=&amp;#34;dropdown-menu animated fadeInRight w hidden-folded&amp;#34; role=&amp;#34;menu&amp;#34;&amp;gt;
+ &amp;lt;li&amp;gt;
+ &amp;lt;a href=&amp;#34;#&amp;#34; role=&amp;#34;menuitem&amp;#34;&amp;gt;退出&amp;lt;/a&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;/ul&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;/ul&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+
+ &amp;lt;!-- menu --&amp;gt;
+ &amp;lt;div class=&amp;#34;app-aside hidden-xs bg-dark&amp;#34;&amp;gt;
+ &amp;lt;div class=&amp;#34;aside-wrap&amp;#34;&amp;gt;
+ &amp;lt;div class=&amp;#34;navi-wrap&amp;#34;&amp;gt;
+ &amp;lt;!-- nav --&amp;gt;
+ &amp;lt;nav ui-nav class=&amp;#34;navi&amp;#34;&amp;gt;
+ &amp;lt;ul class=&amp;#34;nav&amp;#34;&amp;gt;
+ &amp;lt;li&amp;gt;
+ &amp;lt;a ui-sref=&amp;#34;.accountManagement&amp;#34; class=&amp;#34;auto&amp;#34;&amp;gt;
+ &amp;lt;i class=&amp;#34;glyphicon glyphicon-user&amp;#34;&amp;gt;&amp;lt;/i&amp;gt;
+ &amp;lt;span class=&amp;#34;font-bold&amp;#34;&amp;gt;账户管理&amp;lt;/span&amp;gt;
+ &amp;lt;/a&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;li&amp;gt;
+ &amp;lt;a ui-sref=&amp;#34;.academicYear&amp;#34;&amp;gt;
+ &amp;lt;i class=&amp;#34;glyphicon glyphicon-calendar&amp;#34;&amp;gt;&amp;lt;/i&amp;gt;
+ &amp;lt;span class=&amp;#34;font-bold&amp;#34;&amp;gt;学年学期管理&amp;lt;/span&amp;gt;
+ &amp;lt;/a&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;li&amp;gt;
+ &amp;lt;a ui-sref=&amp;#34;.feedbackManagement&amp;#34;&amp;gt;
+ &amp;lt;i class=&amp;#34;glyphicon glyphicon-send&amp;#34;&amp;gt;&amp;lt;/i&amp;gt;
+ &amp;lt;span class=&amp;#34;font-bold&amp;#34;&amp;gt;用户反馈管理&amp;lt;/span&amp;gt;
+ &amp;lt;/a&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;/ul&amp;gt;
+ &amp;lt;/nav&amp;gt;
+ &amp;lt;!-- nav --&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;!-- / menu --&amp;gt;
+ &amp;lt;!-- content 中间可替换的部分--&amp;gt;
+ &amp;lt;div class=&amp;#34;app-content&amp;#34;&amp;gt;
+ &amp;lt;div data-ui-view=&amp;#34;&amp;#34;&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;!-- /content --&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>&lt;p>##3. 配置路由&lt;/p></description></item></channel></rss>

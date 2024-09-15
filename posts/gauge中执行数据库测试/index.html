@@ -1,247 +1,75 @@
-<!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>Gauge中执行数据库测试</title>
-<meta charset=utf-8><meta name=description content='Ladder@
-使用Gauge对数据库的增删改查进行测试
-
-
-打开数据库连接
-
-.spec文件
-
-    * open connection before crud
-
-.java文件
-
-    private Connection connection;
-    private PreparedStatement statement;
-
-    @Step("open connection before crud")
-    public void openConnection() {
-        try {
-            String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false";
-            String username = "victor";
-            String password = "Victor123456";
-
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-insert
-
-.spec文件
-
-    ## insert
-    insert record to database
-     tags: crud,insert
-    
-    * insert new record named "Gauge",sex is "Male",age is "25"
-
-.java文件
-
-    @Step("insert new record named <Gauge>,sex is <Male>,age is <25>")
-    public void insert(String name, String sex, Integer age) {
-        try {
-            statement = connection.prepareStatement("insert into user(username,sex,age) values (?,?,?)");
-            statement.setString(1, name);
-            statement.setString(2, sex);
-            statement.setInt(3, age);
-
-            int result = statement.executeUpdate();
-
-            assertTrue(result > 0);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-select
-
-.spec文件
-
-    ## query
-    query all records from database
-     tags: crud,select
-    
-    * query all records
-
-.java文件
-
-    @Step("query all records")
-    public void query() {
-        try {
-            statement = connection.prepareStatement("SELECT * FROM user");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                    StringBuffer userInfo = new StringBuffer();
-                    userInfo.append("ID:" + resultSet.getString("id"));
-                    userInfo.append("\t\tUsername:" + resultSet.getString("username"));
-                    userInfo.append("\t\tSex:" + resultSet.getString("sex"));
-                    userInfo.append("\t\tAge:" + resultSet.getString("age"));
-                    userInfo.append("\t\tSchool:" + resultSet.getString("school"));
-                    userInfo.append("\t\tMajor:" + resultSet.getString("major"));
-                    userInfo.append("\t\tAddress:" + resultSet.getString("address"));
-                    Gauge.writeMessage(userInfo.toString());
-            }
-
-            resultSet.last();
-            int rowCount = resultSet.getRow();
-            resultSet.close();
-
-            assertTrue(rowCount > 0);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-update
-
-.spec文件
-
-    ## update
-    update record
-     tags: crud,update
-     
-    * update record sex to "Female" which named "Gauge"
-
-.java文件
-
-    @Step("update record sex to <Female> which named <Gauge>")
-    public void update(String sex, String name) {
-        try {
-            statement = connection.prepareStatement("UPDATE user SET sex=? WHERE username=?");
-            statement.setString(1, sex);
-            statement.setString(2, name);
-            int resultNum = statement.executeUpdate();
-            assertTrue(resultNum > 0);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-delete
-
-.spec文件
-
-    ## delete
-    delete record
-     tags: crud,delete
-    
-    * delete the record which named "Gauge"
-
-.java文件
-
-    @Step("delete the record which named <Guage>")
-    public void delete(String name) {
-        try {
-            statement = connection.prepareStatement("DELETE FROM user WHERE username=?");
-            statement.setString(1, name);
-            int resultNum = statement.executeUpdate();
-            assertTrue(resultNum > 0);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-关闭连接
-
-.spec文件
-
-    * close connection after crud
-
-.java文件
-
-    @Step("close connection after crud")
-    public void closeConnection() {
-        try {
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-需要把Jar包放在项目的lib目录下
-使用了MySQL驱动
-下载项目
-'><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="Gauge中执行数据库测试"><meta property="og:description" content=' 使用Gauge对数据库的增删改查进行测试
-打开数据库连接 .spec文件 * open connection before crud .java文件 private Connection connection; private PreparedStatement statement; @Step("open connection before crud") public void openConnection() { try { String driver = "com.mysql.jdbc.Driver"; String url = "jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false"; String username = "victor"; String password = "Victor123456"; Class.forName(driver); connection = DriverManager.getConnection(url, username, password); } catch (Exception e) { e.printStackTrace(); } } insert .spec文件 ## insert insert record to database tags: crud,insert * insert new record named "Gauge",sex is "Male",age is "25" .java文件 @Step("insert new record named <Gauge>,sex is <Male>,age is <25>") public void insert(String name, String sex, Integer age) { try { statement = connection.prepareStatement("insert into user(username,sex,age) values (?,?,?)"); statement.setString(1, name); statement.setString(2, sex); statement.setInt(3, age); int result = statement.executeUpdate(); assertTrue(result > 0); } catch (SQLException e) { e.printStackTrace(); } } select .spec文件 ## query query all records from database tags: crud,select * query all records .java文件 @Step("query all records") public void query() { try { statement = connection.prepareStatement("SELECT * FROM user"); ResultSet resultSet = statement.executeQuery(); while (resultSet.next()) { StringBuffer userInfo = new StringBuffer(); userInfo.append("ID:" + resultSet.getString("id")); userInfo.append("\t\tUsername:" + resultSet.getString("username")); userInfo.append("\t\tSex:" + resultSet.getString("sex")); userInfo.append("\t\tAge:" + resultSet.getString("age")); userInfo.append("\t\tSchool:" + resultSet.getString("school")); userInfo.append("\t\tMajor:" + resultSet.getString("major")); userInfo.append("\t\tAddress:" + resultSet.getString("address")); Gauge.writeMessage(userInfo.toString()); } resultSet.last(); int rowCount = resultSet.getRow(); resultSet.close(); assertTrue(rowCount > 0); } catch (SQLException e) { e.printStackTrace(); } } update .spec文件 ## update update record tags: crud,update * update record sex to "Female" which named "Gauge" .java文件 @Step("update record sex to <Female> which named <Gauge>") public void update(String sex, String name) { try { statement = connection.prepareStatement("UPDATE user SET sex=? WHERE username=?"); statement.setString(1, sex); statement.setString(2, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum > 0); } catch (SQLException e) { e.printStackTrace(); } } delete .spec文件 ## delete delete record tags: crud,delete * delete the record which named "Gauge" .java文件 @Step("delete the record which named <Guage>") public void delete(String name) { try { statement = connection.prepareStatement("DELETE FROM user WHERE username=?"); statement.setString(1, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum > 0); } catch (SQLException e) { e.printStackTrace(); } } 关闭连接 .spec文件 * close connection after crud .java文件 @Step("close connection after crud") public void closeConnection() { try { statement.close(); connection.close(); } catch (SQLException e) { e.printStackTrace(); } } 需要把Jar包放在项目的lib目录下 使用了MySQL驱动 下载项目 '><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-01-01T11:34:11+00:00"><meta property="article:modified_time" content="2018-01-01T11:34:11+00:00"><meta property="article:tag" content="Java"><meta property="article:tag" content="Gauge"><meta property="article:tag" content="Test"><meta name=twitter:card content="summary"><meta name=twitter:title content="Gauge中执行数据库测试"><meta name=twitter:description content=' 使用Gauge对数据库的增删改查进行测试
-打开数据库连接 .spec文件 * open connection before crud .java文件 private Connection connection; private PreparedStatement statement; @Step("open connection before crud") public void openConnection() { try { String driver = "com.mysql.jdbc.Driver"; String url = "jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false"; String username = "victor"; String password = "Victor123456"; Class.forName(driver); connection = DriverManager.getConnection(url, username, password); } catch (Exception e) { e.printStackTrace(); } } insert .spec文件 ## insert insert record to database tags: crud,insert * insert new record named "Gauge",sex is "Male",age is "25" .java文件 @Step("insert new record named <Gauge>,sex is <Male>,age is <25>") public void insert(String name, String sex, Integer age) { try { statement = connection.prepareStatement("insert into user(username,sex,age) values (?,?,?)"); statement.setString(1, name); statement.setString(2, sex); statement.setInt(3, age); int result = statement.executeUpdate(); assertTrue(result > 0); } catch (SQLException e) { e.printStackTrace(); } } select .spec文件 ## query query all records from database tags: crud,select * query all records .java文件 @Step("query all records") public void query() { try { statement = connection.prepareStatement("SELECT * FROM user"); ResultSet resultSet = statement.executeQuery(); while (resultSet.next()) { StringBuffer userInfo = new StringBuffer(); userInfo.append("ID:" + resultSet.getString("id")); userInfo.append("\t\tUsername:" + resultSet.getString("username")); userInfo.append("\t\tSex:" + resultSet.getString("sex")); userInfo.append("\t\tAge:" + resultSet.getString("age")); userInfo.append("\t\tSchool:" + resultSet.getString("school")); userInfo.append("\t\tMajor:" + resultSet.getString("major")); userInfo.append("\t\tAddress:" + resultSet.getString("address")); Gauge.writeMessage(userInfo.toString()); } resultSet.last(); int rowCount = resultSet.getRow(); resultSet.close(); assertTrue(rowCount > 0); } catch (SQLException e) { e.printStackTrace(); } } update .spec文件 ## update update record tags: crud,update * update record sex to "Female" which named "Gauge" .java文件 @Step("update record sex to <Female> which named <Gauge>") public void update(String sex, String name) { try { statement = connection.prepareStatement("UPDATE user SET sex=? WHERE username=?"); statement.setString(1, sex); statement.setString(2, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum > 0); } catch (SQLException e) { e.printStackTrace(); } } delete .spec文件 ## delete delete record tags: crud,delete * delete the record which named "Gauge" .java文件 @Step("delete the record which named <Guage>") public void delete(String name) { try { statement = connection.prepareStatement("DELETE FROM user WHERE username=?"); statement.setString(1, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum > 0); } catch (SQLException e) { e.printStackTrace(); } } 关闭连接 .spec文件 * close connection after crud .java文件 @Step("close connection after crud") public void closeConnection() { try { statement.close(); connection.close(); } catch (SQLException e) { e.printStackTrace(); } } 需要把Jar包放在项目的lib目录下 使用了MySQL驱动 下载项目 '><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.hellowood.dev/posts/"},{"@type":"ListItem","position":2,"name":"Gauge中执行数据库测试","item":"https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Gauge中执行数据库测试","name":"Gauge中执行数据库测试","description":" 使用Gauge对数据库的增删改查进行测试\n打开数据库连接 .spec文件 * open connection before crud .java文件 private Connection connection; private PreparedStatement statement; @Step(\u0026#34;open connection before crud\u0026#34;) public void openConnection() { try { String driver = \u0026#34;com.mysql.jdbc.Driver\u0026#34;; String url = \u0026#34;jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false\u0026#34;; String username = \u0026#34;victor\u0026#34;; String password = \u0026#34;Victor123456\u0026#34;; Class.forName(driver); connection = DriverManager.getConnection(url, username, password); } catch (Exception e) { e.printStackTrace(); } } insert .spec文件 ## insert insert record to database tags: crud,insert * insert new record named \u0026#34;Gauge\u0026#34;,sex is \u0026#34;Male\u0026#34;,age is \u0026#34;25\u0026#34; .java文件 @Step(\u0026#34;insert new record named \u0026lt;Gauge\u0026gt;,sex is \u0026lt;Male\u0026gt;,age is \u0026lt;25\u0026gt;\u0026#34;) public void insert(String name, String sex, Integer age) { try { statement = connection.prepareStatement(\u0026#34;insert into user(username,sex,age) values (?,?,?)\u0026#34;); statement.setString(1, name); statement.setString(2, sex); statement.setInt(3, age); int result = statement.executeUpdate(); assertTrue(result \u0026gt; 0); } catch (SQLException e) { e.printStackTrace(); } } select .spec文件 ## query query all records from database tags: crud,select * query all records .java文件 @Step(\u0026#34;query all records\u0026#34;) public void query() { try { statement = connection.prepareStatement(\u0026#34;SELECT * FROM user\u0026#34;); ResultSet resultSet = statement.executeQuery(); while (resultSet.next()) { StringBuffer userInfo = new StringBuffer(); userInfo.append(\u0026#34;ID:\u0026#34; + resultSet.getString(\u0026#34;id\u0026#34;)); userInfo.append(\u0026#34;\\t\\tUsername:\u0026#34; + resultSet.getString(\u0026#34;username\u0026#34;)); userInfo.append(\u0026#34;\\t\\tSex:\u0026#34; + resultSet.getString(\u0026#34;sex\u0026#34;)); userInfo.append(\u0026#34;\\t\\tAge:\u0026#34; + resultSet.getString(\u0026#34;age\u0026#34;)); userInfo.append(\u0026#34;\\t\\tSchool:\u0026#34; + resultSet.getString(\u0026#34;school\u0026#34;)); userInfo.append(\u0026#34;\\t\\tMajor:\u0026#34; + resultSet.getString(\u0026#34;major\u0026#34;)); userInfo.append(\u0026#34;\\t\\tAddress:\u0026#34; + resultSet.getString(\u0026#34;address\u0026#34;)); Gauge.writeMessage(userInfo.toString()); } resultSet.last(); int rowCount = resultSet.getRow(); resultSet.close(); assertTrue(rowCount \u0026gt; 0); } catch (SQLException e) { e.printStackTrace(); } } update .spec文件 ## update update record tags: crud,update * update record sex to \u0026#34;Female\u0026#34; which named \u0026#34;Gauge\u0026#34; .java文件 @Step(\u0026#34;update record sex to \u0026lt;Female\u0026gt; which named \u0026lt;Gauge\u0026gt;\u0026#34;) public void update(String sex, String name) { try { statement = connection.prepareStatement(\u0026#34;UPDATE user SET sex=? WHERE username=?\u0026#34;); statement.setString(1, sex); statement.setString(2, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum \u0026gt; 0); } catch (SQLException e) { e.printStackTrace(); } } delete .spec文件 ## delete delete record tags: crud,delete * delete the record which named \u0026#34;Gauge\u0026#34; .java文件 @Step(\u0026#34;delete the record which named \u0026lt;Guage\u0026gt;\u0026#34;) public void delete(String name) { try { statement = connection.prepareStatement(\u0026#34;DELETE FROM user WHERE username=?\u0026#34;); statement.setString(1, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum \u0026gt; 0); } catch (SQLException e) { e.printStackTrace(); } } 关闭连接 .spec文件 * close connection after crud .java文件 @Step(\u0026#34;close connection after crud\u0026#34;) public void closeConnection() { try { statement.close(); connection.close(); } catch (SQLException e) { e.printStackTrace(); } } 需要把Jar包放在项目的lib目录下 使用了MySQL驱动 下载项目 ","keywords":["Java","Gauge","Test"],"articleBody":" 使用Gauge对数据库的增删改查进行测试\n打开数据库连接 .spec文件 * open connection before crud .java文件 private Connection connection; private PreparedStatement statement; @Step(\"open connection before crud\") public void openConnection() { try { String driver = \"com.mysql.jdbc.Driver\"; String url = \"jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false\"; String username = \"victor\"; String password = \"Victor123456\"; Class.forName(driver); connection = DriverManager.getConnection(url, username, password); } catch (Exception e) { e.printStackTrace(); } } insert .spec文件 ## insert insert record to database tags: crud,insert * insert new record named \"Gauge\",sex is \"Male\",age is \"25\" .java文件 @Step(\"insert new record named ,sex is ,age is \u003c25\u003e\") public void insert(String name, String sex, Integer age) { try { statement = connection.prepareStatement(\"insert into user(username,sex,age) values (?,?,?)\"); statement.setString(1, name); statement.setString(2, sex); statement.setInt(3, age); int result = statement.executeUpdate(); assertTrue(result \u003e 0); } catch (SQLException e) { e.printStackTrace(); } } select .spec文件 ## query query all records from database tags: crud,select * query all records .java文件 @Step(\"query all records\") public void query() { try { statement = connection.prepareStatement(\"SELECT * FROM user\"); ResultSet resultSet = statement.executeQuery(); while (resultSet.next()) { StringBuffer userInfo = new StringBuffer(); userInfo.append(\"ID:\" + resultSet.getString(\"id\")); userInfo.append(\"\\t\\tUsername:\" + resultSet.getString(\"username\")); userInfo.append(\"\\t\\tSex:\" + resultSet.getString(\"sex\")); userInfo.append(\"\\t\\tAge:\" + resultSet.getString(\"age\")); userInfo.append(\"\\t\\tSchool:\" + resultSet.getString(\"school\")); userInfo.append(\"\\t\\tMajor:\" + resultSet.getString(\"major\")); userInfo.append(\"\\t\\tAddress:\" + resultSet.getString(\"address\")); Gauge.writeMessage(userInfo.toString()); } resultSet.last(); int rowCount = resultSet.getRow(); resultSet.close(); assertTrue(rowCount \u003e 0); } catch (SQLException e) { e.printStackTrace(); } } update .spec文件 ## update update record tags: crud,update * update record sex to \"Female\" which named \"Gauge\" .java文件 @Step(\"update record sex to which named \") public void update(String sex, String name) { try { statement = connection.prepareStatement(\"UPDATE user SET sex=? WHERE username=?\"); statement.setString(1, sex); statement.setString(2, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum \u003e 0); } catch (SQLException e) { e.printStackTrace(); } } delete .spec文件 ## delete delete record tags: crud,delete * delete the record which named \"Gauge\" .java文件 @Step(\"delete the record which named \") public void delete(String name) { try { statement = connection.prepareStatement(\"DELETE FROM user WHERE username=?\"); statement.setString(1, name); int resultNum = statement.executeUpdate(); assertTrue(resultNum \u003e 0); } catch (SQLException e) { e.printStackTrace(); } } 关闭连接 .spec文件 * close connection after crud .java文件 @Step(\"close connection after crud\") public void closeConnection() { try { statement.close(); connection.close(); } catch (SQLException e) { e.printStackTrace(); } } 需要把Jar包放在项目的lib目录下 使用了MySQL驱动 下载项目 ","wordCount":"353","inLanguage":"en","datePublished":"2018-01-01T11:34:11Z","dateModified":"2018-01-01T11:34:11Z","author":{"@type":"Person","name":"HelloWood"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"},"publisher":{"@type":"Organization","name":"HelloWood","logo":{"@type":"ImageObject","url":"https://blog.hellowood.dev/favicon.ico"}}}</script><link rel=icon href=/images/avatar.png sizes=16x16><link rel=apple-touch-icon href=/images/avatar.png><link rel=manifest href=/images/avatar.png><link rel=stylesheet href=https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css><link rel=stylesheet href=/css/main.min.7f82854fa0e999ec07c4835d3029de9f484030e254b80d470b3ca48eb934720e.css integrity="sha256-f4KFT6DpmewHxINdMCnen0hAMOJUuA1HCzykjrk0cg4=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c607d6febd16934a82eb61d3a896ed9d869f54373cc63ce95864ed5488fe3128.js></script><script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script defer src=https://analytics.us.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand data-umami-event=navigation-brand href=/>HOME
-</a><input type=checkbox id=menu-toggle>
-<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Blog href=/posts>Blog</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Tags href=/tags>Tags</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Archive href=/archives>Archive</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Dashboard href=https://umami.hellowood.dev/share/lab/Blog>Dashboard</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link data-umami-event=navigation-social href=https://github.com/helloworlde><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button data-umami-event=toggle-theme aria-label="toggle user light or dark theme">
-<span class=toggle-dark><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
-<span class=toggle-light><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>Gauge中执行数据库测试</h1></header><p><small>January 1, 2018&nbsp;· 353 words&nbsp;· 2 min</small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#打开数据库连接>打开数据库连接</a></li><li><a href=#insert>insert</a></li><li><a href=#select>select</a></li><li><a href=#update>update</a></li><li><a href=#delete>delete</a></li><li><a href=#关闭连接>关闭连接</a></li></ul></nav></div><section class=blog-content><blockquote><p>使用Gauge对数据库的增删改查进行测试</p></blockquote><hr><h2 id=打开数据库连接>打开数据库连接</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    <span style=color:#66d9ef>*</span> open connection before crud
-</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Connection connection;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> PreparedStatement statement;
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Gauge中执行数据库测试</title>
+<meta name=description content="Copy Paste Worker"><meta name=keywords content='blog,hugo,Java,Gauge,Test'><meta property="og:url" content="https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"><meta property="og:type" content="website"><meta property="og:title" content="Gauge中执行数据库测试"><meta property="og:description" content="Copy Paste Worker"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.png"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Gauge中执行数据库测试"><meta name=twitter:description content="Copy Paste Worker"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.png"><link rel=canonical href=https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js integrity="sha256-mpINfavbrYNjtqCpTimp3+vbfuZM/LGToBReUS7yvas="></script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script defer src=https://analytics.us.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.png alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target"></span>
+<a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Gauge中执行数据库测试</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/gauge>Gauge</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/test>Test</a></li></ul></div><div class=post-content><blockquote><p>使用Gauge对数据库的增删改查进行测试</p></blockquote><hr><h2 id=打开数据库连接>打开数据库连接</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    <span style=color:#c678dd>*</span> open connection before crud
+</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>Connection</span> <span style=color:#c1abea>connection</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>PreparedStatement</span> <span style=color:#c1abea>statement</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;open connection before crud&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>openConnection</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            String driver <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.mysql.jdbc.Driver&#34;</span>;
-</span></span><span style=display:flex><span>            String url <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false&#34;</span>;
-</span></span><span style=display:flex><span>            String username <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;victor&#34;</span>;
-</span></span><span style=display:flex><span>            String password <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Victor123456&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;open connection before crud&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>openConnection</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>String</span> <span style=color:#c1abea>driver</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;com.mysql.jdbc.Driver&#34;</span>;
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>String</span> <span style=color:#c1abea>url</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;jdbc:mysql://119.29.99.89:3306/springboot?useSSL=false&#34;</span>;
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>String</span> <span style=color:#c1abea>username</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;victor&#34;</span>;
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>String</span> <span style=color:#c1abea>password</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;Victor123456&#34;</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            Class.<span style=color:#a6e22e>forName</span>(driver);
-</span></span><span style=display:flex><span>            connection <span style=color:#f92672>=</span> DriverManager.<span style=color:#a6e22e>getConnection</span>(url, username, password);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (Exception e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>Class</span>.<span style=color:#b3d23c>forName</span>(<span style=color:#c1abea>driver</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>connection</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>DriverManager</span>.<span style=color:#b3d23c>getConnection</span>(<span style=color:#c1abea>url</span>, <span style=color:#c1abea>username</span>, <span style=color:#c1abea>password</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>Exception</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><hr><h2 id=insert>insert</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## insert
+</span></span></code></pre></div><hr><h2 id=insert>insert</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## insert
 </span></span><span style=display:flex><span>    insert record to database
 </span></span><span style=display:flex><span>     tags: crud,insert
 </span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>*</span> insert new record named &#34;Gauge&#34;,sex is &#34;Male&#34;,age is &#34;25&#34;
-</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;insert new record named &lt;Gauge&gt;,sex is &lt;Male&gt;,age is &lt;25&gt;&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>insert</span>(String name, String sex, Integer age) {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            statement <span style=color:#f92672>=</span> connection.<span style=color:#a6e22e>prepareStatement</span>(<span style=color:#e6db74>&#34;insert into user(username,sex,age) values (?,?,?)&#34;</span>);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setString</span>(1, name);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setString</span>(2, sex);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setInt</span>(3, age);
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>*</span> insert new record named &#34;Gauge&#34;,sex is &#34;Male&#34;,age is &#34;25&#34;
+</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;insert new record named &lt;Gauge&gt;,sex is &lt;Male&gt;,age is &lt;25&gt;&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>insert</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>name</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>sex</span>, <span style=color:#c1abea>Integer</span> <span style=color:#c1abea>age</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>connection</span>.<span style=color:#b3d23c>prepareStatement</span>(<span style=color:#98c379>&#34;insert into user(username,sex,age) values (?,?,?)&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setString</span>(<span style=color:#c1abea>1</span>, <span style=color:#c1abea>name</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setString</span>(<span style=color:#c1abea>2</span>, <span style=color:#c1abea>sex</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setInt</span>(<span style=color:#c1abea>3</span>, <span style=color:#c1abea>age</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> result <span style=color:#f92672>=</span> statement.<span style=color:#a6e22e>executeUpdate</span>();
+</span></span><span style=display:flex><span>            <span style=color:#ef8383>int</span> <span style=color:#c1abea>result</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>executeUpdate</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            assertTrue(result <span style=color:#f92672>&gt;</span> 0);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>assertTrue</span>(<span style=color:#c1abea>result</span> <span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>0</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (SQLException e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>SQLException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><hr><h2 id=select>select</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## query
+</span></span></code></pre></div><hr><h2 id=select>select</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## query
 </span></span><span style=display:flex><span>    query all records from database
 </span></span><span style=display:flex><span>     tags: crud,select
 </span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>*</span> query all records
-</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;query all records&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>query</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            statement <span style=color:#f92672>=</span> connection.<span style=color:#a6e22e>prepareStatement</span>(<span style=color:#e6db74>&#34;SELECT * FROM user&#34;</span>);
-</span></span><span style=display:flex><span>            ResultSet resultSet <span style=color:#f92672>=</span> statement.<span style=color:#a6e22e>executeQuery</span>();
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>while</span> (resultSet.<span style=color:#a6e22e>next</span>()) {
-</span></span><span style=display:flex><span>                    StringBuffer userInfo <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> StringBuffer();
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;ID:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;id&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tUsername:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;username&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tSex:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;sex&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tAge:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;age&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tSchool:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;school&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tMajor:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;major&#34;</span>));
-</span></span><span style=display:flex><span>                    userInfo.<span style=color:#a6e22e>append</span>(<span style=color:#e6db74>&#34;\t\tAddress:&#34;</span> <span style=color:#f92672>+</span> resultSet.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;address&#34;</span>));
-</span></span><span style=display:flex><span>                    Gauge.<span style=color:#a6e22e>writeMessage</span>(userInfo.<span style=color:#a6e22e>toString</span>());
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>*</span> query all records
+</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;query all records&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>query</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>connection</span>.<span style=color:#b3d23c>prepareStatement</span>(<span style=color:#98c379>&#34;SELECT * FROM user&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>ResultSet</span> <span style=color:#c1abea>resultSet</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>executeQuery</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c678dd>while</span> (<span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>next</span>()) {
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>StringBuffer</span> <span style=color:#c1abea>userInfo</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>StringBuffer</span>();
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;ID:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;id&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tUsername:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;username&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tSex:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;sex&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tAge:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;age&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tSchool:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;school&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tMajor:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;major&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>append</span>(<span style=color:#98c379>&#34;\t\tAddress:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getString</span>(<span style=color:#98c379>&#34;address&#34;</span>));
+</span></span><span style=display:flex><span>                    <span style=color:#c1abea>Gauge</span>.<span style=color:#b3d23c>writeMessage</span>(<span style=color:#c1abea>userInfo</span>.<span style=color:#b3d23c>toString</span>());
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            resultSet.<span style=color:#a6e22e>last</span>();
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> rowCount <span style=color:#f92672>=</span> resultSet.<span style=color:#a6e22e>getRow</span>();
-</span></span><span style=display:flex><span>            resultSet.<span style=color:#a6e22e>close</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>last</span>();
+</span></span><span style=display:flex><span>            <span style=color:#ef8383>int</span> <span style=color:#c1abea>rowCount</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>getRow</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>resultSet</span>.<span style=color:#b3d23c>close</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            assertTrue(rowCount <span style=color:#f92672>&gt;</span> 0);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (SQLException e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>assertTrue</span>(<span style=color:#c1abea>rowCount</span> <span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>0</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>SQLException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><hr><h2 id=update>update</h2><ul><li>.spec文件</li></ul><pre tabindex=0><code>    ## update
@@ -249,49 +77,44 @@ delete
      tags: crud,update
      
     * update record sex to &#34;Female&#34; which named &#34;Gauge&#34;
-</code></pre><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;update record sex to &lt;Female&gt; which named &lt;Gauge&gt;&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>update</span>(String sex, String name) {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            statement <span style=color:#f92672>=</span> connection.<span style=color:#a6e22e>prepareStatement</span>(<span style=color:#e6db74>&#34;UPDATE user SET sex=? WHERE username=?&#34;</span>);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setString</span>(1, sex);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setString</span>(2, name);
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> resultNum <span style=color:#f92672>=</span> statement.<span style=color:#a6e22e>executeUpdate</span>();
-</span></span><span style=display:flex><span>            assertTrue(resultNum <span style=color:#f92672>&gt;</span> 0);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (SQLException e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</code></pre><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;update record sex to &lt;Female&gt; which named &lt;Gauge&gt;&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>update</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>sex</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>name</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>connection</span>.<span style=color:#b3d23c>prepareStatement</span>(<span style=color:#98c379>&#34;UPDATE user SET sex=? WHERE username=?&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setString</span>(<span style=color:#c1abea>1</span>, <span style=color:#c1abea>sex</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setString</span>(<span style=color:#c1abea>2</span>, <span style=color:#c1abea>name</span>);
+</span></span><span style=display:flex><span>            <span style=color:#ef8383>int</span> <span style=color:#c1abea>resultNum</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>executeUpdate</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>assertTrue</span>(<span style=color:#c1abea>resultNum</span> <span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>0</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>SQLException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><hr><h2 id=delete>delete</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## delete
+</span></span></code></pre></div><hr><h2 id=delete>delete</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## delete
 </span></span><span style=display:flex><span>    delete record
 </span></span><span style=display:flex><span>     tags: crud,delete
 </span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>*</span> delete the record which named &#34;Gauge&#34;
-</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;delete the record which named &lt;Guage&gt;&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>delete</span>(String name) {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            statement <span style=color:#f92672>=</span> connection.<span style=color:#a6e22e>prepareStatement</span>(<span style=color:#e6db74>&#34;DELETE FROM user WHERE username=?&#34;</span>);
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>setString</span>(1, name);
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> resultNum <span style=color:#f92672>=</span> statement.<span style=color:#a6e22e>executeUpdate</span>();
-</span></span><span style=display:flex><span>            assertTrue(resultNum <span style=color:#f92672>&gt;</span> 0);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (SQLException e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>*</span> delete the record which named &#34;Gauge&#34;
+</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;delete the record which named &lt;Guage&gt;&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>delete</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>name</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>connection</span>.<span style=color:#b3d23c>prepareStatement</span>(<span style=color:#98c379>&#34;DELETE FROM user WHERE username=?&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>setString</span>(<span style=color:#c1abea>1</span>, <span style=color:#c1abea>name</span>);
+</span></span><span style=display:flex><span>            <span style=color:#ef8383>int</span> <span style=color:#c1abea>resultNum</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>executeUpdate</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>assertTrue</span>(<span style=color:#c1abea>resultNum</span> <span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>0</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>SQLException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><hr><h2 id=关闭连接>关闭连接</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    <span style=color:#66d9ef>*</span> close connection after crud
-</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Step</span>(<span style=color:#e6db74>&#34;close connection after crud&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>closeConnection</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            statement.<span style=color:#a6e22e>close</span>();
-</span></span><span style=display:flex><span>            connection.<span style=color:#a6e22e>close</span>();
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (SQLException e) {
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span></code></pre></div><hr><h2 id=关闭连接>关闭连接</h2><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    <span style=color:#c678dd>*</span> close connection after crud
+</span></span></code></pre></div><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;close connection after crud&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>closeConnection</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>statement</span>.<span style=color:#b3d23c>close</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>connection</span>.<span style=color:#b3d23c>close</span>();
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>SQLException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><hr><ul><li>需要把Jar包放在项目的lib目录下</li><li>使用了<a href="https://dev.mysql.com/downloads/file/?id=465644">MySQL驱动</a></li><li><a href=http://download.csdn.net/detail/u013360850/9760640>下载项目</a></li></ul></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E4%BB%8Egithub%E4%B8%8A%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98/><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M9.94496 9C9.28897 9.61644 7.63215 10.997 6.04814 11.7966 5.98257 11.8297 5.98456 11.9753 6.05061 12.0063c1.00435.4716 2.8788 1.9201 3.89435 2.9937M6.44444 11.9667C8.86549 12.0608 14 12 16 11" stroke="currentcolor" stroke-linecap="round"/></svg>
-<span>解决从GitHub上下载文件慢的问题</span></a>
-<a class=next href=https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8Chttp%E8%AF%B7%E6%B1%82%E6%B5%8B%E8%AF%95/><span>Gauge中执行Http请求测试</span><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966 16.0174 11.8297 16.0154 11.9753 15.9494 12.0063 14.945 12.4779 13.0706 13.9264 12.055 15m3.5006-3.0333C13.1345 12.0608 8 12 6 11" stroke="currentcolor" stroke-linecap="round"/></svg></a></div></article></div><footer class=footer><p>&copy; 2024 <a href=https://blog.hellowood.dev/>HelloWood</a>
-Powered by
-<a href=https://gohugo.io/ rel=noopener target=_blank data-umami-event=to-hugo>Hugo️️</a>
-<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank data-umami-event=to-ladder>Ladder</a>
-️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g data-umami-event=top-link><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211 22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257m1.0199 2.67608C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257c-3.5504-6.28886-12.88753-4.410077-16.44303.0C2.88063 6.77451-.0433281 11.1668 1.38159 16.6571c.89322 3.4417 3.7911 5.6365 6.81584 6.1154M20.7188 5.04257c1.3509 1.89783 3.3111 6.34223 1.6353 10.37273M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814 11.1703 6.98257 11.0247 6.98456 10.9937 7.05061 10.5221 8.05496 9.07362 9.92941 8 10.945m3.0333-3.50056C10.9392 9.86549 11 15 12 17" stroke="currentcolor" stroke-linecap="round"/></svg>
-</a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>
+</span></span></code></pre></div><hr><ul><li>需要把Jar包放在项目的lib目录下</li><li>使用了<a href="https://dev.mysql.com/downloads/file/?id=465644">MySQL驱动</a></li><li><a href=http://download.csdn.net/detail/u013360850/9760640>下载项目</a></li></ul></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-dark crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2024 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/526avijitgupta/gokarna>Gokarna</a></span></footer></body></html>

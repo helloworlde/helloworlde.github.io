@@ -1,1 +1,897 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MyBatis on HelloWood</title><link>https://blog.hellowood.dev/tags/mybatis/</link><description>Recent content in MyBatis on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 29 Mar 2019 21:17:57 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/mybatis/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MyBatis on HelloWood</title><link>https://blog.hellowood.dev/tags/mybatis/</link><description>Recent content in MyBatis on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Fri, 29 Mar 2019 21:17:57 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/mybatis/index.xml" rel="self" type="application/rss+xml"/><item><title>MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String</title><link>https://blog.hellowood.dev/posts/mybatis-%E6%9F%A5%E8%AF%A2%E9%94%99%E8%AF%AFjava-lang-illegalargumentexception-invalid-comparison-java-util-date-and-java-lang-string/</link><pubDate>Fri, 29 Mar 2019 21:17:57 +0000</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E6%9F%A5%E8%AF%A2%E9%94%99%E8%AF%AFjava-lang-illegalargumentexception-invalid-comparison-java-util-date-and-java-lang-string/</guid><description>&lt;h1 id="mybatis-查询错误javalangillegalargumentexception-invalid-comparison-javautildate-and-javalangstring">MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String&lt;/h1>
+&lt;p>项目中用 MyBatis Plus 替换了 MyBatis，原来的 MyBatis版本是 &lt;code>3.2.8&lt;/code>, MyBatis Plus 的版本是 &lt;code>3.1.0&lt;/code>，是基于 MyBatis &lt;code>3.5.0&lt;/code>开发的，测试没啥问题，上线之后有一些功能不能使用，排查日志发现错误&lt;code>Error querying database. Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String&lt;/code>&lt;/p>
+&lt;p>很快就定位到问题，是因为传入的 Date 在 XML 中使用了 &lt;code>date != null and date != ''&lt;/code>这样的判断引起的，删除&lt;code>date != ''&lt;/code>这个判断就好了&lt;/p>
+&lt;ul>
+&lt;li>异常信息&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">Caused&lt;/span> &lt;span style="color:#c1abea">by&lt;/span>: &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">apache&lt;/span>.&lt;span style="color:#b3d23c">ibatis&lt;/span>.&lt;span style="color:#b3d23c">exceptions&lt;/span>.&lt;span style="color:#b3d23c">PersistenceException&lt;/span>: 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>### &lt;span style="color:#c1abea">Error&lt;/span> &lt;span style="color:#c1abea">querying&lt;/span> &lt;span style="color:#c1abea">database&lt;/span>. &lt;span style="color:#c1abea">Cause&lt;/span>: &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">lang&lt;/span>.&lt;span style="color:#b3d23c">IllegalArgumentException&lt;/span>: &lt;span style="color:#c1abea">invalid&lt;/span> &lt;span style="color:#c1abea">comparison&lt;/span>: &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">util&lt;/span>.&lt;span style="color:#b3d23c">Date&lt;/span> &lt;span style="color:#c1abea">and&lt;/span> &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">lang&lt;/span>.&lt;span style="color:#b3d23c">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>### &lt;span style="color:#c1abea">Cause&lt;/span>: &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">lang&lt;/span>.&lt;span style="color:#b3d23c">IllegalArgumentException&lt;/span>: &lt;span style="color:#c1abea">invalid&lt;/span> &lt;span style="color:#c1abea">comparison&lt;/span>: &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">util&lt;/span>.&lt;span style="color:#b3d23c">Date&lt;/span> &lt;span style="color:#c1abea">and&lt;/span> &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">lang&lt;/span>.&lt;span style="color:#b3d23c">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">apache&lt;/span>.&lt;span style="color:#b3d23c">ibatis&lt;/span>.&lt;span style="color:#b3d23c">exceptions&lt;/span>.&lt;span style="color:#b3d23c">ExceptionFactory&lt;/span>.&lt;span style="color:#b3d23c">wrapException&lt;/span>(&lt;span style="color:#c1abea">ExceptionFactory&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">30&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">apache&lt;/span>.&lt;span style="color:#b3d23c">ibatis&lt;/span>.&lt;span style="color:#b3d23c">session&lt;/span>.&lt;span style="color:#b3d23c">defaults&lt;/span>.&lt;span style="color:#b3d23c">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">selectList&lt;/span>(&lt;span style="color:#c1abea">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">150&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">apache&lt;/span>.&lt;span style="color:#b3d23c">ibatis&lt;/span>.&lt;span style="color:#b3d23c">session&lt;/span>.&lt;span style="color:#b3d23c">defaults&lt;/span>.&lt;span style="color:#b3d23c">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">selectList&lt;/span>(&lt;span style="color:#c1abea">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">141&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">apache&lt;/span>.&lt;span style="color:#b3d23c">ibatis&lt;/span>.&lt;span style="color:#b3d23c">session&lt;/span>.&lt;span style="color:#b3d23c">defaults&lt;/span>.&lt;span style="color:#b3d23c">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">selectOne&lt;/span>(&lt;span style="color:#c1abea">DefaultSqlSession&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">77&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">sun&lt;/span>.&lt;span style="color:#b3d23c">reflect&lt;/span>.&lt;span style="color:#b3d23c">NativeMethodAccessorImpl&lt;/span>.&lt;span style="color:#b3d23c">invoke0&lt;/span>(&lt;span style="color:#c1abea">Native&lt;/span> &lt;span style="color:#c1abea">Method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">sun&lt;/span>.&lt;span style="color:#b3d23c">reflect&lt;/span>.&lt;span style="color:#b3d23c">NativeMethodAccessorImpl&lt;/span>.&lt;span style="color:#b3d23c">invoke&lt;/span>(&lt;span style="color:#c1abea">NativeMethodAccessorImpl&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">62&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">sun&lt;/span>.&lt;span style="color:#b3d23c">reflect&lt;/span>.&lt;span style="color:#b3d23c">DelegatingMethodAccessorImpl&lt;/span>.&lt;span style="color:#b3d23c">invoke&lt;/span>(&lt;span style="color:#c1abea">DelegatingMethodAccessorImpl&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">43&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">java&lt;/span>.&lt;span style="color:#b3d23c">lang&lt;/span>.&lt;span style="color:#b3d23c">reflect&lt;/span>.&lt;span style="color:#b3d23c">Method&lt;/span>.&lt;span style="color:#b3d23c">invoke&lt;/span>(&lt;span style="color:#c1abea">Method&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">498&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">at&lt;/span> &lt;span style="color:#c1abea">org&lt;/span>.&lt;span style="color:#b3d23c">mybatis&lt;/span>.&lt;span style="color:#b3d23c">spring&lt;/span>.&lt;span style="color:#b3d23c">SqlSessionTemplate$SqlSessionInterceptor&lt;/span>.&lt;span style="color:#b3d23c">invoke&lt;/span>(&lt;span style="color:#c1abea">SqlSessionTemplate&lt;/span>.&lt;span style="color:#b3d23c">java&lt;/span>:&lt;span style="color:#c1abea">433&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ... &lt;span style="color:#c1abea">98&lt;/span> &lt;span style="color:#c1abea">more&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="问题复现">问题复现&lt;/h3>
+&lt;ul>
+&lt;li>ServiceImpl&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">testDao&lt;/span>.&lt;span style="color:#b3d23c">getDate&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">Date&lt;/span>());
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Dao&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">Date&lt;/span> &lt;span style="color:#00b1f7">test&lt;/span>(&lt;span style="color:#e5c07b">@Param&lt;/span>(&lt;span style="color:#98c379">&amp;#34;date&amp;#34;&lt;/span>) &lt;span style="color:#c1abea">Date&lt;/span> &lt;span style="color:#c1abea">date&lt;/span>);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>XML&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;select&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;test&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">resultType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.util.Date&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;if&lt;/span> &lt;span style="color:#b3d23c">test=&lt;/span>&lt;span style="color:#98c379">&amp;#34;date != null and date !=&amp;#39;&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> #{date} AS now
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM dual
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;/if&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;if&lt;/span> &lt;span style="color:#b3d23c">test=&lt;/span>&lt;span style="color:#98c379">&amp;#34; date== null&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> date_add(now(), INTERVAL 1 DAY_HOUR) AS now
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM dual
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;/if&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;/select&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>经过debug，发现 MyBatis 3.3之前和3.3之后的判断逻辑不一样&lt;/p></description></item><item><title>SpringBoot-使用 MyBatis 通用 Mapper</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</link><pubDate>Sun, 08 Apr 2018 15:11:45 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</guid><description>&lt;h1 id="springboot-使用-mybatis-通用-mapper">SpringBoot 使用 MyBatis 通用 Mapper&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/abel533/Mapper">通用 Mapper&lt;/a> 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 &lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">PageHelper&lt;/a> 一起使用；通用 Mapper 插件虽然没有 &lt;a href="https://github.com/baomidou/mybatis-plus">MyBatis Plus&lt;/a> 强大，但是满足正常项目开发；&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="添加依赖">添加依赖&lt;/h2>
+&lt;ul>
+&lt;li>build.gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;tk.mybatis:mapper:3.4.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置">配置&lt;/h2>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code># DataSource
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/product?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=123456
+
+# MyBatis
+mybatis.type-aliases-package=cn.com.hellowood.mybatisplus.dao
+mybatis.mapper-locations=mappers/**Mapper.xml
+
+# PageHelper
+pagehelper.helper-dialect=mysql
+pagehelper.reasonable=true
+pagehelper.support-methods-arguments=true
+pagehelper.params=count=countSql
+pagehelper.row-bounds-with-count=true
+pagehelper.offset-as-page-num=true
+pagehelper.page-size-zero=true
+
+# Log
+logging.level.root=info
+logging.level.cn.com.hellowood=trace
+
+spring.profiles.active=dev
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>MyBatisConfig.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.context.annotation.Bean&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.context.annotation.Configuration&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.spring.mapper.MapperScannerConfigurer&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.Properties&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Configuration&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">MyBatisConfig&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">MAPPER_PACKAGE&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mapper.dao&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">MAPPER_INTERFACE_REFERENCE&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mapper.common.CommonMapper&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">MapperScannerConfigurer&lt;/span> &lt;span style="color:#00b1f7">mapperScannerConfigurer&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">MapperScannerConfigurer&lt;/span> &lt;span style="color:#c1abea">mapperScannerConfigurer&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">MapperScannerConfigurer&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mapperScannerConfigurer&lt;/span>.&lt;span style="color:#b3d23c">setSqlSessionFactoryBeanName&lt;/span>(&lt;span style="color:#98c379">&amp;#34;sqlSessionFactoryBean&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mapperScannerConfigurer&lt;/span>.&lt;span style="color:#b3d23c">setBasePackage&lt;/span>(&lt;span style="color:#c1abea">MAPPER_PACKAGE&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Properties&lt;/span> &lt;span style="color:#c1abea">properties&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">Properties&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">properties&lt;/span>.&lt;span style="color:#b3d23c">setProperty&lt;/span>(&lt;span style="color:#98c379">&amp;#34;mappers&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">MAPPER_INTERFACE_REFERENCE&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">properties&lt;/span>.&lt;span style="color:#b3d23c">setProperty&lt;/span>(&lt;span style="color:#98c379">&amp;#34;notEmpty&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;false&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">properties&lt;/span>.&lt;span style="color:#b3d23c">setProperty&lt;/span>(&lt;span style="color:#98c379">&amp;#34;IDENTIFY&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;MYSQL&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mapperScannerConfigurer&lt;/span>.&lt;span style="color:#b3d23c">setProperties&lt;/span>(&lt;span style="color:#c1abea">properties&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">mapperScannerConfigurer&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>BaseService.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.service&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.common.CommonMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.common.CommonService&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.utils.ServiceException&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">com.github.pagehelper.PageHelper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">com.github.pagehelper.PageInfo&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.mapper.entity.Condition&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.servlet.http.HttpServletRequest&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.io.Serializable&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.lang.reflect.Field&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.lang.reflect.ParameterizedType&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">abstract&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">BaseService&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">CommonService&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Class&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">modelClass&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">protected&lt;/span> &lt;span style="color:#c1abea">CommonMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">HttpServletRequest&lt;/span> &lt;span style="color:#c1abea">request&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#00b1f7">BaseService&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ParameterizedType&lt;/span> &lt;span style="color:#c1abea">type&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> (&lt;span style="color:#c1abea">ParameterizedType&lt;/span>) &lt;span style="color:#c678dd">this&lt;/span>.&lt;span style="color:#b3d23c">getClass&lt;/span>().&lt;span style="color:#b3d23c">getGenericSuperclass&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">this&lt;/span>.&lt;span style="color:#b3d23c">modelClass&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> (&lt;span style="color:#c1abea">Class&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>) &lt;span style="color:#c1abea">type&lt;/span>.&lt;span style="color:#b3d23c">getActualTypeArguments&lt;/span>()&lt;span style="color:#c7bf54">[&lt;/span>&lt;span style="color:#c1abea">0&lt;/span>&lt;span style="color:#c7bf54">]&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#c1abea">T&lt;/span> &lt;span style="color:#c1abea">model&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">insertSelective&lt;/span>(&lt;span style="color:#c1abea">model&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">models&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">insertList&lt;/span>(&lt;span style="color:#c1abea">models&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#00b1f7">deleteById&lt;/span>(&lt;span style="color:#c1abea">Serializable&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">deleteByPrimaryKey&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#00b1f7">deleteByIds&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">ids&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">deleteByIds&lt;/span>(&lt;span style="color:#c1abea">ids&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#00b1f7">update&lt;/span>(&lt;span style="color:#c1abea">T&lt;/span> &lt;span style="color:#c1abea">model&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">updateByPrimaryKeySelective&lt;/span>(&lt;span style="color:#c1abea">model&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">T&lt;/span> &lt;span style="color:#00b1f7">getById&lt;/span>(&lt;span style="color:#c1abea">Serializable&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">selectByPrimaryKey&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByField&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">fieldName&lt;/span>, &lt;span style="color:#c1abea">Object&lt;/span> &lt;span style="color:#c1abea">value&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">T&lt;/span> &lt;span style="color:#c1abea">model&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">modelClass&lt;/span>.&lt;span style="color:#b3d23c">newInstance&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Field&lt;/span> &lt;span style="color:#c1abea">field&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">modelClass&lt;/span>.&lt;span style="color:#b3d23c">getDeclaredField&lt;/span>(&lt;span style="color:#c1abea">fieldName&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">field&lt;/span>.&lt;span style="color:#b3d23c">setAccessible&lt;/span>(&lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">field&lt;/span>.&lt;span style="color:#b3d23c">set&lt;/span>(&lt;span style="color:#c1abea">model&lt;/span>, &lt;span style="color:#c1abea">value&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">select&lt;/span>(&lt;span style="color:#c1abea">model&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#c678dd">catch&lt;/span> (&lt;span style="color:#c1abea">ReflectiveOperationException&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">printStackTrace&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">throw&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span>(&lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">getMessage&lt;/span>(), &lt;span style="color:#c1abea">e&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByIds&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">ids&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">selectByIds&lt;/span>(&lt;span style="color:#c1abea">ids&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByCondition&lt;/span>(&lt;span style="color:#c1abea">Condition&lt;/span> &lt;span style="color:#c1abea">condition&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">selectByCondition&lt;/span>(&lt;span style="color:#c1abea">condition&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getAll&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">selectAll&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getPage&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">PageHelper&lt;/span>.&lt;span style="color:#b3d23c">startPage&lt;/span>(&lt;span style="color:#c1abea">request&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">list&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">commonMapper&lt;/span>.&lt;span style="color:#b3d23c">selectAll&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>(&lt;span style="color:#c1abea">list&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>CommonMapper.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.common&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.mapper.common.BaseMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.mapper.common.ConditionMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.mapper.common.IdsMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">tk.mybatis.mapper.common.special.InsertListMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">CommonMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c678dd">extends&lt;/span> &lt;span style="color:#c1abea">BaseMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ConditionMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">IdsMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">InsertListMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">T&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Product.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.modal&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.persistence.Column&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.persistence.GeneratedValue&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.persistence.GenerationType&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.persistence.Id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">Product&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Id&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GeneratedValue&lt;/span>(&lt;span style="color:#c1abea">strategy&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">GenerationType&lt;/span>.&lt;span style="color:#b3d23c">IDENTITY&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Column&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Column&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Double&lt;/span> &lt;span style="color:#c1abea">price&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// get, set ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>ProductDao.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.dao&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.common.CommonMapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.mapper.modal.Product&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.apache.ibatis.annotations.Mapper&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Mapper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">ProductDao&lt;/span> &lt;span style="color:#c678dd">extends&lt;/span> &lt;span style="color:#c1abea">CommonMapper&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>ProductMapper.xml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34; ?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&amp;lt;!DOCTYPE mapper PUBLIC &amp;#34;-//mybatis.org//DTD Mapper 3.0//EN&amp;#34; &amp;#34;http://mybatis.org/dtd/mybatis-3-mapper.dtd&amp;#34; &amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;mapper&lt;/span> &lt;span style="color:#b3d23c">namespace=&lt;/span>&lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mapper.dao.ProductDao&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;resultMap&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">type=&lt;/span>&lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mapper.modal.Product&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;id&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;id&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;id&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.Integer&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;INTEGER&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/id&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;result&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;name&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;name&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.String&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;VARCHAR&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/result&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;result&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;price&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;price&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.Double&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;BIGINT&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/result&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;/resultMap&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/mapper&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用">使用&lt;/h2>
+&lt;blockquote>
+&lt;p>直接调用 Service 的方法就可以实现正常的单表 CRUD，但是对于多表的操作依然需要写在 XML 里&lt;/p></description></item><item><title>SpringBoot 使用 MyBatis PageHelper 分页插件</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</link><pubDate>Sat, 03 Feb 2018 11:56:38 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</guid><description>&lt;h1 id="springboot-使用-mybatis-分页插件">SpringBoot 使用 MyBatis 分页插件&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">MyBatis PageHelper&lt;/a> 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="添加依赖">添加依赖&lt;/h2>
+&lt;ul>
+&lt;li>build.gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="添加配置">添加配置&lt;/h2>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>pagehelper.helper-dialect=mysql
+pagehelper.reasonable=true
+pagehelper.support-methods-arguments=true
+pagehelper.params=count=countSql
+pagehelper.row-bounds-with-count=true
+pagehelper.offset-as-page-num=true
+pagehelper.page-size-zero=true
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>&lt;code>pagehelper.helper-dialect&lt;/code> : 指定分页插件使用哪种语言&lt;/li>
+&lt;li>&lt;code>pagehelper.offset-as-page-num&lt;/code> : 默认为 &lt;code>false&lt;/code>, 该参数对使用&lt;code>RowBounds&lt;/code>作为分页参数时有效，当为&lt;code>true&lt;/code>时，会将&lt;code>RowBounds&lt;/code>的&lt;code>offset&lt;/code>参数当成&lt;code>pageNum&lt;/code>使用&lt;/li>
+&lt;li>&lt;code>pagehelper.row-bounds-with-count&lt;/code> : 默认为&lt;code>false&lt;/code>，该参数对使用&lt;code>RowBounds&lt;/code>作为分页参数时有效，当该参数值为&lt;code>true&lt;/code>时，使用&lt;code>RowBounds&lt;/code>分页会进行&lt;code>count&lt;/code>查询&lt;/li>
+&lt;li>&lt;code>pagehelper.page-size-zero&lt;/code> : 默认为&lt;code>false&lt;/code>,当该参数为&lt;code>true&lt;/code>时，如果&lt;code>pageSize=0&lt;/code>或者&lt;code>RowBounds.limit=0&lt;/code>就会查询所有结果&lt;/li>
+&lt;li>&lt;code>pagehelper.reasonable&lt;/code> : 分页合理化参数，默认为&lt;code>false&lt;/code>，当该值为&lt;code>true&lt;/code>，&lt;code>pageNum&amp;lt;=0&lt;/code>默认查询第一页，&lt;code>pageNum&amp;gt;pages&lt;/code>时会查询最后一页，&lt;code>false&lt;/code>时直接根据参数进行查询&lt;/li>
+&lt;li>&lt;code>pagehelper.params&lt;/code> : 为了支持&lt;code>startPage(Object params)&lt;/code>方法，增加该参数来配置参数映射，用于从对象中根据属性名取值，可以配置&lt;code>pageNum,pageSize,pageSizeZero, reasonable&lt;/code>, 不配置映射是使用默认值， 默认值为&lt;code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero&lt;/code>&lt;/li>
+&lt;li>&lt;code>pagehelper.support-methods-arguments&lt;/code> : 支持通过 &lt;code>Mapper&lt;/code>接口参数来传递分页参数，默认为&lt;code>false&lt;/code>, 分页插件会从查询方法的参数中根据&lt;code>params&lt;/code>配置的字段中取值，查找到合适的就进行分页&lt;/li>
+&lt;li>&lt;code>pagehelper.auto-runtime-dialect&lt;/code> : 默认为&lt;code>false&lt;/code>, 为&lt;code>true&lt;/code>时允许在运行时根据多数据源自动识别对应的方言进行分页&lt;/li>
+&lt;li>&lt;code>pagehelper.close-conn&lt;/code> : 默认为&lt;code>true&lt;/code>, 当使用运行是动态数据源或者没有设置&lt;code>helperDialect&lt;/code>属性自动获取数据库类型时，会自动获取一个数据库连接，通过该属性来设置是否关闭获取的这个连接，默认为&lt;code>true&lt;/code>关闭，&lt;code>false&lt;/code>不会自动关闭&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ul>
+&lt;li>Product.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">Product&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">Serializable&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">price&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageNum&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageSize&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>ProductMapper.xml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;resultMap&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">type=&lt;/span>&lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mybatis.modal.Product&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;id&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;id&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;id&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.Long&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;INTEGER&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/id&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;result&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;name&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;name&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.String&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;VARCHAR&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/result&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;lt;result&lt;/span> &lt;span style="color:#b3d23c">column=&lt;/span>&lt;span style="color:#98c379">&amp;#34;price&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">property=&lt;/span>&lt;span style="color:#98c379">&amp;#34;price&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">javaType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;java.lang.Long&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">jdbcType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;BIGINT&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&amp;lt;/result&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/resultMap&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用pagehelperstartpage或-pagehelperoffsetpage">使用&lt;code>PageHelper.startPage()&lt;/code>或 &lt;code>PageHelper.offsetPage()&lt;/code>&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByPageHelper&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">PageHelper&lt;/span>.&lt;span style="color:#b3d23c">startPage&lt;/span>(&lt;span style="color:#c1abea">request&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 或&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// PageHelper.startPage(0,10);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// PageHelper.offsetPage(0,10);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#c1abea">productDao&lt;/span>.&lt;span style="color:#b3d23c">getByPageHelper&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;select&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;getByPageHelper&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">resultMap=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT *
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM product
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/select&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用rowbounds传递分页参数">使用&lt;code>RowBounds&lt;/code>传递分页参数&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByRowBounds&lt;/span>(&lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageSize&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#c1abea">productDao&lt;/span>.&lt;span style="color:#b3d23c">getByRowBounds&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">RowBounds&lt;/span>(&lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">pageSize&lt;/span>)));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;select&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;getByRowBounds&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">resultMap=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT *
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM product
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/select&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="dao-接口直接传递分页参数">Dao 接口直接传递分页参数&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByInterfaceArgs&lt;/span>(&lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageSize&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#c1abea">productDao&lt;/span>.&lt;span style="color:#b3d23c">getByInterfaceArgs&lt;/span>(&lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">pageSize&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;select&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;getByInterfaceArgs&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">resultMap=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT *
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM product
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/select&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="通过modal传递分页参数">通过&lt;code>Modal&lt;/code>传递分页参数&lt;/h3>
+&lt;ul>
+&lt;li>需要 &lt;code>Product&lt;/code>中的&lt;code>pageSize&lt;/code>和&lt;code>pageNum&lt;/code>都有效&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">getByModalArgs&lt;/span>(&lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#c1abea">product&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageInfo&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#c1abea">productDao&lt;/span>.&lt;span style="color:#b3d23c">getByModalArgs&lt;/span>(&lt;span style="color:#c1abea">product&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;select&lt;/span> &lt;span style="color:#b3d23c">id=&lt;/span>&lt;span style="color:#98c379">&amp;#34;getByModalArgs&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">resultMap=&lt;/span>&lt;span style="color:#98c379">&amp;#34;baseResultMap&amp;#34;&lt;/span> &lt;span style="color:#b3d23c">parameterType=&lt;/span>&lt;span style="color:#98c379">&amp;#34;cn.com.hellowood.mybatis.modal.Product&amp;#34;&lt;/span>&lt;span style="color:#e06c75">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SELECT *
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FROM product
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">&amp;lt;/select&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0000</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
+&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
+
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): ...........
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> mybatis.mapper-locations=classpath*:/mapper/**Mapper.xml
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>
+&lt;p>修改前的结构
+&lt;img src="http://img.blog.csdn.net/20170501203323011?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改前的结构">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改后的结构
+&lt;img src="http://img.blog.csdn.net/20170501203402426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改后的结构">&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title>MyBatis 中使用 Association 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:48:06 +0000</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote>
+&lt;p>当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
+以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="javabean">JavaBean&lt;/h2>
+&lt;ul>
+&lt;li>UserModel&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>public class UserModel {
+ private Integer id;
+ private String username;
+ private String password;
+ private Boolean enabled;
+ private Boolean locked;
+ private Boolean expired;
+ private RoleModel role;
+ private List&amp;lt;MenuModel&amp;gt; menus;
+
+ ···
+} 
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>RoleModel&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>public class RoleModel {
+ private Integer id;
+ private String name;
+ private Boolean isActive;
+ private String description;
+ private Date lastUpdateTime;
+
+ ···
+} 
+&lt;/code>&lt;/pre>&lt;h2 id="表">表&lt;/h2>
+&lt;ul>
+&lt;li>User&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE user (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ username VARCHAR(45) NOT NULL,
+ password VARCHAR(45) NOT NULL,
+ enabled BOOLEAN NOT NULL DEFAULT TRUE,
+ expired BOOLEAN NOT NULL DEFAULT TRUE,
+ locked BOOLEAN NOT NULL DEFAULT TRUE,
+ last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+ comment VARCHAR(100)
+);
+
+INSERT INTO user (username, password, enabled, expired, locked, last_update_time)
+VALUES (&amp;#39;admin&amp;#39;, &amp;#39;admin&amp;#39;, TRUE, FALSE, FALSE, current_timestamp);
+INSERT INTO user (username, password, enabled, expired, locked, last_update_time)
+VALUES (&amp;#39;user&amp;#39;, &amp;#39;password&amp;#39;, TRUE, FALSE, FALSE, current_timestamp);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>Role&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE role (
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(50) NOT NULL UNIQUE,
+ description VARCHAR(100),
+ is_active BOOLEAN NOT NULL DEFAULT TRUE,
+ last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp
+);
+
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&amp;#39;ROLE_ADMIN&amp;#39;, &amp;#39;Administrator&amp;#39;, TRUE, current_timestamp);
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&amp;#39;ROLE_USER&amp;#39;, &amp;#39;User&amp;#39;, TRUE, current_timestamp);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>UserRoleXref&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE user_role_xref (
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ user_id INT NOT NULL,
+ role_id INT NOT NULL,
+ last_update_time TIMESTAMP NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
+ CONSTRAINT FOREIGN KEY fK_user_role_xref_user_id_user_id (user_id) REFERENCES user (id),
+ CONSTRAINT FOREIGN KEY fk_user_role_xref_role_id_role_id (role_id) REFERENCES role (id)
+);
+
+INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (1, 1, CURRENT_TIMESTAMP);
+INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CURRENT_TIMESTAMP);
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;h2 id="一个查询调用另一个查询实现的嵌套">一个查询调用另一个查询实现的嵌套&lt;/h2>
+&lt;pre tabindex="0">&lt;code> &amp;lt;resultMap id=&amp;#34;BaseUserModelResultMap&amp;#34; type=&amp;#34;cn.com.hellowood.springsecurity.model.UserModel&amp;#34;&amp;gt;
+ &amp;lt;id column=&amp;#34;id&amp;#34; property=&amp;#34;id&amp;#34; javaType=&amp;#34;java.lang.Integer&amp;#34; jdbcType=&amp;#34;INTEGER&amp;#34;&amp;gt;&amp;lt;/id&amp;gt;
+ &amp;lt;result column=&amp;#34;username&amp;#34; property=&amp;#34;username&amp;#34; javaType=&amp;#34;java.lang.String&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;&amp;gt;&amp;lt;/result&amp;gt;
+ &amp;lt;result column=&amp;#34;password&amp;#34; property=&amp;#34;password&amp;#34; javaType=&amp;#34;java.lang.String&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;&amp;gt;&amp;lt;/result&amp;gt;
+ &amp;lt;result column=&amp;#34;enabled&amp;#34; property=&amp;#34;enabled&amp;#34; javaType=&amp;#34;java.lang.Boolean&amp;#34; jdbcType=&amp;#34;BOOLEAN&amp;#34;&amp;gt;&amp;lt;/result&amp;gt;
+ &amp;lt;result column=&amp;#34;expired&amp;#34; property=&amp;#34;expired&amp;#34; javaType=&amp;#34;java.lang.Boolean&amp;#34; jdbcType=&amp;#34;BOOLEAN&amp;#34;&amp;gt;&amp;lt;/result&amp;gt;
+ &amp;lt;result column=&amp;#34;locked&amp;#34; property=&amp;#34;locked&amp;#34; javaType=&amp;#34;java.lang.Boolean&amp;#34; jdbcType=&amp;#34;BOOLEAN&amp;#34;&amp;gt;&amp;lt;/result&amp;gt;
+ &amp;lt;association property=&amp;#34;role&amp;#34; javaType=&amp;#34;cn.com.hellowood.springsecurity.model.RoleModel&amp;#34;
+ column=&amp;#34;id&amp;#34; select=&amp;#34;getRoleByUserId&amp;#34;&amp;gt;
+ &amp;lt;/association&amp;gt;
+ &amp;lt;/resultMap&amp;gt;
+
+ &amp;lt;resultMap id=&amp;#34;BaseRoleResultMap&amp;#34; type=&amp;#34;cn.com.hellowood.springsecurity.model.RoleModel&amp;#34;&amp;gt;
+ &amp;lt;id column=&amp;#34;id&amp;#34; property=&amp;#34;id&amp;#34; jdbcType=&amp;#34;INTEGER&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;name&amp;#34; property=&amp;#34;name&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;is_active&amp;#34; property=&amp;#34;isActive&amp;#34; jdbcType=&amp;#34;BOOLEAN&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;description&amp;#34; property=&amp;#34;description&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;last_update_time&amp;#34; property=&amp;#34;lastUpdateTime&amp;#34; jdbcType=&amp;#34;TIMESTAMP&amp;#34;/&amp;gt;
+ &amp;lt;/resultMap&amp;gt;
+
+ &amp;lt;select id=&amp;#34;getAllUsers&amp;#34; resultMap=&amp;#34;BaseUserModelResultMap&amp;#34;&amp;gt;
+ SELECT
+ id,
+ username,
+ password,
+ enabled,
+ expired,
+ locked
+ FROM user
+ &amp;lt;/select&amp;gt;
+
+ &amp;lt;select id=&amp;#34;getRoleByUserId&amp;#34; parameterType=&amp;#34;java.lang.Integer&amp;#34;
+ resultType=&amp;#34;cn.com.hellowood.springsecurity.model.RoleModel&amp;#34;&amp;gt;
+ SELECT
+ r.id,
+ r.name,
+ r.is_active,
+ r.description,
+ r.last_update_time
+ FROM role r
+ LEFT JOIN user_role_xref urx
+ ON r.id = urx.role_id
+ WHERE user_id = #{userId, jdbcType=INTEGER}
+ &amp;lt;/select&amp;gt;
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>此时，调用 &lt;code>getAllUsers()&lt;/code> 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p></description></item><item><title>MyBatis 中使用 Collection 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:47:05 +0000</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote>
+&lt;p>当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
+以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="javabean">JavaBean&lt;/h2>
+&lt;ul>
+&lt;li>RoleModel&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>public class RoleModel {
+ private Integer id;
+ private String name;
+ private Boolean isActive;
+ private String description;
+ private Date lastUpdateTime;
+ private List&amp;lt;MenuModel&amp;gt; menus;
+ ···
+} 
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>MenuModel&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>public class MenuModel {
+ private Integer id;
+ private String value;
+ private String displayValue;
+ private String url;
+ private Integer category;
+ private String description;
+ private Boolean isActive;
+ private Date lastUpdateTime;
+ 
+ ···
+} 
+&lt;/code>&lt;/pre>&lt;h2 id="表">表&lt;/h2>
+&lt;ul>
+&lt;li>Role&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE role (
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(50) NOT NULL UNIQUE,
+ description VARCHAR(100),
+ is_active BOOLEAN NOT NULL DEFAULT TRUE,
+ last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp
+);
+
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&amp;#39;ROLE_ADMIN&amp;#39;, &amp;#39;Administrator&amp;#39;, TRUE, current_timestamp);
+INSERT INTO role (name, description, is_active, last_update_time)
+VALUES (&amp;#39;ROLE_USER&amp;#39;, &amp;#39;User&amp;#39;, TRUE, current_timestamp);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>Menu&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE menu (
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ value VARCHAR(100) NOT NULL,
+ display_value VARCHAR(100) NOT NULL,
+ url VARCHAR(100) NOT NULL,
+ category INT,
+ description VARCHAR(100),
+ is_active BOOLEAN NOT NULL DEFAULT TRUE,
+ last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp
+);
+
+INSERT INTO menu (value, display_value, url, description, is_active, last_update_time)
+VALUES (&amp;#39;/admin/dashboard&amp;#39;, &amp;#39;Admin Dashboard&amp;#39;, &amp;#39;/admin/dashboard&amp;#39;, &amp;#39;Admin Dashboard&amp;#39;, TRUE, current_timestamp);
+
+INSERT INTO menu (value, display_value, url, description, is_active, last_update_time)
+VALUES (&amp;#39;/admin/profile&amp;#39;, &amp;#39;Admin Profile&amp;#39;, &amp;#39;/admin/profile&amp;#39;, &amp;#39;Admin Profile&amp;#39;, TRUE, current_timestamp);
+
+
+INSERT INTO menu (value, display_value, url, description, is_active, last_update_time)
+VALUES (&amp;#39;/user/dashboard&amp;#39;, &amp;#39;User Dashboard&amp;#39;, &amp;#39;/user/dashboard&amp;#39;, &amp;#39;User Dashboard&amp;#39;, TRUE, current_timestamp);
+
+INSERT INTO menu (value, display_value, url, description, is_active, last_update_time)
+VALUES (&amp;#39;/user/profile&amp;#39;, &amp;#39;User Profile&amp;#39;, &amp;#39;/user/profile&amp;#39;, &amp;#39;User Profile&amp;#39;, TRUE, current_timestamp);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>RoleMenuXref&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>CREATE TABLE role_menu_xref (
+ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ role_id INT NOT NULL,
+ menu_id INT NOT NULL,
+ last_update_time TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp,
+ CONSTRAINT FOREIGN KEY fk_role_menu_xref_role_id (role_id) REFERENCES role (id),
+ CONSTRAINT FOREIGN KEY fk_role_menu_xref_menu_id(menu_id) REFERENCES menu (id),
+ CONSTRAINT UNIQUE (role_id, menu_id)
+);
+
+INSERT role_menu_xref (role_id, menu_id, last_update_time)
+VALUES (1, 1, current_timestamp);
+
+INSERT role_menu_xref (role_id, menu_id, last_update_time)
+VALUES (1, 2, current_timestamp);
+
+INSERT role_menu_xref (role_id, menu_id, last_update_time)
+VALUES (2, 3, current_timestamp);
+
+INSERT role_menu_xref (role_id, menu_id, last_update_time)
+VALUES (2, 4, current_timestamp);
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;h2 id="collection-一个查询调用另一个查询实现的嵌套">Collection 一个查询调用另一个查询实现的嵌套&lt;/h2>
+&lt;pre tabindex="0">&lt;code> &amp;lt;resultMap id=&amp;#34;BaseRoleResultMap&amp;#34; type=&amp;#34;cn.com.hellowood.springsecurity.model.RoleModel&amp;#34;&amp;gt;
+ &amp;lt;id column=&amp;#34;id&amp;#34; property=&amp;#34;id&amp;#34; jdbcType=&amp;#34;INTEGER&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;name&amp;#34; property=&amp;#34;name&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;is_active&amp;#34; property=&amp;#34;isActive&amp;#34; jdbcType=&amp;#34;BOOLEAN&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;description&amp;#34; property=&amp;#34;description&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;last_update_time&amp;#34; property=&amp;#34;lastUpdateTime&amp;#34; jdbcType=&amp;#34;TIMESTAMP&amp;#34;/&amp;gt;
+ &amp;lt;collection property=&amp;#34;menus&amp;#34; ofType=&amp;#34;cn.com.hellowood.springsecurity.model.menus&amp;#34;
+ javaType=&amp;#34;java.util.ArrayList&amp;#34; select=&amp;#34;getMenus&amp;#34;
+ column=&amp;#34;id&amp;#34;&amp;gt;
+ &amp;lt;/collection&amp;gt;
+ &amp;lt;/resultMap&amp;gt;
+
+
+ &amp;lt;resultMap id=&amp;#34;BaseMenuResultMap&amp;#34; type=&amp;#34;cn.com.hellowood.springsecurity.model.MenuModel&amp;#34;&amp;gt;
+ &amp;lt;id column=&amp;#34;id&amp;#34; property=&amp;#34;id&amp;#34; jdbcType=&amp;#34;INTEGER&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;value&amp;#34; property=&amp;#34;value&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;display_value&amp;#34; property=&amp;#34;displayValue&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;url&amp;#34; property=&amp;#34;url&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;category&amp;#34; property=&amp;#34;category&amp;#34; jdbcType=&amp;#34;INTEGER&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;description&amp;#34; property=&amp;#34;description&amp;#34; jdbcType=&amp;#34;VARCHAR&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;is_active&amp;#34; property=&amp;#34;isActive&amp;#34; jdbcType=&amp;#34;BIT&amp;#34;/&amp;gt;
+ &amp;lt;result column=&amp;#34;last_update_time&amp;#34; property=&amp;#34;lastUpdateTime&amp;#34; jdbcType=&amp;#34;TIMESTAMP&amp;#34;/&amp;gt;
+ &amp;lt;/resultMap&amp;gt;
+ 
+ &amp;lt;select id=&amp;#34;getRoles&amp;#34; parameterType=&amp;#34;java.lang.Integer&amp;#34; resultMap=&amp;#34;BaseRoleResultMap&amp;#34;&amp;gt;
+ SELECT
+ id,
+ name,
+ is_active,
+ description,
+ last_update_time
+ FROM role
+ &amp;lt;/select&amp;gt;
+ 
+ &amp;lt;select id=&amp;#34;getMenus&amp;#34; parameterType=&amp;#34;java.lang.Integer&amp;#34; resultMap=&amp;#34;BaseMenuResultMap&amp;#34;&amp;gt;
+ SELECT
+ m.id,
+ m.value,
+ m.display_value,
+ m.url,
+ m.category,
+ m.description,
+ m.is_active,
+ m.last_update_time
+ FROM menu m
+ LEFT JOIN
+ role_menu_xref rmx
+ ON m.id = rmx.menu_id
+ WHERE role_id = #{roleId, jdbcType=INTEGER}
+ &amp;lt;/select&amp;gt;
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>此时，调用 &lt;code>getRoles()&lt;/code> 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p></description></item><item><title>Spring Boot MyBatis 动态数据源常见问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Sun, 31 Dec 2017 23:45:52 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;h1 id="在使用-spring-boot-和-mybatis-动态切换数据源时遇到的问题以及解决方法">在使用 Spring Boot 和 MyBatis 动态切换数据源时遇到的问题以及解决方法&lt;/h1>
+&lt;blockquote>
+&lt;p>相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="1-orgapacheibatisbindingbindingexception-invalid-bound-statement-not-found">1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/h2>
+&lt;blockquote>
+&lt;p>在使用了动态数据源后遇到了该问题，从错误信息来看是因为没有找到 &lt;code>*.xml&lt;/code> 文件而导致的，但是在配置文件中
+确实添加了相关的配置，这种错误的原因是因为设置数据源后没有设置&lt;code>SqlSessionFactoryBean&lt;/code>的 &lt;code>typeAliasesPackage&lt;/code>
+和&lt;code>mapperLocations&lt;/code>属性或属性无效导致的；&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>解决方法：&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>如果在应用的入口类中添加了 &lt;code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)&lt;/code>,
+在&lt;code>DataSourceConfigure&lt;/code>类的中设置相关属性：&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@ConfigurationProperties&lt;/span>(&lt;span style="color:#c1abea">prefix&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;mybatis&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#00b1f7">sqlSessionFactoryBean&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>.&lt;span style="color:#b3d23c">setDataSource&lt;/span>(&lt;span style="color:#c1abea">dynamicDataSource&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者直接配置(不推荐该方式)：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#00b1f7">sqlSessionFactoryBean&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>.&lt;span style="color:#b3d23c">setTypeAliasesPackage&lt;/span>(&lt;span style="color:#98c379">&amp;#34;typeAliasesPackage&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>.&lt;span style="color:#b3d23c">setMapperLocations&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PathMatchingResourcePatternResolver&lt;/span>().&lt;span style="color:#b3d23c">getResources&lt;/span>(&lt;span style="color:#98c379">&amp;#34;mapperLocations&amp;#34;&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>.&lt;span style="color:#b3d23c">setDataSource&lt;/span>(&lt;span style="color:#c1abea">dynamicDataSource&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">sqlSessionFactoryBean&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="2-consider-marking-one-of-the-beans-as-primary-updating-the-consumer-to-accept-multiple-beans-or-using-qualifier-to-identify-the-bean-that-should-be-consumed">2. Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed&lt;/h2>
+&lt;blockquote>
+&lt;p>该异常在错误信息中已经说的很清楚了，是因为有多个 &lt;code>DataSource&lt;/code> 的实例，所以无法确定该引用那个实例&lt;/p></description></item><item><title>Spring Boot MyBatis Druid 多数据源、动态数据源切换</title><link>https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/</link><pubDate>Sun, 31 Dec 2017 23:39:24 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/</guid><description>&lt;h1 id="spring-boot-和-mybatis-实现多数据源动态数据源切换">Spring Boot 和 MyBatis 实现多数据源、动态数据源切换&lt;/h1>
+&lt;ul>
+&lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">master&lt;/a>: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡&lt;/li>
+&lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev">dev&lt;/a>: 最简单的切面和注解方式实现的动态数据源切换&lt;/li>
+&lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid">druid&lt;/a>: 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换&lt;/li>
+&lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao">aspect_dao&lt;/a>: 通过切面实现的 DAO 层的动态数据源切换&lt;/li>
+&lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin">roundrobin&lt;/a>: 通过切面使用轮询方式实现的只读数据源负载均衡&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issueshttpsgithubcomhelloworldespringboot-dynamicdatasourceblobmasterissuesmd-里面">在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md">Issues&lt;/a> 里面&lt;/h3>
+&lt;blockquote>
+&lt;p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code>@Transactional&lt;/code> 注解以保证使用主数据源&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code>@Transactional&lt;/code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>动态切换数据源依赖 &lt;code>configuration&lt;/code> 包下的4个类来实现，分别是：&lt;/p>
+&lt;ul>
+&lt;li>DataSourceRoutingDataSource.java&lt;/li>
+&lt;li>DataSourceConfigurer.java&lt;/li>
+&lt;li>DynamicDataSourceContextHolder.java&lt;/li>
+&lt;li>DynamicDataSourceAspect.java&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="添加依赖">添加依赖&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-aop&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.alibaba:druid-spring-boot-starter:1.1.6&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">runtime&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;mysql:mysql-connector-java&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建数据库及表">创建数据库及表&lt;/h2>
+&lt;ul>
+&lt;li>分别创建数据库&lt;code>product_master&lt;/code>, &lt;code>product_slave_alpha&lt;/code>, &lt;code>product_slave_beta&lt;/code>, &lt;code>product_slave_gamma&lt;/code>&lt;/li>
+&lt;li>在以上数据库中分别创建表 &lt;code>product&lt;/code>，并插入不同数据&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">DROP&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c678dd">IF&lt;/span> &lt;span style="color:#c678dd">EXISTS&lt;/span> &lt;span style="color:#c1abea">product_master&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c1abea">product_master&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">TABLE&lt;/span> &lt;span style="color:#c1abea">product_master&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#ef8383">INT&lt;/span> &lt;span style="color:#c678dd">PRIMARY&lt;/span> &lt;span style="color:#c678dd">KEY&lt;/span> &lt;span style="color:#c1abea">AUTO_INCREMENT&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">name&lt;/span> &lt;span style="color:#ef8383">VARCHAR&lt;/span>(&lt;span style="color:#d19a66">50&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">price&lt;/span> &lt;span style="color:#c1abea">DOUBLE&lt;/span>(&lt;span style="color:#d19a66">10&lt;/span>,&lt;span style="color:#d19a66">2&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span> &lt;span style="color:#c678dd">DEFAULT&lt;/span> &lt;span style="color:#d19a66">0&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">INSERT&lt;/span> &lt;span style="color:#c678dd">INTO&lt;/span> &lt;span style="color:#c1abea">product_master&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span> (&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">price&lt;/span>) &lt;span style="color:#c678dd">VALUES&lt;/span>(&lt;span style="color:#98c379">&amp;#39;master&amp;#39;&lt;/span>, &lt;span style="color:#98c379">&amp;#39;1&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">DROP&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c678dd">IF&lt;/span> &lt;span style="color:#c678dd">EXISTS&lt;/span> &lt;span style="color:#c1abea">product_slave_alpha&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c1abea">product_slave_alpha&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">TABLE&lt;/span> &lt;span style="color:#c1abea">product_slave_alpha&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#ef8383">INT&lt;/span> &lt;span style="color:#c678dd">PRIMARY&lt;/span> &lt;span style="color:#c678dd">KEY&lt;/span> &lt;span style="color:#c1abea">AUTO_INCREMENT&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">name&lt;/span> &lt;span style="color:#ef8383">VARCHAR&lt;/span>(&lt;span style="color:#d19a66">50&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">price&lt;/span> &lt;span style="color:#c1abea">DOUBLE&lt;/span>(&lt;span style="color:#d19a66">10&lt;/span>,&lt;span style="color:#d19a66">2&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span> &lt;span style="color:#c678dd">DEFAULT&lt;/span> &lt;span style="color:#d19a66">0&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">INSERT&lt;/span> &lt;span style="color:#c678dd">INTO&lt;/span> &lt;span style="color:#c1abea">product_slave_alpha&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span> (&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">price&lt;/span>) &lt;span style="color:#c678dd">VALUES&lt;/span>(&lt;span style="color:#98c379">&amp;#39;slaveAlpha&amp;#39;&lt;/span>, &lt;span style="color:#98c379">&amp;#39;1&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">DROP&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c678dd">IF&lt;/span> &lt;span style="color:#c678dd">EXISTS&lt;/span> &lt;span style="color:#c1abea">product_slave_beta&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c1abea">product_slave_beta&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">TABLE&lt;/span> &lt;span style="color:#c1abea">product_slave_beta&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#ef8383">INT&lt;/span> &lt;span style="color:#c678dd">PRIMARY&lt;/span> &lt;span style="color:#c678dd">KEY&lt;/span> &lt;span style="color:#c1abea">AUTO_INCREMENT&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">name&lt;/span> &lt;span style="color:#ef8383">VARCHAR&lt;/span>(&lt;span style="color:#d19a66">50&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">price&lt;/span> &lt;span style="color:#c1abea">DOUBLE&lt;/span>(&lt;span style="color:#d19a66">10&lt;/span>,&lt;span style="color:#d19a66">2&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span> &lt;span style="color:#c678dd">DEFAULT&lt;/span> &lt;span style="color:#d19a66">0&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">INSERT&lt;/span> &lt;span style="color:#c678dd">INTO&lt;/span> &lt;span style="color:#c1abea">product_slave_beta&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span> (&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">price&lt;/span>) &lt;span style="color:#c678dd">VALUES&lt;/span>(&lt;span style="color:#98c379">&amp;#39;slaveBeta&amp;#39;&lt;/span>, &lt;span style="color:#98c379">&amp;#39;1&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">DROP&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c678dd">IF&lt;/span> &lt;span style="color:#c678dd">EXISTS&lt;/span> &lt;span style="color:#c1abea">product_slave_gamma&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">DATABASE&lt;/span> &lt;span style="color:#c1abea">product_slave_gamma&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CREATE&lt;/span> &lt;span style="color:#c678dd">TABLE&lt;/span> &lt;span style="color:#c1abea">product_slave_gamma&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#ef8383">INT&lt;/span> &lt;span style="color:#c678dd">PRIMARY&lt;/span> &lt;span style="color:#c678dd">KEY&lt;/span> &lt;span style="color:#c1abea">AUTO_INCREMENT&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">name&lt;/span> &lt;span style="color:#ef8383">VARCHAR&lt;/span>(&lt;span style="color:#d19a66">50&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">price&lt;/span> &lt;span style="color:#c1abea">DOUBLE&lt;/span>(&lt;span style="color:#d19a66">10&lt;/span>,&lt;span style="color:#d19a66">2&lt;/span>) &lt;span style="color:#c678dd">NOT&lt;/span> &lt;span style="color:#c678dd">NULL&lt;/span> &lt;span style="color:#c678dd">DEFAULT&lt;/span> &lt;span style="color:#d19a66">0&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">INSERT&lt;/span> &lt;span style="color:#c678dd">INTO&lt;/span> &lt;span style="color:#c1abea">product_slave_gamma&lt;/span>.&lt;span style="color:#c1abea">product&lt;/span> (&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">price&lt;/span>) &lt;span style="color:#c678dd">VALUES&lt;/span>(&lt;span style="color:#98c379">&amp;#39;slaveGamma&amp;#39;&lt;/span>, &lt;span style="color:#98c379">&amp;#39;1&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置数据源">配置数据源&lt;/h2>
+&lt;ul>
+&lt;li>application.properties&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># Master datasource config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.driver-class-name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">com.mysql.jdbc.Driver&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.url&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">jdbc:mysql://localhost/product_master?useSSL=false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">3306&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">root&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.master.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># SlaveAlpha datasource config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">SlaveAlpha&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.driver-class-name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">com.mysql.jdbc.Driver&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.url&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">jdbc:mysql://localhost/product_slave_alpha?useSSL=false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">3306&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">root&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-alpha.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># SlaveBeta datasource config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">SlaveBeta&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.driver-class-name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">com.mysql.jdbc.Driver&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.url&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">jdbc:mysql://localhost/product_slave_beta?useSSL=false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">3306&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">root&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-beta.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># SlaveGamma datasource config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">SlaveGamma&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.driver-class-name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">com.mysql.jdbc.Driver&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.url&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">jdbc:mysql://localhost/product_slave_gamma?useSSL=false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">3306&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">root&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.slave-gamma.password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># Druid dataSource config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.type&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">com.alibaba.druid.pool.DruidDataSource&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.initial-size&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.max-active&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">20&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.min-idle&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.max-wait&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">60000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.pool-prepared-statements&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.validation-query&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">SELECT 1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.validation-query-timeout&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">30000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.test-on-borrow&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.test-on-return&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.test-while-idle&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.time-between-eviction-runs-millis=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.min-evictable-idle-time-millis=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.max-evictable-idle-time-millis=10000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># Druid stat filter config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filters&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">stat,wall,log4j&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.url-pattern&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">/*&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.exclusions&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.session-stat-enable&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.session-stat-max-count&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.principal-session-name&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">user&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.web-stat-filter.principal-cookie-name=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.web-stat-filter.profile-enable&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.stat.db-type&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">mysql&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.stat.log-slow-sql&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.stat.slow-sql-millis&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">1000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.stat.merge-sql&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.wall.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.wall.config.delete-allow&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.wall.config.drop-table-allow&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.filter.slf4j.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># Druid manage page config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.stat-view-servlet.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.stat-view-servlet.url-pattern&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">/druid/*&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.stat-view-servlet.reset-enable&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.stat-view-servlet.login-username&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.stat-view-servlet.login-password&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.stat-view-servlet.allow=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.datasource.druid.stat-view-servlet.deny=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.use-global-data-source-stat&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># Druid AOP config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.datasource.druid.aop-patterns&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">cn.com.hellowood.dynamicdatasource.service.*&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.aop.proxy-target-class&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># MyBatis config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">mybatis.type-aliases-package&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">cn.com.hellowood.dynamicdatasource.mapper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">mybatis.mapper-locations&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">mappers/**Mapper.xml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">server.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">9999&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置数据源-1">配置数据源&lt;/h2>
+&lt;ul>
+&lt;li>DataSourceKey.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.dynamicdatasource.common&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">enum&lt;/span> &lt;span style="color:#c1abea">DataSourceKey&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">master&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">slaveAlpha&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">slaveBeta&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">slaveGamma&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>DataSourceRoutingDataSource.java&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>该类继承自 &lt;code>AbstractRoutingDataSource&lt;/code> 类，在访问数据库时会调用该类的 &lt;code>determineCurrentLookupKey()&lt;/code> 方法获取数据库实例的 key&lt;/p></description></item></channel></rss>

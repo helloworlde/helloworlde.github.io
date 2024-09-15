@@ -1,1 +1,155 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Junit on HelloWood</title><link>https://blog.hellowood.dev/tags/junit/</link><description>Recent content in Junit on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 01 Jan 2018 11:46:57 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/junit/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Junit on HelloWood</title><link>https://blog.hellowood.dev/tags/junit/</link><description>Recent content in Junit on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 11:46:57 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/junit/index.xml" rel="self" type="application/rss+xml"/><item><title>SpringBoot中Junit测试注入Bean失败的解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:46:57 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
+&lt;p>在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &amp;#39;hellowood.TestFeedbackMapper&amp;#39;: Unsatisfied dependency expressed through field &amp;#39;feedbackDetailMapper&amp;#39;; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type &amp;#39;hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper&amp;#39; available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>在查询了其他项目的Junit后发现Junit的注解是这样的&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>而新建的项目中是这样的&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebAppConfiguration
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>直接修改注解后发现不能引入&lt;code>SpringApplicationConfiguration&lt;/code>，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用&lt;code>SpringBootTest&lt;/code>代替了&lt;code>SpringApplicationConfiguration&lt;/code>，所以将注解改为以下形式就可以正常注入Bean了&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
+&lt;/code>&lt;/pre></description></item><item><title>Gradle 使用-添加 Jacoco 分析单元测试覆盖率工具</title><link>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-jacoco-%E5%88%86%E6%9E%90%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E5%B7%A5%E5%85%B7/</link><pubDate>Mon, 01 Jan 2018 00:03:40 +0000</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-jacoco-%E5%88%86%E6%9E%90%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E5%B7%A5%E5%85%B7/</guid><description>&lt;h1 id="gradle-添加-jacoco-分析单元测试覆盖率工具">Gradle 添加 Jacoco 分析单元测试覆盖率工具&lt;/h1>
+&lt;blockquote>
+&lt;p>Jacoco 是一个免费的 Java 单元测试覆盖率分析工具，在 Gradle 中添加插件，在编译的同事进行单元测试覆盖率分析&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="配置">配置&lt;/h2>
+&lt;pre tabindex="0">&lt;code>buildscript {
+ repositories {
+ mavenCentral()
+ maven { url &amp;#34;https://plugins.gradle.org/m2/&amp;#34; }
+ }
+}
+
+apply plugin: &amp;#39;java&amp;#39;
+apply plugin: &amp;#39;jacoco&amp;#39;
+
+
+group = &amp;#39;cn.com.hellowood&amp;#39;
+version = &amp;#39;0.0.1-SNAPSHOT&amp;#39;
+sourceCompatibility = 1.8
+
+repositories {
+ mavenCentral()
+ maven { url &amp;#34;https://plugins.gradle.org/m2/&amp;#34; }
+}
+
+war {
+ baseName = &amp;#39;Security&amp;#39;
+ version = &amp;#39;&amp;#39;
+}
+
+jacocoTestReport {
+ reports {
+ xml.enabled false
+ html.enabled true
+ }
+}
+
+check.dependsOn jacocoTestReport
+&lt;/code>&lt;/pre>&lt;h2 id="生成结果">生成结果&lt;/h2>
+&lt;blockquote>
+&lt;p>编译完成后会在 &lt;code>${buildDir}/build/reports/jacoco/&lt;/code> 下会生成报告&lt;/p></description></item><item><title>Java 将单元测试覆盖率上传到 Codecov</title><link>https://blog.hellowood.dev/posts/java-%E5%B0%86%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E4%B8%8A%E4%BC%A0%E5%88%B0-codecov/</link><pubDate>Mon, 01 Jan 2018 00:00:19 +0000</pubDate><guid>https://blog.hellowood.dev/posts/java-%E5%B0%86%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E4%B8%8A%E4%BC%A0%E5%88%B0-codecov/</guid><description>&lt;h1 id="将单元测试覆盖率上传到-codecov">将单元测试覆盖率上传到 Codecov&lt;/h1>
+&lt;blockquote>
+&lt;p>通过使用 &lt;a href="http://www.eclemma.org/jacoco/">Jacoco&lt;/a> 生成单元测试覆盖率报告，并将该报告上传到 &lt;a href="https://codecov.io">Codecov&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="配置-jacoco">配置 Jacoco&lt;/h2>
+&lt;ul>
+&lt;li>配置 build.gradle 文件(以 SpringBoot 应用为例)&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">buildscript&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ext&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">springBootVersion&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;1.5.8.RELEASE&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">repositories&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mavenCentral&lt;/span>&lt;span style="color:#c7bf54">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">maven&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span> &lt;span style="color:#c1abea">url&lt;/span> &lt;span style="color:#63c381">&amp;#34;https://plugins.gradle.org/m2/&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">maven&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span> &lt;span style="color:#c1abea">url&lt;/span> &lt;span style="color:#98c379">&amp;#39;http://maven.aliyun.com/nexus/content/groups/public/&amp;#39;&lt;/span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">classpath&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">classpath&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#98c379">&amp;#39;java&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#98c379">&amp;#39;eclipse-wtp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.boot&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#98c379">&amp;#39;war&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">// 使用 Jacoco 插件
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#98c379">&amp;#39;jacoco&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">group&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;cn.com.hellowood&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">version&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;0.0.1-SNAPSHOT&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">sourceCompatibility&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#d19a66">1.8&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">repositories&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mavenCentral&lt;/span>&lt;span style="color:#c7bf54">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">war&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">baseName&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;Security&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">version&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-security&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.springframework.boot:spring-boot-devtools&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-thymeleaf&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.webjars:jquery:3.2.1&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.webjars:bootstrap:4.0.0-beta.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.webjars:font-awesome:4.7.0&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.webjars:bootstrap-glyphicons:bdd2cbfba0&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">runtime&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;mysql:mysql-connector-java&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">runtime&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-tomcat&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.security:spring-security-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">// 添加 task 用于生成 Jacoco 测试结果
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span>&lt;span style="color:#c1abea">task&lt;/span> &lt;span style="color:#00b1f7">codeCoverageReport&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#f5a40d">type:&lt;/span> &lt;span style="color:#c1abea">JacocoReport&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 需指定生成的类文件位置和源文件位置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">classDirectories&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">files&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;build/classes&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sourceDirectories&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">files&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;src/main/java&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">executionData&lt;/span> &lt;span style="color:#00b1f7">fileTree&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#c1abea">project&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">rootDir&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">absolutePath&lt;/span>&lt;span style="color:#c7bf54">).&lt;/span>&lt;span style="color:#b3d23c">include&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;**/build/jacoco/*.exec&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">subprojects&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">each&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sourceSets&lt;/span> &lt;span style="color:#c1abea">it&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">sourceSets&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 生成的报告类型包括 xml/html/csv
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">reports&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">xml&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">enabled&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">xml&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">destination&lt;/span> &lt;span style="color:#63c381">&amp;#34;${buildDir}/reports/jacoco/report.xml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">html&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">enabled&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">csv&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">enabled&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">codeCoverageReport&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">dependsOn&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">subprojects&lt;/span>&lt;span style="color:#c7bf54">*.&lt;/span>&lt;span style="color:#b3d23c">test&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">check&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">dependsOn&lt;/span> &lt;span style="color:#c1abea">codeCoverageReport&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="生成测试报告">生成测试报告&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">gradle&lt;/span> &lt;span style="color:#c1abea">check&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">gradle&lt;/span> &lt;span style="color:#c1abea">codeCoverageReport&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>此时在 &lt;code>build/reports/jacoco&lt;/code> 下生成 Jacoco 的测试报告&lt;/p></description></item></channel></rss>

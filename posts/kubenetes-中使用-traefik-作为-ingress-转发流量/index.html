@@ -1,224 +1,134 @@
-<!doctype html><html lang=en><head><meta name=viewport content="width=device-width,initial-scale=1"><title>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</title>
-<meta charset=utf-8><meta name=description content="Ladder@Kubenetes 中使用 Traefik 作为 Ingress 转发流量
-Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
-路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用
-Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置
-通过配置文件部署 Traefik
-配置
-
-Ingress-rbac.yaml
-
-用于 Service Account 验证
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: ingress
-  namespace: kube-system
-
----
-
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: ingress
-subjects:
-  - kind: ServiceAccount
-    name: ingress
-    namespace: kube-system
-roleRef:
-  kind: ClusterRole
-  name: cluster-admin
-  apiGroup: rbac.authorization.k8s.io
-
-traefik-daemon-set.yaml
-
-使用 DaemonSet 部署 Traefik
-apiVersion: extensions/v1beta1
-kind: DaemonSet
-metadata:
-  name: traefik-ingress-lb
-  namespace: kube-system
-  labels:
-    k8s-app: traefik-ingress-lb
-spec:
-  template:
-    metadata:
-      labels:
-        k8s-app: traefik-ingress-lb
-        name: traefik-ingress-lb
-    spec:
-      terminationGracePeriodSeconds: 60
-      hostNetwork: true
-      restartPolicy: Always
-      serviceAccountName: ingress
-      containers:
-      - image: traefik
-        name: traefik-ingress-lb
-        resources:
-          limits:
-            cpu: 200m
-            memory: 30Mi
-          requests:
-            cpu: 100m
-            memory: 20Mi
-        ports:
-        - name: http
-          containerPort: 80
-          hostPort: 80
-        - name: admin
-          containerPort: 8580
-          hostPort: 8580
-        args:
-        - --web
-        - --web.address=:8580
-        - --kubernetes
-
-traefik-ui.yaml
-
-创建 Traefik 的 UI"><meta name=author content="HelloWood"><link rel=canonical href=https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/><meta name=google-site-verification content="G-3MSGPYTHPZ"><link rel=alternate type=application/rss+xml href=https://blog.hellowood.dev//index.xml title=HelloWood><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")}</script><script async defer data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301 src=https://umami.hellowood.dev/script.js></script><script defer data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}' src=https://static.cloudflareinsights.com/beacon.min.js></script><meta property="og:url" content="https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"><meta property="og:site_name" content="HelloWood"><meta property="og:title" content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量"><meta property="og:description" content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器 路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用
-Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置
-通过配置文件部署 Traefik 配置 Ingress-rbac.yaml 用于 Service Account 验证
-apiVersion: v1 kind: ServiceAccount metadata: name: ingress namespace: kube-system --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: ingress subjects: - kind: ServiceAccount name: ingress namespace: kube-system roleRef: kind: ClusterRole name: cluster-admin apiGroup: rbac.authorization.k8s.io traefik-daemon-set.yaml 使用 DaemonSet 部署 Traefik
-apiVersion: extensions/v1beta1 kind: DaemonSet metadata: name: traefik-ingress-lb namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: terminationGracePeriodSeconds: 60 hostNetwork: true restartPolicy: Always serviceAccountName: ingress containers: - image: traefik name: traefik-ingress-lb resources: limits: cpu: 200m memory: 30Mi requests: cpu: 100m memory: 20Mi ports: - name: http containerPort: 80 hostPort: 80 - name: admin containerPort: 8580 hostPort: 8580 args: - --web - --web.address=:8580 - --kubernetes traefik-ui.yaml 创建 Traefik 的 UI"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-09-08T19:06:11+00:00"><meta property="article:modified_time" content="2019-09-08T19:06:11+00:00"><meta property="article:tag" content="Kubernetes"><meta property="article:tag" content="Helm"><meta property="article:tag" content="Traefik"><meta property="article:tag" content="Ingress"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量"><meta name=twitter:description content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器 路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用
-Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置
-通过配置文件部署 Traefik 配置 Ingress-rbac.yaml 用于 Service Account 验证
-apiVersion: v1 kind: ServiceAccount metadata: name: ingress namespace: kube-system --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: ingress subjects: - kind: ServiceAccount name: ingress namespace: kube-system roleRef: kind: ClusterRole name: cluster-admin apiGroup: rbac.authorization.k8s.io traefik-daemon-set.yaml 使用 DaemonSet 部署 Traefik
-apiVersion: extensions/v1beta1 kind: DaemonSet metadata: name: traefik-ingress-lb namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: terminationGracePeriodSeconds: 60 hostNetwork: true restartPolicy: Always serviceAccountName: ingress containers: - image: traefik name: traefik-ingress-lb resources: limits: cpu: 200m memory: 30Mi requests: cpu: 100m memory: 20Mi ports: - name: http containerPort: 80 hostPort: 80 - name: admin containerPort: 8580 hostPort: 8580 args: - --web - --web.address=:8580 - --kubernetes traefik-ui.yaml 创建 Traefik 的 UI"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://blog.hellowood.dev/posts/"},{"@type":"ListItem","position":2,"name":"Kubenetes 中使用 Traefik 作为 Ingress 转发流量","item":"https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kubenetes 中使用 Traefik 作为 Ingress 转发流量","name":"Kubenetes 中使用 Traefik 作为 Ingress 转发流量","description":"Kubenetes 中使用 Traefik 作为 Ingress 转发流量 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器 路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用\nTraefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置\n通过配置文件部署 Traefik 配置 Ingress-rbac.yaml 用于 Service Account 验证\napiVersion: v1 kind: ServiceAccount metadata: name: ingress namespace: kube-system --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: ingress subjects: - kind: ServiceAccount name: ingress namespace: kube-system roleRef: kind: ClusterRole name: cluster-admin apiGroup: rbac.authorization.k8s.io traefik-daemon-set.yaml 使用 DaemonSet 部署 Traefik\napiVersion: extensions/v1beta1 kind: DaemonSet metadata: name: traefik-ingress-lb namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: terminationGracePeriodSeconds: 60 hostNetwork: true restartPolicy: Always serviceAccountName: ingress containers: - image: traefik name: traefik-ingress-lb resources: limits: cpu: 200m memory: 30Mi requests: cpu: 100m memory: 20Mi ports: - name: http containerPort: 80 hostPort: 80 - name: admin containerPort: 8580 hostPort: 8580 args: - --web - --web.address=:8580 - --kubernetes traefik-ui.yaml 创建 Traefik 的 UI\n","keywords":["Kubernetes","Helm","Traefik","Ingress"],"articleBody":"Kubenetes 中使用 Traefik 作为 Ingress 转发流量 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器 路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用\nTraefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置\n通过配置文件部署 Traefik 配置 Ingress-rbac.yaml 用于 Service Account 验证\napiVersion: v1 kind: ServiceAccount metadata: name: ingress namespace: kube-system --- kind: ClusterRoleBinding apiVersion: rbac.authorization.k8s.io/v1beta1 metadata: name: ingress subjects: - kind: ServiceAccount name: ingress namespace: kube-system roleRef: kind: ClusterRole name: cluster-admin apiGroup: rbac.authorization.k8s.io traefik-daemon-set.yaml 使用 DaemonSet 部署 Traefik\napiVersion: extensions/v1beta1 kind: DaemonSet metadata: name: traefik-ingress-lb namespace: kube-system labels: k8s-app: traefik-ingress-lb spec: template: metadata: labels: k8s-app: traefik-ingress-lb name: traefik-ingress-lb spec: terminationGracePeriodSeconds: 60 hostNetwork: true restartPolicy: Always serviceAccountName: ingress containers: - image: traefik name: traefik-ingress-lb resources: limits: cpu: 200m memory: 30Mi requests: cpu: 100m memory: 20Mi ports: - name: http containerPort: 80 hostPort: 80 - name: admin containerPort: 8580 hostPort: 8580 args: - --web - --web.address=:8580 - --kubernetes traefik-ui.yaml 创建 Traefik 的 UI\napiVersion: v1 kind: Service metadata: name: traefik-web-ui namespace: kube-system spec: selector: k8s-app: traefik-ingress-lb type: NodePort ports: - name: web port: 80 targetPort: 8580 --- apiVersion: extensions/v1beta1 kind: Ingress metadata: name: traefik-web-ui namespace: kube-system spec: rules: - host: traefik-ui.local http: paths: - path: / backend: serviceName: traefik-web-ui servicePort: web 部署 kubectl apply -f . 通过 Helm 部署 Traefik 创建 values.yaml dashboard: enabled: true domain: dashboard.traefik serviceType: LoadBalancer rbac: enabled: true deployment: hostPort: httpEnabled: true httpsEnabled: true dashboardEnabled: true helm install --values values.yaml stable/traefik --name traefik 这样就会启用 Dashboard，更改 Host 指向相应的节点和端口，访问dashboard.traefik:${PORT}就可以看到 Dashboard\nHost 192.168.0.110 dashboard.traefik 也可以直接下载 Traefik 的 Helm Release，解压后修改相应的配置后再安装 helm fetch stable/traefik tar -xvf traefik-1.24.1.tgz helm install --values values.yaml ./traefik --name traefik 部署应用 backend-ingress.yaml apiVersion: extensions/v1beta1 kind: Ingress metadata: name: backend-ingress namespace: default spec: rules: - host: rest.hellowoodes.com http: paths: - path: / backend: serviceName: backend servicePort: 8080 修改 Host 将域名指向相应的节点 IP\n测试 获取端口 kubectl get service -l app=traefik NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE traefik LoadBalancer 10.106.137.170 80:32311/TCP,443:30677/TCP 1s traefik-dashboard ClusterIP 10.108.91.184 80/TCP 1s 访问相应的 NodeIP 和地址 http://dashboard.traefik:32311，可以看到 Traefik 的 Dashboard\n因为在values.yaml 中已经配置了 deployment.hostPort.httpEnabled和deployment.hostPort.httpsEnabled，所以也可以直接访问 dashboard.traefik\n访问backend 应用 curl http://rest.hellowoodes.com/ping Pong% 参考资料 Helm Traefik Kubernetes Traefik Installation (helm) Kubernetes Ingress Controller 安装traefik ingress 微服务边界路由Traefik：基于京东云Kubernetes集群及Helm Chart ","wordCount":"346","inLanguage":"en","datePublished":"2019-09-08T19:06:11Z","dateModified":"2019-09-08T19:06:11Z","author":{"@type":"Person","name":"HelloWood"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"},"publisher":{"@type":"Organization","name":"HelloWood","logo":{"@type":"ImageObject","url":"https://blog.hellowood.dev/favicon.ico"}}}</script><link rel=icon href=/images/avatar.png sizes=16x16><link rel=apple-touch-icon href=/images/avatar.png><link rel=manifest href=/images/avatar.png><link rel=stylesheet href=https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css><link rel=stylesheet href=/css/main.min.7f82854fa0e999ec07c4835d3029de9f484030e254b80d470b3ca48eb934720e.css integrity="sha256-f4KFT6DpmewHxINdMCnen0hAMOJUuA1HCzykjrk0cg4=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c607d6febd16934a82eb61d3a896ed9d869f54373cc63ce95864ed5488fe3128.js></script><script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script defer src=https://analytics.us.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand data-umami-event=navigation-brand href=/>HOME
-</a><input type=checkbox id=menu-toggle>
-<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Blog href=/posts>Blog</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Tags href=/tags>Tags</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Archive href=/archives>Archive</a></li><li class="navigation-item navigation-menu"><a class=navigation-link data-umami-event=Dashboard href=https://umami.hellowood.dev/share/lab/Blog>Dashboard</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link data-umami-event=navigation-social href=https://github.com/helloworlde><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button data-umami-event=toggle-theme aria-label="toggle user light or dark theme">
-<span class=toggle-dark><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
-<span class=toggle-light><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</h1></header><p><small>September 8, 2019&nbsp;· 346 words&nbsp;· 2 min</small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#通过配置文件部署-traefik>通过配置文件部署 Traefik</a><ul><li><a href=#配置>配置</a></li><li><a href=#部署>部署</a></li></ul></li><li><a href=#通过-helm-部署-traefik>通过 Helm 部署 Traefik</a></li><li><a href=#部署应用>部署应用</a></li><li><a href=#测试>测试</a></li><li><a href=#参考资料>参考资料</a></li></ul></nav></div><section class=blog-content><h1 id=kubenetes-中使用-traefik-作为-ingress-转发流量>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</h1><p>Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
-路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用</p><p>Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置</p><h2 id=通过配置文件部署-traefik>通过配置文件部署 Traefik</h2><h3 id=配置>配置</h3><ul><li>Ingress-rbac.yaml</li></ul><p>用于 Service Account 验证</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ingress</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</title>
+<meta name=description content="Copy Paste Worker"><meta name=keywords content='blog,hugo,Kubernetes,Helm,Traefik,Ingress'><meta property="og:url" content="https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"><meta property="og:type" content="website"><meta property="og:title" content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量"><meta property="og:description" content="Copy Paste Worker"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.png"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Kubenetes 中使用 Traefik 作为 Ingress 转发流量"><meta name=twitter:description content="Copy Paste Worker"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.png"><link rel=canonical href=https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js integrity="sha256-mpINfavbrYNjtqCpTimp3+vbfuZM/LGToBReUS7yvas="></script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script defer src=https://analytics.us.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.png alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target"></span>
+<a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</h1><small role=doc-subtitle></small><p class=post-date>2019-09-09</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/helm>Helm</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/traefik>Traefik</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/ingress>Ingress</a></li></ul></div><div class=post-content><h1 id=kubenetes-中使用-traefik-作为-ingress-转发流量>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</h1><p>Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
+路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用</p><p>Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置</p><h2 id=通过配置文件部署-traefik>通过配置文件部署 Traefik</h2><h3 id=配置>配置</h3><ul><li>Ingress-rbac.yaml</li></ul><p>用于 Service Account 验证</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ServiceAccount</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>ingress</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>kube-system</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRoleBinding</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ingress</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>subjects</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ingress</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>roleRef</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRole</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>cluster-admin</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>apiGroup</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io</span>
-</span></span></code></pre></div><ul><li>traefik-daemon-set.yaml</li></ul><p>使用 DaemonSet 部署 Traefik</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>extensions/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>DaemonSet</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>k8s-app</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>k8s-app</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>terminationGracePeriodSeconds</span>: <span style=color:#ae81ff>60</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>hostNetwork</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>restartPolicy</span>: <span style=color:#ae81ff>Always</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>serviceAccountName</span>: <span style=color:#ae81ff>ingress</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>image</span>: <span style=color:#ae81ff>traefik</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>resources</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>limits</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>cpu</span>: <span style=color:#ae81ff>200m</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>memory</span>: <span style=color:#ae81ff>30Mi</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>requests</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>cpu</span>: <span style=color:#ae81ff>100m</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>memory</span>: <span style=color:#ae81ff>20Mi</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>80</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>hostPort</span>: <span style=color:#ae81ff>80</span>
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>admin</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8580</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>hostPort</span>: <span style=color:#ae81ff>8580</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>args</span>:
-</span></span><span style=display:flex><span>        - --<span style=color:#ae81ff>web</span>
-</span></span><span style=display:flex><span>        - --<span style=color:#ae81ff>web.address=:8580</span>
-</span></span><span style=display:flex><span>        - --<span style=color:#ae81ff>kubernetes</span>
-</span></span></code></pre></div><ul><li>traefik-ui.yaml</li></ul><p>创建 Traefik 的 UI</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-web-ui</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>k8s-app</span>: <span style=color:#ae81ff>traefik-ingress-lb</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort  </span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>web</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>8580</span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>extensions/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Ingress</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-web-ui</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>rules</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>host</span>: <span style=color:#ae81ff>traefik-ui.local</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>http</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>paths</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>backend</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceName</span>: <span style=color:#ae81ff>traefik-web-ui</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>servicePort</span>: <span style=color:#ae81ff>web</span>
-</span></span></code></pre></div><h3 id=部署>部署</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f .
-</span></span></code></pre></div><h2 id=通过-helm-部署-traefik>通过 Helm 部署 Traefik</h2><ul><li>创建 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>dashboard</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>enabled</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>domain</span>: <span style=color:#ae81ff>dashboard.traefik</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>serviceType</span>: <span style=color:#ae81ff>LoadBalancer</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>rbac</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>enabled</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>deployment</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>hostPort</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>httpEnabled</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>httpsEnabled</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>dashboardEnabled</span>: <span style=color:#66d9ef>true</span>
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm install --values values.yaml stable/traefik --name traefik
-</span></span></code></pre></div><p>这样就会启用 Dashboard，更改 Host 指向相应的节点和端口，访问<code>dashboard.traefik:${PORT}</code>就可以看到 Dashboard</p><ul><li>Host</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>192.168.0.110 dashboard.traefik
-</span></span></code></pre></div><ul><li>也可以直接下载 Traefik 的 Helm Release，解压后修改相应的配置后再安装</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm fetch stable/traefik
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ClusterRoleBinding</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>rbac.authorization.k8s.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>ingress</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>subjects</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>kind</span>: <span style=color:#98c379>ServiceAccount</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>name</span>: <span style=color:#98c379>ingress</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>kube-system</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>roleRef</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>kind</span>: <span style=color:#98c379>ClusterRole</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>cluster-admin</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>apiGroup</span>: <span style=color:#98c379>rbac.authorization.k8s.io</span>
+</span></span></code></pre></div><ul><li>traefik-daemon-set.yaml</li></ul><p>使用 DaemonSet 部署 Traefik</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>extensions/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>DaemonSet</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>kube-system</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>k8s-app</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>k8s-app</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>name</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>terminationGracePeriodSeconds</span>: <span style=color:#d19a66>60</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>hostNetwork</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>restartPolicy</span>: <span style=color:#98c379>Always</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>serviceAccountName</span>: <span style=color:#98c379>ingress</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>image</span>: <span style=color:#98c379>traefik</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>name</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>resources</span>:
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>limits</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>cpu</span>: <span style=color:#98c379>200m</span>
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>memory</span>: <span style=color:#98c379>30Mi</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>requests</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>cpu</span>: <span style=color:#98c379>100m</span>
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>memory</span>: <span style=color:#98c379>20Mi</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>80</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>hostPort</span>: <span style=color:#d19a66>80</span>
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>admin</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8580</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>hostPort</span>: <span style=color:#d19a66>8580</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>args</span>:
+</span></span><span style=display:flex><span>        - --<span style=color:#98c379>web</span>
+</span></span><span style=display:flex><span>        - --<span style=color:#98c379>web.address=:8580</span>
+</span></span><span style=display:flex><span>        - --<span style=color:#98c379>kubernetes</span>
+</span></span></code></pre></div><ul><li>traefik-ui.yaml</li></ul><p>创建 Traefik 的 UI</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>traefik-web-ui</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>kube-system</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>k8s-app</span>: <span style=color:#98c379>traefik-ingress-lb</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort  </span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: <span style=color:#98c379>web</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>targetPort</span>: <span style=color:#d19a66>8580</span>
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>extensions/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Ingress</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>traefik-web-ui</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>kube-system</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>rules</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>host</span>: <span style=color:#98c379>traefik-ui.local</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>http</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>paths</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>path</span>: <span style=color:#98c379>/</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>backend</span>:
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>serviceName</span>: <span style=color:#98c379>traefik-web-ui</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>servicePort</span>: <span style=color:#98c379>web</span>
+</span></span></code></pre></div><h3 id=部署>部署</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f .
+</span></span></code></pre></div><h2 id=通过-helm-部署-traefik>通过 Helm 部署 Traefik</h2><ul><li>创建 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>dashboard</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>enabled</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>domain</span>: <span style=color:#98c379>dashboard.traefik</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>serviceType</span>: <span style=color:#98c379>LoadBalancer</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>rbac</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>enabled</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>deployment</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>hostPort</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>httpEnabled</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>httpsEnabled</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>dashboardEnabled</span>: <span style=color:#b756ff;font-weight:700>true</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm install --values values.yaml stable/traefik --name traefik
+</span></span></code></pre></div><p>这样就会启用 Dashboard，更改 Host 指向相应的节点和端口，访问<code>dashboard.traefik:${PORT}</code>就可以看到 Dashboard</p><ul><li>Host</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>192.168.0.110 dashboard.traefik
+</span></span></code></pre></div><ul><li>也可以直接下载 Traefik 的 Helm Release，解压后修改相应的配置后再安装</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm fetch stable/traefik
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>tar -xvf traefik-1.24.1.tgz
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>helm install --values values.yaml ./traefik --name traefik
-</span></span></code></pre></div><h2 id=部署应用>部署应用</h2><ul><li>backend-ingress.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>extensions/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Ingress</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend-ingress</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>rules</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>host</span>: <span style=color:#ae81ff>rest.hellowoodes.com</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>http</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>paths</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>backend</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceName</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>servicePort</span>: <span style=color:#ae81ff>8080</span>
-</span></span></code></pre></div><p>修改 Host 将域名指向相应的节点 IP</p><h2 id=测试>测试</h2><ul><li>获取端口</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get service -l app<span style=color:#f92672>=</span>traefik
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME               TYPE          CLUSTER-IP      EXTERNAL-IP  PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>                     AGE
+</span></span></code></pre></div><h2 id=部署应用>部署应用</h2><ul><li>backend-ingress.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>extensions/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Ingress</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>backend-ingress</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>rules</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>host</span>: <span style=color:#98c379>rest.hellowoodes.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>http</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>paths</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>path</span>: <span style=color:#98c379>/</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>backend</span>:
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>serviceName</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>servicePort</span>: <span style=color:#d19a66>8080</span>
+</span></span></code></pre></div><p>修改 Host 将域名指向相应的节点 IP</p><h2 id=测试>测试</h2><ul><li>获取端口</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get service -l <span style=color:#dcaeea>app</span><span style=color:#c7bf54>=</span>traefik
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME               TYPE          CLUSTER-IP      EXTERNAL-IP  PORT<span style=color:#c7bf54>(</span>S<span style=color:#c7bf54>)</span>                     AGE
 </span></span><span style=display:flex><span>traefik            LoadBalancer  10.106.137.170  &lt;pending&gt;    80:32311/TCP,443:30677/TCP  1s
 </span></span><span style=display:flex><span>traefik-dashboard  ClusterIP     10.108.91.184   &lt;none&gt;       80/TCP                      1s
-</span></span></code></pre></div><ul><li><p>访问相应的 NodeIP 和地址 <a href=http://dashboard.traefik:32311>http://dashboard.traefik:32311</a>，可以看到 Traefik 的 Dashboard</p></li><li><p>因为在values.yaml 中已经配置了 <code>deployment.hostPort.httpEnabled</code>和<code>deployment.hostPort.httpsEnabled</code>，所以也可以直接访问 <a href=http://dashboard.traefik>dashboard.traefik</a></p></li></ul><p><img alt=traefik-dashboard-page.png src=https://img.hellowood.dev/picture/traefik-dashboard-page.png></p><ul><li>访问backend 应用</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://rest.hellowoodes.com/ping
+</span></span></code></pre></div><ul><li><p>访问相应的 NodeIP 和地址 <a href=http://dashboard.traefik:32311>http://dashboard.traefik:32311</a>，可以看到 Traefik 的 Dashboard</p></li><li><p>因为在values.yaml 中已经配置了 <code>deployment.hostPort.httpEnabled</code>和<code>deployment.hostPort.httpsEnabled</code>，所以也可以直接访问 <a href=http://dashboard.traefik>dashboard.traefik</a></p></li></ul><p><img src=https://img.hellowood.dev/picture/traefik-dashboard-page.png alt=traefik-dashboard-page.png></p><ul><li>访问backend 应用</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://rest.hellowoodes.com/ping
 </span></span><span style=display:flex><span>Pong%
-</span></span></code></pre></div><hr><h2 id=参考资料>参考资料</h2><ul><li><a href=https://github.com/helm/charts/tree/master/stable/traefik>Helm Traefik</a></li><li><a href=https://8gwifi.org/docs/kube-traefik.jsp>Kubernetes Traefik Installation (helm)</a></li><li><a href=https://docs.traefik.io/user-guide/kubernetes/#deploy-traefik-using-helm-chart>Kubernetes Ingress Controller</a></li><li><a href=https://jimmysong.io/kubernetes-handbook/practice/traefik-ingress-installation.html>安装traefik ingress</a></li><li><a href=https://blog.csdn.net/deepbluesolo/article/details/84901427>微服务边界路由Traefik：基于京东云Kubernetes集群及Helm Chart</a></li></ul></section><div class=paginator><a class=prev href=https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M9.94496 9C9.28897 9.61644 7.63215 10.997 6.04814 11.7966 5.98257 11.8297 5.98456 11.9753 6.05061 12.0063c1.00435.4716 2.8788 1.9201 3.89435 2.9937M6.44444 11.9667C8.86549 12.0608 14 12 16 11" stroke="currentcolor" stroke-linecap="round"/></svg>
-<span>Spring Cloud 使用 Kubernetes 作为注册中心</span></a>
-<a class=next href=https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8/><span>Kubernetes 中使用 Helm 部署应用</span><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966 16.0174 11.8297 16.0154 11.9753 15.9494 12.0063 14.945 12.4779 13.0706 13.9264 12.055 15m3.5006-3.0333C13.1345 12.0608 8 12 6 11" stroke="currentcolor" stroke-linecap="round"/></svg></a></div></article></div><footer class=footer><p>&copy; 2024 <a href=https://blog.hellowood.dev/>HelloWood</a>
-Powered by
-<a href=https://gohugo.io/ rel=noopener target=_blank data-umami-event=to-hugo>Hugo️️</a>
-<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank data-umami-event=to-ladder>Ladder</a>
-️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g data-umami-event=top-link><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211 22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257m1.0199 2.67608C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257c-3.5504-6.28886-12.88753-4.410077-16.44303.0C2.88063 6.77451-.0433281 11.1668 1.38159 16.6571c.89322 3.4417 3.7911 5.6365 6.81584 6.1154M20.7188 5.04257c1.3509 1.89783 3.3111 6.34223 1.6353 10.37273M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814 11.1703 6.98257 11.0247 6.98456 10.9937 7.05061 10.5221 8.05496 9.07362 9.92941 8 10.945m3.0333-3.50056C10.9392 9.86549 11 15 12 17" stroke="currentcolor" stroke-linecap="round"/></svg>
-</a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>
+</span></span></code></pre></div><hr><h2 id=参考资料>参考资料</h2><ul><li><a href=https://github.com/helm/charts/tree/master/stable/traefik>Helm Traefik</a></li><li><a href=https://8gwifi.org/docs/kube-traefik.jsp>Kubernetes Traefik Installation (helm)</a></li><li><a href=https://docs.traefik.io/user-guide/kubernetes/#deploy-traefik-using-helm-chart>Kubernetes Ingress Controller</a></li><li><a href=https://jimmysong.io/kubernetes-handbook/practice/traefik-ingress-installation.html>安装traefik ingress</a></li><li><a href=https://blog.csdn.net/deepbluesolo/article/details/84901427>微服务边界路由Traefik：基于京东云Kubernetes集群及Helm Chart</a></li></ul></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-dark crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2024 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/526avijitgupta/gokarna>Gokarna</a></span></footer></body></html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Request on HelloWood</title><link>https://blog.hellowood.dev/categories/request/</link><description>Recent content in Request on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 11:40:58 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/request/index.xml" rel="self" type="application/rss+xml"/><item><title>AngularJS发送异步Get/Post请求</title><link>https://blog.hellowood.dev/posts/angularjs%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5get-post%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Jan 2018 11:40:58 +0000</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5get-post%E8%AF%B7%E6%B1%82/</guid><description>&lt;p>1 . 在页面中加入AngularJS并为页面绑定ng-app 和 ng-controller&lt;/p>
+&lt;pre tabindex="0">&lt;code>&amp;lt;body ng-app=&amp;#34;MyApp&amp;#34; ng-controller=&amp;#34;MyCtrl&amp;#34; &amp;gt;
+...
+&amp;lt;script src=&amp;#34;js/angular.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;#34;js/sbt.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>&lt;p>2 . 添加必要的控件并绑定相应的事件&lt;/p>
+&lt;pre tabindex="0">&lt;code> get:&amp;lt;input type=&amp;#34;text&amp;#34; ng-model=&amp;#34;param&amp;#34;&amp;gt;{{param}} &amp;lt;br&amp;gt;
+ post: &amp;lt;input type=&amp;#34;text&amp;#34; ng-model=&amp;#34;user.name&amp;#34;&amp;gt;&amp;lt;input type=&amp;#34;text&amp;#34; ng-model=&amp;#34;user.password&amp;#34;&amp;gt;&amp;lt;br&amp;gt;
+ &amp;lt;button ng-click=&amp;#34;get()&amp;#34;&amp;gt;Get&amp;lt;/button&amp;gt;
+ &amp;lt;button ng-click=&amp;#34;post()&amp;#34;&amp;gt;Post&amp;lt;/button&amp;gt;
+&lt;/code>&lt;/pre>&lt;p>3 . 在JS脚本中发送进行Get/Post请求&lt;/p>
+&lt;ul>
+&lt;li>get&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>$scope.get = function () {
+ $http.get(&amp;#34;/get&amp;#34;, {params: {param: $scope.param}})
+ .success(function (data, header, config, status) {
+ console.log(data);
+ })
+ .error(function (data, header, config, status) {
+ console.log(data);
+ })
+ ;
+ }
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>get 将参数放在URL中&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>$scope.get = function () {
+ $http.get(&amp;#34;/get?param=&amp;#34;+$scope.param)
+ .success(function (data, header, config, status) {
+ console.log(data);
+ })
+ .error(function (data, header, config, status) {
+ console.log(data);
+ })
+ ;
+ }
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;ul>
+&lt;li>post&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>$scope.post = function () {
+ $http.post(&amp;#34;/post&amp;#34;, $scope.user)
+ .success(function (data, header, config, status) {
+ console.log(data);
+ })
+ .error(function (data, header, config, status) {
+ console.log(data);
+ })
+ ;
+ }
+&lt;/code>&lt;/pre>&lt;p>4 . 由Controller处理请求并返回结果&lt;/p></description></item></channel></rss>

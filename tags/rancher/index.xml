@@ -1,1 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rancher on HelloWood</title><link>https://blog.hellowood.dev/tags/rancher/</link><description>Recent content in Rancher on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 24 Apr 2021 22:55:32 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/rancher/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rancher on HelloWood</title><link>https://blog.hellowood.dev/tags/rancher/</link><description>Recent content in Rancher on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 24 Apr 2021 22:55:32 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/rancher/index.xml" rel="self" type="application/rss+xml"/><item><title>树莓派 4b 安装 Kubernetes</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</link><pubDate>Sat, 24 Apr 2021 22:55:32 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</guid><description>&lt;h1 id="树莓派-4b-安装-kubernetes">树莓派 4b 安装 Kubernetes&lt;/h1>
+&lt;p>K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>在 Ubuntu Server 21.04 上安装 K3S&lt;/p>
+&lt;h3 id="1-安装-docker">1. 安装 Docker&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update &amp;amp; apt upgrade &amp;amp; apt install docker.io
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2-安装-k3s">2. 安装 K3S&lt;/h3>
+&lt;p>登录树莓派所在的机器，执行安装脚本&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -sfL https://get.k3s.io | sh -
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 kubectl 查看集群信息&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>k3s kubectl get node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 也可以直接使用 kubectl &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kubectl get node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS ROLES AGE VERSION
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ubuntu Ready control-plane,master 1h v1.20.6+k3s1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="3-本地访问集群">3. 本地访问集群&lt;/h3>
+&lt;ul>
+&lt;li>获取 Kube Config&lt;/li>
+&lt;/ul>
+&lt;p>默认的 Kubernetes Config 文件是 &lt;code>/etc/rancher/k3s/k3s.yaml&lt;/code>，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可&lt;/p></description></item></channel></rss>

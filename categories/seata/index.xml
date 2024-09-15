@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Seata on HelloWood</title><link>https://blog.hellowood.dev/categories/seata/</link><description>Recent content in Seata on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Fri, 10 Apr 2020 10:51:17 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/seata/index.xml" rel="self" type="application/rss+xml"/><item><title>Seata 高可用部署实践</title><link>https://blog.hellowood.dev/posts/seata-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/</link><pubDate>Fri, 10 Apr 2020 10:51:17 +0000</pubDate><guid>https://blog.hellowood.dev/posts/seata-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/</guid><description>&lt;h1 id="seata-高可用部署实践">Seata 高可用部署实践&lt;/h1>
+&lt;p>使用配置中心和数据库来实现 Seata 的高可用，以 Nacos 和 MySQL 为例，将&lt;a href="https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/">cloud-seata-nacos&lt;/a>应用部署到 Kubernetes 集群中&lt;/p>
+&lt;p>该应用使用 Nacos 作为配置和注册中心，总共有三个服务: order-service, pay-service, storage-service, 其中 order-service 对外提供下单接口，当余额和库存充足时，下单成功，会提交事务，当不足时会抛出异常，下单失败，回滚事务&lt;/p>
+&lt;h2 id="准备工作">准备工作&lt;/h2>
+&lt;p>需要准备可用的注册中心、配置中心 Nacos 和 MySQL，通常情况下，注册中心、配置中心和数据库都是已有的，不需要特别配置，在这个实践中，为了简单，只部署单机的注册中心、配置中心和数据库，假设他们是可靠的&lt;/p>
+&lt;ul>
+&lt;li>部署 Nacos&lt;/li>
+&lt;/ul>
+&lt;p>在服务器部署 Nacos，开放 8848 端口，用于 seata-server 注册，服务器地址为 &lt;code>192.168.199.2&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name nacos -p 8848:8848 -e &lt;span style="color:#dcaeea">MODE&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>standalone nacos/nacos-server
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>部署 MySQL&lt;/li>
+&lt;/ul>
+&lt;p>部署一台MySQL 数据库，用于保存事务数据，服务器地址为 &lt;code>192.168.199.2&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name mysql -p 30060:3306-e &lt;span style="color:#dcaeea">MYSQL_ROOT_PASSWORD&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">123456&lt;/span> -d mysql:5.7.17
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="部署-seata-server">部署 seata-server&lt;/h2>
+&lt;ul>
+&lt;li>创建seata-server需要的表&lt;/li>
+&lt;/ul>
+&lt;p>具体的 SQL 参考 &lt;a href="https://github.com/seata/seata/tree/develop/script/server/db">script/server/db&lt;/a>，这里使用的是 MySQL 的脚本，数据库名称为 &lt;code>seata&lt;/code>&lt;/p>
+&lt;p>同时，也需要创建 undo_log 表， 可以参考 &lt;a href="https://github.com/seata/seata/blob/develop/script/client/at/db/">script/client/at/db/&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>修改seata-server配置&lt;/li>
+&lt;/ul>
+&lt;p>将以下配置添加到 Nacos 配置中心，具体添加方法可以参考 &lt;a href="https://github.com/seata/seata/tree/develop/script/config-center">script/config-center&lt;/a>&lt;/p></description></item></channel></rss>

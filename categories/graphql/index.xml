@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GraphQL on HelloWood</title><link>https://blog.hellowood.dev/categories/graphql/</link><description>Recent content in GraphQL on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 29 Jan 2019 19:57:12 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/graphql/index.xml" rel="self" type="application/rss+xml"/><item><title>GraphQL Spring Boot 使用</title><link>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 29 Jan 2019 19:57:12 +0000</pubDate><guid>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="graphql-spring-boot-使用">GraphQL Spring Boot 使用&lt;/h1>
+&lt;p>项目地址 &lt;a href="https://github.com/helloworlde/spring-boot-graphql-demo">https://github.com/helloworlde/spring-boot-graphql-demo&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="创建应用">创建应用&lt;/h2>
+&lt;ul>
+&lt;li>添加依赖&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-data-mongodb&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compileOnly&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testImplementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加基础接口">添加基础接口&lt;/h3>
+&lt;ul>
+&lt;li>添加 Model&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Data&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Builder&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Document&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@AllArgsConstructor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@NoArgsConstructor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">Post&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Id&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">content&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@CreatedDate&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Date&lt;/span> &lt;span style="color:#c1abea">createDate&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>添加 Repository&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">PostRepository&lt;/span> &lt;span style="color:#c678dd">extends&lt;/span> &lt;span style="color:#c1abea">MongoRepository&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Post&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>添加配置&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># MongoDB Config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.data.mongodb.host&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">localhost&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.data.mongodb.port&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">27017&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.data.mongodb.username=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.data.mongodb.password=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.data.mongodb.database&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">graphql&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>添加数据初始化&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Component&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Slf4j&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">DataInitializer&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">ApplicationRunner&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">PostRepository&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">run&lt;/span>(&lt;span style="color:#c1abea">ApplicationArguments&lt;/span> &lt;span style="color:#c1abea">args&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">Exception&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Post&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">posts&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">initPost&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">posts&lt;/span>.&lt;span style="color:#b3d23c">forEach&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span> &lt;span style="color:#c7bf54">-&amp;gt;&lt;/span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Post: {}&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">post&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Post&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">initPost&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">deleteAll&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">Stream&lt;/span>.&lt;span style="color:#b3d23c">of&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Post one&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;Post two&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">map&lt;/span>(&lt;span style="color:#c1abea">title&lt;/span> &lt;span style="color:#c7bf54">-&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#c1abea">post&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">Post&lt;/span>.&lt;span style="color:#b3d23c">builder&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">title&lt;/span>(&lt;span style="color:#c1abea">title&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">content&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Content of &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">collect&lt;/span>(&lt;span style="color:#c1abea">Collectors&lt;/span>.&lt;span style="color:#b3d23c">toList&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加-graphql-配置">添加 GraphQL 配置&lt;/h3>
+&lt;ul>
+&lt;li>添加 GraphQL 依赖&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 提供 UI 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphiql-spring-boot-starter:5.0.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 用于 Resolver 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphql-java-tools:5.2.4&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>添加接口定义脚本&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-graphql" data-lang="graphql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># io.github.helloworlde.graphql.model.Post 对应的Model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Post&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">content&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">createtype&lt;/span>: &lt;span style="color:#76a9f9">post&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#cebc3a">date&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># io.github.helloworlde.graphql.resolver.PostMutation.updatePost 的入参 post&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">input&lt;/span> &lt;span style="color:#76a9f9">PostInput&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>!,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">content&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 查询 io.github.helloworlde.graphql.resolver.PostQuery&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Query&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">posts&lt;/span>: [&lt;span style="color:#76a9f9">Post&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">post&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!): &lt;span style="color:#76a9f9">Post&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 修改 io.github.helloworlde.graphql.resolver.PostMutation&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Mutation&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">createPost&lt;/span>(&lt;span style="color:#cebc3a">post&lt;/span>: &lt;span style="color:#76a9f9">PostInput&lt;/span>): &lt;span style="color:#76a9f9">Post&lt;/span>!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">updatePost&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!, &lt;span style="color:#cebc3a">post&lt;/span>: &lt;span style="color:#76a9f9">PostInput&lt;/span>): &lt;span style="color:#76a9f9">Post&lt;/span>!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">deletePost&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!): &lt;span style="color:#76a9f9">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="添加接口-resolver">添加接口 Resolver&lt;/h4>
+&lt;ul>
+&lt;li>查询 Resolver&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Component&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">PostQuery&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">GraphQLQueryResolver&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">PostRepository&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Post&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">posts&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">findAll&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Optional&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Post&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">post&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改 Resolver&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Component&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">PostMutation&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">GraphQLMutationResolver&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">PostRepository&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#00b1f7">createPost&lt;/span>(&lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#c1abea">post&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#c1abea">newPost&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">Post&lt;/span>.&lt;span style="color:#b3d23c">builder&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">title&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span>.&lt;span style="color:#b3d23c">getTitle&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">content&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span>.&lt;span style="color:#b3d23c">getContent&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">newPost&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#00b1f7">updatePost&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>, &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#c1abea">post&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">Exception&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Post&lt;/span> &lt;span style="color:#c1abea">currentPost&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">orElseThrow&lt;/span>(() &lt;span style="color:#c7bf54">-&amp;gt;&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">IllegalArgumentException&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Post &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#98c379">&amp;#34; Not Exist&amp;#34;&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">currentPost&lt;/span>.&lt;span style="color:#b3d23c">setTitle&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span>.&lt;span style="color:#b3d23c">getTitle&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">currentPost&lt;/span>.&lt;span style="color:#b3d23c">setContent&lt;/span>(&lt;span style="color:#c1abea">post&lt;/span>.&lt;span style="color:#b3d23c">getContent&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">currentPost&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#00b1f7">deletePost&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">Exception&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">orElseThrow&lt;/span>(() &lt;span style="color:#c7bf54">-&amp;gt;&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">IllegalArgumentException&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Post &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#98c379">&amp;#34; Not Exist&amp;#34;&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">postRepository&lt;/span>.&lt;span style="color:#b3d23c">deleteById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="测试">测试&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>启动应用&lt;/p></description></item></channel></rss>

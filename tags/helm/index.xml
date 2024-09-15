@@ -1,1 +1,267 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Helm on HelloWood</title><link>https://blog.hellowood.dev/tags/helm/</link><description>Recent content in Helm on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 29 Dec 2019 18:57:38 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/helm/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Helm on HelloWood</title><link>https://blog.hellowood.dev/tags/helm/</link><description>Recent content in Helm on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 29 Dec 2019 18:57:38 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/helm/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes 中使用 Helm 部署使用 Prometheus</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</link><pubDate>Sun, 29 Dec 2019 18:57:38 +0000</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</guid><description>&lt;h1 id="kubernetes-中使用-helm-部署使用-prometheus">Kubernetes 中使用 Helm 部署使用 Prometheus&lt;/h1>
+&lt;blockquote>
+&lt;p>使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装-prometheus-和-grafana">安装 Prometheus 和 Grafana&lt;/h2>
+&lt;h3 id="添加标准仓库">添加标准仓库&lt;/h3>
+&lt;p>如果没有 stable 仓库，会提示找不到 &lt;code>prometheus-operator&lt;/code>这个应用，需要先添加stable 仓库：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm repo add stable https://kubernetes-charts.storage.googleapis.com
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-prometheus">安装 Prometheus&lt;/h3>
+&lt;h4 id="使用参数指定配置">使用参数指定配置&lt;/h4>
+&lt;p>指定节点的端口用于在集群外的机器访问&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set prometheus.service.type&lt;span style="color:#c7bf54">=&lt;/span>NodePort &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set prometheus.service.nodePort&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">30090&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.service.type&lt;span style="color:#c7bf54">=&lt;/span>NodePort &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.service.nodePort&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">30080&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.adminPassword&lt;span style="color:#c7bf54">=&lt;/span>admin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="指定配置文件安装">指定配置文件安装&lt;/h4>
+&lt;ul>
+&lt;li>如果有需要自定义的配置，可以下载应用后修改&lt;code>values.yaml&lt;/code>，然后指定该配置文件进行安装&lt;/li>
+&lt;/ul>
+&lt;p>values.yaml&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">prometheus&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">service&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">nodePort&lt;/span>: &lt;span style="color:#d19a66">30090&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">NodePort&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">grafana&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">service&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">nodePort&lt;/span>: &lt;span style="color:#d19a66">30080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">NodePort&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">adminPassword&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator -f values.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果有更多配置项，可以通过下载 Helm 的安装包，解压后自己修改：&lt;/p></description></item><item><title>使用 GitHub 作为 Helm 仓库</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-github-%E4%BD%9C%E4%B8%BA-helm-%E4%BB%93%E5%BA%93/</link><pubDate>Sat, 07 Dec 2019 22:16:35 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-github-%E4%BD%9C%E4%B8%BA-helm-%E4%BB%93%E5%BA%93/</guid><description>&lt;h1 id="使用-github-作为-helm-仓库">使用 GitHub 作为 Helm 仓库&lt;/h1>
+&lt;blockquote>
+&lt;p>使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="准备工作">准备工作&lt;/h2>
+&lt;ul>
+&lt;li>创建仓库&lt;/li>
+&lt;/ul>
+&lt;p>在 GitHub 上创建名为 &lt;code>helm-chart&lt;/code>的仓库&lt;/p>
+&lt;ul>
+&lt;li>本地创建 &lt;code>helm-chart&lt;/code>文件夹&lt;/li>
+&lt;/ul>
+&lt;h2 id="创建并配置仓库">创建并配置仓库&lt;/h2>
+&lt;ul>
+&lt;li>进入文件夹，并执行以下命令创建 Helm 包&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir helm-chart-sources
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>helm create helm-chart-sources/helloworld
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时，已经在 &lt;code>helm-chart-resources&lt;/code>目录下创建出了 &lt;code>helloworld&lt;/code>这个包的配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── helm-chart-sources
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └── helloworld
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── Chart.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── charts
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── templates
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── NOTES.txt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── _helpers.tpl
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── deployment.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── ingress.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── service.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ ├── serviceaccount.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ └── tests
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │ └── test-connection.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └── values.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d19a66">5&lt;/span> directories, &lt;span style="color:#d19a66">9&lt;/span> files
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改为自己的相应的配置&lt;/p></description></item><item><title>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</title><link>https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/</link><pubDate>Sun, 08 Sep 2019 19:06:11 +0000</pubDate><guid>https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/</guid><description>&lt;h1 id="kubenetes-中使用-traefik-作为-ingress-转发流量">Kubenetes 中使用 Traefik 作为 Ingress 转发流量&lt;/h1>
+&lt;p>Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
+路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用&lt;/p>
+&lt;p>Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置&lt;/p>
+&lt;h2 id="通过配置文件部署-traefik">通过配置文件部署 Traefik&lt;/h2>
+&lt;h3 id="配置">配置&lt;/h3>
+&lt;ul>
+&lt;li>Ingress-rbac.yaml&lt;/li>
+&lt;/ul>
+&lt;p>用于 Service Account 验证&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#76a9f9">---&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRoleBinding&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io/v1beta1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">subjects&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">roleRef&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRole&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">cluster-admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">apiGroup&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>traefik-daemon-set.yaml&lt;/li>
+&lt;/ul>
+&lt;p>使用 DaemonSet 部署 Traefik&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">extensions/v1beta1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">DaemonSet&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">k8s-app&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">template&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">k8s-app&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">terminationGracePeriodSeconds&lt;/span>: &lt;span style="color:#d19a66">60&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostNetwork&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restartPolicy&lt;/span>: &lt;span style="color:#98c379">Always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">serviceAccountName&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containers&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">resources&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">limits&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cpu&lt;/span>: &lt;span style="color:#98c379">200m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">memory&lt;/span>: &lt;span style="color:#98c379">30Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">requests&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cpu&lt;/span>: &lt;span style="color:#98c379">100m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">memory&lt;/span>: &lt;span style="color:#98c379">20Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containerPort&lt;/span>: &lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostPort&lt;/span>: &lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containerPort&lt;/span>: &lt;span style="color:#d19a66">8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostPort&lt;/span>: &lt;span style="color:#d19a66">8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">args&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">web.address=:8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">kubernetes&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>traefik-ui.yaml&lt;/li>
+&lt;/ul>
+&lt;p>创建 Traefik 的 UI&lt;/p></description></item><item><title>Kubernetes 中使用 Helm 部署应用</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8/</link><pubDate>Sun, 08 Sep 2019 19:03:06 +0000</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="kubernetes-中使用-helm-部署应用">Kubernetes 中使用 Helm 部署应用&lt;/h1>
+&lt;h2 id="创建应用">创建应用&lt;/h2>
+&lt;p>创建一个简单的应用，提供一个 REST 接口；使用 Golang 编写，然后将镜像 push 到 Docker Hub&lt;/p>
+&lt;ul>
+&lt;li>go.mod&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">module&lt;/span> &lt;span style="color:#c1abea">github&lt;/span>.&lt;span style="color:#c1abea">com&lt;/span>&lt;span style="color:#c7bf54">/&lt;/span>&lt;span style="color:#c1abea">helloworlde&lt;/span>&lt;span style="color:#c7bf54">/&lt;/span>&lt;span style="color:#c1abea">rest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">go&lt;/span> &lt;span style="color:#d19a66">1.12&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>main.go&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#c1abea">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">HandleFunc&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/ping&amp;#34;&lt;/span>, &lt;span style="color:#c678dd">func&lt;/span>(&lt;span style="color:#c1abea">writer&lt;/span> &lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">ResponseWriter&lt;/span>, &lt;span style="color:#c1abea">request&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">Request&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Pong&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">_&lt;/span>, &lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Fprint&lt;/span>(&lt;span style="color:#c1abea">writer&lt;/span>, &lt;span style="color:#98c379">&amp;#34;Pong&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	})
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Server Started&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#00b1f7">Fatal&lt;/span>(&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">ListenAndServe&lt;/span>(&lt;span style="color:#98c379">&amp;#34;:8080&amp;#34;&lt;/span>, &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Dockerfile&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> golang AS build-env&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">WORKDIR&lt;/span>&lt;span style="color:#98c379"> /go/src/github.com/hellowrolde/rest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">COPY&lt;/span> . .
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> GO111MODULE on
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">GOPROXY&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>https://gocenter.io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> GOOS linux
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> GOARCH &lt;span style="color:#d19a66">386&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> go mod download
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> go build -v -o /go/src/github.com/hellowrolde/rest/app
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> alpine&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">COPY&lt;/span> --from&lt;span style="color:#c7bf54">=&lt;/span>build-env /go/src/github.com/hellowrolde/rest/app /usr/local/bin/app
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">EXPOSE&lt;/span>&lt;span style="color:#98c379"> 8080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CMD&lt;/span> [&lt;span style="color:#63c381">&amp;#34;app&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>构建并 push 镜像&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker build -t hellowooeds/rest . 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker push hellowooeds/rest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用-helm">使用 Helm&lt;/h2>
+&lt;h3 id="添加-helm">添加 Helm&lt;/h3>
+&lt;h4 id="初始化">初始化&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm create rest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后会在项目目录下创建一个 rest 的文件夹，里面包含所需要的 Helm 配置文件&lt;/p></description></item><item><title>Kubernetes 中安装 Helm</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E5%AE%89%E8%A3%85-helm/</link><pubDate>Sun, 08 Sep 2019 19:00:28 +0000</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E5%AE%89%E8%A3%85-helm/</guid><description>&lt;h1 id="kubernetes-中安装-helm">Kubernetes 中安装 Helm&lt;/h1>
+&lt;blockquote>
+&lt;p>Helm 是构建于 Kubernetes 之上的包管理器，可以理解为 yum，homebrew 或者 pip，用于简化包分发，安装，版本管理等操作流程&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="基本概念">基本概念&lt;/h2>
+&lt;ul>
+&lt;li>Chart&lt;/li>
+&lt;/ul>
+&lt;p>chart 就是 Helm 所管理的包，包含着一个应用要部署至 Kubernetes 上所必须的所有资源&lt;/p>
+&lt;ul>
+&lt;li>Release&lt;/li>
+&lt;/ul>
+&lt;p>Release 就是 chart 在 Kubernetes 上部署后的实例，chart 每次部署都会产生一次 Release&lt;/p>
+&lt;ul>
+&lt;li>Repository&lt;/li>
+&lt;/ul>
+&lt;p>存储chart 的仓库，初始化 Helm 时会添加两个仓库，一个是 stable 仓库，地址是&lt;a href="https://kubernetes-charts.storage.googleapis.com/">https://kubernetes-charts.storage.googleapis.com/&lt;/a> ，另一个则是 local 仓库，地址是 &lt;a href="http://127.0.0.1:8879/charts">http://127.0.0.1:8879/charts&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>Config
+Config 用于部署 chart 时自定义配置，在部署的时候，会将 Config 和 chart 进行合并，共同构成将部署的应用&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>Helm 是一个 C/S 架构，分为客户端helm 和服务端Tiller&lt;/p>
+&lt;h3 id="客户端">客户端&lt;/h3>
+&lt;ul>
+&lt;li>Mac&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install kubernetes-helm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Ubuntu&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo snap install helm --classic
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="服务端">服务端&lt;/h3>
+&lt;p>服务端安装要求 &lt;code>$HOME/.kube/config&lt;/code>配置正确且有&lt;code>kubectl&lt;/code>操作权限&lt;/p>
+&lt;ul>
+&lt;li>创建账户&lt;/li>
+&lt;/ul>
+&lt;p>tiller-rbac.yaml&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">tiller&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#76a9f9">---&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io/v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRoleBinding&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">tiller&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">roleRef&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">apiGroup&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRole&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">cluster-admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">subjects&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">tiller&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f tiller-rbac.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm init --service-account tiller
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这种方式默认会使用 &lt;code>gcr.io/kubernetes-helm/tiller&lt;/code>，可以通过指定镜像的方式初始化&lt;/p></description></item></channel></rss>

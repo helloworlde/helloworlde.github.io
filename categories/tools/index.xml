@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on HelloWood</title><link>https://blog.hellowood.dev/categories/tools/</link><description>Recent content in Tools on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 27 Nov 2023 11:40:53 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 GoLinks 短链接服务简化网址访问</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</link><pubDate>Mon, 27 Nov 2023 11:40:53 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="使用-golinks-短链接服务简化网址访问">使用 GoLinks 短链接服务简化网址访问&lt;/h1>
+&lt;p>最近在内网查找文档时看到一个类似 &lt;code>go/文档名&lt;/code> 的链接，在浏览器的 URL 输入后可以跳转到对应的文档，对比其他的短链接服务要方便不少；&lt;/p>
+&lt;p>一番探索后发现原来是一个叫 GoLinks 的短链接服务，通过域名配合 DNS 搜索域，实现了可以直接访问 &lt;code>go&lt;/code> 域名；然后根据路径，重定向到对应的 URL。&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/go-links-homepage.png" alt="go-links-homepage.png">&lt;/p>
+&lt;h2 id="什么是-golinks">什么是 GoLinks&lt;/h2>
+&lt;p>根据 Tailscale 的文档，GoLinks 服务第一次出现应该是2006年，在谷歌作为内部短链接工具，后来被各个公司复制&lt;/p>
+&lt;p>GoLinks 通过 DNS 配置，简化了短链接服务本身的访问地址，因此，可以通过形如 &lt;code>go/google&lt;/code>, &lt;code>go/search/golinks&lt;/code> 这样的方式直接访问&lt;/p>
+&lt;p>在 GitHub上搜索发现 Tailscale 也提供了这样的工具，项目地址为 &lt;a href="https://github.com/tailscale/golink">https://github.com/tailscale/golink&lt;/a>，在开启 Tailscale 后可以通过 MagicDNS 直接使用。同时可以配置为开发模式，通过内网的 DNS 和搜索域的配合也可以实现相同的功能。相关文档参考 &lt;a href="https://tailscale.com/blog/golink/">Private go links for your tailnet&lt;/a>&lt;/p>
+&lt;h2 id="内网使用-golinks-服务">内网使用 GoLinks 服务&lt;/h2>
+&lt;p>使用 GoLinks 服务有两个条件：&lt;/p>
+&lt;ol>
+&lt;li>需要能够将 &lt;code>go&lt;/code> 解析为对应的服务地址，可以通过配置 DNS 或者 host 的方式实现&lt;/li>
+&lt;li>需要 GoLinks 服务监听 80 端口因为访问时为了简单不想再输入 https 或者端口号，因此需要使用 80 端口作为 GoLinks 服务的端口&lt;/li>
+&lt;/ol>
+&lt;p>有三种方式可以解析 &lt;code>go&lt;/code>：&lt;/p></description></item></channel></rss>

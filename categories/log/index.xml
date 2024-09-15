@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Log on HelloWood</title><link>https://blog.hellowood.dev/categories/log/</link><description>Recent content in Log on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 21 Jan 2018 21:16:10 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/log/index.xml" rel="self" type="application/rss+xml"/><item><title>SpringBoot 使用 ELK 日志收集系统安装配置</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elk-%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</link><pubDate>Sun, 21 Jan 2018 21:16:10 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elk-%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="springboot-使用-elk-日志收集系统安装配置">SpringBoot 使用 ELK 日志收集系统安装配置&lt;/h1>
+&lt;h2 id="elasticsearch">Elasticsearch&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>下载 &lt;a href="https://www.elastic.co/cn/downloads/elasticsearch">Elasticsearch&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>解压并运行 &lt;code>bin/elasticsearch&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>访问 &lt;code>http://localhost:9200&lt;/code>, 会看到以下内容&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>{
+ &amp;#34;name&amp;#34; : &amp;#34;9KA6kPN&amp;#34;,
+ &amp;#34;cluster_name&amp;#34; : &amp;#34;elasticsearch&amp;#34;,
+ &amp;#34;cluster_uuid&amp;#34; : &amp;#34;BtscSPXeR0manhl2LibpuA&amp;#34;,
+ &amp;#34;version&amp;#34; : {
+ &amp;#34;number&amp;#34; : &amp;#34;6.1.1&amp;#34;,
+ &amp;#34;build_hash&amp;#34; : &amp;#34;bd92e7f&amp;#34;,
+ &amp;#34;build_date&amp;#34; : &amp;#34;2017-12-17T20:23:25.338Z&amp;#34;,
+ &amp;#34;build_snapshot&amp;#34; : false,
+ &amp;#34;lucene_version&amp;#34; : &amp;#34;7.1.0&amp;#34;,
+ &amp;#34;minimum_wire_compatibility_version&amp;#34; : &amp;#34;5.6.0&amp;#34;,
+ &amp;#34;minimum_index_compatibility_version&amp;#34; : &amp;#34;5.0.0&amp;#34;
+ },
+ &amp;#34;tagline&amp;#34; : &amp;#34;You Know, for Search&amp;#34;
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>安装 Head 插件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>bin/plugin install mobz/elasticsearch-head
+&lt;/code>&lt;/pre>&lt;h2 id="logstash">Logstash&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>下载 &lt;a href="https://www.elastic.co/cn/downloads/logstash">Logstash&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>解压&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>添加配置&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>添加 &lt;code>log_to_es.conf&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>input {
+ tcp {
+ host =&amp;gt; &amp;#34;localhost&amp;#34;
+ port =&amp;gt; 4560
+ mode =&amp;gt; &amp;#34;server&amp;#34;
+ tags =&amp;gt; [&amp;#34;applog&amp;#34;]
+ codec =&amp;gt; json_lines
+ }
+}
+output {
+ stdout{codec =&amp;gt;rubydebug}
+ elasticsearch {
+ action =&amp;gt; &amp;#34;index&amp;#34; #The operation on ES
+ hosts =&amp;gt; &amp;#34;localhost:9200&amp;#34; #ElasticSearch host, can be array.
+ index =&amp;gt; &amp;#34;applog&amp;#34; #The index to write data to.
+ }
+}
+&lt;/code>&lt;/pre>&lt;p>这是从本地通过 TCP 读取读取日志并发送到 ElasticSearch&lt;/p></description></item><item><title>SpringBoot 中日志使用</title><link>https://blog.hellowood.dev/posts/springboot-%E4%B8%AD%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8/</link><pubDate>Fri, 19 Jan 2018 21:23:45 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%B8%AD%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="springboot-中日志使用">SpringBoot 中日志使用&lt;/h1>
+&lt;h2 id="配置日志输出到文件">配置日志输出到文件&lt;/h2>
+&lt;pre tabindex="0">&lt;code># 输出到指定文件
+logging.file=./logs/application.log
+
+# 输出到指定目录下（会写入到 spring.log 中）
+logging.path=./logs
+&lt;/code>&lt;/pre>&lt;p>当同时存在 &lt;code>logging.path&lt;/code> 和 &lt;code>logging.file&lt;/code> 时 &lt;code>logging.path&lt;/code> 无效&lt;/p>
+&lt;h2 id="日志中添加信息">日志中添加信息&lt;/h2>
+&lt;p>向日志中添加自定义信息可以使用 &lt;code>MDC&lt;/code>类来实现&lt;/p>
+&lt;ul>
+&lt;li>配置文件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>logging.pattern.level=user:%X{user} %5p
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>类：
+&lt;ul>
+&lt;li>&lt;code>org.apache.log4j.MDC&lt;/code>&lt;/li>
+&lt;li>&lt;code>org.jboss.logging.MDC &lt;/code>&lt;/li>
+&lt;li>&lt;code>org.slf4j.MDC&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>MDC.put(&amp;#34;user&amp;#34;, &amp;#34;Hello&amp;#34;);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>输出结果&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>2018-01-18 23:55:10.836 user:Hello INFO 7011 --- [nio-8080-exec-1] cn.com.hellowood.log.LogController : log 2
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;h2 id="logback-配置">logback 配置&lt;/h2>
+&lt;h3 id="标签属性">标签属性&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>&amp;lt;configuration&amp;gt;&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>scan&lt;/code>: 当属性设置为 &lt;code>true&lt;/code> 时， 配置文件如果发生变化会被重新加载，默认为&lt;code>true&lt;/code>&lt;/li>
+&lt;li>&lt;code>scanPeriod&lt;/code>: 设置监测配置文件是否修改的时间间隔，默认单位是毫秒，默认时间间隔1分钟&lt;/li>
+&lt;li>&lt;code>debug&lt;/code>：当属性设置为&lt;code>true&lt;/code>时，将打印&lt;code>logback&lt;/code>内部的日志信息，默认为 &lt;code>false&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>&amp;lt;root&amp;gt;&lt;/code>：用来指定最基础的日志输出级别&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>level&lt;/code>：设置日志打印级别，大小写不敏感，可以是&lt;code>TRACE,DEBUG,INFO,ERROR,ALL,OFF&lt;/code>，默认&lt;code>DEBUG&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;root level=&amp;#34;debug&amp;#34;&amp;gt;
+ &amp;lt;appender-ref ref=&amp;#34;console&amp;#34; /&amp;gt;
+ &amp;lt;appender-ref ref=&amp;#34;file&amp;#34; /&amp;gt;
+&amp;lt;/root&amp;gt;
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>&amp;lt;contextName&amp;gt;&lt;/code>：上下文名称，默认为&lt;code>default&lt;/code>，用于区分应用程序，一般改为项目名称，可以通过 &lt;code>%contextName&lt;/code> 添加到日志中&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>&amp;lt;property&amp;gt;&lt;/code>：用来定义变量值的标签&lt;/p></description></item></channel></rss>

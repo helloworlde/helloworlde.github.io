@@ -1,1 +1,144 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NgModal on HelloWood</title><link>https://blog.hellowood.dev/tags/ngmodal/</link><description>Recent content in NgModal on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 01 Jan 2018 11:57:50 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ngmodal/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NgModal on HelloWood</title><link>https://blog.hellowood.dev/tags/ngmodal/</link><description>Recent content in NgModal on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 11:57:50 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ngmodal/index.xml" rel="self" type="application/rss+xml"/><item><title>AngularJS中使用ngModal模态框</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngmodal%E6%A8%A1%E6%80%81%E6%A1%86/</link><pubDate>Mon, 01 Jan 2018 11:57:50 +0000</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngmodal%E6%A8%A1%E6%80%81%E6%A1%86/</guid><description>&lt;ul>
+&lt;li>在AngularJS中使用模态框需要引用的文件：
+&lt;ul>
+&lt;li>angular.js 1.5.5&lt;/li>
+&lt;li>ui.bootstrap-tpls.js 0.11.2&lt;/li>
+&lt;li>bootstrap.css 3.3.7&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>需要注意版本要一致，高版本的不支持这种方法，会出错&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;ul>
+&lt;li>将需要弹出的模态框的内容写在 script 标签中，指明属性，放在页面中&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;script type=&amp;#34;text/ng-template&amp;#34; id=&amp;#34;modal.html&amp;#34;&amp;gt; 
+&amp;lt;div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-header&amp;#34;&amp;gt;
+ &amp;lt;h3 class=&amp;#34;modal-title&amp;#34; align=&amp;#34;center&amp;#34;&amp;gt;
+ 标题信息
+ &amp;lt;/h3&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-body&amp;#34;&amp;gt;
+ &amp;lt;div align=&amp;#34;center&amp;#34;&amp;gt;
+ 模态框内容
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-footer&amp;#34;&amp;gt;
+ &amp;lt;button class=&amp;#34;btn btn-primary&amp;#34; ng-click=&amp;#34;ok()&amp;#34;&amp;gt;
+ 确认
+ &amp;lt;/button&amp;gt;
+ &amp;lt;button class=&amp;#34;btn btn-warning&amp;#34; ng-click=&amp;#34;cancel()&amp;#34;&amp;gt;
+ 退出
+ &amp;lt;/button&amp;gt;
+ &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>在App和Controller中注入模态框&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>var app = angular.module(&amp;#39;app&amp;#39;, [&amp;#39;ui.bootstrap&amp;#39;]);
+app.controller(&amp;#39;modalController&amp;#39;, function($scope, $rootScope,$modal) {
+ $scope.openModel = function() {
+ var modalInstance = $modal.open({
+ templateUrl : &amp;#39;modal.html&amp;#39;,//script标签中定义的id
+ controller : &amp;#39;modalCtrl&amp;#39;,//modal对应的Controller
+ resolve : {
+ data : function() {//data作为modal的controller传入的参数
+ return data;//用于传递数据
+ }
+ }
+ })
+ }
+}
+
+//模态框对应的Controller
+app.controller(&amp;#39;modalCtrl&amp;#39;, function($scope, $modalInstance, data) {
+ $scope.data= data;
+
+ //在这里处理要进行的操作 
+ $scope.ok = function() {
+ $modalInstance.close();
+ };
+ $scope.cancel = function() {
+ $modalInstance.dismiss(&amp;#39;cancel&amp;#39;);
+ }
+});
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>添加事件触发显示模态框&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;button ng-click=&amp;#34;openModal()&amp;#34;&amp;gt;打开模态框&amp;lt;/button&amp;gt;
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;ul>
+&lt;li>html&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html ng-app=&amp;#34;app&amp;#34; ng-controller=&amp;#34;modalController&amp;#34;&amp;gt;
+&amp;lt;head&amp;gt;
+ &amp;lt;title&amp;gt;ng-model模态框&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;link href=&amp;#34;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34;&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;button ng-click=&amp;#34;openModal()&amp;#34;&amp;gt;打开模态框&amp;lt;/button&amp;gt;
+
+&amp;lt;script type=&amp;#34;text/ng-template&amp;#34; id=&amp;#34;modal.html&amp;#34;&amp;gt; 
+ &amp;lt;div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-header&amp;#34;&amp;gt;
+ &amp;lt;h3 class=&amp;#34;modal-title&amp;#34; align=&amp;#34;center&amp;#34;&amp;gt;
+ 标题信息
+ &amp;lt;/h3&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-body&amp;#34;&amp;gt;
+ &amp;lt;div align=&amp;#34;center&amp;#34;&amp;gt;
+ 模态框内容 &amp;lt;br&amp;gt;
+ {{data}}
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;#34;modal-footer&amp;#34;&amp;gt;
+ &amp;lt;button class=&amp;#34;btn btn-primary&amp;#34; ng-click=&amp;#34;ok()&amp;#34;&amp;gt;
+ 确认
+ &amp;lt;/button&amp;gt;
+ &amp;lt;button class=&amp;#34;btn btn-warning&amp;#34; ng-click=&amp;#34;cancel()&amp;#34;&amp;gt;
+ 退出
+ &amp;lt;/button&amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script src=&amp;#34;https://cdn.bootcss.com/angular.js/1.5.5/angular.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;#34;https://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
+
+&amp;lt;script type=&amp;#34;text/javascript&amp;#34;&amp;gt;
+ var app = angular.module(&amp;#39;app&amp;#39;, [&amp;#39;ui.bootstrap&amp;#39;]);
+ app.controller(&amp;#39;modalController&amp;#39;, function($scope, $rootScope, $modal) {
+ var data = &amp;#34;通过modal传递的数据&amp;#34;;
+ $scope.openModal = function() {
+ var modalInstance = $modal.open({
+ templateUrl : &amp;#39;modal.html&amp;#39;,//script标签中定义的id
+ controller : &amp;#39;modalCtrl&amp;#39;,//modal对应的Controller
+ resolve : {
+ data : function() {//data作为modal的controller传入的参数
+ return data;//用于传递数据
+ }
+ }
+ })
+ }
+ })
+ //模态框对应的Controller
+ app.controller(&amp;#39;modalCtrl&amp;#39;, function($scope, $modalInstance, data) {
+ $scope.data= data;
+
+ //在这里处理要进行的操作
+ $scope.ok = function() {
+ $modalInstance.close();
+ };
+ $scope.cancel = function() {
+ $modalInstance.dismiss(&amp;#39;cancel&amp;#39;);
+ }
+ });
+&amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code>&lt;/pre></description></item></channel></rss>

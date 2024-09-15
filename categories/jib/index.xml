@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jib on HelloWood</title><link>https://blog.hellowood.dev/categories/jib/</link><description>Recent content in Jib on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 16 Jul 2018 00:17:43 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/jib/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;h1 id="使用-jib-生成--java-docker-镜像">使用 Jib 生成 Java Docker 镜像&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/GoogleContainerTools/jib">Jib&lt;/a> 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/">&lt;code>com.palantir.docker&lt;/code>&lt;/a>等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;h3 id="添加依赖httpspluginsgradleorgplugincomgooglecloudtoolsjib">&lt;a href="https://plugins.gradle.org/plugin/com.google.cloud.tools.jib">添加依赖&lt;/a>&lt;/h3>
+&lt;ul>
+&lt;li>Gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">buildscript&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">repositories&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">maven&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span> &lt;span style="color:#c1abea">url&lt;/span> &lt;span style="color:#98c379">&amp;#39;https://plugins.gradle.org/m2/&amp;#39;&lt;/span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">classpath&lt;/span> &lt;span style="color:#63c381">&amp;#34;gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:0.9.6&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#63c381">&amp;#34;com.google.cloud.tools.jib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">plugins&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#98c379">&amp;#39;com.google.cloud.tools.jib&amp;#39;&lt;/span> &lt;span style="color:#c1abea">version&lt;/span> &lt;span style="color:#98c379">&amp;#39;0.9.6&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="构建镜像">构建镜像&lt;/h3>
+&lt;blockquote>
+&lt;p>以下方式都需要终端能够访问 &lt;code>gcr.io&lt;/code>或 &lt;code>hub.docker.com&lt;/code>等 Docker Hub 才能成功&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>直接构建并推送到 &lt;a href="https://cloud.google.com/container-registry/">GCR&lt;/a>
+通过这种方式构建的镜像会以&lt;code>gcr.io/distroless/java&lt;/code>为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">gradle&lt;/span> &lt;span style="color:#c1abea">jib&lt;/span> 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>指定推送的容器镜像仓库&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a href="https://cloud.google.com/container-registry/">Google Container Center&lt;/a>, &lt;a href="https://aws.amazon.com/ecr/">Amazon Elastic Container Registry&lt;/a>, &lt;a href="https://hub.docker.com/">Docker Hub Registry&lt;/a>之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p></description></item></channel></rss>

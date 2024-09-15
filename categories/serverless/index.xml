@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Serverless on HelloWood</title><link>https://blog.hellowood.dev/categories/serverless/</link><description>Recent content in Serverless on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 13 Oct 2019 18:56:40 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/serverless/index.xml" rel="self" type="application/rss+xml"/><item><title>使用腾讯云的Serverless部署天气应用</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E7%9A%84serverless%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94%E5%BA%94%E7%94%A8/</link><pubDate>Sun, 13 Oct 2019 18:56:40 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E7%9A%84serverless%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="使用腾讯云的serverless部署应用">使用腾讯云的Serverless部署应用&lt;/h1>
+&lt;blockquote>
+&lt;p>使用腾讯云的Serverless服务，部署一个Go编写的天气变化的提醒应用
+该应用通过定时查询高德地图的&lt;a href="https://lbs.amap.com/api/webservice/guide/api/weatherinfo">天气API&lt;/a>，当当前天气或未来几天天气不好时，通过&lt;a href="http://sc.ftqq.com">Server酱&lt;/a>在微信中进行提醒&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="构建应用">构建应用&lt;/h2>
+&lt;p>应用使用 go modules开发&lt;/p>
+&lt;ul>
+&lt;li>go.mod&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">module&lt;/span> &lt;span style="color:#c1abea">weather&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">go&lt;/span> &lt;span style="color:#d19a66">1.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">require&lt;/span> &lt;span style="color:#c1abea">github&lt;/span>.&lt;span style="color:#c1abea">com&lt;/span>&lt;span style="color:#c7bf54">/&lt;/span>&lt;span style="color:#c1abea">tencentyun&lt;/span>&lt;span style="color:#c7bf54">/&lt;/span>&lt;span style="color:#c1abea">scf&lt;/span>&lt;span style="color:#c7bf54">-&lt;/span>&lt;span style="color:#c678dd">go&lt;/span>&lt;span style="color:#c7bf54">-&lt;/span>&lt;span style="color:#c1abea">lib&lt;/span> &lt;span style="color:#c1abea">v0&lt;/span>&lt;span style="color:#d19a66">.0.0&lt;/span>&lt;span style="color:#c7bf54">-&lt;/span>&lt;span style="color:#d19a66">20190817080819&lt;/span>&lt;span style="color:#c7bf54">-&lt;/span>&lt;span style="color:#d19a66">4&lt;/span>&lt;span style="color:#c1abea">a2819cda320&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>main.go&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#c1abea">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;os&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;strconv&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;github.com/tencentyun/scf-go-lib/cloudfunction&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;weather/tool&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">cloudfunction&lt;/span>.&lt;span style="color:#00b1f7">Start&lt;/span>(&lt;span style="color:#c1abea">checkWeather&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">checkWeather&lt;/span>() (&lt;span style="color:#ef8383">string&lt;/span>, &lt;span style="color:#ef8383">error&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建函数">创建函数&lt;/h2>
+&lt;p>在腾讯云的&lt;a href="https://console.cloud.tencent.com/scf/list?rid=8&amp;amp;ns=default">Serverless服务&lt;/a>中创建新的函数&lt;/p>
+&lt;p>&lt;img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9oZWxsb3dvb2Rlcy5vc3MtY24tYmVpamluZy5hbGl5dW5jcy5jb20vYmxvZy9xY2xvdWQtc2VydmVybGVzcy8lRTUlODglOUIlRTUlQkIlQkElRTUlODclQkQlRTYlOTUlQjAucG5n?x-oss-process=image/format,png" alt="创建函数">&lt;/p>
+&lt;h2 id="添加配置">添加配置&lt;/h2>
+&lt;p>配置共三项：&lt;/p>
+&lt;ul>
+&lt;li>高德地图的SecretKey，可以在高德地图的&lt;a href="https://lbs.amap.com/dev/key/app">控制面板&lt;/a>中添加应用后获取&lt;/li>
+&lt;li>Server酱的SecretKey，在发送的URL中可以找到&lt;/li>
+&lt;li>城市id，高德地图的城市id，可以在&lt;a href="https://lbs.amap.com/api/webservice/download">城市编码&lt;/a>中找到&lt;/li>
+&lt;/ul>
+&lt;h3 id="添加环境变量">添加环境变量&lt;/h3>
+&lt;p>在函数配置点击编辑，添加环境变量&lt;/p>
+&lt;pre tabindex="0">&lt;code>city xxxx
+weatherKey xxxx
+notifyKey xxxx
+&lt;/code>&lt;/pre>&lt;h2 id="上传函数">上传函数&lt;/h2>
+&lt;h3 id="本地编译打包">本地编译打包&lt;/h3>
+&lt;ul>
+&lt;li>Mac/Linux&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">GOOS&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>linux &lt;span style="color:#dcaeea">GOARCH&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>amd64 go build -o main main.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zip main.zip main
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Win&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">set&lt;/span> &lt;span style="color:#dcaeea">GOOS&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>linux
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">set&lt;/span> &lt;span style="color:#dcaeea">GOARCH&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>amd64
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go build -o main main.go
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后将main添加到压缩文件中&lt;/p></description></item><item><title>Google Cloud Run 部署 Knative Serverless 应用</title><link>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</link><pubDate>Wed, 15 May 2019 08:23:26 +0000</pubDate><guid>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="google-cloud-run-部署knative-serverless-应用">Google Cloud Run 部署Knative Serverless 应用&lt;/h1>
+&lt;blockquote>
+&lt;p>Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装-cloud-sdkhttpscloudgooglecomsdk">安装 &lt;a href="https://cloud.google.com/sdk/">Cloud SDK&lt;/a>&lt;/h2>
+&lt;p>Cloud SDK 是 Google Cloud 的命令行工具，用于访问Google Cloud相关资源&lt;/p>
+&lt;p>具体平台的安装方式可以参考 &lt;a href="https://cloud.google.com/sdk/docs/quickstarts">https://cloud.google.com/sdk/docs/quickstarts&lt;/a>&lt;/p>
+&lt;h2 id="创建应用上传镜像">创建应用，上传镜像&lt;/h2>
+&lt;p>以 Go 语言为例，创建一个应用，根据不同的请求返回不同的内容&lt;/p>
+&lt;ul>
+&lt;li>main.go&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#c1abea">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;encoding/json&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;net/url&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#c1abea">CustomResponse&lt;/span> &lt;span style="color:#c678dd">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">Code&lt;/span> &lt;span style="color:#ef8383">int&lt;/span> &lt;span style="color:#98c379">`json:&amp;#34;code&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">Message&lt;/span> &lt;span style="color:#ef8383">string&lt;/span> &lt;span style="color:#98c379">`json:&amp;#34;message&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Server started&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">HandleFunc&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">rootHandler&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">ListenAndServe&lt;/span>(&lt;span style="color:#98c379">&amp;#34;:8080&amp;#34;&lt;/span>, &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">rootHandler&lt;/span>(&lt;span style="color:#c1abea">w&lt;/span> &lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">ResponseWriter&lt;/span>, &lt;span style="color:#c1abea">r&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">Request&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Start handler request&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">queryForm&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">url&lt;/span>.&lt;span style="color:#00b1f7">ParseQuery&lt;/span>(&lt;span style="color:#c1abea">r&lt;/span>.&lt;span style="color:#c1abea">URL&lt;/span>.&lt;span style="color:#c1abea">RawQuery&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">w&lt;/span>.&lt;span style="color:#00b1f7">Header&lt;/span>().&lt;span style="color:#00b1f7">Set&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Content-Type&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;application/json&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">message&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#98c379">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">==&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span> &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">len&lt;/span>(&lt;span style="color:#c1abea">queryForm&lt;/span>[&lt;span style="color:#98c379">&amp;#34;message&amp;#34;&lt;/span>]) &amp;gt; &lt;span style="color:#d19a66">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">message&lt;/span> = &lt;span style="color:#c1abea">queryForm&lt;/span>[&lt;span style="color:#98c379">&amp;#34;message&amp;#34;&lt;/span>][&lt;span style="color:#d19a66">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	} &lt;span style="color:#c678dd">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">message&lt;/span> = &lt;span style="color:#98c379">&amp;#34;Hello Go Server&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">json&lt;/span>.&lt;span style="color:#00b1f7">NewEncoder&lt;/span>(&lt;span style="color:#c1abea">w&lt;/span>).&lt;span style="color:#00b1f7">Encode&lt;/span>(&lt;span style="color:#c1abea">CustomResponse&lt;/span>{&lt;span style="color:#d19a66">200&lt;/span>, &lt;span style="color:#c1abea">message&lt;/span>})
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Handler request completed&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Dockerfile&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> golang:1.12.3-alpine3.9&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> mkdir /app
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ADD&lt;/span> . /app/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">WORKDIR&lt;/span>&lt;span style="color:#98c379"> /app&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> &lt;span style="color:#dcaeea">CGO_ENABLED&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#dcaeea">GOOS&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>linux go build -o main main.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">EXPOSE&lt;/span>&lt;span style="color:#98c379"> 8080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CMD&lt;/span> [&lt;span style="color:#63c381">&amp;#34;/app/main&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>配置 &lt;a href="https://console.cloud.google.com/gcr">Google Container Registry&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>相关配置可以参考 &lt;a href="https://cloud.google.com/container-registry/docs/pushing-and-pulling">推送和拉取映像&lt;/a>，需要注意的是需要一个项目 ID，这个 ID 可以在 &lt;a href="https://console.cloud.google.com/home/dashboard">home/dashboard&lt;/a> 下找到&lt;/p></description></item><item><title>AWS Lambda 部署 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Mon, 06 May 2019 11:36:14 +0000</pubDate><guid>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="aws-lambda-部署-springboot-应用">AWS Lambda 部署 SpringBoot 应用&lt;/h1>
+&lt;h2 id="配置-aws-cli-和--severless">配置 AWS CLI 和 Severless&lt;/h2>
+&lt;p>AWS CLI 和 Serverless 都可以用于部署 Serverless 应用&lt;/p>
+&lt;h3 id="获取密钥">获取密钥&lt;/h3>
+&lt;ol>
+&lt;li>登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/blog/serverless/Serverless1.png" alt="Serverless1">&lt;/p>
+&lt;ol start="2">
+&lt;li>输入用户名，选择编程访问&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png" alt="Serverless2-add-user">&lt;/p>
+&lt;ol start="3">
+&lt;li>选择权限-直接附加现有策略，搜索&lt;code>AdministratorAccess&lt;/code>并选中(有最高权限)&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png" alt="Serverless3-add-permission">&lt;/p>
+&lt;ol start="4">
+&lt;li>选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png" alt="Serverless3-save-secret">&lt;/p>
+&lt;h3 id="安装配置-aws-cli">安装配置 AWS CLI&lt;/h3>
+&lt;h4 id="安装">安装&lt;/h4>
+&lt;p>参考 &lt;a href="https://aws.amazon.com/cn/cli/">AWS 命令行界面&lt;/a> 安装&lt;/p>
+&lt;ul>
+&lt;li>Win 下载 &lt;a href="https://s3.amazonaws.com/aws-cli/AWSCLI64.msi">https://s3.amazonaws.com/aws-cli/AWSCLI64.msi&lt;/a> 安装&lt;/li>
+&lt;li>Mac/Linux 执行 &lt;code>pip install awscli&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h4 id="配置-aws-cli">配置 AWS CLI&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>aws configure
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如&lt;code>us-east-1&lt;/code>&lt;/p>
+&lt;h3 id="安装配置-severless">安装配置 Severless&lt;/h3>
+&lt;h4 id="安装-1">安装&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install -g serverless
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>或 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn global add serverless
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="配置">配置&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>serverless config credentials --provider aws --key YOUR_KEY --secret YOUR_SECRET
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装配置-aws-sam-local">安装配置 AWS SAM Local&lt;/h3>
+&lt;p>aws-sam-local 是用于本地调试 Serverless 应用的工具&lt;/p></description></item></channel></rss>

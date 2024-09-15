@@ -1,1 +1,63 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud Run on HelloWood</title><link>https://blog.hellowood.dev/tags/cloud-run/</link><description>Recent content in Cloud Run on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 15 May 2019 08:23:26 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cloud-run/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud Run on HelloWood</title><link>https://blog.hellowood.dev/tags/cloud-run/</link><description>Recent content in Cloud Run on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Wed, 15 May 2019 08:23:26 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cloud-run/index.xml" rel="self" type="application/rss+xml"/><item><title>Google Cloud Run 部署 Knative Serverless 应用</title><link>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</link><pubDate>Wed, 15 May 2019 08:23:26 +0000</pubDate><guid>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="google-cloud-run-部署knative-serverless-应用">Google Cloud Run 部署Knative Serverless 应用&lt;/h1>
+&lt;blockquote>
+&lt;p>Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装-cloud-sdkhttpscloudgooglecomsdk">安装 &lt;a href="https://cloud.google.com/sdk/">Cloud SDK&lt;/a>&lt;/h2>
+&lt;p>Cloud SDK 是 Google Cloud 的命令行工具，用于访问Google Cloud相关资源&lt;/p>
+&lt;p>具体平台的安装方式可以参考 &lt;a href="https://cloud.google.com/sdk/docs/quickstarts">https://cloud.google.com/sdk/docs/quickstarts&lt;/a>&lt;/p>
+&lt;h2 id="创建应用上传镜像">创建应用，上传镜像&lt;/h2>
+&lt;p>以 Go 语言为例，创建一个应用，根据不同的请求返回不同的内容&lt;/p>
+&lt;ul>
+&lt;li>main.go&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#c1abea">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> (
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;encoding/json&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#98c379">&amp;#34;net/url&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#c1abea">CustomResponse&lt;/span> &lt;span style="color:#c678dd">struct&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">Code&lt;/span> &lt;span style="color:#ef8383">int&lt;/span> &lt;span style="color:#98c379">`json:&amp;#34;code&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">Message&lt;/span> &lt;span style="color:#ef8383">string&lt;/span> &lt;span style="color:#98c379">`json:&amp;#34;message&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Server started&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">HandleFunc&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">rootHandler&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#00b1f7">ListenAndServe&lt;/span>(&lt;span style="color:#98c379">&amp;#34;:8080&amp;#34;&lt;/span>, &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">rootHandler&lt;/span>(&lt;span style="color:#c1abea">w&lt;/span> &lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">ResponseWriter&lt;/span>, &lt;span style="color:#c1abea">r&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">http&lt;/span>.&lt;span style="color:#c1abea">Request&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Start handler request&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">queryForm&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">url&lt;/span>.&lt;span style="color:#00b1f7">ParseQuery&lt;/span>(&lt;span style="color:#c1abea">r&lt;/span>.&lt;span style="color:#c1abea">URL&lt;/span>.&lt;span style="color:#c1abea">RawQuery&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">w&lt;/span>.&lt;span style="color:#00b1f7">Header&lt;/span>().&lt;span style="color:#00b1f7">Set&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Content-Type&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;application/json&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">message&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#98c379">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">==&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span> &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">len&lt;/span>(&lt;span style="color:#c1abea">queryForm&lt;/span>[&lt;span style="color:#98c379">&amp;#34;message&amp;#34;&lt;/span>]) &amp;gt; &lt;span style="color:#d19a66">0&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">message&lt;/span> = &lt;span style="color:#c1abea">queryForm&lt;/span>[&lt;span style="color:#98c379">&amp;#34;message&amp;#34;&lt;/span>][&lt;span style="color:#d19a66">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	} &lt;span style="color:#c678dd">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#c1abea">message&lt;/span> = &lt;span style="color:#98c379">&amp;#34;Hello Go Server&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">json&lt;/span>.&lt;span style="color:#00b1f7">NewEncoder&lt;/span>(&lt;span style="color:#c1abea">w&lt;/span>).&lt;span style="color:#00b1f7">Encode&lt;/span>(&lt;span style="color:#c1abea">CustomResponse&lt;/span>{&lt;span style="color:#d19a66">200&lt;/span>, &lt;span style="color:#c1abea">message&lt;/span>})
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#c1abea">fmt&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Handler request completed&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Dockerfile&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> golang:1.12.3-alpine3.9&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> mkdir /app
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ADD&lt;/span> . /app/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">WORKDIR&lt;/span>&lt;span style="color:#98c379"> /app&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> &lt;span style="color:#dcaeea">CGO_ENABLED&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#dcaeea">GOOS&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>linux go build -o main main.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">EXPOSE&lt;/span>&lt;span style="color:#98c379"> 8080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">CMD&lt;/span> [&lt;span style="color:#63c381">&amp;#34;/app/main&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>配置 &lt;a href="https://console.cloud.google.com/gcr">Google Container Registry&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>相关配置可以参考 &lt;a href="https://cloud.google.com/container-registry/docs/pushing-and-pulling">推送和拉取映像&lt;/a>，需要注意的是需要一个项目 ID，这个 ID 可以在 &lt;a href="https://console.cloud.google.com/home/dashboard">home/dashboard&lt;/a> 下找到&lt;/p></description></item></channel></rss>

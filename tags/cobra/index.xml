@@ -1,1 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cobra on HelloWood</title><link>https://blog.hellowood.dev/tags/cobra/</link><description>Recent content in Cobra on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 08 Sep 2019 18:53:25 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cobra/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cobra on HelloWood</title><link>https://blog.hellowood.dev/tags/cobra/</link><description>Recent content in Cobra on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 18:53:25 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cobra/index.xml" rel="self" type="application/rss+xml"/><item><title>Go 开发命令行工具-OSS文件上传</title><link>https://blog.hellowood.dev/posts/go-%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7-oss%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link><pubDate>Sun, 08 Sep 2019 18:53:25 +0000</pubDate><guid>https://blog.hellowood.dev/posts/go-%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7-oss%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid><description>&lt;h1 id="使用-go-开发命令行工具-oss-文件上">使用 Go 开发命令行工具-OSS 文件上&lt;/h1>
+&lt;blockquote>
+&lt;p>使用 Go 语言开发一个命令行工具，用于向 OSS 文件上传文件
+命令行工具有很多框架，选择使用 &lt;a href="https://github.com/spf13/cobra">Cobra&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="准备">准备&lt;/h2>
+&lt;ul>
+&lt;li>安装 Cobra&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>go get -u github.com/spf13/cobra/cobra
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="初始化项目">初始化项目&lt;/h2>
+&lt;ul>
+&lt;li>创建项目&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> &lt;span style="color:#dcaeea">$GOPATH&lt;/span>/src
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mkdir oss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> oss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cobra init --pkg-name oss
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时，已经创建了一个 oss 的目录，里面已经包含一个 root 命令&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── LICENSE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── cmd
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│ └── root.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── main.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d19a66">1&lt;/span> directory, &lt;span style="color:#d19a66">3&lt;/span> files
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行 &lt;code>go run main.go&lt;/code>查看root 命令&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>go run main.go
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>A longer description that spans multiple lines and likely contains
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>examples and usage of using your application. For example:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Cobra is a CLI library &lt;span style="color:#c678dd">for&lt;/span> Go that empowers applications.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>This application is a tool to generate the needed files
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>to quickly create a Cobra application.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>添加 mod&lt;/li>
+&lt;/ul>
+&lt;p>添加mod 是为了更方便的管理依赖，module 设置 GitHub 是为了安装方便&lt;/p></description></item></channel></rss>

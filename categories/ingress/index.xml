@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ingress on HelloWood</title><link>https://blog.hellowood.dev/categories/ingress/</link><description>Recent content in Ingress on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 19:06:11 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/ingress/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubenetes 中使用 Traefik 作为 Ingress 转发流量</title><link>https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/</link><pubDate>Sun, 08 Sep 2019 19:06:11 +0000</pubDate><guid>https://blog.hellowood.dev/posts/kubenetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-traefik-%E4%BD%9C%E4%B8%BA-ingress-%E8%BD%AC%E5%8F%91%E6%B5%81%E9%87%8F/</guid><description>&lt;h1 id="kubenetes-中使用-traefik-作为-ingress-转发流量">Kubenetes 中使用 Traefik 作为 Ingress 转发流量&lt;/h1>
+&lt;p>Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器
+路由信息由 Ingress Controller 提供，Ingress Controller 可以理解为监视器，不断请求 Kubernetes API 实时感知 Service 和 Pod 的状态，结合上下文的 Ingress 生成配置，然后更新反向代理服务器的配置，达到服务发现的作用&lt;/p>
+&lt;p>Traefik 是一个开源的反向代理与负载均衡工具，能够与常见的微服务系统直接整合，可以实现自动化动态配置&lt;/p>
+&lt;h2 id="通过配置文件部署-traefik">通过配置文件部署 Traefik&lt;/h2>
+&lt;h3 id="配置">配置&lt;/h3>
+&lt;ul>
+&lt;li>Ingress-rbac.yaml&lt;/li>
+&lt;/ul>
+&lt;p>用于 Service Account 验证&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#76a9f9">---&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRoleBinding&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io/v1beta1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">subjects&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ServiceAccount&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">roleRef&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">ClusterRole&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">cluster-admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">apiGroup&lt;/span>: &lt;span style="color:#98c379">rbac.authorization.k8s.io&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>traefik-daemon-set.yaml&lt;/li>
+&lt;/ul>
+&lt;p>使用 DaemonSet 部署 Traefik&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">apiVersion&lt;/span>: &lt;span style="color:#98c379">extensions/v1beta1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">kind&lt;/span>: &lt;span style="color:#98c379">DaemonSet&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">namespace&lt;/span>: &lt;span style="color:#98c379">kube-system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">k8s-app&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">template&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">k8s-app&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">terminationGracePeriodSeconds&lt;/span>: &lt;span style="color:#d19a66">60&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostNetwork&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restartPolicy&lt;/span>: &lt;span style="color:#98c379">Always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">serviceAccountName&lt;/span>: &lt;span style="color:#98c379">ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containers&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">traefik-ingress-lb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">resources&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">limits&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cpu&lt;/span>: &lt;span style="color:#98c379">200m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">memory&lt;/span>: &lt;span style="color:#98c379">30Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">requests&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cpu&lt;/span>: &lt;span style="color:#98c379">100m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">memory&lt;/span>: &lt;span style="color:#98c379">20Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containerPort&lt;/span>: &lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostPort&lt;/span>: &lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">containerPort&lt;/span>: &lt;span style="color:#d19a66">8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostPort&lt;/span>: &lt;span style="color:#d19a66">8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">args&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">web.address=:8580&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - --&lt;span style="color:#98c379">kubernetes&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>traefik-ui.yaml&lt;/li>
+&lt;/ul>
+&lt;p>创建 Traefik 的 UI&lt;/p></description></item></channel></rss>

@@ -1,1 +1,104 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clash on HelloWood</title><link>https://blog.hellowood.dev/tags/clash/</link><description>Recent content in Clash on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 09 Sep 2023 21:32:33 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/clash/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clash on HelloWood</title><link>https://blog.hellowood.dev/tags/clash/</link><description>Recent content in Clash on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 09 Sep 2023 21:32:33 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/clash/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;h1 id="使用-docker-部署-clash-premium">使用 Docker 部署 Clash Premium&lt;/h1>
+&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
+&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
+&lt;p>大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/">Clash 使用 Docker 部署&lt;/a> 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>&lt;/p>
+&lt;h2 id="修改配置">修改配置&lt;/h2>
+&lt;h3 id="基础配置">基础配置&lt;/h3>
+&lt;p>基础配置部分用于指定 Clash 的端口、代理模式等；使用 TUN 后可以代理 UDP 流量，开启 tracing 可以对 Clash 进行性能监控&lt;/p>
+&lt;ul>
+&lt;li>config.yaml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">7890&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">socks-port&lt;/span>: &lt;span style="color:#d19a66">7891&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">redir-port&lt;/span>: &lt;span style="color:#d19a66">7892&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">allow-lan&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">mode&lt;/span>: &lt;span style="color:#98c379">rule&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">log-level&lt;/span>: &lt;span style="color:#98c379">info&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 控制端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">external-controller&lt;/span>: :&lt;span style="color:#d19a66">9090&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 访问密码，建议设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">secret&lt;/span>: &lt;span style="color:#63c381">&amp;#34;123456&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">tun&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">enable&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">stack&lt;/span>: &lt;span style="color:#98c379">system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-route&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-redir&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-detect-interface&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 用于性能分析&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">profile&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tracing&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置策略组">配置策略组&lt;/h3>
+&lt;p>代理提供方 &lt;code>proxy-providers&lt;/code> 用于为策略组 &lt;code>proxy-groups&lt;/code> 提供代理节点；这部分用于取代 Clash 中的 &lt;code>proxies&lt;/code>&lt;/p></description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0000</pubDate><guid>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</guid><description>&lt;h1 id="clash-使用-docker-部署">Clash 使用 Docker 部署&lt;/h1>
+&lt;p>使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/">使用 Docker 部署 Clash Premium&lt;/a>&lt;/p>
+&lt;p>在一些场景下无法使用 Clash 客户端进行代理，也无法使用软路由，这时候可以由一台服务器运行 Clash，作为其他客户端的代理；同时 Clash 支持以 Docker 容器的方式运行，方便部署和运维&lt;/p>
+&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
+&lt;p>机场提供的订阅可能无法被 Clash 直接使用，或者分流配置不合理，需要转换格式；可以使用在线的订阅转换工具，如 &lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>等，也可以使用开源的服务自行搭建；&lt;/p>
+&lt;p>为了安全和隐私，可以基于 &lt;a href="https://github.com/CareyWang/sub-web">https://github.com/CareyWang/sub-web&lt;/a> 和 &lt;a href="https://github.com/tindy2013/subconverter">https://github.com/tindy2013/subconverter&lt;/a> 服务搭建，分别是前端和后端服务&lt;/p>
+&lt;ul>
+&lt;li>docker-compose.yaml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">subweb&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">careywong/subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#d19a66">18080&lt;/span>:&lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">subconverter&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">tindy2013/subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#d19a66">25500&lt;/span>:&lt;span style="color:#d19a66">25500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-clash-proxy-config-convert-to-clash.png" alt="homelab-clash-proxy-config-convert-to-clash.png">&lt;/p>
+&lt;ul>
+&lt;li>自定义配置&lt;/li>
+&lt;/ul>
+&lt;p>如果有自定义配置，可以指定远程配置，参考&lt;a href="https://github.com/tindy2013/subconverter/blob/master/README-cn.md#%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE">外部配置&lt;/a>，指定 &lt;code>clash_rule_base&lt;/code> 配置模板；不过该方式比较麻烦，自己使用可以直接通过更改 subconverter 默认配置的方式实现；&lt;/p>
+&lt;p>subconverter 默认的配置是 &lt;code>/base/pref.toml&lt;/code>文件，其中指定了 clash 的配置文件模板为 &lt;code>clash_rule_base = &amp;quot;base/all_base.tpl&amp;quot;&lt;/code>，所以修改 &lt;code>base/all_base.tpl&lt;/code> 文件即可&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;h1 id="openwrt-安装使用-openclash">OpenWrt 安装使用 OpenClash&lt;/h1>
+&lt;h2 id="clash-使用方式对比">Clash 使用方式对比&lt;/h2>
+&lt;p>OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：&lt;/p>
+&lt;ul>
+&lt;li>运行客户端&lt;/li>
+&lt;/ul>
+&lt;p>客户端直接使用的方式最灵活，调整代理方式或策略比较方便，可以选择性的开启或关闭，会代理设备上支持代理的所有流量；适用于手机，电脑等有客户端支持等设备&lt;/p>
+&lt;ul>
+&lt;li>代理方式使用&lt;/li>
+&lt;/ul>
+&lt;p>代理方式适用于没有客户端软件的场景，如命令行，为特定的软件配置代理等；这种方式不够灵活，可按需为特定应用或设备配置&lt;/p>
+&lt;ul>
+&lt;li>运行在OpenWrt&lt;/li>
+&lt;/ul>
+&lt;p>运行在 OpenWrt 等主路由或旁路由中，可以透明代理整个局域网内的流量，对于一些无法直接操作的 IoT 设备非常方便；也不需要修改客户端任何配置；缺点是如果不稳定会影响局域网内的所有设备&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>需要使用 Clash 配置网络，用于访问特定的资源；&lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 是 Openwrt 的 Clash 客户端；&lt;/p>
+&lt;ol>
+&lt;li>OpenClash 依赖的是 &lt;code>dnsmasq-full&lt;/code>，所以需要移除默认的&lt;code>dnsmasq&lt;/code>，否则会导致 OpenClash 安装失败&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg remove dnsmasq &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> opkg install dnsmasq-full
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>下载并安装 OpenClash&lt;/li>
+&lt;/ol>
+&lt;p>可以在 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/vernesong/OpenClash/releases/download/v0.45.35-beta/luci-app-openclash_0.45.35-beta_all.ipk -O openclash.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install openclash.ipk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>添加 &lt;code>luci-compact&lt;/code> 并重启，否则会提示进入 luci 页面错误&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg install luci luci-base luci-compat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>待重启完成后重新登录控制台，可以在服务菜单中看到 &lt;code>OpenClash&lt;/code>&lt;/p></description></item></channel></rss>

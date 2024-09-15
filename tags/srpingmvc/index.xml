@@ -1,1 +1,409 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SrpingMVC on HelloWood</title><link>https://blog.hellowood.dev/tags/srpingmvc/</link><description>Recent content in SrpingMVC on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 01 Jan 2018 11:48:46 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/srpingmvc/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SrpingMVC on HelloWood</title><link>https://blog.hellowood.dev/tags/srpingmvc/</link><description>Recent content in SrpingMVC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 11:48:46 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/srpingmvc/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring MVC简单实现国际化/多语言</title><link>https://blog.hellowood.dev/posts/spring-mvc%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96-%E5%A4%9A%E8%AF%AD%E8%A8%80/</link><pubDate>Mon, 01 Jan 2018 11:48:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96-%E5%A4%9A%E8%AF%AD%E8%A8%80/</guid><description>&lt;blockquote>
+&lt;p>SpringMVC 可以通过Spring框架来实现多语言&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="1-创建springmvc项目">1. 创建SpringMVC项目&lt;/h2>
+&lt;ul>
+&lt;li>配置web.xml&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&amp;lt;web-app xmlns=&amp;#34;http://xmlns.jcp.org/xml/ns/javaee&amp;#34;
+ xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;
+ xsi:schemaLocation=&amp;#34;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&amp;#34;
+ version=&amp;#34;3.1&amp;#34;&amp;gt;
+
+ &amp;lt;!--Spring 配置文件--&amp;gt;
+ &amp;lt;context-param&amp;gt;
+ &amp;lt;param-name&amp;gt;contextConfigLocation&amp;lt;/param-name&amp;gt;
+ &amp;lt;param-value&amp;gt;/WEB-INF/applicationContext.xml&amp;lt;/param-value&amp;gt;
+ &amp;lt;/context-param&amp;gt;
+
+ &amp;lt;!--监听器--&amp;gt;
+ &amp;lt;listener&amp;gt;
+ &amp;lt;listener-class&amp;gt;org.springframework.web.context.ContextLoaderListener&amp;lt;/listener-class&amp;gt;
+ &amp;lt;/listener&amp;gt;
+
+ &amp;lt;!--配置转发器--&amp;gt;
+ &amp;lt;servlet&amp;gt;
+ &amp;lt;servlet-name&amp;gt;dispatcher&amp;lt;/servlet-name&amp;gt;
+ &amp;lt;servlet-class&amp;gt;org.springframework.web.servlet.DispatcherServlet&amp;lt;/servlet-class&amp;gt;
+ &amp;lt;load-on-startup&amp;gt;1&amp;lt;/load-on-startup&amp;gt;
+ &amp;lt;/servlet&amp;gt;
+ &amp;lt;servlet-mapping&amp;gt;
+ &amp;lt;servlet-name&amp;gt;dispatcher&amp;lt;/servlet-name&amp;gt;
+ &amp;lt;url-pattern&amp;gt;*.action&amp;lt;/url-pattern&amp;gt;
+ &amp;lt;/servlet-mapping&amp;gt;
+
+ &amp;lt;filter&amp;gt;
+ &amp;lt;filter-name&amp;gt;characterEncodingFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;filter-class&amp;gt;org.springframework.web.filter.CharacterEncodingFilter&amp;lt;/filter-class&amp;gt;
+ &amp;lt;init-param&amp;gt;
+ &amp;lt;param-name&amp;gt;encoding&amp;lt;/param-name&amp;gt;
+ &amp;lt;param-value&amp;gt;UTF-8&amp;lt;/param-value&amp;gt;
+ &amp;lt;/init-param&amp;gt;
+ &amp;lt;/filter&amp;gt;
+ &amp;lt;filter-mapping&amp;gt;
+ &amp;lt;filter-name&amp;gt;characterEncodingFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
+ &amp;lt;/filter-mapping&amp;gt;
+&amp;lt;/web-app&amp;gt;
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>配置Spring文件(dispatcher-servlet.xml)&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&amp;lt;beans xmlns=&amp;#34;http://www.springframework.org/schema/beans&amp;#34;
+ xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;
+ xmlns:context=&amp;#34;http://www.springframework.org/schema/context&amp;#34;
+ xmlns:mvc=&amp;#34;http://www.springframework.org/schema/mvc&amp;#34;
+ xsi:schemaLocation=&amp;#34;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd&amp;#34;&amp;gt;
+ &amp;lt;!-- 默认使用基于注释的适配器和映射器 --&amp;gt;
+ &amp;lt;mvc:annotation-driven/&amp;gt;
+ &amp;lt;!-- 只把动态信息当做controller处理，忽略静态信息 --&amp;gt;
+ &amp;lt;mvc:default-servlet-handler/&amp;gt;
+ &amp;lt;!-- 自动扫描包中的Controlller --&amp;gt;
+ &amp;lt;context:component-scan base-package=&amp;#34;controller&amp;#34;/&amp;gt;
+
+ &amp;lt;bean class=&amp;#34;org.springframework.web.servlet.view.InternalResourceViewResolver&amp;#34;&amp;gt;
+ &amp;lt;property name=&amp;#34;viewClass&amp;#34; value=&amp;#34;org.springframework.web.servlet.view.JstlView&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;prefix&amp;#34; value=&amp;#34;/WEB-INF/jsp/&amp;#34;/&amp;gt;&amp;lt;!-- 前缀 --&amp;gt;
+ &amp;lt;property name=&amp;#34;suffix&amp;#34; value=&amp;#34;.jsp&amp;#34;/&amp;gt;&amp;lt;!-- 后缀，自动拼接 --&amp;gt;
+ &amp;lt;/bean&amp;gt;
+&amp;lt;/beans&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="2-添加多语言的配置文件">2. 添加多语言的配置文件&lt;/h2>
+&lt;ul>
+&lt;li>添加language_en_US.properties到src目录下&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>language.cn = \u4e2d\u6587
+language.en = English
+internationalisation = \u0020Internationalisation
+welcome = This is the English environment
+introduce= This is I18N Demo 
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>添加language_zh_CN.properties到src目录下&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>language.cn = \u4e2d\u6587
+language.en = English
+internationalisation = \u56fd\u9645\u5316
+welcome = \u8fd9\u662f\u4e2d\u6587\u73af\u5883
+introduce= \u8fd9\u662f\u56fd\u9645\u5316\u7684\u4e8b\u4f8b
+&lt;/code>&lt;/pre>&lt;h2 id="3-加入i18n-过滤器到配置文件中">3. 加入i18n 过滤器到配置文件中&lt;/h2>
+&lt;ul>
+&lt;li>将配置添加到dispatcher-servelet中&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;!-- 国际化资源文件 --&amp;gt;
+ &amp;lt;bean id=&amp;#34;messageSource&amp;#34; class=&amp;#34;org.springframework.context.support.ReloadableResourceBundleMessageSource&amp;#34;&amp;gt;
+ &amp;lt;!-- 表示多语言配置文件在根路径下，以language开头的文件--&amp;gt;
+ &amp;lt;property name=&amp;#34;basename&amp;#34; value=&amp;#34;classpath:language&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;useCodeAsDefaultMessage&amp;#34; value=&amp;#34;true&amp;#34;/&amp;gt;
+ &amp;lt;/bean&amp;gt;
+
+ &amp;lt;mvc:interceptors&amp;gt;
+ &amp;lt;bean id=&amp;#34;localeChangeInterceptor&amp;#34; class=&amp;#34;org.springframework.web.servlet.i18n.LocaleChangeInterceptor&amp;#34;&amp;gt;
+ &amp;lt;property name=&amp;#34;paramName&amp;#34; value=&amp;#34;lang&amp;#34;/&amp;gt;
+ &amp;lt;/bean&amp;gt;
+ &amp;lt;/mvc:interceptors&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="4-在页面中使用多语言">4. 在页面中使用多语言&lt;/h2>
+&lt;ul>
+&lt;li>在Controller中添加路径&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>@Controller
+public class HelloController {
+ @RequestMapping(&amp;#34;/hello.action&amp;#34;)
+ public String index() {
+ return &amp;#34;hello&amp;#34;;
+ }
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>在JSP页面中使用&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>通过&lt;code>&amp;lt;spring:message code=&amp;quot;welcome&amp;quot;/&amp;gt;&lt;/code>将配置文件中的内容读取&lt;/p></description></item><item><title>SpringMVC 生成验证码</title><link>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</link><pubDate>Mon, 01 Jan 2018 01:04:16 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</guid><description>&lt;blockquote>
+&lt;p>使用 Google kaptcha 为 SpringMVC Maven 项目生成验证码&lt;/p>
+&lt;/blockquote>
+&lt;p>##1 添加依赖&lt;/p>
+&lt;pre tabindex="0">&lt;code> &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;com.github.penggle&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;kaptcha&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;2.3.2&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="2-配置文件中添加验证码生成器bean">2 配置文件中添加验证码生成器Bean&lt;/h2>
+&lt;pre tabindex="0">&lt;code> &amp;lt;!--图片验证码--&amp;gt;
+ &amp;lt;bean id=&amp;#34;captchaProducer&amp;#34; class=&amp;#34;com.google.code.kaptcha.impl.DefaultKaptcha&amp;#34;&amp;gt;
+ &amp;lt;property name=&amp;#34;config&amp;#34;&amp;gt;
+ &amp;lt;bean class=&amp;#34;com.google.code.kaptcha.util.Config&amp;#34;&amp;gt;
+ &amp;lt;constructor-arg&amp;gt;
+ &amp;lt;props&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.border&amp;#34;&amp;gt;no&amp;lt;/prop&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.image.width&amp;#34;&amp;gt;120&amp;lt;/prop&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.session.key&amp;#34;&amp;gt;code&amp;lt;/prop&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.textproducer.font.color&amp;#34;&amp;gt;blue&amp;lt;/prop&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.textproducer.font.size&amp;#34;&amp;gt;40&amp;lt;/prop&amp;gt;
+ &amp;lt;prop key=&amp;#34;kaptcha.textproducer.char.length&amp;#34;&amp;gt;4&amp;lt;/prop&amp;gt;
+ &amp;lt;/props&amp;gt;
+ &amp;lt;/constructor-arg&amp;gt;
+ &amp;lt;/bean&amp;gt;
+ &amp;lt;/property&amp;gt;
+ &amp;lt;/bean&amp;gt;
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>配置项&lt;/li>
+&lt;/ul>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">属性&lt;/th>
+ &lt;th style="text-align: left">作用&lt;/th>
+ &lt;th style="text-align: left">说明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.border&lt;/td>
+ &lt;td style="text-align: left">是否有边框&lt;/td>
+ &lt;td style="text-align: left">默认为true 我们可以自己设置yes，no&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.border.color&lt;/td>
+ &lt;td style="text-align: left">边框颜色&lt;/td>
+ &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.border.thickness&lt;/td>
+ &lt;td style="text-align: left">边框粗细度&lt;/td>
+ &lt;td style="text-align: left">默认为1&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.producer.impl&lt;/td>
+ &lt;td style="text-align: left">验证码生成器&lt;/td>
+ &lt;td style="text-align: left">默认为DefaultKaptcha&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.impl&lt;/td>
+ &lt;td style="text-align: left">验证码文本生成器&lt;/td>
+ &lt;td style="text-align: left">默认为DefaultTextCreator&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.char.string&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符内容范围&lt;/td>
+ &lt;td style="text-align: left">默认为abcde2345678gfynmnpwx&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.char.length&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符长度&lt;/td>
+ &lt;td style="text-align: left">默认为5&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.font.names&lt;/td>
+ &lt;td style="text-align: left">验证码文本字体样式&lt;/td>
+ &lt;td style="text-align: left">默认为new Font(&amp;ldquo;Arial&amp;rdquo;, 1, fontSize), new Font(&amp;ldquo;Courier&amp;rdquo;, 1, fontSize)&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.font.size&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符大小&lt;/td>
+ &lt;td style="text-align: left">默认为40&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.font.color&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符颜色&lt;/td>
+ &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.textproducer.char.space&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符间距&lt;/td>
+ &lt;td style="text-align: left">默认为2&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.noise.impl&lt;/td>
+ &lt;td style="text-align: left">验证码噪点生成对象&lt;/td>
+ &lt;td style="text-align: left">默认为DefaultNoise&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.noise.color&lt;/td>
+ &lt;td style="text-align: left">验证码噪点颜色&lt;/td>
+ &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.obscurificator.impl&lt;/td>
+ &lt;td style="text-align: left">验证码样式引擎&lt;/td>
+ &lt;td style="text-align: left">默认为WaterRipple&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.word.impl&lt;/td>
+ &lt;td style="text-align: left">验证码文本字符渲染&lt;/td>
+ &lt;td style="text-align: left">默认为DefaultWordRenderer&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.background.impl&lt;/td>
+ &lt;td style="text-align: left">验证码背景生成器&lt;/td>
+ &lt;td style="text-align: left">默认为DefaultBackground&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.background.clear.from&lt;/td>
+ &lt;td style="text-align: left">验证码背景颜色渐进&lt;/td>
+ &lt;td style="text-align: left">默认为Color.LIGHT_GRAY&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.background.clear.to&lt;/td>
+ &lt;td style="text-align: left">验证码背景颜色渐进&lt;/td>
+ &lt;td style="text-align: left">默认为Color.WHITE&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.image.width&lt;/td>
+ &lt;td style="text-align: left">验证码图片宽度&lt;/td>
+ &lt;td style="text-align: left">默认为200&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">kaptcha.image.height&lt;/td>
+ &lt;td style="text-align: left">验证码图片高度&lt;/td>
+ &lt;td style="text-align: left">默认为50&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="3-页面添加验证码图片和输入框">3 页面添加验证码图片和输入框&lt;/h2>
+&lt;pre tabindex="0">&lt;code> &amp;lt;div class=&amp;#34;col-md-12&amp;#34;&amp;gt;
+ &amp;lt;div class=&amp;#34;col-md-7 form-control&amp;#34; style=&amp;#34;float:left; width: 60%;&amp;#34;&amp;gt;
+ &amp;lt;input type=&amp;#34;text&amp;#34; id=&amp;#34;validateCode&amp;#34; name=&amp;#34;validateCode&amp;#34; placeholder=&amp;#34;验证码&amp;#34; &amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;#34;col-md-3&amp;#34; style=&amp;#34;float: right;overflow: visible !important;&amp;#34;&amp;gt;
+ &amp;lt;img src=&amp;#34;./loadValidateCode&amp;#34; id=&amp;#34;validateCodeImage&amp;#34; name=&amp;#34;validateCodeImage&amp;#34;
+ style=&amp;#34;width: 100px;height: 35px;&amp;#34; onclick=&amp;#34;loadValidateCode()&amp;#34; &amp;gt;
+ &amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="4-页面添加刷新验证码">4 页面添加刷新验证码&lt;/h2>
+&lt;pre tabindex="0">&lt;code> // 加载验证码
+ function loadValidateCode() {
+ var time = new Date().getTime();
+ $(&amp;#34;#validateCodeImage&amp;#34;).attr(&amp;#39;src&amp;#39;, &amp;#39;./loadValidateCode&amp;#39;)
+ }
+&lt;/code>&lt;/pre>&lt;h2 id="5-后台添加生成验证码">5 后台添加生成验证码&lt;/h2>
+&lt;ul>
+&lt;li>导入包&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> import com.google.code.kaptcha.Producer;
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>生成方法&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Java" data-lang="Java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Producer&lt;/span> &lt;span style="color:#c1abea">captchaProducer&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">VALIDATE_CODE&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;VALIDATE_CODE&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">EXPIRE_TIME&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;EXPIRE_TIME&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@RequestMapping&lt;/span>(&lt;span style="color:#c1abea">value&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;/loadValidateCode&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">method&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">RequestMethod&lt;/span>.&lt;span style="color:#b3d23c">GET&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">loadValidateCode&lt;/span>(&lt;span style="color:#c1abea">HttpServletRequest&lt;/span> &lt;span style="color:#c1abea">request&lt;/span>, &lt;span style="color:#c1abea">HttpServletResponse&lt;/span> &lt;span style="color:#c1abea">response&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">HttpSession&lt;/span> &lt;span style="color:#c1abea">session&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">request&lt;/span>.&lt;span style="color:#b3d23c">getSession&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 设置清除浏览器缓存&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">setDateHeader&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Expires&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">0&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">setHeader&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Cache-Control&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;no-store, no-cache, must-revalidate&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">addHeader&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Cache-Control&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;post-check=0, pre-check=0&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">setHeader&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Pragma&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;no-cache&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">setContentType&lt;/span>(&lt;span style="color:#98c379">&amp;#34;image/png&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 验证码一分钟内有效&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">expireTime&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">System&lt;/span>.&lt;span style="color:#b3d23c">currentTimeMillis&lt;/span>() &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">60000&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 将验证码放到session中&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">validateCode&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">captchaProducer&lt;/span>.&lt;span style="color:#b3d23c">createText&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">session&lt;/span>.&lt;span style="color:#b3d23c">setAttribute&lt;/span>(&lt;span style="color:#c1abea">VALIDATE_CODE&lt;/span>, &lt;span style="color:#c1abea">Utils&lt;/span>.&lt;span style="color:#b3d23c">encodeBase64&lt;/span>(&lt;span style="color:#c1abea">validateCode&lt;/span>));&lt;span style="color:#8a93a5;font-style:italic">//将加密后的验证码放到session中，确保安全&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">session&lt;/span>.&lt;span style="color:#b3d23c">setAttribute&lt;/span>(&lt;span style="color:#c1abea">EXPIRE_TIME&lt;/span>, &lt;span style="color:#c1abea">expireTime&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 输出验证码图片&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">BufferedImage&lt;/span> &lt;span style="color:#c1abea">bufferedImage&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">captchaProducer&lt;/span>.&lt;span style="color:#b3d23c">createImage&lt;/span>(&lt;span style="color:#c1abea">validateCode&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ServletOutputStream&lt;/span> &lt;span style="color:#c1abea">out&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">response&lt;/span>.&lt;span style="color:#b3d23c">getOutputStream&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ImageIO&lt;/span>.&lt;span style="color:#b3d23c">write&lt;/span>(&lt;span style="color:#c1abea">bufferedImage&lt;/span>, &lt;span style="color:#98c379">&amp;#34;png&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">out&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">out&lt;/span>.&lt;span style="color:#b3d23c">flush&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">out&lt;/span>.&lt;span style="color:#b3d23c">close&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#c678dd">catch&lt;/span> (&lt;span style="color:#c1abea">IOException&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">printStackTrace&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="6-登录时校验验证码">6 登录时校验验证码&lt;/h2>
+&lt;pre tabindex="0">&lt;code> @RequestMapping(value = &amp;#34;/login&amp;#34;, method = RequestMethod.POST)
+ public @ResponseBody String login(String username, String password, String validateCode) {
+ 
+ // 校验验证码是否有效
+ String currentValidateCode = String.valueOf(request.getSession().getAttribute(VALIDATE_CODE));
+ if (System.currentTimeMillis() &amp;gt; Long.parseLong(String.valueOf(request.getSession().getAttribute(EXPIRE_TIME)))) {
+ return JSON.toJSONString(&amp;#34;验证码已过期，请重试&amp;#34;);
+ }
+
+ // 校验验证码
+ String currentValidateCode = String.valueOf(request.getSession().getAttribute(VALIDATE_CODE));
+ if (StringUtils.isEmpty(validateCode) || validateCode.length() != 4 ||
+ !Utils.encodeBase64(validateCode).equals(currentValidateCode)) {
+ return JSON.toJSONString(&amp;#34;验证码错误&amp;#34;);
+ }
+ } 
+&lt;/code>&lt;/pre>&lt;h2 id="7-base64加密">7 Base64加密&lt;/h2>
+&lt;pre tabindex="0">&lt;code> public static String encodeBase64(String str) {
+ sun.misc.BASE64Encoder base64Encode = new BASE64Encoder();
+ return base64Encode.encode(str.getBytes());
+ }
+&lt;/code>&lt;/pre></description></item><item><title>Spring MVC 使用 Spring Session 实现 Session 共享-Redis</title><link>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</link><pubDate>Mon, 01 Jan 2018 00:07:20 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</guid><description>&lt;blockquote>
+&lt;p>使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>Spring Session 官方文档&lt;a href="https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction">https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="session-共享的简单原理">Session 共享的简单原理&lt;/h2>
+&lt;blockquote>
+&lt;p>用户第一次访问应用时，应用会创建一个新的 Session，并且会将 Session 的 ID 作为 Cookie 缓存在浏览器，下一次访问时请求的头部中带着该 Cookie，应用通过获取的 Session ID 进行查找，如果该 Session 存在且有效，则继续该请求，如果 Cookie 无效或者 Session 无效，则会重新生成一个新的 Session&lt;/p>
+&lt;p>在普通的 JavaEE 应用中，Session 信息放在内存中，当容器（如 Tomcat）关闭后，内存中的 Session 被销毁；重启后如果当前用户再去访问对应的是一个新的 Session ，在多实例中无法共享，一个用户只能访问指定的实例才能使用相同的 Session；&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Session 共享实现的原理是将原来内存中的 Session 放在一个需要共享 Session 的实例都可以访问到的位置，如数据库，Redis 中等，从而实现多实例 Session 共享&lt;/p>
+&lt;p>实现共享后，只要浏览器的 Cookie 中的 Session ID 没有改变，多个实例中的任意一个被销毁不会影响用户访问&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h1 id="redis-方式实现">Redis 方式实现&lt;/h1>
+&lt;blockquote>
+&lt;p>将 Session 对象序列化存储到 Redis 中，多个实例访问时都会使用该 Session，Spring Session 会管理 Session 信息的管理，无需其他操作&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="1-添加依赖">1. 添加依赖&lt;/h2>
+&lt;ul>
+&lt;li>在 pom.xml 文件里面添加如下依赖&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;redis.clients&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;jedis&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;2.9.0&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+ &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;org.springframework.data&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;spring-data-redis&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;1.8.7.RELEAS&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+ &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;org.springframework.session&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;spring-session&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;1.3.1.RELEASE&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="2-添加配置">2. 添加配置&lt;/h2>
+&lt;ul>
+&lt;li>SpringConfig.xml 添加如下配置&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;!-- Spring Session共享 --&amp;gt;
+ &amp;lt;bean class=&amp;#34;org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration&amp;#34;/&amp;gt;
+ &amp;lt;bean class=&amp;#34;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&amp;#34;&amp;gt;
+ &amp;lt;property name=&amp;#34;hostName&amp;#34; value=&amp;#34;localhost&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;password&amp;#34; value=&amp;#34;123456&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;port&amp;#34; value=&amp;#34;6379&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;database&amp;#34; value=&amp;#34;3&amp;#34;/&amp;gt;
+ &amp;lt;/bean&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="3-添加过滤器">3. 添加过滤器&lt;/h2>
+&lt;ul>
+&lt;li>在 web.xml 添加如下配置（过滤器）&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;filter&amp;gt;
+ &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;filter-class&amp;gt;org.springframework.web.filter.DelegatingFilterProxy&amp;lt;/filter-class&amp;gt;
+ &amp;lt;/filter&amp;gt;
+ &amp;lt;filter-mapping&amp;gt;
+ &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
+ &amp;lt;/filter-mapping&amp;gt;
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>该过滤器必须是第一个过滤器，所有的请求经过该过滤器后执行后续操作&lt;/p></description></item></channel></rss>

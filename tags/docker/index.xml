@@ -1,1 +1,617 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 21 Apr 2024 21:25:04 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 21 Apr 2024 21:25:04 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Docker容器开启IPv6</title><link>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</link><pubDate>Sun, 21 Apr 2024 21:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</guid><description>&lt;h1 id="linux-docker-容器开启-ipv6">Linux Docker 容器开启 IPv6&lt;/h1>
+&lt;p>局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持&lt;/p>
+&lt;p>Docker 支持只给特定的网络开启 IPv6，也支持给 bridge 网络开启 IPv6&lt;/p>
+&lt;h2 id="只给特定的网络开启-ipv6">只给特定的网络开启 IPv6&lt;/h2>
+&lt;p>这种方式不会修改默认的网络配置，指定特定的网络生效&lt;/p>
+&lt;ul>
+&lt;li>修改配置
+修改 &lt;code>/etc/docker/daemon.json&lt;/code> 文件，开启 IPv6 网络&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;experimental&amp;#34;&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;ip6tables&amp;#34;&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>重启 docker&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo systemctl restart docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>创建 IPv6 网络&lt;/li>
+&lt;/ul>
+&lt;p>创建名为 &lt;code>homelab-v6&lt;/code> 的 IPv6 网络，并指定子网范围&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker network create --ipv6 --subnet 2001:0DB8::/112 homelab-v6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>测试验证&lt;/li>
+&lt;/ul>
+&lt;p>启动一个 busybox 容器，ping 阿里巴巴的 IPv6 DNS 地址 &lt;code>2400:3200::1&lt;/code>，发现可以正常访问，说明已经成功开启 IPv6&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;h1 id="使用-docker-部署-clash-premium">使用 Docker 部署 Clash Premium&lt;/h1>
+&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
+&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
+&lt;p>大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/">Clash 使用 Docker 部署&lt;/a> 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>&lt;/p>
+&lt;h2 id="修改配置">修改配置&lt;/h2>
+&lt;h3 id="基础配置">基础配置&lt;/h3>
+&lt;p>基础配置部分用于指定 Clash 的端口、代理模式等；使用 TUN 后可以代理 UDP 流量，开启 tracing 可以对 Clash 进行性能监控&lt;/p>
+&lt;ul>
+&lt;li>config.yaml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">port&lt;/span>: &lt;span style="color:#d19a66">7890&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">socks-port&lt;/span>: &lt;span style="color:#d19a66">7891&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">redir-port&lt;/span>: &lt;span style="color:#d19a66">7892&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">allow-lan&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">mode&lt;/span>: &lt;span style="color:#98c379">rule&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">log-level&lt;/span>: &lt;span style="color:#98c379">info&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 控制端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">external-controller&lt;/span>: :&lt;span style="color:#d19a66">9090&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 访问密码，建议设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">secret&lt;/span>: &lt;span style="color:#63c381">&amp;#34;123456&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">tun&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">enable&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">stack&lt;/span>: &lt;span style="color:#98c379">system&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-route&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-redir&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">auto-detect-interface&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 用于性能分析&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">profile&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tracing&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置策略组">配置策略组&lt;/h3>
+&lt;p>代理提供方 &lt;code>proxy-providers&lt;/code> 用于为策略组 &lt;code>proxy-groups&lt;/code> 提供代理节点；这部分用于取代 Clash 中的 &lt;code>proxies&lt;/code>&lt;/p></description></item><item><title>Docker 开启外部 HTTP 访问</title><link>https://blog.hellowood.dev/posts/docker-%E5%BC%80%E5%90%AF%E5%A4%96%E9%83%A8-http-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 05 Mar 2023 21:39:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%BC%80%E5%90%AF%E5%A4%96%E9%83%A8-http-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="docker-开启外部-http-访问">Docker 开启外部 HTTP 访问&lt;/h1>
+&lt;p>在监控容器时，通常需要从 Docker 中获取容器的信息，如果监控服务和其他的服务在同一台宿主机上，通常可以直接通过挂载 socket 的方式进行获取；但是为了监控的准确性，通常会将监控服务和其他服务分开部署，因此需要从外部获取 Docker 容器信息；&lt;/p>
+&lt;p>Docker 除了支持 socket 方式之外，还支持通过 HTTP 的方式获取容器的信息&lt;/p>
+&lt;h2 id="开启-http-访问">开启 HTTP 访问&lt;/h2>
+&lt;p>HTTP 访问是通过在启动 Docker 服务的时候添加参数的方式开启的；需要在 docker service 的启动命令中添加 &lt;code>-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock&lt;/code>，即允许通过 HTTP 方式和 socket 方式访问&lt;/p>
+&lt;h3 id="配置启动参数">配置启动参数&lt;/h3>
+&lt;p>该文件是 docker 服务的定义文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi /usr/lib/systemd/system/docker.service
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在 Service 的 &lt;code>ExecStart&lt;/code> 命令中添加 &lt;code>-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">[&lt;/span>Service&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">Type&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>notify
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># the default is not to use systemd for cgroups because the delegate issues still&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># exists and systemd currently does not support the cgroup feature set required&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># for containers run by docker&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">ExecStart&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>/usr/bin/dockerd -H fd:// --containerd&lt;span style="color:#c7bf54">=&lt;/span>/run/containerd/containerd.sock -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">ExecReload&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>/bin/kill -s HUP &lt;span style="color:#dcaeea">$MAINPID&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">TimeoutStartSec&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">RestartSec&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">Restart&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>always
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="重启-docker-服务">重启 Docker 服务&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>systemctl daemon-reload
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>systemctl restart docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="检查端口">检查端口&lt;/h3>
+&lt;p>通过 telnet 命令检查 2375 端口，可以访问说明端口正常&lt;/p></description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0000</pubDate><guid>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</guid><description>&lt;h1 id="clash-使用-docker-部署">Clash 使用 Docker 部署&lt;/h1>
+&lt;p>使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/">使用 Docker 部署 Clash Premium&lt;/a>&lt;/p>
+&lt;p>在一些场景下无法使用 Clash 客户端进行代理，也无法使用软路由，这时候可以由一台服务器运行 Clash，作为其他客户端的代理；同时 Clash 支持以 Docker 容器的方式运行，方便部署和运维&lt;/p>
+&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
+&lt;p>机场提供的订阅可能无法被 Clash 直接使用，或者分流配置不合理，需要转换格式；可以使用在线的订阅转换工具，如 &lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>等，也可以使用开源的服务自行搭建；&lt;/p>
+&lt;p>为了安全和隐私，可以基于 &lt;a href="https://github.com/CareyWang/sub-web">https://github.com/CareyWang/sub-web&lt;/a> 和 &lt;a href="https://github.com/tindy2013/subconverter">https://github.com/tindy2013/subconverter&lt;/a> 服务搭建，分别是前端和后端服务&lt;/p>
+&lt;ul>
+&lt;li>docker-compose.yaml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">subweb&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">careywong/subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">subweb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#d19a66">18080&lt;/span>:&lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">subconverter&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">tindy2013/subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">subconverter&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#d19a66">25500&lt;/span>:&lt;span style="color:#d19a66">25500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-clash-proxy-config-convert-to-clash.png" alt="homelab-clash-proxy-config-convert-to-clash.png">&lt;/p>
+&lt;ul>
+&lt;li>自定义配置&lt;/li>
+&lt;/ul>
+&lt;p>如果有自定义配置，可以指定远程配置，参考&lt;a href="https://github.com/tindy2013/subconverter/blob/master/README-cn.md#%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE">外部配置&lt;/a>，指定 &lt;code>clash_rule_base&lt;/code> 配置模板；不过该方式比较麻烦，自己使用可以直接通过更改 subconverter 默认配置的方式实现；&lt;/p>
+&lt;p>subconverter 默认的配置是 &lt;code>/base/pref.toml&lt;/code>文件，其中指定了 clash 的配置文件模板为 &lt;code>clash_rule_base = &amp;quot;base/all_base.tpl&amp;quot;&lt;/code>，所以修改 &lt;code>base/all_base.tpl&lt;/code> 文件即可&lt;/p></description></item><item><title>Docker 使用 NFS 作为数据卷存储</title><link>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</link><pubDate>Thu, 22 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</guid><description>&lt;h1 id="docker-使用-nfs-作为数据卷存储">Docker 使用 NFS 作为数据卷存储&lt;/h1>
+&lt;p>在搭建 HomeLab 的过程中，出现因虚拟机故障导致容器挂载在虚拟机上的数据丢失的问题，因此，将数据挂载在虚拟机上仍然存在风险；同时为了将计算和数据分离，HomeLab 所在的服务器只做计算，将数据存储转移到 NAS上；因此，使用 NFS 作为 Docker 的数据卷，将数据挂载到远程的 NAS 存储中&lt;/p>
+&lt;p>Docker 支持 Samba/NFS 等协议的远程存储&lt;/p>
+&lt;h2 id="创建-docker-nfs-数据卷">创建 Docker NFS 数据卷&lt;/h2>
+&lt;p>通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code>local&lt;/code>，类型是 &lt;code>nfs&lt;/code>，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code>nginx-volume&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume create --driver &lt;span style="color:#ef8383">local&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">type&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>nfs &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">o&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#dcaeea">addr&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>192.168.2.10,nolock,vers&lt;span style="color:#c7bf54">=&lt;/span>4,soft,rw &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">device&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>nginx-volume
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>查看 &lt;code>nginx-volume&lt;/code> 信息&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume inspect nginx-volume
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;CreatedAt&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;2022-09-22T14:48:26+08:00&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Driver&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;local&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Labels&amp;#34;&lt;/span>: &lt;span style="color:#c7bf54">{}&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Mountpoint&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;/var/lib/docker/volumes/nginx-volume/_data&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Name&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;nfs-volume&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Options&amp;#34;&lt;/span>: &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;device&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;:/workspaces/data/docker/nginx&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;o&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;addr=192.168.2.10,nolock,vers=4,soft,rw&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;nfs&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Scope&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;local&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="容器中使用-nfs-数据卷">容器中使用 NFS 数据卷&lt;/h2>
+&lt;h3 id="在容器中挂载">在容器中挂载&lt;/h3>
+&lt;p>以 Nginx 为例，挂载 &lt;code>nginx-volume&lt;/code> 到容器中；也可以使用 &lt;code>-v nginx-volume:/data&lt;/code>的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code>-v&lt;/code> 会创建一个，而 &lt;code>--mount&lt;/code>会报错&lt;/p></description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>@(HomeLab)[Pi-hole]&lt;/p>
+&lt;h1 id="使用-pi-hole-作为-dns-和-dhcp-服务器">使用 Pi-hole 作为 DNS 和 DHCP 服务器&lt;/h1>
+&lt;p>在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p>
+&lt;p>另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供&lt;/p>
+&lt;h2 id="配置-docker-macvlan-网络">配置 Docker macvlan 网络&lt;/h2>
+&lt;p>因为在同一个服务器上提供了多个服务，因此存在端口冲突问题，Pi-hole 和 Smartdns 都需要 53 端口用于提供 DNS，而且 53 端口默认被 Ubuntu Server 使用；而且局域网中的设备需要访问 DHCP 服务，因此为了避免冲突，需要使用 &lt;code>macvlan&lt;/code> 作为 Docker 网络的驱动&lt;/p>
+&lt;p>&lt;code>macvlan&lt;/code> 是一种网卡虚拟化技术，允许在同一个物理网卡上配置多个 MAC 地址，即多个 interface，每个 interface 可以配置自己的 IP&lt;/p>
+&lt;p>通过 &lt;code>macvlan&lt;/code>，可以为每个 Docker 容器提供特定的 IP 地址，用于局域网内的设置直接通过容器的 IP 地址访问&lt;/p></description></item><item><title>SpringBoot 框架自带插件构建 Docker 镜像</title><link>https://blog.hellowood.dev/posts/springboot-%E6%A1%86%E6%9E%B6%E8%87%AA%E5%B8%A6%E6%8F%92%E4%BB%B6%E6%9E%84%E5%BB%BA-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Sun, 20 Sep 2020 22:31:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E6%A1%86%E6%9E%B6%E8%87%AA%E5%B8%A6%E6%8F%92%E4%BB%B6%E6%9E%84%E5%BB%BA-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;h1 id="springboot-框架自带插件构建-docker-镜像">SpringBoot 框架自带插件构建 Docker 镜像&lt;/h1>
+&lt;p>Spring Boot 2.3.0 之后支持通过 buildpacks 插件构建 Docker 镜像，原理和执行过程与 Jib 类似，支持 Spring Boot 项目的分层构建，当代码改动后，只需更新代码部分，可以减少构建后 push 和 pull 镜像的时间，减少镜像存储的成本&lt;/p>
+&lt;p>底层是通过 &lt;a href="https://buildpacks.io/">Buildpacks&lt;/a> 构建，Buildpacks是 Dockerfile 的一个替代方案。Buildpacks 能够自动探测运行 Docker 容器中的应用时所需要的软件，例如，它会探测应用中所使用的 Java 版本，基于该版本，buildpack 会选择所指定的 JRE 并构建 Docker 镜像&lt;/p>
+&lt;h2 id="优点">优点&lt;/h2>
+&lt;ul>
+&lt;li>Spring Boot 编译插件集成，不需要额外的配置&lt;/li>
+&lt;li>JVM 参数计算，支持通过线程数量，类数量等，动态的计算适合的 JVM 参数&lt;/li>
+&lt;li>会在构建过程中加入 OOM Killer，当 OOM 时自动杀死应用&lt;/li>
+&lt;/ul>
+&lt;h2 id="弊端">弊端&lt;/h2>
+&lt;ul>
+&lt;li>在镜像中指定了内存参数，CPU数量等&lt;/li>
+&lt;li>不能灵活添加自定义文件，只能添加应用中的文件为单独的层&lt;/li>
+&lt;li>构建镜像、运行镜像与 Buildpacks 强绑定，需要 Buildpacks 的参数才可以成功构建，如果要自定义信息，同样需要在基础镜像中加入 Buildpacks 的配置&lt;/li>
+&lt;li>不支持直接使用历史版本镜像的分层，当tag改变时会完全重新构建&lt;/li>
+&lt;li>builder 和 runImage 中的内容是动态下载的，访问 GitHub 可能失败，也不安全&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ol>
+&lt;li>更新 SpringBoot 版本为 2.3.2.RELEASE&lt;/li>
+&lt;li>启用分层&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">bootJar&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">layered&lt;/span>&lt;span style="color:#c7bf54">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span> 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>执行构建&lt;/li>
+&lt;/ol>
+&lt;p>会根据应用名称构建出一个镜像&lt;/p></description></item><item><title>Ubuntu/Docker 替换软件源</title><link>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</link><pubDate>Mon, 27 May 2019 15:06:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</guid><description>&lt;h1 id="ubuntudocker-替换软件源">Ubuntu/Docker 替换软件源&lt;/h1>
+&lt;h2 id="ubuntu">Ubuntu&lt;/h2>
+&lt;h3 id="使用-sed-命令">使用 sed 命令&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apt/sources.list/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改">手动修改&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> /etc/apt/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv sources.list sources.list.bak
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo vi sources.list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p>
+&lt;pre tabindex="0">&lt;code>deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse 
+
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse 
+
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse 
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse 
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse 
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse 
+
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse 
+
+deb http://archive.canonical.com/ubuntu/ xenial partner 
+deb http://extras.ubuntu.com/ubuntu/ xenial main 
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get upgrade
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="docker-alpine-镜像替换软件源">Docker alpine 镜像替换软件源&lt;/h2>
+&lt;h3 id="在-dockerfile-中添加">在 Dockerfile 中添加&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="修改容器中软件源">修改容器中软件源&lt;/h3>
+&lt;h4 id="使用-sed-命令-1">使用 sed 命令&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改-1">手动修改&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>微服务网关 Traefik - Docker Swarm 使用</title><link>https://blog.hellowood.dev/posts/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3-traefik-docker-swarm-%E4%BD%BF%E7%94%A8/</link><pubDate>Sun, 24 Mar 2019 22:08:30 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3-traefik-docker-swarm-%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="微服务网关-traefik---docker-swarm-使用">微服务网关 Traefik - Docker Swarm 使用&lt;/h1>
+&lt;p>&lt;a href="https://docs.traefik.io/">traefik&lt;/a> 是一个用 Go 开发的适用于微服务的反向代理和负载均衡的网关；可以自动发现并代理服务，可以用 Kubernetes 或 Docker Swarm 等方式，支持使用 Eureka，Consul，Etcd，ZooKeeper 等注册中心&lt;/p>
+&lt;h2 id="docker-swarm-使用">Docker Swarm 使用&lt;/h2>
+&lt;h3 id="启动官方-demo">启动官方 Demo&lt;/h3>
+&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#98c379">&amp;#39;3&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">reverse-proxy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># The official Traefik docker image&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">command&lt;/span>: --&lt;span style="color:#98c379">api --docker&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># Enables the web UI and tells Traefik to listen to docker&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;80:80&amp;#34;&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># The HTTP port&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8080:8080&amp;#34;&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># The Web UI (enabled by --api)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/var/run/docker.sock:/var/run/docker.sock&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># So that Traefik can listen to the Docker events&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">whoami&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">containous/whoami&lt;/span> &lt;span style="color:#8a93a5;font-style:italic"># A container that exposes an API to show its IP address&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;traefik.frontend.rule=Host:whoami.docker.localhost&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>启动&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker-compose up -d
+&lt;/code>&lt;/pre>&lt;p>这样会启动一个 treafik 的 WebUI 和一个后端服务器&lt;/p></description></item><item><title>Docker 容器中运行 Docker 命令</title><link>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</link><pubDate>Wed, 08 Aug 2018 16:04:24 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</guid><description>&lt;h1 id="docker-容器中运行-docker-命令">Docker 容器中运行 Docker 命令&lt;/h1>
+&lt;blockquote>
+&lt;p>在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>在启动容器时添加以下命令：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>--privileged &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>-v &lt;span style="color:#c678dd">$(&lt;/span>which docker&lt;span style="color:#c678dd">)&lt;/span>r:/bin/docker &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;ul>
+&lt;li>&lt;code>--privileged&lt;/code> 表示该容器真正启用 root 权限&lt;/li>
+&lt;li>&lt;code>-v /var/run/docker.sock:/var/run/docker.sock&lt;/code>和&lt;code>-v $(which docker)r:/bin/docker&lt;/code>命令将相关的 Docker 文件挂载到容器&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;hr>
+&lt;ul>
+&lt;li>Demo: 启动 GitLab&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name gitlab-ee &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -d -p 443:443 -p 80:80 -p 22:22 &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --privileged &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --restart always &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --hostname 10.0.0.24 &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v /Users/hellowood/gitlab/logs:/var/log/gitlab &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v /Users/hellowood/gitlab/data:/var/opt/gitlab &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v /Users/hellowood/.m2:/root/.m2 &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v /Users/hellowood/.gradle:/root/.gradle &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v &lt;span style="color:#c678dd">$(&lt;/span>which docker&lt;span style="color:#c678dd">)&lt;/span>:/bin/docker &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> gitlab/gitlab-ee:latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;h1 id="使用-jib-生成--java-docker-镜像">使用 Jib 生成 Java Docker 镜像&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/GoogleContainerTools/jib">Jib&lt;/a> 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/">&lt;code>com.palantir.docker&lt;/code>&lt;/a>等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;h3 id="添加依赖httpspluginsgradleorgplugincomgooglecloudtoolsjib">&lt;a href="https://plugins.gradle.org/plugin/com.google.cloud.tools.jib">添加依赖&lt;/a>&lt;/h3>
+&lt;ul>
+&lt;li>Gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">buildscript&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">repositories&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">maven&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span> &lt;span style="color:#c1abea">url&lt;/span> &lt;span style="color:#98c379">&amp;#39;https://plugins.gradle.org/m2/&amp;#39;&lt;/span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">classpath&lt;/span> &lt;span style="color:#63c381">&amp;#34;gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:0.9.6&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">apply&lt;/span> &lt;span style="color:#f5a40d">plugin:&lt;/span> &lt;span style="color:#63c381">&amp;#34;com.google.cloud.tools.jib&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">plugins&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">id&lt;/span> &lt;span style="color:#98c379">&amp;#39;com.google.cloud.tools.jib&amp;#39;&lt;/span> &lt;span style="color:#c1abea">version&lt;/span> &lt;span style="color:#98c379">&amp;#39;0.9.6&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="构建镜像">构建镜像&lt;/h3>
+&lt;blockquote>
+&lt;p>以下方式都需要终端能够访问 &lt;code>gcr.io&lt;/code>或 &lt;code>hub.docker.com&lt;/code>等 Docker Hub 才能成功&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>直接构建并推送到 &lt;a href="https://cloud.google.com/container-registry/">GCR&lt;/a>
+通过这种方式构建的镜像会以&lt;code>gcr.io/distroless/java&lt;/code>为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">gradle&lt;/span> &lt;span style="color:#c1abea">jib&lt;/span> 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>指定推送的容器镜像仓库&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a href="https://cloud.google.com/container-registry/">Google Container Center&lt;/a>, &lt;a href="https://aws.amazon.com/ecr/">Amazon Elastic Container Registry&lt;/a>, &lt;a href="https://hub.docker.com/">Docker Hub Registry&lt;/a>之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p></description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="docker-配置-nginx-访问宿主机目录下的应用">Docker 配置 Nginx 访问宿主机目录下的应用&lt;/h1>
+&lt;blockquote>
+&lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="配置并启动-tomcat">配置并启动 Tomcat&lt;/h2>
+&lt;h2 id="安装-docker">安装 Docker&lt;/h2>
+&lt;h2 id="配置-nginx">配置 Nginx&lt;/h2>
+&lt;ul>
+&lt;li>创建配置和日志文件夹&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>mkdir /home/nginx/conf
+mkdir /home/nginx/logs
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>查询宿主机 IP&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker inspect --format &amp;#39;{{ .NetworkSettings.IPAddress }}&amp;#39; &amp;lt;container-ID&amp;gt; 
+
+# 或
+docker inspect &amp;lt;container id&amp;gt; 
+
+# 或
+docker inspect -f &amp;#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&amp;#39; container_name_or_id
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>添加配置文件 &lt;code>nginx.conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>将 &lt;code>8084&lt;/code>端口转发到&lt;code>8080&lt;/code>端口，使用 &lt;code>log_format&lt;/code>目的是为了使用阿里云监控切分日志，可以没有&lt;/p>
+&lt;pre tabindex="0">&lt;code>log_format proxyformat &amp;#34;$remote_addr $request_time $http_x_readtime [$time_local] \&amp;#34;$request_method http://$host$request_uri\&amp;#34; $status $body_bytes_sent \&amp;#34;$http_referer\&amp;#34; \&amp;#34;$upstream_addr\&amp;#34; \&amp;#34;$http_user_agent\&amp;#34; \&amp;#34;$upstream_response_time\&amp;#34; \&amp;#34;$request_time\&amp;#34;&amp;#34;;
+
+
+ server {
+ listen 80;
+ server_name ali.hellowood.com.cn;
+ location / {
+ proxy_pass http://172.17.0.1:8080;
+ proxy_set_header Host $http_host; 
+ proxy_set_header X-Real-IP $remote_addr; 
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+ }
+ } 
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>需要注意的是，Docker 会默认使用桥接路由，所以其 IP 和宿主机的 IP 位于同一 IP 段，并且默认宿主机的 IP 为第一个，即如果 Docker 的 IP 为 &lt;code>10.1.0.2&lt;/code>, 则可以通过 访问 &lt;code>10.1.0.1&lt;/code> 访问到宿主机&lt;/p></description></item><item><title>Docker 构建 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/docker-%E6%9E%84%E5%BB%BA-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Sun, 08 Apr 2018 15:42:39 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E6%9E%84%E5%BB%BA-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="用-docker-构建-springboot-应用">用 Docker 构建 SpringBoot 应用&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>启动 Docker，并生成 SpringBoot 应用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改 &lt;code>build.gradle&lt;/code> 文件&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>buildscript {
+ ext {
+ springBootVersion = &amp;#39;2.0.0.RELEASE&amp;#39;
+ }
+ repositories {
+ maven { url &amp;#34;https://plugins.gradle.org/m2/&amp;#34; }
+ mavenCentral()
+ }
+ dependencies {
+ classpath(&amp;#34;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&amp;#34;)
+ classpath(&amp;#34;gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2&amp;#34;)
+ }
+}
+
+apply plugin: &amp;#39;java&amp;#39;
+apply plugin: &amp;#39;eclipse&amp;#39;
+apply plugin: &amp;#39;org.springframework.boot&amp;#39;
+apply plugin: &amp;#39;io.spring.dependency-management&amp;#39;
+apply plugin: &amp;#39;com.palantir.docker&amp;#39;
+
+group = &amp;#39;cn.com.hellowood&amp;#39;
+sourceCompatibility = 1.8
+version = &amp;#39;1.0.0-SNAPSHOT&amp;#39;
+
+repositories {
+ mavenCentral()
+}
+
+dependencies {
+ compile(&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;)
+ testCompile(&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;)
+}
+
+docker {
+ name &amp;#34;${project.group}/${jar.baseName}&amp;#34;
+ files jar.archivePath
+ buildArgs([&amp;#39;JAR_FILE&amp;#39;: &amp;#34;${jar.archiveName}&amp;#34;])
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>添加 &lt;code>Dockerfile&lt;/code>文件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ARG JAR_FILE
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT [&amp;#34;java&amp;#34;,&amp;#34;-Djava.security.egd=file:/dev/./urandom&amp;#34;,&amp;#34;-jar&amp;#34;,&amp;#34;/app.jar&amp;#34;]
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>构建&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>gradle build docker
+&lt;/code>&lt;/pre>&lt;p>此时会生成&lt;code>Docker&lt;/code>镜像&lt;/p></description></item><item><title>Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 08 Apr 2018 15:38:01 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="ubuntu-docker-配置-tomcat-和-nginx-使用-https-访问">Ubuntu Docker 配置 Tomcat 和 Nginx 使用 HTTPS 访问&lt;/h1>
+&lt;h2 id="安装-docker">安装 Docker&lt;/h2>
+&lt;h3 id="使用脚本自动安装">使用脚本自动安装&lt;/h3>
+&lt;pre tabindex="0">&lt;code>curl -fsSL get.docker.com -o get-docker.sh
+sudo sh get-docker.sh --mirror Aliyun
+&lt;/code>&lt;/pre>&lt;h3 id="更改镜像地址">更改镜像地址&lt;/h3>
+&lt;ul>
+&lt;li>修改或新建 &lt;code>/etc/docker/daemon.json&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>{
+ &amp;#34;registry-mirrors&amp;#34;: [
+ &amp;#34;https://registry.docker-cn.com&amp;#34;
+ ]
+}
+&lt;/code>&lt;/pre>&lt;h3 id="启动-docker">启动 Docker&lt;/h3>
+&lt;pre tabindex="0">&lt;code>sudo systemctl daemon-reload
+sudo systemctl enable docker
+sudo systemctl start docker
+&lt;/code>&lt;/pre>&lt;h2 id="配置-tomcat">配置 Tomcat&lt;/h2>
+&lt;h3 id="启动-tomcat-容器">启动 Tomcat 容器&lt;/h3>
+&lt;pre tabindex="0">&lt;code>docker pull tomcat
+docker run --name tomcat -d -p 8080:8080 tomcat
+&lt;/code>&lt;/pre>&lt;h3 id="修改-tomcat-manager-应用">修改 Tomcat Manager 应用&lt;/h3>
+&lt;ul>
+&lt;li>修改 &lt;code>webapps/manager/META-INF/content.xml&lt;/code>，允许需要的IP访问，这里运行所有的IP访问&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;Context antiResourceLocking=&amp;#34;false&amp;#34; privileged=&amp;#34;true&amp;#34; &amp;gt;
+ &amp;lt;Valve className=&amp;#34;org.apache.catalina.valves.RemoteAddrValve&amp;#34;
+ allow=&amp;#34;^.*$&amp;#34; /&amp;gt;
+ &amp;lt;Manager sessionAttributeValueClassNameFilter=&amp;#34;java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap&amp;#34;/&amp;gt;
+&amp;lt;/Context&amp;gt;
+&lt;/code>&lt;/pre>&lt;h3 id="配置-tomcat-用户">配置 Tomcat 用户&lt;/h3>
+&lt;ul>
+&lt;li>修改 &lt;code>conf/tomcat-user.xml&lt;/code>，添加用户&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;role rolename=&amp;#34;admin-gui&amp;#34;/&amp;gt;
+&amp;lt;role rolename=&amp;#34;manager-gui&amp;#34;/&amp;gt;
+&amp;lt;user username=&amp;#34;tomcat&amp;#34; password=&amp;#34;tomcat&amp;#34; roles=&amp;#34;manager-gui,admin-gui&amp;#34;/&amp;gt;
+&lt;/code>&lt;/pre>&lt;hr>
+&lt;h2 id="配置-nginx">配置 Nginx&lt;/h2>
+&lt;h3 id="配置目录">配置目录&lt;/h3>
+&lt;ul>
+&lt;li>新建目录 &lt;code>/home/ubuntu/hellowood/dev/nginx/conf&lt;/code>, &lt;code>/home/ubuntu/hellowood/dev/nginx/log&lt;/code>, &lt;code>/home/ubuntu/hellowood/dev/nginx/certs&lt;/code>&lt;/li>
+&lt;li>下载并解压相应的Nginx证书文件到 &lt;code>/home/ubuntu/hellowood/dev/nginx/conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="添加-nginx-配置">添加 Nginx 配置&lt;/h3>
+&lt;ul>
+&lt;li>nginx.conf&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>server {
+ listen 80;
+ listen 443 ssl;
+ server_name hellowood.com.cn;
+ ssl_certificate /etc/nginx/certs/hellowood.com.cn_bundle.crt;
+ ssl_certificate_key /etc/nginx/certs/hellowood.com.cn.key;
+ location / {
+ proxy_pass http://tomcat:8080;
+ }
+}
+&lt;/code>&lt;/pre>&lt;p>&lt;code>http://tomcat:8080&lt;/code>: 将所有请求都转发到 &lt;code>tomcat&lt;/code> 容器的 &lt;code>8080&lt;/code>端口(不是映射端口)&lt;/p></description></item><item><title>Docker 中使用 Dockerfile</title><link>https://blog.hellowood.dev/posts/docker-%E4%B8%AD%E4%BD%BF%E7%94%A8-dockerfile/</link><pubDate>Sun, 08 Apr 2018 15:21:27 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E4%B8%AD%E4%BD%BF%E7%94%A8-dockerfile/</guid><description>&lt;h1 id="docker-中使用-dockerfile">Docker 中使用 Dockerfile&lt;/h1>
+&lt;p>Dockerfile 是一个文件，其包含了一条条的指令（instruction），每一条指令构建一层，因此每一条指令的内容就是描述该层应当如何构建&lt;/p>
+&lt;ul>
+&lt;li>构建一个镜像&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>FROM nginx
+RUN echo &amp;#39;&amp;lt;h1&amp;gt;Hello, Docker!&amp;lt;/h1&amp;gt;&amp;#39; &amp;gt; /usr/share/nginx/html/index.html
+&lt;/code>&lt;/pre>&lt;h2 id="构建">构建&lt;/h2>
+&lt;h3 id="命令">命令&lt;/h3>
+&lt;h4 id="from">FROM&lt;/h4>
+&lt;p>用于指定基础镜像，必备的指令，必须是第一条&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>FROM scratch&lt;/code>
+&lt;code>scratch&lt;/code>是一个特殊的镜像，表示一个空白的镜像，意味着不以任何镜像为基础，接下来的指令作为第一层&lt;/li>
+&lt;/ul>
+&lt;h4 id="run">RUN&lt;/h4>
+&lt;p>&lt;code>RUN&lt;/code> 指令是用来执行命令的，格式有两种：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>shell&lt;/code> 格式：&lt;code>RUN &amp;lt;命令&amp;gt; &lt;/code>&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>RUN echo &amp;#39;&amp;lt;h1&amp;gt;Hello, Docker!&amp;lt;/h1&amp;gt;&amp;#39; &amp;gt; /usr/share/nginx/html/index.html
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>&lt;code>exec&lt;/code>格式：&lt;code>RUN [&amp;quot;可执行文件&amp;quot;, &amp;quot;参数1&amp;quot;, &amp;quot;参数2&amp;quot;]&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>每一个 &lt;code>RUN&lt;/code> 命令都会构建一层，应当减少不必要的构建&lt;/p>
+&lt;pre tabindex="0">&lt;code>FROM debian:jessie
+
+RUN apt-get update
+RUN apt-get install -y gcc libc6-dev make
+RUN wget -O redis.tar.gz &amp;#34;http://download.redis.io/releases/redis-3.2.5.tar.gz&amp;#34;
+RUN mkdir -p /usr/src/redis
+RUN tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1
+RUN make -C /usr/src/redis
+RUN make -C /usr/src/redis install
+&lt;/code>&lt;/pre>&lt;p>这样会构建7层，会提交大量的无用的改动，应当改为：&lt;/p></description></item><item><title>Docker 常用命令</title><link>https://blog.hellowood.dev/posts/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Sun, 08 Apr 2018 15:20:02 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;p>#Docker 常用命令&lt;/p>
+&lt;ul>
+&lt;li>run
+新建并启动容器&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>// 启动并输出 Hello World
+docker run ubuntu:14.04 /bin/echo &amp;#39;Hello World&amp;#39;
+
+// 启动 bash 终端
+docker run -t -i ubuntu:14.04 bash
+
+
+// 启动一个已终止的容器
+docker container start myubuntu
+
+docker run -d ubuntu:14.04 -c 
+&lt;/code>&lt;/pre>&lt;p>&lt;code>-t&lt;/code> 启动终端并绑定到容器标准输入上
+&lt;code>-i&lt;/code> 保持容器标准输入打开
+&lt;code>-c&lt;/code> 将容器的输出信息输出到宿主机
+&lt;code>-d&lt;/code> 不会将容器的输出输出到宿主机&lt;/p>
+&lt;ul>
+&lt;li>stop
+停止容器&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker container stop myubuntu
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>restart
+重启容器&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker container restart myubuntu
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>attach
+进入容器，可以执行命令&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker container start myubuntu
+docker attach myubuntu
+&lt;/code>&lt;/pre>&lt;p>此时执行&lt;code>exit&lt;/code>会退出容器&lt;/p>
+&lt;ul>
+&lt;li>exec
+进入容器，可以执行命令，需要带参数
+&lt;code>-i&lt;/code>:由于没有分配伪终端，所以不会有命令提示符，但是命令执行结果依然可以返回
+&lt;code>-i -t&lt;/code>:可以显示终端&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker container start myubuntu
+docker exec -i myubuntu bash
+docker exec -it myubuntu bash
+&lt;/code>&lt;/pre>&lt;p>此时执行&lt;code>exit&lt;/code>不会退出容器&lt;/p></description></item><item><title>Docker</title><link>https://blog.hellowood.dev/posts/docker/</link><pubDate>Sun, 08 Apr 2018 15:18:49 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker/</guid><description>&lt;h1 id="docker">Docker&lt;/h1>
+&lt;h2 id="docker-中的概念">Docker 中的概念&lt;/h2>
+&lt;ul>
+&lt;li>镜像：一个特殊的文件系统，提供容器运行时所需的程序，库，资源，配置和配置参数，不包含任何动态数据，内容在构建之后也不会被改变&lt;/li>
+&lt;li>容器： 镜像和容器可以看做是面向对象中的类和实例，容器的实质是进程，运行于一个隔离的环境，容器运行时，已当前镜像为基础，在其上创建一个当前容器的存储层，容器消亡时，任何存储于容器存储层的数据也会被被删除&lt;/li>
+&lt;li>仓库：集中存储，分发镜像的服务&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;h4 id="ubuntu">Ubuntu：&lt;/h4>
+&lt;ul>
+&lt;li>卸载旧版本&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo apt-get remove docker \
+ docker-engine \
+ docker.io
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>安装 Docker CE&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo apt-get update
+sudo apt-get install docker-ce
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>或使用脚本安装&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>curl -fsSL get.docker.com -o get-docker.sh
+sudo sh get-docker.sh --mirror Aliyun
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>启动 Docker CE&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo systemctl enable docker
+sudo systemctl start docker
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>添加 Docker 组，并将当前用户加入 Docker 组&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo groupadd docker
+sudo usermod -aG docker $USER
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>测试&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>docker run hello-world
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>镜像加速
+编辑或新建 &lt;code>/etc/docker/daemon.json&lt;/code> ，添加以下内容&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>{
+ &amp;#34;registry-mirrors&amp;#34;: [
+ &amp;#34;https://registry.docker-cn.com&amp;#34;
+ ]
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>重新启动&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo systemctl daemon-reload
+sudo systemctl restart docker
+&lt;/code>&lt;/pre>&lt;h4 id="mac">Mac：&lt;/h4>
+&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>brew cask install docker
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>
+&lt;p>启动
+点击 Docker 图标启动&lt;/p></description></item></channel></rss>

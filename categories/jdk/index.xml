@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>JDK on HelloWood</title><link>https://blog.hellowood.dev/categories/jdk/</link><description>Recent content in JDK on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 12:11:39 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/jdk/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;h1 id="在ubuntu通过java官网下载安装jdk">在Ubuntu通过Java官网下载安装JDK&lt;/h1>
+&lt;hr>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>1 创建文件夹&lt;/p>
+&lt;pre tabindex="0">&lt;code>mkdir java
+&lt;/code>&lt;/pre>&lt;p>2 下载JDK&lt;/p>
+&lt;blockquote>
+&lt;p>JDK 下载地址&lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;pre tabindex="0">&lt;code>wget --no-check-certificate --no-cookies --header &amp;#34;Cookie: oraclelicense=accept-securebackup-cookie&amp;#34; http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
+&lt;/code>&lt;/pre>&lt;p>3 解压&lt;/p>
+&lt;pre tabindex="0">&lt;code> tar -zxvf jdk-8u144-linux-x64.tar.gz
+&lt;/code>&lt;/pre>&lt;p>4 配置环境变量&lt;/p>
+&lt;ul>
+&lt;li>编辑配置文件&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo vim ~/.bash_profile
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>输入以下内容&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>export JAVA_HOME=/home/ubuntu/java/jdk1.8.0_144
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>使配置生效&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>source ~/.bash_profile
+&lt;/code>&lt;/pre>&lt;p>5 检查是否配置正确&lt;/p>
+&lt;pre tabindex="0">&lt;code>java -version
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>出现以下内容：&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
+Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
+ubuntu@local:~/java/jdk1.8.0_144$
+&lt;/code>&lt;/pre>&lt;p>6 查看JDK的路径&lt;/p>
+&lt;pre tabindex="0">&lt;code>whereis java
+which java （java执行路径）
+echo $JAVA_HOME
+echo $PATH
+&lt;/code>&lt;/pre></description></item></channel></rss>

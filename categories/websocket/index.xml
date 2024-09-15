@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>WebSocket on HelloWood</title><link>https://blog.hellowood.dev/categories/websocket/</link><description>Recent content in WebSocket on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 18:48:25 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/websocket/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中使用 WebSocket</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8-websocket/</link><pubDate>Sun, 08 Sep 2019 18:48:25 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8-websocket/</guid><description>&lt;h1 id="spring-boot--中使用-websocket">Spring Boot 中使用 WebSocket&lt;/h1>
+&lt;blockquote>
+&lt;p>WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="构建应用">构建应用&lt;/h2>
+&lt;h3 id="添加依赖">添加依赖&lt;/h3>
+&lt;ul>
+&lt;li>build.gradle&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.springframework.boot:spring-boot-starter-websocket&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.webjars:webjars-locator-core&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.webjars:sockjs-client:1.0.2&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.webjars:stomp-websocket:2.3.3&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.webjars:bootstrap:3.3.7&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.webjars:jquery:3.1.0&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#63c381">&amp;#34;org.springframework.boot:spring-boot-starter-test&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置">配置&lt;/h3>
+&lt;ul>
+&lt;li>WebSocketConfig.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Configuration&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@EnableWebSocketMessageBroker&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">WebSocketConfig&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">WebSocketMessageBrokerConfigurer&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">configureMessageBroker&lt;/span>(&lt;span style="color:#c1abea">MessageBrokerRegistry&lt;/span> &lt;span style="color:#c1abea">registry&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">registry&lt;/span>.&lt;span style="color:#b3d23c">enableSimpleBroker&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/topic&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">registry&lt;/span>.&lt;span style="color:#b3d23c">setApplicationDestinationPrefixes&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/app&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">registerStompEndpoints&lt;/span>(&lt;span style="color:#c1abea">StompEndpointRegistry&lt;/span> &lt;span style="color:#c1abea">registry&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">registry&lt;/span>.&lt;span style="color:#b3d23c">addEndpoint&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/socket&amp;#34;&lt;/span>).&lt;span style="color:#b3d23c">withSockJS&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中&lt;code>/topic&lt;/code> 是用于推送给客户端的消息路径前缀；&lt;code>/app&lt;/code>是用于请求服务端的消息路径前缀， &lt;code>/socket&lt;/code>用于客户端建立连接&lt;/p>
+&lt;p>SockJS用于提供浏览器兼容性，当浏览器不支持 WebSocket 时，就会尝试降级为HTTP流或者长轮询的方式以实现和 WebSocket 相同的效果，参考 &lt;a href="https://docs.spring.io/spring/docs/5.1.8.RELEASE/spring-framework-reference/web.html#websocket-fallback">4.3. SockJS Fallback&lt;/a>&lt;/p>
+&lt;h3 id="群发消息">群发消息&lt;/h3>
+&lt;p>群发消息可以将消息发送给所有订阅了该消息的客户端，可以通过 &lt;code>@SendTo&lt;/code>或&lt;code>org.springframework.messaging.simp.SimpMessagingTemplate#convertAndSend&lt;/code>发送&lt;/p>
+&lt;h4 id="服务端">服务端&lt;/h4>
+&lt;ul>
+&lt;li>通过注解实现&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@MessageMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/message/broadcast&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@SendTo&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/response/message&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Message&lt;/span> &lt;span style="color:#00b1f7">broadcastMessage&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Receive new broadcast message from socket, title is :&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">Message&lt;/span>.&lt;span style="color:#b3d23c">builder&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">title&lt;/span>(&lt;span style="color:#c1abea">title&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">content&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Socket Broadcast:&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">title&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#98c379">&amp;#34; content!&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">createTime&lt;/span>(&lt;span style="color:#c1abea">LocalDateTime&lt;/span>.&lt;span style="color:#b3d23c">now&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>通过 REST接口调用方法实现&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">SimpMessagingTemplate&lt;/span> &lt;span style="color:#c1abea">simpMessagingTemplate&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/message/broadcast&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@ResponseBody&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">sendBroadcastMessage&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Receive new broadcast message from REST interface, title is :&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">title&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Message&lt;/span> &lt;span style="color:#c1abea">message&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">Message&lt;/span>.&lt;span style="color:#b3d23c">builder&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">title&lt;/span>(&lt;span style="color:#c1abea">title&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">content&lt;/span>(&lt;span style="color:#98c379">&amp;#34;REST Broadcast:&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">title&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#98c379">&amp;#34; content!&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">createTime&lt;/span>(&lt;span style="color:#c1abea">LocalDateTime&lt;/span>.&lt;span style="color:#b3d23c">now&lt;/span>())
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">simpMessagingTemplate&lt;/span>.&lt;span style="color:#b3d23c">convertAndSend&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/response/message&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">message&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="客户端">客户端&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">function&lt;/span> &lt;span style="color:#c1abea">connect&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">var&lt;/span> &lt;span style="color:#c1abea">socket&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">SockJS&lt;/span>(&lt;span style="color:#98c379">&amp;#39;/socket&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">stompClient&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">Stomp&lt;/span>.&lt;span style="color:#c1abea">over&lt;/span>(&lt;span style="color:#c1abea">socket&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">stompClient&lt;/span>.&lt;span style="color:#c1abea">connect&lt;/span>({}, &lt;span style="color:#c678dd">function&lt;/span> (&lt;span style="color:#c1abea">frame&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">stompClient&lt;/span>.&lt;span style="color:#c1abea">subscribe&lt;/span>(&lt;span style="color:#98c379">&amp;#39;/response/message&amp;#39;&lt;/span>, &lt;span style="color:#c678dd">function&lt;/span> (&lt;span style="color:#c1abea">message&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">console&lt;/span>.&lt;span style="color:#c1abea">log&lt;/span>(&lt;span style="color:#63c381">&amp;#34;Receive message from server:&amp;#34;&lt;/span> &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">message&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">function&lt;/span> &lt;span style="color:#c1abea">sendMessage&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">stompClient&lt;/span>.&lt;span style="color:#c1abea">send&lt;/span>(&lt;span style="color:#98c379">&amp;#39;/request/message/broadcast&amp;#39;&lt;/span>, {}, &lt;span style="color:#63c381">&amp;#34;Message&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="测试">测试&lt;/h4>
+&lt;ul>
+&lt;li>启动应用，用两个不同的浏览器访问 &lt;a href="localhost:8080">localhost:8080&lt;/a>&lt;/li>
+&lt;li>广播消息建立连接，并发送消息，此时可以看到两个浏览器都收到了刚才发送的消息&lt;/li>
+&lt;li>通过 REST 接口：&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl &lt;span style="color:#98c379">&amp;#39;localhost:8080/message/broadcast?title=hello&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="发送给指定客户端">发送给指定客户端&lt;/h3>
+&lt;p>群发消息可以将消息发送给所有订阅了该消息的客户端，可以通过 &lt;code>@SendToUser&lt;/code>或&lt;code>org.springframework.messaging.simp.SimpMessagingTemplate#convertAndSendToUser&lt;/code>发送&lt;/p></description></item></channel></rss>

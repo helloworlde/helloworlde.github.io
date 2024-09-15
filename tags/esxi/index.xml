@@ -1,1 +1,153 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Esxi on HelloWood</title><link>https://blog.hellowood.dev/tags/esxi/</link><description>Recent content in Esxi on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 07 Feb 2023 21:45:26 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/esxi/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Esxi on HelloWood</title><link>https://blog.hellowood.dev/tags/esxi/</link><description>Recent content in Esxi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 07 Feb 2023 21:45:26 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/esxi/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-powercli-%E7%9A%84-docker-%E5%AE%B9%E5%99%A8%E8%87%AA%E8%A1%8C%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</link><pubDate>Tue, 07 Feb 2023 21:45:26 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-powercli-%E7%9A%84-docker-%E5%AE%B9%E5%99%A8%E8%87%AA%E8%A1%8C%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</guid><description>&lt;h1 id="使用-powercli-的-docker-容器自行构建-esxi-镜像">使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像&lt;/h1>
+&lt;p>参考 &lt;a href="https://helloworlde.github.io/2022/08/11/N5105-%E6%9E%84%E5%BB%BA-Esxi-%E9%95%9C%E5%83%8F/">N5105 构建 ESXi 镜像&lt;/a>，在使用 ESXi 7 时，基于 Windows 系统，使用 PowerCLI 为 ESXi 7 的镜像添加了 NVMe 和 Intel I225V 网卡的驱动；&lt;/p>
+&lt;p>虽然当时已经可以在 Linux 或者 MacOS 上使用 PowerShell，但是因为 PowerCLI 不支持 Core 版本的 PowerShell，会提示 &lt;code>Exception: The VMware.ImageBuilder module is not currently supported on the Core edition of PowerShell&lt;/code>；导致只能使用 Windows 构建，对于没有 Windows 系统的用户非常不方便。&lt;/p>
+&lt;p>PowerCLI 新版本已经支持了 Core 版本的 PowerShell，因此可以通过在 Linux/MacOS/Docker 等平台直接构建 ESXi 镜像；&lt;/p>
+&lt;p>本次使用 PowerCLI 的 Docker 容器，为 ESXi 8 镜像添加 NVMe 和网卡驱动&lt;/p></description></item><item><title>Esxi 挂载物理磁盘到虚拟机</title><link>https://blog.hellowood.dev/posts/esxi-%E6%8C%82%E8%BD%BD%E7%89%A9%E7%90%86%E7%A3%81%E7%9B%98%E5%88%B0%E8%99%9A%E6%8B%9F%E6%9C%BA/</link><pubDate>Mon, 12 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/esxi-%E6%8C%82%E8%BD%BD%E7%89%A9%E7%90%86%E7%A3%81%E7%9B%98%E5%88%B0%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid><description>&lt;h1 id="esxi-挂载物理磁盘到虚拟机">Esxi 挂载物理磁盘到虚拟机&lt;/h1>
+&lt;p>在使用 NAS 时，需要将硬盘直接挂载到 NAS 服务所在的虚拟机上；Esxi 支持将整块物理磁盘作为虚拟磁盘进行挂载&lt;/p>
+&lt;h2 id="将物理磁盘添加为虚拟磁盘">将物理磁盘添加为虚拟磁盘&lt;/h2>
+&lt;p>在将磁盘连接到设备上之后，需要使用 SSH 登录 Esxi 进行操作&lt;/p>
+&lt;ul>
+&lt;li>开启 SSH 登录&lt;/li>
+&lt;/ul>
+&lt;p>登录管理界面，在主机 - 操作 -服务中启用 SSH；启用成功后使用用户名密码登录到该机器&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-esxi-mount-disk-to-vm.png" alt="homelab-esxi-mount-disk-to-vm.png">&lt;/p>
+&lt;ul>
+&lt;li>查看磁盘名称&lt;/li>
+&lt;/ul>
+&lt;p>通常磁盘名称以 &lt;code>t10.&lt;/code>开头，如这里需要的机械硬盘名称为 &lt;code>ATA_____Hitachi_HTS545050A7E380_______________________TE85113RHUAM6R&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ls -alh /vmfs/devices/disks/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>total &lt;span style="color:#d19a66">1976983165&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr-xr-x &lt;span style="color:#d19a66">2&lt;/span> root root &lt;span style="color:#d19a66">512&lt;/span> Sep &lt;span style="color:#d19a66">12&lt;/span> 16:39 .
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr-xr-x &lt;span style="color:#d19a66">16&lt;/span> root root &lt;span style="color:#d19a66">512&lt;/span> Sep &lt;span style="color:#d19a66">12&lt;/span> 16:39 ..
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-rw------- &lt;span style="color:#d19a66">1&lt;/span> root root 465.8G Sep &lt;span style="color:#d19a66">12&lt;/span> 16:39 t10.ATA_____Hitachi_HTS545050A7E380_______________________TE85113RHUAM6R
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-rw------- &lt;span style="color:#d19a66">1&lt;/span> root root 476.9G Sep &lt;span style="color:#d19a66">12&lt;/span> 16:39 t10.NVMe____J.ZAO_5_SERIES_512GB_SSD________________091A000005275A3A
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-rw------- &lt;span style="color:#d19a66">1&lt;/span> root root 100.0M Sep &lt;span style="color:#d19a66">12&lt;/span> 16:39
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>创建挂载目录&lt;/li>
+&lt;/ul>
+&lt;p>将需要挂载的磁盘挂载到特定的路径下，如 &lt;code>datastore1/hdd&lt;/code> 目录，首先需要创建 &lt;code>hdd&lt;/code>这个目录&lt;/p></description></item><item><title>Openwrt-DDNS 配置</title><link>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</link><pubDate>Fri, 26 Aug 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="openwrt-ddns-配置">Openwrt DDNS 配置&lt;/h1>
+&lt;p>DDNS(Dynamic DNS) 一般用于从外部访问家庭网络内的设备，因为家庭宽带没有固定的 IP 地址，所以通过域名访问时需要动态的更新域名的记录为当前的 IP 地址；实现的原理也比较简单，就是通过定时脚本，调用域名解析商的接口，修改域名的记录&lt;/p>
+&lt;p>和大部分路由器一样，OpenWrt 也支持 DDNS，通过 DDNS 的脚本执行动态更新&lt;/p>
+&lt;h2 id="申请公网-ip">申请公网 IP&lt;/h2>
+&lt;p>DDNS 需要能从外部访问，因此需要有一个公网IP；通常打电话给宽带运营商即可搞定，理由可以是需要访问 NAS、安装监控之类的；通常运营商会提供，获取到之后 PPPOE 重新拨号或者重启光猫路由器即可；通过访问 &lt;a href="https://tool.lu/ip/">https://tool.lu/ip/&lt;/a> 等工具，即可获取到自己的公网 IP&lt;/p>
+&lt;p>需要注意的是，22/80/443/8080 等常用端口被运营商限制，无法访问，因此，配置 DDNS 后只能通过域名+端口的方式访问； 如果域名是 &lt;code>.dev&lt;/code> 这类强制要求 HTTPS 访问的域名是无法在浏览器访问的&lt;/p>
+&lt;h2 id="配置-ddns">配置 DDNS&lt;/h2>
+&lt;h3 id="安装-luci-app-ddns">安装 luci-app-ddns&lt;/h3>
+&lt;p>需要安装 luci-app-ddns，用于从 OpenWrt 控制界面修改配置；通过 &lt;code>opkg&lt;/code>命令或者 OpenWrt 控制界面的软件都可以安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-ddns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-ddns-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-ddns-scripts-xxx">安装 ddns-scripts-xxx&lt;/h3>
+&lt;p>DDNS 的更新由脚本执行，因此需要安装对应域名服务商的更新脚本；如 godaddy 的脚本是 ddns-scripts-godaddy；官方提供的域名服务商脚本可以从 &lt;a href="https://openwrt.org/packages/index/network---ip-addresses-and-names">Packagesindexnetwork&amp;mdash;ip-addresses-and-names&lt;/a> 查看&lt;/p>
+&lt;p>其他域名服务商可以在 GitHub 或恩山无线论坛中查找对应的软件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ddns-scripts-godaddy
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置-ddns-1">配置 DDNS&lt;/h3>
+&lt;ul>
+&lt;li>添加 DDNS 配置&lt;/li>
+&lt;/ul>
+&lt;p>添加 DDNS 配置，输入 DDNS 配置名称，选择 IPV4 版本，DDNS 服务提供商选择 Godaddy&lt;/p></description></item><item><title>N5105 构建 Esxi 镜像</title><link>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</link><pubDate>Thu, 11 Aug 2022 10:53:05 +0000</pubDate><guid>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</guid><description>&lt;h1 id="n5105-构建-esxi-镜像">N5105 构建 Esxi 镜像&lt;/h1>
+&lt;p>N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并没有该网卡的驱动，安装时会因为没有网卡导致安装失败；另外，因为买了一个国产的光威 NVME 硬盘(千万别买！)，也没有相应的驱动，安装时提示没有硬盘&lt;/p>
+&lt;p>经过一番搜索，发现 &lt;a href="https://sysin.org/blog/vmware-esxi-7-u3e-nuc-usb-nvme/#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80-313">VMware ESXi 7.0 U3e SLIC 2.6 &amp;amp; Unlocker 集成 Intel NUC 网卡、USB 网卡和 NVMe 驱动 (2022.07 更新)&lt;/a> 里面有一个添加了驱动的镜像文件，但是分享链接是百度网盘，下载完的时候我已经单独构建好了，测试可以使用&lt;/p>
+&lt;p>考虑到安全问题，想通过官方的镜像添加驱动的方式自行构建镜像；需要用到 Windows 电脑和 PowerShell；手里没有 Windows 电脑的可以用虚拟机或者申请按时付费的云服务器&lt;/p>
+&lt;h2 id="1-下载所需的镜像和驱动">1. 下载所需的镜像和驱动&lt;/h2>
+&lt;h3 id="11-申请-esxi-授权">1.1 申请 Esxi 授权&lt;/h3>
+&lt;p>Esxi 的软件下载脑洞比较清奇，需要先注册申请，填写个人隐私信息如手机号，住址，公司等，等待三五天人工审核通过后就可以下载免费版本；如果没有任何反馈，可以点击申请页下面的 &lt;a href="https://www.vmware.com/support/us_support.html">Contact us&lt;/a> 提工单给 VMWare；&lt;/p>
+&lt;p>可以在 &lt;a href="https://customerconnect.vmware.com/en/downloads/details?downloadGroup=ESXI70U3D&amp;amp;productId=974&amp;amp;rPId=89003">VMware vSphere Hypervisor 7.0 Download Center&lt;/a> 页面申请 7.0 版本的下载；选择 Offline Bundle 的压缩文件&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-esxi-build-image-esxi-download.png" alt="homelab-esxi-build-image-esxi-download.png">&lt;/p>
+&lt;h3 id="12-下载-nvme-社区驱动">1.2 下载 NVME 社区驱动&lt;/h3>
+&lt;p>从 &lt;a href="https://flings.vmware.com/community-nvme-driver-for-esxi">Community NVMe Driver for ESXi&lt;/a> 下载 NVME 驱动
+&lt;img src="https://img.hellowood.dev/picture/homelab-esxi-build-image-nvme-driver.png" alt="homelab-esxi-build-image-nvme-driver.png">&lt;/p></description></item><item><title>Openwrt-初始化配置</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</link><pubDate>Mon, 08 Aug 2022 11:44:37 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="openwrt-初始化配置">Openwrt-初始化配置&lt;/h1>
+&lt;h2 id="语言配置">语言配置&lt;/h2>
+&lt;p>Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 &lt;code>opkg&lt;/code> 安装；随后登录控制台即可看到语言已经变为中文；如果没有改变，可以在System-System-Language 中选择简体中文&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-base-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-language.png" alt="homelab-openwrt-init-config-language.png">&lt;/p>
+&lt;h2 id="时间设置">时间设置&lt;/h2>
+&lt;p>在系统-系统-常规设置中，将时区设置为 &lt;code>Asia/Honkong&lt;/code> ，选择保存并应用即可生效&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-time.png" alt="homelab-openwrt-init-config-time.png">&lt;/p>
+&lt;h2 id="主题配置">主题配置&lt;/h2>
+&lt;p>Openwrt 默认的主题为 Bootstrap，菜单在上边栏，使用不习惯，可以安装 &lt;a href="https://github.com/jerrykuku/luci-theme-argon">Argon&lt;/a> 主题&lt;/p>
+&lt;p>可以在 GitHub &lt;a href="https://github.com/jerrykuku/luci-theme-argon">Argon&lt;/a> 仓库的 &lt;a href="https://github.com/jerrykuku/luci-theme-argon/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install argon.ipk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-theme.png" alt="homelab-openwrt-init-config-theme.png">&lt;/p>
+&lt;h2 id="设置密码">设置密码&lt;/h2>
+&lt;p>登录控制台，在系统-管理权页面，选择路由器密码；设置密码之后就可以通过账户 &lt;code>root&lt;/code>和设置的密码进行登录&lt;/p>
+&lt;p>同时也可以将本地的公钥添加到 SSH 密钥中，方便登录控制台&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-password.png" alt="homelab-openwrt-init-config-password.png">&lt;/p></description></item><item><title>Openwrt-空间扩容</title><link>https://blog.hellowood.dev/posts/openwrt-%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Sat, 23 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;h1 id="openwrt-空间扩容">Openwrt 空间扩容&lt;/h1>
+&lt;p>Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了，因此需要对 Openwrt 的硬盘进行扩容&lt;/p>
+&lt;p>有多种扩容方式，如新增一块硬盘，以USB挂载的方式扩容；或者修改虚拟机硬盘文件大小的方式扩容；此次通过修改虚拟机硬盘文件大小的方式扩容，这种方式适合新创建的虚拟机&lt;/p>
+&lt;h2 id="修改硬盘文件大小">修改硬盘文件大小&lt;/h2>
+&lt;p>通过 Esxi 控制台，直接修改挂载的硬盘大小&lt;/p>
+&lt;ul>
+&lt;li>在 Esxi 修改硬盘大小&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-size.png" alt="homelab-openwrt-esxi-disk-size.png">&lt;/p>
+&lt;h2 id="创建新的分区">创建新的分区&lt;/h2>
+&lt;ol>
+&lt;li>安装 &lt;code>cfdisk&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>需要使用 &lt;code>cfdisk&lt;/code> 创建新的分区，所以需要安装 &lt;code>cfdisk&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install cfdisk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>使用 &lt;code>cfdisk&lt;/code>创建分区&lt;/li>
+&lt;/ol>
+&lt;p>命令行输入 &lt;code>cfdisk&lt;/code> ，会进入到管理分区页面；可以看到，&lt;code>Free Space&lt;/code>是新添加的硬盘大小&lt;/p>
+&lt;ul>
+&lt;li>选择 &lt;code>Free Space&lt;/code> 后选择 &lt;code>New&lt;/code>，创建新的分区&lt;/li>
+&lt;li>输入 &lt;code>Partition Size&lt;/code>为想要的大小&lt;/li>
+&lt;li>如&lt;code>3.9G&lt;/code>，然后回车，此时可以看到挂载了新的分区 &lt;code>/dev/sda3&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-1.png" alt="homelab-openwrt-esxi-disk-new-partition-a-1.png">&lt;/p>
+&lt;p>选择 &lt;code>/dev/sda3&lt;/code>，使用 Tab 选择 &lt;code>Write&lt;/code>并输入 &lt;code>yes&lt;/code>确认
+&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-2.png" alt="homelab-openwrt-esxi-disk-new-partition-a-2.png">&lt;/p>
+&lt;ol start="3">
+&lt;li>格式化分区&lt;/li>
+&lt;/ol>
+&lt;p>格式化新增的 &lt;code>/dev/sda3&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkfs.ext4 /dev/sda3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="挂载扩容的空间">挂载扩容的空间&lt;/h2>
+&lt;ul>
+&lt;li>安装 &lt;code>block-mount&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>挂载新建的分区，需要使用 &lt;code>block-mount&lt;/code>挂载点软件，安装完成后重启 Openwrt&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install block-mount
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重启完成后访问 Web 页面的 &lt;code>系统&lt;/code>-&lt;code>挂载点&lt;/code>&lt;/p></description></item><item><title>Openwrt 在 Esxi 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-esxi-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Fri, 22 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-esxi-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="openwrt-在-esxi-中以虚拟机方式安装">Openwrt 在 Esxi 中以虚拟机方式安装&lt;/h1>
+&lt;h2 id="下载镜像">下载镜像&lt;/h2>
+&lt;p>在 &lt;a href="https://downloads.openwrt.org/">https://downloads.openwrt.org/&lt;/a> 选择需要下载的版本，因为 Esxi 使用的是 x86_64 平台，所以需要下载同样版本的镜像；如下载 &lt;a href="https://downloads.openwrt.org/releases/21.02.3/targets/x86/64/">21.02.3&lt;/a> 版本，路径为 &lt;code>(root)/releases/21.02.3/targets/x86/64/&lt;/code>&lt;/p>
+&lt;p>选择下载 &lt;code>generic-ext4-combined-efi.img.gz&lt;/code> 这个压缩文件，可以直接通过 EFI 引导&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png" alt="homelab-openwrt-esxi-ima-download.png">&lt;/p>
+&lt;h2 id="镜像格式转换">镜像格式转换&lt;/h2>
+&lt;p>将下载的镜像解压后得到 &lt;code>img&lt;/code>格式的文件，这个格式无法直接被 Esxi 使用，所以需要通过 &lt;code>QEMU&lt;/code> 软件将格式从 &lt;code>img&lt;/code> 转为 &lt;code>vmdk&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>使用 homebrew 安装 QEMU&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install qemu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>将 &lt;code>img&lt;/code>格式转为&lt;code>vmdk&lt;/code>格式&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
+&lt;ol>
+&lt;li>创建虚拟机，选择 Linux 64 位&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm.png" alt="homelab-openwrt-esxi-create-vm.png">&lt;/p>
+&lt;ol start="2">
+&lt;li>修改配置&lt;/li>
+&lt;/ol>
+&lt;p>需要删除硬盘，因为需要使用转换的 &lt;code>vmdk&lt;/code> 格式的文件作为硬盘；内存和 CPU 可以根据机器自行配置&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-config.png" alt="homelab-openwrt-esxi-create-vm-config.png">&lt;/p>
+&lt;ol start="3">
+&lt;li>添加硬盘&lt;/li>
+&lt;/ol>
+&lt;p>在虚拟机的编辑界面，选择添加硬盘-现有硬盘，将转换后的 &lt;code>vmdk&lt;/code>格式文件上传到相应目录；&lt;/p>
+&lt;p>需要注意，Openwrt 默认的硬盘容量只有 100M，安装软件可能空间不够；所以需要扩容，因此先不要选择该文件作为硬盘，需要扩容后才可以添加，否则容量无法修改&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-disk.png" alt="homelab-openwrt-esxi-create-vm-disk.png">&lt;/p>
+&lt;ol start="4">
+&lt;li>修改硬盘大小&lt;/li>
+&lt;/ol>
+&lt;p>需要登录到 Esxi 的机器上，或者通过控制台 shell，使用命令行修改&lt;/p></description></item></channel></rss>

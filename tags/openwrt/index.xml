@@ -1,1 +1,364 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 12 Jun 2023 16:30:22 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 25 Aug 2024 11:20:19 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>小米路由器 4A 千兆版刷入 OpenWrt</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</link><pubDate>Sun, 25 Aug 2024 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</guid><description>&lt;h1 id="小米路由器-4a-千兆版刷入-openwrt">小米路由器 4A 千兆版刷入 OpenWrt&lt;/h1>
+&lt;p>因为买了新的路由器，之前的小米 4A 千兆版被淘汰下来了，因此想刷个 OpenWrt 测试一下&lt;/p>
+&lt;h2 id="依赖">依赖&lt;/h2>
+&lt;ul>
+&lt;li>电脑 Win/Mac/Linux，需要支持网线连接，如果是 Mac，需要一个网线转接器&lt;/li>
+&lt;li>小米路由器 4A 千兆版&lt;/li>
+&lt;li>Python3 环境&lt;/li>
+&lt;li>网线&lt;/li>
+&lt;/ul>
+&lt;h2 id="开启路由器-ssh">开启路由器 SSH&lt;/h2>
+&lt;p>需要先开启路由器的 SSH，小米的固件只有开发版支持 SSH，但是现在所有的版本基本都不会放出开发版；所以只能通过破解的方式开启(开启后不支持保修)；&lt;/p>
+&lt;p>因为小米路由器系统存在 &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2019-18370">CVE-2019-18370&lt;/a> 漏洞，所以可以通过该漏洞开启 SSH；需要使用项目 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> 提供的脚本&lt;/p>
+&lt;ul>
+&lt;li>下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> ，并安装依赖&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/acecilia/OpenWRTInvasion.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> OpenWRTInvasion
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip3 install -r requirements.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>执行脚本&lt;/li>
+&lt;/ul>
+&lt;p>通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code>remote_command_execution_vulnerability.py&lt;/code> 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code>192.168.31.1&lt;/code>，或者访问 &lt;code>miwifi.com&lt;/code>也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>python3 remote_command_execution_vulnerability.py
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>here two options to provide the files needed &lt;span style="color:#c678dd">for&lt;/span> invasion:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1. Use a &lt;span style="color:#ef8383">local&lt;/span> TCP file server runing on random port to provide files in &lt;span style="color:#ef8383">local&lt;/span> directory &lt;span style="color:#98c379">`&lt;/span>script_tools&lt;span style="color:#98c379">`&lt;/span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>2. Download needed files from remote github repository. &lt;span style="color:#c7bf54">(&lt;/span>choose this option only &lt;span style="color:#c678dd">if&lt;/span> github is accessable inside router device.&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Which option &lt;span style="color:#c678dd">do&lt;/span> you prefer? &lt;span style="color:#c7bf54">(&lt;/span>default: 1&lt;span style="color:#c7bf54">)&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>router_ip_address: miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>stok: f19c778f7bc6fbe92cc70a6c6bd2bd4f
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>file provider: &lt;span style="color:#ef8383">local&lt;/span> file server
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start uploading config file...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start &lt;span style="color:#ef8383">exec&lt;/span> command...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is runing on 0.0.0.0:57165. &lt;span style="color:#dcaeea">root&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">&amp;#39;script_tools&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is getting &lt;span style="color:#98c379">&amp;#39;busybox-mipsel&amp;#39;&lt;/span> &lt;span style="color:#c678dd">for&lt;/span> 192.168.31.1.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">local&lt;/span> file server is getting &lt;span style="color:#98c379">&amp;#39;dropbearStaticMipsel.tar.bz2&amp;#39;&lt;/span> &lt;span style="color:#c678dd">for&lt;/span> 192.168.31.1.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">done&lt;/span>! Now you can connect to the router using several options: &lt;span style="color:#c7bf54">(&lt;/span>user: root, password: root&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* telnet miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ssh -oKexAlgorithms&lt;span style="color:#c7bf54">=&lt;/span>+diffie-hellman-group1-sha1 -c 3des-cbc -o &lt;span style="color:#dcaeea">UserKnownHostsFile&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>/dev/null root@miwifi.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ftp: using a program like cyberduck
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>SSH 访问路由器&lt;/li>
+&lt;/ul>
+&lt;p>通过指定参数的方式，使用 SSH 访问路由器，用户名密码都是 &lt;code>root&lt;/code>&lt;/p></description></item><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;h1 id="使用-wireguard-从外网访问-openwrt">使用 WireGuard 从外网访问 OpenWrt&lt;/h1>
+&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
+&lt;p>&lt;a href="https://www.wireguard.com/">WireGuard&lt;/a> 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量&lt;/p>
+&lt;h2 id="核心概念">核心概念&lt;/h2>
+&lt;p>WireGuard中主要涉及以下几个概念：&lt;/p>
+&lt;ul>
+&lt;li>接口（Interface）：表示一个 WireGuard 端点（Peer）的虚拟网络接口，用于处理加密和解密流量、路由和其他传输信息。&lt;/li>
+&lt;li>对等端（Peer）：表示使用 WireGuard 连接的每个设备或节点。每个 Peer 在连接时需要交换公钥和预共享密钥等信息。&lt;/li>
+&lt;li>公钥（PublicKey）：每个 WireGuard 对等端拥有的公钥，用于加密通信流量和生成预共享密钥。&lt;/li>
+&lt;li>私钥（PrivateKey）：与每个公钥相配对的私钥，只应该存储在拥有者的设备上。&lt;/li>
+&lt;li>端点（Endpoint）：是在网络中可访问某个 Peer 的 IP 地址和端口号，用于建立连接。&lt;/li>
+&lt;li>IP 分配（IP Address Assignment）：指定每个接口使用的 IPv4/IPv6 前缀范围。&lt;/li>
+&lt;li>允许 IP（Allowed IP）：定义被 WireGuard 处理的哪些 IP 包，以及将这些包重新路由到哪个接口。&lt;/li>
+&lt;li>预共享密钥（Pre-shared Key）：在 Peer 之间建立安全连接时使用的共享密钥，用于加密数据包。&lt;/li>
+&lt;li>Listen Port（监听端口）：一个 Peer 监听的 UDP 端口号。其他 Peer 使用此端口发送数据包到该 Peer&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置-openwrt">配置 OpenWrt&lt;/h2>
+&lt;h3 id="安装-wireguard">安装 WireGuard&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p></description></item><item><title>OpenWrt 桥接充当交换机</title><link>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link><pubDate>Tue, 21 Mar 2023 21:33:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid><description>&lt;h1 id="openwrt-桥接充当交换机">OpenWrt 桥接充当交换机&lt;/h1>
+&lt;h2 id="需求背景">需求背景&lt;/h2>
+&lt;p>使用的路由器只有 3 个 LAN 口，在购入 NAS 后网口捉襟见肘，并且 NAS 不支持 Wi-Fi，因此需要更多的网口支持设备连接&lt;/p>
+&lt;p>路由器是小米的 Redmi AX6000， 支持WiFi 6E，协商速度能达到2400Mbps，但却只有千兆的网口；因为家里的两台电脑和 NAS 都是 2.5G 的网口和 WiFi6E 的无线网卡，想要 NAS 高速读写就需要 2.5G 以上的交换机；但是 2.5G 的交换机价格都在 400+，性价比不高&lt;/p>
+&lt;p>日常将四网口的 N5105 作为 HomeLab 的服务器使用，只有一个网口连接到路由器，其他三个网口空闲；因此想将 N5105 作为交换机，用于连接 NAS 和电脑；有三种方案：&lt;/p>
+&lt;ol>
+&lt;li>路由器和 N5105 做链路聚合，NAS连接到 N5105，电脑通过 WiFi 访问；速度能达到 2000Mbps，不过这样额外占用了两个网口，但是好处是所有的支持 WiFi6 的设备都能高速访问 NAS&lt;/li>
+&lt;li>不做链路聚合，这样能够多三个 2.5G 的网口；NAS 和电脑都通过网线连接到 N5105，通过网线连接的设备均能以 2.5G 的速度访问 NAS&lt;/li>
+&lt;li>为 N5105 添加 WiFi6E 无线网卡，并启用混杂模式，NAS 通过网线连接到 N5105，电脑通过 WiFi 访问 NAS；所有支持 WiFi6 的设备可以 2400Mbps 的速度访问 NAS；但是需要额外购买一张 WiFi6 的无线网卡，并且设备需要连接到 N5150 的 WiFi网络上&lt;/li>
+&lt;/ol>
+&lt;p>基于以上考虑，不做链路聚合成本最低且能扩展网口，添加 WiFi6 网卡效果最好；因为手头没有 WiFi6 的网卡，因此先通过不做链路聚合的方式实现&lt;/p></description></item><item><title>OpenWrt 在 PVE 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 20 Mar 2023 21:35:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="openwrt-在-pve-中以虚拟机方式安装">OpenWrt-在 PVE 中以虚拟机方式安装&lt;/h1>
+&lt;h2 id="下载镜像">下载镜像&lt;/h2>
+&lt;ul>
+&lt;li>下载镜像&lt;/li>
+&lt;/ul>
+&lt;p>在 &lt;a href="https://openwrt.org/zh/downloads">https://openwrt.org/zh/downloads&lt;/a> 选择稳定发行版，然后选择需要下载的版本；这里使用当前最新的 22.03.3 版本，使用&lt;a href="https://mirrors.aliyun.com/openwrt/">阿里云 OpenWrt 镜像&lt;/a>进行下载&lt;/p>
+&lt;p>选择下载 &lt;code>generic-ext4-combined-efi.img.gz&lt;/code> 这个压缩文件，用于 bios 引导&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png" alt="homelab-openwrt-esxi-ima-download.png">&lt;/p>
+&lt;ul>
+&lt;li>解压&lt;/li>
+&lt;/ul>
+&lt;p>使用 &lt;code>gunzip&lt;/code> 命令解压 &lt;code>gz&lt;/code> 压缩文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将下载的镜像解压后得到 &lt;code>img&lt;/code>格式的文件&lt;/p>
+&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
+&lt;h3 id="创建虚拟机">创建虚拟机&lt;/h3>
+&lt;ol>
+&lt;li>创建虚拟机，输入名称&lt;/li>
+&lt;li>操作系统这里选择 &amp;ldquo;不使用任何介质&amp;rdquo;&lt;/li>
+&lt;li>磁盘这里，选择左侧删除按钮，将磁盘删除；因为会将 img 文件导入作为磁盘，因此这里不需要&lt;/li>
+&lt;li>按需配置 CPU 和内存；通常 1核和 512M就已经足够了&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-configuration.png" alt="homelab-openwrt-pve-init-configuration.png">&lt;/p>
+&lt;h3 id="添加硬盘">添加硬盘&lt;/h3>
+&lt;ul>
+&lt;li>上传 img 镜像&lt;/li>
+&lt;/ul>
+&lt;p>选择 local - ISO镜像，将解压后的 img 文件上传到 PVE&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-upload-img.png" alt="homelab-openwrt-pve-init-upload-img.png">&lt;/p>
+&lt;p>等待上传完成，记录上传后的地址，即 target file 后面的路径，需要在导入时使用&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-upload-img-result.png" alt="homelab-openwrt-pve-init-upload-img-result.png">&lt;/p>
+&lt;ul>
+&lt;li>将 img 镜像导入为虚拟磁盘&lt;/li>
+&lt;/ul>
+&lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p></description></item><item><title>OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Fri, 11 Nov 2022 21:57:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="openwrt-使用-lets-encrypt-证书开启-https-访问">OpenWrt 使用 Let&amp;rsquo;s Encrypt 证书开启 HTTPS 访问&lt;/h1>
+&lt;p>OpenWrt 支持开启 HTTPS 访问，但是自签发的证书无法通过 Chrome 等浏览器的认证；因此需要使用 Let&amp;rsquo;s Encrypt 申请证书；通过 uHTTPd 应用配置证书，使用 DNS 验证的方式申请证书&lt;/p>
+&lt;p>配置 HTTPS 访问需要使用到公网 IP 和域名，需要确认已经可以通过公网访问，并且可以修改域名的解析&lt;/p>
+&lt;h2 id="安装-uhttpd">安装 uHTTPd&lt;/h2>
+&lt;p>uHTTPd 用于 OpenWrt 配置 Web 服务，如端口，证书等&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后即可在服务-uHTTPd 页面查看端口和证书配置&lt;/p>
+&lt;h2 id="安装配置-acme">安装配置 ACME&lt;/h2>
+&lt;p>&lt;a href="https://letsencrypt.org/zh-cn/docs/client-options/">ACME&lt;/a> 是 Let&amp;rsquo;s Encrypt 官方支持的客户端；OpenWrt 支持使用 ACME 申请证书，在 ACME 应用中添加证书相关配置即可&lt;/p>
+&lt;h3 id="安装-acme">安装 ACME&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后可以在服务-ACME 证书中进行配置&lt;/p>
+&lt;h3 id="配置-acme">配置 ACME&lt;/h3>
+&lt;h4 id="配置账户信息">配置账户信息&lt;/h4>
+&lt;p>首先需要为 ACME 配置邮箱，用于接受证书过期等信息；在 ACME 全局配置-电子邮件帐户添加即可&lt;/p></description></item><item><title>小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</link><pubDate>Sun, 09 Oct 2022 11:20:19 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</guid><description>&lt;h1 id="小米-redmi-ax6sax3200-刷入-openwrt-及使用体验">小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验&lt;/h1>
+&lt;p>买了小米 Redmi AX3000 路由器后发现是 RA81 型号，这个型号目前无法刷入 OpenWrt；但是因为当前使用的 OpenWrt 作为旁路由的方式并不稳定，所以想更换一个可以刷入 OpenWrt 的路由器&lt;/p>
+&lt;p>一番搜索之后发现 Redmi AX6S 相对更稳定，且已有 OpenWrt 的正式版本固件，因此又购入了一台新的 AX6S，准备刷入 OpenWrt 作为主路由使用&lt;/p>
+&lt;p>AX6S有 RB01 和 RB03 两个版本，硬件完全相同；国内售卖的基本都是 RB03，可以通过刷入开发版固件的方式开启 telnet，RB01 只能拆机后通过 UART 接口写入的方式开启 telnet&lt;/p>
+&lt;h2 id="刷入-openwrt">刷入 OpenWrt&lt;/h2>
+&lt;h3 id="将固件升级为测试版">将固件升级为测试版&lt;/h3>
+&lt;p>将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code>telnet 192.168.31.1&lt;/code> 测试，通常是没有开启的。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>telnet 192.168.31.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Trying 192.168.31.1...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: connect to address 192.168.31.1: Connection refused
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: Unable to connect to remote host
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>下载测试版固件并升级&lt;/li>
+&lt;/ol>
+&lt;p>首先下载测试版本固件&lt;a href="https://github.com/YangWang92/AX6S-unlock/raw/master/miwifi_rb03_firmware_stable_1.2.7.bin">miwifi_rb03_firmware_stable_1.2.7 &lt;/a>；在初始化路由器配置后，进入到路由器控制台，选择升级；
+&lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade.png" alt="homelab-miwifi-ax6s-openwrt-upgrade.png">&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png">&lt;/p></description></item><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</guid><description>&lt;h1 id="openwrt-使用-smartdns">OpenWrt 使用 SmartDNS&lt;/h1>
+&lt;p>&lt;a href="https://pymumu.github.io/smartdns/">SmartDNS&lt;/a> 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p>
+&lt;p>在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install smartdns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-smartdns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-smartdns-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-smartdns">配置 SmartDNS&lt;/h2>
+&lt;p>安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code>/etc/config/smartdns&lt;/code> 配置文件）&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png">&lt;/p>
+&lt;p>这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p>
+&lt;h2 id="配置-dnsmasq">配置 Dnsmasq&lt;/h2>
+&lt;p>OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p>
+&lt;p>在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
+&lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png">&lt;/p></description></item><item><title>OpenWrt-监控</title><link>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</link><pubDate>Mon, 26 Sep 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h1 id="openwrt-监控">OpenWrt 监控&lt;/h1>
+&lt;p>OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 &lt;a href="https://openwrt.org/packages/pkgdata/netdata">Netdata&lt;/a> 和 &lt;a href="https://openwrt.org/packages/pkgdata/prometheus">Prometheus&lt;/a>&lt;/p>
+&lt;h2 id="通过-netdata-监控">通过 Netdata 监控&lt;/h2>
+&lt;p>Netdata 提供了可以在 OpenWrt 直接查看的 UI，可以查看包括 CPU，负载，内存，网络，硬盘，防火墙等常用信息的实时监控&lt;/p>
+&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install netdata
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="homelab-openwrt-metrics-netdata.png">&lt;/p>
+&lt;ul>
+&lt;li>通过 Prometheus 抓取数据&lt;/li>
+&lt;/ul>
+&lt;p>Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是&lt;code>/api/v1/allmetrics?format=prometheus_all_hosts&lt;/code>；如 &lt;a href="http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts">http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts&lt;/a>&lt;/p>
+&lt;p>Prometheus 任务配置：需要注意，要添加参数 &lt;code>format=prometheus_all_hosts&lt;/code> 才可以抓取到 Prometheus 格式&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">job_name&lt;/span>: &lt;span style="color:#98c379">openwrt-netdata&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">honor_timestamps&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_timeout&lt;/span>: &lt;span style="color:#98c379">5s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metrics_path&lt;/span>: &lt;span style="color:#98c379">/api/v1/allmetrics&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scheme&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">params&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">format&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;prometheus_all_hosts&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">targets&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#d19a66">192.168.2.2&lt;/span>:&lt;span style="color:#d19a66">19999&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="通过-grafana-监控">通过 Grafana 监控&lt;/h2>
+&lt;p>OpenWrt 提供了 Prometheus 数据导出的软件，安装软件后便可以配置 Prometheus 抓取数据&lt;/p>
+&lt;ul>
+&lt;li>安装软件&lt;/li>
+&lt;/ul>
+&lt;p>安装需要的 Prometheus 数据导出软件&lt;/p></description></item><item><title>Openwrt-DDNS 配置</title><link>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</link><pubDate>Fri, 26 Aug 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="openwrt-ddns-配置">Openwrt DDNS 配置&lt;/h1>
+&lt;p>DDNS(Dynamic DNS) 一般用于从外部访问家庭网络内的设备，因为家庭宽带没有固定的 IP 地址，所以通过域名访问时需要动态的更新域名的记录为当前的 IP 地址；实现的原理也比较简单，就是通过定时脚本，调用域名解析商的接口，修改域名的记录&lt;/p>
+&lt;p>和大部分路由器一样，OpenWrt 也支持 DDNS，通过 DDNS 的脚本执行动态更新&lt;/p>
+&lt;h2 id="申请公网-ip">申请公网 IP&lt;/h2>
+&lt;p>DDNS 需要能从外部访问，因此需要有一个公网IP；通常打电话给宽带运营商即可搞定，理由可以是需要访问 NAS、安装监控之类的；通常运营商会提供，获取到之后 PPPOE 重新拨号或者重启光猫路由器即可；通过访问 &lt;a href="https://tool.lu/ip/">https://tool.lu/ip/&lt;/a> 等工具，即可获取到自己的公网 IP&lt;/p>
+&lt;p>需要注意的是，22/80/443/8080 等常用端口被运营商限制，无法访问，因此，配置 DDNS 后只能通过域名+端口的方式访问； 如果域名是 &lt;code>.dev&lt;/code> 这类强制要求 HTTPS 访问的域名是无法在浏览器访问的&lt;/p>
+&lt;h2 id="配置-ddns">配置 DDNS&lt;/h2>
+&lt;h3 id="安装-luci-app-ddns">安装 luci-app-ddns&lt;/h3>
+&lt;p>需要安装 luci-app-ddns，用于从 OpenWrt 控制界面修改配置；通过 &lt;code>opkg&lt;/code>命令或者 OpenWrt 控制界面的软件都可以安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-ddns
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-ddns-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-ddns-scripts-xxx">安装 ddns-scripts-xxx&lt;/h3>
+&lt;p>DDNS 的更新由脚本执行，因此需要安装对应域名服务商的更新脚本；如 godaddy 的脚本是 ddns-scripts-godaddy；官方提供的域名服务商脚本可以从 &lt;a href="https://openwrt.org/packages/index/network---ip-addresses-and-names">Packagesindexnetwork&amp;mdash;ip-addresses-and-names&lt;/a> 查看&lt;/p>
+&lt;p>其他域名服务商可以在 GitHub 或恩山无线论坛中查找对应的软件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ddns-scripts-godaddy
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置-ddns-1">配置 DDNS&lt;/h3>
+&lt;ul>
+&lt;li>添加 DDNS 配置&lt;/li>
+&lt;/ul>
+&lt;p>添加 DDNS 配置，输入 DDNS 配置名称，选择 IPV4 版本，DDNS 服务提供商选择 Godaddy&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;h1 id="openwrt-安装使用-openclash">OpenWrt 安装使用 OpenClash&lt;/h1>
+&lt;h2 id="clash-使用方式对比">Clash 使用方式对比&lt;/h2>
+&lt;p>OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：&lt;/p>
+&lt;ul>
+&lt;li>运行客户端&lt;/li>
+&lt;/ul>
+&lt;p>客户端直接使用的方式最灵活，调整代理方式或策略比较方便，可以选择性的开启或关闭，会代理设备上支持代理的所有流量；适用于手机，电脑等有客户端支持等设备&lt;/p>
+&lt;ul>
+&lt;li>代理方式使用&lt;/li>
+&lt;/ul>
+&lt;p>代理方式适用于没有客户端软件的场景，如命令行，为特定的软件配置代理等；这种方式不够灵活，可按需为特定应用或设备配置&lt;/p>
+&lt;ul>
+&lt;li>运行在OpenWrt&lt;/li>
+&lt;/ul>
+&lt;p>运行在 OpenWrt 等主路由或旁路由中，可以透明代理整个局域网内的流量，对于一些无法直接操作的 IoT 设备非常方便；也不需要修改客户端任何配置；缺点是如果不稳定会影响局域网内的所有设备&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>需要使用 Clash 配置网络，用于访问特定的资源；&lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 是 Openwrt 的 Clash 客户端；&lt;/p>
+&lt;ol>
+&lt;li>OpenClash 依赖的是 &lt;code>dnsmasq-full&lt;/code>，所以需要移除默认的&lt;code>dnsmasq&lt;/code>，否则会导致 OpenClash 安装失败&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg remove dnsmasq &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> opkg install dnsmasq-full
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>下载并安装 OpenClash&lt;/li>
+&lt;/ol>
+&lt;p>可以在 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/vernesong/OpenClash/releases/download/v0.45.35-beta/luci-app-openclash_0.45.35-beta_all.ipk -O openclash.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install openclash.ipk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>添加 &lt;code>luci-compact&lt;/code> 并重启，否则会提示进入 luci 页面错误&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg install luci luci-base luci-compat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>待重启完成后重新登录控制台，可以在服务菜单中看到 &lt;code>OpenClash&lt;/code>&lt;/p></description></item><item><title>Openwrt-初始化配置</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</link><pubDate>Mon, 08 Aug 2022 11:44:37 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="openwrt-初始化配置">Openwrt-初始化配置&lt;/h1>
+&lt;h2 id="语言配置">语言配置&lt;/h2>
+&lt;p>Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 &lt;code>opkg&lt;/code> 安装；随后登录控制台即可看到语言已经变为中文；如果没有改变，可以在System-System-Language 中选择简体中文&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-base-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-language.png" alt="homelab-openwrt-init-config-language.png">&lt;/p>
+&lt;h2 id="时间设置">时间设置&lt;/h2>
+&lt;p>在系统-系统-常规设置中，将时区设置为 &lt;code>Asia/Honkong&lt;/code> ，选择保存并应用即可生效&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-time.png" alt="homelab-openwrt-init-config-time.png">&lt;/p>
+&lt;h2 id="主题配置">主题配置&lt;/h2>
+&lt;p>Openwrt 默认的主题为 Bootstrap，菜单在上边栏，使用不习惯，可以安装 &lt;a href="https://github.com/jerrykuku/luci-theme-argon">Argon&lt;/a> 主题&lt;/p>
+&lt;p>可以在 GitHub &lt;a href="https://github.com/jerrykuku/luci-theme-argon">Argon&lt;/a> 仓库的 &lt;a href="https://github.com/jerrykuku/luci-theme-argon/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install argon.ipk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-theme.png" alt="homelab-openwrt-init-config-theme.png">&lt;/p>
+&lt;h2 id="设置密码">设置密码&lt;/h2>
+&lt;p>登录控制台，在系统-管理权页面，选择路由器密码；设置密码之后就可以通过账户 &lt;code>root&lt;/code>和设置的密码进行登录&lt;/p>
+&lt;p>同时也可以将本地的公钥添加到 SSH 密钥中，方便登录控制台&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-init-config-password.png" alt="homelab-openwrt-init-config-password.png">&lt;/p></description></item><item><title>Openwrt-空间扩容</title><link>https://blog.hellowood.dev/posts/openwrt-%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Sat, 23 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;h1 id="openwrt-空间扩容">Openwrt 空间扩容&lt;/h1>
+&lt;p>Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了，因此需要对 Openwrt 的硬盘进行扩容&lt;/p>
+&lt;p>有多种扩容方式，如新增一块硬盘，以USB挂载的方式扩容；或者修改虚拟机硬盘文件大小的方式扩容；此次通过修改虚拟机硬盘文件大小的方式扩容，这种方式适合新创建的虚拟机&lt;/p>
+&lt;h2 id="修改硬盘文件大小">修改硬盘文件大小&lt;/h2>
+&lt;p>通过 Esxi 控制台，直接修改挂载的硬盘大小&lt;/p>
+&lt;ul>
+&lt;li>在 Esxi 修改硬盘大小&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-size.png" alt="homelab-openwrt-esxi-disk-size.png">&lt;/p>
+&lt;h2 id="创建新的分区">创建新的分区&lt;/h2>
+&lt;ol>
+&lt;li>安装 &lt;code>cfdisk&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>需要使用 &lt;code>cfdisk&lt;/code> 创建新的分区，所以需要安装 &lt;code>cfdisk&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install cfdisk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>使用 &lt;code>cfdisk&lt;/code>创建分区&lt;/li>
+&lt;/ol>
+&lt;p>命令行输入 &lt;code>cfdisk&lt;/code> ，会进入到管理分区页面；可以看到，&lt;code>Free Space&lt;/code>是新添加的硬盘大小&lt;/p>
+&lt;ul>
+&lt;li>选择 &lt;code>Free Space&lt;/code> 后选择 &lt;code>New&lt;/code>，创建新的分区&lt;/li>
+&lt;li>输入 &lt;code>Partition Size&lt;/code>为想要的大小&lt;/li>
+&lt;li>如&lt;code>3.9G&lt;/code>，然后回车，此时可以看到挂载了新的分区 &lt;code>/dev/sda3&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-1.png" alt="homelab-openwrt-esxi-disk-new-partition-a-1.png">&lt;/p>
+&lt;p>选择 &lt;code>/dev/sda3&lt;/code>，使用 Tab 选择 &lt;code>Write&lt;/code>并输入 &lt;code>yes&lt;/code>确认
+&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-disk-new-partition-a-2.png" alt="homelab-openwrt-esxi-disk-new-partition-a-2.png">&lt;/p>
+&lt;ol start="3">
+&lt;li>格式化分区&lt;/li>
+&lt;/ol>
+&lt;p>格式化新增的 &lt;code>/dev/sda3&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkfs.ext4 /dev/sda3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="挂载扩容的空间">挂载扩容的空间&lt;/h2>
+&lt;ul>
+&lt;li>安装 &lt;code>block-mount&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>挂载新建的分区，需要使用 &lt;code>block-mount&lt;/code>挂载点软件，安装完成后重启 Openwrt&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install block-mount
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重启完成后访问 Web 页面的 &lt;code>系统&lt;/code>-&lt;code>挂载点&lt;/code>&lt;/p></description></item><item><title>Openwrt 在 Esxi 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-esxi-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Fri, 22 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-esxi-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="openwrt-在-esxi-中以虚拟机方式安装">Openwrt 在 Esxi 中以虚拟机方式安装&lt;/h1>
+&lt;h2 id="下载镜像">下载镜像&lt;/h2>
+&lt;p>在 &lt;a href="https://downloads.openwrt.org/">https://downloads.openwrt.org/&lt;/a> 选择需要下载的版本，因为 Esxi 使用的是 x86_64 平台，所以需要下载同样版本的镜像；如下载 &lt;a href="https://downloads.openwrt.org/releases/21.02.3/targets/x86/64/">21.02.3&lt;/a> 版本，路径为 &lt;code>(root)/releases/21.02.3/targets/x86/64/&lt;/code>&lt;/p>
+&lt;p>选择下载 &lt;code>generic-ext4-combined-efi.img.gz&lt;/code> 这个压缩文件，可以直接通过 EFI 引导&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png" alt="homelab-openwrt-esxi-ima-download.png">&lt;/p>
+&lt;h2 id="镜像格式转换">镜像格式转换&lt;/h2>
+&lt;p>将下载的镜像解压后得到 &lt;code>img&lt;/code>格式的文件，这个格式无法直接被 Esxi 使用，所以需要通过 &lt;code>QEMU&lt;/code> 软件将格式从 &lt;code>img&lt;/code> 转为 &lt;code>vmdk&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>使用 homebrew 安装 QEMU&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install qemu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>将 &lt;code>img&lt;/code>格式转为&lt;code>vmdk&lt;/code>格式&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
+&lt;ol>
+&lt;li>创建虚拟机，选择 Linux 64 位&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm.png" alt="homelab-openwrt-esxi-create-vm.png">&lt;/p>
+&lt;ol start="2">
+&lt;li>修改配置&lt;/li>
+&lt;/ol>
+&lt;p>需要删除硬盘，因为需要使用转换的 &lt;code>vmdk&lt;/code> 格式的文件作为硬盘；内存和 CPU 可以根据机器自行配置&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-config.png" alt="homelab-openwrt-esxi-create-vm-config.png">&lt;/p>
+&lt;ol start="3">
+&lt;li>添加硬盘&lt;/li>
+&lt;/ol>
+&lt;p>在虚拟机的编辑界面，选择添加硬盘-现有硬盘，将转换后的 &lt;code>vmdk&lt;/code>格式文件上传到相应目录；&lt;/p>
+&lt;p>需要注意，Openwrt 默认的硬盘容量只有 100M，安装软件可能空间不够；所以需要扩容，因此先不要选择该文件作为硬盘，需要扩容后才可以添加，否则容量无法修改&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-disk.png" alt="homelab-openwrt-esxi-create-vm-disk.png">&lt;/p>
+&lt;ol start="4">
+&lt;li>修改硬盘大小&lt;/li>
+&lt;/ol>
+&lt;p>需要登录到 Esxi 的机器上，或者通过控制台 shell，使用命令行修改&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;h1 id="树莓派-4b-容器方式安装-openwrt-作为软路由">树莓派 4B 容器方式安装 OpenWrt 作为软路由&lt;/h1>
+&lt;blockquote>
+&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>什么是软路由&lt;/li>
+&lt;/ul>
+&lt;p>硬路由以特有的硬设备，包括处理器、电源供应、嵌入式软件，提供设定的路由器功能，如常用的路由器；软路由则是指利用台式机或服务器配合软件形成路由解决方案，主要靠软件的设置，达成路由器的功能；&lt;/p>
+&lt;p>普通路由器因为硬件性能限制，无法支持长时间处理大量流量，当家中有 NAS 等设备时，通常无法跑满带宽；通过软路由，可以让路由器只处理流量的转发，其他的功能由软路由实现&lt;/p>
+&lt;p>通常我们使用软路由用于多线负载、宽带叠加、为局域网内的其他设备过滤广告、自定义 DNS 等扩展功能&lt;/p>
+&lt;h2 id="安装依赖">安装依赖&lt;/h2>
+&lt;ul>
+&lt;li>安装 &lt;a href="https://ubuntu.pkgs.org/21.10/ubuntu-main-arm64/linux-modules-extra-raspi_5.13.0.1008.14_arm64.deb.html">linux-modules-extra-raspi&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>需要保证安装了&lt;code>linux-modules-extra-raspi&lt;/code>，否则会导致在运行容器后出现&lt;code>Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code>错误&lt;/p>
+&lt;p>&lt;code>linux-modules-extra-raspi&lt;/code> 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install linux-modules-extra-raspi
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装之后需要重启树莓派&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置网络">配置网络&lt;/h2>
+&lt;ul>
+&lt;li>开启网卡混杂模式&lt;/li>
+&lt;/ul>
+&lt;p>默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p>
+&lt;p>树莓派只有一个有线接口，地址为 &lt;code>eth0&lt;/code>，所以在 &lt;code>eth0&lt;/code> 接口开启混杂模式&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ip link &lt;span style="color:#ef8383">set&lt;/span> eth0 promisc on
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行以下命令检查结果&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig eth0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>网卡 flag 信息有 &lt;code>PROMISC&lt;/code> 表示开启成功&lt;/p></description></item></channel></rss>

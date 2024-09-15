@@ -1,1 +1,271 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ElasticSearch on HelloWood</title><link>https://blog.hellowood.dev/tags/elasticsearch/</link><description>Recent content in ElasticSearch on HelloWood</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 19 Jan 2018 21:25:42 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ElasticSearch on HelloWood</title><link>https://blog.hellowood.dev/tags/elasticsearch/</link><description>Recent content in ElasticSearch on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Fri, 19 Jan 2018 21:25:42 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml"/><item><title>SpringBoot logback 输出日志到数据库、Logstash</title><link>https://blog.hellowood.dev/posts/springboot-logback-%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93logstash/</link><pubDate>Fri, 19 Jan 2018 21:25:42 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-logback-%E8%BE%93%E5%87%BA%E6%97%A5%E5%BF%97%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93logstash/</guid><description>&lt;h1 id="springboot-logback-输出日志到数据库logstash">SpringBoot logback 输出日志到数据库、Logstash&lt;/h1>
+&lt;h2 id="输入日志到数据库">输入日志到数据库&lt;/h2>
+&lt;ul>
+&lt;li>创建表&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>DROP TABLE IF EXISTS logging_event;
+CREATE TABLE logging_event
+(
+ timestmp BIGINT NOT NULL,
+ formatted_message TEXT NOT NULL,
+ logger_name VARCHAR(254) NOT NULL,
+ level_string VARCHAR(254) NOT NULL,
+ thread_name VARCHAR(254),
+ reference_flag SMALLINT,
+ arg0 VARCHAR(254),
+ arg1 VARCHAR(254),
+ arg2 VARCHAR(254),
+ arg3 VARCHAR(254),
+ caller_filename VARCHAR(254) NOT NULL,
+ caller_class VARCHAR(254) NOT NULL,
+ caller_method VARCHAR(254) NOT NULL,
+ caller_line CHAR(4) NOT NULL,
+ event_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+DROP TABLE IF EXISTS logging_event_property;
+CREATE TABLE logging_event_property
+(
+ event_id BIGINT NOT NULL,
+ mapped_key VARCHAR(254) NOT NULL,
+ mapped_value TEXT,
+ PRIMARY KEY (event_id, mapped_key),
+ FOREIGN KEY (event_id) REFERENCES logging_event (event_id)
+);
+
+DROP TABLE IF EXISTS logging_event_exception;
+CREATE TABLE logging_event_exception
+(
+ event_id BIGINT NOT NULL,
+ i SMALLINT NOT NULL,
+ trace_line VARCHAR(254) NOT NULL,
+ PRIMARY KEY (event_id, i),
+ FOREIGN KEY (event_id) REFERENCES logging_event (event_id)
+);
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>配置&lt;code>logback.xml&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&amp;lt;configuration&amp;gt;
+ &amp;lt;!--日志异步到数据库 --&amp;gt;
+ &amp;lt;appender name=&amp;#34;DB&amp;#34; class=&amp;#34;ch.qos.logback.classic.db.DBAppender&amp;#34;&amp;gt;
+ &amp;lt;!--日志异步到数据库--&amp;gt;
+ &amp;lt;connectionSource class=&amp;#34;ch.qos.logback.core.db.DriverManagerConnectionSource&amp;#34;&amp;gt;
+ &amp;lt;driverClass&amp;gt;com.mysql.jdbc.Driver&amp;lt;/driverClass&amp;gt;
+ &amp;lt;url&amp;gt;jdbc:mysql://localhost:3306/log?useSSL=false&amp;lt;/url&amp;gt;
+ &amp;lt;user&amp;gt;root&amp;lt;/user&amp;gt;
+ &amp;lt;password&amp;gt;123456&amp;lt;/password&amp;gt;
+ &amp;lt;/connectionSource&amp;gt;
+ &amp;lt;/appender&amp;gt;
+ 
+ &amp;lt;root level=&amp;#34;INFO&amp;#34;&amp;gt;
+ &amp;lt;appender-ref ref=&amp;#34;DB&amp;#34;/&amp;gt;
+ &amp;lt;/root&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="输入日志到-logstashhttpswwwelasticcocnproductslogstash">输入日志到 &lt;a href="https://www.elastic.co/cn/products/logstash">&lt;code>Logstash&lt;/code>&lt;/a>&lt;/h2>
+&lt;ul>
+&lt;li>logback.xml&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&amp;lt;configuration scan=&amp;#34;true&amp;#34; scanPeriod=&amp;#34;60 seconds&amp;#34; debug=&amp;#34;false&amp;#34;&amp;gt;
+ 
+ &amp;lt;!--日志导出的到 Logstash--&amp;gt;
+ &amp;lt;appender name=&amp;#34;LOGSTASH&amp;#34; class=&amp;#34;net.logstash.logback.appender.LogstashTcpSocketAppender&amp;#34;&amp;gt;
+ &amp;lt;destination&amp;gt;127.0.0.1:4560&amp;lt;/destination&amp;gt;
+ &amp;lt;encoder chaset=&amp;#34;UTF-8&amp;#34; class=&amp;#34;net.logstash.logback.encoder.LogstashEncoder&amp;#34;&amp;gt;
+ &amp;lt;customFields&amp;gt;{&amp;#34;appname&amp;#34;:&amp;#34;SpringBootLog&amp;#34;}&amp;lt;/customFields&amp;gt;
+ &amp;lt;/encoder&amp;gt;
+ &amp;lt;/appender&amp;gt;
+
+ &amp;lt;root level=&amp;#34;INFO&amp;#34;&amp;gt;
+ &amp;lt;appender-ref ref=&amp;#34;LOGSTASH&amp;#34;/&amp;gt;
+ &amp;lt;/root&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code>&lt;/pre></description></item><item><title>SpringBoot 使用 ElasticSearch</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/</link><pubDate>Tue, 16 Jan 2018 00:45:05 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/</guid><description>&lt;h1 id="spring-boot-使用-elasticsearch">Spring Boot 使用 ElasticSearch&lt;/h1>
+&lt;blockquote>
+&lt;p>项目地址：&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>&lt;a href="https://www.elastic.co/cn/products/elasticsearch">ElasticSearch&lt;/a> 是一个开源的分布式搜索引擎，用于存储数据&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="添加依赖">添加依赖&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;net.java.dev.jna:jna&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不添加 &lt;code>'net.java.dev.jna:jna'&lt;/code> 依赖会提示 &lt;code>java.lang.ClassNotFoundException: com.sun.jna.Native&lt;/code> 错误&lt;/p>
+&lt;h2 id="添加配置">添加配置&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.data.elasticsearch.repositories.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/code> 只有当使用外部集群时配置，只使用本机时会提示错误&lt;/p>
+&lt;h2 id="modal">Modal&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.annotation.Id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.elasticsearch.annotations.Document&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.io.Serializable&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Document&lt;/span>(&lt;span style="color:#c1abea">indexName&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;elasticsearch&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">type&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;product&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">Product&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">Serializable&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">serialVersionUID&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">1435515995276255188L&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Id&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">price&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="实现-repository-接口">实现 Repository 接口&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.repository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Page&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Pageable&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.elasticsearch.repository.ElasticsearchRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Component&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">ProductRepository&lt;/span> &lt;span style="color:#c678dd">extends&lt;/span> &lt;span style="color:#c1abea">ElasticsearchRepository&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>方法命名使用关键词来命名，用法和 JPA 类似&lt;/li>
+&lt;/ul>
+&lt;h2 id="添加逻辑">添加逻辑&lt;/h2>
+&lt;ul>
+&lt;li>ProductController.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.controller&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.ProductService&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.web.bind.annotation.*&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@RestController&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@RequestMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/product&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">ProductController&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ProductService&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@PostMapping&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#e5c07b">@RequestBody&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#c1abea">product&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">product&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/id&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByName&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name/like&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name/notLike&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/price/between&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">priceTo&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>ProductServiceImpl.java&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.impl&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.repository.ProductRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.ProductService&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.PageRequest&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Pageable&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Service&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Service&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">ProductServiceImpl&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">ProductService&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageNum&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageSize&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">10&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageRequest&lt;/span>(&lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">pageSize&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ProductRepository&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#c1abea">product&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">product&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByName&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">priceTo&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="插入数据">插入数据&lt;/h2>
+&lt;p>分别插入以下数据：&lt;/p></description></item></channel></rss>

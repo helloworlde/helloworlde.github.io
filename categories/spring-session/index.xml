@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring Session on HelloWood</title><link>https://blog.hellowood.dev/categories/spring-session/</link><description>Recent content in Spring Session on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 00:07:20 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/spring-session/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring MVC 使用 Spring Session 实现 Session 共享-Redis</title><link>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</link><pubDate>Mon, 01 Jan 2018 00:07:20 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</guid><description>&lt;blockquote>
+&lt;p>使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>Spring Session 官方文档&lt;a href="https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction">https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="session-共享的简单原理">Session 共享的简单原理&lt;/h2>
+&lt;blockquote>
+&lt;p>用户第一次访问应用时，应用会创建一个新的 Session，并且会将 Session 的 ID 作为 Cookie 缓存在浏览器，下一次访问时请求的头部中带着该 Cookie，应用通过获取的 Session ID 进行查找，如果该 Session 存在且有效，则继续该请求，如果 Cookie 无效或者 Session 无效，则会重新生成一个新的 Session&lt;/p>
+&lt;p>在普通的 JavaEE 应用中，Session 信息放在内存中，当容器（如 Tomcat）关闭后，内存中的 Session 被销毁；重启后如果当前用户再去访问对应的是一个新的 Session ，在多实例中无法共享，一个用户只能访问指定的实例才能使用相同的 Session；&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Session 共享实现的原理是将原来内存中的 Session 放在一个需要共享 Session 的实例都可以访问到的位置，如数据库，Redis 中等，从而实现多实例 Session 共享&lt;/p>
+&lt;p>实现共享后，只要浏览器的 Cookie 中的 Session ID 没有改变，多个实例中的任意一个被销毁不会影响用户访问&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h1 id="redis-方式实现">Redis 方式实现&lt;/h1>
+&lt;blockquote>
+&lt;p>将 Session 对象序列化存储到 Redis 中，多个实例访问时都会使用该 Session，Spring Session 会管理 Session 信息的管理，无需其他操作&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="1-添加依赖">1. 添加依赖&lt;/h2>
+&lt;ul>
+&lt;li>在 pom.xml 文件里面添加如下依赖&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;redis.clients&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;jedis&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;2.9.0&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+ &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;org.springframework.data&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;spring-data-redis&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;1.8.7.RELEAS&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+ &amp;lt;dependency&amp;gt;
+ &amp;lt;groupId&amp;gt;org.springframework.session&amp;lt;/groupId&amp;gt;
+ &amp;lt;artifactId&amp;gt;spring-session&amp;lt;/artifactId&amp;gt;
+ &amp;lt;version&amp;gt;1.3.1.RELEASE&amp;lt;/version&amp;gt;
+ &amp;lt;/dependency&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="2-添加配置">2. 添加配置&lt;/h2>
+&lt;ul>
+&lt;li>SpringConfig.xml 添加如下配置&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;!-- Spring Session共享 --&amp;gt;
+ &amp;lt;bean class=&amp;#34;org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration&amp;#34;/&amp;gt;
+ &amp;lt;bean class=&amp;#34;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&amp;#34;&amp;gt;
+ &amp;lt;property name=&amp;#34;hostName&amp;#34; value=&amp;#34;localhost&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;password&amp;#34; value=&amp;#34;123456&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;port&amp;#34; value=&amp;#34;6379&amp;#34;/&amp;gt;
+ &amp;lt;property name=&amp;#34;database&amp;#34; value=&amp;#34;3&amp;#34;/&amp;gt;
+ &amp;lt;/bean&amp;gt;
+&lt;/code>&lt;/pre>&lt;h2 id="3-添加过滤器">3. 添加过滤器&lt;/h2>
+&lt;ul>
+&lt;li>在 web.xml 添加如下配置（过滤器）&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code> &amp;lt;filter&amp;gt;
+ &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;filter-class&amp;gt;org.springframework.web.filter.DelegatingFilterProxy&amp;lt;/filter-class&amp;gt;
+ &amp;lt;/filter&amp;gt;
+ &amp;lt;filter-mapping&amp;gt;
+ &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
+ &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
+ &amp;lt;/filter-mapping&amp;gt;
+&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;p>该过滤器必须是第一个过滤器，所有的请求经过该过滤器后执行后续操作&lt;/p></description></item></channel></rss>
