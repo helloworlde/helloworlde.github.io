@@ -76,7 +76,7 @@
 language.en = English
 internationalisation = \u0020Internationalisation
 welcome = This is the English environment
-introduce= This is I18N Demo 
+introduce= This is I18N Demo
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>添加language_zh_CN.properties到src目录下&lt;/li>
 &lt;/ul>
@@ -113,8 +113,7 @@ public class HelloController {
  }
 }
 &lt;/code>&lt;/pre>&lt;ul>
-&lt;li>在JSP页面中使用&lt;/li>
-&lt;/ul>
+&lt;li>在JSP页面中使用
 &lt;blockquote>
 &lt;p>通过&lt;code>&amp;lt;spring:message code=&amp;quot;welcome&amp;quot;/&amp;gt;&lt;/code>将配置文件中的内容读取&lt;/p></description></item><item><title>SpringMVC 生成验证码</title><link>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</link><pubDate>Mon, 01 Jan 2018 01:04:16 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</guid><description>&lt;blockquote>
 &lt;p>使用 Google kaptcha 为 SpringMVC Maven 项目生成验证码&lt;/p>
@@ -287,7 +286,7 @@ public class HelloController {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">VALIDATE_CODE&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;VALIDATE_CODE&amp;#34;&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">EXPIRE_TIME&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;EXPIRE_TIME&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@RequestMapping&lt;/span>(&lt;span style="color:#c1abea">value&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;/loadValidateCode&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">method&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">RequestMethod&lt;/span>.&lt;span style="color:#b3d23c">GET&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">loadValidateCode&lt;/span>(&lt;span style="color:#c1abea">HttpServletRequest&lt;/span> &lt;span style="color:#c1abea">request&lt;/span>, &lt;span style="color:#c1abea">HttpServletResponse&lt;/span> &lt;span style="color:#c1abea">response&lt;/span>) {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
@@ -302,7 +301,7 @@ public class HelloController {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 验证码一分钟内有效&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">expireTime&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">System&lt;/span>.&lt;span style="color:#b3d23c">currentTimeMillis&lt;/span>() &lt;span style="color:#c7bf54">+&lt;/span> &lt;span style="color:#c1abea">60000&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 将验证码放到session中&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">validateCode&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">captchaProducer&lt;/span>.&lt;span style="color:#b3d23c">createText&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">session&lt;/span>.&lt;span style="color:#b3d23c">setAttribute&lt;/span>(&lt;span style="color:#c1abea">VALIDATE_CODE&lt;/span>, &lt;span style="color:#c1abea">Utils&lt;/span>.&lt;span style="color:#b3d23c">encodeBase64&lt;/span>(&lt;span style="color:#c1abea">validateCode&lt;/span>));&lt;span style="color:#8a93a5;font-style:italic">//将加密后的验证码放到session中，确保安全&lt;/span>
@@ -322,7 +321,7 @@ public class HelloController {
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="6-登录时校验验证码">6 登录时校验验证码&lt;/h2>
 &lt;pre tabindex="0">&lt;code> @RequestMapping(value = &amp;#34;/login&amp;#34;, method = RequestMethod.POST)
  public @ResponseBody String login(String username, String password, String validateCode) {
- 
+
  // 校验验证码是否有效
  String currentValidateCode = String.valueOf(request.getSession().getAttribute(VALIDATE_CODE));
  if (System.currentTimeMillis() &amp;gt; Long.parseLong(String.valueOf(request.getSession().getAttribute(EXPIRE_TIME)))) {
@@ -335,7 +334,7 @@ public class HelloController {
  !Utils.encodeBase64(validateCode).equals(currentValidateCode)) {
  return JSON.toJSONString(&amp;#34;验证码错误&amp;#34;);
  }
- } 
+ }
 &lt;/code>&lt;/pre>&lt;h2 id="7-base64加密">7 Base64加密&lt;/h2>
 &lt;pre tabindex="0">&lt;code> public static String encodeBase64(String str) {
  sun.misc.BASE64Encoder base64Encode = new BASE64Encoder();

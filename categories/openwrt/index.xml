@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/categories/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 12 Jun 2023 16:30:22 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;h1 id="使用-wireguard-从外网访问-openwrt">使用 WireGuard 从外网访问 OpenWrt&lt;/h1>
-&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/categories/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 12 Jun 2023 16:30:22 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
 &lt;p>&lt;a href="https://www.wireguard.com/">WireGuard&lt;/a> 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量&lt;/p>
 &lt;h2 id="核心概念">核心概念&lt;/h2>
 &lt;p>WireGuard中主要涉及以下几个概念：&lt;/p>
@@ -18,8 +17,7 @@
 &lt;h3 id="安装-wireguard">安装 WireGuard&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p></description></item><item><title>OpenWrt 桥接充当交换机</title><link>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link><pubDate>Tue, 21 Mar 2023 21:33:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid><description>&lt;h1 id="openwrt-桥接充当交换机">OpenWrt 桥接充当交换机&lt;/h1>
-&lt;h2 id="需求背景">需求背景&lt;/h2>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p></description></item><item><title>OpenWrt 桥接充当交换机</title><link>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link><pubDate>Tue, 21 Mar 2023 21:33:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid><description>&lt;h2 id="需求背景">需求背景&lt;/h2>
 &lt;p>使用的路由器只有 3 个 LAN 口，在购入 NAS 后网口捉襟见肘，并且 NAS 不支持 Wi-Fi，因此需要更多的网口支持设备连接&lt;/p>
 &lt;p>路由器是小米的 Redmi AX6000， 支持WiFi 6E，协商速度能达到2400Mbps，但却只有千兆的网口；因为家里的两台电脑和 NAS 都是 2.5G 的网口和 WiFi6E 的无线网卡，想要 NAS 高速读写就需要 2.5G 以上的交换机；但是 2.5G 的交换机价格都在 400+，性价比不高&lt;/p>
 &lt;p>日常将四网口的 N5105 作为 HomeLab 的服务器使用，只有一个网口连接到路由器，其他三个网口空闲；因此想将 N5105 作为交换机，用于连接 NAS 和电脑；有三种方案：&lt;/p>
@@ -28,8 +26,7 @@
 &lt;li>不做链路聚合，这样能够多三个 2.5G 的网口；NAS 和电脑都通过网线连接到 N5105，通过网线连接的设备均能以 2.5G 的速度访问 NAS&lt;/li>
 &lt;li>为 N5105 添加 WiFi6E 无线网卡，并启用混杂模式，NAS 通过网线连接到 N5105，电脑通过 WiFi 访问 NAS；所有支持 WiFi6 的设备可以 2400Mbps 的速度访问 NAS；但是需要额外购买一张 WiFi6 的无线网卡，并且设备需要连接到 N5150 的 WiFi网络上&lt;/li>
 &lt;/ol>
-&lt;p>基于以上考虑，不做链路聚合成本最低且能扩展网口，添加 WiFi6 网卡效果最好；因为手头没有 WiFi6 的网卡，因此先通过不做链路聚合的方式实现&lt;/p></description></item><item><title>OpenWrt 在 PVE 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 20 Mar 2023 21:35:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="openwrt-在-pve-中以虚拟机方式安装">OpenWrt-在 PVE 中以虚拟机方式安装&lt;/h1>
-&lt;h2 id="下载镜像">下载镜像&lt;/h2>
+&lt;p>基于以上考虑，不做链路聚合成本最低且能扩展网口，添加 WiFi6 网卡效果最好；因为手头没有 WiFi6 的网卡，因此先通过不做链路聚合的方式实现&lt;/p></description></item><item><title>OpenWrt 在 PVE 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 20 Mar 2023 21:35:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h2 id="下载镜像">下载镜像&lt;/h2>
 &lt;ul>
 &lt;li>下载镜像&lt;/li>
 &lt;/ul>
@@ -62,8 +59,9 @@
 &lt;ul>
 &lt;li>将 img 镜像导入为虚拟磁盘&lt;/li>
 &lt;/ul>
-&lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p></description></item><item><title>OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Fri, 11 Nov 2022 21:57:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="openwrt-使用-lets-encrypt-证书开启-https-访问">OpenWrt 使用 Let&amp;rsquo;s Encrypt 证书开启 HTTPS 访问&lt;/h1>
-&lt;p>OpenWrt 支持开启 HTTPS 访问，但是自签发的证书无法通过 Chrome 等浏览器的认证；因此需要使用 Let&amp;rsquo;s Encrypt 申请证书；通过 uHTTPd 应用配置证书，使用 DNS 验证的方式申请证书&lt;/p>
+&lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qm importdisk &lt;span style="color:#d19a66">106&lt;/span> /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png" alt="homelab-openwrt-pve-init-convert-img-to-disk.png">&lt;/p></description></item><item><title>OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Fri, 11 Nov 2022 21:57:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-lets-encrypt-%E8%AF%81%E4%B9%A6%E5%BC%80%E5%90%AF-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;p>OpenWrt 支持开启 HTTPS 访问，但是自签发的证书无法通过 Chrome 等浏览器的认证；因此需要使用 Let&amp;rsquo;s Encrypt 申请证书；通过 uHTTPd 应用配置证书，使用 DNS 验证的方式申请证书&lt;/p>
 &lt;p>配置 HTTPS 访问需要使用到公网 IP 和域名，需要确认已经可以通过公网访问，并且可以修改域名的解析&lt;/p>
 &lt;h2 id="安装-uhttpd">安装 uHTTPd&lt;/h2>
 &lt;p>uHTTPd 用于 OpenWrt 配置 Web 服务，如端口，证书等&lt;/p>
@@ -78,4 +76,10 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后可以在服务-ACME 证书中进行配置&lt;/p>
 &lt;h3 id="配置-acme">配置 ACME&lt;/h3>
 &lt;h4 id="配置账户信息">配置账户信息&lt;/h4>
-&lt;p>首先需要为 ACME 配置邮箱，用于接受证书过期等信息；在 ACME 全局配置-电子邮件帐户添加即可&lt;/p></description></item></channel></rss>
+&lt;p>首先需要为 ACME 配置邮箱，用于接受证书过期等信息；在 ACME 全局配置-电子邮件帐户添加即可&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-acme-email-config.png" alt="homelab-openwrt-acme-email-config.png">&lt;/p>
+&lt;h4 id="配置证书">配置证书&lt;/h4>
+&lt;ul>
+&lt;li>常规设置&lt;/li>
+&lt;/ul>
+&lt;p>在证书配置中，添加一个新的配置；这里使用阿里云作为 DNS 解析；&lt;/p></description></item></channel></rss>

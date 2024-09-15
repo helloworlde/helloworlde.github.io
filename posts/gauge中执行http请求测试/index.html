@@ -5,7 +5,7 @@
 <a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Gauge中执行Http请求测试</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/gauge>Gauge</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/test>Test</a></li></ul></div><div class=post-content><blockquote><p>通过Gauge执行自动化测试，测试Http请求</p></blockquote><ul><li>通过Java发送Http 请求来测试服务器请求执行状态</li></ul><hr><p>##GET请求</p><ul><li>.spec文件</li></ul><pre tabindex=0><code>    ## query user
     query all user
     tags: query,request,http
-    
+
     * query user
 </code></pre><ul><li>.java文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Step</span>(<span style=color:#98c379>&#34;query user&#34;</span>)
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>queryUser</span>() {
@@ -57,7 +57,7 @@
 </span></span></code></pre></div><hr><p>##POST请求</p><ul><li>.spec文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Markdown data-lang=Markdown><span style=display:flex><span>    ## add user
 </span></span><span style=display:flex><span>    add new user
 </span></span><span style=display:flex><span>    tags: add,request,http
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>*</span> add users from table
 </span></span><span style=display:flex><span>    |username|sex   |age|school    |major |address   |
 </span></span><span style=display:flex><span>    |--------|------|---|----------|------|----------|
@@ -135,11 +135,11 @@
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>school</span>;
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>major</span>;
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>address</span>;
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#00b1f7>UserModel</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>super</span>();
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#00b1f7>UserModel</span>(<span style=color:#ef8383>int</span> <span style=color:#c1abea>id</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>username</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>sex</span>, <span style=color:#ef8383>int</span> <span style=color:#c1abea>age</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>school</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>major</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>address</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>super</span>();
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>id</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>id</span>;
@@ -150,63 +150,63 @@
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>major</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>major</span>;
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>address</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>address</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>int</span> <span style=color:#00b1f7>getId</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>id</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setId</span>(<span style=color:#ef8383>int</span> <span style=color:#c1abea>id</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>id</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>id</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getUsername</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>username</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setUsername</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>username</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>username</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>username</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getSex</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>sex</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setSex</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>sex</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>sex</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>sex</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>int</span> <span style=color:#00b1f7>getAge</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>age</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setAge</span>(<span style=color:#ef8383>int</span> <span style=color:#c1abea>age</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>age</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>age</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getSchool</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>school</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setSchool</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>school</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>school</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>school</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getMajor</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>major</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setMajor</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>major</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>major</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>major</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getAddress</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>address</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setAddress</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>address</span>) {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>address</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>address</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Override</span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>toString</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;UserModel{&#34;</span> <span style=color:#c7bf54>+</span>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Exception on HelloWood</title><link>https://blog.hellowood.dev/tags/exception/</link><description>Recent content in Exception on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 18:47:12 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/exception/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中自定义异常处理</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link><pubDate>Sun, 08 Sep 2019 18:47:12 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid><description>&lt;h1 id="spring-boot-中自定义异常处理">Spring Boot 中自定义异常处理&lt;/h1>
-&lt;ul>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Exception on HelloWood</title><link>https://blog.hellowood.dev/tags/exception/</link><description>Recent content in Exception on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 08 Sep 2019 18:47:12 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/exception/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中自定义异常处理</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link><pubDate>Sun, 08 Sep 2019 18:47:12 +0000</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid><description>&lt;ul>
 &lt;li>项目地址&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
@@ -132,9 +131,9 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;blockquote>
 &lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>
 &lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class 
+&lt;pre tabindex="0">&lt;code>Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class
 [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService]
- conflicts with existing, non-compatible bean definition of same name and class 
+ conflicts with existing, non-compatible bean definition of same name and class
  [cn.com.hellowood.dubbo.PersonDubboConsumerService]
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
@@ -224,23 +223,23 @@ public class PersonDubboConsumerService {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.mail.javamail.JavaMailSender&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Component&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.thymeleaf.TemplateEngine&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Component&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">MailUtil&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">JavaMailSender&lt;/span> &lt;span style="color:#c1abea">mailSender&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">TemplateEngine&lt;/span> &lt;span style="color:#c1abea">templateEngine&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">sendSimpleEmail&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">deliver&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">[]&lt;/span> &lt;span style="color:#c1abea">receiver&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span>&lt;span style="color:#c7bf54">[]&lt;/span> &lt;span style="color:#c1abea">carbonCopy&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">subject&lt;/span>, &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">content&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">startTimestamp&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">System&lt;/span>.&lt;span style="color:#b3d23c">currentTimeMillis&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">logger&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;Start send mail ... &amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">SimpleMailMessage&lt;/span> &lt;span style="color:#c1abea">message&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">SimpleMailMessage&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">message&lt;/span>.&lt;span style="color:#b3d23c">setFrom&lt;/span>(&lt;span style="color:#c1abea">deliver&lt;/span>);
@@ -256,7 +255,7 @@ public class PersonDubboConsumerService {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">throw&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">ServiceException&lt;/span>(&lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#b3d23c">getMessage&lt;/span>());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>但是邮件发送一直失败，异常信息如下：&lt;/p></description></item></channel></rss>

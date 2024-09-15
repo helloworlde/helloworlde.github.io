@@ -2,56 +2,56 @@
 <meta name=description content="Copy Paste Worker"><meta name=keywords content='blog,hugo,Java,SpringBoot'><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-controller-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E4%B8%AD%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/"><meta property="og:type" content="website"><meta property="og:title" content="Spring Controller 数据传递中注解的使用"><meta property="og:description" content="Copy Paste Worker"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Spring Controller 数据传递中注解的使用"><meta name=twitter:description content="Copy Paste Worker"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/spring-controller-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E4%B8%AD%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/spring-controller-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E4%B8%AD%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-controller-%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E4%B8%AD%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js integrity="sha256-mpINfavbrYNjtqCpTimp3+vbfuZM/LGToBReUS7yvas="></script><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target"></span>
 <a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Controller 数据传递中注解的使用</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li></ul></div><div class=post-content><p>##根据处理Request的不同内容分为4类：</p><ol><li>处理<code>Request URI</code>部分的注解：<code>@PathVariable</code></li><li>处理<code>Request Header</code>部分的注解：<code>@RequestHeader</code>，<code>@CookieValue</code></li><li>处理<code>Request Body</code>部分的注解：<code>@RequestParam</code>，<code>@RequestBody</code></li><li>处理<code>Attribute</code>类型的注解：<code>@SessionAttribute</code>，<code>@ModelAttribute</code></li></ol><hr><p>##@PathVariable</p><ul><li>当使用<code>@RequestMapping URI template</code>样式映射时，即<code>url/{param}</code>，这时<code>param</code>可以通过<code>@PathVariable</code>注解绑定它传过来的值到方法的参数上</li></ul><pre tabindex=0><code>    @Controller  
-    public class RelativePathUriTemplateController {  
-      
-      @RequestMapping(&#34;/url/{param}&#34;)  
-      public void getParams(@PathVariable String param) {      
+<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Controller 数据传递中注解的使用</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li></ul></div><div class=post-content><p>##根据处理Request的不同内容分为4类：</p><ol><li>处理<code>Request URI</code>部分的注解：<code>@PathVariable</code></li><li>处理<code>Request Header</code>部分的注解：<code>@RequestHeader</code>，<code>@CookieValue</code></li><li>处理<code>Request Body</code>部分的注解：<code>@RequestParam</code>，<code>@RequestBody</code></li><li>处理<code>Attribute</code>类型的注解：<code>@SessionAttribute</code>，<code>@ModelAttribute</code></li></ol><hr><p>##@PathVariable</p><ul><li>当使用<code>@RequestMapping URI template</code>样式映射时，即<code>url/{param}</code>，这时<code>param</code>可以通过<code>@PathVariable</code>注解绑定它传过来的值到方法的参数上</li></ul><pre tabindex=0><code>    @Controller
+    public class RelativePathUriTemplateController {
+
+      @RequestMapping(&#34;/url/{param}&#34;)
+      public void getParams(@PathVariable String param) {
         //....
-      }  
-    }  
-</code></pre><hr><p>##@RequestHeader</p><ul><li>可以把<code>Request</code>请求的<code>Header</code>部分的值绑定到方法的参数上</li></ul><pre tabindex=0><code>    Host                    localhost:8080  
-    Accept                  text/html,application/xhtml+xml,application/xml;q=0.9  
-    Accept-Language         fr,en-gb;q=0.7,en;q=0.3  
-    Accept-Encoding         gzip,deflate  
-    Accept-Charset          ISO-8859-1,utf-8;q=0.7,*;q=0.7  
-    Keep-Alive              300  
-</code></pre><pre tabindex=0><code>    @RequestMapping(&#34;/url&#34;)  
-    public void displayHeaderInfo(@RequestHeader(&#34;Accept-Encoding&#34;) String encoding,  
-                                  @RequestHeader(&#34;Keep-Alive&#34;) long keepAlive)  {  
-      
-      //...  
-      
+      }
     }
-</code></pre><blockquote><p>把<code>request header</code>部分的 <code>Accept-Encoding</code>的值，绑定到参数<code>encoding</code>上了， <code>Keep-Alive header</code>的值绑定到参数<code>keepAlive</code>上。</p></blockquote><hr><p>##@CookieValue</p><ul><li>可以把<code>RequestHeader</code>中关于<code>cookie</code>的值绑定到方法的参数上</li></ul><pre tabindex=0><code>@RequestMapping(&#34;/url&#34;)  
-public void displayHeaderInfo(@CookieValue(&#34;JSESSIONID&#34;) String cookie)  {  
-  
-  //...  
-  
-} 
-</code></pre><hr><p>##@RequestBody</p><ul><li>通常用来处理<code>Content-Type</code>不是<code>application/x-www-form-urlencoded</code>编码的内容，例如<code>application/json</code>，<code>application/xml</code>等</li><li>通过使用<code>HandlerAdapter</code>配置的<code>HttpMessageConverter</code>来解析<code>data body</code>，然后绑定到相应的<code>Bean</code>上</li><li>因为配置有<code>FormHttpMessageConverter</code>，所以也可以用来处理<code>application/x-www-form-urlencoded</code>的内容，处理完的结果放在一个<code>MultiValueMap&lt;String,Stirng></code>里</li></ul><pre tabindex=0><code>    @RequestMapping(value = &#34;/url&#34;, method = RequestMethod.POST)  
-    public void handle(@RequestBody String body) throws IOException {  
+</code></pre><hr><p>##@RequestHeader</p><ul><li>可以把<code>Request</code>请求的<code>Header</code>部分的值绑定到方法的参数上</li></ul><pre tabindex=0><code>    Host                    localhost:8080
+    Accept                  text/html,application/xhtml+xml,application/xml;q=0.9
+    Accept-Language         fr,en-gb;q=0.7,en;q=0.3
+    Accept-Encoding         gzip,deflate
+    Accept-Charset          ISO-8859-1,utf-8;q=0.7,*;q=0.7
+    Keep-Alive              300
+</code></pre><pre tabindex=0><code>    @RequestMapping(&#34;/url&#34;)
+    public void displayHeaderInfo(@RequestHeader(&#34;Accept-Encoding&#34;) String encoding,
+                                  @RequestHeader(&#34;Keep-Alive&#34;) long keepAlive)  {
+
       //...
-    } 
+
+    }
+</code></pre><blockquote><p>把<code>request header</code>部分的 <code>Accept-Encoding</code>的值，绑定到参数<code>encoding</code>上了， <code>Keep-Alive header</code>的值绑定到参数<code>keepAlive</code>上。</p></blockquote><hr><p>##@CookieValue</p><ul><li>可以把<code>RequestHeader</code>中关于<code>cookie</code>的值绑定到方法的参数上</li></ul><pre tabindex=0><code>@RequestMapping(&#34;/url&#34;)
+public void displayHeaderInfo(@CookieValue(&#34;JSESSIONID&#34;) String cookie)  {
+
+  //...
+
+}
+</code></pre><hr><p>##@RequestBody</p><ul><li>通常用来处理<code>Content-Type</code>不是<code>application/x-www-form-urlencoded</code>编码的内容，例如<code>application/json</code>，<code>application/xml</code>等</li><li>通过使用<code>HandlerAdapter</code>配置的<code>HttpMessageConverter</code>来解析<code>data body</code>，然后绑定到相应的<code>Bean</code>上</li><li>因为配置有<code>FormHttpMessageConverter</code>，所以也可以用来处理<code>application/x-www-form-urlencoded</code>的内容，处理完的结果放在一个<code>MultiValueMap&lt;String,Stirng></code>里</li></ul><pre tabindex=0><code>    @RequestMapping(value = &#34;/url&#34;, method = RequestMethod.POST)
+    public void handle(@RequestBody String body) throws IOException {
+      //...
+    }
 </code></pre><hr><p>##@ResponseBody</p><ul><li>该注解用于将<code>Controller</code>的方法返回的对象，通过适当的<code>HttpMessageConverter</code>转换为指定格式的数据写入到<code>Response</code>对象的<code>body</code>数据区</li></ul><pre tabindex=0><code>    @ResponseBody
     @RequestMapping(&#34;/&#34;)
     public RedirectView root() {
         return new RedirectView(&#34;/index/index.html&#34;);
     }
-</code></pre><hr><h2 id=sessionattributes>@SessionAttributes</h2><ul><li>用来绑定<code>HttpSession</code>中的<code>Attribute</code>对象的值</li></ul><pre tabindex=0><code>    @Controller  
-    @RequestMapping(&#34;/editPet.do&#34;)  
-    @SessionAttributes(&#34;pet&#34;)  
-    public class EditPetForm {  
-        // ...  
-    }  
-</code></pre><hr><h2 id=modelattribute>@ModelAttribute</h2><ul><li>用于方法上时通常用来处理<code>@RequestMapping</code>之前，为请求绑定需要从后台查询的<code>Model</code></li></ul><pre tabindex=0><code>    @ModelAttribute  
-    public Account addAccount(@RequestParam String number) {  
-        return accountManager.findAccount(number);  
-    }  
-</code></pre><blockquote><p>这种方式实际的效果就是在调用<code>@RequestMapping</code>的方法之前，为<code>request</code>对象的<code>model</code>里<code>put（"account",Account）</code></p></blockquote><ul><li>用于参数上时通过名称对应，把相应名称的值绑定到注解的参数<code>Bean</code>上，要绑定的值来源于<ul><li><code>@SessionAttributes</code>启用的<code>Attribute</code>对象</li><li><code>@ModelAttribute</code>用于方法上时指定的<code>Model</code>对象</li><li>以上两种情况都没有时，<code>new</code>一个需要绑定的<code>Bean</code>对象，然后把<code>Request</code>中按名称对应的方式把值绑定到<code>Bean</code>中</li></ul></li></ul><pre tabindex=0><code>    @RequestMapping(value=&#34;/owners/{ownerId}/pets/{petId}/edit&#34;, method = RequestMethod.POST)  
-    public String processSubmit(@ModelAttribute Pet pet) {  
-         
-    }  
+</code></pre><hr><h2 id=sessionattributes>@SessionAttributes</h2><ul><li>用来绑定<code>HttpSession</code>中的<code>Attribute</code>对象的值</li></ul><pre tabindex=0><code>    @Controller
+    @RequestMapping(&#34;/editPet.do&#34;)
+    @SessionAttributes(&#34;pet&#34;)
+    public class EditPetForm {
+        // ...
+    }
+</code></pre><hr><h2 id=modelattribute>@ModelAttribute</h2><ul><li>用于方法上时通常用来处理<code>@RequestMapping</code>之前，为请求绑定需要从后台查询的<code>Model</code></li></ul><pre tabindex=0><code>    @ModelAttribute
+    public Account addAccount(@RequestParam String number) {
+        return accountManager.findAccount(number);
+    }
+</code></pre><blockquote><p>这种方式实际的效果就是在调用<code>@RequestMapping</code>的方法之前，为<code>request</code>对象的<code>model</code>里<code>put（"account",Account）</code></p></blockquote><ul><li>用于参数上时通过名称对应，把相应名称的值绑定到注解的参数<code>Bean</code>上，要绑定的值来源于<ul><li><code>@SessionAttributes</code>启用的<code>Attribute</code>对象</li><li><code>@ModelAttribute</code>用于方法上时指定的<code>Model</code>对象</li><li>以上两种情况都没有时，<code>new</code>一个需要绑定的<code>Bean</code>对象，然后把<code>Request</code>中按名称对应的方式把值绑定到<code>Bean</code>中</li></ul></li></ul><pre tabindex=0><code>    @RequestMapping(value=&#34;/owners/{ownerId}/pets/{petId}/edit&#34;, method = RequestMethod.POST)
+    public String processSubmit(@ModelAttribute Pet pet) {
+
+    }
 </code></pre><blockquote><p>首先查询 <code>@SessionAttributes</code>有无绑定的Pet对象，若没有则查询<code>@ModelAttribute</code>方法层面上是否绑定了Pet对象，若没有则将<code>URI template</code>中的值按对应的名称绑定到Pet对象的各属性上</p></blockquote></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2024 hellowood.dev</span>
 <span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/526avijitgupta/gokarna>Gokarna</a></span></footer></body></html>

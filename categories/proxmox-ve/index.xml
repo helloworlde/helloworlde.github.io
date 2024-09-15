@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proxmox VE on HelloWood</title><link>https://blog.hellowood.dev/categories/proxmox-ve/</link><description>Recent content in Proxmox VE on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 09 Apr 2023 21:29:39 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/proxmox-ve/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;h1 id="proxmox-ve-添加监控">Proxmox VE 添加监控&lt;/h1>
-&lt;p>PVE 支持添加 &lt;a href="https://graphiteapp.org/">Graphite&lt;/a> 或者 &lt;a href="https://www.influxdata.com/">InfluxDB&lt;/a> 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proxmox VE on HelloWood</title><link>https://blog.hellowood.dev/categories/proxmox-ve/</link><description>Recent content in Proxmox VE on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 09 Apr 2023 21:29:39 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/proxmox-ve/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;p>PVE 支持添加 &lt;a href="https://graphiteapp.org/">Graphite&lt;/a> 或者 &lt;a href="https://www.influxdata.com/">InfluxDB&lt;/a> 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p>
 &lt;p>基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png" alt="homelab-promoxve-monitor-metrics-dashboard.png">&lt;/p>
 &lt;h2 id="配置-influxdb">配置 InfluxDB&lt;/h2>
@@ -7,7 +6,7 @@
 &lt;ul>
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#98c379">&amp;#39;3&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">influxdb&lt;/span>:
@@ -33,8 +32,9 @@
 &lt;p>&lt;code>DOCKER_INFLUXDB_INIT_PASSWORD&lt;/code> 不能设置的太简单，否则 InfluxDB 启动时会报错
 &lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 用于指定 InfluxDB 的组织
 &lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 用于指定初始化使用的 Bucket
-&lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 用于访问时进行鉴权&lt;/p></description></item><item><title>N5105 Promox VE 虚拟机频繁死机问题处理</title><link>https://blog.hellowood.dev/posts/n5105-promox-ve-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%A2%91%E7%B9%81%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/</link><pubDate>Sat, 25 Mar 2023 21:31:50 +0800</pubDate><guid>https://blog.hellowood.dev/posts/n5105-promox-ve-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%A2%91%E7%B9%81%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/</guid><description>&lt;h1 id="n5105-promox-ve-虚拟机频繁死机问题处理">N5105 Promox VE 虚拟机频繁死机问题处理&lt;/h1>
-&lt;p>使用 N5105 作为 HomeLab 的服务器；之前安装的 ESXi，使用 Ubuntu 22 的时候经常会出现 Ubuntu CPU 占用达到100%，然后死机；但是其他的虚拟机都没有问题，因为对 Linux 并不熟，查看了 ESXi 和 Ubuntu 日志并没有异常；后面安装黑群晖一直失败，因此换到了 Proxmox VE&lt;/p>
+&lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 用于访问时进行鉴权&lt;/p>
+&lt;h2 id="配置-pve">配置 PVE&lt;/h2>
+&lt;p>在 PVE 的服务器视图下，选择数据中心 - 指标服务器，选择添加 InfluxDB，输入相关的配置；协议选择 HTTP，组织添加 &lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 配置的值，插槽添加 &lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 配置的 Bucket， 令牌填写 &lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 配置的 token&lt;/p></description></item><item><title>N5105 Promox VE 虚拟机频繁死机问题处理</title><link>https://blog.hellowood.dev/posts/n5105-promox-ve-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%A2%91%E7%B9%81%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/</link><pubDate>Sat, 25 Mar 2023 21:31:50 +0800</pubDate><guid>https://blog.hellowood.dev/posts/n5105-promox-ve-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%A2%91%E7%B9%81%E6%AD%BB%E6%9C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/</guid><description>&lt;p>使用 N5105 作为 HomeLab 的服务器；之前安装的 ESXi，使用 Ubuntu 22 的时候经常会出现 Ubuntu CPU 占用达到100%，然后死机；但是其他的虚拟机都没有问题，因为对 Linux 并不熟，查看了 ESXi 和 Ubuntu 日志并没有异常；后面安装黑群晖一直失败，因此换到了 Proxmox VE&lt;/p>
 &lt;p>换到 PVE 后依然存在同样的问题，以为是服务的问题，于是给 Docker 容器添加了资源限制，无效后迁移到了 CentOS 部署，发现还是同样的问题；并且越来越频繁，从一天一次变成了几小时一次，几乎无法使用&lt;/p>
 &lt;p>猜测会不会是硬件问题，一番搜索发现在 N5105 上居然是个普遍的问题&lt;/p>
 &lt;h2 id="问题">问题&lt;/h2>
@@ -42,8 +42,7 @@
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-bug-feedback.png" alt="homelab-pve-vm-freeze-issue-bug-feedback.png">&lt;/p>
 &lt;p>2022-9-13 在帖子 &lt;a href="https://forum.proxmox.com/threads/opt-in-linux-5-19-kernel-for-proxmox-ve-7-x-available.115090/">Opt-in Linux 5.19 Kernel for Proxmox VE 7.x available&lt;/a> 中，PVE员工宣布将 PVE 的内核升级到 5.19版本，在 Bug 反馈到讨论中有不少人确认有效&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-vm-freeze-issue-519-kenel.png" alt="homelab-pve-vm-freeze-issue-519-kenel.png">&lt;/p>
-&lt;p>这个问题在 2022-12-06 状态变更为 &amp;lsquo;FIX PACKAGED&amp;rsquo;；在 2022-12-14，PVE员工宣布支持将内核升级到 6.1&lt;/p></description></item><item><title>OpenWrt 在 PVE 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 20 Mar 2023 21:35:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="openwrt-在-pve-中以虚拟机方式安装">OpenWrt-在 PVE 中以虚拟机方式安装&lt;/h1>
-&lt;h2 id="下载镜像">下载镜像&lt;/h2>
+&lt;p>这个问题在 2022-12-06 状态变更为 &amp;lsquo;FIX PACKAGED&amp;rsquo;；在 2022-12-14，PVE员工宣布支持将内核升级到 6.1&lt;/p></description></item><item><title>OpenWrt 在 PVE 中以虚拟机方式安装</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 20 Mar 2023 21:35:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;h2 id="下载镜像">下载镜像&lt;/h2>
 &lt;ul>
 &lt;li>下载镜像&lt;/li>
 &lt;/ul>
@@ -76,8 +75,9 @@
 &lt;ul>
 &lt;li>将 img 镜像导入为虚拟磁盘&lt;/li>
 &lt;/ul>
-&lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p></description></item><item><title>Proxmox VE 安装初始化</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Mon, 27 Feb 2023 21:41:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;h1 id="proxmox-vepve-安装初始化">Proxmox VE(PVE) 安装初始化&lt;/h1>
-&lt;blockquote>
+&lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qm importdisk &lt;span style="color:#d19a66">106&lt;/span> /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png" alt="homelab-openwrt-pve-init-convert-img-to-disk.png">&lt;/p></description></item><item><title>Proxmox VE 安装初始化</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Mon, 27 Feb 2023 21:41:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
 &lt;p>Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p>
 &lt;/blockquote>
 &lt;p>PVE 和 Vmware ESXi 类似，都支持虚拟化环境；PVE 基于 Linux，扩展性更强&lt;/p>

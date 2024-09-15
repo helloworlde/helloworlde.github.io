@@ -3,7 +3,7 @@
 <a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Gauge中执行测试的常用命令</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/gauge>Gauge</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/test>Test</a></li></ul></div><div class=post-content><p>本文所有内容均参考自Gauge官方文档s</p><hr><p>#初始化<code>Java</code>项目</p><blockquote><p>会在指定的文件夹下创建一个新的<code>Gauge</code>项目，如果没有安装<code>Java</code>和<code>Html-report</code>插件会自动安装</p></blockquote><pre tabindex=0><code>    gauge --init java
-</code></pre><hr><h1 id=执行项目>执行项目</h1><h2 id=通过文件执行>通过文件执行</h2><ul><li>执行<code>specs</code>文件夹下所有<code>.spec</code>文件</li></ul><pre tabindex=0><code>    gauge specs
+</code></pre><hr><h2 id=通过文件执行>通过文件执行</h2><ul><li>执行<code>specs</code>文件夹下所有<code>.spec</code>文件</li></ul><pre tabindex=0><code>    gauge specs
 </code></pre><ul><li>执行<code>specs</code>文件夹下的<code>specs.spec</code>文件</li></ul><pre tabindex=0><code>    gauge specs/specs.spec
 </code></pre><ul><li>执行多个文件夹下的所有文件</li></ul><pre tabindex=0><code>    gauge specs-dir1/ specs-dir2/
 </code></pre><ul><li>执行多个文件夹下的指定文件</li></ul><pre tabindex=0><code>    gauge specs-dir1/specs1.spec specs-dir2/spesc2.spec
@@ -13,13 +13,13 @@
 </code></pre><hr><p>##通过<code>Tag</code>执行</p><pre tabindex=0><code>    Login specification
     ===================
      Tags: login, admin, user login
-    
-    
+
+
     Successful login scenario
     -------------------------
      Tags: login-success, admin
- 
- 
+
+
      failed login scenario
     -------------------------
      Tags: login-failed, admin
@@ -27,7 +27,7 @@
 </code></pre><blockquote><p>带有admin 的所有的<code>Specification</code>或<code>Scenario</code>都会被执行</p></blockquote><ul><li>通过多个<code>Tag</code>执行</li></ul><pre tabindex=0><code>    gauge --tags login,admin specs
 
     或者：
-    
+
     gauge --tags &#34;login,admin&#34; specs
 
     或者：
@@ -47,13 +47,13 @@
 
     gauge -p specs
 </code></pre><ul><li>指定并发执行的流的数量</li></ul><pre tabindex=0><code>    gauge --parallel -n=4 specs
-</code></pre><ul><li>延迟分配策略</li></ul><blockquote><p>在执行期间根据执行状态动态的分配执行任务，每个流执行的<code>Specification</code>数量不一定相同</p></blockquote><pre tabindex=0><code>    gauge -n=4 --stategy=&#34;lazy&#34; specs
+</code></pre><ul><li>延迟分配策略<blockquote><p>在执行期间根据执行状态动态的分配执行任务，每个流执行的<code>Specification</code>数量不一定相同</p></blockquote></li></ul><pre tabindex=0><code>    gauge -n=4 --stategy=&#34;lazy&#34; specs
 
     或者：
-    
+
     gauge -n=4 specs
-</code></pre><ul><li>积极加载策略</li></ul><blockquote><p>在执行之前平均的分配相同数量的<code>Specification</code>给每个流</p></blockquote><pre tabindex=0><code>    gauge -n=4 --strategy=&#34;eager&#34; specs
-</code></pre><ul><li>分组执行策略</li></ul><blockquote><p>对<code>Specifications</code> 按照字母表的顺序排序后分组，可以指定某一组执行</p></blockquote><pre tabindex=0><code>    gauge -n=4 -g=2 specs
+</code></pre><ul><li>积极加载策略<blockquote><p>在执行之前平均的分配相同数量的<code>Specification</code>给每个流</p></blockquote></li></ul><pre tabindex=0><code>    gauge -n=4 --strategy=&#34;eager&#34; specs
+</code></pre><ul><li>分组执行策略<blockquote><p>对<code>Specifications</code> 按照字母表的顺序排序后分组，可以指定某一组执行</p></blockquote></li></ul><pre tabindex=0><code>    gauge -n=4 -g=2 specs
 </code></pre><blockquote><p>把<code>specs</code>文件夹下的所有.<code>spec</code> 文件按字母表的顺序分成4组，只执行第二组</p></blockquote><hr><h2 id=使用钩子hookhttpgetgaugeiodocumentationusercurrentadvanced_readingsexecution_hookscontexthtml来查看执行状态>使用<a href=http://getgauge.io/documentation/user/current/advanced_readings/execution_hooks/context.html>钩子(Hook)</a>来查看执行状态</h2><blockquote><p>钩子可以理解为<code>Java</code>中的<code>AOP(Aspect Oriented Programming)</code>，把<code>Specification</code>或<code>Scenario</code>当做一个切面，在执行之前和执行之后做一些操作</p></blockquote><ul><li>根据上下文执行</li></ul><pre tabindex=0><code>    public class ExecutionHooks {
 
         @BeforeScenario
@@ -61,7 +61,7 @@
           String scenarioName = context.getCurrentScenario().getName();
           // Code for before scenario
         }
-    
+
         @AfterSpec
         public void performAfterSpec(ExecutionContext context) {
           Specification currentSpecification = context.getCurrentSpecification();
@@ -73,8 +73,8 @@
     public void loginUser() {
         // Code for before scenario
     }
-    
-    
+
+
     // 在含有tag1或tag2的Specification或者Scenario执行之后执行
     // Tag集合(tagAggregation)的运算符是或
     @AfterStep(tags = {&#34;tag1&#34;, &#34;tag2&#34;}, tagAggregation = Operator.OR)

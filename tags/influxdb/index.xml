@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>InfluxDB on HelloWood</title><link>https://blog.hellowood.dev/tags/influxdb/</link><description>Recent content in InfluxDB on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 09 Apr 2023 21:29:39 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/influxdb/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;h1 id="proxmox-ve-添加监控">Proxmox VE 添加监控&lt;/h1>
-&lt;p>PVE 支持添加 &lt;a href="https://graphiteapp.org/">Graphite&lt;/a> 或者 &lt;a href="https://www.influxdata.com/">InfluxDB&lt;/a> 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>InfluxDB on HelloWood</title><link>https://blog.hellowood.dev/tags/influxdb/</link><description>Recent content in InfluxDB on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 09 Apr 2023 21:29:39 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/influxdb/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;p>PVE 支持添加 &lt;a href="https://graphiteapp.org/">Graphite&lt;/a> 或者 &lt;a href="https://www.influxdata.com/">InfluxDB&lt;/a> 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p>
 &lt;p>基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png" alt="homelab-promoxve-monitor-metrics-dashboard.png">&lt;/p>
 &lt;h2 id="配置-influxdb">配置 InfluxDB&lt;/h2>
@@ -7,7 +6,7 @@
 &lt;ul>
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#98c379">&amp;#39;3&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">influxdb&lt;/span>:
@@ -33,4 +32,6 @@
 &lt;p>&lt;code>DOCKER_INFLUXDB_INIT_PASSWORD&lt;/code> 不能设置的太简单，否则 InfluxDB 启动时会报错
 &lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 用于指定 InfluxDB 的组织
 &lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 用于指定初始化使用的 Bucket
-&lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 用于访问时进行鉴权&lt;/p></description></item></channel></rss>
+&lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 用于访问时进行鉴权&lt;/p>
+&lt;h2 id="配置-pve">配置 PVE&lt;/h2>
+&lt;p>在 PVE 的服务器视图下，选择数据中心 - 指标服务器，选择添加 InfluxDB，输入相关的配置；协议选择 HTTP，组织添加 &lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 配置的值，插槽添加 &lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 配置的 Bucket， 令牌填写 &lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 配置的 token&lt;/p></description></item></channel></rss>

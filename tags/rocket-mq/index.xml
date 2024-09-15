@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rocket MQ on HelloWood</title><link>https://blog.hellowood.dev/tags/rocket-mq/</link><description>Recent content in Rocket MQ on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 12:54:02 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/rocket-mq/index.xml" rel="self" type="application/rss+xml"/><item><title>Rocket MQ 相关知识</title><link>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</link><pubDate>Mon, 01 Jan 2018 12:54:02 +0000</pubDate><guid>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</guid><description>&lt;h1 id="rocketmq-相关知识">RocketMQ 相关知识&lt;/h1>
-&lt;p>@(消息队列)[RocketMQ, 消息]&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rocket MQ on HelloWood</title><link>https://blog.hellowood.dev/tags/rocket-mq/</link><description>Recent content in Rocket MQ on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 2018 12:54:02 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/rocket-mq/index.xml" rel="self" type="application/rss+xml"/><item><title>Rocket MQ 相关知识</title><link>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</link><pubDate>Mon, 01 Jan 2018 12:54:02 +0000</pubDate><guid>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</guid><description>&lt;p>@(消息队列)[RocketMQ, 消息]&lt;/p>
 &lt;blockquote>
 &lt;p>Rocket MQ消息队列（Message Queue，简称 MQ）是阿里巴巴集团中间件技术部自主研发的专业消息中间件。产品基于高可用分布式集群技术，提供消息发布订阅、消息轨迹查询、定时（延时）消息、资源统计、监控报警等一系列消息云服务，是企业级互联网架构的核心产品。&lt;/p>
 &lt;/blockquote>
@@ -20,48 +19,45 @@
 &lt;/ul>
 &lt;h2 id="消息发送方式">消息发送方式&lt;/h2>
 &lt;ul>
-&lt;li>同步方式&lt;/li>
-&lt;/ul>
+&lt;li>同步方式
 &lt;blockquote>
 &lt;p>发送消息，接收到结果之后再发送下一条消息，速度最慢，耗时最长&lt;/p>
 &lt;/blockquote>
-&lt;ul>
-&lt;li>异步方式&lt;/li>
-&lt;/ul>
+&lt;/li>
+&lt;li>异步方式
 &lt;blockquote>
 &lt;p>发送消息，不论是否收到结果，直接发送下一条消息，发送速度介于同步和单向方式之间&lt;/p>
 &lt;/blockquote>
-&lt;ul>
-&lt;li>单向方式&lt;/li>
-&lt;/ul>
+&lt;/li>
+&lt;li>单向方式
 &lt;blockquote>
 &lt;p>发送消息，直接发送消息，不返回发送结果，发送速度最快&lt;/p>
 &lt;/blockquote>
+&lt;/li>
+&lt;/ul>
 &lt;h2 id="消息类型">消息类型&lt;/h2>
 &lt;ul>
-&lt;li>定时消息&lt;/li>
-&lt;/ul>
+&lt;li>定时消息
 &lt;blockquote>
 &lt;p>在指定的发送时间发送消息&lt;/p>
 &lt;/blockquote>
-&lt;ul>
-&lt;li>延时消息&lt;/li>
-&lt;/ul>
+&lt;/li>
+&lt;li>延时消息
 &lt;blockquote>
 &lt;p>从当前时间开始，经过延时时间后再发送消息&lt;/p>
 &lt;/blockquote>
-&lt;ul>
-&lt;li>顺序消息&lt;/li>
-&lt;/ul>
+&lt;/li>
+&lt;li>顺序消息
 &lt;blockquote>
 &lt;p>立即发送消息&lt;/p>
 &lt;/blockquote>
-&lt;ul>
-&lt;li>事务消息&lt;/li>
-&lt;/ul>
+&lt;/li>
+&lt;li>事务消息
 &lt;blockquote>
 &lt;p>MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致&lt;/p>
 &lt;/blockquote>
+&lt;/li>
+&lt;/ul>
 &lt;h1 id="实例代码">实例代码&lt;/h1>
 &lt;h2 id="producer">Producer&lt;/h2>
 &lt;pre tabindex="0">&lt;code>public class ProducerDelayTest {
@@ -79,12 +75,12 @@
  Producer producer = ONSFactory.createProducer(properties);
  // 在发送消息前，必须调用start方法来启动Producer，只需调用一次即可。
  producer.start();
- 
+
  /**
- * 消息类型代码，参考下面消息类型代码 
+ * 消息类型代码，参考下面消息类型代码
  */
  /**
- * 消息发送方式代码，参考下面发送方式代码 
+ * 消息发送方式代码，参考下面发送方式代码
  */
  System.out.println(&amp;#34;Message Id:&amp;#34; + sendResult.getMessageId());
  // 在应用退出前，销毁 Producer 对象
@@ -103,7 +99,6 @@
  msg.setBody(&amp;#34;BODY&amp;#34;.getBytes());
  long timeStamp =new SimpleDateFormat(&amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;).parse(&amp;#34;2017-09-03 16:21:00&amp;#34;).getTime();
  msg.setStartDeliverTime(timeStamp);
- 
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>延时消息&lt;/li>
 &lt;/ul>
@@ -111,7 +106,7 @@
  msg.setTag(&amp;#34;TAG&amp;#34;);
  msg.setKey(&amp;#34;KEY&amp;#34;);
  msg.setTopic(&amp;#34;TOPIC&amp;#34;);
- msg.setBody(&amp;#34;BODY&amp;#34;.getBytes()); 
+ msg.setBody(&amp;#34;BODY&amp;#34;.getBytes());
  long delayTime = 3000;//30秒后再发送
  msg.setStartDeliverTime(System.currentTimes() + delayTime);
 &lt;/code>&lt;/pre>&lt;ul>
@@ -121,7 +116,7 @@
  msg.setTag(&amp;#34;TAG&amp;#34;);
  msg.setKey(&amp;#34;KEY&amp;#34;);
  msg.setTopic(&amp;#34;TOPIC&amp;#34;.getBytes());
- msg.setBody(&amp;#34;BODY&amp;#34;); 
+ msg.setBody(&amp;#34;BODY&amp;#34;);
 &lt;/code>&lt;/pre>&lt;h3 id="消息发送方式代码">消息发送方式代码&lt;/h3>
 &lt;ul>
 &lt;li>同步方式发送&lt;/li>
@@ -269,7 +264,7 @@ spring.rocketmq.consumerId=订阅者
  &lt;/tbody>
 &lt;/table>
 &lt;p>&lt;strong>顺序消息 Body&lt;/strong>&lt;/p>
-&lt;pre tabindex="0">&lt;code>{ 
+&lt;pre tabindex="0">&lt;code>{
  &amp;#34;body&amp;#34;:&amp;#34;{\&amp;#34;name\&amp;#34;:\&amp;#34;MQ\&amp;#34;,\&amp;#34;type\&amp;#34;:\&amp;#34;Rocket\&amp;#34;}&amp;#34;,
  &amp;#34;delayTime&amp;#34;:30000,
  &amp;#34;key&amp;#34;:&amp;#34;key&amp;#34;,

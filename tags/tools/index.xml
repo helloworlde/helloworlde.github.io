@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on HelloWood</title><link>https://blog.hellowood.dev/tags/tools/</link><description>Recent content in Tools on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 27 Nov 2023 11:40:53 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 GoLinks 短链接服务简化网址访问</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</link><pubDate>Mon, 27 Nov 2023 11:40:53 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="使用-golinks-短链接服务简化网址访问">使用 GoLinks 短链接服务简化网址访问&lt;/h1>
-&lt;p>最近在内网查找文档时看到一个类似 &lt;code>go/文档名&lt;/code> 的链接，在浏览器的 URL 输入后可以跳转到对应的文档，对比其他的短链接服务要方便不少；&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on HelloWood</title><link>https://blog.hellowood.dev/tags/tools/</link><description>Recent content in Tools on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 27 Nov 2023 11:40:53 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 GoLinks 短链接服务简化网址访问</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</link><pubDate>Mon, 27 Nov 2023 11:40:53 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8golinks%E7%9F%AD%E9%93%BE%E6%8E%A5%E6%9C%8D%E5%8A%A1%E7%AE%80%E5%8C%96%E7%BD%91%E5%9D%80%E8%AE%BF%E9%97%AE/</guid><description>&lt;p>最近在内网查找文档时看到一个类似 &lt;code>go/文档名&lt;/code> 的链接，在浏览器的 URL 输入后可以跳转到对应的文档，对比其他的短链接服务要方便不少；&lt;/p>
 &lt;p>一番探索后发现原来是一个叫 GoLinks 的短链接服务，通过域名配合 DNS 搜索域，实现了可以直接访问 &lt;code>go&lt;/code> 域名；然后根据路径，重定向到对应的 URL。&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/go-links-homepage.png" alt="go-links-homepage.png">&lt;/p>
 &lt;h2 id="什么是-golinks">什么是 GoLinks&lt;/h2>
@@ -12,4 +11,11 @@
 &lt;li>需要能够将 &lt;code>go&lt;/code> 解析为对应的服务地址，可以通过配置 DNS 或者 host 的方式实现&lt;/li>
 &lt;li>需要 GoLinks 服务监听 80 端口因为访问时为了简单不想再输入 https 或者端口号，因此需要使用 80 端口作为 GoLinks 服务的端口&lt;/li>
 &lt;/ol>
-&lt;p>有三种方式可以解析 &lt;code>go&lt;/code>：&lt;/p></description></item></channel></rss>
+&lt;p>有三种方式可以解析 &lt;code>go&lt;/code>：&lt;/p>
+&lt;ol>
+&lt;li>配置 DNS，将 &lt;code>go&lt;/code> 直接解析为 GoLinks 服务的地址&lt;/li>
+&lt;li>DNS 服务器配置 &lt;code>go.xxx&lt;/code>解析规则，然后通过路由器下发 DNS 搜索域；这样在访问&lt;code>go&lt;/code>时就会自动搜索&lt;code>go.xxx&lt;/code>域名，适用于内网访问&lt;/li>
+&lt;li>修改 host 配置，将 &lt;code>go&lt;/code> 指向 GoLinks 服务的地址，适用于不方便配置 DNS 的场景使用&lt;/li>
+&lt;/ol>
+&lt;h2 id="启动-golinks-服务">启动 GoLinks 服务&lt;/h2>
+&lt;p>可以通过 Docker 容器启动 GoLinks 服务，用于快速使用，为了方便测试，将端口指定为 80&lt;/p></description></item></channel></rss>

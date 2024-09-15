@@ -17,23 +17,23 @@
 </span></span><span style=display:flex><span>   <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.mail.javamail.JavaMailSender</span>;
 </span></span><span style=display:flex><span>   <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.stereotype.Component</span>;
 </span></span><span style=display:flex><span>   <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.thymeleaf.TemplateEngine</span>;
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>   <span style=color:#e5c07b>@Component</span>
 </span></span><span style=display:flex><span>   <span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>MailUtil</span> {
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>       <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>LoggerFactory</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>getClass</span>());
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>       <span style=color:#e5c07b>@Autowired</span>
 </span></span><span style=display:flex><span>       <span style=color:#c1abea>JavaMailSender</span> <span style=color:#c1abea>mailSender</span>;
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>       <span style=color:#e5c07b>@Autowired</span>
 </span></span><span style=display:flex><span>       <span style=color:#c1abea>TemplateEngine</span> <span style=color:#c1abea>templateEngine</span>;
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>       <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>sendSimpleEmail</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>deliver</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>[]</span> <span style=color:#c1abea>receiver</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>[]</span> <span style=color:#c1abea>carbonCopy</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>subject</span>, <span style=color:#c1abea>String</span> <span style=color:#c1abea>content</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>           <span style=color:#ef8383>long</span> <span style=color:#c1abea>startTimestamp</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>System</span>.<span style=color:#b3d23c>currentTimeMillis</span>();
 </span></span><span style=display:flex><span>           <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;Start send mail ... &#34;</span>);
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>           <span style=color:#c678dd>try</span> {
 </span></span><span style=display:flex><span>               <span style=color:#c1abea>SimpleMailMessage</span> <span style=color:#c1abea>message</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>SimpleMailMessage</span>();
 </span></span><span style=display:flex><span>               <span style=color:#c1abea>message</span>.<span style=color:#b3d23c>setFrom</span>(<span style=color:#c1abea>deliver</span>);
@@ -49,7 +49,7 @@
 </span></span><span style=display:flex><span>               <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ServiceException</span>(<span style=color:#c1abea>e</span>.<span style=color:#b3d23c>getMessage</span>());
 </span></span><span style=display:flex><span>           }
 </span></span><span style=display:flex><span>       }
-</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>   }
 </span></span></code></pre></div><blockquote><p>但是邮件发送一直失败，异常信息如下：</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#c1abea>org</span>.<span style=color:#b3d23c>springframework</span>.<span style=color:#b3d23c>mail</span>.<span style=color:#b3d23c>MailSendException</span>: <span style=color:#c1abea>Mail</span> <span style=color:#c1abea>server</span> <span style=color:#c1abea>connection</span> <span style=color:#c1abea>failed</span>; <span style=color:#c1abea>nested</span> <span style=color:#c1abea>exception</span> <span style=color:#c1abea>is</span> <span style=color:#c1abea>javax</span>.<span style=color:#b3d23c>mail</span>.<span style=color:#b3d23c>MessagingException</span>: <span style=color:#c1abea>Could</span> <span style=color:#c1abea>not</span> <span style=color:#c1abea>connect</span> <span style=color:#c1abea>to</span> <span style=color:#c1abea>SMTP</span> <span style=color:#c1abea>host</span>: <span style=color:#c1abea>smtpdm</span>.<span style=color:#b3d23c>aliyun</span>.<span style=color:#b3d23c>com</span>, <span style=color:#c1abea>port</span>: <span style=color:#c1abea>465</span>, <span style=color:#c1abea>response</span>: <span style=color:#c7bf54>-</span><span style=color:#c1abea>1</span>. <span style=color:#c1abea>Failed</span> <span style=color:#c1abea>messages</span>: <span style=color:#c1abea>javax</span>.<span style=color:#b3d23c>mail</span>.<span style=color:#b3d23c>MessagingException</span>: <span style=color:#c1abea>Could</span> <span style=color:#c1abea>not</span> <span style=color:#c1abea>connect</span> <span style=color:#c1abea>to</span> <span style=color:#c1abea>SMTP</span> <span style=color:#c1abea>host</span>: <span style=color:#c1abea>smtpdm</span>.<span style=color:#b3d23c>aliyun</span>.<span style=color:#b3d23c>com</span>, <span style=color:#c1abea>port</span>: <span style=color:#c1abea>465</span>, <span style=color:#c1abea>response</span>: <span style=color:#c7bf54>-</span><span style=color:#c1abea>1</span>; <span style=color:#c1abea>message</span> <span style=color:#c1abea>exception</span> <span style=color:#00b1f7>details</span> (<span style=color:#c1abea>1</span>) <span style=color:#c1abea>are</span>:

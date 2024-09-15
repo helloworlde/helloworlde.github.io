@@ -10,33 +10,33 @@
     import org.springframework.security.config.annotation.web.builders.HttpSecurity;
     import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
     import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdater;
-    
+
     @EnableWebSecurity
     public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
         @Autowired
         private CustomAuthenticationProvider customAuthenticationProvider;
-    
+
         @Autowired
         private CustomUserDetailsService userDetailsService;
-    
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // 任何用户都可以访问以下URI
             http.authorizeRequests()
                     .antMatchers(&#34;/&#34;, &#34;/login&#34;, &#34;/login-error&#34;, &#34;/css/**&#34;, &#34;/index&#34;)
                     .permitAll();
-    
+
             // 其他URI均需要权限校验
             http.authorizeRequests()
                     .anyRequest()
                     .authenticated();
-    
+
             // 只需要以下配置即可启用记住密码
             http.authorizeRequests()
                     .and()
                     .rememberMe();
-    
+
             http.formLogin()
                     .loginPage(&#34;/login&#34;)
                     .usernameParameter(&#34;username&#34;)
@@ -44,7 +44,7 @@
                     .successForwardUrl(&#34;/user/index&#34;)
                     .failureUrl(&#34;/login-error&#34;);
         }
-    
+
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) {
             // 为了使用用户名密码校验实现了AuthenticationProvider和UserDetailsService类
@@ -77,37 +77,37 @@
     import org.springframework.security.web.authentication.RememberMeServices;
     import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
     import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-    
+
     import javax.sql.DataSource;
-    
+
     @EnableWebSecurity
     public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         private CustomAuthenticationProvider customAuthenticationProvider;
-    
+
         @Autowired
         private CustomUserDetailsService userDetailsService;
-    
+
         // 数据源是为了JdbcRememberMeImpl实例而注入的，如果不设置数据源会在登陆的时候抛空指针异常
         @Autowired
         @Qualifier(&#34;dataSource&#34;)
         DataSource dataSource;
-    
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // 任何用户都可以访问以下URI
             http.authorizeRequests()
                     .antMatchers(&#34;/&#34;, &#34;/login&#34;, &#34;/login-error&#34;, &#34;/css/**&#34;, &#34;/index&#34;)
                     .permitAll();
-    
+
             // 其他URI需要权限验证
             http.authorizeRequests()
                     .anyRequest()
                     .authenticated();
-    
+
             // 当通过JDBC方式记住密码时必须设置 key，key 可以为任意非空(null 或 &#34;&#34;)字符串，但必须和 RememberMeService 构造参数的
             // key 一致，否则会导致通过记住密码登录失败
             http.authorizeRequests()
@@ -115,7 +115,7 @@
                     .rememberMe()
                     .rememberMeServices(rememberMeServices())
                     .key(&#34;INTERNAL_SECRET_KEY&#34;);
-    
+
             // 当登录成功后会被重定向到 /user/index, 所以 loginPage 和 loginProcessingUrl 相同
             http.formLogin()
                     .loginPage(&#34;/login&#34;)
@@ -125,8 +125,8 @@
                     .successForwardUrl(&#34;/user/index&#34;)
                     .failureUrl(&#34;/login-error&#34;);
         }
-    
-    
+
+
         /**
          * 返回 RememberMeServices 实例
          *
@@ -137,17 +137,17 @@
             JdbcTokenRepositoryImpl rememberMeTokenRepository = new JdbcTokenRepositoryImpl();
             // 此处需要设置数据源，否则无法从数据库查询验证信息
             rememberMeTokenRepository.setDataSource(dataSource);
-    
+
             // 此处的 key 可以为任意非空值(null 或 &#34;&#34;)，单必须和起前面
             // rememberMeServices(RememberMeServices rememberMeServices).key(key)的值相同
             PersistentTokenBasedRememberMeServices rememberMeServices =
                     new PersistentTokenBasedRememberMeServices(&#34;INTERNAL_SECRET_KEY&#34;, userDetailsService, rememberMeTokenRepository);
-    
+
             // 该参数不是必须的，默认值为 &#34;remember-me&#34;, 但如果设置必须和页面复选框的 name 一致
             rememberMeServices.setParameter(&#34;remember-me&#34;);
             return rememberMeServices;
         }
-        
+
         /**
          * Configure global.
          *
@@ -175,10 +175,10 @@
     import org.springframework.security.core.AuthenticationException;
     import org.springframework.security.core.GrantedAuthority;
     import org.springframework.stereotype.Component;
-    
+
     import java.util.ArrayList;
     import java.util.List;
-    
+
     /**
      * The type Custom authentication provider.
      *
@@ -186,12 +186,12 @@
      */
     @Component
     public class CustomAuthenticationProvider implements AuthenticationProvider {
-    
+
         private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         private CustomUserDetailsService userDetailsService;
-    
+
         /**
          * Validate user info is correct form database
          *
@@ -204,20 +204,20 @@
             String username = authentication.getName();
             String password = authentication.getCredentials().toString();
             List&lt;GrantedAuthority&gt; grantedAuthorities = new ArrayList&lt;&gt;();
-    
+
             logger.info(&#34;start validate user {} login&#34;, username);
             // 通过用户名和密码校验，如果校验不通过会抛出 AuthenticationException
             userDetailsService.loadUserByUsernameAndPassword(username, password);
             Authentication auth = new UsernamePasswordAuthenticationToken(username, password, grantedAuthorities);
             return auth;
         }
-    
-    
+
+
         @Override
         public boolean supports(Class&lt;?&gt; authentication) {
             return authentication.equals(UsernamePasswordAuthenticationToken.class);
         }
-    
+
     }
 </code></pre><ul><li>自定义实现 UserDetailsService 接口</li></ul><pre tabindex=0><code>
     import cn.com.hellowood.springsecurity.mapper.UserMapper;
@@ -234,10 +234,10 @@
     import org.springframework.security.core.userdetails.UserDetailsService;
     import org.springframework.security.core.userdetails.UsernameNotFoundException;
     import org.springframework.stereotype.Service;
-    
+
     import javax.servlet.http.HttpSession;
     import java.util.ArrayList;
-    
+
     /**
      * The type Custom user details service.
      *
@@ -245,15 +245,15 @@
      */
     @Service(&#34;userDetailsService&#34;)
     public class CustomUserDetailsService implements UserDetailsService {
-    
+
         private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
         @Autowired
         private UserMapper userMapper;
-    
+
         @Autowired
         private HttpSession session;
-    
+
         /**
          * 通过用户名和密码加载用户信息并校验
          *
@@ -268,11 +268,11 @@
             validateUser(username, user);
             return user;
         }
-    
-    
+
+
         /**
         * 通过用户名加载用户信息，重写该方法用于记住密码后通过 Cookie 登录
-        * 
+        *
         * @param username
         * @param user
         */
@@ -283,7 +283,7 @@
             validateUser(username, user);
             return new User(user.getUsername(), user.getPassword(), new ArrayList&lt;GrantedAuthority&gt;());
         }
-    
+
         /**
          * 校验用户信息并将用户信息放在 Session 中
          *
@@ -299,7 +299,7 @@
                 throw new AccountExpiredException(&#34;Account had expired&#34;);
             }
             // TODO There should add more logic to determine locked, expired and others status
-    
+
             logger.info(&#34;user {} login success&#34;, username);
             // 当用户信息有效时放入 Session 中
             session.setAttribute(&#34;user&#34;, user);

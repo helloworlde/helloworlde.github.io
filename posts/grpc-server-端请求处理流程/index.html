@@ -2,7 +2,7 @@
 <meta name=description content="Copy Paste Worker"><meta name=keywords content='blog,hugo,gRPC'><meta property="og:url" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/"><meta property="og:type" content="website"><meta property="og:title" content="gRPC Server 端请求处理流程"><meta property="og:description" content="Copy Paste Worker"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="gRPC Server 端请求处理流程"><meta name=twitter:description content="Copy Paste Worker"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.9a920d7dabdbad8363b6a0a94e29a9dfebdb7ee64cfcb193a0145e512ef2bdab.js integrity="sha256-mpINfavbrYNjtqCpTimp3+vbfuZM/LGToBReUS7yvas="></script><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-3401351766168985"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401351766168985" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target"></span>
 <a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC Server 端请求处理流程</h1><small role=doc-subtitle></small><p class=post-date>2020-12-12</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><h1 id=grpc-server-端请求处理流程>gRPC Server 端请求处理流程</h1><p>[TOC]</p><h2 id=初始化>初始化</h2><ol><li>创建并启动 ServerTransport</li></ol><p>在 Server 启动的时候，最终调用 <code>NettyServer</code> 的 <code>start()</code> 方法，为 <code>ServerBootstrap</code> 添加了 <code>ChannelInitializer</code>，最终，当有新的连接建立时，会由 <code>NettyServerHandler</code> 调用该类的 <code>initChannel</code> 方法，初始化一个 <code>NettyServerTransport</code></p><ul><li>io.grpc.netty.NettyServer#start</li></ul><p>在初始化 Netty Channel 时，会先创建 <code>NettyServerTransport</code>，然后调用监听器的 <code>Transport</code> 创建事件，添加一个超时取消任务；
+<a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC Server 端请求处理流程</h1><small role=doc-subtitle></small><p class=post-date>2020-12-12</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><p>[TOC]</p><h2 id=初始化>初始化</h2><ol><li>创建并启动 ServerTransport</li></ol><p>在 Server 启动的时候，最终调用 <code>NettyServer</code> 的 <code>start()</code> 方法，为 <code>ServerBootstrap</code> 添加了 <code>ChannelInitializer</code>，最终，当有新的连接建立时，会由 <code>NettyServerHandler</code> 调用该类的 <code>initChannel</code> 方法，初始化一个 <code>NettyServerTransport</code></p><ul><li>io.grpc.netty.NettyServer#start</li></ul><p>在初始化 Netty Channel 时，会先创建 <code>NettyServerTransport</code>，然后调用监听器的 <code>Transport</code> 创建事件，添加一个超时取消任务；
 然后会调用 <code>Transport</code> 的 <code>start</code> 方法启动 <code>Transport</code></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c1abea>b</span>.<span style=color:#b3d23c>childHandler</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>ChannelInitializer</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Channel</span><span style=color:#c7bf54>&gt;</span>() {
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>initChannel</span>(<span style=color:#c1abea>Channel</span> <span style=color:#c1abea>ch</span>) {
@@ -39,69 +39,7 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>pipeline</span>().<span style=color:#b3d23c>addLast</span>(<span style=color:#c1abea>bufferingHandler</span>);
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=处理请求>处理请求</h2><p>当 Server 与 Client 的连接建立成功之后，可以开始处理请求</p><h4 id=请求整体处理流程>请求整体处理流程</h4><ol><li>读取 <code>Settings</code> 帧，触发 <code>Transport</code> <code>ready</code> 事件</li><li>读取 <code>Header</code> 帧，触发 <code>FrameListener#onHeadersRead</code> 事件
-3. 由 <code>NettyServerHandler</code> 处理
-4. 根据 <code>Header</code> 里面的信息，获取相应的方法
-4. 将 HTTP 流转换为 <code>NettyServerStream</code>
-5. 触发 <code>Transport#streamCreated</code> 事件
-6. 检查编解码、解压缩等信息，创建可取消的上下文
-11. 初始化流监听器
-6. 提交 <code>StreamCreated</code> 任务
-7. 触发 <code>NettyServerStream.TransportState#onStreamAllocated</code> 事件
-8. 提交 <code>OnReady</code> 任务</li><li>执行 <code>StreamCreated</code> 任务
-10. 根据方法名查找方法定义
-11. 调用 <code>startCall</code> 开始处理
-12. 遍历拦截器，使用拦截器包装方法处理器
-13. 调用 <code>startWrappedCall</code> 处理
-14. 创建 <code>ServerCallImpl</code> 实例
-15. 通过方法定义的请求处理器 <code>startCall</code> 方法处理
-16. 创建响应观察器 <code>ServerCallStreamObserverImpl</code> 实例
-17. 调用 <code>call.request()</code> 获取指定数量的消息
-18. 提交 <code>RequestRunnable</code> 任务获取指定数量的消息
-18. 创建调用监听器 <code>UnaryServerCallListener</code>
-19. 创建 <code>ServerStreamListenerImpl</code> 流监听器实例</li><li>执行 <code>OnReady</code> 任务
-21. 调用 <code>UnaryServerCallListener#onReady</code> 处理 <code>Ready</code> 事件
-22. 修改 <code>ready</code> 状态
-23. 如果有 <code>onReadyHandler</code> 任务，则执行</li><li>执行 <code>RequestRunnable</code> 任务
-25. 要求指定数量的消息
-25. 修改等待投递的消息数量
-26. 调用 <code>deliver</code> 方法投递
-27. 如果有待投递的消息，根据类型进行投递
-28. 当消息类型是消息体时，处理消息体
-29. 读取消息体的流
-30. 调用 <code>MessageFramer.Listener#messagesAvailable</code> 事件，通知新的消息
-31. 提交 <code>MessagesAvailable</code> 任务</li><li>调用 <code>MessageDeframer#close</code> 方法关闭帧
-33. 调用流监听器半关闭事件
-34. 提交 <code>HalfClosed</code> 任务</li><li>执行 <code>MessagesAvailable</code> 任务
-32. 从 <code>MessageProducer</code> 中获取消息，解析为请求对象
-33. 调用 <code>SeverCall.Listener#onMessage</code> 方法处理消息
-34. 将 <code>request</code> 对象赋值给相应的对象，该对象会在 <code>halfClose</code> 时处理</li><li>执行 <code>HalfClosed</code> 任务
-36. 调用 <code>invoke</code> 方法，处理业务逻辑
-37. 根据方法 ID，使用相应的实现调用业务逻辑
-38. 调用 <code>StreamObserver#onNext</code> 发送响应
-39. 发送响应 <code>Header</code>
-40. 设置编码和压缩的请求头
-41. 写入 <code>Header</code>
-40. 发送响应 <code>body</code>
-41. 将响应对象序列化为流
-42. 写入响应
-43. 清空缓存
-44. 调用 <code>StreamObserver#onComplete</code> 完成请求
-45. 使用 <code>OK</code> 状态关闭调用
-46. 修改关闭状态
-47. 调用流关闭事件
-48. 关闭帧
-49. 将响应状态加入响应元数据中
-50. 修改 <code>TransportState</code> 的状态
-51. 写入响应元数据，发送给客户端
-37. 冻结响应
-38. 如果 <code>ready</code> 状态，再次执行 <code>onReady</code> 事件
-39. 当流关闭时，调用 <code>TransportState#complete</code> 事件
-40. 关闭监听器
-41. 提交 <code>Closed</code> 任务
-42. 执行 <code>Closed</code> 任务
-43. 调用 <code>stream#complete</code> 事件
-44. 取消上下文</li></ol><h4 id=1-读取-settings-帧>1. 读取 Settings 帧</h4><ul><li>io.grpc.netty.NettyServerHandler.FrameListener#onSettingsRead</li></ul><p>当读取到 Settings 帧时，会调用 onSettingsRead 方法，同时会同时 Transport 监听器 ready 事件</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>onSettingsRead</span>(<span style=color:#c1abea>ChannelHandlerContext</span> <span style=color:#c1abea>ctx</span>, <span style=color:#c1abea>Http2Settings</span> <span style=color:#c1abea>settings</span>) {
+</span></span></code></pre></div><h2 id=处理请求>处理请求</h2><p>当 Server 与 Client 的连接建立成功之后，可以开始处理请求</p><h4 id=请求整体处理流程>请求整体处理流程</h4><ol><li>读取 <code>Settings</code> 帧，触发 <code>Transport</code> <code>ready</code> 事件</li><li>读取 <code>Header</code> 帧，触发 <code>FrameListener#onHeadersRead</code> 事件 3. 由 <code>NettyServerHandler</code> 处理 4. 根据 <code>Header</code> 里面的信息，获取相应的方法 4. 将 HTTP 流转换为 <code>NettyServerStream</code> 5. 触发 <code>Transport#streamCreated</code> 事件 6. 检查编解码、解压缩等信息，创建可取消的上下文 11. 初始化流监听器 6. 提交 <code>StreamCreated</code> 任务 7. 触发 <code>NettyServerStream.TransportState#onStreamAllocated</code> 事件 8. 提交 <code>OnReady</code> 任务</li><li>执行 <code>StreamCreated</code> 任务 10. 根据方法名查找方法定义 11. 调用 <code>startCall</code> 开始处理 12. 遍历拦截器，使用拦截器包装方法处理器 13. 调用 <code>startWrappedCall</code> 处理 14. 创建 <code>ServerCallImpl</code> 实例 15. 通过方法定义的请求处理器 <code>startCall</code> 方法处理 16. 创建响应观察器 <code>ServerCallStreamObserverImpl</code> 实例 17. 调用 <code>call.request()</code> 获取指定数量的消息 18. 提交 <code>RequestRunnable</code> 任务获取指定数量的消息 18. 创建调用监听器 <code>UnaryServerCallListener</code> 19. 创建 <code>ServerStreamListenerImpl</code> 流监听器实例</li><li>执行 <code>OnReady</code> 任务 21. 调用 <code>UnaryServerCallListener#onReady</code> 处理 <code>Ready</code> 事件 22. 修改 <code>ready</code> 状态 23. 如果有 <code>onReadyHandler</code> 任务，则执行</li><li>执行 <code>RequestRunnable</code> 任务 25. 要求指定数量的消息 25. 修改等待投递的消息数量 26. 调用 <code>deliver</code> 方法投递 27. 如果有待投递的消息，根据类型进行投递 28. 当消息类型是消息体时，处理消息体 29. 读取消息体的流 30. 调用 <code>MessageFramer.Listener#messagesAvailable</code> 事件，通知新的消息 31. 提交 <code>MessagesAvailable</code> 任务</li><li>调用 <code>MessageDeframer#close</code> 方法关闭帧 33. 调用流监听器半关闭事件 34. 提交 <code>HalfClosed</code> 任务</li><li>执行 <code>MessagesAvailable</code> 任务</li><li>从 <code>MessageProducer</code> 中获取消息，解析为请求对象</li><li>调用 <code>SeverCall.Listener#onMessage</code> 方法处理消息 34. 将 <code>request</code> 对象赋值给相应的对象，该对象会在 <code>halfClose</code> 时处理</li><li>执行 <code>HalfClosed</code> 任务 36. 调用 <code>invoke</code> 方法，处理业务逻辑 37. 根据方法 ID，使用相应的实现调用业务逻辑 38. 调用 <code>StreamObserver#onNext</code> 发送响应 39. 发送响应 <code>Header</code> 40. 设置编码和压缩的请求头 41. 写入 <code>Header</code> 40. 发送响应 <code>body</code> 41. 将响应对象序列化为流 42. 写入响应 43. 清空缓存 44. 调用 <code>StreamObserver#onComplete</code> 完成请求 45. 使用 <code>OK</code> 状态关闭调用 46. 修改关闭状态 47. 调用流关闭事件 48. 关闭帧 49. 将响应状态加入响应元数据中 50. 修改 <code>TransportState</code> 的状态 51. 写入响应元数据，发送给客户端 37. 冻结响应 38. 如果 <code>ready</code> 状态，再次执行 <code>onReady</code> 事件 39. 当流关闭时，调用 <code>TransportState#complete</code> 事件 40. 关闭监听器 41. 提交 <code>Closed</code> 任务 42. 执行 <code>Closed</code> 任务 43. 调用 <code>stream#complete</code> 事件 44. 取消上下文</li></ol><h4 id=1-读取-settings-帧>1. 读取 Settings 帧</h4><ul><li>io.grpc.netty.NettyServerHandler.FrameListener#onSettingsRead</li></ul><p>当读取到 Settings 帧时，会调用 onSettingsRead 方法，同时会同时 Transport 监听器 ready 事件</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>onSettingsRead</span>(<span style=color:#c1abea>ChannelHandlerContext</span> <span style=color:#c1abea>ctx</span>, <span style=color:#c1abea>Http2Settings</span> <span style=color:#c1abea>settings</span>) {
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>firstSettings</span>) {
 </span></span><span style=display:flex><span>        <span style=color:#c1abea>firstSettings</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>false</span>;
 </span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 通知 Transport ready</span>
@@ -230,7 +168,7 @@
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><h4 id=5-执行流创建任务>5. 执行流创建任务</h4><p>执行 <code>StreamCreated</code>任务</p><ul><li>io.grpc.internal.ServerImpl.ServerTransportListenerImpl#streamCreated</li></ul><p>执行 <code>StreamCreated</code>任务时，会先根据方法名称从注册器中查找对应的方法处理器，然后调用 startCall 方法进行处理</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>// 流创建任务处理</span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>StreamCreated</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>ContextRunnable</span> {
-</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>runInternal</span>() {
 </span></span><span style=display:flex><span>            <span style=color:#c1abea>ServerStreamListener</span> <span style=color:#c1abea>listener</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>NOOP_LISTENER</span>;
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>try</span> {
@@ -256,7 +194,7 @@
 </span></span><span style=display:flex><span>            } <span style=color:#c678dd>finally</span> {
 </span></span><span style=display:flex><span>                 <span style=color:#c1abea>jumpListener</span>.<span style=color:#b3d23c>setListener</span>(<span style=color:#c1abea>listener</span>);
 </span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>           
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>            <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ServerStreamCancellationListener</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>Context</span>.<span style=color:#b3d23c>CancellationListener</span> {
 </span></span><span style=display:flex><span>                <span style=color:#e5c07b>@Override</span>
 </span></span><span style=display:flex><span>                <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>cancelled</span>(<span style=color:#c1abea>Context</span> <span style=color:#c1abea>context</span>) {
@@ -322,7 +260,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 返回监听器</span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>UnaryServerCallListener</span>(<span style=color:#c1abea>responseObserver</span>, <span style=color:#c1abea>call</span>);
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h4 id=6--提交要求指定数量的消息任务>6. 提交要求指定数量的消息任务</h4><p>在执行 <code>StreamCreated</code> 任务时，会调用 <code>startCall</code> 方法，提交 <code>RequestRunnable</code>任务，要求指定数量的消息</p><ul><li>io.grpc.internal.AbstractStream#request</li></ul><p>在执行 <code>StreamCreated</code> 任务时指定接收的帧的数量</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>final</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>request</span>(<span style=color:#ef8383>int</span> <span style=color:#c1abea>numMessages</span>) {
+</span></span></code></pre></div><h4 id=6-提交要求指定数量的消息任务>6. 提交要求指定数量的消息任务</h4><p>在执行 <code>StreamCreated</code> 任务时，会调用 <code>startCall</code> 方法，提交 <code>RequestRunnable</code>任务，要求指定数量的消息</p><ul><li>io.grpc.internal.AbstractStream#request</li></ul><p>在执行 <code>StreamCreated</code> 任务时指定接收的帧的数量</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>final</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>request</span>(<span style=color:#ef8383>int</span> <span style=color:#c1abea>numMessages</span>) {
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>transportState</span>().<span style=color:#b3d23c>requestMessagesFromDeframer</span>(<span style=color:#c1abea>numMessages</span>);
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><ul><li>io.grpc.internal.AbstractStream.TransportState#requestMessagesFromDeframer</li></ul><p>提交获取指定数量的帧的任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>private</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>requestMessagesFromDeframer</span>(<span style=color:#c678dd>final</span> <span style=color:#ef8383>int</span> <span style=color:#c1abea>numMessages</span>) {
@@ -534,7 +472,7 @@
 </span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener#halfClosed</li></ul><p>提交半关闭任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>halfClosed</span>() {
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>try</span> {
 </span></span><span style=display:flex><span>        <span style=color:#c1abea>callExecutor</span>.<span style=color:#b3d23c>execute</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>HalfClosed</span>());
-</span></span><span style=display:flex><span>    } 
+</span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><h4 id=11-执行半关闭任务>11. 执行半关闭任务</h4><ul><li>io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener#halfClosed</li></ul><p>执行半关闭任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>HalfClosed</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>ContextRunnable</span> {
 </span></span><span style=display:flex><span>        <span style=color:#c1abea>HalfClosed</span>() {
@@ -797,7 +735,7 @@
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
 </span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// 调用监听器的关闭事件</span>
 </span></span><span style=display:flex><span>            <span style=color:#c1abea>getListener</span>().<span style=color:#b3d23c>closed</span>(<span style=color:#c1abea>status</span>);
-</span></span><span style=display:flex><span>        } 
+</span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><ul><li>io.grpc.internal.ServerCallImpl.ServerStreamListenerImpl#closedInternal</li></ul><p>根据状态通知流监听器完成或者取消，最终取消上下文</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>private</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>closedInternal</span>(<span style=color:#c1abea>Status</span> <span style=color:#c1abea>status</span>) {

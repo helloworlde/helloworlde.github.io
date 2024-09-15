@@ -45,7 +45,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>VALIDATE_CODE</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;VALIDATE_CODE&#34;</span>;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>EXPIRE_TIME</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;EXPIRE_TIME&#34;</span>;
-</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@RequestMapping</span>(<span style=color:#c1abea>value</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;/loadValidateCode&#34;</span>, <span style=color:#c1abea>method</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>RequestMethod</span>.<span style=color:#b3d23c>GET</span>)
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>loadValidateCode</span>(<span style=color:#c1abea>HttpServletRequest</span> <span style=color:#c1abea>request</span>, <span style=color:#c1abea>HttpServletResponse</span> <span style=color:#c1abea>response</span>) {
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
@@ -60,7 +60,7 @@
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// 验证码一分钟内有效</span>
 </span></span><span style=display:flex><span>            <span style=color:#ef8383>long</span> <span style=color:#c1abea>expireTime</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>System</span>.<span style=color:#b3d23c>currentTimeMillis</span>() <span style=color:#c7bf54>+</span> <span style=color:#c1abea>60000</span>;
-</span></span><span style=display:flex><span>            
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// 将验证码放到session中</span>
 </span></span><span style=display:flex><span>            <span style=color:#c1abea>String</span> <span style=color:#c1abea>validateCode</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>captchaProducer</span>.<span style=color:#b3d23c>createText</span>();
 </span></span><span style=display:flex><span>            <span style=color:#c1abea>session</span>.<span style=color:#b3d23c>setAttribute</span>(<span style=color:#c1abea>VALIDATE_CODE</span>, <span style=color:#c1abea>Utils</span>.<span style=color:#b3d23c>encodeBase64</span>(<span style=color:#c1abea>validateCode</span>));<span style=color:#8a93a5;font-style:italic>//将加密后的验证码放到session中，确保安全</span>
@@ -79,7 +79,7 @@
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><h2 id=6-登录时校验验证码>6 登录时校验验证码</h2><pre tabindex=0><code>    @RequestMapping(value = &#34;/login&#34;, method = RequestMethod.POST)
     public @ResponseBody String login(String username, String password, String validateCode) {
-        
+
         // 校验验证码是否有效
         String currentValidateCode = String.valueOf(request.getSession().getAttribute(VALIDATE_CODE));
         if (System.currentTimeMillis() &gt; Long.parseLong(String.valueOf(request.getSession().getAttribute(EXPIRE_TIME)))) {
@@ -92,7 +92,7 @@
                 !Utils.encodeBase64(validateCode).equals(currentValidateCode)) {
             return JSON.toJSONString(&#34;验证码错误&#34;);
         }
- }       
+ }
 </code></pre><h2 id=7-base64加密>7 Base64加密</h2><pre tabindex=0><code>    public static String encodeBase64(String str) {
         sun.misc.BASE64Encoder base64Encode = new BASE64Encoder();
         return base64Encode.encode(str.getBytes());

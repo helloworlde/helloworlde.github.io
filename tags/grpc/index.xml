@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GRPC on HelloWood</title><link>https://blog.hellowood.dev/tags/grpc/</link><description>Recent content in GRPC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 20 Feb 2021 22:34:46 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/grpc/index.xml" rel="self" type="application/rss+xml"/><item><title>gRPC 对冲请求取消流程</title><link>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-对冲请求取消流程">gRPC 对冲请求取消流程&lt;/h1>
-&lt;p>当客户端接收到对冲请求集合中的一个完成时，会取消其他的请求，被取消的请求最终会提交一个 CancelClientStreamCommand，发送一个 RST_STEAM 请求；当服务端接受到这个流后，如果监听器还没有关闭，会执行取消上下文的操作，最终将这个请求取消&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GRPC on HelloWood</title><link>https://blog.hellowood.dev/tags/grpc/</link><description>Recent content in GRPC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 20 Feb 2021 22:34:46 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/grpc/index.xml" rel="self" type="application/rss+xml"/><item><title>gRPC 对冲请求取消流程</title><link>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>当客户端接收到对冲请求集合中的一个完成时，会取消其他的请求，被取消的请求最终会提交一个 CancelClientStreamCommand，发送一个 RST_STEAM 请求；当服务端接受到这个流后，如果监听器还没有关闭，会执行取消上下文的操作，最终将这个请求取消&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg" alt="grpc-hedging-request-cancel.svg">&lt;/p>
 &lt;h2 id="客户端">客户端&lt;/h2>
 &lt;p>当客户端成功接收到响应会，会在 io.grpc.internal.RetriableStream.Sublistener#close 中将成功的流进行提交&lt;/p>
@@ -41,8 +40,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>io.grpc.netty.shaded.io.grpc.netty.NettyClientStream.Sink#cancel&lt;/li>
 &lt;/ul>
-&lt;p>提交取消流的指令&lt;/p></description></item><item><title>gRPC 服务间调用事件流程</title><link>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-服务间调用事件流程">gRPC 服务间调用事件流程&lt;/h1>
-&lt;h2 id="调用流程图">调用流程图&lt;/h2>
+&lt;p>提交取消流的指令&lt;/p></description></item><item><title>gRPC 服务间调用事件流程</title><link>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</guid><description>&lt;h2 id="调用流程图">调用流程图&lt;/h2>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/gRPC%E8%AF%B7%E6%B1%82%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B.svg" alt="gRPC请求事件流程.svg">&lt;/p>
 &lt;h2 id="可监听的事件">可监听的事件&lt;/h2>
 &lt;h3 id="客户端">客户端&lt;/h3>
@@ -81,8 +79,7 @@
 &lt;li>&lt;code>transportTerminated&lt;/code>：Transport 关闭事件&lt;/li>
 &lt;/ul>
 &lt;h4 id="serverstreamtracer">ServerStreamTracer&lt;/h4>
-&lt;p>Server 端流事件追踪，监听流的事件&lt;/p></description></item><item><title>gRPC 中泛化调用服务接口</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%B3%9B%E5%8C%96%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3/</link><pubDate>Fri, 29 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%B3%9B%E5%8C%96%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3/</guid><description>&lt;h1 id="grpc-中泛化调用服务接口">gRPC 中泛化调用服务接口&lt;/h1>
-&lt;p>gRPC 没有直接支持泛化调用，protobuf 可以不依赖于生成的代码实现调用，所以可以通过反射接口间接实现泛化调用&lt;/p>
+&lt;p>Server 端流事件追踪，监听流的事件&lt;/p></description></item><item><title>gRPC 中泛化调用服务接口</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%B3%9B%E5%8C%96%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3/</link><pubDate>Fri, 29 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%B3%9B%E5%8C%96%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3/</guid><description>&lt;p>gRPC 没有直接支持泛化调用，protobuf 可以不依赖于生成的代码实现调用，所以可以通过反射接口间接实现泛化调用&lt;/p>
 &lt;p>要求 Server 端提供 &lt;code>grpc.reflection.v1alpha.ServerReflection&lt;/code> 服务，用于获取服务的描述文件&lt;/p>
 &lt;p>大致的流程是：&lt;/p>
 &lt;ol>
@@ -146,8 +143,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">StreamObserver&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">ServerReflectionRequest&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">requestStreamObserver&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#c1abea">reflectionStub&lt;/span>.&lt;span style="color:#b3d23c">serverReflectionInfo&lt;/span>(&lt;span style="color:#c1abea">streamObserver&lt;/span>);
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="2-根据方法名称获取文件描述">2. 根据方法名称获取文件描述&lt;/h4>
 &lt;p>这里的 &lt;code>methodSymbol&lt;/code> 即服务或方法的限定名，可以是 &lt;code>package.service&lt;/code> 或者 &lt;code>package.service.method&lt;/code>
-，如 &lt;code>io.github.helloworlde.grpc.HelloService.SayHello&lt;/code>，需要注意方法前是 &lt;code>.&lt;/code>不是&lt;code>/&lt;/code>&lt;/p></description></item><item><title>gRPC 反射服务</title><link>https://blog.hellowood.dev/posts/grpc-%E5%8F%8D%E5%B0%84%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%8F%8D%E5%B0%84%E6%9C%8D%E5%8A%A1/</guid><description>&lt;h1 id="grpc-反射服务">gRPC 反射服务&lt;/h1>
-&lt;p>gRPC 提供了 &lt;code>grpc.reflection.v1alpha.ServerReflection&lt;/code> 服务，在 Server 端添加后可以通过该服务获取所有服务的信息，包括服务定义，方法，属性等；&lt;/p>
+，如 &lt;code>io.github.helloworlde.grpc.HelloService.SayHello&lt;/code>，需要注意方法前是 &lt;code>.&lt;/code>不是&lt;code>/&lt;/code>&lt;/p></description></item><item><title>gRPC 反射服务</title><link>https://blog.hellowood.dev/posts/grpc-%E5%8F%8D%E5%B0%84%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%8F%8D%E5%B0%84%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>gRPC 提供了 &lt;code>grpc.reflection.v1alpha.ServerReflection&lt;/code> 服务，在 Server 端添加后可以通过该服务获取所有服务的信息，包括服务定义，方法，属性等；&lt;/p>
 &lt;p>可以根据获取到的服务信息调用其他的方法，实现泛化调用；gRPC 调试工具 &lt;a href="">grpcurl&lt;/a> 和 &lt;a href="https://github.com/grpc-swagger/grpc-swagger">gRPC Swagger&lt;/a> 等工具都是通过这种方式实现的&lt;/p>
 &lt;h2 id="定义">定义&lt;/h2>
 &lt;p>参考 &lt;a href="https://github.com/grpc/grpc/blob/master/doc/server-reflection.md">GRPC Server Reflection Protocol&lt;/a> 和 &lt;a href="https://github.com/grpc/grpc/blob/master/src/proto/grpc/reflection/v1alpha/reflection.proto">reflection.proto&lt;/a>&lt;/p>
@@ -207,17 +203,16 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> // 保持运行
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server.awaitTermination();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="client-端">Client 端&lt;/h2>
-&lt;p>发起双向流请求&lt;/p></description></item><item><title>gRPC Gateway 使用</title><link>https://blog.hellowood.dev/posts/grpc-gateway-%E4%BD%BF%E7%94%A8/</link><pubDate>Wed, 06 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-gateway-%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="grpc-gateway-使用">gRPC Gateway 使用&lt;/h1>
-&lt;p>gRPC Gateway 可以代理 gRPC 服务，接收 HTTP 请求，并转为 gRPC 请求由服务进行处理，并将返回结果转换为 HTTP 响应发送给调用者 gRPC Gateway&lt;/p>
+&lt;p>发起双向流请求&lt;/p></description></item><item><title>gRPC Gateway 使用</title><link>https://blog.hellowood.dev/posts/grpc-gateway-%E4%BD%BF%E7%94%A8/</link><pubDate>Wed, 06 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-gateway-%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>gRPC Gateway 可以代理 gRPC 服务，接收 HTTP 请求，并转为 gRPC 请求由服务进行处理，并将返回结果转换为 HTTP 响应发送给调用者 gRPC Gateway&lt;/p>
 &lt;p>支持代理单个服务或者多个服务，当代理多个服务时，可以通过命名解析实现转发请求&lt;/p>
 &lt;h2 id="快速使用">快速使用&lt;/h2>
 &lt;ul>
 &lt;li>启动项目&lt;/li>
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/helloworlde/grpc-gateway.git &amp;amp; &lt;span style="color:#ef8383">cd&lt;/span> grpc-gateway
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make all 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make all
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>访问&lt;/li>
 &lt;/ul>
@@ -325,8 +320,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">server&lt;/span>.&lt;span style="color:#00b1f7">StartGrpcServer&lt;/span>()
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动 Server 后，会监听 8090 端口，对外提供服务&lt;/p></description></item><item><title>gRPC 服务使用 TLS 加密</title><link>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8-tls-%E5%8A%A0%E5%AF%86/</link><pubDate>Wed, 06 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8-tls-%E5%8A%A0%E5%AF%86/</guid><description>&lt;h1 id="grpc-服务使用-tls-加密">gRPC 服务使用 TLS 加密&lt;/h1>
-&lt;p>gRPC 支持使用 TLS 对请求进行加密&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动 Server 后，会监听 8090 端口，对外提供服务&lt;/p></description></item><item><title>gRPC 服务使用 TLS 加密</title><link>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8-tls-%E5%8A%A0%E5%AF%86/</link><pubDate>Wed, 06 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8-tls-%E5%8A%A0%E5%AF%86/</guid><description>&lt;p>gRPC 支持使用 TLS 对请求进行加密&lt;/p>
 &lt;blockquote>
 &lt;p>SSL(Secure Socket Layer，安全套接字)，是面向连接的网络层和应用层协议之间的一种协议层；SSL 通过互相认证、使用数字签名确保完整性、使用加密确保隐私性，以实现客户端和服务端之间的安全通讯&lt;/p>
 &lt;p>TLS(Transport Layer Security, 传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性&lt;/p>
@@ -362,8 +356,7 @@ IP.2 = 127.0.0.1
 &lt;/code>&lt;/pre>&lt;ol start="2">
 &lt;li>生成证书&lt;/li>
 &lt;/ol>
-&lt;p>生成自签名的证书，因为 Netty 的 &lt;code>SslContextBuilder&lt;/code> 和 &lt;code>SslContext&lt;/code> 仅支持 &lt;code>PKCS8&lt;/code> 格式的 key，所以需要将其他格式的 key 转换为 &lt;code>PKCS8&lt;/code> 格式&lt;/p></description></item><item><title>gRPC 中使用 Channelz</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E4%BD%BF%E7%94%A8-channelz/</link><pubDate>Mon, 04 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E4%BD%BF%E7%94%A8-channelz/</guid><description>&lt;h1 id="grpc-中使用-channelz">gRPC 中使用 Channelz&lt;/h1>
-&lt;p>gRPC 提供了 Channelz 用于对外提供服务的数据，用于调试、监控等；根据服务的角色不同，可以提供的数据有：&lt;/p>
+&lt;p>生成自签名的证书，因为 Netty 的 &lt;code>SslContextBuilder&lt;/code> 和 &lt;code>SslContext&lt;/code> 仅支持 &lt;code>PKCS8&lt;/code> 格式的 key，所以需要将其他格式的 key 转换为 &lt;code>PKCS8&lt;/code> 格式&lt;/p></description></item><item><title>gRPC 中使用 Channelz</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E4%BD%BF%E7%94%A8-channelz/</link><pubDate>Mon, 04 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E4%BD%BF%E7%94%A8-channelz/</guid><description>&lt;p>gRPC 提供了 Channelz 用于对外提供服务的数据，用于调试、监控等；根据服务的角色不同，可以提供的数据有：&lt;/p>
 &lt;ul>
 &lt;li>服务端: Servers, Server, ServerSockets, Socket&lt;/li>
 &lt;li>客户端: TopChannels, Channel, Subchannel&lt;/li>
@@ -387,8 +380,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c678dd">rpc&lt;/span> &lt;span style="color:#c1abea">GetSocket&lt;/span>(&lt;span style="color:#c1abea">GetSocketRequest&lt;/span>) &lt;span style="color:#c678dd">returns&lt;/span> (&lt;span style="color:#c1abea">GetSocketResponse&lt;/span>);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用">使用&lt;/h2>
-&lt;p>相关项目参考 &lt;a href="https://github.com/helloworlde/grpc-java-sample">github.com/helloworlde/grpc-java-sample&lt;/a>&lt;/p></description></item><item><title>gRPC 中打印请求二进制日志</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%89%93%E5%8D%B0%E8%AF%B7%E6%B1%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97/</link><pubDate>Mon, 04 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%89%93%E5%8D%B0%E8%AF%B7%E6%B1%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97/</guid><description>&lt;h1 id="grpc-中打印请求二进制日志">gRPC 中打印请求二进制日志&lt;/h1>
-&lt;p>gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中，方便在必要时排查问题&lt;/p>
+&lt;p>相关项目参考 &lt;a href="https://github.com/helloworlde/grpc-java-sample">github.com/helloworlde/grpc-java-sample&lt;/a>&lt;/p></description></item><item><title>gRPC 中打印请求二进制日志</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%89%93%E5%8D%B0%E8%AF%B7%E6%B1%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97/</link><pubDate>Mon, 04 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E6%89%93%E5%8D%B0%E8%AF%B7%E6%B1%82%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97/</guid><description>&lt;p>gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中，方便在必要时排查问题&lt;/p>
 &lt;h2 id="使用">使用&lt;/h2>
 &lt;h4 id="1-添加依赖">1. 添加依赖&lt;/h4>
 &lt;p>binlog 的依赖在 &lt;code>grpc-services&lt;/code>中，所以需要有该依赖&lt;/p>
@@ -457,8 +449,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">setBinaryLog&lt;/span>(&lt;span style="color:#c1abea">binaryLog&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="4-指定环境变量">4. 指定环境变量&lt;/h4>
-&lt;p>需要指定环境变量，设置需要输出的方法才会生效，设置 &lt;code>GRPC_BINARY_LOG_CONFIG=*&lt;/code>，&lt;code>*&lt;/code>代表打印所有的方法，具体指定可以参考 &lt;a href="https://github.com/helloworlde/proposal/blob/master/A16-binary-logging.md#control-interface">Control Interface&lt;/a>&lt;/p></description></item><item><title>gRPC 拦截器和监听器</title><link>https://blog.hellowood.dev/posts/grpc-%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E7%9B%91%E5%90%AC%E5%99%A8/</link><pubDate>Sun, 03 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E7%9B%91%E5%90%AC%E5%99%A8/</guid><description>&lt;h1 id="grpc-拦截器和监听器">gRPC 拦截器和监听器&lt;/h1>
-&lt;p>gRPC 拦截器用于在请求执行之前执行，以实现校验授权，记录调用行为，插入其他逻辑等；拦截器有 &lt;code>ClientInterceptor&lt;/code> 和 &lt;code>ServerInterceptor&lt;/code>，分别用于客户端和服务端&lt;/p>
+&lt;p>需要指定环境变量，设置需要输出的方法才会生效，设置 &lt;code>GRPC_BINARY_LOG_CONFIG=*&lt;/code>，&lt;code>*&lt;/code>代表打印所有的方法，具体指定可以参考 &lt;a href="https://github.com/helloworlde/proposal/blob/master/A16-binary-logging.md#control-interface">Control Interface&lt;/a>&lt;/p></description></item><item><title>gRPC 拦截器和监听器</title><link>https://blog.hellowood.dev/posts/grpc-%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E7%9B%91%E5%90%AC%E5%99%A8/</link><pubDate>Sun, 03 Jan 2021 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E7%9B%91%E5%90%AC%E5%99%A8/</guid><description>&lt;p>gRPC 拦截器用于在请求执行之前执行，以实现校验授权，记录调用行为，插入其他逻辑等；拦截器有 &lt;code>ClientInterceptor&lt;/code> 和 &lt;code>ServerInterceptor&lt;/code>，分别用于客户端和服务端&lt;/p>
 &lt;p>[TOC]&lt;/p>
 &lt;h2 id="客户端">客户端&lt;/h2>
 &lt;h3 id="拦截器接口定义">拦截器接口定义&lt;/h3>
@@ -477,7 +468,7 @@ IP.2 = 127.0.0.1
 &lt;li>在构建 Channel 时添加拦截器&lt;/li>
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">this&lt;/span>.&lt;span style="color:#b3d23c">channel&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">ManagedChannelBuilder&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">forAddress&lt;/span>(&lt;span style="color:#c1abea">host&lt;/span>, &lt;span style="color:#c1abea">port&lt;/span>) 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">forAddress&lt;/span>(&lt;span style="color:#c1abea">host&lt;/span>, &lt;span style="color:#c1abea">port&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">intercept&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">CustomClientInterceptor&lt;/span>())
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
@@ -507,8 +498,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">CallOptions&lt;/span> &lt;span style="color:#c1abea">callOptions&lt;/span>) {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">interceptor&lt;/span>.&lt;span style="color:#b3d23c">interceptCall&lt;/span>(&lt;span style="color:#c1abea">method&lt;/span>, &lt;span style="color:#c1abea">callOptions&lt;/span>, &lt;span style="color:#c1abea">channel&lt;/span>);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后返回自定义的 &lt;code>CustomForwardingClientCall&lt;/code>，在这个类的&lt;code>checkedStart&lt;/code>方法中，还创建了 &lt;code>CustomCallListener&lt;/code>, 这样在调用时，就可以实现 &lt;code>ClientCall&lt;/code> 和 &lt;code>ClientCallListener&lt;/code> 的事件监听，从而实现自定义的逻辑&lt;/p></description></item><item><title>gRPC 中监听 Sream 和 Transport 的事件</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9B%91%E5%90%AC-sream-%E5%92%8C-transport-%E7%9A%84%E4%BA%8B%E4%BB%B6/</link><pubDate>Wed, 23 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9B%91%E5%90%AC-sream-%E5%92%8C-transport-%E7%9A%84%E4%BA%8B%E4%BB%B6/</guid><description>&lt;h1 id="grpc-中监听-sream-和-transport-的事件">gRPC 中监听 Sream 和 Transport 的事件&lt;/h1>
-&lt;p>gRPC 提供了拦截器可以监听请求的事件，但是对于 Stream 或者 Transport 的具体事件，无法通过拦截器实现；gRPC 提供了 StreamTracer 和 TransportFilter 支持这样的能力&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后返回自定义的 &lt;code>CustomForwardingClientCall&lt;/code>，在这个类的&lt;code>checkedStart&lt;/code>方法中，还创建了 &lt;code>CustomCallListener&lt;/code>, 这样在调用时，就可以实现 &lt;code>ClientCall&lt;/code> 和 &lt;code>ClientCallListener&lt;/code> 的事件监听，从而实现自定义的逻辑&lt;/p></description></item><item><title>gRPC 中监听 Sream 和 Transport 的事件</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9B%91%E5%90%AC-sream-%E5%92%8C-transport-%E7%9A%84%E4%BA%8B%E4%BB%B6/</link><pubDate>Wed, 23 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9B%91%E5%90%AC-sream-%E5%92%8C-transport-%E7%9A%84%E4%BA%8B%E4%BB%B6/</guid><description>&lt;p>gRPC 提供了拦截器可以监听请求的事件，但是对于 Stream 或者 Transport 的具体事件，无法通过拦截器实现；gRPC 提供了 StreamTracer 和 TransportFilter 支持这样的能力&lt;/p>
 &lt;h2 id="streamtracer">StreamTracer&lt;/h2>
 &lt;p>&lt;code>StreamTracer&lt;/code> 用于监听流的所有事件，包括流关闭、出入站消息、出入站流大小等信息&lt;/p>
 &lt;p>&lt;code>StreamTracer&lt;/code> 有用于客户端的 &lt;code>ClientStreamTracer&lt;/code> 和用于服务端的 &lt;code>ServerStreamTracer&lt;/code>&lt;/p>
@@ -556,8 +546,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="服务端">服务端&lt;/h3>
-&lt;p>服务端的 &lt;code>StreamTracer&lt;/code> 在构建 Server 时指定，在执行请求时会监听相应的方法&lt;/p></description></item><item><title>gRPC Server 端请求处理流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Tue, 15 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-server-端请求处理流程">gRPC Server 端请求处理流程&lt;/h1>
-&lt;p>[TOC]&lt;/p>
+&lt;p>服务端的 &lt;code>StreamTracer&lt;/code> 在构建 Server 时指定，在执行请求时会监听相应的方法&lt;/p></description></item><item><title>gRPC Server 端请求处理流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Tue, 15 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>[TOC]&lt;/p>
 &lt;h2 id="初始化">初始化&lt;/h2>
 &lt;ol>
 &lt;li>创建并启动 ServerTransport&lt;/li>
@@ -590,8 +579,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>io.grpc.netty.NettyServerTransport#start&lt;/li>
 &lt;/ul>
-&lt;p>在启动 &lt;code>Transport&lt;/code> 时，会为当前的 &lt;code>Transport&lt;/code> 创建一个处理器，并绑定到 Netty 的 Channel 中&lt;/p></description></item><item><title>gRPC Server 端关闭流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 05 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-server-端关闭流程">gRPC Server 端关闭流程&lt;/h1>
-&lt;h2 id="关闭-server">关闭 Server&lt;/h2>
+&lt;p>在启动 &lt;code>Transport&lt;/code> 时，会为当前的 &lt;code>Transport&lt;/code> 创建一个处理器，并绑定到 Netty 的 Channel 中&lt;/p></description></item><item><title>gRPC Server 端关闭流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 05 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/</guid><description>&lt;h2 id="关闭-server">关闭 Server&lt;/h2>
 &lt;p>关闭 Server 可以使用 &lt;code>shutdown&lt;/code> 或者 &lt;code>shutdownNow&lt;/code> 方法&lt;/p>
 &lt;h4 id="shutdown">shutdown&lt;/h4>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">server&lt;/span>.&lt;span style="color:#b3d23c">shutdown&lt;/span>().&lt;span style="color:#b3d23c">awaitTermination&lt;/span>(&lt;span style="color:#c1abea">10&lt;/span>, &lt;span style="color:#c1abea">TimeUnit&lt;/span>.&lt;span style="color:#b3d23c">SECONDS&lt;/span>);
@@ -626,8 +614,45 @@ IP.2 = 127.0.0.1
 &lt;ul>
 &lt;li>io.grpc.netty.NettyServer#shutdown&lt;/li>
 &lt;/ul>
-&lt;p>关闭 &lt;code>NettySerer&lt;/code>，添加关闭事件监听器，并等待关闭；在监听器中会释放资源，关闭协议协调器，关闭 Transport 等&lt;/p></description></item><item><title>gRPC Server 端启动流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 05 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-server-端启动流程">gRPC Server 端启动流程&lt;/h1>
-&lt;p>gRPC Server 启动流程，底层实现以 Netty 为例；&lt;/p>
+&lt;p>关闭 &lt;code>NettySerer&lt;/code>，添加关闭事件监听器，并等待关闭；在监听器中会释放资源，关闭协议协调器，关闭 Transport 等&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">shutdown&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 如果 channel 已经关闭了，则返回&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">if&lt;/span> (&lt;span style="color:#c1abea">channel&lt;/span> &lt;span style="color:#c7bf54">==&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">null&lt;/span> &lt;span style="color:#c7bf54">||&lt;/span> &lt;span style="color:#c7bf54">!&lt;/span>&lt;span style="color:#c1abea">channel&lt;/span>.&lt;span style="color:#b3d23c">isOpen&lt;/span>()) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// Already closed.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 添加监听器，用于在关闭时释放资源，关闭协议，关闭 Transport 等&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">channel&lt;/span>.&lt;span style="color:#b3d23c">close&lt;/span>().&lt;span style="color:#b3d23c">addListener&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">ChannelFutureListener&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">operationComplete&lt;/span>(&lt;span style="color:#c1abea">ChannelFuture&lt;/span> &lt;span style="color:#c1abea">future&lt;/span>) &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">Exception&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">if&lt;/span> (&lt;span style="color:#c7bf54">!&lt;/span>&lt;span style="color:#c1abea">future&lt;/span>.&lt;span style="color:#b3d23c">isSuccess&lt;/span>()) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">log&lt;/span>(&lt;span style="color:#c1abea">Level&lt;/span>.&lt;span style="color:#b3d23c">WARNING&lt;/span>, &lt;span style="color:#98c379">&amp;#34;Error shutting down server&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">future&lt;/span>.&lt;span style="color:#b3d23c">cause&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">InternalInstrumented&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">SocketStats&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">stats&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">listenSocketStats&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">listenSocketStats&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">if&lt;/span> (&lt;span style="color:#c1abea">stats&lt;/span> &lt;span style="color:#c7bf54">!=&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">null&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">channelz&lt;/span>.&lt;span style="color:#b3d23c">removeListenSocket&lt;/span>(&lt;span style="color:#c1abea">stats&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">sharedResourceReferenceCounter&lt;/span>.&lt;span style="color:#b3d23c">release&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">protocolNegotiator&lt;/span>.&lt;span style="color:#b3d23c">close&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">synchronized&lt;/span> (&lt;span style="color:#c1abea">NettyServer&lt;/span>.&lt;span style="color:#b3d23c">this&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 关闭 Transport&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">listener&lt;/span>.&lt;span style="color:#b3d23c">serverShutdown&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 关闭 channel&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">channel&lt;/span>.&lt;span style="color:#b3d23c">closeFuture&lt;/span>().&lt;span style="color:#b3d23c">await&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#c678dd">catch&lt;/span> (&lt;span style="color:#c1abea">InterruptedException&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">log&lt;/span>(&lt;span style="color:#c1abea">Level&lt;/span>.&lt;span style="color:#b3d23c">FINE&lt;/span>, &lt;span style="color:#98c379">&amp;#34;Interrupted while shutting down&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">e&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Thread&lt;/span>.&lt;span style="color:#b3d23c">currentThread&lt;/span>().&lt;span style="color:#b3d23c">interrupt&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>io.grpc.internal.ServerImpl.ServerListenerImpl#serverShutdown&lt;/li>
+&lt;/ul>
+&lt;p>监听 Server 关闭事件，根据关闭的状态，选择调用 &lt;code>Transport&lt;/code> 的 &lt;code>shutdown&lt;/code> 或者 &lt;code>shutdownNow&lt;/code> 关闭 &lt;code>ServerTransport&lt;/code>&lt;/p></description></item><item><title>gRPC Server 端启动流程</title><link>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 05 Dec 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>gRPC Server 启动流程，底层实现以 Netty 为例；&lt;/p>
 &lt;h2 id="核心类">核心类&lt;/h2>
 &lt;ul>
 &lt;li>&lt;code>io.grpc.Server&lt;/code>&lt;/li>
@@ -672,8 +697,7 @@ IP.2 = 127.0.0.1
 &lt;li>添加拦截器等其他的配置&lt;/li>
 &lt;li>构建 &lt;code>Server&lt;/code> 实例
 &lt;ol>
-&lt;li>构建 &lt;code>ServerTransport&lt;/code> 实例
-2. 遍历所有监听的地址，创建相应的 &lt;code>NettyServer&lt;/code>&lt;/li>
+&lt;li>构建 &lt;code>ServerTransport&lt;/code> 实例 2. 遍历所有监听的地址，创建相应的 &lt;code>NettyServer&lt;/code>&lt;/li>
 &lt;/ol>
 &lt;/li>
 &lt;li>启动 &lt;code>Server&lt;/code>
@@ -690,15 +714,14 @@ IP.2 = 127.0.0.1
 &lt;li>保持 &lt;code>Server&lt;/code> 启动状态，启动完成&lt;/li>
 &lt;/ol>
 &lt;h3 id="server-定义">Server 定义&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">Server&lt;/span> &lt;span style="color:#c1abea">server&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">ServerBuilder&lt;/span>.&lt;span style="color:#b3d23c">forPort&lt;/span>(&lt;span style="color:#c1abea">1234&lt;/span>) 
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">addService&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">HelloServiceImpl&lt;/span>()) 
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">Server&lt;/span> &lt;span style="color:#c1abea">server&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">ServerBuilder&lt;/span>.&lt;span style="color:#b3d23c">forPort&lt;/span>(&lt;span style="color:#c1abea">1234&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">addService&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">HelloServiceImpl&lt;/span>())
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">intercept&lt;/span>(&lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">CustomServerInterceptor&lt;/span>())
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#b3d23c">build&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">server&lt;/span>.&lt;span style="color:#b3d23c">start&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">server&lt;/span>.&lt;span style="color:#b3d23c">awaitTermination&lt;/span>();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="绑定端口">绑定端口&lt;/h4>
-&lt;p>指定了要监听的端口，会根据不同的 &lt;code>Server&lt;/code> 实现绑定端口&lt;/p></description></item><item><title>gRPC Channel</title><link>https://blog.hellowood.dev/posts/grpc-channel/</link><pubDate>Wed, 18 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-channel/</guid><description>&lt;h1 id="grpc-channel">gRPC Channel&lt;/h1>
-&lt;p>&lt;code>Channel&lt;/code> 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 &lt;code>Channel&lt;/code> 可以有 0 或多个真实连接&lt;/p>
+&lt;p>指定了要监听的端口，会根据不同的 &lt;code>Server&lt;/code> 实现绑定端口&lt;/p></description></item><item><title>gRPC Channel</title><link>https://blog.hellowood.dev/posts/grpc-channel/</link><pubDate>Wed, 18 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-channel/</guid><description>&lt;p>&lt;code>Channel&lt;/code> 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 &lt;code>Channel&lt;/code> 可以有 0 或多个真实连接&lt;/p>
 &lt;p>&lt;code>Subchannel&lt;/code> 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png" alt="grpc-source-code-channel-class-diagram.png">&lt;/p>
 &lt;p>Channel 有多个子类：&lt;/p>
@@ -742,8 +765,12 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>isShutdown&lt;/li>
 &lt;/ul>
-&lt;p>返回 &lt;code>Channel&lt;/code> 是否终止，终止的 &lt;code>Channel&lt;/code> 没有执行中的调用，相关的资源被释放&lt;/p></description></item><item><title>gRPC Client 启动流程</title><link>https://blog.hellowood.dev/posts/grpc-client-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link><pubDate>Tue, 17 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-client-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-client-启动流程">gRPC Client 启动流程&lt;/h1>
-&lt;p>gRPC 启动初始化的流程，使用 Netty 作为底层的实现&lt;/p>
+&lt;p>返回 &lt;code>Channel&lt;/code> 是否终止，终止的 &lt;code>Channel&lt;/code> 没有执行中的调用，相关的资源被释放&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">abstract&lt;/span> &lt;span style="color:#ef8383">boolean&lt;/span> &lt;span style="color:#00b1f7">isShutdown&lt;/span>();
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>awiatTermination&lt;/li>
+&lt;/ul>
+&lt;p>等待 &lt;code>Channel&lt;/code> 变为终止，如果超时则放弃等待&lt;/p></description></item><item><title>gRPC Client 启动流程</title><link>https://blog.hellowood.dev/posts/grpc-client-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link><pubDate>Tue, 17 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-client-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>gRPC 启动初始化的流程，使用 Netty 作为底层的实现&lt;/p>
 &lt;h2 id="初始化-channel">初始化 Channel&lt;/h2>
 &lt;p>Channel 的初始化通过 &lt;code>ChannelBuilder&lt;/code> 构建
 这里通过 &lt;code>forTarget&lt;/code> 设置了要解析的服务名称，会通过 &lt;code>NameResolver&lt;/code> 解析，转换为具体的地址&lt;/p>
@@ -784,9 +811,8 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">TimeProvider&lt;/span> &lt;span style="color:#c1abea">timeProvider&lt;/span>)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="设置服务名称">设置服务名称&lt;/h5>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">this&lt;/span>.&lt;span style="color:#b3d23c">target&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">checkNotNull&lt;/span>(&lt;span style="color:#c1abea">builder&lt;/span>.&lt;span style="color:#b3d23c">target&lt;/span>, &lt;span style="color:#98c379">&amp;#34;target&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="设置--transportfactory">设置 TransportFactory&lt;/h5>
-&lt;p>创建了支持鉴权的代理的 &lt;code>TransportFactory&lt;/code>，用于支持向服务端发起请求进行鉴权&lt;/p></description></item><item><title>gRPC Stream</title><link>https://blog.hellowood.dev/posts/grpc-stream/</link><pubDate>Sun, 08 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-stream/</guid><description>&lt;h1 id="grpc-stream">gRPC Stream&lt;/h1>
-&lt;p>Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 &lt;code>ClientStream&lt;/code> 和 &lt;code>ServerStream&lt;/code>&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="设置-transportfactory">设置 TransportFactory&lt;/h5>
+&lt;p>创建了支持鉴权的代理的 &lt;code>TransportFactory&lt;/code>，用于支持向服务端发起请求进行鉴权&lt;/p></description></item><item><title>gRPC Stream</title><link>https://blog.hellowood.dev/posts/grpc-stream/</link><pubDate>Sun, 08 Nov 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-stream/</guid><description>&lt;p>Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 &lt;code>ClientStream&lt;/code> 和 &lt;code>ServerStream&lt;/code>&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png" alt="grpc-source-code-stream-diagram.png">&lt;/p>
 &lt;h2 id="clientstream">ClientStream&lt;/h2>
 &lt;p>&lt;code>ClientStream&lt;/code> 接口继承 Stream 接口，有多个实现类或抽象实现类：&lt;/p>
@@ -832,8 +858,11 @@ IP.2 = 127.0.0.1
 &lt;p>获取流的属性&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">Attributes&lt;/span> &lt;span style="color:#00b1f7">getAttributes&lt;/span>();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="监听器">监听器&lt;/h3>
-&lt;p>ClientStreamListener 用于监听客户端流的事件&lt;/p></description></item><item><title>gRPC Transport</title><link>https://blog.hellowood.dev/posts/grpc-transport/</link><pubDate>Thu, 22 Oct 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-transport/</guid><description>&lt;h1 id="grpc-transport">gRPC Transport&lt;/h1>
-&lt;p>Transport 分为 &lt;code>ClientTransport&lt;/code> 和 &lt;code>ServerTransport&lt;/code>，分别用于客户端和服务端&lt;/p>
+&lt;p>ClientStreamListener 用于监听客户端流的事件&lt;/p>
+&lt;ul>
+&lt;li>onReady&lt;/li>
+&lt;/ul>
+&lt;p>当接收得此事件说明 Transport 已经准备好发送附加消息了&lt;/p></description></item><item><title>gRPC Transport</title><link>https://blog.hellowood.dev/posts/grpc-transport/</link><pubDate>Thu, 22 Oct 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-transport/</guid><description>&lt;p>Transport 分为 &lt;code>ClientTransport&lt;/code> 和 &lt;code>ServerTransport&lt;/code>，分别用于客户端和服务端&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png" alt="grpc-source-code-transport-classes-diagram.png">&lt;/p>
 &lt;h2 id="clienttransport">ClientTransport&lt;/h2>
 &lt;p>&lt;code>ClientTransport&lt;/code> 与真正的 IP 地址是一一对应的，用于建立连接，创建流&lt;/p>
@@ -895,8 +924,7 @@ IP.2 = 127.0.0.1
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">transportTerminated&lt;/span>();
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="clienttransport-流程">ClientTransport 流程&lt;/h3>
-&lt;p>Transport 在 Channel 退出空闲模式时会被创建，然后通过 &lt;code>start&lt;/code> 方法启动，建立连接，当连接成功后触发 ready 回调，然后更新 LB 状态为 READY，然后可以执行发送请求到服务端&lt;/p></description></item><item><title>gRPC 使用自定义的 LoadBalancer</title><link>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/</link><pubDate>Tue, 29 Sep 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/</guid><description>&lt;h1 id="grpc-使用自定义的-loadbalancer">gRPC 使用自定义的 LoadBalancer&lt;/h1>
-&lt;p>gRPC 中提供了 &lt;code>round_robin&lt;/code>, &lt;code>pick_first&lt;/code>, &lt;code>grpclb&lt;/code>, &lt;code>HealthCheckingRoundRobin&lt;/code> 等负载均衡的实现，默认使用&lt;code>HealthCheckingRoundRobin&lt;/code>，该负载均衡支持检查 Subchannel 的健康状态&lt;/p>
+&lt;p>Transport 在 Channel 退出空闲模式时会被创建，然后通过 &lt;code>start&lt;/code> 方法启动，建立连接，当连接成功后触发 ready 回调，然后更新 LB 状态为 READY，然后可以执行发送请求到服务端&lt;/p></description></item><item><title>gRPC 使用自定义的 LoadBalancer</title><link>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/</link><pubDate>Tue, 29 Sep 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/</guid><description>&lt;p>gRPC 中提供了 &lt;code>round_robin&lt;/code>, &lt;code>pick_first&lt;/code>, &lt;code>grpclb&lt;/code>, &lt;code>HealthCheckingRoundRobin&lt;/code> 等负载均衡的实现，默认使用&lt;code>HealthCheckingRoundRobin&lt;/code>，该负载均衡支持检查 Subchannel 的健康状态&lt;/p>
 &lt;p>LoadBalancer 主要类包括 &lt;code>LoadBalancerProvider&lt;/code>, &lt;code>LoadBalancer&lt;/code>, &lt;code>SubchannelPicker&lt;/code>, &lt;code>LoadBalancer.SubchannelStateListener &lt;/code>，所以实现自定义的 LoadBalancer 实现这几个类就可以&lt;/p>
 &lt;h2 id="实现自定义的-loadbalancer">实现自定义的 LoadBalancer&lt;/h2>
 &lt;p>自定义实现一个轮询策略的负载均衡器&lt;/p>
@@ -1028,8 +1056,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>CustomSubchannelStateListener.java&lt;/li>
 &lt;/ul>
-&lt;p>Subchannel 的状态监听器，当 Subchannel 状态发生变化时进行处理&lt;/p></description></item><item><title>gRPC 超时时间与重试时间间隔</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</link><pubDate>Sun, 20 Sep 2020 22:41:50 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</guid><description>&lt;h1 id="grpc-超时时间与重试时间间隔">gRPC 超时时间与重试时间间隔&lt;/h1>
-&lt;blockquote>
+&lt;p>Subchannel 的状态监听器，当 Subchannel 状态发生变化时进行处理&lt;/p></description></item><item><title>gRPC 超时时间与重试时间间隔</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</link><pubDate>Sun, 20 Sep 2020 22:41:50 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</guid><description>&lt;blockquote>
 &lt;p>gRPC 的超时时间生效机制以及重试超时时间间隔&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="超时时间配置">超时时间配置&lt;/h2>
@@ -1047,9 +1074,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;initialBackoff&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;0.01s&amp;#34;&lt;/span>,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;maxBackoff&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;0.1s&amp;#34;&lt;/span>,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;backoffMultiplier&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">2&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;retryableStatusCodes&amp;#34;&lt;/span>: [
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;UNAVAILABLE&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;retryableStatusCodes&amp;#34;&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;UNAVAILABLE&amp;#34;&lt;/span>]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;waitForReady&amp;#34;&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;timeout&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3s&amp;#34;&lt;/span>
@@ -1071,8 +1096,7 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">nextBackoffIntervalNanos&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">retryPolicy&lt;/span>.&lt;span style="color:#b3d23c">initialBackoffNanos&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果开启了重试，且没有达到节流的限制，如果服务端有回推延时时间，则使用服务端回推的时间作为延时时间，初始延迟时间作为下次延时的初始时间；&lt;/p></description></item><item><title>gRPC 中的核心概念</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 20 Sep 2020 22:40:59 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</guid><description>&lt;h1 id="grpc-中的核心概念">gRPC 中的核心概念&lt;/h1>
-&lt;h2 id="stub">Stub&lt;/h2>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果开启了重试，且没有达到节流的限制，如果服务端有回推延时时间，则使用服务端回推的时间作为延时时间，初始延迟时间作为下次延时的初始时间；&lt;/p></description></item><item><title>gRPC 中的核心概念</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 20 Sep 2020 22:40:59 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</guid><description>&lt;h2 id="stub">Stub&lt;/h2>
 &lt;p>Stub 层暴露给开发者，提供类型安全的绑定到正在适应的数据模型/IDL/接口&lt;/p>
 &lt;h2 id="channel">Channel&lt;/h2>
 &lt;p>Channel 层是传输处理之上的抽象，适合拦截器、装饰器，并比 Stub 层暴露更多的行为给应用
@@ -1109,8 +1133,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;li>基于 Netty的 Transport 是主要的 Transport 实现，基于 Netty，可同时用于客户端和服务端&lt;/li>
 &lt;li>基于 OkHttp 的 Transport 是轻量级的 Transport，基于 OkHttp，主要用于 Android 端并只作为客户端&lt;/li>
 &lt;li>InProcess Transport 是当服务器和客户端在同一个进程内时使用，用于测试&lt;/li>
-&lt;/ol></description></item><item><title>gRPC 重试流程</title><link>https://blog.hellowood.dev/posts/grpc-%E9%87%8D%E8%AF%95%E6%B5%81%E7%A8%8B/</link><pubDate>Sun, 20 Sep 2020 22:40:07 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E9%87%8D%E8%AF%95%E6%B5%81%E7%A8%8B/</guid><description>&lt;h1 id="grpc-重试流程">gRPC 重试流程&lt;/h1>
-&lt;p>当第一次调用失败，流监听器关闭的时候，会根据请求的处理状态和方法的配置，判断是否需要重试&lt;/p>
+&lt;/ol></description></item><item><title>gRPC 重试流程</title><link>https://blog.hellowood.dev/posts/grpc-%E9%87%8D%E8%AF%95%E6%B5%81%E7%A8%8B/</link><pubDate>Sun, 20 Sep 2020 22:40:07 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E9%87%8D%E8%AF%95%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>当第一次调用失败，流监听器关闭的时候，会根据请求的处理状态和方法的配置，判断是否需要重试&lt;/p>
 &lt;p>请求的处理状态有三种，在&lt;code>io.grpc.internal.ClientStreamListener.RpcProgress&lt;/code>中定义：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>PROCESSED&lt;/code>: 请求被正常处理，按照返回的状态码决定是否要重试&lt;/li>
@@ -1158,7 +1181,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ListenableFuture&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">RespT&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#c1abea">responseFuture&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">futureUnaryCall&lt;/span>(&lt;span style="color:#c1abea">call&lt;/span>, &lt;span style="color:#c1abea">req&lt;/span>);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">while&lt;/span> (&lt;span style="color:#c7bf54">!&lt;/span>&lt;span style="color:#c1abea">responseFuture&lt;/span>.&lt;span style="color:#b3d23c">isDone&lt;/span>()) {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	 &lt;span style="color:#8a93a5;font-style:italic">// 执行提交的 Runnable &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	 &lt;span style="color:#8a93a5;font-style:italic">// 执行提交的 Runnable&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">executor&lt;/span>.&lt;span style="color:#b3d23c">waitAndDrain&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#c678dd">catch&lt;/span> (&lt;span style="color:#c1abea">InterruptedException&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>) {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">interrupt&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>;
@@ -1171,8 +1194,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>执行 unary 调用 &lt;code>futureUnaryCall&lt;/code>&lt;/li>
 &lt;/ol>
-&lt;p>这里创建了 Future，通过 &lt;code>asyncUnaryRequestCall&lt;/code> 继续调用&lt;/p></description></item><item><title>gRPC 对冲原理</title><link>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E5%8E%9F%E7%90%86/</link><pubDate>Sun, 20 Sep 2020 22:39:26 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E5%8E%9F%E7%90%86/</guid><description>&lt;h1 id="grpc-对冲原理">gRPC 对冲原理&lt;/h1>
-&lt;p>gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消&lt;/p>
+&lt;p>这里创建了 Future，通过 &lt;code>asyncUnaryRequestCall&lt;/code> 继续调用&lt;/p></description></item><item><title>gRPC 对冲原理</title><link>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E5%8E%9F%E7%90%86/</link><pubDate>Sun, 20 Sep 2020 22:39:26 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E5%8E%9F%E7%90%86/</guid><description>&lt;p>gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消&lt;/p>
 &lt;p>对冲适用于当下游服务部分节点故障无法及时响应或者响应不及时的场景，通过对冲可以减少请求的失败率，但是可能会导致延时增加&lt;/p>
 &lt;p>对冲和重试的流程相似，在第一次发起请求的时候根据服务名和方法名决定使用哪种策略；如果是对冲策略，则在发起请求时提交一个延时任务，这个任务会发起一个新的请求，并在执行的时候再发起一个请求，并将这些请求添加到队列中；多个请求哪个先返回就使用哪个请求的结果，将其他的请求取消并提交流&lt;/p>
 &lt;h2 id="执行流程">执行流程&lt;/h2>
@@ -1232,8 +1254,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>io.grpc.internal.RetriableStream.HedgingRunnable&lt;/li>
 &lt;/ul>
-&lt;p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务&lt;/p></description></item><item><title>gRPC 自定义健康检查</title><link>https://blog.hellowood.dev/posts/grpc-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</link><pubDate>Sun, 20 Sep 2020 22:38:15 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</guid><description>&lt;h1 id="grpc--自定义健康检查">gRPC 自定义健康检查&lt;/h1>
-&lt;p>在 gRPC 中自定义健康检查逻辑，用于检查特定的组件(如检查 Redis、MQ 等)，或者结合其他的服务组件一起使用(如使用 Spring Boot 的健康检查)&lt;/p>
+&lt;p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务&lt;/p></description></item><item><title>gRPC 自定义健康检查</title><link>https://blog.hellowood.dev/posts/grpc-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</link><pubDate>Sun, 20 Sep 2020 22:38:15 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</guid><description>&lt;p>在 gRPC 中自定义健康检查逻辑，用于检查特定的组件(如检查 Redis、MQ 等)，或者结合其他的服务组件一起使用(如使用 Spring Boot 的健康检查)&lt;/p>
 &lt;h2 id="实现">实现&lt;/h2>
 &lt;p>gRPC 的健康检查服务是通过 &lt;code>health.proto&lt;/code>定义的&lt;/p>
 &lt;ul>
@@ -1324,8 +1345,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用">使用&lt;/h3>
-&lt;p>在 Server 端添加自定义的健康检查服务&lt;/p></description></item><item><title>gRPC 健康检查</title><link>https://blog.hellowood.dev/posts/grpc-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</link><pubDate>Sun, 20 Sep 2020 22:37:34 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</guid><description>&lt;h1 id="grpc--健康检查">gRPC 健康检查&lt;/h1>
-&lt;p>在 gRPC 中使用健康检查，在负载均衡前通过健康检查，只对健康的 Subchannel 发起请求，保证请求的成功率&lt;/p>
+&lt;p>在 Server 端添加自定义的健康检查服务&lt;/p></description></item><item><title>gRPC 健康检查</title><link>https://blog.hellowood.dev/posts/grpc-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</link><pubDate>Sun, 20 Sep 2020 22:37:34 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5/</guid><description>&lt;p>在 gRPC 中使用健康检查，在负载均衡前通过健康检查，只对健康的 Subchannel 发起请求，保证请求的成功率&lt;/p>
 &lt;h2 id="使用">使用&lt;/h2>
 &lt;h3 id="server-端">Server 端&lt;/h3>
 &lt;p>健康检查是一个独立的 Service，需要在 Server 端显式添加健康检查服务&lt;/p>
@@ -1366,8 +1386,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>执行健康检查&lt;/li>
 &lt;/ol>
-&lt;p>在发起请求前，会先使用 Service 的名称请求服务端健康检查服务，检查服务是否处于 &lt;code>SERVING&lt;/code> 状态，如果状态正常，则发起请求，否则将会失败&lt;/p></description></item><item><title>gRPC 负载均衡</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link><pubDate>Sun, 20 Sep 2020 22:36:58 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid><description>&lt;h1 id="grpc--负载均衡">gRPC 负载均衡&lt;/h1>
-&lt;p>gRPC 内定义了 LoadBalancer 接口，用于负载均衡&lt;/p>
+&lt;p>在发起请求前，会先使用 Service 的名称请求服务端健康检查服务，检查服务是否处于 &lt;code>SERVING&lt;/code> 状态，如果状态正常，则发起请求，否则将会失败&lt;/p></description></item><item><title>gRPC 负载均衡</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link><pubDate>Sun, 20 Sep 2020 22:36:58 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid><description>&lt;p>gRPC 内定义了 LoadBalancer 接口，用于负载均衡&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-methods.png" alt="grpc-source-code-loadbalancer-methods.png">&lt;/p>
 &lt;p>LoadBalancer 中的主要方法&lt;/p>
 &lt;ul>
@@ -1411,8 +1430,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
 &lt;li>在 &lt;code>io.grpc.internal.ManagedChannelImpl#ManagedChannelImpl&lt;/code> 构造方法中初始化 Factory&lt;/li>
 &lt;/ol>
-&lt;p>Factory 的实现类是 &lt;code>AutoConfiguredLoadBalancerFactory&lt;/code>&lt;/p></description></item><item><title>gRPC 命名解析</title><link>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 20 Sep 2020 22:35:22 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</guid><description>&lt;h1 id="grpc-命名解析">gRPC 命名解析&lt;/h1>
-&lt;p>命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等&lt;/p>
+&lt;p>Factory 的实现类是 &lt;code>AutoConfiguredLoadBalancerFactory&lt;/code>&lt;/p></description></item><item><title>gRPC 命名解析</title><link>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 20 Sep 2020 22:35:22 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</guid><description>&lt;p>命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png" alt="grpc-source-code-name-resolver-diagram.png">&lt;/p>
 &lt;p>gRPC 的命名解析的父类接口是 &lt;code>NameResolver&lt;/code>
 &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-class.png" alt="grpc-source-code-name-resolver-class.png">&lt;/p>
@@ -1429,8 +1447,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;li>创建 &lt;code>Runnable&lt;/code> 任务，通过调用 &lt;code>Listener&lt;/code> 的 &lt;code>onResult&lt;/code> 方法进行更新&lt;/li>
 &lt;/ol>
 &lt;h2 id="创建-nameresolver">创建 NameResolver&lt;/h2>
-&lt;p>在 Channel 调用 &lt;code>build&lt;/code> 方式时，会在 &lt;code>io.grpc.internal.ManagedChannelImpl#ManagedChannelImpl&lt;/code>的构造方法中获取 &lt;code>NameResolver.Factory&lt;/code>，这个属性的值是由调用 &lt;code>io.grpc.internal.AbstractManagedChannelImplBuilder#getNameResolverFactory&lt;/code> 方法获取的，这个方法里面的属性值来自于 &lt;code>io.grpc.NameResolverRegistry#asFactory&lt;/code>,&lt;code>NameResolverRegistry&lt;/code> 自己通过内部类 &lt;code>NameResolverFactory&lt;/code>创建了&lt;code>NameResovler.Factory&lt;/code> 的实例，在&lt;code>io.grpc.internal.ManagedChannelImpl#getNameResolver&lt;/code>中调用 Factory 的 &lt;code>newNameResolver&lt;/code>时，从 &lt;code>provider&lt;/code> 属性中获取根据优先级排序后的 Provider，通过 Provider 创建 &lt;code>NameResolver&lt;/code> 实例并返回第一个有效实例&lt;/p></description></item><item><title>gRPC 使用自定义的 NameResolver</title><link>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-nameresolver/</link><pubDate>Sun, 20 Sep 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-nameresolver/</guid><description>&lt;h1 id="grpc-使用自定义的-nameresolver">gRPC 使用自定义的 NameResolver&lt;/h1>
-&lt;p>在使用注册中心时，gRPC 并未提供注册中心的服务发现，需要自己实现 &lt;code>NameResolverProvider&lt;/code> 和 &lt;code>NameResolver&lt;/code>&lt;/p>
+&lt;p>在 Channel 调用 &lt;code>build&lt;/code> 方式时，会在 &lt;code>io.grpc.internal.ManagedChannelImpl#ManagedChannelImpl&lt;/code>的构造方法中获取 &lt;code>NameResolver.Factory&lt;/code>，这个属性的值是由调用 &lt;code>io.grpc.internal.AbstractManagedChannelImplBuilder#getNameResolverFactory&lt;/code> 方法获取的，这个方法里面的属性值来自于 &lt;code>io.grpc.NameResolverRegistry#asFactory&lt;/code>,&lt;code>NameResolverRegistry&lt;/code> 自己通过内部类 &lt;code>NameResolverFactory&lt;/code>创建了&lt;code>NameResovler.Factory&lt;/code> 的实例，在&lt;code>io.grpc.internal.ManagedChannelImpl#getNameResolver&lt;/code>中调用 Factory 的 &lt;code>newNameResolver&lt;/code>时，从 &lt;code>provider&lt;/code> 属性中获取根据优先级排序后的 Provider，通过 Provider 创建 &lt;code>NameResolver&lt;/code> 实例并返回第一个有效实例&lt;/p></description></item><item><title>gRPC 使用自定义的 NameResolver</title><link>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-nameresolver/</link><pubDate>Sun, 20 Sep 2020 22:34:46 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-nameresolver/</guid><description>&lt;p>在使用注册中心时，gRPC 并未提供注册中心的服务发现，需要自己实现 &lt;code>NameResolverProvider&lt;/code> 和 &lt;code>NameResolver&lt;/code>&lt;/p>
 &lt;ul>
 &lt;li>NameResolver&lt;/li>
 &lt;/ul>
@@ -1513,8 +1530,7 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;li>NameResolverProvider&lt;/li>
 &lt;/ul>
 &lt;p>&lt;code>NameResolverProvider&lt;/code> 主要用于注册 &lt;code>NameResolver&lt;/code>，可以设置默认的协议，是否可用，优先级等
-优先级有效值是 0-10，gRPC 默认的 &lt;code>DnsNameResolver&lt;/code> 优先级是5，所以自定义的优先级要大于5&lt;/p></description></item><item><title>gRPC 中 Binlog 打印原理</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD-binlog-%E6%89%93%E5%8D%B0%E5%8E%9F%E7%90%86/</link><pubDate>Sun, 20 Sep 2020 22:33:59 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD-binlog-%E6%89%93%E5%8D%B0%E5%8E%9F%E7%90%86/</guid><description>&lt;h1 id="grpc-中-binlog-打印原理">gRPC 中 Binlog 打印原理&lt;/h1>
-&lt;p>gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中&lt;/p>
+优先级有效值是 0-10，gRPC 默认的 &lt;code>DnsNameResolver&lt;/code> 优先级是5，所以自定义的优先级要大于5&lt;/p></description></item><item><title>gRPC 中 Binlog 打印原理</title><link>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD-binlog-%E6%89%93%E5%8D%B0%E5%8E%9F%E7%90%86/</link><pubDate>Sun, 20 Sep 2020 22:33:59 +0000</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E4%B8%AD-binlog-%E6%89%93%E5%8D%B0%E5%8E%9F%E7%90%86/</guid><description>&lt;p>gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中&lt;/p>
 &lt;h2 id="使用">使用&lt;/h2>
 &lt;p>binlog 的依赖在 &lt;code>grpc-services&lt;/code>中，所以需要有该依赖&lt;/p>
 &lt;ul>

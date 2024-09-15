@@ -110,8 +110,7 @@
 &lt;/ul>
 &lt;p>等待启动后，检查 NVME 连接&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci -nn | grep 089a
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;h1 id="ubuntu-22-安装-nvidia-显卡驱动和-cuda">Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA&lt;/h1>
-&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
 &lt;h2 id="安装驱动">安装驱动&lt;/h2>
 &lt;h3 id="获取支持的驱动">获取支持的驱动&lt;/h3>
 &lt;ul>
@@ -157,8 +156,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>重启系统&lt;/li>
 &lt;/ul>
-&lt;p>等待安装完成后重启系统&lt;/p></description></item><item><title>Ubuntu 22 安装 Intel N100 显卡驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 08:41:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid><description>&lt;h1 id="ubuntu-22-安装-intel-n100-显卡驱动">Ubuntu 22 安装 Intel N100 显卡驱动&lt;/h1>
-&lt;p>最近 N5105 的 HomeLab Server 负载过高，CPU 长期接近100%，因此新购入一台 N100，将视频和图像相关的服务迁移到 N100，但是发现 Ubuntu 22 默认没有显卡驱动，需要手动安装&lt;/p>
+&lt;p>等待安装完成后重启系统&lt;/p></description></item><item><title>Ubuntu 22 安装 Intel N100 显卡驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 08:41:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>最近 N5105 的 HomeLab Server 负载过高，CPU 长期接近100%，因此新购入一台 N100，将视频和图像相关的服务迁移到 N100，但是发现 Ubuntu 22 默认没有显卡驱动，需要手动安装&lt;/p>
 &lt;h2 id="检查驱动状态">检查驱动状态&lt;/h2>
 &lt;p>使用 intel_gpu_top 检查显卡状态，发现提示没有设备，这是因为没有安装驱动导致的&lt;/p>
 &lt;ul>
@@ -198,7 +196,7 @@
 &lt;p>NFS 的 Server 端由 &lt;code>nfs-kernel-server&lt;/code> 提供，使用 apt 进行安装&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>apt install -y nfs-kernel-server
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 	&lt;code>systemctl&lt;/code> 查看状态&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 &lt;code>systemctl&lt;/code> 查看状态&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>systemctl status nfs-mountd.service
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>● nfs-mountd.service - NFS Mount Daemon
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Loaded: loaded &lt;span style="color:#c7bf54">(&lt;/span>/lib/systemd/system/nfs-mountd.service; static&lt;span style="color:#c7bf54">)&lt;/span>
@@ -217,8 +215,7 @@
 &lt;ul>
 &lt;li>创建挂载目录并修改权限&lt;/li>
 &lt;/ul>
-&lt;p>首先，创建需要分享的目录，如 &lt;code>/data/nfs&lt;/code>&lt;/p></description></item><item><title>Ubuntu 22 环境初始化</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 07 Jan 2024 18:03:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;h1 id="ubuntu-22-环境初始化">Ubuntu 22 环境初始化&lt;/h1>
-&lt;p>在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置&lt;/p>
+&lt;p>首先，创建需要分享的目录，如 &lt;code>/data/nfs&lt;/code>&lt;/p></description></item><item><title>Ubuntu 22 环境初始化</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 07 Jan 2024 18:03:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;p>在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置&lt;/p>
 &lt;h2 id="修改主机名">修改主机名&lt;/h2>
 &lt;p>将主机名改为 &lt;code>homelab&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>hostnamectl hostname homelab
@@ -235,7 +232,7 @@
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mv /etc/apt/sources.list /etc/apt/sources.list.backup
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo bash -c &lt;span style="color:#63c381">&amp;#34;cat &amp;lt;&amp;lt; EOF &amp;gt; /etc/apt/sources.list &amp;amp;&amp;amp; apt update 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo bash -c &lt;span style="color:#63c381">&amp;#34;cat &amp;lt;&amp;lt; EOF &amp;gt; /etc/apt/sources.list &amp;amp;&amp;amp; apt update
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
@@ -245,8 +242,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">EOF&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后使用 update 验证&lt;/p></description></item><item><title>Docker 使用 NFS 作为数据卷存储</title><link>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</link><pubDate>Thu, 22 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</guid><description>&lt;h1 id="docker-使用-nfs-作为数据卷存储">Docker 使用 NFS 作为数据卷存储&lt;/h1>
-&lt;p>在搭建 HomeLab 的过程中，出现因虚拟机故障导致容器挂载在虚拟机上的数据丢失的问题，因此，将数据挂载在虚拟机上仍然存在风险；同时为了将计算和数据分离，HomeLab 所在的服务器只做计算，将数据存储转移到 NAS上；因此，使用 NFS 作为 Docker 的数据卷，将数据挂载到远程的 NAS 存储中&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后使用 update 验证&lt;/p></description></item><item><title>Docker 使用 NFS 作为数据卷存储</title><link>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</link><pubDate>Thu, 22 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</guid><description>&lt;p>在搭建 HomeLab 的过程中，出现因虚拟机故障导致容器挂载在虚拟机上的数据丢失的问题，因此，将数据挂载在虚拟机上仍然存在风险；同时为了将计算和数据分离，HomeLab 所在的服务器只做计算，将数据存储转移到 NAS上；因此，使用 NFS 作为 Docker 的数据卷，将数据挂载到远程的 NAS 存储中&lt;/p>
 &lt;p>Docker 支持 Samba/NFS 等协议的远程存储&lt;/p>
 &lt;h2 id="创建-docker-nfs-数据卷">创建 Docker NFS 数据卷&lt;/h2>
 &lt;p>通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code>local&lt;/code>，类型是 &lt;code>nfs&lt;/code>，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code>nginx-volume&lt;/code>&lt;/p>
@@ -275,8 +271,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="容器中使用-nfs-数据卷">容器中使用 NFS 数据卷&lt;/h2>
 &lt;h3 id="在容器中挂载">在容器中挂载&lt;/h3>
-&lt;p>以 Nginx 为例，挂载 &lt;code>nginx-volume&lt;/code> 到容器中；也可以使用 &lt;code>-v nginx-volume:/data&lt;/code>的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code>-v&lt;/code> 会创建一个，而 &lt;code>--mount&lt;/code>会报错&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;h1 id="ubuntu-server-22-虚拟机空间扩容">Ubuntu Server 22 虚拟机空间扩容&lt;/h1>
-&lt;blockquote>
+&lt;p>以 Nginx 为例，挂载 &lt;code>nginx-volume&lt;/code> 到容器中；也可以使用 &lt;code>-v nginx-volume:/data&lt;/code>的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code>-v&lt;/code> 会创建一个，而 &lt;code>--mount&lt;/code>会报错&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;blockquote>
 &lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>
 &lt;/blockquote>
 &lt;h3 id="检查未分区空间">检查未分区空间&lt;/h3>
@@ -308,8 +303,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/sda2 2.0G 127M 1.7G 7% /boot
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/sda1 1.1G 5.3M 1.1G 1% /boot/efi
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 796M 4.0K 796M 1% /run/user/0
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>lsblk&lt;/code> 查看分区信息，发现 &lt;code>ubuntu--vg-ubuntu--lv&lt;/code>是在&lt;code>/dev/sda3&lt;/code>下的逻辑分区，所以需要将未分区的空间添加到 &lt;code>/sda/sda3&lt;/code>分区下&lt;/p></description></item><item><title>Ubuntu 22 设置静态 IP</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81-ip/</link><pubDate>Mon, 05 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81-ip/</guid><description>&lt;h1 id="ubuntu-22-设置静态-ip">Ubuntu 22 设置静态 IP&lt;/h1>
-&lt;p>在虚拟机中启动了 Ubuntu Server 作为日常使用的服务器，同时将 DHCP 和 DNS 相关的服务也运行在这个 Ubuntu Server上；&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>lsblk&lt;/code> 查看分区信息，发现 &lt;code>ubuntu--vg-ubuntu--lv&lt;/code>是在&lt;code>/dev/sda3&lt;/code>下的逻辑分区，所以需要将未分区的空间添加到 &lt;code>/sda/sda3&lt;/code>分区下&lt;/p></description></item><item><title>Ubuntu 22 设置静态 IP</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81-ip/</link><pubDate>Mon, 05 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81-ip/</guid><description>&lt;p>在虚拟机中启动了 Ubuntu Server 作为日常使用的服务器，同时将 DHCP 和 DNS 相关的服务也运行在这个 Ubuntu Server上；&lt;/p>
 &lt;p>因为在 DHCP 服务中使用IP 和 Mac 绑定的方式分配 IP，因此 Ubuntu Server 是以 DHCP 方式获取 IP地址；但是在一次意外重启后，无法访问 Ubuntu Server，查看网络发现是因为网卡没有分配到 IP，这是 Ubuntu Server 依赖 DHCP 服务分配 IP，但是 DHCP 服务因为宿主机没有网络所以无法访问，造成死循环；因此通过为 Ubuntu Server 设置静态 IP 的方式，避免重启后再次出现这样的问题&lt;/p>
 &lt;h2 id="配置静态-ip">配置静态 IP&lt;/h2>
 &lt;h3 id="1-查找网卡">1 查找网卡&lt;/h3>
@@ -340,24 +334,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> RX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> frame &lt;span style="color:#d19a66">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX packets &lt;span style="color:#d19a66">298&lt;/span> bytes &lt;span style="color:#d19a66">48692&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>48.6 KB&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> carrier &lt;span style="color:#d19a66">0&lt;/span> collisions &lt;span style="color:#d19a66">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">```&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">### 2 修改网络配置&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ubuntu &lt;span style="color:#d19a66">22&lt;/span> 的配置文件位置是 &lt;span style="color:#98c379">`&lt;/span>/etc/netplan/***.yaml&lt;span style="color:#98c379">`&lt;/span>，通常是 &lt;span style="color:#98c379">`&lt;/span>/etc/netplan/00-installer-config.yaml&lt;span style="color:#98c379">`&lt;/span>，也可能是 &lt;span style="color:#98c379">`&lt;/span>50-cloud-init.yaml&lt;span style="color:#98c379">`&lt;/span>；
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- 00-installer-config.yaml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>其中 &lt;span style="color:#98c379">`&lt;/span>ens160&lt;span style="color:#98c379">`&lt;/span> 是网卡名称，要和 &lt;span style="color:#98c379">`&lt;/span>ifconfig&lt;span style="color:#98c379">`&lt;/span>获取到的一致
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">```&lt;/span>yaml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>network:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ethernets:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ens160:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dhcp4: &lt;span style="color:#ef8383">true&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改配置，指定静态 IP 配置信息；其中 &lt;code>addresses&lt;/code>指定静态 IP的地址及子网信息；&lt;code>routes&lt;/code> 指向网关地址；&lt;code>nameservers&lt;/code>为 DNS服务器地址&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;h1 id="树莓派-4-使用-wifi-从-ssd-headless-启动">树莓派 4 使用 WiFi 从 SSD Headless 启动&lt;/h1>
-&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2-修改网络配置">2 修改网络配置&lt;/h3>
+&lt;p>Ubuntu 22 的配置文件位置是 &lt;code>/etc/netplan/***.yaml&lt;/code>，通常是 &lt;code>/etc/netplan/00-installer-config.yaml&lt;/code>，也可能是 &lt;code>50-cloud-init.yaml&lt;/code>；&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
 &lt;h2 id="依赖">依赖&lt;/h2>
 &lt;ul>
 &lt;li>树莓派 4&lt;/li>
@@ -391,8 +369,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Device Boot Start End Sectors Size Id Type
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#d19a66">2048&lt;/span> &lt;span style="color:#d19a66">526335&lt;/span> &lt;span style="color:#d19a66">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#c7bf54">(&lt;/span>LBA&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#d19a66">526336&lt;/span> &lt;span style="color:#d19a66">6366175&lt;/span> &lt;span style="color:#d19a66">5839840&lt;/span> 2.8G &lt;span style="color:#d19a66">83&lt;/span> Linux
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;h1 id="树莓派-4b-无网线安装-ubuntu-并初始化">树莓派 4b 无网线安装 Ubuntu 并初始化&lt;/h1>
-&lt;blockquote>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
 &lt;p>必需设备：&lt;/p>
 &lt;/blockquote>
 &lt;ul>
@@ -439,8 +416,7 @@
 #: TYPE NAME SIZE IDENTIFIER
 0: FDisk_partition_scheme *32.0 GB disk3
 1: DOS_FAT_32 SD 32.0 GB disk3s1
-&lt;/code>&lt;/pre>&lt;p>其中的 &lt;code>/dev/disk3&lt;/code>就是 SD卡&lt;/p></description></item><item><title>Ubuntu/Docker 替换软件源</title><link>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</link><pubDate>Mon, 27 May 2019 15:06:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</guid><description>&lt;h1 id="ubuntudocker-替换软件源">Ubuntu/Docker 替换软件源&lt;/h1>
-&lt;h2 id="ubuntu">Ubuntu&lt;/h2>
+&lt;/code>&lt;/pre>&lt;p>其中的 &lt;code>/dev/disk3&lt;/code>就是 SD卡&lt;/p></description></item><item><title>Ubuntu/Docker 替换软件源</title><link>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</link><pubDate>Mon, 27 May 2019 15:06:43 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</guid><description>&lt;h2 id="ubuntu">Ubuntu&lt;/h2>
 &lt;h3 id="使用-sed-命令">使用 sed 命令&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apt/sources.list/
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改">手动修改&lt;/h3>
@@ -450,22 +426,22 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo vi sources.list
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p>
-&lt;pre tabindex="0">&lt;code>deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse 
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse 
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse 
-deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse 
+&lt;pre tabindex="0">&lt;code>deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 
-deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse 
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
 
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse 
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
 
-deb http://archive.canonical.com/ubuntu/ xenial partner 
-deb http://extras.ubuntu.com/ubuntu/ xenial main 
+deb http://archive.canonical.com/ubuntu/ xenial partner
+deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get upgrade
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="docker-alpine-镜像替换软件源">Docker alpine 镜像替换软件源&lt;/h2>
@@ -476,8 +452,7 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改-1">手动修改&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>Ubuntu 搭建 ShadowSocks 服务</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 21 Oct 2018 22:39:52 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;h1 id="ubuntu-搭建-shadowsocks-服务">Ubuntu 搭建 ShadowSocks 服务&lt;/h1>
-&lt;blockquote>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>Ubuntu 搭建 ShadowSocks 服务</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 21 Oct 2018 22:39:52 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;blockquote>
 &lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>
 &lt;/blockquote>
 &lt;blockquote>
@@ -534,8 +509,7 @@ Enjoy it!
 }
 &lt;/code>&lt;/pre>&lt;h2 id="卸载">卸载&lt;/h2>
 &lt;pre tabindex="0">&lt;code>./shadowsocks.sh uninstall
-&lt;/code>&lt;/pre></description></item><item><title>Ubuntu 服务器上传和下载文件</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 10 Apr 2018 14:47:07 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</guid><description>&lt;h1 id="ubuntu-服务器上传和下载文件">Ubuntu 服务器上传和下载文件&lt;/h1>
-&lt;p>使用 &lt;code>scp&lt;/code> 命令完成文件的上传和下载&lt;/p>
+&lt;/code>&lt;/pre></description></item><item><title>Ubuntu 服务器上传和下载文件</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 10 Apr 2018 14:47:07 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/</guid><description>&lt;p>使用 &lt;code>scp&lt;/code> 命令完成文件的上传和下载&lt;/p>
 &lt;h2 id="上传">上传&lt;/h2>
 &lt;ul>
 &lt;li>上传单个文件&lt;/li>
@@ -561,8 +535,7 @@ Enjoy it!
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>scp -p port -r user@ServerIp:source_dictionary target_dictionry
 &lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>scp -r root@192.168.0.2:/home/hellowood/tomcat /User/hellowood/tomcat
-&lt;/code>&lt;/pre></description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;h1 id="docker-配置-nginx-访问宿主机目录下的应用">Docker 配置 Nginx 访问宿主机目录下的应用&lt;/h1>
-&lt;blockquote>
+&lt;/code>&lt;/pre></description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
 &lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="配置并启动-tomcat">配置并启动 Tomcat&lt;/h2>
@@ -576,10 +549,10 @@ mkdir /home/nginx/logs
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>查询宿主机 IP&lt;/li>
 &lt;/ul>
-&lt;pre tabindex="0">&lt;code>docker inspect --format &amp;#39;{{ .NetworkSettings.IPAddress }}&amp;#39; &amp;lt;container-ID&amp;gt; 
+&lt;pre tabindex="0">&lt;code>docker inspect --format &amp;#39;{{ .NetworkSettings.IPAddress }}&amp;#39; &amp;lt;container-ID&amp;gt;
 
 # 或
-docker inspect &amp;lt;container id&amp;gt; 
+docker inspect &amp;lt;container id&amp;gt;
 
 # 或
 docker inspect -f &amp;#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&amp;#39; container_name_or_id
@@ -595,14 +568,13 @@ docker inspect -f &amp;#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{en
  server_name ali.hellowood.com.cn;
  location / {
  proxy_pass http://172.17.0.1:8080;
- proxy_set_header Host $http_host; 
- proxy_set_header X-Real-IP $remote_addr; 
- proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+ proxy_set_header Host $http_host;
+ proxy_set_header X-Real-IP $remote_addr;
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
  }
- } 
+ }
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>需要注意的是，Docker 会默认使用桥接路由，所以其 IP 和宿主机的 IP 位于同一 IP 段，并且默认宿主机的 IP 为第一个，即如果 Docker 的 IP 为 &lt;code>10.1.0.2&lt;/code>, 则可以通过 访问 &lt;code>10.1.0.1&lt;/code> 访问到宿主机&lt;/p></description></item><item><title>Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 08 Apr 2018 15:38:01 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h1 id="ubuntu-docker-配置-tomcat-和-nginx-使用-https-访问">Ubuntu Docker 配置 Tomcat 和 Nginx 使用 HTTPS 访问&lt;/h1>
-&lt;h2 id="安装-docker">安装 Docker&lt;/h2>
+&lt;p>需要注意的是，Docker 会默认使用桥接路由，所以其 IP 和宿主机的 IP 位于同一 IP 段，并且默认宿主机的 IP 为第一个，即如果 Docker 的 IP 为 &lt;code>10.1.0.2&lt;/code>, 则可以通过 访问 &lt;code>10.1.0.1&lt;/code> 访问到宿主机&lt;/p></description></item><item><title>Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 08 Apr 2018 15:38:01 +0000</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h2 id="安装-docker">安装 Docker&lt;/h2>
 &lt;h3 id="使用脚本自动安装">使用脚本自动安装&lt;/h3>
 &lt;pre tabindex="0">&lt;code>curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh --mirror Aliyun
@@ -686,8 +658,7 @@ sudo apt-get install jenkins
 &lt;/code>&lt;/pre>&lt;p>##4. 访问并配置&lt;/p>
 &lt;blockquote>
 &lt;p>访问 Jenkins 的地址，会要求填写 Jenkins 的密码，该密码可以在&lt;code>/var/log/jenkins/jenkins.log&lt;/code>中找到&lt;/p>
-&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;h1 id="在ubuntu通过java官网下载安装jdk">在Ubuntu通过Java官网下载安装JDK&lt;/h1>
-&lt;hr>
+&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;hr>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>1 创建文件夹&lt;/p>
 &lt;pre tabindex="0">&lt;code>mkdir java
@@ -730,7 +701,6 @@ echo $PATH
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装 Nginx</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</link><pubDate>Mon, 01 Jan 2018 12:10:38 +0000</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</guid><description>&lt;blockquote>
 &lt;p>在 Ubuntu 上安装 Nginx&lt;/p>
 &lt;/blockquote>
-&lt;h1 id="1-通过-ubuntu-的仓库安装">1. 通过 Ubuntu 的仓库安装&lt;/h1>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
 &lt;li>安装&lt;/li>
@@ -754,7 +724,7 @@ echo $PATH
 &lt;ul>
 &lt;li>下载&lt;/li>
 &lt;/ul>
-&lt;pre tabindex="0">&lt;code> cd /usr/local 
+&lt;pre tabindex="0">&lt;code> cd /usr/local
  //下载源码
  wget http://nginx.org/download/nginx-1.2.8.tar.gz
 
@@ -772,7 +742,7 @@ echo $PATH
 &lt;pre tabindex="0">&lt;code> cd nginx-1.2.8
  // 检查环境
  ./configure
- 
+
  // 编译
  make
 
@@ -812,9 +782,9 @@ echo $PATH
 &lt;pre tabindex="0">&lt;code> tar -xzvf redis-4.0.1.tar.gz
 &lt;/code>&lt;/pre>&lt;h2 id="4-编译安装">4 编译安装&lt;/h2>
 &lt;pre tabindex="0">&lt;code>cd redis-4.0.1
-make 
+make
 make test
-sudo make install 
+sudo make install
 &lt;/code>&lt;/pre>&lt;h2 id="5-配置">5 配置&lt;/h2>
 &lt;ul>
 &lt;li>设置登录密码&lt;/li>
@@ -838,23 +808,23 @@ requirepass your_password
 &lt;pre tabindex="0">&lt;code>redis-server
 &lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>5617:C 18 Sep 12:57:10.437 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
 5617:M 18 Sep 12:57:10.437 * Increased maximum number of open files to 10032 (it was originally set to 1024).
- _._ 
- _.-``__ &amp;#39;&amp;#39;-._ 
+ _._
+ _.-``__ &amp;#39;&amp;#39;-._
  _.-`` `. `_. &amp;#39;&amp;#39;-._ Redis 3.0.6 (00000000/0) 64 bit
- .-`` .-```. ```\/ _.,_ &amp;#39;&amp;#39;-._ 
+ .-`` .-```. ```\/ _.,_ &amp;#39;&amp;#39;-._
  ( &amp;#39; , .-` | `, ) Running in standalone mode
  |`-._`-...-` __...-.``-._|&amp;#39;` _.-&amp;#39;| Port: 6379
  | `-._ `._ / _.-&amp;#39; | PID: 5617
- `-._ `-._ `-./ _.-&amp;#39; _.-&amp;#39; 
- |`-._`-._ `-.__.-&amp;#39; _.-&amp;#39;_.-&amp;#39;| 
- | `-._`-._ _.-&amp;#39;_.-&amp;#39; | http://redis.io 
- `-._ `-._`-.__.-&amp;#39;_.-&amp;#39; _.-&amp;#39; 
- |`-._`-._ `-.__.-&amp;#39; _.-&amp;#39;_.-&amp;#39;| 
- | `-._`-._ _.-&amp;#39;_.-&amp;#39; | 
- `-._ `-._`-.__.-&amp;#39;_.-&amp;#39; _.-&amp;#39; 
- `-._ `-.__.-&amp;#39; _.-&amp;#39; 
- `-._ _.-&amp;#39; 
- `-.__.-&amp;#39; 
+ `-._ `-._ `-./ _.-&amp;#39; _.-&amp;#39;
+ |`-._`-._ `-.__.-&amp;#39; _.-&amp;#39;_.-&amp;#39;|
+ | `-._`-._ _.-&amp;#39;_.-&amp;#39; | http://redis.io
+ `-._ `-._`-.__.-&amp;#39;_.-&amp;#39; _.-&amp;#39;
+ |`-._`-._ `-.__.-&amp;#39; _.-&amp;#39;_.-&amp;#39;|
+ | `-._`-._ _.-&amp;#39;_.-&amp;#39; |
+ `-._ `-._`-.__.-&amp;#39;_.-&amp;#39; _.-&amp;#39;
+ `-._ `-.__.-&amp;#39; _.-&amp;#39;
+ `-._ _.-&amp;#39;
+ `-.__.-&amp;#39;
 
 5617:M 18 Sep 12:57:10.438 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
 5617:M 18 Sep 12:57:10.438 # Server started, Redis version 3.0.6

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RaspberryPi on HelloWood</title><link>https://blog.hellowood.dev/tags/raspberrypi/</link><description>Recent content in RaspberryPi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 11 Mar 2023 21:38:25 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml"/><item><title>树莓派 4b 使用 CSI 摄像头</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</link><pubDate>Sat, 11 Mar 2023 21:38:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</guid><description>&lt;h1 id="树莓派-4b-使用-csi-摄像头">树莓派 4b 使用 CSI 摄像头&lt;/h1>
-&lt;p>树莓派 4b 支持通过 USB 或者摄像头 CSI 接口连接摄像头，因此可以使用树莓派 4b 作为监控&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RaspberryPi on HelloWood</title><link>https://blog.hellowood.dev/tags/raspberrypi/</link><description>Recent content in RaspberryPi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 11 Mar 2023 21:38:25 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml"/><item><title>树莓派 4b 使用 CSI 摄像头</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</link><pubDate>Sat, 11 Mar 2023 21:38:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</guid><description>&lt;p>树莓派 4b 支持通过 USB 或者摄像头 CSI 接口连接摄像头，因此可以使用树莓派 4b 作为监控&lt;/p>
 &lt;p>基于安装了 Ubuntu Server 22.04 LTS 的树莓派 4b 进行测试&lt;/p>
 &lt;p>带有红外补光灯的摄像头功率大概5-7w左右，因此使用树莓派 4b 连接时需要有 5V3A 的电源，否则当开启摄像头后树莓派会不断重启&lt;/p>
 &lt;h2 id="接入摄像头">接入摄像头&lt;/h2>
@@ -29,8 +28,31 @@
 &lt;/ul>
 &lt;p>查看摄像头信息需要使用 &lt;code>v4l-utils&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install -y v4l-utils
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>v4l-utils&lt;/code> 列出设备&lt;/p></description></item><item><title>树莓派 4b 使用摄像头推送流到 RTMP 服务器</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 11 Mar 2023 21:36:47 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;h1 id="树莓派-4b-使用摄像头推送流到-rtmp-服务器">树莓派 4b 使用摄像头推送流到 RTMP 服务器&lt;/h1>
-&lt;p>使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>v4l-utils&lt;/code> 列出设备&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>v4l2-ctl --list-devices
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bcm2835-codec-decode &lt;span style="color:#c7bf54">(&lt;/span>platform:bcm2835-codec&lt;span style="color:#c7bf54">)&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video10
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video11
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video12
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video18
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video31
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bcm2835-isp &lt;span style="color:#c7bf54">(&lt;/span>platform:bcm2835-isp&lt;span style="color:#c7bf54">)&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video13
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video14
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video15
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video16
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video20
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video21
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video22
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video23
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mmal service 16.1 &lt;span style="color:#c7bf54">(&lt;/span>platform:bcm2835-v4l2-0&lt;span style="color:#c7bf54">)&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的 &lt;code>/dev/video0&lt;/code> 就是通过排线连接的摄像头&lt;/p></description></item><item><title>树莓派 4b 使用摄像头推送流到 RTMP 服务器</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 11 Mar 2023 21:36:47 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
 树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 &lt;a href="https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction">SRS&lt;/a> 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）&lt;/p>
 &lt;p>树莓派连接摄像头可以参考 &lt;a href="https://blog.hellowood.dev">树莓派 4b 使用摄像头&lt;/a>&lt;/p>
 &lt;h2 id="安装-ffmpeg">安装 ffmpeg&lt;/h2>
@@ -40,7 +62,7 @@
 &lt;ul>
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#98c379">&amp;#39;3&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">srs&lt;/span>:
@@ -51,14 +73,13 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;1935:1935&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;1985:1985&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8080:8080&amp;#34;&lt;/span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8080:8080&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;./data:/srs&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用-ffmpeg-推送流到-srs">使用 ffmpeg 推送流到 SRS&lt;/h2>
 &lt;p>通过 ffmpeg 将视频内容推送到 SRS&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66">30&lt;/span> -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66">60&lt;/span> -an -f flv rtmp://192.168.2.5/live/livestream
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其各个参数含义如下：&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;h1 id="树莓派-4b-容器方式安装-openwrt-作为软路由">树莓派 4B 容器方式安装 OpenWrt 作为软路由&lt;/h1>
-&lt;blockquote>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其各个参数含义如下：&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
 &lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>
 &lt;/blockquote>
 &lt;ul>
@@ -85,8 +106,36 @@
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ip link &lt;span style="color:#ef8383">set&lt;/span> eth0 promisc on
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行以下命令检查结果&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig eth0
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>网卡 flag 信息有 &lt;code>PROMISC&lt;/code> 表示开启成功&lt;/p></description></item><item><title>树莓派 4b 安装 Kubernetes</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</link><pubDate>Sat, 24 Apr 2021 22:55:32 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</guid><description>&lt;h1 id="树莓派-4b-安装-kubernetes">树莓派 4b 安装 Kubernetes&lt;/h1>
-&lt;p>K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>网卡 flag 信息有 &lt;code>PROMISC&lt;/code> 表示开启成功&lt;/p>
+&lt;pre tabindex="0">&lt;code>eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
+inet 192.168.31.2 netmask 255.255.255.0 broadcast 192.168.31.255
+inet6 2408:8207:24ac:6fc0::50c prefixlen 128 scopeid 0x0&amp;lt;global&amp;gt;
+ inet6 fe80::dea6:32ff:fe5f:b43e prefixlen 64 scopeid 0x20&amp;lt;link&amp;gt;
+ inet6 2408:8207:24ac:6fc0:dea6:32ff:fe5f:b43e prefixlen 64 scopeid 0x0&amp;lt;global&amp;gt;
+ ether dc:a6:32:5f:b4:3e txqueuelen 1000 (Ethernet)
+ RX packets 2705601 bytes 1502740361 (1.5 GB)
+ RX errors 0 dropped 55 overruns 0 frame 0
+ TX packets 2314782 bytes 826118897 (826.1 MB)
+ TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+ ```
+
+
+## 配置 OpenWrt 容器
+
+1. 创建 `macvlan`
+
+`macvlan` 是一种网卡虚拟化技术，允许在同一个物理网卡上配置多个 MAC 地址，即多个 `interface`，每个 `interface` 可以配置自己的 IP；`macvlan`直接通过以太网的 `interface` 连接到物理网络，因此性能极好
+
+因此，软路由需要使用 `macvlan` 配合混杂模式在容器中实现路由功能
+
+Docker 创建 `macvlan` 时要确定所在的网段，可以在路由器后台进行确认；如小米路由器常用的是 `192.168.31.0/24`网段；在创建网络时需要保证子网网段`subnet`和网关地址`gateway`参数与当前网络一致
+
+```bash
+docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1 -o parent=eth0 macnet
+&lt;/code>&lt;/pre>&lt;ol start="2">
+&lt;li>创建容器&lt;/li>
+&lt;/ol>
+&lt;p>创建容器时需要指定网络为刚才创建的 &lt;code>macnet&lt;/code>&lt;/p></description></item><item><title>树莓派 4b 安装 Kubernetes</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</link><pubDate>Sat, 24 Apr 2021 22:55:32 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</guid><description>&lt;p>K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等&lt;/p>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>在 Ubuntu Server 21.04 上安装 K3S&lt;/p>
 &lt;h3 id="1-安装-docker">1. 安装 Docker&lt;/h3>
@@ -97,7 +146,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 kubectl 查看集群信息&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>k3s kubectl get node
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 也可以直接使用 kubectl &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 也可以直接使用 kubectl&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kubectl get node
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS ROLES AGE VERSION
@@ -106,8 +155,7 @@
 &lt;ul>
 &lt;li>获取 Kube Config&lt;/li>
 &lt;/ul>
-&lt;p>默认的 Kubernetes Config 文件是 &lt;code>/etc/rancher/k3s/k3s.yaml&lt;/code>，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;h1 id="树莓派-4-使用-wifi-从-ssd-headless-启动">树莓派 4 使用 WiFi 从 SSD Headless 启动&lt;/h1>
-&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
+&lt;p>默认的 Kubernetes Config 文件是 &lt;code>/etc/rancher/k3s/k3s.yaml&lt;/code>，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
 &lt;h2 id="依赖">依赖&lt;/h2>
 &lt;ul>
 &lt;li>树莓派 4&lt;/li>
@@ -141,8 +189,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Device Boot Start End Sectors Size Id Type
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#d19a66">2048&lt;/span> &lt;span style="color:#d19a66">526335&lt;/span> &lt;span style="color:#d19a66">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#c7bf54">(&lt;/span>LBA&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#d19a66">526336&lt;/span> &lt;span style="color:#d19a66">6366175&lt;/span> &lt;span style="color:#d19a66">5839840&lt;/span> 2.8G &lt;span style="color:#d19a66">83&lt;/span> Linux
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>Raspberry Pi 4 使用 Grafana 监控</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 20 Sep 2020 22:30:45 +0000</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h1 id="raspberry-pi-4-使用-grafana-监控">Raspberry Pi 4 使用 Grafana 监控&lt;/h1>
-&lt;h2 id="运行-influxdb">运行 Influxdb&lt;/h2>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>Raspberry Pi 4 使用 Grafana 监控</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 20 Sep 2020 22:30:45 +0000</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h2 id="运行-influxdb">运行 Influxdb&lt;/h2>
 &lt;p>Influxdb 和 Prometheus 一样都是时序数据库，不同的是它能够作为一个转发代理接受来自不同程序的消息，这里使用 Telegraf 采集数据，存放到 Influxdb 中&lt;/p>
 &lt;ul>
 &lt;li>启动&lt;/li>
@@ -191,8 +238,7 @@ telegraf 的配置可以先通过&lt;code>docker run telegraf&lt;/code>直接启
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -p 3000:3000 &lt;span style="color:#d26464;font-weight:bold">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> grafana/grafana
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="修改-influxdb-配置">修改 Influxdb 配置&lt;/h2>
-&lt;p>在 Influxdb 中添加一个新的用户，并授予访问 telegraf 数据库的权限，用于 Grafana 拉取数据&lt;/p></description></item><item><title>Raspberry Pi 4 使用 USB 从 SSD 启动</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 20 Sep 2020 22:29:28 +0000</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</guid><description>&lt;h1 id="raspberry-pi-4-使用-usb-从-ssd-启动">Raspberry Pi 4 使用 USB 从 SSD 启动&lt;/h1>
-&lt;p>树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统&lt;/p>
+&lt;p>在 Influxdb 中添加一个新的用户，并授予访问 telegraf 数据库的权限，用于 Grafana 拉取数据&lt;/p></description></item><item><title>Raspberry Pi 4 使用 USB 从 SSD 启动</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 20 Sep 2020 22:29:28 +0000</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统&lt;/p>
 &lt;h2 id="安装-raspberry-pi-os">安装 Raspberry Pi OS&lt;/h2>
 &lt;ul>
 &lt;li>下载 Imager&lt;/li>
@@ -221,8 +267,25 @@ telegraf 的配置可以先通过&lt;code>docker run telegraf&lt;/code>直接启
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt full-upgrade
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo reboot now
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等更新完成后，会安装新的 &lt;code>rpi-eeprom&lt;/code>，更新重启后的版本是 &lt;code>Jun 15 2020&lt;/code>&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;h1 id="树莓派-4b-无网线安装-ubuntu-并初始化">树莓派 4b 无网线安装 Ubuntu 并初始化&lt;/h1>
-&lt;blockquote>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等更新完成后，会安装新的 &lt;code>rpi-eeprom&lt;/code>，更新重启后的版本是 &lt;code>Jun 15 2020&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>查看配置&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vcgencmd bootloader_config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">[&lt;/span>all&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">BOOT_UART&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">WAKE_ON_GPIO&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">POWER_OFF_ON_HALT&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">DHCP_TIMEOUT&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">45000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">DHCP_REQ_TIMEOUT&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">4000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">TFTP_FILE_TIMEOUT&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">30000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">ENABLE_SELF_UPDATE&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">DISABLE_HDMI&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">SD_BOOT_MAX_RETRIES&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">USB_MSD_BOOT_MAX_RETRIES&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#dcaeea">BOOT_ORDER&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>0xf41
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的 &lt;code>BOOT_ORDER&lt;/code>的值是&lt;code>0xf41&lt;/code>，说明首先从&lt;code>USB mass storage boot&lt;/code>启动，如果失败，则从&lt;code>SD CARD&lt;/code>启动，具体的配置解释可以参考 &lt;a href="https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2711_bootloader_config.md">Pi 4 Bootloader Configuration&lt;/a>&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
 &lt;p>必需设备：&lt;/p>
 &lt;/blockquote>
 &lt;ul>

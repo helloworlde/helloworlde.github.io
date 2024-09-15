@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GraphQL on HelloWood</title><link>https://blog.hellowood.dev/categories/graphql/</link><description>Recent content in GraphQL on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 29 Jan 2019 19:57:12 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/graphql/index.xml" rel="self" type="application/rss+xml"/><item><title>GraphQL Spring Boot 使用</title><link>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 29 Jan 2019 19:57:12 +0000</pubDate><guid>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</guid><description>&lt;h1 id="graphql-spring-boot-使用">GraphQL Spring Boot 使用&lt;/h1>
-&lt;p>项目地址 &lt;a href="https://github.com/helloworlde/spring-boot-graphql-demo">https://github.com/helloworlde/spring-boot-graphql-demo&lt;/a>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GraphQL on HelloWood</title><link>https://blog.hellowood.dev/categories/graphql/</link><description>Recent content in GraphQL on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 29 Jan 2019 19:57:12 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/graphql/index.xml" rel="self" type="application/rss+xml"/><item><title>GraphQL Spring Boot 使用</title><link>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 29 Jan 2019 19:57:12 +0000</pubDate><guid>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>项目地址 &lt;a href="https://github.com/helloworlde/spring-boot-graphql-demo">https://github.com/helloworlde/spring-boot-graphql-demo&lt;/a>&lt;/p>
 &lt;blockquote>
 &lt;p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据&lt;/p>
 &lt;/blockquote>
@@ -84,37 +83,36 @@
 &lt;li>添加 GraphQL 依赖&lt;/li>
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 提供 UI 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 提供 UI
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphiql-spring-boot-starter:5.0.2&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 用于 Resolver 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 用于 Resolver
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">implementation&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;com.graphql-java:graphql-java-tools:5.2.4&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>添加接口定义脚本&lt;/li>
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-graphql" data-lang="graphql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># io.github.helloworlde.graphql.model.Post 对应的Model&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Post&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">content&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">content&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">createtype&lt;/span>: &lt;span style="color:#76a9f9">post&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#cebc3a">date&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">date&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># io.github.helloworlde.graphql.resolver.PostMutation.updatePost 的入参 post&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">input&lt;/span> &lt;span style="color:#76a9f9">PostInput&lt;/span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>!,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">input&lt;/span> &lt;span style="color:#76a9f9">PostInput&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">title&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>!
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">content&lt;/span>: &lt;span style="color:#76a9f9">String&lt;/span>!
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 查询 io.github.helloworlde.graphql.resolver.PostQuery&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Query&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Query&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">posts&lt;/span>: [&lt;span style="color:#76a9f9">Post&lt;/span>]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">post&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!): &lt;span style="color:#76a9f9">Post&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 修改 io.github.helloworlde.graphql.resolver.PostMutation&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Mutation&lt;/span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">type&lt;/span> &lt;span style="color:#76a9f9">Mutation&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">createPost&lt;/span>(&lt;span style="color:#cebc3a">post&lt;/span>: &lt;span style="color:#76a9f9">PostInput&lt;/span>): &lt;span style="color:#76a9f9">Post&lt;/span>!
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">updatePost&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!, &lt;span style="color:#cebc3a">post&lt;/span>: &lt;span style="color:#76a9f9">PostInput&lt;/span>): &lt;span style="color:#76a9f9">Post&lt;/span>!
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#cebc3a">deletePost&lt;/span>(&lt;span style="color:#cebc3a">id&lt;/span>: &lt;span style="color:#76a9f9">ID&lt;/span>!): &lt;span style="color:#76a9f9">String&lt;/span>

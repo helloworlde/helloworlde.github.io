@@ -3,62 +3,62 @@
 <a><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Gauge基础知识</h1><small role=doc-subtitle></small><p class=post-date>2018-01-01</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/gauge>Gauge</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/test>Test</a></li></ul></div><div class=post-content><p>本文所有内容均参照自<a href=http://getgauge.io/documentation/user/current/>Gauge官方文档</a></p><hr><blockquote><p>#基本思想
-<code>Gauge</code>入门比较简单，<code>Gauge</code>的基本思想就是通过<code>.spec</code> 或者<code>.md</code> 文件，使用<code>MarkDown</code>语法去规定执行的动作，然后由<code>Java</code>或者其他语言的文件去按照所写的<code>.spec</code> 或者<code>.md</code> 文件的顺序去执行<code>Java</code>文件，从而达到测试的目的</p></blockquote><hr><h1 id=简单语法>简单语法</h1><hr><h2 id=specification>Specification</h2><blockquote><ul><li>作用：开始标志，只能有一个，每个Specification至少包含一个Scenario</li></ul></blockquote><pre tabindex=0><code>Specification name          
+<code>Gauge</code>入门比较简单，<code>Gauge</code>的基本思想就是通过<code>.spec</code> 或者<code>.md</code> 文件，使用<code>MarkDown</code>语法去规定执行的动作，然后由<code>Java</code>或者其他语言的文件去按照所写的<code>.spec</code> 或者<code>.md</code> 文件的顺序去执行<code>Java</code>文件，从而达到测试的目的</p></blockquote><hr><hr><h2 id=specification>Specification</h2><blockquote><ul><li>作用：开始标志，只能有一个，每个Specification至少包含一个Scenario</li></ul></blockquote><pre tabindex=0><code>Specification name
 ==================
 
-或者：  
+或者：
 
 # Specification name
-</code></pre><hr><h2 id=scenario>Scenario</h2><blockquote><ul><li>作用：特定的场景中的一个情节，一个或多个Scenario组成一个Specification，每个Scenario至少包含一个Step</li></ul></blockquote><pre tabindex=0><code>Scenario name                 
+</code></pre><hr><h2 id=scenario>Scenario</h2><blockquote><ul><li>作用：特定的场景中的一个情节，一个或多个Scenario组成一个Specification，每个Scenario至少包含一个Step</li></ul></blockquote><pre tabindex=0><code>Scenario name
 -------------
 
 或者：
 
 ## Scenario name
 </code></pre><hr><h2 id=step>Step</h2><blockquote><p>作用：Specification的可执行部分</p></blockquote><pre tabindex=0><code>* Step Name
-</code></pre><blockquote><ul><li>一般Step
-- 正常执行的Step，包含在Scenario中</li></ul></blockquote><pre tabindex=0><code>    * step
-</code></pre><blockquote><ul><li>Context Step
-- 在Scenario执行之前执行的操作，在每个Scenario执行之前都会先执行Context Step</li></ul></blockquote><pre tabindex=0><code>    * Context step
-</code></pre><blockquote><ul><li>Teardown Step
-- 在Scenario执行之后执行的操作，在每个Scenario执行之后都会执行 Teardown Step
--用半角下划线标识，不是横线</li></ul></blockquote><pre><code>    ________________
+</code></pre><blockquote><ul><li>一般Step</li></ul></blockquote><pre><code>-  正常执行的Step，包含在Scenario中
+</code></pre><pre tabindex=0><code>    * step
+</code></pre><blockquote><ul><li>Context Step</li></ul></blockquote><pre><code> -  在Scenario执行之前执行的操作，在每个Scenario执行之前都会先执行Context Step
+</code></pre><pre tabindex=0><code>    * Context step
+</code></pre><blockquote><ul><li>Teardown Step</li></ul></blockquote><pre><code> -  在Scenario执行之后执行的操作，在每个Scenario执行之后都会执行 Teardown Step
+ -用半角下划线标识，不是横线
+
+    ________________
     Teardown Step
-    
+
     * Teardown Step1
     * Teardown Step2
 </code></pre><pre tabindex=0><code>
     Delete project
     ==============
-    
+
     * Sign up for user &#34;mike&#34;
     * Log in as &#34;mike&#34;
-    
+
     Delete single project
     ---------------------
     * Delete the &#34;example&#34; project
     * Ensure &#34;example&#34; project has been deleted
-    
+
     Delete multiple projects
     ------------------------
     * Delete all the projects in the list
     * Ensure project list is empty
-    
+
     ____________________
     These are teardown steps
-    
+
     * Logout user &#34;mike&#34;
     * Delete user &#34;mike&#34;
-</code></pre><blockquote><p>执行步骤：</p></blockquote><blockquote><ol><li>Context steps execution</li><li><code>Delete single project scenario execution</code></li><li>Tear down steps execution</li><li>Context steps execution</li><li><code>Delete multiple projects scenario execution</code></li><li>Tear down steps execution</li></ol></blockquote><hr><h2 id=tags>Tags</h2><blockquote><ul><li>作用：用于标记Specification 和 Scenario</li></ul></blockquote><pre tabindex=0><code>    Specification 
-    ===================          
+</code></pre><blockquote><p>执行步骤：</p></blockquote><blockquote><ol><li>Context steps execution</li><li><code>Delete single project scenario execution</code></li><li>Tear down steps execution</li><li>Context steps execution</li><li><code>Delete multiple projects scenario execution</code></li><li>Tear down steps execution</li></ol></blockquote><hr><h2 id=tags>Tags</h2><blockquote><ul><li>作用：用于标记Specification 和 Scenario</li></ul></blockquote><pre tabindex=0><code>    Specification
+    ===================
     Tags: spec, login
 
-      
-    Scenario 
+
+    Scenario
     --------------
     Tags: scenario, main-page
 </code></pre><hr><h2 id=concept>Concept</h2><blockquote><ul><li>作用：可重用的逻辑组成的单元，写在单独的文件中用于多次使用</li></ul></blockquote><pre tabindex=0><code>在.spec文件中：
-    
 </code></pre><pre><code>* Delete product &quot;Learning Go&quot;
 </code></pre><pre tabindex=0><code>
 在.cpt文件中：
@@ -66,7 +66,7 @@
     # Delete product &lt;name&gt;
 
     * Find and Open product page for &lt;name&gt;
-    * Delete this product   
+    * Delete this product
 </code></pre><hr><h2 id=parameters>Parameters</h2><ul><li>作用：将参数传递给Java或其他文件</li></ul><pre tabindex=0><code>    * Sign up for user &#34;mike&#34;
 </code></pre><ul><li>静态参数</li><li>使用 <code>"param"</code>形式</li></ul><pre tabindex=0><code>    * Check &#34;product&#34; exists
 </code></pre><ul><li>动态参数</li><li>使用<code>&lt;param></code>形式</li></ul><pre tabindex=0><code>    * Check &lt;product&gt; exists
@@ -78,7 +78,7 @@
 
     * Verify email text is &lt;file:email.txt&gt;
     * Check if &lt;file:/work/content.txt&gt; is visible
-    
+
 CSV：
     * Step that takes a table &lt;table:resources/user.csv&gt;
     * Check if the following users exist &lt;table : /Users/john/work/users.csv&gt;
