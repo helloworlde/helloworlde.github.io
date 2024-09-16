@@ -5,9 +5,6 @@ date: 2023-10-06T15:25:13+08:00
 tags:
   - HomeLab
   - Cloudflare
-series:
-  - HomeLab
-  - Cloudflare
 featured: true
 ---
 

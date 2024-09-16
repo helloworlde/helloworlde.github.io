@@ -5,9 +5,6 @@ date: 2023-11-27T15:20:30+08:00
 tags:
   - Grafana
   - ClickHouse
-series:
-  - Grafana
-  - ClickHouse
 featured: true
 ---
 

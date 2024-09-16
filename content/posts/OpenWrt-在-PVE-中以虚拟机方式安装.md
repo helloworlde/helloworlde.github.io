@@ -10,9 +10,6 @@ categories:
   - Proxmox VE
   - OpenWrt
   - HomeLab
-series:
-  - OpenWrt
-  - Proxmox VE
 featured: true
 ---
 

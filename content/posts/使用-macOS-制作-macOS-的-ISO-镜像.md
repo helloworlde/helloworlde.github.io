@@ -6,8 +6,6 @@ tags:
   - MacOS
 categories:
   - MacOS
-series:
-  - MacOS
 featured: true
 ---
 

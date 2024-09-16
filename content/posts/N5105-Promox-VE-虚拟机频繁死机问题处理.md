@@ -8,8 +8,6 @@ tags:
 categories:
   - Proxmox VE
   - HomeLab
-series:
-  - Proxmox VE
 featured: true
 ---
 

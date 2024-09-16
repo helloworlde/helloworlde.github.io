@@ -6,8 +6,6 @@ tags:
   - Games
 categories:
   - Games
-series:
-  - Games
 featured: true
 ---
 

@@ -8,8 +8,6 @@ tags:
 categories:
   - Esxi
   - HomeLab
-series:
-  - Esxi
 featured: true
 ---
 

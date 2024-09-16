@@ -8,8 +8,6 @@ tags:
 categories:
   - Cloudflare
   - HomeLab
-series:
-  - Cloudflare
 featured: true
 ---
 

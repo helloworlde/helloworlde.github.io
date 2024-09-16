@@ -8,8 +8,6 @@ tags:
 categories:
   - OpenWrt
   - HomeLab
-series:
-  - OpenWrt
 featured: true
 ---
 

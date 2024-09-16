@@ -5,9 +5,6 @@ date: 2024-07-08T09:07:20+08:00
 tags:
   - Ubuntu
   - Coral
-series:
-  - Ubuntu
-  - Coral
 featured: true
 ---
 

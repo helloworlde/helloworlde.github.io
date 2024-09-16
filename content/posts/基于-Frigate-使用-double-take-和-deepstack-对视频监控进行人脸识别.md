@@ -6,10 +6,6 @@ tags:
   - NVR
   - HomeLab
   - Frigate
-series:
-  - NVR
-  - HomeLab
-  - Frigate
 featured: true
 ---
 

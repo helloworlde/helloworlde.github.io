@@ -5,9 +5,6 @@ date: 2023-11-27T18:08:46+08:00
 tags:
   - HomeLab
   - Network
-series:
-  - HomeLab
-  - Network
 featured: true
 ---
 

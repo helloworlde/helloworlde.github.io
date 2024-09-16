@@ -5,9 +5,6 @@ date: 2023-10-04T15:22:56+08:00
 tags:
   - HomeLab
   - UPS
-series:
-  - HomeLab
-  - UPS
 featured: true
 ---
 

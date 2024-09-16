@@ -5,9 +5,6 @@ date: 2024-07-08T08:41:49+08:00
 tags:
   - Ubuntu
   - Intel
-series:
-  - Ubuntu
-  - Intel
 featured: true
 ---
 

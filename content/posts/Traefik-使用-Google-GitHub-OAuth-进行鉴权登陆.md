@@ -8,8 +8,6 @@ tags:
 categories:
   - Traefik
   - HomeLab
-series:
-  - Traefik
 featured: true
 ---
 

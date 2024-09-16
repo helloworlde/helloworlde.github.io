@@ -6,10 +6,6 @@ tags:
   - Ubuntu
   - NVIDIA
   - CUDA
-series:
-  - Ubuntu
-  - NVIDIA
-  - CUDA
 featured: true
 ---
 

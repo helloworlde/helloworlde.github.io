@@ -8,8 +8,6 @@ tags:
 categories:
   - HomeAssistant
   - HomeLab
-series:
-  - HomeAssistant
 featured: true
 ---
 

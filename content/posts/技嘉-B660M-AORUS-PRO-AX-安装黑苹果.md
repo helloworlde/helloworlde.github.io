@@ -8,9 +8,6 @@ tags:
 categories:
   - Hackintosh
   - MacOS
-series:
-  - Hackintosh
-  - MacOS
 featured: true
 ---
 

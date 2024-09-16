@@ -8,9 +8,6 @@ tags:
 categories:
   - Proxmox
   - HomeLab
-series:
-  - Proxmox
-  - HomeLab
 featured: true
 ---
 

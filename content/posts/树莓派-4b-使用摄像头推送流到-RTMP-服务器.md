@@ -8,8 +8,6 @@ tags:
 categories:
   - RaspberryPi
   - HomeLab
-series:
-  - RaspberryPi
 featured: true
 ---
 

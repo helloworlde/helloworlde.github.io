@@ -6,10 +6,6 @@ tags:
   - Ubuntu
   - Hailo
   - TPU
-series:
-  - Ubuntu
-  - Hailo
-  - TPU
 featured: true
 ---
 

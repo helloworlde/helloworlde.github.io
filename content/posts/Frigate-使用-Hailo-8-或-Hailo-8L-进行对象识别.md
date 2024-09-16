@@ -8,12 +8,6 @@ tags:
   - Frigate
   - Hailo
   - TPU
-series:
-  - NVR
-  - HomeLab
-  - Frigate
-  - Hailo
-  - TPU
 featured: true
 ---
 

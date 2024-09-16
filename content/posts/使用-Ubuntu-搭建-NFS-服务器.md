@@ -8,9 +8,6 @@ tags:
 categories:
   - Ubuntu
   - HomeLab
-series:
-  - Ubuntu
-  - HomeLab
 featured: true
 ---
 

@@ -10,8 +10,6 @@ categories:
   - Proxmox VE
   - InfluxDB
   - HomeLab
-series:
-  - Proxmox VE
 featured: true
 ---
 

@@ -10,10 +10,6 @@ categories:
   - Proxmox
   - HomeLab
   - LXC
-series:
-  - Proxmox
-  - HomeLab
-  - LXC
 featured: true
 ---
 

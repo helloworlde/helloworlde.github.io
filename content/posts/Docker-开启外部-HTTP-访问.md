@@ -6,8 +6,6 @@ tags:
   - Docker
 categories:
   - Docker
-series:
-  - Docker
 featured: true
 ---
 
