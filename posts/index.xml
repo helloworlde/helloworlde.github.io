@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 16 Sep 2024 04:00:33 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>将重新训练的 Yolov8 模型编译为 Hailo 8 和 Hailo 8L 支持的模型</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E9%87%8D%E6%96%B0%E8%AE%AD%E7%BB%83%E7%9A%84-yolov8-%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E4%B8%BA-hailo-8-%E5%92%8C-hailo-8l-%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B/</link><pubDate>Sun, 08 Sep 2024 21:32:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E9%87%8D%E6%96%B0%E8%AE%AD%E7%BB%83%E7%9A%84-yolov8-%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E4%B8%BA-hailo-8-%E5%92%8C-hailo-8l-%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B/</guid><description>&lt;p>在 Ubuntu 22 将自行训练的 Yolov8n 模型编译为 Hailo8/Hailo8L 支持的 hef 格式的模型，在 Hailo8 上使用自行训练的模型进行对象检测&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 17 Sep 2024 03:10:36 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p>PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p>
+&lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
+&lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
+&lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>113.conf&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+&lt;/code>&lt;/pre>&lt;p>修改后的完整配置如下：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">arch: amd64
+cores: 2
+features: nesting=1
+hostname: Debian
+memory: 4096
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.2.1,hwaddr=AA:BB:CC:E2:42:EE,ip=192.168.2.8/24,ip6=auto,type=veth
+ostype: debian
+rootfs: local-lvm:vm-113-disk-0,size=60G
+swap: 4096
+unprivileged: 1
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+&lt;/code>&lt;/pre>&lt;p>修改后在 PVE 控制台重启容器即可&lt;/p></description></item><item><title>将重新训练的 Yolov8 模型编译为 Hailo 8 和 Hailo 8L 支持的模型</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E9%87%8D%E6%96%B0%E8%AE%AD%E7%BB%83%E7%9A%84-yolov8-%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E4%B8%BA-hailo-8-%E5%92%8C-hailo-8l-%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B/</link><pubDate>Sun, 08 Sep 2024 21:32:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E9%87%8D%E6%96%B0%E8%AE%AD%E7%BB%83%E7%9A%84-yolov8-%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E4%B8%BA-hailo-8-%E5%92%8C-hailo-8l-%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B/</guid><description>&lt;p>在 Ubuntu 22 将自行训练的 Yolov8n 模型编译为 Hailo8/Hailo8L 支持的 hef 格式的模型，在 Hailo8 上使用自行训练的模型进行对象检测&lt;/p>
 &lt;h2 id="1-环境准备">1. 环境准备&lt;/h2>
 &lt;ul>
 &lt;li>anaconda&lt;/li>

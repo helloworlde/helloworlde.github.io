@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LXC on HelloWood</title><link>https://blog.hellowood.dev/categories/lxc/</link><description>Recent content in LXC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 16 Sep 2024 04:00:33 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/lxc/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 创建自定义的 LXC 容器 CT 模板</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-lxc-%E5%AE%B9%E5%99%A8-ct-%E6%A8%A1%E6%9D%BF/</link><pubDate>Sun, 07 Jan 2024 12:00:10 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-lxc-%E5%AE%B9%E5%99%A8-ct-%E6%A8%A1%E6%9D%BF/</guid><description>&lt;p>LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 更轻量的容器虚拟机；Docker 适用于为服务提供隔离环境，LXC 容器适用于作为虚拟机进行隔离；在 PVE 上 LXC 称为 CT&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LXC on HelloWood</title><link>https://blog.hellowood.dev/categories/lxc/</link><description>Recent content in LXC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 17 Sep 2024 03:10:36 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/categories/lxc/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p>PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p>
+&lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
+&lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
+&lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>113.conf&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+&lt;/code>&lt;/pre>&lt;p>修改后的完整配置如下：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">arch: amd64
+cores: 2
+features: nesting=1
+hostname: Debian
+memory: 4096
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.2.1,hwaddr=AA:BB:CC:E2:42:EE,ip=192.168.2.8/24,ip6=auto,type=veth
+ostype: debian
+rootfs: local-lvm:vm-113-disk-0,size=60G
+swap: 4096
+unprivileged: 1
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+&lt;/code>&lt;/pre>&lt;p>修改后在 PVE 控制台重启容器即可&lt;/p></description></item><item><title>Proxmox VE 创建自定义的 LXC 容器 CT 模板</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-lxc-%E5%AE%B9%E5%99%A8-ct-%E6%A8%A1%E6%9D%BF/</link><pubDate>Sun, 07 Jan 2024 12:00:10 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-lxc-%E5%AE%B9%E5%99%A8-ct-%E6%A8%A1%E6%9D%BF/</guid><description>&lt;p>LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 更轻量的容器虚拟机；Docker 适用于为服务提供隔离环境，LXC 容器适用于作为虚拟机进行隔离；在 PVE 上 LXC 称为 CT&lt;/p>
 &lt;p>在使用 PVE 的过程中会创建多个容器，容器的基础配置基本相同，通过模板的方式创建更方便；虽然 LXC 容器提供了类似 Dockerfile 的配置文件可以创建镜像，但是使用起来比较复杂，学习成本较高；因此可以基于 LXC 容器进行初始化，然后将修改后的 LXC 容器作为基础创建模板&lt;/p>
 &lt;h2 id="创建-lxc-容器">创建 LXC 容器&lt;/h2>
 &lt;p>以 Ubuntu 容器为例进行模板的创建，在 PVE 控制页面创建一个 LXC 容器并启动&lt;/p>
