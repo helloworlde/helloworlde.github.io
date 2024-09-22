@@ -101,17 +101,17 @@ services:
 
 可以通过 ENV 配置参数，如下：
 
-| 环境变量              | 对应参数名称               | 默认值        | 解释说明                     |
-|-----------------------|------------------------|---------------|------------------------------|
-| DERP_MAP              | derp-map               | https://login.tailscale.com/derpmap/default | derp 服务器信息，可以使用本地文件，或者指定为 local 从本地 tailscale 获取    |
-| SPREAD                | spread                 | true          | 第一次探测前添加随机延迟间隔  |
-| LISTEN                | listen                 | :8030         | 监听的 HTTP 端口             |
-| INTERVAL              | interval               | 15s           | udp/udp6 协议检测时间间隔     |
-| MESH_INTERVAL         | mesh-interval          | 15s           | mesh 协议检测时间间隔        |
-| STUN_INTERVAL         | stun-interval          | 15s           | STUN 协议检测时间间隔        |
-| TLS_INTERVAL          | tls-interval           | 15s           | TLS 协议检测时间间隔         |
-| BW_INTERVAL           | bw-interval            | 0             | 带宽检测时间间隔             |
-| BW_PROBE_SIZE_BYTES    | bw-probe-size-bytes    | 1_000_000            | 带宽检测的包大小             |
+| 环境变量            | 对应参数名称        | 默认值                                      | 解释说明                                                                  |
+| ------------------- | ------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
+| DERP_MAP            | derp-map            | https://login.tailscale.com/derpmap/default | derp 服务器信息，可以使用本地文件，或者指定为 local 从本地 tailscale 获取 |
+| SPREAD              | spread              | true                                        | 第一次探测前添加随机延迟间隔                                              |
+| LISTEN              | listen              | :8030                                       | 监听的 HTTP 端口                                                          |
+| INTERVAL            | interval            | 15s                                         | udp/udp6 协议检测时间间隔                                                 |
+| MESH_INTERVAL       | mesh-interval       | 15s                                         | mesh 协议检测时间间隔                                                     |
+| STUN_INTERVAL       | stun-interval       | 15s                                         | STUN 协议检测时间间隔                                                     |
+| TLS_INTERVAL        | tls-interval        | 15s                                         | TLS 协议检测时间间隔                                                      |
+| BW_INTERVAL         | bw-interval         | 0                                           | 带宽检测时间间隔                                                          |
+| BW_PROBE_SIZE_BYTES | bw-probe-size-bytes | 1_000_000                                   | 带宽检测的包大小                                                          |
 
 - docker-compose.yaml
 
@@ -133,7 +133,6 @@ services:
     ports:
       - "8030:8030"
 ```
-
 
 ### 使用自定义的 derp-map
 
@@ -196,7 +195,7 @@ services:
     environment:
       - DERP_MAP=local
     ports:
-     - "8030:8030"
+      - "8030:8030"
     volumes:
       - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
 ```
