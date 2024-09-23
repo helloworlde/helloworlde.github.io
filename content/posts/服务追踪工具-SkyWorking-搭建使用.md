@@ -10,6 +10,7 @@ categories:
   - SkyWalking
   - Tool
   - Trace
+featured: true
 ---
 
 > [SkyWalking](https://github.com/apache/incubator-skywalking) 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具
@@ -18,13 +19,13 @@ categories:
 
 - 截图
 
-![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo1.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo1.png)
+![https://img.hellowood.dev/blog/SkyWalkingDemo1.png](https://img.hellowood.dev/blog/SkyWalkingDemo1.png)
 
-![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo2.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo2.png)
+![https://img.hellowood.dev/blog/SkyWalkingDemo2.png](https://img.hellowood.dev/blog/SkyWalkingDemo2.png)
 
-![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo3.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo3.png)
+![https://img.hellowood.dev/blog/SkyWalkingDemo3.png](https://img.hellowood.dev/blog/SkyWalkingDemo3.png)
 
-![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SkyWalkingDemo4.png)
+![https://img.hellowood.dev/blog/SkyWalkingDemo4.png](https://img.hellowood.dev/blog/SkyWalkingDemo4.png)
 
 > 环境
 >

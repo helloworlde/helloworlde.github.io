@@ -1,13 +1,12 @@
 ---
 title: 微服务网关 Traefik - Docker Swarm 使用
-type: post
-date: 2019-03-24 22:08:30
+date: 2019-03-24T21:20:35+08:00
 tags:
-  - Traefix
-  - Docker
-categories:
-  - Traefix
-  - Docker
+  - HomeLab
+  - Network
+  - Traefik
+featured: true
+type: post
 ---
 
 [traefik](https://docs.traefik.io/) 是一个用 Go 开发的适用于微服务的反向代理和负载均衡的网关；可以自动发现并代理服务，可以用 Kubernetes 或 Docker Swarm 等方式，支持使用 Eureka，Consul，Etcd，ZooKeeper 等注册中心
@@ -44,9 +43,9 @@ docker-compose up -d
 
 这样会启动一个 treafik 的 WebUI 和一个后端服务器
 
-![01](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/treafik-01.png)
+![01](https://img.hellowood.dev/blog/treafik-01.png)
 
-![02](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/treafik-02.png)
+![02](https://img.hellowood.dev/blog/treafik-02.png)
 
 浏览器访问 [http://whoami.docker.localhost](http://whoami.docker.localhost)，会返回以下内容
 
@@ -222,4 +221,4 @@ docker-compose up -d
 
 启动后访问 [http://angular.localhost](http://angular.localhost/)
 
-![03](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/treafik-03.png)
+![03](https://img.hellowood.dev/blog/treafik-03.png)

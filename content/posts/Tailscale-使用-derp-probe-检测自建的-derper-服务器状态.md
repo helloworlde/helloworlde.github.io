@@ -4,6 +4,7 @@ date: 2024-09-22T21:20:35+08:00
 tags:
   - HomeLab
   - Network
+  - Tailscale
 featured: true
 type: post
 ---

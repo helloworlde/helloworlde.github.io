@@ -8,16 +8,17 @@ tags:
 categories:
   - Sonarqube
   - Tool
+featured: true
 ---
 
 > [Sonarqube](https://www.sonarqube.org/) 是一个代码质量管理平台，可以结合不同的测试工具，代码分析工具，持续集成工具等提供代码质量可是化和管理的工具
 
 - [在线工具](https://sonarcloud.io)
 - 截图
-  ![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo1.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo1.png)
-  ![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo2.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo2.png)
-  ![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo3.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo3.png)
-  ![https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo4.png](https://hellowood.oss-cn-beijing.aliyuncs.com/blog/SonarqubeDemo4.png)
+  ![https://img.hellowood.dev/blog/SonarqubeDemo1.png](https://img.hellowood.dev/blog/SonarqubeDemo1.png)
+  ![https://img.hellowood.dev/blog/SonarqubeDemo2.png](https://img.hellowood.dev/blog/SonarqubeDemo2.png)
+  ![https://img.hellowood.dev/blog/SonarqubeDemo3.png](https://img.hellowood.dev/blog/SonarqubeDemo3.png)
+  ![https://img.hellowood.dev/blog/SonarqubeDemo4.png](https://img.hellowood.dev/blog/SonarqubeDemo4.png)
 
 ## 使用
 
