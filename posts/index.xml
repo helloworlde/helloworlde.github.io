@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 22 Sep 2024 21:20:35 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Tailscale 使用 Derp Probe 检测自建的 Derper 服务器状态</title><link>https://blog.hellowood.dev/posts/tailscale-%E4%BD%BF%E7%94%A8-derp-probe-%E6%A3%80%E6%B5%8B%E8%87%AA%E5%BB%BA%E7%9A%84-derper-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81/</link><pubDate>Sun, 22 Sep 2024 21:20:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tailscale-%E4%BD%BF%E7%94%A8-derp-probe-%E6%A3%80%E6%B5%8B%E8%87%AA%E5%BB%BA%E7%9A%84-derper-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81/</guid><description>&lt;p>在使用服务器部署自建的 HomeLab Derp 服务器之后，偶尔会出现 Derp 服务器无法访问，因此想要监控 Derp 服务器的状态，进行延迟检测等；Tailscale 官方提供了 &lt;a href="https://github.com/tailscale/tailscale/blob/main/cmd/derpprobe/derpprobe.go">derpprobe&lt;/a> 这个工具，可以对 Derp 服务器的 UDP/UDP6/TLS/MESH 等协议以及带宽进行检测&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 13 Oct 2024 21:24:31 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
+&lt;p>&lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="">&lt;/p>
+&lt;p>不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口&lt;/p>
+&lt;h2 id="配置-traefik">配置 Traefik&lt;/h2>
+&lt;p>在 Tailscale 的节点上使用 docker-compose 部署 traefik&lt;/p>
+&lt;ul>
+&lt;li>创建网络&lt;/li>
+&lt;/ul>
+&lt;p>为了方便能通过 Docker 自动发现服务路由，创建一个容器共用的网络，用于 Traefik 路由到对应服务&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker network create traefik
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>docker-compose.yaml&lt;/li>
+&lt;/ul>
+&lt;p>需要在 docker-compose 指定网络，并挂载 &lt;code>/var/run/docker.sock&lt;/code>，用于自动获取路由规则&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">networks&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">traefik&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">external&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">traefik&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">healthcheck&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">test&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;CMD&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;wget&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;-q&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;--spider&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;http://localhost:8080/ping&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">retries&lt;/span>: &lt;span style="color:#d19a66">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">start_period&lt;/span>: &lt;span style="color:#98c379">30s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">command&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;--configFile=/etc/traefik/traefik.yml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;81:80&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8443:443&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8080:8080&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;/etc/localtime:/etc/localtime:ro&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;/var/run/docker.sock:/var/run/docker.sock:ro&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;./traefik.yml:/etc/traefik/traefik.yml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">networks&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>traefik.yml&lt;/li>
+&lt;/ul>
+&lt;p>配置中定义了一个 certificatesResolvers，名称是 &lt;code>default&lt;/code>，由 tailscale 提供；同时指定了 tls 的 certResolver 名称是 &lt;code>default&lt;/code>，这样就会由 tailscale 提供 TLS 证书；完整的配置如下：&lt;/p></description></item><item><title>Tailscale 使用 Derp Probe 检测自建的 Derper 服务器状态</title><link>https://blog.hellowood.dev/posts/tailscale-%E4%BD%BF%E7%94%A8-derp-probe-%E6%A3%80%E6%B5%8B%E8%87%AA%E5%BB%BA%E7%9A%84-derper-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81/</link><pubDate>Sun, 22 Sep 2024 21:20:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tailscale-%E4%BD%BF%E7%94%A8-derp-probe-%E6%A3%80%E6%B5%8B%E8%87%AA%E5%BB%BA%E7%9A%84-derper-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81/</guid><description>&lt;p>在使用服务器部署自建的 HomeLab Derp 服务器之后，偶尔会出现 Derp 服务器无法访问，因此想要监控 Derp 服务器的状态，进行延迟检测等；Tailscale 官方提供了 &lt;a href="https://github.com/tailscale/tailscale/blob/main/cmd/derpprobe/derpprobe.go">derpprobe&lt;/a> 这个工具，可以对 Derp 服务器的 UDP/UDP6/TLS/MESH 等协议以及带宽进行检测&lt;/p>
 &lt;p>自行部署 Derp Server 参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/">使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点&lt;/a>&lt;/p>
 &lt;h2 id="构建-docker-镜像">构建 Docker 镜像&lt;/h2>
 &lt;p>derpprobe 没有提供 docker 镜像，可以直接使用我构建的镜像 &lt;code>ghcr.io/helloworlde/tailscale-derpprober:main&lt;/code>，跳过这一步；或者自行构建&lt;/p>
