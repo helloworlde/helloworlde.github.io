@@ -38,7 +38,7 @@ Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可�
 
 ## 配置 Tunnels
 
-关于 Tunnels 配置安装请参考 [使用Cloudflare-Tunnels提供服务公网访问](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8Cloudflare-Tunnels%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%E5%85%AC%E7%BD%91%E8%AE%BF%E9%97%AE/)
+关于 Tunnels 配置安装请参考 [使用Cloudflare-Tunnels提供服务公网访问](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/)
 
 - 添加 SSH 服务转发
 
@@ -85,10 +85,14 @@ sudo systemctl restart cloudflared
 sudo adduser abc
 ```
 
-如果想让该用户拥有 root 权限，需要将该用户添加到 wheel 用户组
+如果想让该用户拥有 root 权限，需要将该用户添加到 wheel 用户组(CentOS 等系统) 或者 sudo 用户组（Ubuntu 等系统）
 
 ```bash
+# CentOS 等 RedHat 系列
 usermod -aG wheel abc
+
+# Ubuntu 等
+usermod -aG sudo abc
 ```
 
 ### 生成公钥证书
