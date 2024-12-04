@@ -97,7 +97,7 @@ Enjoy it!
 &lt;/ul></description></item><item><title>Ubuntu搭建Shadowsocks服务器</title><link>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 00:58:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
 &lt;p>在Ubuntu环境中搭建Shadowsocks服务&lt;/p>
 &lt;/blockquote>
-&lt;p>##1 安装Shadowsocks&lt;/p>
+&lt;h2 id="1-安装shadowsocks">1. 安装Shadowsocks&lt;/h2>
 &lt;pre tabindex="0">&lt;code># 更新apt-get
 sudo apt-get update
 
@@ -106,7 +106,7 @@ sudo apt-get install python-pip
 
 # 安装Shadowsocks
 pip install shadowsocks
-&lt;/code>&lt;/pre>&lt;p>##2 配置Shadowsocks&lt;/p>
+&lt;/code>&lt;/pre>&lt;h2 id="2-配置shadowsocks">2. 配置Shadowsocks&lt;/h2>
 &lt;ul>
 &lt;li>创建配置文件&lt;/li>
 &lt;/ul>
@@ -170,7 +170,7 @@ vi config.json
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>##3 启动Shadowsocks&lt;/p>
+&lt;h2 id="3-启动shadowsocks">3. 启动Shadowsocks&lt;/h2>
 &lt;ul>
 &lt;li>启动：&lt;/li>
 &lt;/ul>
@@ -183,4 +183,29 @@ vi config.json
 &lt;li>重启：&lt;/li>
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code> sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d restart
-&lt;/code>&lt;/pre>&lt;p>##4 设置开机自启动&lt;/p></description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;h2 id="4-设置开机自启动">4. 设置开机自启动&lt;/h2>
+&lt;pre tabindex="0">&lt;code>sudo vi /etc/rc.local
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>加入以下内容&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d start
+&lt;/code>&lt;/pre>&lt;h2 id="5-配置多个用户">5. 配置多个用户&lt;/h2>
+&lt;ul>
+&lt;li>将配置文件修改为以下：&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>{
+ &amp;#34;server&amp;#34;: &amp;#34;0.0.0.0&amp;#34;,
+ &amp;#34;local_address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;,
+ &amp;#34;local_port&amp;#34;: 1080,
+ &amp;#34;port_password&amp;#34;: {
+ &amp;#34;8623&amp;#34;: &amp;#34;your password1&amp;#34;,
+ &amp;#34;8624&amp;#34;: &amp;#34;your password1&amp;#34;,
+ &amp;#34;8625&amp;#34;: &amp;#34;your password2&amp;#34;,
+ &amp;#34;8626&amp;#34;: &amp;#34;your password3&amp;#34;,
+ &amp;#34;8627&amp;#34;: &amp;#34;your password4&amp;#34;
+ },
+ &amp;#34;timeout&amp;#34;: 300,
+ &amp;#34;method&amp;#34;: &amp;#34;aes-256-cfb&amp;#34;,
+ &amp;#34;fast_open&amp;#34;: false
+}
+&lt;/code>&lt;/pre></description></item></channel></rss>
