@@ -24,8 +24,6 @@ Hailo8 发布于 2021年，算力为 26 TOPS，Hailo8L 发布于 2023 年，算�
 
 ![Hailo8L](https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp)
 
-# Hailo 环境配置
-
 Hailo 相关软件功能如图：
 
 ![](https://hailo.ai/wp-content/uploads/2023/09/HailoRT-Diagram.png)

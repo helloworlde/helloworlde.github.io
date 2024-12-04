@@ -10,7 +10,7 @@ featured: true
 
 > 在Ubuntu环境中搭建Shadowsocks服务
 
-##1 安装Shadowsocks
+## 1. 安装Shadowsocks
 
 ```
 # 更新apt-get
@@ -23,7 +23,7 @@ sudo apt-get install python-pip
 pip install shadowsocks
 ```
 
-##2 配置Shadowsocks
+## 2. 配置Shadowsocks
 
 - 创建配置文件
 
@@ -60,7 +60,7 @@ vi config.json
 | method        | 加密方法                             |
 | fast_open     | 是否启用TCP-Fast-Open，true或者false |
 
-##3 启动Shadowsocks
+## 3. 启动Shadowsocks
 
 - 启动：
 
@@ -80,7 +80,7 @@ vi config.json
  sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d restart
 ```
 
-##4 设置开机自启动
+## 4. 设置开机自启动
 
 ```
 sudo vi /etc/rc.local
@@ -92,7 +92,7 @@ sudo vi /etc/rc.local
 sudo ssserver -c /home/ubuntu/develop/shadowsocks/shadowsocks.json -d start
 ```
 
-## 5 配置多个用户
+## 5. 配置多个用户
 
 - 将配置文件修改为以下：
 
