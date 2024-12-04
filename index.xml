@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sun, 13 Oct 2024 21:24:31 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Wed, 04 Dec 2024 18:03:58 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare Tunnel 作为反向代理访问内网服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 04 Dec 2024 15:48:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>Cloudflare Tunnel 是一款隧道软件，可以理解为反向代理；可以快速安全地加密应用程序到任何类型基础设施的流量，如 TCP/HTTP/SSH 等，同时能够隐藏 web 服务器 IP 地址，阻止直接攻击，适用于没有公网 IP，但是又需要从公网访问内网部署的服务；详细可以参考官方文档：&lt;a href="https://www.cloudflare.com/zh-cn/products/tunnel/">Cloudflare Tunnel&lt;/a>&lt;/p>
+&lt;p>在 Linux 服务器上安装为例，对外提供 whoami 的 web 程序&lt;/p>
+&lt;h2 id="创建-tunnel">创建 Tunnel&lt;/h2>
+&lt;p>Tunnel 支持在线和本地两种配置方式；在线维护方式添加、修改比较方便，推荐使用在线的方式进行配置；&lt;/p>
+&lt;p>在 Zero Trust =&amp;gt; Network =&amp;gt; Tunnels 中选择创建 Tunnel&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-create-tunnel.png" alt="homelab-cloudflare-tunnel-init-create-tunnel.png">&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-name-tunnel.png" alt="homelab-cloudflare-tunnel-init-name-tunnel.png">&lt;/p>
+&lt;h2 id="安装配置-cloudflare-tunnel">安装配置 Cloudflare Tunnel&lt;/h2>
+&lt;p>Tunnel 支持二进制包或者 Docker 容器的方式进行安装；选择相应的平台，会生成安装命令，在命令后执行该命令即可&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-install.png" alt="homelab-cloudflare-tunnel-init-install.png">&lt;/p>
+&lt;p>如果没有对应的平台，可以在 &lt;a href="https://github.com/cloudflare/cloudflared/releases">GitHub 仓库&lt;/a>下载对应的版本，然后进行安装；以 Ubuntu 22 为例：&lt;/p>
+&lt;ul>
+&lt;li>下载最新的 Cloudflared&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dpkg -i cloudflared-linux-amd64.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>创建 Cloudflared 服务&lt;/li>
+&lt;/ul>
+&lt;p>这样会创建并自动启动 Cloudflared 服务&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cloudflared service install &lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">TOKEN&lt;/span>&lt;span style="color:#98c379">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置路由规则">配置路由规则&lt;/h2>
+&lt;p>路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p></description></item><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
 &lt;p>&lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="">&lt;/p>
 &lt;p>不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口&lt;/p>
 &lt;h2 id="配置-traefik">配置 Traefik&lt;/h2>
@@ -175,78 +200,78 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">特性&lt;/th>
- &lt;th style="text-align: left">Google Coral TPU&lt;/th>
- &lt;th style="text-align: left">Hailo8&lt;/th>
- &lt;th style="text-align: left">Hailo8L&lt;/th>
+ &lt;th>特性&lt;/th>
+ &lt;th>Google Coral TPU&lt;/th>
+ &lt;th>Hailo8&lt;/th>
+ &lt;th>Hailo8L&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持框架&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;td>&lt;strong>支持框架&lt;/strong>&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持模型&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">MobileNet, Inception, EfficientNet 等&lt;/td>
- &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
- &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;td>&lt;strong>支持模型&lt;/strong>&lt;/td>
+ &lt;td>MobileNet, Inception, EfficientNet 等&lt;/td>
+ &lt;td>ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;td>ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>模型功能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，音频分类&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;td>&lt;strong>模型功能&lt;/strong>&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，音频分类&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>硬件性能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">4 TOPS&lt;/td>
- &lt;td style="text-align: left">26 TOPS&lt;/td>
- &lt;td style="text-align: left">13 TOPS&lt;/td>
+ &lt;td>&lt;strong>硬件性能&lt;/strong>&lt;/td>
+ &lt;td>4 TOPS&lt;/td>
+ &lt;td>26 TOPS&lt;/td>
+ &lt;td>13 TOPS&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>发布时间&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">2019年&lt;/td>
- &lt;td style="text-align: left">2021年&lt;/td>
- &lt;td style="text-align: left">2023年&lt;/td>
+ &lt;td>&lt;strong>发布时间&lt;/strong>&lt;/td>
+ &lt;td>2019年&lt;/td>
+ &lt;td>2021年&lt;/td>
+ &lt;td>2023年&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>功耗&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">0.5-2 W&lt;/td>
- &lt;td style="text-align: left">2.5-4.6 W&lt;/td>
- &lt;td style="text-align: left">1.8-3.2 W&lt;/td>
+ &lt;td>&lt;strong>功耗&lt;/strong>&lt;/td>
+ &lt;td>0.5-2 W&lt;/td>
+ &lt;td>2.5-4.6 W&lt;/td>
+ &lt;td>1.8-3.2 W&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>每W性能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">8 TOPS/W&lt;/td>
- &lt;td style="text-align: left">10.4 TOPS/W&lt;/td>
- &lt;td style="text-align: left">7.2 TOPS/W&lt;/td>
+ &lt;td>&lt;strong>每W性能&lt;/strong>&lt;/td>
+ &lt;td>8 TOPS/W&lt;/td>
+ &lt;td>10.4 TOPS/W&lt;/td>
+ &lt;td>7.2 TOPS/W&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>当前价格&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">约300~1000¥&lt;/td>
- &lt;td style="text-align: left">约 1300¥&lt;/td>
- &lt;td style="text-align: left">约550¥&lt;/td>
+ &lt;td>&lt;strong>当前价格&lt;/strong>&lt;/td>
+ &lt;td>约300~1000¥&lt;/td>
+ &lt;td>约 1300¥&lt;/td>
+ &lt;td>约550¥&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持的操作系统&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">Linux, Windows, MacOS&lt;/td>
- &lt;td style="text-align: left">Linux, Windows&lt;/td>
- &lt;td style="text-align: left">Linux, Windows&lt;/td>
+ &lt;td>&lt;strong>支持的操作系统&lt;/strong>&lt;/td>
+ &lt;td>Linux, Windows, MacOS&lt;/td>
+ &lt;td>Linux, Windows&lt;/td>
+ &lt;td>Linux, Windows&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>可扩展性&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">不支持多芯片&lt;/td>
- &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
- &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
+ &lt;td>&lt;strong>可扩展性&lt;/strong>&lt;/td>
+ &lt;td>不支持多芯片&lt;/td>
+ &lt;td>支持多芯片并行处理&lt;/td>
+ &lt;td>支持多芯片并行处理&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>应用领域&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">物联网设备、嵌入式系统&lt;/td>
- &lt;td style="text-align: left">工业自动化、智能监控、自动驾驶&lt;/td>
- &lt;td style="text-align: left">工业自动化、智能监控、智能零售&lt;/td>
+ &lt;td>&lt;strong>应用领域&lt;/strong>&lt;/td>
+ &lt;td>物联网设备、嵌入式系统&lt;/td>
+ &lt;td>工业自动化、智能监控、自动驾驶&lt;/td>
+ &lt;td>工业自动化、智能监控、智能零售&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -755,7 +780,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p>在 Additional settings 中，将 Browser rendering 的类型改为 SSH；然后选择保存，这样就配置好 SSH 应用了&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-set-application-type.png" alt="homelab-cloudflare-ssh-set-application-type.png">&lt;/p>
 &lt;h2 id="配置-tunnels">配置 Tunnels&lt;/h2>
-&lt;p>关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8Cloudflare-Tunnels%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%E5%85%AC%E7%BD%91%E8%AE%BF%E9%97%AE/">使用Cloudflare-Tunnels提供服务公网访问&lt;/a>&lt;/p></description></item><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p>UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p>
+&lt;p>关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用Cloudflare-Tunnels提供服务公网访问&lt;/a>&lt;/p></description></item><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p>UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p>
 &lt;p>一般的 UPS 都支持通过 USB 连接到电脑或者 NAS 等设备上，Linux/Mac/Windows 均支持使用 UPS；&lt;/p>
 &lt;p>因为电路不稳定，存在偶尔断电的情况，因此希望通过 UPS 保护树莓派、路由器、光猫、硬盘录像机等设备；将 UPS 通过 USB 接口连接到树莓派，由树莓派控制其他设备在断电时关机&lt;/p>
 &lt;h2 id="安装-nut">安装 NUT&lt;/h2>
@@ -1272,42 +1297,42 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">硬件&lt;/th>
- &lt;th style="text-align: left">价格&lt;/th>
- &lt;th style="text-align: left">数量&lt;/th>
- &lt;th style="text-align: left">备注&lt;/th>
+ &lt;th>硬件&lt;/th>
+ &lt;th>价格&lt;/th>
+ &lt;th>数量&lt;/th>
+ &lt;th>备注&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">peacefair PZEM-004T 100A 主机+开合式CT&lt;/td>
- &lt;td style="text-align: left">42&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">电表，建议使用开合式CT，不需要改动电路&lt;/td>
+ &lt;td>peacefair PZEM-004T 100A 主机+开合式CT&lt;/td>
+ &lt;td>42&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>电表，建议使用开合式CT，不需要改动电路&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">220V 转 5V1A 供电模块&lt;/td>
- &lt;td style="text-align: left">8&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于为培正电表和 3v 模块供电&lt;/td>
+ &lt;td>220V 转 5V1A 供电模块&lt;/td>
+ &lt;td>8&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于为培正电表和 3v 模块供电&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">5V 转 3.3V 供电模块&lt;/td>
- &lt;td style="text-align: left">3.5&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于为 ESP-01S 模块供电&lt;/td>
+ &lt;td>5V 转 3.3V 供电模块&lt;/td>
+ &lt;td>3.5&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于为 ESP-01S 模块供电&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">40P杜邦线母对母&lt;/td>
- &lt;td style="text-align: left">2.6&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于连接所有的模块&lt;/td>
+ &lt;td>40P杜邦线母对母&lt;/td>
+ &lt;td>2.6&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于连接所有的模块&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">40P杜邦线母对公&lt;/td>
- &lt;td style="text-align: left">2.6&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于连接所有的模块&lt;/td>
+ &lt;td>40P杜邦线母对公&lt;/td>
+ &lt;td>2.6&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于连接所有的模块&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -1332,46 +1357,46 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">类型&lt;/th>
- &lt;th style="text-align: left">明细&lt;/th>
+ &lt;th>类型&lt;/th>
+ &lt;th>明细&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">主板&lt;/td>
- &lt;td style="text-align: left">技嘉 B660M AORUS PRO AX DDR4&lt;/td>
+ &lt;td>主板&lt;/td>
+ &lt;td>技嘉 B660M AORUS PRO AX DDR4&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">CPU&lt;/td>
- &lt;td style="text-align: left">12th Gen Intel(R) Core(TM) i9-12900K&lt;/td>
+ &lt;td>CPU&lt;/td>
+ &lt;td>12th Gen Intel(R) Core(TM) i9-12900K&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">内存&lt;/td>
- &lt;td style="text-align: left">2 x Kingston 16GB 3200MHz DDR4&lt;/td>
+ &lt;td>内存&lt;/td>
+ &lt;td>2 x Kingston 16GB 3200MHz DDR4&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">显卡&lt;/td>
- &lt;td style="text-align: left">憾讯 AMD RX 6600 8GB&lt;/td>
+ &lt;td>显卡&lt;/td>
+ &lt;td>憾讯 AMD RX 6600 8GB&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">硬盘&lt;/td>
- &lt;td style="text-align: left">Lexar 512G Nvme SSD&lt;/td>
+ &lt;td>硬盘&lt;/td>
+ &lt;td>Lexar 512G Nvme SSD&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">声卡&lt;/td>
- &lt;td style="text-align: left">Realtek ALC897&lt;/td>
+ &lt;td>声卡&lt;/td>
+ &lt;td>Realtek ALC897&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">无线/蓝牙&lt;/td>
- &lt;td style="text-align: left">Broadcom BCM943602CS, Intel Wi-Fi 6E AX210&lt;/td>
+ &lt;td>无线/蓝牙&lt;/td>
+ &lt;td>Broadcom BCM943602CS, Intel Wi-Fi 6E AX210&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">有线网口&lt;/td>
- &lt;td style="text-align: left">Intel Ethernet I-225V&lt;/td>
+ &lt;td>有线网口&lt;/td>
+ &lt;td>Intel Ethernet I-225V&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">BIOS 版本&lt;/td>
- &lt;td style="text-align: left">F21&lt;/td>
+ &lt;td>BIOS 版本&lt;/td>
+ &lt;td>F21&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -8897,192 +8922,192 @@ logging.path=./logs
 &lt;p>分别插入以下数据：&lt;/p></description></item><item><title>Swagger 常用注解说明</title><link>https://blog.hellowood.dev/posts/swagger-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E8%AF%B4%E6%98%8E/</link><pubDate>Sun, 07 Jan 2018 23:34:23 +0000</pubDate><guid>https://blog.hellowood.dev/posts/swagger-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E8%AF%B4%E6%98%8E/</guid><description>&lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">&lt;strong>注解&lt;/strong>&lt;/th>
- &lt;th style="text-align: left">&lt;strong>属性&lt;/strong>&lt;/th>
- &lt;th style="text-align: left">&lt;strong>值&lt;/strong>&lt;/th>
- &lt;th style="text-align: left">&lt;strong>备注&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>注解&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>属性&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>值&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>备注&lt;/strong>&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@Api&lt;/code>&lt;/td>
- &lt;td style="text-align: left">value&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">可用在&lt;code>class&lt;/code>头上,&lt;code>class&lt;/code>描述&lt;/td>
+ &lt;td>&lt;code>@Api&lt;/code>&lt;/td>
+ &lt;td>value&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>可用在&lt;code>class&lt;/code>头上,&lt;code>class&lt;/code>描述&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">description&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>description&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@Api(value = &amp;quot;xxx&amp;quot;, description = &amp;quot;xxx&amp;quot;)&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@Api(value = &amp;quot;xxx&amp;quot;, description = &amp;quot;xxx&amp;quot;)&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiOperation&lt;/code>&lt;/td>
- &lt;td style="text-align: left">value&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">可用在方法头上.参数的描述容器&lt;/td>
+ &lt;td>&lt;code>@ApiOperation&lt;/code>&lt;/td>
+ &lt;td>value&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>可用在方法头上.参数的描述容器&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">notes&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">说明&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>notes&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>说明&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">httpMethod&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">请求方法&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>httpMethod&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>请求方法&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiOperation(value = &amp;quot;xxx&amp;quot;, notes = &amp;quot;xxx&amp;quot;, method = &amp;quot;GET&amp;quot;)&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@ApiOperation(value = &amp;quot;xxx&amp;quot;, notes = &amp;quot;xxx&amp;quot;, method = &amp;quot;GET&amp;quot;)&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiImplicitParams&lt;/code>&lt;/td>
- &lt;td style="text-align: left">{}&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiImplicitParam&lt;/code>数组&lt;/td>
- &lt;td style="text-align: left">可用在方法头上.参数的描述容器&lt;/td>
+ &lt;td>&lt;code>@ApiImplicitParams&lt;/code>&lt;/td>
+ &lt;td>{}&lt;/td>
+ &lt;td>&lt;code>@ApiImplicitParam&lt;/code>数组&lt;/td>
+ &lt;td>可用在方法头上.参数的描述容器&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiImplicitParams({@ApiImplicitParam1,@ApiImplicitParam2,...})&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@ApiImplicitParams({@ApiImplicitParam1,@ApiImplicitParam2,...})&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiImplicitParam&lt;/code>&lt;/td>
- &lt;td style="text-align: left">name&lt;/td>
- &lt;td style="text-align: left">字符串 与参数命名对应&lt;/td>
- &lt;td style="text-align: left">可用在&lt;code>@ApiImplicitParams&lt;/code>里&lt;/td>
+ &lt;td>&lt;code>@ApiImplicitParam&lt;/code>&lt;/td>
+ &lt;td>name&lt;/td>
+ &lt;td>字符串 与参数命名对应&lt;/td>
+ &lt;td>可用在&lt;code>@ApiImplicitParams&lt;/code>里&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">value&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">参数中文描述&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>value&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>参数中文描述&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">required&lt;/td>
- &lt;td style="text-align: left">布尔值&lt;/td>
- &lt;td style="text-align: left">true/false&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>required&lt;/td>
+ &lt;td>布尔值&lt;/td>
+ &lt;td>true/false&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">dataType&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">参数类型&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>dataType&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>参数类型&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">paramType&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">参数请求方式:query/path&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>paramType&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>参数请求方式:query/path&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">query:对应&lt;code>@RequestParam&lt;/code>传递&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>query:对应&lt;code>@RequestParam&lt;/code>传递&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">path: 对应&lt;code>@PathVariable&lt;/code>{}path传递&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>path: 对应&lt;code>@PathVariable&lt;/code>{}path传递&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">dataType&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">参数类型&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>dataType&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>参数类型&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">dataTypeClass&lt;/td>
- &lt;td style="text-align: left">类&lt;/td>
- &lt;td style="text-align: left">参数对应的类&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>dataTypeClass&lt;/td>
+ &lt;td>类&lt;/td>
+ &lt;td>参数对应的类&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">defaultValue&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">在api测试中默认值&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>defaultValue&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>在api测试中默认值&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code> @ApiImplicitParam(name = &amp;quot;newProduct&amp;quot;, value = &amp;quot;商品信息对象&amp;quot;, required = true, dataType = &amp;quot;Product&amp;quot;, dataTypeClass = Product.class)&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code> @ApiImplicitParam(name = &amp;quot;newProduct&amp;quot;, value = &amp;quot;商品信息对象&amp;quot;, required = true, dataType = &amp;quot;Product&amp;quot;, dataTypeClass = Product.class)&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiResponses&lt;/code>&lt;/td>
- &lt;td style="text-align: left">{}&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiResponse&lt;/code>数组&lt;/td>
- &lt;td style="text-align: left">可用在方法头上.参数的描述容器&lt;/td>
+ &lt;td>&lt;code>@ApiResponses&lt;/code>&lt;/td>
+ &lt;td>{}&lt;/td>
+ &lt;td>&lt;code>@ApiResponse&lt;/code>数组&lt;/td>
+ &lt;td>可用在方法头上.参数的描述容器&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiResponses({@ApiResponse1,@ApiResponse2,...})&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@ApiResponses({@ApiResponse1,@ApiResponse2,...})&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiResponse&lt;/code>&lt;/td>
- &lt;td style="text-align: left">code&lt;/td>
- &lt;td style="text-align: left">整形&lt;/td>
- &lt;td style="text-align: left">可用在&lt;code>@ApiResponses&lt;/code>里&lt;/td>
+ &lt;td>&lt;code>@ApiResponse&lt;/code>&lt;/td>
+ &lt;td>code&lt;/td>
+ &lt;td>整形&lt;/td>
+ &lt;td>可用在&lt;code>@ApiResponses&lt;/code>里&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">message&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">错误描述&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>message&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>错误描述&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">response&lt;/td>
- &lt;td style="text-align: left">类&lt;/td>
- &lt;td style="text-align: left">返回结果对应的类&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>response&lt;/td>
+ &lt;td>类&lt;/td>
+ &lt;td>返回结果对应的类&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiResponse(code = 200, message = &amp;quot;Successful&amp;quot;, response = CommonResponse.class)&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@ApiResponse(code = 200, message = &amp;quot;Successful&amp;quot;, response = CommonResponse.class)&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;code>@ApiModelProperty&lt;/code>&lt;/td>
- &lt;td style="text-align: left">name&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">实体类参数名称&lt;/td>
+ &lt;td>&lt;code>@ApiModelProperty&lt;/code>&lt;/td>
+ &lt;td>name&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>实体类参数名称&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">value&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">实体类参数值&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>value&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>实体类参数值&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">notes&lt;/td>
- &lt;td style="text-align: left">字符串&lt;/td>
- &lt;td style="text-align: left">说明&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>notes&lt;/td>
+ &lt;td>字符串&lt;/td>
+ &lt;td>说明&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;/td>
- &lt;td style="text-align: left">&lt;code>@ApiModelProperty(name = &amp;quot;name&amp;quot;, value = &amp;quot;name&amp;quot;, notes = &amp;quot;名称&amp;quot;)&lt;/code>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;code>@ApiModelProperty(name = &amp;quot;name&amp;quot;, value = &amp;quot;name&amp;quot;, notes = &amp;quot;名称&amp;quot;)&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table></description></item><item><title>SpringBoot 集成 Swagger API 文档工具</title><link>https://blog.hellowood.dev/posts/springboot-%E9%9B%86%E6%88%90-swagger-api-%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7/</link><pubDate>Sun, 07 Jan 2018 23:28:45 +0000</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E9%9B%86%E6%88%90-swagger-api-%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7/</guid><description>&lt;ul>
@@ -9551,7 +9576,7 @@ spring.rocketmq.consumerId=订阅者
  &lt;th style="text-align: left">参数名&lt;/th>
  &lt;th style="text-align: left">必选&lt;/th>
  &lt;th style="text-align: left">类型&lt;/th>
- &lt;th style="text-align: left">说明&lt;/th>
+ &lt;th>说明&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
@@ -9559,43 +9584,43 @@ spring.rocketmq.consumerId=订阅者
  &lt;td style="text-align: left">body&lt;/td>
  &lt;td style="text-align: left">是&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">消息所携带的数据，可以是对象的JSON串&lt;/td>
+ &lt;td>消息所携带的数据，可以是对象的JSON串&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">key&lt;/td>
  &lt;td style="text-align: left">是&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">32位key&lt;/td>
+ &lt;td>32位key&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">tags&lt;/td>
  &lt;td style="text-align: left">否&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">Message Tag，用于过滤订阅者过滤消息&lt;/td>
+ &lt;td>Message Tag，用于过滤订阅者过滤消息&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">method&lt;/td>
  &lt;td style="text-align: left">否&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">消息发送方式，共有三种：同步发送：&lt;code>SYNCHRONOUS&lt;/code>，异步发送：&lt;code>ASYNCHRONOUS&lt;/code>, 单向发送：&lt;code>ONE_WAY&lt;/code> ,默认使用同步发送方式发送消息&lt;/td>
+ &lt;td>消息发送方式，共有三种：同步发送：&lt;code>SYNCHRONOUS&lt;/code>，异步发送：&lt;code>ASYNCHRONOUS&lt;/code>, 单向发送：&lt;code>ONE_WAY&lt;/code> ,默认使用同步发送方式发送消息&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">type&lt;/td>
  &lt;td style="text-align: left">否&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">消息类型，共有三种：顺序消息：&lt;code>ORDER&lt;/code>，延时消息：&lt;code>DELAY&lt;/code>，定时消息：&lt;code>TIMING&lt;/code>，默认发送顺序消息&lt;/td>
+ &lt;td>消息类型，共有三种：顺序消息：&lt;code>ORDER&lt;/code>，延时消息：&lt;code>DELAY&lt;/code>，定时消息：&lt;code>TIMING&lt;/code>，默认发送顺序消息&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">delayTime&lt;/td>
  &lt;td style="text-align: left">否&lt;/td>
  &lt;td style="text-align: left">long&lt;/td>
- &lt;td style="text-align: left">消息发送延时时间，单位是毫秒&lt;/td>
+ &lt;td>消息发送延时时间，单位是毫秒&lt;/td>
  &lt;/tr>
  &lt;tr>
  &lt;td style="text-align: left">startDeliveryTime&lt;/td>
  &lt;td style="text-align: left">否&lt;/td>
  &lt;td style="text-align: left">String&lt;/td>
- &lt;td style="text-align: left">定时消息发送时间，必须是&lt;code>yyyy-MM-dd HH:mm:ss&lt;/code>格式&lt;/td>
+ &lt;td>定时消息发送时间，必须是&lt;code>yyyy-MM-dd HH:mm:ss&lt;/code>格式&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -11758,111 +11783,111 @@ SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成�
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">属性&lt;/th>
- &lt;th style="text-align: left">作用&lt;/th>
- &lt;th style="text-align: left">说明&lt;/th>
+ &lt;th>属性&lt;/th>
+ &lt;th>作用&lt;/th>
+ &lt;th>说明&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.border&lt;/td>
- &lt;td style="text-align: left">是否有边框&lt;/td>
- &lt;td style="text-align: left">默认为true 我们可以自己设置yes，no&lt;/td>
+ &lt;td>kaptcha.border&lt;/td>
+ &lt;td>是否有边框&lt;/td>
+ &lt;td>默认为true 我们可以自己设置yes，no&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.border.color&lt;/td>
- &lt;td style="text-align: left">边框颜色&lt;/td>
- &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;td>kaptcha.border.color&lt;/td>
+ &lt;td>边框颜色&lt;/td>
+ &lt;td>默认为Color.BLACK&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.border.thickness&lt;/td>
- &lt;td style="text-align: left">边框粗细度&lt;/td>
- &lt;td style="text-align: left">默认为1&lt;/td>
+ &lt;td>kaptcha.border.thickness&lt;/td>
+ &lt;td>边框粗细度&lt;/td>
+ &lt;td>默认为1&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.producer.impl&lt;/td>
- &lt;td style="text-align: left">验证码生成器&lt;/td>
- &lt;td style="text-align: left">默认为DefaultKaptcha&lt;/td>
+ &lt;td>kaptcha.producer.impl&lt;/td>
+ &lt;td>验证码生成器&lt;/td>
+ &lt;td>默认为DefaultKaptcha&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.impl&lt;/td>
- &lt;td style="text-align: left">验证码文本生成器&lt;/td>
- &lt;td style="text-align: left">默认为DefaultTextCreator&lt;/td>
+ &lt;td>kaptcha.textproducer.impl&lt;/td>
+ &lt;td>验证码文本生成器&lt;/td>
+ &lt;td>默认为DefaultTextCreator&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.char.string&lt;/td>
- &lt;td style="text-align: left">验证码文本字符内容范围&lt;/td>
- &lt;td style="text-align: left">默认为abcde2345678gfynmnpwx&lt;/td>
+ &lt;td>kaptcha.textproducer.char.string&lt;/td>
+ &lt;td>验证码文本字符内容范围&lt;/td>
+ &lt;td>默认为abcde2345678gfynmnpwx&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.char.length&lt;/td>
- &lt;td style="text-align: left">验证码文本字符长度&lt;/td>
- &lt;td style="text-align: left">默认为5&lt;/td>
+ &lt;td>kaptcha.textproducer.char.length&lt;/td>
+ &lt;td>验证码文本字符长度&lt;/td>
+ &lt;td>默认为5&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.font.names&lt;/td>
- &lt;td style="text-align: left">验证码文本字体样式&lt;/td>
- &lt;td style="text-align: left">默认为new Font(&amp;ldquo;Arial&amp;rdquo;, 1, fontSize), new Font(&amp;ldquo;Courier&amp;rdquo;, 1, fontSize)&lt;/td>
+ &lt;td>kaptcha.textproducer.font.names&lt;/td>
+ &lt;td>验证码文本字体样式&lt;/td>
+ &lt;td>默认为new Font(&amp;ldquo;Arial&amp;rdquo;, 1, fontSize), new Font(&amp;ldquo;Courier&amp;rdquo;, 1, fontSize)&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.font.size&lt;/td>
- &lt;td style="text-align: left">验证码文本字符大小&lt;/td>
- &lt;td style="text-align: left">默认为40&lt;/td>
+ &lt;td>kaptcha.textproducer.font.size&lt;/td>
+ &lt;td>验证码文本字符大小&lt;/td>
+ &lt;td>默认为40&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.font.color&lt;/td>
- &lt;td style="text-align: left">验证码文本字符颜色&lt;/td>
- &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;td>kaptcha.textproducer.font.color&lt;/td>
+ &lt;td>验证码文本字符颜色&lt;/td>
+ &lt;td>默认为Color.BLACK&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.textproducer.char.space&lt;/td>
- &lt;td style="text-align: left">验证码文本字符间距&lt;/td>
- &lt;td style="text-align: left">默认为2&lt;/td>
+ &lt;td>kaptcha.textproducer.char.space&lt;/td>
+ &lt;td>验证码文本字符间距&lt;/td>
+ &lt;td>默认为2&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.noise.impl&lt;/td>
- &lt;td style="text-align: left">验证码噪点生成对象&lt;/td>
- &lt;td style="text-align: left">默认为DefaultNoise&lt;/td>
+ &lt;td>kaptcha.noise.impl&lt;/td>
+ &lt;td>验证码噪点生成对象&lt;/td>
+ &lt;td>默认为DefaultNoise&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.noise.color&lt;/td>
- &lt;td style="text-align: left">验证码噪点颜色&lt;/td>
- &lt;td style="text-align: left">默认为Color.BLACK&lt;/td>
+ &lt;td>kaptcha.noise.color&lt;/td>
+ &lt;td>验证码噪点颜色&lt;/td>
+ &lt;td>默认为Color.BLACK&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.obscurificator.impl&lt;/td>
- &lt;td style="text-align: left">验证码样式引擎&lt;/td>
- &lt;td style="text-align: left">默认为WaterRipple&lt;/td>
+ &lt;td>kaptcha.obscurificator.impl&lt;/td>
+ &lt;td>验证码样式引擎&lt;/td>
+ &lt;td>默认为WaterRipple&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.word.impl&lt;/td>
- &lt;td style="text-align: left">验证码文本字符渲染&lt;/td>
- &lt;td style="text-align: left">默认为DefaultWordRenderer&lt;/td>
+ &lt;td>kaptcha.word.impl&lt;/td>
+ &lt;td>验证码文本字符渲染&lt;/td>
+ &lt;td>默认为DefaultWordRenderer&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.background.impl&lt;/td>
- &lt;td style="text-align: left">验证码背景生成器&lt;/td>
- &lt;td style="text-align: left">默认为DefaultBackground&lt;/td>
+ &lt;td>kaptcha.background.impl&lt;/td>
+ &lt;td>验证码背景生成器&lt;/td>
+ &lt;td>默认为DefaultBackground&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.background.clear.from&lt;/td>
- &lt;td style="text-align: left">验证码背景颜色渐进&lt;/td>
- &lt;td style="text-align: left">默认为Color.LIGHT_GRAY&lt;/td>
+ &lt;td>kaptcha.background.clear.from&lt;/td>
+ &lt;td>验证码背景颜色渐进&lt;/td>
+ &lt;td>默认为Color.LIGHT_GRAY&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.background.clear.to&lt;/td>
- &lt;td style="text-align: left">验证码背景颜色渐进&lt;/td>
- &lt;td style="text-align: left">默认为Color.WHITE&lt;/td>
+ &lt;td>kaptcha.background.clear.to&lt;/td>
+ &lt;td>验证码背景颜色渐进&lt;/td>
+ &lt;td>默认为Color.WHITE&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.image.width&lt;/td>
- &lt;td style="text-align: left">验证码图片宽度&lt;/td>
- &lt;td style="text-align: left">默认为200&lt;/td>
+ &lt;td>kaptcha.image.width&lt;/td>
+ &lt;td>验证码图片宽度&lt;/td>
+ &lt;td>默认为200&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">kaptcha.image.height&lt;/td>
- &lt;td style="text-align: left">验证码图片高度&lt;/td>
- &lt;td style="text-align: left">默认为50&lt;/td>
+ &lt;td>kaptcha.image.height&lt;/td>
+ &lt;td>验证码图片高度&lt;/td>
+ &lt;td>默认为50&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -12101,42 +12126,42 @@ vi config.json
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">字段&lt;/th>
- &lt;th style="text-align: left">说明&lt;/th>
+ &lt;th>字段&lt;/th>
+ &lt;th>说明&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">server&lt;/td>
- &lt;td style="text-align: left">服务端监听地址&lt;/td>
+ &lt;td>server&lt;/td>
+ &lt;td>服务端监听地址&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">server_port&lt;/td>
- &lt;td style="text-align: left">服务端端口&lt;/td>
+ &lt;td>server_port&lt;/td>
+ &lt;td>服务端端口&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">local_address&lt;/td>
- &lt;td style="text-align: left">本地监听地址&lt;/td>
+ &lt;td>local_address&lt;/td>
+ &lt;td>本地监听地址&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">local_port&lt;/td>
- &lt;td style="text-align: left">本地监听端口&lt;/td>
+ &lt;td>local_port&lt;/td>
+ &lt;td>本地监听端口&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">password&lt;/td>
- &lt;td style="text-align: left">密码&lt;/td>
+ &lt;td>password&lt;/td>
+ &lt;td>密码&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">timeout&lt;/td>
- &lt;td style="text-align: left">超时时间（秒）&lt;/td>
+ &lt;td>timeout&lt;/td>
+ &lt;td>超时时间（秒）&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">method&lt;/td>
- &lt;td style="text-align: left">加密方法&lt;/td>
+ &lt;td>method&lt;/td>
+ &lt;td>加密方法&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">fast_open&lt;/td>
- &lt;td style="text-align: left">是否启用TCP-Fast-Open，true或者false&lt;/td>
+ &lt;td>fast_open&lt;/td>
+ &lt;td>是否启用TCP-Fast-Open，true或者false&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>

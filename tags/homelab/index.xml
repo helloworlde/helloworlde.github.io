@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 23 Sep 2024 08:34:00 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Wed, 04 Dec 2024 15:48:56 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare Tunnel 作为反向代理访问内网服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 04 Dec 2024 15:48:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>Cloudflare Tunnel 是一款隧道软件，可以理解为反向代理；可以快速安全地加密应用程序到任何类型基础设施的流量，如 TCP/HTTP/SSH 等，同时能够隐藏 web 服务器 IP 地址，阻止直接攻击，适用于没有公网 IP，但是又需要从公网访问内网部署的服务；详细可以参考官方文档：&lt;a href="https://www.cloudflare.com/zh-cn/products/tunnel/">Cloudflare Tunnel&lt;/a>&lt;/p>
+&lt;p>在 Linux 服务器上安装为例，对外提供 whoami 的 web 程序&lt;/p>
+&lt;h2 id="创建-tunnel">创建 Tunnel&lt;/h2>
+&lt;p>Tunnel 支持在线和本地两种配置方式；在线维护方式添加、修改比较方便，推荐使用在线的方式进行配置；&lt;/p>
+&lt;p>在 Zero Trust =&amp;gt; Network =&amp;gt; Tunnels 中选择创建 Tunnel&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-create-tunnel.png" alt="homelab-cloudflare-tunnel-init-create-tunnel.png">&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-name-tunnel.png" alt="homelab-cloudflare-tunnel-init-name-tunnel.png">&lt;/p>
+&lt;h2 id="安装配置-cloudflare-tunnel">安装配置 Cloudflare Tunnel&lt;/h2>
+&lt;p>Tunnel 支持二进制包或者 Docker 容器的方式进行安装；选择相应的平台，会生成安装命令，在命令后执行该命令即可&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-install.png" alt="homelab-cloudflare-tunnel-init-install.png">&lt;/p>
+&lt;p>如果没有对应的平台，可以在 &lt;a href="https://github.com/cloudflare/cloudflared/releases">GitHub 仓库&lt;/a>下载对应的版本，然后进行安装；以 Ubuntu 22 为例：&lt;/p>
+&lt;ul>
+&lt;li>下载最新的 Cloudflared&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dpkg -i cloudflared-linux-amd64.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>创建 Cloudflared 服务&lt;/li>
+&lt;/ul>
+&lt;p>这样会创建并自动启动 Cloudflared 服务&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cloudflared service install &lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">TOKEN&lt;/span>&lt;span style="color:#98c379">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置路由规则">配置路由规则&lt;/h2>
+&lt;p>路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p></description></item><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
 &lt;p>&lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="">&lt;/p>
 &lt;p>不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口&lt;/p>
 &lt;h2 id="配置-traefik">配置 Traefik&lt;/h2>
@@ -128,78 +153,78 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">特性&lt;/th>
- &lt;th style="text-align: left">Google Coral TPU&lt;/th>
- &lt;th style="text-align: left">Hailo8&lt;/th>
- &lt;th style="text-align: left">Hailo8L&lt;/th>
+ &lt;th>特性&lt;/th>
+ &lt;th>Google Coral TPU&lt;/th>
+ &lt;th>Hailo8&lt;/th>
+ &lt;th>Hailo8L&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持框架&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
- &lt;td style="text-align: left">TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;td>&lt;strong>支持框架&lt;/strong>&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
+ &lt;td>TensorFlow, TensorFlow Lite, Keras, PyTorch, ONNX&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持模型&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">MobileNet, Inception, EfficientNet 等&lt;/td>
- &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
- &lt;td style="text-align: left">ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;td>&lt;strong>支持模型&lt;/strong>&lt;/td>
+ &lt;td>MobileNet, Inception, EfficientNet 等&lt;/td>
+ &lt;td>ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
+ &lt;td>ResNet-50, MobileNet_v2, SSD, YOLOv3, YOLOv5 等&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>模型功能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，音频分类&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
- &lt;td style="text-align: left">对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;td>&lt;strong>模型功能&lt;/strong>&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，音频分类&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
+ &lt;td>对象识别、对象分类，语义分割，姿态识别，深度估计，人脸检测，人脸识别等&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>硬件性能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">4 TOPS&lt;/td>
- &lt;td style="text-align: left">26 TOPS&lt;/td>
- &lt;td style="text-align: left">13 TOPS&lt;/td>
+ &lt;td>&lt;strong>硬件性能&lt;/strong>&lt;/td>
+ &lt;td>4 TOPS&lt;/td>
+ &lt;td>26 TOPS&lt;/td>
+ &lt;td>13 TOPS&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>发布时间&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">2019年&lt;/td>
- &lt;td style="text-align: left">2021年&lt;/td>
- &lt;td style="text-align: left">2023年&lt;/td>
+ &lt;td>&lt;strong>发布时间&lt;/strong>&lt;/td>
+ &lt;td>2019年&lt;/td>
+ &lt;td>2021年&lt;/td>
+ &lt;td>2023年&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>功耗&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">0.5-2 W&lt;/td>
- &lt;td style="text-align: left">2.5-4.6 W&lt;/td>
- &lt;td style="text-align: left">1.8-3.2 W&lt;/td>
+ &lt;td>&lt;strong>功耗&lt;/strong>&lt;/td>
+ &lt;td>0.5-2 W&lt;/td>
+ &lt;td>2.5-4.6 W&lt;/td>
+ &lt;td>1.8-3.2 W&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>每W性能&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">8 TOPS/W&lt;/td>
- &lt;td style="text-align: left">10.4 TOPS/W&lt;/td>
- &lt;td style="text-align: left">7.2 TOPS/W&lt;/td>
+ &lt;td>&lt;strong>每W性能&lt;/strong>&lt;/td>
+ &lt;td>8 TOPS/W&lt;/td>
+ &lt;td>10.4 TOPS/W&lt;/td>
+ &lt;td>7.2 TOPS/W&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>当前价格&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">约300~1000¥&lt;/td>
- &lt;td style="text-align: left">约 1300¥&lt;/td>
- &lt;td style="text-align: left">约550¥&lt;/td>
+ &lt;td>&lt;strong>当前价格&lt;/strong>&lt;/td>
+ &lt;td>约300~1000¥&lt;/td>
+ &lt;td>约 1300¥&lt;/td>
+ &lt;td>约550¥&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>支持的操作系统&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">Linux, Windows, MacOS&lt;/td>
- &lt;td style="text-align: left">Linux, Windows&lt;/td>
- &lt;td style="text-align: left">Linux, Windows&lt;/td>
+ &lt;td>&lt;strong>支持的操作系统&lt;/strong>&lt;/td>
+ &lt;td>Linux, Windows, MacOS&lt;/td>
+ &lt;td>Linux, Windows&lt;/td>
+ &lt;td>Linux, Windows&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>可扩展性&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">不支持多芯片&lt;/td>
- &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
- &lt;td style="text-align: left">支持多芯片并行处理&lt;/td>
+ &lt;td>&lt;strong>可扩展性&lt;/strong>&lt;/td>
+ &lt;td>不支持多芯片&lt;/td>
+ &lt;td>支持多芯片并行处理&lt;/td>
+ &lt;td>支持多芯片并行处理&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">&lt;strong>应用领域&lt;/strong>&lt;/td>
- &lt;td style="text-align: left">物联网设备、嵌入式系统&lt;/td>
- &lt;td style="text-align: left">工业自动化、智能监控、自动驾驶&lt;/td>
- &lt;td style="text-align: left">工业自动化、智能监控、智能零售&lt;/td>
+ &lt;td>&lt;strong>应用领域&lt;/strong>&lt;/td>
+ &lt;td>物联网设备、嵌入式系统&lt;/td>
+ &lt;td>工业自动化、智能监控、自动驾驶&lt;/td>
+ &lt;td>工业自动化、智能监控、智能零售&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
@@ -480,7 +505,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p>在 Additional settings 中，将 Browser rendering 的类型改为 SSH；然后选择保存，这样就配置好 SSH 应用了&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-set-application-type.png" alt="homelab-cloudflare-ssh-set-application-type.png">&lt;/p>
 &lt;h2 id="配置-tunnels">配置 Tunnels&lt;/h2>
-&lt;p>关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8Cloudflare-Tunnels%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%E5%85%AC%E7%BD%91%E8%AE%BF%E9%97%AE/">使用Cloudflare-Tunnels提供服务公网访问&lt;/a>&lt;/p></description></item><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p>UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p>
+&lt;p>关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用Cloudflare-Tunnels提供服务公网访问&lt;/a>&lt;/p></description></item><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p>UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p>
 &lt;p>一般的 UPS 都支持通过 USB 连接到电脑或者 NAS 等设备上，Linux/Mac/Windows 均支持使用 UPS；&lt;/p>
 &lt;p>因为电路不稳定，存在偶尔断电的情况，因此希望通过 UPS 保护树莓派、路由器、光猫、硬盘录像机等设备；将 UPS 通过 USB 接口连接到树莓派，由树莓派控制其他设备在断电时关机&lt;/p>
 &lt;h2 id="安装-nut">安装 NUT&lt;/h2>
@@ -975,42 +1000,42 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;table>
  &lt;thead>
  &lt;tr>
- &lt;th style="text-align: left">硬件&lt;/th>
- &lt;th style="text-align: left">价格&lt;/th>
- &lt;th style="text-align: left">数量&lt;/th>
- &lt;th style="text-align: left">备注&lt;/th>
+ &lt;th>硬件&lt;/th>
+ &lt;th>价格&lt;/th>
+ &lt;th>数量&lt;/th>
+ &lt;th>备注&lt;/th>
  &lt;/tr>
  &lt;/thead>
  &lt;tbody>
  &lt;tr>
- &lt;td style="text-align: left">peacefair PZEM-004T 100A 主机+开合式CT&lt;/td>
- &lt;td style="text-align: left">42&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">电表，建议使用开合式CT，不需要改动电路&lt;/td>
+ &lt;td>peacefair PZEM-004T 100A 主机+开合式CT&lt;/td>
+ &lt;td>42&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>电表，建议使用开合式CT，不需要改动电路&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">220V 转 5V1A 供电模块&lt;/td>
- &lt;td style="text-align: left">8&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于为培正电表和 3v 模块供电&lt;/td>
+ &lt;td>220V 转 5V1A 供电模块&lt;/td>
+ &lt;td>8&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于为培正电表和 3v 模块供电&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">5V 转 3.3V 供电模块&lt;/td>
- &lt;td style="text-align: left">3.5&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于为 ESP-01S 模块供电&lt;/td>
+ &lt;td>5V 转 3.3V 供电模块&lt;/td>
+ &lt;td>3.5&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于为 ESP-01S 模块供电&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">40P杜邦线母对母&lt;/td>
- &lt;td style="text-align: left">2.6&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于连接所有的模块&lt;/td>
+ &lt;td>40P杜邦线母对母&lt;/td>
+ &lt;td>2.6&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于连接所有的模块&lt;/td>
  &lt;/tr>
  &lt;tr>
- &lt;td style="text-align: left">40P杜邦线母对公&lt;/td>
- &lt;td style="text-align: left">2.6&lt;/td>
- &lt;td style="text-align: left">1&lt;/td>
- &lt;td style="text-align: left">用于连接所有的模块&lt;/td>
+ &lt;td>40P杜邦线母对公&lt;/td>
+ &lt;td>2.6&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>用于连接所有的模块&lt;/td>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
