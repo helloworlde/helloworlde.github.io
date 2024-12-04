@@ -1,11 +1,10 @@
 ---
 title: Java 中计算字符串表达式的值
 type: post
-date: 2018-08-25 10:55:46
+date: 2018-08-25T10:55:46+08:00
 tags:
   - Java
-categories:
-  - Java
+featured: true
 ---
 
 > 在 Java 中计算字符串数值表达式可以用 `javax.script.ScriptEngine#eval(java.lang.String)`，通过调用 JavaScript 来计算

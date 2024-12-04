@@ -1,15 +1,12 @@
 ---
 title: 使用 Prometheus 和 Grafana 监控 Consul
 type: post
-date: 2020-05-16 14:36:34
+date: 2020-05-16T14:36:34+08:00
 tags:
   - Prometheus
   - Grafana
   - Consul
-categories:
-  - Prometheus
-  - Grafana
-  - Consul
+featured: true
 ---
 
 使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器

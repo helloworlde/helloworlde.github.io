@@ -1,13 +1,11 @@
 ---
 title: Kubernetes 中使用 Helm 部署应用
 type: post
-date: 2019-09-08 19:03:06
+date: 2019-09-08T19:03:06+08:00
 tags:
   - Kubernetes
   - Helm
-categories:
-  - Kubernetes
-  - Helm
+featured: true
 ---
 
 ## 创建应用

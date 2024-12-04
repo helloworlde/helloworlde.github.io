@@ -1,11 +1,10 @@
 ---
 title: gRPC 中的核心概念
 type: post
-date: 2020-09-20 22:40:59
+date: 2020-09-20T22:40:59+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 ## Stub

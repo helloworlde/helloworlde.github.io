@@ -1,11 +1,10 @@
 ---
 title: Raspberry Pi 4 使用 USB 从 SSD 启动
 type: post
-date: 2020-09-20 22:29:28
+date: 2020-09-20T22:29:28+08:00
 tags:
   - RaspberryPi
-categories:
-  - RaspberryPi
+featured: true
 ---
 
 树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统

@@ -1,11 +1,10 @@
 ---
 title: Docker 常用命令
 type: post
-date: 2018-04-08 15:20:02
+date: 2018-04-08T15:20:02+08:00
 tags:
   - Docker
-categories:
-  - Docker
+featured: true
 ---
 
 - run

@@ -7,8 +7,7 @@ tags:
   - NFS
   - Ubuntu
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 在搭建 HomeLab 的过程中，出现因虚拟机故障导致容器挂载在虚拟机上的数据丢失的问题，因此，将数据挂载在虚拟机上仍然存在风险；同时为了将计算和数据分离，HomeLab 所在的服务器只做计算，将数据存储转移到 NAS上；因此，使用 NFS 作为 Docker 的数据卷，将数据挂载到远程的 NAS 存储中

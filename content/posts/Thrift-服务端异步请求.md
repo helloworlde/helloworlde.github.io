@@ -1,11 +1,10 @@
 ---
 title: Thrift 服务端异步请求
 type: post
-date: 2021-02-01 22:34:46
+date: 2021-02-01T22:34:46+08:00
 tags:
   - Thrift
-categories:
-  - Thrift
+featured: true
 ---
 
 ## 实现

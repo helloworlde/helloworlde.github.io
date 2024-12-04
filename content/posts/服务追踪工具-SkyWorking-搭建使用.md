@@ -6,10 +6,6 @@ tags:
   - SkyWalking
   - Tool
   - Trace
-categories:
-  - SkyWalking
-  - Tool
-  - Trace
 featured: true
 ---
 

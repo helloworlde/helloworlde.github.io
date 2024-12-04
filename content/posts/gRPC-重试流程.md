@@ -1,11 +1,10 @@
 ---
 title: gRPC 重试流程
 type: post
-date: 2020-09-20 22:40:07
+date: 2020-09-20T22:40:07+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 当第一次调用失败，流监听器关闭的时候，会根据请求的处理状态和方法的配置，判断是否需要重试

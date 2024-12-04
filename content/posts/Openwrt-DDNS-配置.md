@@ -1,14 +1,13 @@
 ---
 title: Openwrt-DDNS 配置
 type: post
-date: 2022-08-26 11:32:08
+date: 2022-08-26T11:32:08+08:00
 tags:
   - Esxi
   - OpenWrt
   - DDNS
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 DDNS(Dynamic DNS) 一般用于从外部访问家庭网络内的设备，因为家庭宽带没有固定的 IP 地址，所以通过域名访问时需要动态的更新域名的记录为当前的 IP 地址；实现的原理也比较简单，就是通过定时脚本，调用域名解析商的接口，修改域名的记录

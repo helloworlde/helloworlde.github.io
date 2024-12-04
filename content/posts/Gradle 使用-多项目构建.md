@@ -1,13 +1,11 @@
 ---
 title: Gradle 添加多项，依赖其他项目
 type: post
-date: 2018-01-01 00:05:06
+date: 2018-01-01T00:05:06+08:00
 tags:
   - Java
   - Gradle
-categories:
-  - Java
-  - Gradle
+featured: true
 ---
 
 ## 配置

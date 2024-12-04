@@ -1,13 +1,12 @@
 ---
 title: Openwrt 在 Esxi 中以虚拟机方式安装
 type: post
-date: 2022-07-22 11:32:08
+date: 2022-07-22T11:32:08+08:00
 tags:
   - Esxi
   - OpenWrt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 ## 下载镜像

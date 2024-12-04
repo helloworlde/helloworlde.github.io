@@ -1,11 +1,10 @@
 ---
 title: Docker 容器中运行 Docker 命令
 type: post
-date: 2018-08-08 16:04:24
+date: 2018-08-08T16:04:24+08:00
 tags:
   - Docker
-categories:
-  - Docker
+featured: true
 ---
 
 > 在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可

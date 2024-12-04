@@ -1,14 +1,13 @@
 ---
 title: OpenWrt-监控
 type: post
-date: 2022-09-26 11:32:08
+date: 2022-09-26T11:32:08+08:00
 tags:
   - Netdata
   - Prometheus
   - OpenWrt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 [Netdata](https://openwrt.org/packages/pkgdata/netdata) 和 [Prometheus](https://openwrt.org/packages/pkgdata/prometheus)

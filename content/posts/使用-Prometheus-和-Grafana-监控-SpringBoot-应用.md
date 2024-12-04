@@ -1,15 +1,12 @@
 ---
 title: 使用 Prometheus 和 Grafana 监控 SpringBoot 应用
 type: post
-date: 2020-05-16 14:43:07
+date: 2020-05-16T14:43:07+08:00
 tags:
   - Prometheus
   - Grafana
   - SpringBoot
-categories:
-  - Prometheus
-  - Grafana
-  - SpringBoot
+featured: true
 ---
 
 监控 Spring Boot 应用的状态，以及一些自定义的业务数据

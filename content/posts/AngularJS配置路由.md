@@ -1,13 +1,11 @@
 ---
 title: AngularJS 配置路由
 type: post
-date: 2018-01-01 12:04:04
+date: 2018-01-01T12:04:04+08:00
 tags:
   - AngularJs
   - Router
-categories:
-  - AngularJs
-  - Router
+featured: true
 ---
 
 > 在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示

@@ -1,15 +1,12 @@
 ---
 title: Spring MVC简单实现国际化/多语言
 type: post
-date: 2018-01-01 11:48:46
+date: 2018-01-01T11:48:46+08:00
 tags:
   - Java
   - SrpingMVC
   - i18n
-categories:
-  - Java
-  - SrpingMVC
-  - i18n
+featured: true
 ---
 
 > SpringMVC 可以通过Spring框架来实现多语言

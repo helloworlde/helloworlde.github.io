@@ -1,15 +1,12 @@
 ---
 title: SpringBoot 使用 FastJSON 自定义接口返回 JSON 格式
 type: post
-date: 2018-04-10 18:50:34
+date: 2018-04-10T18:50:34+08:00
 tags:
   - Java
   - SpringBoot
   - FastJSON
-categories:
-  - Java
-  - SpringBoot
-  - FastJSON
+featured: true
 ---
 
 在 SpringBoot 中如果想要自定义接口返回的值格式，可以通过重写 `WebMvcConfigurerAdapter` 类的 `configureMessageConverters` 方法实现

@@ -1,13 +1,11 @@
 ---
 title: Raspberry Pi 4 使用 Grafana 监控
 type: post
-date: 2020-09-20 22:30:45
+date: 2020-09-20T22:30:45+08:00
 tags:
   - RaspberryPi
   - Grafana
-categories:
-  - RaspberryPi
-  - Grafana
+featured: true
 ---
 
 ## 运行 Influxdb

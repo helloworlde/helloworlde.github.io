@@ -1,10 +1,8 @@
 ---
-title: "使用 GoLinks 短链接服务简化网址访问"
+title: 使用 GoLinks 短链接服务简化网址访问
 type: post
 date: 2023-11-27T11:40:53+08:00
 tags:
-  - Tools
-categories:
   - Tools
 featured: true
 ---

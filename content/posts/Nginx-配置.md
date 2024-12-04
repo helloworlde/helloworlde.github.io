@@ -1,11 +1,10 @@
 ---
 title: Nginx 配置
 type: post
-date: 2018-01-01 12:03:12
+date: 2018-01-01T12:03:12+08:00
 tags:
   - Nginx
-categories:
-  - Nginx
+featured: true
 ---
 
 ## 1. 基础配置

@@ -1,15 +1,12 @@
 ---
 title: 使用Gradle整合Flyway进行数据库迁移
 type: post
-date: 2018-01-01 00:49:34
+date: 2018-01-01T00:49:34+08:00
 tags:
   - Java
   - Gradle
   - Flyway
-categories:
-  - Java
-  - Gradle
-  - Flyway
+featured: true
 ---
 
 > 使用Flyway进行数据库迁移可以极大的减少开发过程中对数据库版本的操作，使用Gradle整合Flyway可以更好的和项目契合

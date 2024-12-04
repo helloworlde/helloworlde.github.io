@@ -1,17 +1,13 @@
 ---
 title: Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问
 type: post
-date: 2018-04-08 15:38:01
+date: 2018-04-08T15:38:01+08:00
 tags:
   - Docker
   - Ubuntu
   - Tomcat
   - Nginx
-categories:
-  - Docker
-  - Ubuntu
-  - Tomcat
-  - Nginx
+featured: true
 ---
 
 ## 安装 Docker

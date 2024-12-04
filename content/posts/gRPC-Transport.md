@@ -1,11 +1,10 @@
 ---
 title: gRPC Transport
 type: post
-date: 2020-10-22 22:34:46
+date: 2020-10-22T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端和服务端

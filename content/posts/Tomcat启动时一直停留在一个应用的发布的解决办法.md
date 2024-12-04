@@ -1,11 +1,10 @@
 ---
 title: Tomcat启动时一直停留在一个应用的发布的解决办法
 type: post
-date: 2018-01-01 01:05:02
+date: 2018-01-01T01:05:02+08:00
 tags:
   - Tomcat
-categories:
-  - Tomcat
+featured: true
 ---
 
 > Tomcat在启动时一直停留在某一个应用无法启动或者需要很长时间才能启动，提示`Deploying web application directory [/home/dev/tomcat/apache-tomcat-9.0.0.M26/webapps/ROOT`，可以通过如下配置来加速启动

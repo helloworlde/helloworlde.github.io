@@ -1,11 +1,10 @@
 ---
 title: Thrfit 中的 Server
 type: post
-date: 2021-01-18 22:34:46
+date: 2021-01-18T22:34:46+08:00
 tags:
   - Thrift
-categories:
-  - Thrift
+featured: true
 ---
 
 Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式

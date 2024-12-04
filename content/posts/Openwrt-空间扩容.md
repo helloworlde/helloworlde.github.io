@@ -1,13 +1,12 @@
 ---
 title: Openwrt-空间扩容
 type: post
-date: 2022-07-23 11:32:08
+date: 2022-07-23T11:32:08+08:00
 tags:
   - Esxi
   - OpenWrt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 Openwrt 默认的空间只有 100M，安装一些软件后空间就被用完了，因此需要对 Openwrt 的硬盘进行扩容

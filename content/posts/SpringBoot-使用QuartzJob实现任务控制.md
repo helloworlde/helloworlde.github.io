@@ -1,17 +1,13 @@
 ---
 title: SpringBoot 使用QuartzJob实现任务控制
 type: post
-date: 2018-02-12 18:22:43
+date: 2018-02-12T18:22:43+08:00
 tags:
   - Java
   - SpringBoot
   - Quartz
   - Job
-categories:
-  - Java
-  - SpringBoot
-  - Quartz
-  - Job
+featured: true
 ---
 
 > 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob)

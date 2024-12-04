@@ -1,12 +1,8 @@
 ---
-title: "Proxmox VE 创建自定义的 LXC 容器 CT 模板"
+title: Proxmox VE 创建自定义的 LXC 容器 CT 模板
 type: post
 date: 2024-01-07T12:00:10+08:00
 tags:
-  - Proxmox
-  - HomeLab
-  - LXC
-categories:
   - Proxmox
   - HomeLab
   - LXC

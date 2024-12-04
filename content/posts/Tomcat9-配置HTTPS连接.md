@@ -1,13 +1,11 @@
 ---
 title: Tomcat9 配置HTTPS连接
 type: post
-date: 2018-01-01 12:01:18
+date: 2018-01-01T12:01:18+08:00
 tags:
   - Tomcat
   - Https
-categories:
-  - Tomcat
-  - Https
+featured: true
 ---
 
 > Tomcat中配置HTTPS连接可以分为两步：1. 生成证书

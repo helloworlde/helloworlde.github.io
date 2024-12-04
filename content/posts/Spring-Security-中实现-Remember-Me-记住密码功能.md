@@ -1,15 +1,12 @@
 ---
 title: Spring Security 中实现 Remember Me 记住密码功能
 type: post
-date: 2018-01-01 00:35:56
+date: 2018-01-01T00:35:56+08:00
 tags:
   - Java
   - SpringBoot
   - Spring Security
-categories:
-  - Java
-  - SpringBoot
-  - Spring Security
+featured: true
 ---
 
 > 在 Spring Boot 应用中使用 Spring Security 并实现 Remember Me 记住密码功能，实现自动登录

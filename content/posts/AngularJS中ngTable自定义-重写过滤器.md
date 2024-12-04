@@ -1,13 +1,11 @@
 ---
 title: AngularJS 中ngTable自定义/重写过滤器
 type: post
-date: 2018-01-01 11:56:49
+date: 2018-01-01T11:56:49+08:00
 tags:
   - AngularJs
   - ngTable
-categories:
-  - AngularJs
-  - ngTable
+featured: true
 ---
 
 > - 在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器

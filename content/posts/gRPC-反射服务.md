@@ -1,11 +1,10 @@
 ---
 title: gRPC 反射服务
 type: post
-date: 2021-01-17 22:34:46
+date: 2021-01-17T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 提供了 `grpc.reflection.v1alpha.ServerReflection` 服务，在 Server 端添加后可以通过该服务获取所有服务的信息，包括服务定义，方法，属性等；

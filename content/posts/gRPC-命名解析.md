@@ -1,11 +1,10 @@
 ---
 title: gRPC 命名解析
 type: post
-date: 2020-09-20 22:35:22
+date: 2020-09-20T22:35:22+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等

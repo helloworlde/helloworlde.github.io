@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud Consul 服务注册和发现
 type: post
-date: 2020-09-20 22:27:16
+date: 2020-09-20T22:27:16+08:00
 tags:
   - Java
   - SpringCloud
-categories:
-  - Java
-  - SpringCloud
+featured: true
 ---
 
 Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:spring-cloud-starter-consul-discovery`，这个 starter 依赖于 `org.springframework.cloud:spring-cloud-consul-core` 和 `org.springframework.cloud:spring-cloud-consul-discovery`

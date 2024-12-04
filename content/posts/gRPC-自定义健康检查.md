@@ -1,11 +1,10 @@
 ---
 title: gRPC  自定义健康检查
 type: post
-date: 2020-09-20 22:38:15
+date: 2020-09-20T22:38:15+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 在 gRPC 中自定义健康检查逻辑，用于检查特定的组件(如检查 Redis、MQ 等)，或者结合其他的服务组件一起使用(如使用 Spring Boot 的健康检查)

@@ -1,11 +1,10 @@
 ---
 title: Kubenetes 部署 Dashboard
 type: post
-date: 2019-09-08 19:28:25
+date: 2019-09-08T19:28:25+08:00
 tags:
   - Kubernetes
-categories:
-  - Kubernetes
+featured: true
 ---
 
 > [Kubenestes Dashboard](https://github.com/kubernetes/dashboard) 是提供 Kubernetes信息可视化的 Web 插件

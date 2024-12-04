@@ -1,15 +1,14 @@
 ---
 title: 使用 Pi-hole 作为 DNS 和 DHCP 服务器
 type: post
-date: 2022-09-05 11:32:08
+date: 2022-09-05T11:32:08+08:00
 tags:
   - Pi-hole
   - Docker
   - DNS
   - DHCP
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多

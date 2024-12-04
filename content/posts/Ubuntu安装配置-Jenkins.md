@@ -1,13 +1,11 @@
 ---
 title: Ubuntu安装配置 Jenkins
 type: post
-date: 2018-01-01 12:12:32
+date: 2018-01-01T12:12:32+08:00
 tags:
   - Jenkins
   - Ubuntu
-categories:
-  - Jenkins
-  - Ubuntu
+featured: true
 ---
 
 > 在 Ubuntu 下 Jenkins 服务

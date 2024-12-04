@@ -1,12 +1,8 @@
 ---
-title: "Proxmox VE 添加监控"
+title: Proxmox VE 添加监控
 type: post
 date: 2023-04-09T21:29:39+08:00
 tags:
-  - Proxmox VE
-  - InfluxDB
-  - HomeLab
-categories:
   - Proxmox VE
   - InfluxDB
   - HomeLab

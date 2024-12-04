@@ -1,11 +1,10 @@
 ---
 title: gRPC 中泛化调用服务接口
 type: post
-date: 2021-01-29 22:34:46
+date: 2021-01-29T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 没有直接支持泛化调用，protobuf 可以不依赖于生成的代码实现调用，所以可以通过反射接口间接实现泛化调用

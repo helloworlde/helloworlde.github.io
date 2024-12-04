@@ -1,13 +1,11 @@
 ---
 title: AngularJS发送异步Get/Post请求
 type: post
-date: 2018-01-01 11:40:58
+date: 2018-01-01T11:40:58+08:00
 tags:
   - AngularJs
   - Request
-categories:
-  - AngularJs
-  - Request
+featured: true
 ---
 
 1 . 在页面中加入AngularJS并为页面绑定ng-app 和 ng-controller

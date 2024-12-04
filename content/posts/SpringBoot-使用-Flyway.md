@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 使用 Flyway
 type: post
-date: 2018-01-07 23:20:53
+date: 2018-01-07T23:20:53+08:00
 tags:
   - Java
   - SpringBoot
   - Flyway
-categories:
-  - Java
-  - SpringBoot
-  - Flyway
+featured: true
 ---
 
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway)

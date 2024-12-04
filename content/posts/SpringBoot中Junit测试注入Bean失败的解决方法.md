@@ -1,15 +1,12 @@
 ---
 title: SpringBoot中Junit测试注入Bean失败的解决方法
 type: post
-date: 2018-01-01 11:46:57
+date: 2018-01-01T11:46:57+08:00
 tags:
   - Java
   - SpringBoot
   - Junit
-categories:
-  - Java
-  - SpringBoot
-  - Junit
+featured: true
 ---
 
 > 在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：

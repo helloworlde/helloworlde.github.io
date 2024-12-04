@@ -1,11 +1,10 @@
 ---
 title: gRPC 服务间调用事件流程
 type: post
-date: 2021-02-20 22:34:46
+date: 2021-02-20T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 ## 调用流程图

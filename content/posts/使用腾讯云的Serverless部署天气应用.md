@@ -1,13 +1,11 @@
 ---
 title: 使用腾讯云的Serverless部署天气应用
 type: post
-date: 2019-10-13 18:56:40
+date: 2019-10-13T18:56:40+08:00
 tags:
   - Serverless
   - Go
-categories:
-  - Serverless
-  - Go
+featured: true
 ---
 
 > 使用腾讯云的Serverless服务，部署一个Go编写的天气变化的提醒应用

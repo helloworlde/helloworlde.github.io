@@ -1,11 +1,10 @@
 ---
 title: Docker
 type: post
-date: 2018-04-08 15:18:49
+date: 2018-04-08T15:18:49+08:00
 tags:
   - Docker
-categories:
-  - Docker
+featured: true
 ---
 
 ## Docker 中的概念

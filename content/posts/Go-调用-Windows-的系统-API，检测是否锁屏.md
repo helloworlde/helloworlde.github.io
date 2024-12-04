@@ -1,11 +1,10 @@
 ---
 title: Go 调用 Windows 的系统 API，检测是否锁屏
 type: post
-date: 2019-09-15 21:56:13
+date: 2019-09-15T21:56:13+08:00
 tags:
   - Go
-categories:
-  - Go
+featured: true
 ---
 
 > 因为应用需要根据当前电脑是否处于活跃状态来执行不同的动作，所以需要获取电脑当前活跃的窗口判断是否处于锁屏

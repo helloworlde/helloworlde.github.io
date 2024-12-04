@@ -1,14 +1,13 @@
 ---
 title: OpenWrt 使用 SmartDNS
 type: post
-date: 2022-09-27 11:32:08
+date: 2022-09-27T11:32:08+08:00
 tags:
   - SmartDNS
   - DNS
   - OpenWrt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 [SmartDNS](https://pymumu.github.io/smartdns/) 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等

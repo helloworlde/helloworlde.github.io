@@ -1,11 +1,10 @@
 ---
 title: gRPC 服务使用 TLS 加密
 type: post
-date: 2021-01-06 22:34:46
+date: 2021-01-06T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 支持使用 TLS 对请求进行加密

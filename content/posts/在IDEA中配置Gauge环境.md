@@ -1,15 +1,12 @@
 ---
 title: 在IDEA中配置Gauge环境
 type: post
-date: 2018-01-01 11:28:05
+date: 2018-01-01T11:28:05+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 > ### [Gauge](http://getgauge.io)是一个自动化测试工具，主要是通过.spec 文件指定执行的步骤，然后由Java代码去测试

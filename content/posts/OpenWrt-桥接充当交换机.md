@@ -1,11 +1,8 @@
 ---
-title: "OpenWrt 桥接充当交换机"
+title: OpenWrt 桥接充当交换机
 type: post
 date: 2023-03-21T21:33:24+08:00
 tags:
-  - OpenWrt
-  - HomeLab
-categories:
   - OpenWrt
   - HomeLab
 featured: true

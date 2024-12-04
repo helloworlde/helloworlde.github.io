@@ -1,15 +1,12 @@
 ---
 title: Gauge中执行测试的常用命令
 type: post
-date: 2018-01-01 11:30:51
+date: 2018-01-01T11:30:51+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 本文所有内容均参考自Gauge官方文档s

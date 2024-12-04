@@ -1,11 +1,10 @@
 ---
 title: gRPC 中监听 Sream 和 Transport 的事件
 type: post
-date: 2020-12-23 22:34:46
+date: 2020-12-23T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 提供了拦截器可以监听请求的事件，但是对于 Stream 或者 Transport 的具体事件，无法通过拦截器实现；gRPC 提供了 StreamTracer 和 TransportFilter 支持这样的能力

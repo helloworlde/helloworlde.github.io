@@ -1,11 +1,10 @@
 ---
 title: gRPC Server 端请求处理流程
 type: post
-date: 2020-12-15 22:34:46
+date: 2020-12-15T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 [TOC]

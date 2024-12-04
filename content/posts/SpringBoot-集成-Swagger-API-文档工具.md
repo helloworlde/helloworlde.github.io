@@ -1,15 +1,12 @@
 ---
 title: SpringBoot 集成 Swagger API 文档工具
 type: post
-date: 2018-01-07 23:28:45
+date: 2018-01-07T23:28:45+08:00
 tags:
   - Java
   - SpringBoot
   - Swagger
-categories:
-  - Java
-  - SpringBoot
-  - Swagger
+featured: true
 ---
 
 - 项目地址：[https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger](https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger)

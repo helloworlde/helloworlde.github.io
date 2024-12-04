@@ -1,11 +1,10 @@
 ---
 title: gRPC Stream
 type: post
-date: 2020-11-08 22:34:46
+date: 2020-11-08T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 `ClientStream` 和 `ServerStream`

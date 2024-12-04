@@ -1,13 +1,11 @@
 ---
 title: AngularJS配置Router(路由)提示Controller NaNunction/undefined错误
 type: post
-date: 2018-01-01 12:05:17
+date: 2018-01-01T12:05:17+08:00
 tags:
   - AngularJs
   - Router
-categories:
-  - AngularJs
-  - Router
+featured: true
 ---
 
 > 在配置Angular 路由的时候，和以往一样使用如下配置：

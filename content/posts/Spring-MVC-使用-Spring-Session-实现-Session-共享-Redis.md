@@ -1,15 +1,12 @@
 ---
 title: Spring MVC 使用 Spring Session 实现 Session 共享-Redis
 type: post
-date: 2018-01-01 00:07:20
+date: 2018-01-01T00:07:20+08:00
 tags:
   - Java
   - SrpingMVC
   - Spring Session
-categories:
-  - Java
-  - SrpingMVC
-  - Spring Session
+featured: true
 ---
 
 > 使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用

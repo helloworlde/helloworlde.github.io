@@ -1,14 +1,13 @@
 ---
 title: 小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验
 type: post
-date: 2022-10-09 11:20:19
+date: 2022-10-09T11:20:19+08:00
 tags:
   - MiWiFi
   - Router
   - HomeLab
   - OpenWrt
-categories:
-  - HomeLab
+featured: true
 ---
 
 买了小米 Redmi AX3000 路由器后发现是 RA81 型号，这个型号目前无法刷入 OpenWrt；但是因为当前使用的 OpenWrt 作为旁路由的方式并不稳定，所以想更换一个可以刷入 OpenWrt 的路由器

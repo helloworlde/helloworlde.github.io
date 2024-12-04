@@ -1,13 +1,11 @@
 ---
 title: AngularJS中使用ngTable
 type: post
-date: 2018-01-01 11:42:21
+date: 2018-01-01T11:42:21+08:00
 tags:
   - AngularJs
   - ngTable
-categories:
-  - AngularJs
-  - ngTable
+featured: true
 ---
 
 > 在HTML中使用[ngTable](http://ng-table.com/) 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作

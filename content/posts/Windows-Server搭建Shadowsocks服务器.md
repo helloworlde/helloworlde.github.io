@@ -1,11 +1,10 @@
 ---
 title: Windows Server搭建Shadowsocks服务器
 type: post
-date: 2018-01-01 12:18:00
+date: 2018-01-01T12:18:00+08:00
 tags:
   - Shadowsocks
-categories:
-  - Shadowsocks
+featured: true
 ---
 
 > 在Windows Server 下搭建Shadowsocks，使用最简单的方式搭建

@@ -1,11 +1,10 @@
 ---
 title: Kubernetes 配置 kubeconfig 访问多个集群
 type: post
-date: 2018-10-23 21:09:48
+date: 2018-10-23T21:09:48+08:00
 tags:
   - Kubernetes
-categories:
-  - Kubernetes
+featured: true
 ---
 
 > 如果有多个不同的集群，需要切换访问，就需要配置多个 Kubernetes 账号和 Context；集群的 KubeConfig 文件一般为`~/.kube/config`，默认只能访问一个集群，如果需要访问多个集群就需要修改这个文件

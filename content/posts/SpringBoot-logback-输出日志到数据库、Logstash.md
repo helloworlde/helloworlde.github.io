@@ -1,17 +1,13 @@
 ---
 title: SpringBoot logback 输出日志到数据库、Logstash
 type: post
-date: 2018-01-19 21:25:42
+date: 2018-01-19T21:25:42+08:00
 tags:
   - Java
   - SpringBoot
   - ElasticSearch
   - ELK
-categories:
-  - Java
-  - SpringBoot
-  - ElasticSearch
-  - ELK
+featured: true
 ---
 
 ## 输入日志到数据库

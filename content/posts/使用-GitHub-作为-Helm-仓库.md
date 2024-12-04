@@ -1,13 +1,11 @@
 ---
 title: 使用 GitHub 作为 Helm 仓库
 type: post
-date: 2019-12-07 22:16:35
+date: 2019-12-07T22:16:35+08:00
 tags:
   - Kubernetes
   - Helm
-categories:
-  - Kubernetes
-  - Helm
+featured: true
 ---
 
 > 使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例

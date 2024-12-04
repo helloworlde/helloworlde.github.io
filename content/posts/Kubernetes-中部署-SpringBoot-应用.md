@@ -1,13 +1,11 @@
 ---
 title: "Kubernetes 中部署 SpringBoot 应用 "
 type: post
-date: 2018-10-22 18:30:37
+date: 2018-10-22T18:30:37+08:00
 tags:
   - Kubernetes
   - SpringBoot
-categories:
-  - Kubernetes
-  - SpringBoot
+featured: true
 ---
 
 > 在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用

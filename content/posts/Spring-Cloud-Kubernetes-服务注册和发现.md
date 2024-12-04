@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud Kubernetes 服务注册和发现
 type: post
-date: 2020-09-20 22:26:03
+date: 2020-09-20T22:26:03+08:00
 tags:
   - Java
   - SpringCloud
-categories:
-  - Java
-  - SpringCloud
+featured: true
 ---
 
 Spring Cloud Kubernetes 使用，可以通过引入 `org.springframework.cloud:spring-cloud-starter-kubernetes`，这个 starter 依赖于 `org.springframework.cloud:spring-cloud-kubernetes-core` 和 `org.springframework.cloud:spring-cloud-kubernetes-discovery`

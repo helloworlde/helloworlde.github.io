@@ -1,13 +1,12 @@
 ---
 title: Openwrt-初始化配置
 type: post
-date: 2022-08-08 11:44:37
+date: 2022-08-08T11:44:37+08:00
 tags:
   - Esxi
   - OpenWrt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 ## 语言配置

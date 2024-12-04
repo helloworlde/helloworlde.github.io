@@ -1,13 +1,11 @@
 ---
 title: Spring Controller 数据传递中注解的使用
 type: post
-date: 2018-01-01 11:54:23
+date: 2018-01-01T11:54:23+08:00
 tags:
   - Java
   - SpringBoot
-categories:
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 ##根据处理Request的不同内容分为4类：

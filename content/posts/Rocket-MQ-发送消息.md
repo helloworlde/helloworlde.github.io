@@ -1,13 +1,11 @@
 ---
 title: Rocket MQ 发送消息
 type: post
-date: 2018-01-01 12:52:39
+date: 2018-01-01T12:52:39+08:00
 tags:
   - Java
   - Rocket MQ
-categories:
-  - Java
-  - Rocket MQ
+featured: true
 ---
 
 ## Rocket MQ 发送消息

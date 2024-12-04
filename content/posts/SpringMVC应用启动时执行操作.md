@@ -1,13 +1,11 @@
 ---
 title: SpringMVC应用启动时执行操作
 type: post
-date: 2018-01-01 00:56:03
+date: 2018-01-01T00:56:03+08:00
 tags:
   - Java
   - SpringMVC
-categories:
-  - Java
-  - SpringMVC
+featured: true
 ---
 
 - ContextRefreshedEvent：当ApplicationContext初始化或者刷新时触发该事件。

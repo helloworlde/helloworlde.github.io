@@ -1,11 +1,8 @@
 ---
-title: "N5105 Promox VE 虚拟机频繁死机问题处理"
+title: N5105 Promox VE 虚拟机频繁死机问题处理
 type: post
 date: 2023-03-25T21:31:50+08:00
 tags:
-  - Proxmox VE
-  - HomeLab
-categories:
   - Proxmox VE
   - HomeLab
 featured: true

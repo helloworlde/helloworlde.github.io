@@ -1,17 +1,13 @@
 ---
 title: SpringBoot-使用 Spring Session 实现 Session 共享
 type: post
-date: 2018-04-08 15:09:41
+date: 2018-04-08T15:09:41+08:00
 tags:
   - Java
   - SpringBoot
   - SpringSession
   - Session
-categories:
-  - Java
-  - SpringBoot
-  - SpringSession
-  - Session
+featured: true
 ---
 
 ## 通过 Redis 共享

@@ -7,8 +7,7 @@ tags:
   - Clash
   - HomeLab
   - OpenWrt
-categories:
-  - HomeLab
+featured: true
 ---
 
 ## Clash 使用方式对比

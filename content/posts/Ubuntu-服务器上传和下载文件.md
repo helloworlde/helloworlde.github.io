@@ -1,11 +1,10 @@
 ---
 title: Ubuntu 服务器上传和下载文件
 type: post
-date: 2018-04-10 14:47:07
+date: 2018-04-10T14:47:07+08:00
 tags:
   - Ubuntu
-categories:
-  - Ubuntu
+featured: true
 ---
 
 使用 `scp` 命令完成文件的上传和下载

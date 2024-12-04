@@ -1,19 +1,15 @@
 ---
-title: >-
-  IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to
-  missing EmbeddedServlet...
+title:
+  IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to missing
+  EmbeddedServlet...
 type: post
-date: 2018-01-01 01:03:07
+date: 2018-01-01T01:03:07+08:00
 tags:
   - Java
   - SpringBoot
   - Exception
   - IDEA
-categories:
-  - Java
-  - SpringBoot
-  - Exception
-  - IDEA
+featured: true
 ---
 
 > 导入一个`gradle` 的`Spring Boot`项目，在启动的时候先提示找不到`HttpServletRequest`这个包，错误如下：

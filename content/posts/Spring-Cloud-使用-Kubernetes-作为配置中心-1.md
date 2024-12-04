@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
-date: 2020-09-20 22:28:15
+date: 2020-09-20T22:28:15+08:00
 tags:
   - Java
   - SpringCloud
-categories:
-  - Java
-  - SpringCloud
+featured: true
 ---
 
 Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 Secret，将配置添加到应用中

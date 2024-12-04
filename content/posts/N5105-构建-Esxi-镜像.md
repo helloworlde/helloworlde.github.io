@@ -1,11 +1,10 @@
 ---
 title: N5105 构建 Esxi 镜像
 type: post
-date: 2022-08-11 10:53:05
+date: 2022-08-11T10:53:05+08:00
 tags:
   - Esxi
-categories:
-  - HomeLab
+featured: true
 ---
 
 N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并没有该网卡的驱动，安装时会因为没有网卡导致安装失败；另外，因为买了一个国产的光威 NVME 硬盘(千万别买！)，也没有相应的驱动，安装时提示没有硬盘

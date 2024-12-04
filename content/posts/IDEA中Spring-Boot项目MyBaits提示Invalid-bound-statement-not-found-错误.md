@@ -1,17 +1,13 @@
 ---
 title: IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误
 type: post
-date: 2018-01-01 01:01:51
+date: 2018-01-01T01:01:51+08:00
 tags:
   - Java
   - SpringBoot
   - MyBatis
   - Exception
-categories:
-  - Java
-  - SpringBoot
-  - MyBatis
-  - Exception
+featured: true
 ---
 
 > 一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示`org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)`错误

@@ -1,11 +1,10 @@
 ---
 title: gRPC Channel
 type: post
-date: 2020-11-18 22:34:46
+date: 2020-11-18T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 `Channel` 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 `Channel` 可以有 0 或多个真实连接

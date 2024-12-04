@@ -1,13 +1,11 @@
 ---
 title: Ubuntu搭建Shadowsocks服务器
 type: post
-date: 2018-01-01 00:58:24
+date: 2018-01-01T00:58:24+08:00
 tags:
   - Ubuntu
   - Shadowsocks
-categories:
-  - Ubuntu
-  - Shadowsocks
+featured: true
 ---
 
 > 在Ubuntu环境中搭建Shadowsocks服务

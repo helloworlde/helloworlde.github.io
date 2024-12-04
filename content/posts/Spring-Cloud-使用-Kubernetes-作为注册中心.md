@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为注册中心
 type: post
-date: 2019-09-08 19:12:29
+date: 2019-09-08T19:12:29+08:00
 tags:
   - SpringCloud
   - Kubernetes
-categories:
-  - SpringCloud
-  - Kubernetes
+featured: true
 ---
 
 > Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现

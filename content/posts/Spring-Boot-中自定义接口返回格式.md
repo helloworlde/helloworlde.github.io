@@ -1,13 +1,11 @@
 ---
 title: Spring Boot 中自定义接口返回格式
 type: post
-date: 2019-09-08 18:45:24
+date: 2019-09-08T18:45:24+08:00
 tags:
   - Java
   - SpringBoot
-categories:
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 > Spring Boot 项目中提供的 REST 接口往往需要封装状态或者其他附加的内容返回给客户端，如果每个接口都用一些工具类来处理很繁琐，会增加很多重复代码，还有可能漏掉导致客户端无法解析；用切面也可以实现，但是 SpringBoot 提供了处理的接口

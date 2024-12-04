@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 中自定义异常处理
 type: post
-date: 2019-09-08 18:47:12
+date: 2019-09-08T18:47:12+08:00
 tags:
   - Java
   - SpringBoot
   - Exception
-categories:
-  - Java
-  - SpringBoot
-  - Exception
+featured: true
 ---
 
 - 项目地址[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception)

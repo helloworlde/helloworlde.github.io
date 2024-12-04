@@ -1,11 +1,10 @@
 ---
 title: gRPC  负载均衡
 type: post
-date: 2020-09-20 22:36:58
+date: 2020-09-20T22:36:58+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 内定义了 LoadBalancer 接口，用于负载均衡

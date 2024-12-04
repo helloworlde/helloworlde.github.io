@@ -1,11 +1,10 @@
 ---
 title: gRPC 对冲原理
 type: post
-date: 2020-09-20 22:39:26
+date: 2020-09-20T22:39:26+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消

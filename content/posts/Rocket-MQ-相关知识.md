@@ -1,13 +1,11 @@
 ---
 title: Rocket MQ 相关知识
 type: post
-date: 2018-01-01 12:54:02
+date: 2018-01-01T12:54:02+08:00
 tags:
   - Java
   - Rocket MQ
-categories:
-  - Java
-  - Rocket MQ
+featured: true
 ---
 
 @(消息队列)[RocketMQ, 消息]

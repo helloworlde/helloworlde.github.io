@@ -1,15 +1,12 @@
 ---
 title: SpringBoot中配置使用Druid数据库连接池
 type: post
-date: 2018-01-01 00:52:18
+date: 2018-01-01T00:52:18+08:00
 tags:
   - Java
   - SpringBoot
   - Druid
-categories:
-  - Java
-  - SpringBoot
-  - Druid
+featured: true
 ---
 
 > Druid 是阿里巴巴开源的Java数据库连接池插件，Druid能够提供强大的监控和扩展功能

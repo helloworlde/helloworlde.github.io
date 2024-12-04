@@ -1,13 +1,11 @@
 ---
 title: Spring Boot 配置 HTTPS 访问
 type: post
-date: 2018-12-31 22:42:17
+date: 2018-12-31T22:42:17+08:00
 tags:
   - Java
   - SpringBoot
-categories:
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 - [相关代码](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Https)

@@ -1,13 +1,11 @@
 ---
 title: SpringMVC 生成验证码
 type: post
-date: 2018-01-01 01:04:16
+date: 2018-01-01T01:04:16+08:00
 tags:
   - Java
   - SrpingMVC
-categories:
-  - Java
-  - SrpingMVC
+featured: true
 ---
 
 > 使用 Google kaptcha 为 SpringMVC Maven 项目生成验证码

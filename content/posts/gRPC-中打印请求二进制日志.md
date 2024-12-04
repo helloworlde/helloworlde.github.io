@@ -1,11 +1,10 @@
 ---
 title: gRPC 中打印请求二进制日志
 type: post
-date: 2021-01-04 22:34:46
+date: 2021-01-04T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中，方便在必要时排查问题

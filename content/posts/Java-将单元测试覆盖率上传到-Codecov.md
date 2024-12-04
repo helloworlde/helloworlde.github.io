@@ -1,7 +1,7 @@
 ---
 title: Java 将单元测试覆盖率上传到 Codecov
 type: post
-date: 2018-01-01 00:00:19
+date: 2018-01-01T00:00:19+08:00
 tags:
   - Java
   - Gradle
@@ -9,13 +9,7 @@ tags:
   - Junit
   - Test
   - Codecov
-categories:
-  - Java
-  - Gradle
-  - SpringBoot
-  - Junit
-  - Test
-  - Codecov
+featured: true
 ---
 
 > 通过使用 [Jacoco](http://www.eclemma.org/jacoco/) 生成单元测试覆盖率报告，并将该报告上传到 [Codecov](https://codecov.io)

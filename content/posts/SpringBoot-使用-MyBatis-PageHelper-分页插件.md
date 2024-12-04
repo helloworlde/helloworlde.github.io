@@ -1,15 +1,12 @@
 ---
 title: SpringBoot 使用 MyBatis PageHelper 分页插件
 type: post
-date: 2018-02-03 11:56:38
+date: 2018-02-03T11:56:38+08:00
 tags:
   - Java
   - SpringBoot
   - MyBatis
-categories:
-  - Java
-  - SpringBoot
-  - MyBatis
+featured: true
 ---
 
 > [MyBatis PageHelper](https://github.com/pagehelper/Mybatis-PageHelper) 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页

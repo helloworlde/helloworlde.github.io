@@ -1,11 +1,10 @@
 ---
 title: HPA 使用自定义的指标自动扩缩容
 type: post
-date: 2020-09-20 22:36:15
+date: 2020-09-20T22:36:15+08:00
 tags:
   - Kubernetes
-categories:
-  - Kubernetes
+featured: true
 ---
 
 Kubernetes 支持使用自定义的指标作为 HPA 的依据；

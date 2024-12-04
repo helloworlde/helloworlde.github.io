@@ -1,11 +1,10 @@
 ---
 title: gRPC Server 端关闭流程
 type: post
-date: 2020-12-05 22:34:46
+date: 2020-12-05T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 ## 关闭 Server

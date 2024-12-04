@@ -1,15 +1,12 @@
 ---
 title: Swagger 常用注解说明
 type: post
-date: 2018-01-07 23:34:23
+date: 2018-01-07T23:34:23+08:00
 tags:
   - Java
   - SpringBoot
   - Swagger
-categories:
-  - Java
-  - SpringBoot
-  - Swagger
+featured: true
 ---
 
 | **注解**             | **属性**      | **值**                  | **备注**                                                                                                                                           |

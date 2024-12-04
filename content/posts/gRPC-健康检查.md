@@ -1,11 +1,10 @@
 ---
 title: gRPC  健康检查
 type: post
-date: 2020-09-20 22:37:34
+date: 2020-09-20T22:37:34+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 在 gRPC 中使用健康检查，在负载均衡前通过健康检查，只对健康的 Subchannel 发起请求，保证请求的成功率

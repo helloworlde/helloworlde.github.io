@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
-date: 2019-09-08 19:15:46
+date: 2019-09-08T19:15:46+08:00
 tags:
   - SpringCloud
   - Kubernetes
-categories:
-  - SpringCloud
-  - Kubernetes
+featured: true
 ---
 
 > Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新

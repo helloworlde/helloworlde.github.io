@@ -1,13 +1,7 @@
 ---
-title: "Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限"
+title: Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限
 date: 2024-09-17T10:57:59+08:00
 tags:
-  - Proxmox
-  - HomeLab
-  - LXC
-  - Tailscale
-  - Wireguard
-categories:
   - Proxmox
   - HomeLab
   - LXC

@@ -1,11 +1,10 @@
 ---
 title: gRPC 拦截器和监听器
 type: post
-date: 2021-01-03 22:34:46
+date: 2021-01-03T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 拦截器用于在请求执行之前执行，以实现校验授权，记录调用行为，插入其他逻辑等；拦截器有 `ClientInterceptor` 和 `ServerInterceptor`，分别用于客户端和服务端

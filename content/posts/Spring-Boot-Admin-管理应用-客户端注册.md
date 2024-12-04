@@ -1,15 +1,12 @@
 ---
 title: Spring Boot Admin 管理应用-客户端注册
 type: post
-date: 2018-01-01 12:15:48
+date: 2018-01-01T12:15:48+08:00
 tags:
   - Java
   - SpringBoot
   - Actuator
-categories:
-  - Java
-  - SpringBoot
-  - Actuator
+featured: true
 ---
 
 > 客户端注册可以通过直接注册到管理应用和通过注册中心注册两种方式

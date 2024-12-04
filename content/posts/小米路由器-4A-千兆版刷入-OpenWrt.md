@@ -7,8 +7,7 @@ tags:
   - Router
   - HomeLab
   - OpenWrt
-categories:
-  - HomeLab
+featured: true
 ---
 
 因为买了新的路由器，之前的小米 4A 千兆版被淘汰下来了，因此想刷个 OpenWrt 测试一下

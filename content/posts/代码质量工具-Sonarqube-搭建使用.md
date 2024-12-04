@@ -5,9 +5,6 @@ date: 2018-08-01T00:31:41+08:00
 tags:
   - Sonarqube
   - Tool
-categories:
-  - Sonarqube
-  - Tool
 featured: true
 ---
 

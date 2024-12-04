@@ -1,12 +1,11 @@
 ---
 title: Esxi 挂载物理磁盘到虚拟机
 type: post
-date: 2022-09-12 11:32:08
+date: 2022-09-12T11:32:08+08:00
 tags:
   - Esxi
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 在使用 NAS 时，需要将硬盘直接挂载到 NAS 服务所在的虚拟机上；Esxi 支持将整块物理磁盘作为虚拟磁盘进行挂载

@@ -1,13 +1,11 @@
 ---
 title: Ubuntu搭建Redis服务器
 type: post
-date: 2018-01-01 12:08:07
+date: 2018-01-01T12:08:07+08:00
 tags:
   - Ubuntu
   - Reids
-categories:
-  - Ubuntu
-  - Reids
+featured: true
 ---
 
 > 在Ubuntu中搭建Redis服务器

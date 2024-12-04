@@ -1,17 +1,13 @@
 ---
 title: Spring Boot Mail Could not connect to SMTP host
 type: post
-date: 2017-12-31 23:57:39
+date: 2017-12-31T23:57:39+08:00
 tags:
   - Java
   - SpringBoot
   - Mail
   - Exception
-categories:
-  - Java
-  - SpringBoot
-  - Mail
-  - Exception
+featured: true
 ---
 
 > 如果使用了 SSL 连接请添加配置：`spring.mail.properties.mail.smtp.ssl.enable=true`

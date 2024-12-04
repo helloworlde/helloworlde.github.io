@@ -1,17 +1,13 @@
 ---
 title: SpringBoot 使用 ELK 日志收集系统安装配置
 type: post
-date: 2018-01-21 21:16:10
+date: 2018-01-21T21:16:10+08:00
 tags:
   - Java
   - SpringBoot
   - Log
   - ELK
-categories:
-  - Java
-  - SpringBoot
-  - Log
-  - ELK
+featured: true
 ---
 
 ## Elasticsearch

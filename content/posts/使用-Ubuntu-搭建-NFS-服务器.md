@@ -5,9 +5,6 @@ date: 2024-01-27T11:20:19+08:00
 tags:
   - Ubuntu
   - HomeLab
-categories:
-  - Ubuntu
-  - HomeLab
 featured: true
 ---
 

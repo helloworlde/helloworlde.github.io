@@ -1,11 +1,10 @@
 ---
 title: gRPC 中使用 Channelz
 type: post
-date: 2021-01-04 22:34:46
+date: 2021-01-04T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 提供了 Channelz 用于对外提供服务的数据，用于调试、监控等；根据服务的角色不同，可以提供的数据有：

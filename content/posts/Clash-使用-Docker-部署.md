@@ -1,12 +1,10 @@
 ---
 title: Clash 使用 Docker 部署
 type: post
-date: 2022-10-26 11:20:19
+date: 2022-10-26T11:20:19+08:00
 tags:
   - Clash
   - Docker
-  - HomeLab
-categories:
   - HomeLab
 featured: true
 ---

@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 中使用 WebSocket
 type: post
-date: 2019-09-08 18:48:25
+date: 2019-09-08T18:48:25+08:00
 tags:
   - Java
   - SpringBoot
   - WebSocket
-categories:
-  - Java
-  - SpringBoot
-  - WebSocket
+featured: true
 ---
 
 > WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端

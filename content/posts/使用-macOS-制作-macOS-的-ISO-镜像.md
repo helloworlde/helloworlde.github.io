@@ -1,10 +1,8 @@
 ---
-title: "使用 MacOS 制作 MacOS 的 ISO 镜像"
+title: 使用 MacOS 制作 MacOS 的 ISO 镜像
 type: post
 date: 2022-11-20T21:51:48+08:00
 tags:
-  - MacOS
-categories:
   - MacOS
 featured: true
 ---

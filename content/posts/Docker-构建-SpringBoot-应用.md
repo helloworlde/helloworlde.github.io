@@ -1,15 +1,12 @@
 ---
 title: Docker 构建 SpringBoot 应用
 type: post
-date: 2018-04-08 15:42:39
+date: 2018-04-08T15:42:39+08:00
 tags:
   - Docker
   - SpringBoot
   - Java
-categories:
-  - Docker
-  - SpringBoot
-  - Java
+featured: true
 ---
 
 - 启动 Docker，并生成 SpringBoot 应用

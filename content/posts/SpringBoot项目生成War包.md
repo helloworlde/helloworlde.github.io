@@ -1,13 +1,11 @@
 ---
 title: SpringBoot项目生成War包
 type: post
-date: 2018-01-01 00:50:49
+date: 2018-01-01T00:50:49+08:00
 tags:
   - Java
   - SpringBoot
-categories:
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 > Spring Boot 项目默认生成Jar包，如果想发布到Tomcat还需要生成War包才能运行，SpringBoot官方文档中已经阐述了具体的操作方法，可以参考：[howto-create-a-deployable-war-file](http://docs.spring.io/spring-boot/docs/2.0.0.M3/reference/htmlsingle/#howto-create-a-deployable-war-file)；

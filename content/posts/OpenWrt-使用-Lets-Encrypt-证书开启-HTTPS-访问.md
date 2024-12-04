@@ -1,11 +1,8 @@
 ---
-title: "OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问"
+title: OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问
 type: post
 date: 2022-11-11T21:57:52+08:00
 tags:
-  - OpenWrt
-  - HomeLab
-categories:
   - OpenWrt
   - HomeLab
 featured: true

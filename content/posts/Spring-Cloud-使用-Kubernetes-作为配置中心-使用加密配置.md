@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
 type: post
-date: 2019-09-08 19:18:09
+date: 2019-09-08T19:18:09+08:00
 tags:
   - SpringCloud
   - Kubernetes
-categories:
-  - SpringCloud
-  - Kubernetes
+featured: true
 ---
 
 > Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置

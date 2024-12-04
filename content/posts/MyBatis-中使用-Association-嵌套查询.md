@@ -1,13 +1,11 @@
 ---
 title: MyBatis 中使用 Association 嵌套查询
 type: post
-date: 2018-01-01 00:48:06
+date: 2018-01-01T00:48:06+08:00
 tags:
   - Java
   - MyBatis
-categories:
-  - Java
-  - MyBatis
+featured: true
 ---
 
 > 当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;

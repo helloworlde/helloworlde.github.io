@@ -1,15 +1,12 @@
 ---
 title: Gauge基础知识
 type: post
-date: 2018-01-01 11:29:04
+date: 2018-01-01T11:29:04+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 本文所有内容均参照自[Gauge官方文档](http://getgauge.io/documentation/user/current/)

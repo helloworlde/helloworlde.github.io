@@ -1,13 +1,12 @@
 ---
 title: Traefik 使用 Let’s Encrypt 申请 HTTPS 证书
 type: post
-date: 2022-08-07 11:32:08
+date: 2022-08-07T11:32:08+08:00
 tags:
   - Traefik
   - LetsEncrypt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 在 Traefik 中，支持通过 Let's Encrypt 从 ACME [自动申请 HTTPS 证书](https://doc.traefik.io/traefik/https/acme/)

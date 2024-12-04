@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud Gateway 使用 Kubernetes 作为服务发现
 type: post
-date: 2020-09-20 22:25:04
+date: 2020-09-20T22:25:04+08:00
 tags:
   - Java
   - SpringCloud
-categories:
-  - Java
-  - SpringCloud
+featured: true
 ---
 
 Spring Cloud Gateway 作为网关，通过用于执行一些通用逻辑后做请求转发，后端可能涉及到多个服务，每个服务又有多个实例，调用服务实例就需要动态的更新，可以通过注册中心来实现，如果部署在K8S集群中，可以直接使用K8S实现服务发现

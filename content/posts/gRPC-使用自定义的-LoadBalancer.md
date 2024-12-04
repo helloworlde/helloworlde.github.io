@@ -1,11 +1,10 @@
 ---
 title: gRPC 使用自定义的 LoadBalancer
 type: post
-date: 2020-09-29 22:34:46
+date: 2020-09-29T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 中提供了 `round_robin`, `pick_first`, `grpclb`, `HealthCheckingRoundRobin` 等负载均衡的实现，默认使用`HealthCheckingRoundRobin`，该负载均衡支持检查 Subchannel 的健康状态

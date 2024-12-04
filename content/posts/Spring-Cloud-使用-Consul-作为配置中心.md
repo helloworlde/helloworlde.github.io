@@ -1,13 +1,11 @@
 ---
 title: Spring Cloud 使用 Consul 作为配置中心
 type: post
-date: 2020-09-20 22:28:50
+date: 2020-09-20T22:28:50+08:00
 tags:
   - Java
   - SpringCloud
-categories:
-  - Java
-  - SpringCloud
+featured: true
 ---
 
 ## 加载配置

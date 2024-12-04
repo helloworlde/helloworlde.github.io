@@ -1,17 +1,13 @@
 ---
 title: 树莓派 4b 安装 Kubernetes
 type: post
-date: 2021-04-24 22:55:32
+date: 2021-04-24T22:55:32+08:00
 tags:
   - RaspberryPi
   - Kubernetes
   - K3S
   - Rancher
-categories:
-  - RaspberryPi
-  - Kubernetes
-  - K3S
-  - Rancher
+featured: true
 ---
 
 K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等

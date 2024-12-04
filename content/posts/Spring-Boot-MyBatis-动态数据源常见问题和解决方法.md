@@ -1,7 +1,7 @@
 ---
 title: Spring Boot MyBatis 动态数据源常见问题和解决方法
 type: post
-date: 2017-12-31 23:45:52
+date: 2017-12-31T23:45:52+08:00
 tags:
   - Java
   - SpringBoot
@@ -10,15 +10,9 @@ tags:
   - MultipleDataSource
   - Druid
   - Issue
-categories:
-  - Java
-  - SpringBoot
-  - MyBatis
-  - Druid
-  - DataSource
-  - Issue
 archives:
   - SpringBoot
+featured: true
 ---
 
 > 相关项目地址:[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)

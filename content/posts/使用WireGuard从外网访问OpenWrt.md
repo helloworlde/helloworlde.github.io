@@ -1,12 +1,8 @@
 ---
-title: "使用WireGuard从外网访问OpenWrt"
+title: 使用WireGuard从外网访问OpenWrt
 type: post
 date: 2023-06-12T16:30:22+08:00
 tags:
-  - HomeLab
-  - WireGuard
-  - OpenWrt
-categories:
   - HomeLab
   - WireGuard
   - OpenWrt

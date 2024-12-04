@@ -1,13 +1,11 @@
 ---
 title: SpringBoot 框架自带插件构建 Docker 镜像
 type: post
-date: 2020-09-20 22:31:43
+date: 2020-09-20T22:31:43+08:00
 tags:
   - SpringBoot
   - Docker
-categories:
-  - SpringBoot
-  - Docker
+featured: true
 ---
 
 Spring Boot 2.3.0 之后支持通过 buildpacks 插件构建 Docker 镜像，原理和执行过程与 Jib 类似，支持 Spring Boot 项目的分层构建，当代码改动后，只需更新代码部分，可以减少构建后 push 和 pull 镜像的时间，减少镜像存储的成本

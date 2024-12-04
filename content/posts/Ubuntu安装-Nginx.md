@@ -1,13 +1,11 @@
 ---
 title: Ubuntu安装 Nginx
 type: post
-date: 2018-01-01 12:10:38
+date: 2018-01-01T12:10:38+08:00
 tags:
   - Nginx
   - Ubuntu
-categories:
-  - Nginx
-  - Ubuntu
+featured: true
 ---
 
 > 在 Ubuntu 上安装 Nginx

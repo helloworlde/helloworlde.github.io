@@ -1,15 +1,12 @@
 ---
 title: Ubuntu 搭建 ShadowSocks 服务
 type: post
-date: 2018-10-21 22:39:52
+date: 2018-10-21T22:39:52+08:00
 tags:
   - ShadowSocks
   - Tool
   - Ubuntu
-categories:
-  - ShadowSocks
-  - Tool
-  - Ubuntu
+featured: true
 ---
 
 > 在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务

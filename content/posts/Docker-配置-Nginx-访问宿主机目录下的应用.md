@@ -1,17 +1,13 @@
 ---
 title: Docker 配置 Nginx 访问宿主机目录下的应用
 type: post
-date: 2018-04-10 11:39:09
+date: 2018-04-10T11:39:09+08:00
 tags:
   - Docker
   - Ubuntu
   - Tomcat
   - Nginx
-categories:
-  - Docker
-  - Ubuntu
-  - Tomcat
-  - Nginx
+featured: true
 ---
 
 > 使用 Nginx 将请求转发到宿主机的 Tomcat 应用

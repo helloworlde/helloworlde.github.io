@@ -1,15 +1,12 @@
 ---
 title: SpringBoot 中日志使用
 type: post
-date: 2018-01-19 21:23:45
+date: 2018-01-19T21:23:45+08:00
 tags:
   - Java
   - SpringBoot
   - Log
-categories:
-  - Java
-  - SpringBoot
-  - Log
+featured: true
 ---
 
 ## 配置日志输出到文件

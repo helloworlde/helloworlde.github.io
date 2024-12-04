@@ -1,17 +1,13 @@
 ---
 title: 使用Gradle编译执行Gague项目
 type: post
-date: 2018-01-01 11:32:34
+date: 2018-01-01T11:32:34+08:00
 tags:
   - Java
   - Gradle
   - Gauge
   - Test
-categories:
-  - Java
-  - Gradle
-  - Gauge
-  - Test
+featured: true
 ---
 
 使用Gradle编译运行Gauge项目可以很大程度解决依赖的问题，并且可以根据需要创建多个不同的Task来在不同的环境运行或执行不同的操作

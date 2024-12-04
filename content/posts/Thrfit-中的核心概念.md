@@ -1,11 +1,10 @@
 ---
 title: Thrfit 中的核心概念
 type: post
-date: 2021-01-17 22:34:46
+date: 2021-01-17T22:34:46+08:00
 tags:
   - Thrift
-categories:
-  - Thrift
+featured: true
 ---
 
 ## 服务端

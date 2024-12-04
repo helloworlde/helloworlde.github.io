@@ -1,11 +1,10 @@
 ---
 title: gRPC Server 端启动流程
 type: post
-date: 2020-12-05 22:34:46
+date: 2020-12-05T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC Server 启动流程，底层实现以 Netty 为例；

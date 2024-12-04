@@ -1,17 +1,13 @@
 ---
 title: AWS Lambda 部署 SpringBoot 应用
 type: post
-date: 2019-05-06 11:36:14
+date: 2019-05-06T11:36:14+08:00
 tags:
   - Serverless
   - SpringBoot
   - Lambda
   - AWS
-categories:
-  - Serverless
-  - SpringBoot
-  - Lambda
-  - AWS
+featured: true
 ---
 
 ## 配置 AWS CLI 和 Severless

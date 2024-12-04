@@ -1,11 +1,8 @@
 ---
 title: Mac 客户端访问 Dropbox
 type: post
-date: 2018-10-13 12:54:07
+date: 2018-10-13T12:54:07+08:00
 tags:
-  - Dropbox
-  - Tool
-categories:
   - Dropbox
   - Tool
 featured: true

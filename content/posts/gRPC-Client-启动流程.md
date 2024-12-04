@@ -1,11 +1,10 @@
 ---
 title: gRPC Client 启动流程
 type: post
-date: 2020-11-17 22:34:46
+date: 2020-11-17T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 启动初始化的流程，使用 Netty 作为底层的实现

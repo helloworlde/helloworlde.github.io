@@ -1,17 +1,13 @@
 ---
 title: SpringBoot 使用 ElasticSearch
 type: post
-date: 2018-01-16 00:45:05
+date: 2018-01-16T00:45:05+08:00
 tags:
   - Java
   - SpringBoot
   - ElasticSearch
   - ELK
-categories:
-  - Java
-  - SpringBoot
-  - ElasticSearch
-  - ELK
+featured: true
 ---
 
 > 项目地址：[https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch](https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch)

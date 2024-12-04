@@ -1,15 +1,12 @@
 ---
 title: Spring Boot Actuator 添加 Git 和 Build 信息
 type: post
-date: 2018-01-01 11:20:12
+date: 2018-01-01T11:20:12+08:00
 tags:
   - Java
   - SpringBoot
   - Actuator
-categories:
-  - Java
-  - SpringBoot
-  - Actuator
+featured: true
 ---
 
 > 在使用 Spring Boot Actuator 时可以通过生成 Git 和编译文件来提供信息

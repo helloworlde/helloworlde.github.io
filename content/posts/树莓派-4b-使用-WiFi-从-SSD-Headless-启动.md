@@ -1,13 +1,11 @@
 ---
 title: 树莓派 4b 使用 WiFi 从 SSD Headless 启动
 type: post
-date: 2021-04-24 21:21:27
+date: 2021-04-24T21:21:27+08:00
 tags:
   - Ubuntu
   - RaspberryPi
-categories:
-  - Ubuntu
-  - RaspberryPi
+featured: true
 ---
 
 树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动

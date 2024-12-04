@@ -1,13 +1,11 @@
 ---
 title: AngularJS中使用ngModal模态框
 type: post
-date: 2018-01-01 11:57:50
+date: 2018-01-01T11:57:50+08:00
 tags:
   - AngularJs
   - ngModal
-categories:
-  - AngularJs
-  - ngModal
+featured: true
 ---
 
 - 在AngularJS中使用模态框需要引用的文件：

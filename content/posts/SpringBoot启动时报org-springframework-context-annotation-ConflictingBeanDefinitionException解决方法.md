@@ -1,16 +1,12 @@
 ---
-title: >-
-  SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法
+title: SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法
 type: post
-date: 2018-01-01 00:53:44
+date: 2018-01-01T00:53:44+08:00
 tags:
   - Java
   - SpringBoot
   - Exception
-categories:
-  - Java
-  - SpringBoot
-  - Exception
+featured: true
 ---
 
 > 在SpringBoot应用启动的过程中，因为报`org.springframework.context.annotation.ConflictingBeanDefinitionException`导致应用启动失败

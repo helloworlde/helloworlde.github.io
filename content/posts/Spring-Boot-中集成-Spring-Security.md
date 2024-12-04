@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 中集成 Spring Security
 type: post
-date: 2018-01-01 00:09:27
+date: 2018-01-01T00:09:27+08:00
 tags:
   - Java
   - SpringBoot
   - Spring Security
-categories:
-  - Java
-  - SpringBoot
-  - Spring Security
+featured: true
 ---
 
 > Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板

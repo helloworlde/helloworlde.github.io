@@ -1,13 +1,11 @@
 ---
 title: HTML中使用Ajax进行局部刷新页面
 type: post
-date: 2018-01-01 11:38:52
+date: 2018-01-01T11:38:52+08:00
 tags:
   - HTML
   - Jquery
-categories:
-  - HTML
-  - Jquery
+featured: true
 ---
 
 #HTML中使用Ajax进行局部刷新页面，使用JS将数据发送到后台

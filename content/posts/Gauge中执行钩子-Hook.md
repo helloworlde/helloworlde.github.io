@@ -1,15 +1,12 @@
 ---
 title: Gauge中执行钩子(Hook)
 type: post
-date: 2018-01-01 11:31:40
+date: 2018-01-01T11:31:40+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 本文所有内容均参考自[Gauge官方文档](http://getgauge.io/documentation/user/current/language_features/execution_hooks.html)

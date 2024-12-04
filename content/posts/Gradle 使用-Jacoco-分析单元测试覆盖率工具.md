@@ -1,7 +1,7 @@
 ---
 title: Gradle 使用-添加 Jacoco 分析单元测试覆盖率工具
 type: post
-date: 2018-01-01 00:03:40
+date: 2018-01-01T00:03:40+08:00
 tags:
   - Java
   - Gradle
@@ -9,13 +9,7 @@ tags:
   - Junit
   - Test
   - Jacoco
-categories:
-  - Java
-  - Gradle
-  - SpringBoot
-  - Junit
-  - Test
-  - Jacoco
+featured: true
 ---
 
 > Jacoco 是一个免费的 Java 单元测试覆盖率分析工具，在 Gradle 中添加插件，在编译的同事进行单元测试覆盖率分析

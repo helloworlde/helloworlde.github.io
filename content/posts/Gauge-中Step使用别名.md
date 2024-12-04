@@ -1,15 +1,12 @@
 ---
 title: Gauge 中Step使用别名
 type: post
-date: 2018-01-01 11:29:48
+date: 2018-01-01T11:29:48+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 所有内容均来自[Gauge官网文档](http://getgauge.io/documentation/user/current/advanced_readings/step_alias.html)

@@ -1,13 +1,11 @@
 ---
 title: Go 开发命令行工具-OSS文件上传
 type: post
-date: 2019-09-08 18:53:25
+date: 2019-09-08T18:53:25+08:00
 tags:
   - Go
   - Cobra
-categories:
-  - Go
-  - Cobra
+featured: true
 ---
 
 > 使用 Go 语言开发一个命令行工具，用于向 OSS 文件上传文件

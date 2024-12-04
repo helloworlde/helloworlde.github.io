@@ -1,13 +1,11 @@
 ---
 title: JRebel 安装激活
 type: post
-date: 2018-05-30 01:27:34
+date: 2018-05-30T01:27:34+08:00
 tags:
   - Tool
   - JRebel
-categories:
-  - Tool
-  - JRebel
+featured: true
 ---
 
 > JRebel 是适用于 Java IDE 的代码热更新工具，可以直接更新代码，避免重启应用，可以提高开发效率，官网是 [https://zeroturnaround.com/software/jrebel/](https://zeroturnaround.com/software/jrebel/)

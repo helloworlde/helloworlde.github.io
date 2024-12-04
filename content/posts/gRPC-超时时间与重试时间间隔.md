@@ -1,11 +1,10 @@
 ---
 title: gRPC 超时时间与重试时间间隔
 type: post
-date: 2020-09-20 22:41:50
+date: 2020-09-20T22:41:50+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 > gRPC 的超时时间生效机制以及重试超时时间间隔

@@ -1,13 +1,12 @@
 ---
 title: 使用 Let’s Encrypt 申请 HTTPS 证书
 type: post
-date: 2022-08-03 11:32:08
+date: 2022-08-03T11:32:08+08:00
 tags:
   - Traefik
   - LetsEncrypt
   - HomeLab
-categories:
-  - HomeLab
+featured: true
 ---
 
 在搭建私有服务器的过程中，需要通过外网访问，因为 .dev 域名要求使用 https，但是域名服务商只提供根域名的证书，为了使子域名也可以使用，所以通过 Let’s Encrypt 申请免费证书

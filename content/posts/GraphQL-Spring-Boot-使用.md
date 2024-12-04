@@ -1,13 +1,11 @@
 ---
 title: GraphQL Spring Boot 使用
 type: post
-date: 2019-01-29 19:57:12
+date: 2019-01-29T19:57:12+08:00
 tags:
   - SpringBoot
   - GraphQL
-categories:
-  - SpringBoot
-  - GraphQL
+featured: true
 ---
 
 项目地址 [https://github.com/helloworlde/spring-boot-graphql-demo](https://github.com/helloworlde/spring-boot-graphql-demo)

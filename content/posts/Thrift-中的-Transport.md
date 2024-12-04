@@ -1,11 +1,10 @@
 ---
 title: Thrift 中的 Transport
 type: post
-date: 2021-02-01 22:34:46
+date: 2021-02-01T22:34:46+08:00
 tags:
   - Thrift
-categories:
-  - Thrift
+featured: true
 ---
 
 Thrift 中有 `TTransport` 和 `TServerTransport`，封装了底层传输层的数据读写；分别用于客户端和服务端

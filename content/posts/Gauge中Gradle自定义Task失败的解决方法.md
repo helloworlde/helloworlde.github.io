@@ -1,17 +1,13 @@
 ---
 title: Gauge中Gradle自定义Task失败的解决方法
 type: post
-date: 2018-01-01 11:26:41
+date: 2018-01-01T11:26:41+08:00
 tags:
   - Java
   - Gradle
   - Gauge
   - Test
-categories:
-  - Java
-  - Gradle
-  - Gauge
-  - Test
+featured: true
 ---
 
 ## Gauge中加入了Gradle之后根据官方文档自定义task并不能执行

@@ -1,13 +1,11 @@
 ---
 title: Spring Boot 启动时执行加载资源/执行操作
 type: post
-date: 2018-01-01 00:54:49
+date: 2018-01-01T00:54:49+08:00
 tags:
   - Java
   - SpringBoot
-categories:
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 > SpringBoot 在启动的时候加载资源或者执行操作，进行初始化来执行特定操作，SpringBoot已经提供了这样的接口，通过实现该接口就可以实现需要的操作

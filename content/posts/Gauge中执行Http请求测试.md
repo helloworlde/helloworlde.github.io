@@ -1,15 +1,12 @@
 ---
 title: Gauge中执行Http请求测试
 type: post
-date: 2018-01-01 11:33:29
+date: 2018-01-01T11:33:29+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 > 通过Gauge执行自动化测试，测试Http请求

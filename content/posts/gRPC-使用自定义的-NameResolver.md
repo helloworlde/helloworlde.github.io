@@ -1,11 +1,10 @@
 ---
 title: gRPC 使用自定义的 NameResolver
 type: post
-date: 2020-09-20 22:34:46
+date: 2020-09-20T22:34:46+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 在使用注册中心时，gRPC 并未提供注册中心的服务发现，需要自己实现 `NameResolverProvider` 和 `NameResolver`

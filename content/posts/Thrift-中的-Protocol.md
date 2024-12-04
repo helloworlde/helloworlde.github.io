@@ -1,11 +1,10 @@
 ---
 title: Thrift 中的 Protocol
 type: post
-date: 2021-01-31 22:34:46
+date: 2021-01-31T22:34:46+08:00
 tags:
   - Thrift
-categories:
-  - Thrift
+featured: true
 ---
 
 `TProtocol` 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口

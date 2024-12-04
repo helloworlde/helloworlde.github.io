@@ -1,7 +1,7 @@
 ---
 title: Spring Boot MyBatis Druid 多数据源、动态数据源切换
 type: post
-date: 2017-12-31 23:39:24
+date: 2017-12-31T23:39:24+08:00
 tags:
   - Java
   - SpringBoot
@@ -9,12 +9,7 @@ tags:
   - DynamicDataSource
   - MultipleDataSource
   - Druid
-categories:
-  - Java
-  - SpringBoot
-  - MyBatis
-  - Druid
-  - DataSource
+featured: true
 ---
 
 - 项目地址：[https://github.com/helloworlde/SpringBoot-DynamicDataSource](https://github.com/helloworlde/SpringBoot-DynamicDataSource)

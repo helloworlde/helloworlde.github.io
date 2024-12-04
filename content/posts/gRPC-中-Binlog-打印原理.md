@@ -1,11 +1,10 @@
 ---
 title: gRPC 中 Binlog 打印原理
 type: post
-date: 2020-09-20 22:33:59
+date: 2020-09-20T22:33:59+08:00
 tags:
   - gRPC
-categories:
-  - gRPC
+featured: true
 ---
 
 gRPC 支持将请求调用的参数、Header 等信息以二进制的方式输出到文件中

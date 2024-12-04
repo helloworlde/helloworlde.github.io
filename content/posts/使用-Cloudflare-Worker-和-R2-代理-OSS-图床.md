@@ -1,11 +1,8 @@
 ---
-title: "使用 Cloudflare Worker 和 R2 代理 OSS 图床"
+title: 使用 Cloudflare Worker 和 R2 代理 OSS 图床
 type: post
 date: 2023-12-23T19:14:05+08:00
 tags:
-  - Cloudflare
-  - HomeLab
-categories:
   - Cloudflare
   - HomeLab
 featured: true

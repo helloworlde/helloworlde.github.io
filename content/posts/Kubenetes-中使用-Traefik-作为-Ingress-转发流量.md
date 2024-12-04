@@ -1,17 +1,13 @@
 ---
 title: Kubenetes 中使用 Traefik 作为 Ingress 转发流量
 type: post
-date: 2019-09-08 19:06:11
+date: 2019-09-08T19:06:11+08:00
 tags:
   - Kubernetes
   - Helm
   - Traefik
   - Ingress
-categories:
-  - Kubernetes
-  - Helm
-  - Traefik
-  - Ingress
+featured: true
 ---
 
 Ingress 就是 Kubernetes 机器外访问集群的入口，将请求的 URL 转发到不同的 Service 上，相当于 Nginx 等代理服务器

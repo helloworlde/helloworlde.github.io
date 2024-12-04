@@ -1,11 +1,10 @@
 ---
 title: MySQL 中关于gap lock / next-key lock 的一个问题
 type: post
-date: 2019-01-07 21:40:58
+date: 2019-01-07T21:40:58+08:00
 tags:
   - MySQL
-categories:
-  - MySQL
+featured: true
 ---
 
 > 在学习 MySQL 的过程中遇到的一个关于锁的问题，包含多个 MySQL 相关的知识；相关资料在文章末尾

@@ -1,17 +1,13 @@
 ---
 title: IDEA Maven项目导入失败，无法识别pom文件
 type: post
-date: 2018-01-01 11:23:33
+date: 2018-01-01T11:23:33+08:00
 tags:
   - Java
   - Maven
   - IDEA
   - Experience
-categories:
-  - Java
-  - Maven
-  - IDEA
-  - Experience
+featured: true
 ---
 
 ## 解决思路

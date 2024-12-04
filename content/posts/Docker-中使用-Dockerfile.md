@@ -1,11 +1,10 @@
 ---
 title: Docker 中使用 Dockerfile
 type: post
-date: 2018-04-08 15:21:27
+date: 2018-04-08T15:21:27+08:00
 tags:
   - Docker
-categories:
-  - Docker
+featured: true
 ---
 
 Dockerfile 是一个文件，其包含了一条条的指令（instruction），每一条指令构建一层，因此每一条指令的内容就是描述该层应当如何构建

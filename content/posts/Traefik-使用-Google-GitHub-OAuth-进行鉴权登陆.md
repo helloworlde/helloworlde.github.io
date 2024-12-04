@@ -1,11 +1,8 @@
 ---
-title: "Traefik 使用 Google GitHub OAuth 进行鉴权登陆"
+title: Traefik 使用 Google GitHub OAuth 进行鉴权登陆
 type: post
 date: 2023-02-15T21:42:38+08:00
 tags:
-  - Traefik
-  - HomeLab
-categories:
   - Traefik
   - HomeLab
 featured: true

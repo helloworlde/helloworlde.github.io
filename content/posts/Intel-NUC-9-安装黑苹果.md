@@ -1,13 +1,10 @@
 ---
-title: "Intel NUC 9 安装黑苹果"
+title: Intel NUC 9 安装黑苹果
 type: post
 date: 2022-12-08T21:51:48+08:00
 tags:
   - Hackintosh
   - NUC
-  - MacOS
-categories:
-  - Hackintosh
   - MacOS
 featured: true
 ---

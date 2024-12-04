@@ -1,15 +1,12 @@
 ---
 title: Gauge中执行数据库测试
 type: post
-date: 2018-01-01 11:34:11
+date: 2018-01-01T11:34:11+08:00
 tags:
   - Java
   - Gauge
   - Test
-categories:
-  - Java
-  - Gauge
-  - Test
+featured: true
 ---
 
 > 使用Gauge对数据库的增删改查进行测试

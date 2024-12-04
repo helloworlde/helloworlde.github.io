@@ -1,13 +1,11 @@
 ---
 title: Windows下配置Chrome WebDriver
 type: post
-date: 2018-01-01 11:59:09
+date: 2018-01-01T11:59:09+08:00
 tags:
   - WebDriver
   - Selenium
-categories:
-  - WebDriver
-  - Selenium
+featured: true
 ---
 
 > WebDriver多用来执行自动化测试，可以通过Java文件或者其他方式在测试的时候打开，Firefox的自带了WebDriver，但是Chrome没有，需要手动安装

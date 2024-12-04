@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 中使用Spring Cloud Stream
 type: post
-date: 2019-09-08 18:50:09
+date: 2019-09-08T18:50:09+08:00
 tags:
   - Java
   - SpringBoot
   - Stream
-categories:
-  - Java
-  - SpringBoot
-  - Stream
+featured: true
 ---
 
 > [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架

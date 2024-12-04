@@ -1,11 +1,10 @@
 ---
 title: Redis基础知识-数据类型
 type: post
-date: 2018-01-01 12:07:03
+date: 2018-01-01T12:07:03+08:00
 tags:
   - Redis
-categories:
-  - Redis
+featured: true
 ---
 
 > Redis支持5种数据类型：字符串（string），哈希（hash），列表（list），集合（set），有序集合（sorted set）

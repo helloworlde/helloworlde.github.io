@@ -1,17 +1,13 @@
 ---
 title: 使用 Jib 生成 Java Docker 镜像
 type: post
-date: 2018-07-16 00:17:43
+date: 2018-07-16T00:17:43+08:00
 tags:
   - Docker
   - Jib
   - Java
   - SpringBoot
-categories:
-  - Docker
-  - Jib
-  - Java
-  - SpringBoot
+featured: true
 ---
 
 > [Jib](https://github.com/GoogleContainerTools/jib) 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度

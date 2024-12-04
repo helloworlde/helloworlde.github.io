@@ -1,11 +1,10 @@
 ---
 title: Gradle 使用-编译时下载依赖失败解决方法
 type: post
-date: 2018-01-01 01:00:20
+date: 2018-01-01T01:00:20+08:00
 tags:
   - Gradle
-categories:
-  - Gradle
+featured: true
 ---
 
 > 如果`Gradle`在编译的时候没有在本地仓库中发现依赖，就会从远程仓库中下载，默认的远程仓库为`mavenCentral()`，也就是[http://repo1.maven.org/maven2/](http://repo1.maven.org/maven2/)，但是往往访问速度特别慢，不翻墙经常会下载超时或者需要很长时间导致Build失败，因此，可以用国内的仓库代替：

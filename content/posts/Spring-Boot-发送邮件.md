@@ -1,15 +1,12 @@
 ---
 title: Spring Boot 发送邮件
 type: post
-date: 2017-12-31 23:55:11
+date: 2017-12-31T23:55:11+08:00
 tags:
   - Java
   - SpringBoot
   - Mail
-categories:
-  - Java
-  - SpringBoot
-  - Mail
+featured: true
 ---
 
 > 在 Spring Boot 中使用 Spring Mail 发送邮件

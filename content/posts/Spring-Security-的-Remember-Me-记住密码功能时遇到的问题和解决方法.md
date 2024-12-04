@@ -1,15 +1,12 @@
 ---
 title: 在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法
 type: post
-date: 2018-01-01 00:37:35
+date: 2018-01-01T00:37:35+08:00
 tags:
   - Java
   - SpringBoot
   - Spring Security
-categories:
-  - Java
-  - SpringBoot
-  - Spring Security
+featured: true
 ---
 
 > 在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法
