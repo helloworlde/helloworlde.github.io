@@ -23,7 +23,32 @@
 &lt;p>这样会创建并自动启动 Cloudflared 服务&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cloudflared service install &lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">TOKEN&lt;/span>&lt;span style="color:#98c379">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置路由规则">配置路由规则&lt;/h2>
-&lt;p>路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p></description></item><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
+&lt;p>路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p></description></item><item><title>Proxmox VE 8 挂载 PCIe 接口版本的 Goolge Coral TPU 用于 LXC 容器中部署的 Frigate 进行人物识别</title><link>https://blog.hellowood.dev/posts/proxmox-ve-8-%E6%8C%82%E8%BD%BD-pcie-%E6%8E%A5%E5%8F%A3%E7%89%88%E6%9C%AC%E7%9A%84-goolge-coral-tpu-%E7%94%A8%E4%BA%8E-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2%E7%9A%84-frigate-%E8%BF%9B%E8%A1%8C%E4%BA%BA%E7%89%A9%E8%AF%86%E5%88%AB/</link><pubDate>Sun, 01 Dec 2024 20:26:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-8-%E6%8C%82%E8%BD%BD-pcie-%E6%8E%A5%E5%8F%A3%E7%89%88%E6%9C%AC%E7%9A%84-goolge-coral-tpu-%E7%94%A8%E4%BA%8E-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2%E7%9A%84-frigate-%E8%BF%9B%E8%A1%8C%E4%BA%BA%E7%89%A9%E8%AF%86%E5%88%AB/</guid><description>&lt;p>在 PVE 的 LXC 容器中运行的 Frigate Docker 容器中使用 PCIe 接口版本的 Google Coral TPU 进行人物识别&lt;/p>
+&lt;p>之前使用的是 USB Accelerator 版本，将设备挂载到容器中就可以工作了；但是新入手的 &lt;a href="https://coral.ai/products/m2-accelerator-dual-edgetpu">M.2 Accelerator with Dual Edge TPU&lt;/a> 是通过 PCIe 挂载的，配置有所区别；&lt;/p>
+&lt;p>其他的版本，如 Mini PCIe Accelerator，M.2 Accelerator A+E key，M.2 Accelerator B+M key 的配置与 M.2 Accelerator with Dual Edge TPU 类似&lt;/p>
+&lt;p>&lt;img src="https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw" alt="Coral TPU">&lt;/p>
+&lt;h2 id="一pve-配置">一、PVE 配置&lt;/h2>
+&lt;h3 id="1-修改订阅源">1. 修改订阅源&lt;/h3>
+&lt;p>如果使用的是 PVE 的默认软件源，需要修改为以下订阅源：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>/etc/apt/sources.list.d/ceph.list&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>将 &lt;code>/etc/apt/sources.list.d/ceph.list&lt;/code> 中的配置替换为以下内容：&lt;/p>
+&lt;pre tabindex="0">&lt;code>deb http://download.proxmox.com/debian/ceph-reef bookworm no-subscription
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>&lt;code>/etc/apt/sources.list&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>将 &lt;code>/etc/apt/sources.list&lt;/code> 中的配置替换为以下内容：&lt;/p>
+&lt;pre tabindex="0">&lt;code># debian 软件
+deb http://ftp.debian.org/debian bookworm main contrib
+deb http://ftp.debian.org/debian bookworm-updates main contrib
+
+# PVE 官方非订阅源 pve-no-subscription
+deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+
+# 安全相关
+deb http://security.debian.org/debian-security bookworm-security main contrib
+&lt;/code>&lt;/pre>&lt;p>接着更新订阅源&lt;/p></description></item><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
 &lt;p>&lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="">&lt;/p>
 &lt;p>不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口&lt;/p>
 &lt;h2 id="配置-traefik">配置 Traefik&lt;/h2>
