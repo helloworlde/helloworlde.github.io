@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hysteria2 on HelloWood</title><link>https://blog.hellowood.dev/tags/hysteria2/</link><description>Recent content in Hysteria2 on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/hysteria2/index.xml" rel="self" type="application/rss+xml"/><item><title>搭建 Hysteria2 作为代理服务器</title><link>https://blog.hellowood.dev/posts/%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sun, 29 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>&lt;a href="https://v2.hysteria.network/zh/">Hysteria&lt;/a> 是一个代理工具，支持 SOCKS5、HTTP 代理、TCP/UDP 转发、Linux TProxy、TUN 等代理方式；基于魔改的 QUIC 协议和抢占式塞控制算法，Hysteria 在不稳定和容易丢包的网络环境中也能比 &lt;a href="https://trojan-gfw.github.io/trojan/protocol">Trojan&lt;/a> 有相对较好的延迟表现，这对于代理来说是非常重要的&lt;/p>
+&lt;p>Hysteria 由服务端和客户端组成，服务端支持 Docker、二进制等方式部署，客户端可以是 ClashX、ShellCrash 等支持 Hysteria 协议的软件，或者 Hysteria 自己的客户端&lt;/p>
+&lt;p>基于 Docker 容器搭建服务端，并使用运行在路由器中的 ShellCrash 作为客户端&lt;/p>
+&lt;h2 id="服务端">服务端&lt;/h2>
+&lt;p>因为 Hysteria 需要伪装成 HTTP/3 流量，需要一个公网 IP 和域名(如果没有域名也可以在 ZeroSSL 申请 IP 的 TLS 证书)&lt;/p>
+&lt;h3 id="获取-ssl-证书">获取 SSL 证书&lt;/h3>
+&lt;p>证书可以使用 Let&amp;rsquo;s Encrypt，ZeroSSL 等免费获取，参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-lets-encrypt-%E7%94%B3%E8%AF%B7-https-%E8%AF%81%E4%B9%A6/">使用 Let’s Encrypt 申请 HTTPS 证书&lt;/a>&lt;/p>
+&lt;h3 id="部署服务端">部署服务端&lt;/h3>
+&lt;h4 id="服务端配置文件">服务端配置文件&lt;/h4>
+&lt;ul>
+&lt;li>&lt;code>config/hysteria.yaml&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>服务端配置文件位于 &lt;code>config/&lt;/code> 路径下，关于配置细节可以参考 &lt;a href="https://v2.hysteria.network/zh/docs/advanced/Full-Server-Config/">完整服务端配置&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">listen&lt;/span>: :&lt;span style="color:#d19a66">443&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 伪装为 bing&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">masquerade&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">listenHTTP&lt;/span>: :&lt;span style="color:#d19a66">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">listenHTTPS&lt;/span>: :&lt;span style="color:#d19a66">9443&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">forceHTTPS&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">proxy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">url&lt;/span>: &lt;span style="color:#98c379">https://bing.com&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">rewriteHost&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 用于流量分析&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">trafficStats&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">listen&lt;/span>: :&lt;span style="color:#d19a66">9999&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">secret&lt;/span>: &lt;span style="color:#d19a66">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">disableUDP&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">log&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">level&lt;/span>: &lt;span style="color:#98c379">debug&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">speedTest&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 带宽&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">bandwidth&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">up&lt;/span>: &lt;span style="color:#d19a66">100&lt;/span> &lt;span style="color:#98c379">mbps&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">down&lt;/span>: &lt;span style="color:#d19a66">50&lt;/span> &lt;span style="color:#98c379">mbps&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># DNS&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">resolver&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">tcp&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tcp&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">addr&lt;/span>: &lt;span style="color:#d19a66">8.8.8.8&lt;/span>:&lt;span style="color:#d19a66">53&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">4s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">udp&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">addr&lt;/span>: &lt;span style="color:#d19a66">8.8.4.4&lt;/span>:&lt;span style="color:#d19a66">53&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">4s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tls&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">addr&lt;/span>: &lt;span style="color:#d19a66">1.1.1.1&lt;/span>:&lt;span style="color:#d19a66">853&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">sni&lt;/span>: &lt;span style="color:#98c379">cloudflare-dns.com&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">insecure&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">https&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">addr&lt;/span>: &lt;span style="color:#d19a66">1.1.1.1&lt;/span>:&lt;span style="color:#d19a66">443&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">sni&lt;/span>: &lt;span style="color:#98c379">cloudflare-dns.com&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">insecure&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">tls&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cert&lt;/span>: &lt;span style="color:#98c379">/cert/hy.example.com.crt&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">key&lt;/span>: &lt;span style="color:#98c379">/cert/hy.example.com.key&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">auth&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">userpass&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">userpass&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">admin&lt;/span>: &lt;span style="color:#d19a66">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 协议嗅探&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">sniff&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">enable&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">2s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">rewriteDomain&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tcpPorts&lt;/span>: &lt;span style="color:#d19a66">80&lt;/span>,&lt;span style="color:#d19a66">9443&lt;/span>,&lt;span style="color:#d19a66">8000-9000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">udpPorts&lt;/span>: &lt;span style="color:#98c379">all&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="部署">部署&lt;/h4>
+&lt;ul>
+&lt;li>docker-compose.yaml&lt;/li>
+&lt;/ul>
+&lt;p>申请后的证书放在 &lt;code>cert/&lt;/code>路径下，挂载到容器中&lt;/p></description></item></channel></rss>
