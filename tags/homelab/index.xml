@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 29 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://v2.hysteria.network/zh/">Hysteria&lt;/a> 是一个代理工具，支持 SOCKS5、HTTP 代理、TCP/UDP 转发、Linux TProxy、TUN 等代理方式；基于魔改的 QUIC 协议和抢占式塞控制算法，Hysteria 在不稳定和容易丢包的网络环境中也能比 &lt;a href="https://trojan-gfw.github.io/trojan/protocol">Trojan&lt;/a> 有相对较好的延迟表现，这对于代理来说是非常重要的&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE LXC 容器中安装 NVIDIA 显卡驱动并在 Docker 中使用</title><link>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>在 PVE 的 LXC 容器中使用 NVIDIA 显卡，用于 Ollama 等模型推理或者 GPU 加速的应用&lt;/p>
+&lt;h2 id="一pve-安装-nvidia-驱动">一、PVE 安装 NVIDIA 驱动&lt;/h2>
+&lt;h3 id="11-修改订阅源">1.1 修改订阅源&lt;/h3>
+&lt;ul>
+&lt;li>修改 &lt;code>/etc/apt/sources.list&lt;/code> 文件，添加 pve-no-subscription 源；完整的配置如下:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>更新&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="12-安装-nvidia-驱动">1.2 安装 NVIDIA 驱动&lt;/h3>
+&lt;ul>
+&lt;li>安装内核头文件&lt;/li>
+&lt;/ul>
+&lt;p>pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译和安装动态内核模块，即 NVIDIA 驱动&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install pve-headers
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装 NVIDIA 驱动&lt;/li>
+&lt;/ul>
+&lt;p>安装 nvidia 驱动和需要的依赖&lt;/p></description></item><item><title>使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 29 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://v2.hysteria.network/zh/">Hysteria&lt;/a> 是一个代理工具，支持 SOCKS5、HTTP 代理、TCP/UDP 转发、Linux TProxy、TUN 等代理方式；基于魔改的 QUIC 协议和抢占式塞控制算法，Hysteria 在不稳定和容易丢包的网络环境中也能比 &lt;a href="https://trojan-gfw.github.io/trojan/protocol">Trojan&lt;/a> 有相对较好的延迟表现，这对于代理来说是非常重要的&lt;/p>
 &lt;p>Hysteria 由服务端和客户端组成，服务端支持 Docker、二进制等方式部署，客户端可以是 ClashX、ShellCrash 等支持 Hysteria 协议的软件，或者 Hysteria 自己的客户端&lt;/p>
 &lt;p>基于 Docker 容器搭建服务端，并使用运行在路由器中的 ShellCrash 作为客户端&lt;/p>
 &lt;h2 id="服务端">服务端&lt;/h2>
@@ -701,8 +724,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ol>
 &lt;p>最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信&lt;/p>
 &lt;blockquote>
-&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>
-&lt;/blockquote>
+&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>&lt;/blockquote>
 &lt;p>关于 WireGuard 的介绍可以参考 &lt;a href="https://www.wireguard.com/">WireGuard&lt;/a>&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg" alt="homelab-wireguard-vpn-for-sub-network.svg">&lt;/p>
 &lt;h2 id="安装配置-wireguard">安装配置 WireGuard&lt;/h2>
@@ -716,11 +738,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir wireguard &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">cd&lt;/span> wireguard
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">umask&lt;/span> &lt;span style="color:#d19a66">077&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p>
-&lt;ul>
-&lt;li>创建 OpenWrt 密钥对&lt;/li>
-&lt;/ul>
-&lt;p>先创建私钥，然后使用私钥创建公钥&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
 &lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
 &lt;p>大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/">Clash 使用 Docker 部署&lt;/a> 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>&lt;/p>
 &lt;h2 id="修改配置">修改配置&lt;/h2>
@@ -1051,8 +1069,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p>通过 ffmpeg 将视频内容推送到 SRS&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66">30&lt;/span> -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66">60&lt;/span> -an -f flv rtmp://192.168.2.5/live/livestream
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其各个参数含义如下：&lt;/p></description></item><item><title>Proxmox VE 安装初始化</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Mon, 27 Feb 2023 21:41:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
-&lt;p>Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p>
-&lt;/blockquote>
+&lt;p>Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p>&lt;/blockquote>
 &lt;p>PVE 和 Vmware ESXi 类似，都支持虚拟化环境；PVE 基于 Linux，扩展性更强&lt;/p>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
@@ -1382,8 +1399,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li>挂载为虚拟磁盘&lt;/li>
 &lt;/ul>
 &lt;p>使用 &lt;code>vmkfstools&lt;/code>命令，将物理磁盘作为虚拟磁盘挂载到指定路径&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;blockquote>
-&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>&lt;/blockquote>
 &lt;h3 id="检查未分区空间">检查未分区空间&lt;/h3>
 &lt;p>修改了磁盘大小后，新增的空间状态是未分区，首先检查是否新增成功&lt;/p>
 &lt;ul>
@@ -1667,8 +1683,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 选择添加现有硬盘，将扩容后的 &lt;code>openwrt.vmdk&lt;/code>作为硬盘文件，保存修改即可&lt;/li>
 &lt;/ol>
 &lt;p>至此，完成 Openwrt 虚拟机的创建，接下来启动虚拟机即可&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
-&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>
-&lt;/blockquote>
+&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>什么是软路由&lt;/li>
 &lt;/ul>
@@ -1723,11 +1738,9 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;li>创建容器&lt;/li>
 &lt;/ol>
 &lt;p>创建容器时需要指定网络为刚才创建的 &lt;code>macnet&lt;/code>&lt;/p></description></item><item><title>MacOS Monterey 制作 Windows 启动盘</title><link>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</link><pubDate>Thu, 30 Jun 2022 11:37:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</guid><description>&lt;blockquote>
-&lt;p>需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘&lt;/p>
-&lt;/blockquote>
+&lt;p>需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>搜到的一些方法，如启动转换助理，或者 &lt;a href="https://www.balena.io/etcher/">balenaEtcher&lt;/a> 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作&lt;/p>
-&lt;/blockquote>
+&lt;p>搜到的一些方法，如启动转换助理，或者 &lt;a href="https://www.balena.io/etcher/">balenaEtcher&lt;/a> 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作&lt;/p>&lt;/blockquote>
 &lt;h2 id="下载并挂载-windows-iso-镜像">下载并挂载 Windows ISO 镜像&lt;/h2>
 &lt;ol>
 &lt;li>在微软官方网站下载 &lt;a href="https://www.microsoft.com/software-download/windows11">Windows 镜像&lt;/a>&lt;/li>

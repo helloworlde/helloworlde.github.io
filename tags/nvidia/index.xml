@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NVIDIA on HelloWood</title><link>https://blog.hellowood.dev/tags/nvidia/</link><description>Recent content in NVIDIA on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/nvidia/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NVIDIA on HelloWood</title><link>https://blog.hellowood.dev/tags/nvidia/</link><description>Recent content in NVIDIA on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/nvidia/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE LXC 容器中安装 NVIDIA 显卡驱动并在 Docker 中使用</title><link>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>在 PVE 的 LXC 容器中使用 NVIDIA 显卡，用于 Ollama 等模型推理或者 GPU 加速的应用&lt;/p>
+&lt;h2 id="一pve-安装-nvidia-驱动">一、PVE 安装 NVIDIA 驱动&lt;/h2>
+&lt;h3 id="11-修改订阅源">1.1 修改订阅源&lt;/h3>
+&lt;ul>
+&lt;li>修改 &lt;code>/etc/apt/sources.list&lt;/code> 文件，添加 pve-no-subscription 源；完整的配置如下:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>更新&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="12-安装-nvidia-驱动">1.2 安装 NVIDIA 驱动&lt;/h3>
+&lt;ul>
+&lt;li>安装内核头文件&lt;/li>
+&lt;/ul>
+&lt;p>pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译和安装动态内核模块，即 NVIDIA 驱动&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install pve-headers
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装 NVIDIA 驱动&lt;/li>
+&lt;/ul>
+&lt;p>安装 nvidia 驱动和需要的依赖&lt;/p></description></item><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
 &lt;h2 id="安装-nvidia-容器工具包">安装 NVIDIA 容器工具包&lt;/h2>
 &lt;ul>
 &lt;li>添加软件源&lt;/li>

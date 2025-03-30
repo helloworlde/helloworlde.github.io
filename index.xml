@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 29 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://v2.hysteria.network/zh/">Hysteria&lt;/a> 是一个代理工具，支持 SOCKS5、HTTP 代理、TCP/UDP 转发、Linux TProxy、TUN 等代理方式；基于魔改的 QUIC 协议和抢占式塞控制算法，Hysteria 在不稳定和容易丢包的网络环境中也能比 &lt;a href="https://trojan-gfw.github.io/trojan/protocol">Trojan&lt;/a> 有相对较好的延迟表现，这对于代理来说是非常重要的&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE LXC 容器中安装 NVIDIA 显卡驱动并在 Docker 中使用</title><link>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%B9%B6%E5%9C%A8-docker-%E4%B8%AD%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>在 PVE 的 LXC 容器中使用 NVIDIA 显卡，用于 Ollama 等模型推理或者 GPU 加速的应用&lt;/p>
+&lt;h2 id="一pve-安装-nvidia-驱动">一、PVE 安装 NVIDIA 驱动&lt;/h2>
+&lt;h3 id="11-修改订阅源">1.1 修改订阅源&lt;/h3>
+&lt;ul>
+&lt;li>修改 &lt;code>/etc/apt/sources.list&lt;/code> 文件，添加 pve-no-subscription 源；完整的配置如下:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>更新&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="12-安装-nvidia-驱动">1.2 安装 NVIDIA 驱动&lt;/h3>
+&lt;ul>
+&lt;li>安装内核头文件&lt;/li>
+&lt;/ul>
+&lt;p>pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译和安装动态内核模块，即 NVIDIA 驱动&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install pve-headers
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装 NVIDIA 驱动&lt;/li>
+&lt;/ul>
+&lt;p>安装 nvidia 驱动和需要的依赖&lt;/p></description></item><item><title>使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 29 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://v2.hysteria.network/zh/">Hysteria&lt;/a> 是一个代理工具，支持 SOCKS5、HTTP 代理、TCP/UDP 转发、Linux TProxy、TUN 等代理方式；基于魔改的 QUIC 协议和抢占式塞控制算法，Hysteria 在不稳定和容易丢包的网络环境中也能比 &lt;a href="https://trojan-gfw.github.io/trojan/protocol">Trojan&lt;/a> 有相对较好的延迟表现，这对于代理来说是非常重要的&lt;/p>
 &lt;p>Hysteria 由服务端和客户端组成，服务端支持 Docker、二进制等方式部署，客户端可以是 ClashX、ShellCrash 等支持 Hysteria 协议的软件，或者 Hysteria 自己的客户端&lt;/p>
 &lt;p>基于 Docker 容器搭建服务端，并使用运行在路由器中的 ShellCrash 作为客户端&lt;/p>
 &lt;h2 id="服务端">服务端&lt;/h2>
@@ -383,14 +406,11 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
  &lt;/tbody>
 &lt;/table>
 &lt;p>Frigate 的最新的代码已经合并了 Hailo8L 的 PR，预计将会在 0.15 版本中正式发布，PR 参考 &lt;a href="https://github.com/blakeblackshear/frigate/pull/12431">Initial support for Hailo-8L&lt;/a> 和 &lt;a href="https://github.com/blakeblackshear/frigate/pull/12820">Hailo amd64 support&lt;/a>；虽然 PR 中支持的设备是 Hailo-8L，但是经过测试验证，只需要替换对应的模型，Hailo-8 也是可以正常运行的（Hailo-8 和 Hailo-8L 的模型不能互相使用）&lt;/p></description></item><item><title>Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器</title><link>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</link><pubDate>Sun, 01 Sep 2024 11:22:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>Hailo 是一家位于以色列的边缘人工智能处理器的先驱芯片制造商，该公司成立于2017年；专注于为边缘设备开发高效的深度学习处理器。Hailo 的核心产品是其自研的 Hailo-8 人工智能处理器，这款芯片特别设计用于在资源受限的边缘设备上运行复杂的深度学习模型&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo 是一家位于以色列的边缘人工智能处理器的先驱芯片制造商，该公司成立于2017年；专注于为边缘设备开发高效的深度学习处理器。Hailo 的核心产品是其自研的 Hailo-8 人工智能处理器，这款芯片特别设计用于在资源受限的边缘设备上运行复杂的深度学习模型&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Hailo-8 能够在嵌入式系统中支持实时处理应用，如计算机视觉、自动驾驶、智能城市监控、医疗设备和工业物联网等&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo-8 能够在嵌入式系统中支持实时处理应用，如计算机视觉、自动驾驶、智能城市监控、医疗设备和工业物联网等&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 &lt;a href="https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/">Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 &lt;a href="https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/">Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>Hailo8 发布于 2021年，算力为 26 TOPS，Hailo8L 发布于 2023 年，算力为 13 TOPS；两款产品除了算力外，其他特性差别不大，均支持 TensorFlow，TensorFlow Lite，Keras，PyTorch &amp;amp; ONNX 框架，主机架构支持 X86 和 ARM，操作系统支持 Linux 和 Windows；更多信息参考官网介绍：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-ai-accelerator/#hailo-8-features">Hailo-8 AI处理器&lt;/a>&lt;/li>
@@ -398,9 +418,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8-product-brief-en/">hailo-8-product-brief&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8l-m-2-et-product-brief-en/">hailo-8l-m-2-et-product-brief&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L">&lt;/p>
-&lt;p>Hailo 相关软件功能如图：&lt;/p>
-&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/HailoRT-Diagram.png" alt="">&lt;/p></description></item><item><title>基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人脸识别</title><link>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</link><pubDate>Fri, 16 Aug 2024 09:29:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</guid><description>&lt;p>Double Take 是一个训练和识别人脸的工具，支持对 Frigate 中检测到的人物对象进行人脸识别，可以用于统计监控中出现的人物信息。不过经过测试，只适用于门禁、闸机等有清晰人脸的场景，日常的监控因安装位置、角度等原因无法提供清晰的人脸，因此识别的准确度和有效性并不高&lt;/p>
+&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L">&lt;/p></description></item><item><title>基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人脸识别</title><link>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</link><pubDate>Fri, 16 Aug 2024 09:29:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9F%BA%E4%BA%8E-frigate-%E4%BD%BF%E7%94%A8-double-take-%E5%92%8C-deepstack-%E5%AF%B9%E8%A7%86%E9%A2%91%E7%9B%91%E6%8E%A7%E8%BF%9B%E8%A1%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</guid><description>&lt;p>Double Take 是一个训练和识别人脸的工具，支持对 Frigate 中检测到的人物对象进行人脸识别，可以用于统计监控中出现的人物信息。不过经过测试，只适用于门禁、闸机等有清晰人脸的场景，日常的监控因安装位置、角度等原因无法提供清晰的人脸，因此识别的准确度和有效性并不高&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png" alt="homelab-frigate-double-take-face-double-take-detect.png">&lt;/p>
 &lt;p>Double Take 的原理是通过监听 Frigate 识别到对象后发出的 MQTT 消息，根据消息获取对应事件的快照，并将其发送给识别的服务，如 Deepstack/CodeProject.AI 等，然后根据识别结果显示该事件中出现的人脸信息&lt;/p>
 &lt;p>Double Take 作者似乎已经放弃维护了，上次更新还是在两年前(2022-10-28)，尽管作者在今年的一月份(2024-1-7)声明计划&lt;a href="https://github.com/jakowenko/double-take/issues/343">开发 2.0 版本&lt;/a>，但是截止到8月份也没有任何进展，看起来作者在21年成为 24G.com 这家公司的 DevOps 总监后便没有精力投入到开源项目中了；不过，另外一位作者 skrashevich 在其 fork 的仓库 &lt;a href="https://github.com/skrashevich/double-take">skrashevich/double-take&lt;/a>中提交了不少 2.0 版本的计划的功能&lt;/p>
@@ -804,8 +822,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p>配置后，点击应用配置&lt;/p></description></item><item><title>Grafana 使用 ClickHouse 作为数据源配置图表</title><link>https://blog.hellowood.dev/posts/grafana%E4%BD%BF%E7%94%A8clickhouse%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E6%BA%90%E9%85%8D%E7%BD%AE%E5%9B%BE%E8%A1%A8/</link><pubDate>Mon, 27 Nov 2023 15:20:30 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grafana%E4%BD%BF%E7%94%A8clickhouse%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E6%BA%90%E9%85%8D%E7%BD%AE%E5%9B%BE%E8%A1%A8/</guid><description>&lt;p>ClickHouse 是一种开源的列式数据库管理系统，专注于处理大规模数据分析工作负载。它在处理海量数据时具有高性能、可扩展、灵活的数据模型、支持 SQL 等特性；适用于需要及时分析最新数据的应用场景，如日志分析、事件跟踪等&lt;/p>
 &lt;p>在应用过程中，使用 ClickHouse 作为数据源，保存服务上报的秒级指标信息，用于 Grafana 查询秒级监控指标&lt;/p>
 &lt;blockquote>
-&lt;p>这里使用的 Grafana 版本 v10.1.1, ClickHouse 版本为 23.9.3.12&lt;/p>
-&lt;/blockquote>
+&lt;p>这里使用的 Grafana 版本 v10.1.1, ClickHouse 版本为 23.9.3.12&lt;/p>&lt;/blockquote>
 &lt;h2 id="启动服务并添加数据">启动服务并添加数据&lt;/h2>
 &lt;h3 id="启动-clickhouse-和-grafana">启动 ClickHouse 和 Grafana&lt;/h3>
 &lt;p>使用 Docker Compose 启动&lt;/p>
@@ -976,8 +993,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ol>
 &lt;p>最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信&lt;/p>
 &lt;blockquote>
-&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>
-&lt;/blockquote>
+&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>&lt;/blockquote>
 &lt;p>关于 WireGuard 的介绍可以参考 &lt;a href="https://www.wireguard.com/">WireGuard&lt;/a>&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg" alt="homelab-wireguard-vpn-for-sub-network.svg">&lt;/p>
 &lt;h2 id="安装配置-wireguard">安装配置 WireGuard&lt;/h2>
@@ -991,11 +1007,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir wireguard &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">cd&lt;/span> wireguard
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">umask&lt;/span> &lt;span style="color:#d19a66">077&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p>
-&lt;ul>
-&lt;li>创建 OpenWrt 密钥对&lt;/li>
-&lt;/ul>
-&lt;p>先创建私钥，然后使用私钥创建公钥&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
 &lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
 &lt;p>大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/">Clash 使用 Docker 部署&lt;/a> 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>&lt;/p>
 &lt;h2 id="修改配置">修改配置&lt;/h2>
@@ -1348,8 +1360,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>systemctl restart docker
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="检查端口">检查端口&lt;/h3>
 &lt;p>通过 telnet 命令检查 2375 端口，可以访问说明端口正常&lt;/p></description></item><item><title>Proxmox VE 安装初始化</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Mon, 27 Feb 2023 21:41:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
-&lt;p>Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p>
-&lt;/blockquote>
+&lt;p>Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p>&lt;/blockquote>
 &lt;p>PVE 和 Vmware ESXi 类似，都支持虚拟化环境；PVE 基于 Linux，扩展性更强&lt;/p>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
@@ -1860,8 +1871,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li>挂载为虚拟磁盘&lt;/li>
 &lt;/ul>
 &lt;p>使用 &lt;code>vmkfstools&lt;/code>命令，将物理磁盘作为虚拟磁盘挂载到指定路径&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;blockquote>
-&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>&lt;/blockquote>
 &lt;h3 id="检查未分区空间">检查未分区空间&lt;/h3>
 &lt;p>修改了磁盘大小后，新增的空间状态是未分区，首先检查是否新增成功&lt;/p>
 &lt;ul>
@@ -2155,8 +2165,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 选择添加现有硬盘，将扩容后的 &lt;code>openwrt.vmdk&lt;/code>作为硬盘文件，保存修改即可&lt;/li>
 &lt;/ol>
 &lt;p>至此，完成 Openwrt 虚拟机的创建，接下来启动虚拟机即可&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
-&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>
-&lt;/blockquote>
+&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>什么是软路由&lt;/li>
 &lt;/ul>
@@ -2211,11 +2220,9 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;li>创建容器&lt;/li>
 &lt;/ol>
 &lt;p>创建容器时需要指定网络为刚才创建的 &lt;code>macnet&lt;/code>&lt;/p></description></item><item><title>MacOS Monterey 制作 Windows 启动盘</title><link>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</link><pubDate>Thu, 30 Jun 2022 11:37:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</guid><description>&lt;blockquote>
-&lt;p>需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘&lt;/p>
-&lt;/blockquote>
+&lt;p>需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>搜到的一些方法，如启动转换助理，或者 &lt;a href="https://www.balena.io/etcher/">balenaEtcher&lt;/a> 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作&lt;/p>
-&lt;/blockquote>
+&lt;p>搜到的一些方法，如启动转换助理，或者 &lt;a href="https://www.balena.io/etcher/">balenaEtcher&lt;/a> 等；但是启动转换助理在 Monterey 上不支持写入到外部硬盘；balenaEtcher 提示无法制作 Windows 镜像；又不想只为了制作启动盘单独下一个软件，所以最终通过命令行制作&lt;/p>&lt;/blockquote>
 &lt;h2 id="下载并挂载-windows-iso-镜像">下载并挂载 Windows ISO 镜像&lt;/h2>
 &lt;ol>
 &lt;li>在微软官方网站下载 &lt;a href="https://www.microsoft.com/software-download/windows11">Windows 镜像&lt;/a>&lt;/li>
@@ -3151,8 +3158,7 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;blockquote>
 &lt;p>SSL(Secure Socket Layer，安全套接字)，是面向连接的网络层和应用层协议之间的一种协议层；SSL 通过互相认证、使用数字签名确保完整性、使用加密确保隐私性，以实现客户端和服务端之间的安全通讯&lt;/p>
 &lt;p>TLS(Transport Layer Security, 传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性&lt;/p>
-&lt;p>SSL是基于 HTTP 之下 TCP 之上的一个协议层，在SSL更新到3.0时，IETF对SSL3.0进行了标准化，并添加了少数机制(但是几乎和SSL3.0无差异)，标准化后的IETF更名为TLS1.0(Transport Layer Security 安全传输层协议)，可以说TLS就是SSL的新版本3.1&lt;/p>
-&lt;/blockquote>
+&lt;p>SSL是基于 HTTP 之下 TCP 之上的一个协议层，在SSL更新到3.0时，IETF对SSL3.0进行了标准化，并添加了少数机制(但是几乎和SSL3.0无差异)，标准化后的IETF更名为TLS1.0(Transport Layer Security 安全传输层协议)，可以说TLS就是SSL的新版本3.1&lt;/p>&lt;/blockquote>
 &lt;p>相关项目参考 &lt;a href="https://github.com/helloworlde/grpc-java-sample">github.com/helloworlde/grpc-java-sample&lt;/a>&lt;/p>
 &lt;h2 id="生成证书">生成证书&lt;/h2>
 &lt;p>可以通过 openssl 生成一个自签名的证书，用于加密&lt;/p>
@@ -3884,8 +3890,7 @@ IP.2 = 127.0.0.1
 &lt;li>CustomSubchannelStateListener.java&lt;/li>
 &lt;/ul>
 &lt;p>Subchannel 的状态监听器，当 Subchannel 状态发生变化时进行处理&lt;/p></description></item><item><title>gRPC 超时时间与重试时间间隔</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</link><pubDate>Sun, 20 Sep 2020 22:41:50 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%8E%E9%87%8D%E8%AF%95%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94/</guid><description>&lt;blockquote>
-&lt;p>gRPC 的超时时间生效机制以及重试超时时间间隔&lt;/p>
-&lt;/blockquote>
+&lt;p>gRPC 的超时时间生效机制以及重试超时时间间隔&lt;/p>&lt;/blockquote>
 &lt;h2 id="超时时间配置">超时时间配置&lt;/h2>
 &lt;p>对指定的服务和方法单独设置超时时间，timeout 作用于所有的 RPC 请求（无论是否重试，都会在 timeout 的时间之后超时，进行中的重试请求会被取消）&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
@@ -5438,8 +5443,7 @@ management.metrics.tags.application=${spring.application.name}
 &lt;li>修改seata-server配置&lt;/li>
 &lt;/ul>
 &lt;p>将以下配置添加到 Nacos 配置中心，具体添加方法可以参考 &lt;a href="https://github.com/seata/seata/tree/develop/script/config-center">script/config-center&lt;/a>&lt;/p></description></item><item><title>Kubernetes 中使用 Helm 部署使用 Prometheus</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</link><pubDate>Sun, 29 Dec 2019 18:57:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</guid><description>&lt;blockquote>
-&lt;p>使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装-prometheus-和-grafana">安装 Prometheus 和 Grafana&lt;/h2>
 &lt;h3 id="添加标准仓库">添加标准仓库&lt;/h3>
 &lt;p>如果没有 stable 仓库，会提示找不到 &lt;code>prometheus-operator&lt;/code>这个应用，需要先添加stable 仓库：&lt;/p>
@@ -5471,8 +5475,7 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator -f values.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果有更多配置项，可以通过下载 Helm 的安装包，解压后自己修改：&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
-&lt;p>必需设备：&lt;/p>
-&lt;/blockquote>
+&lt;p>必需设备：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>树莓派 4b&lt;/li>
 &lt;li>SD 卡&lt;/li>
@@ -5518,8 +5521,7 @@ management.metrics.tags.application=${spring.application.name}
 0: FDisk_partition_scheme *32.0 GB disk3
 1: DOS_FAT_32 SD 32.0 GB disk3s1
 &lt;/code>&lt;/pre>&lt;p>其中的 &lt;code>/dev/disk3&lt;/code>就是 SD卡&lt;/p></description></item><item><title>使用 GitHub 作为 Helm 仓库</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-github-%E4%BD%9C%E4%B8%BA-helm-%E4%BB%93%E5%BA%93/</link><pubDate>Sat, 07 Dec 2019 22:16:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-github-%E4%BD%9C%E4%B8%BA-helm-%E4%BB%93%E5%BA%93/</guid><description>&lt;blockquote>
-&lt;p>使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 GitHub 作为 Helm 的仓库；在创建前需要按照 Helm，以 Helm3 为例&lt;/p>&lt;/blockquote>
 &lt;h2 id="准备工作">准备工作&lt;/h2>
 &lt;ul>
 &lt;li>创建仓库&lt;/li>
@@ -5555,8 +5557,7 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d19a66">5&lt;/span> directories, &lt;span style="color:#d19a66">9&lt;/span> files
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改为自己的相应的配置&lt;/p></description></item><item><title>使用腾讯云的Serverless部署天气应用</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E7%9A%84serverless%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94%E5%BA%94%E7%94%A8/</link><pubDate>Sun, 13 Oct 2019 18:56:40 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91%E7%9A%84serverless%E9%83%A8%E7%BD%B2%E5%A4%A9%E6%B0%94%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
 &lt;p>使用腾讯云的Serverless服务，部署一个Go编写的天气变化的提醒应用
-该应用通过定时查询高德地图的&lt;a href="https://lbs.amap.com/api/webservice/guide/api/weatherinfo">天气API&lt;/a>，当当前天气或未来几天天气不好时，通过&lt;a href="http://sc.ftqq.com">Server酱&lt;/a>在微信中进行提醒&lt;/p>
-&lt;/blockquote>
+该应用通过定时查询高德地图的&lt;a href="https://lbs.amap.com/api/webservice/guide/api/weatherinfo">天气API&lt;/a>，当当前天气或未来几天天气不好时，通过&lt;a href="http://sc.ftqq.com">Server酱&lt;/a>在微信中进行提醒&lt;/p>&lt;/blockquote>
 &lt;h2 id="构建应用">构建应用&lt;/h2>
 &lt;p>应用使用 go modules开发&lt;/p>
 &lt;ul>
@@ -5589,8 +5590,8 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">checkWeather&lt;/span>() (&lt;span style="color:#ef8383">string&lt;/span>, &lt;span style="color:#ef8383">error&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建函数">创建函数&lt;/h2>
 &lt;p>在腾讯云的&lt;a href="https://console.cloud.tencent.com/scf/list?rid=8&amp;amp;ns=default">Serverless服务&lt;/a>中创建新的函数&lt;/p>
 &lt;p>&lt;img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9oZWxsb3dvb2Rlcy5vc3MtY24tYmVpamluZy5hbGl5dW5jcy5jb20vYmxvZy9xY2xvdWQtc2VydmVybGVzcy8lRTUlODglOUIlRTUlQkIlQkElRTUlODclQkQlRTYlOTUlQjAucG5n?x-oss-process=image/format,png" alt="创建函数">&lt;/p>
@@ -5621,8 +5622,7 @@ notifyKey xxxx
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go build -o main main.go
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后将main添加到压缩文件中&lt;/p></description></item><item><title>Go 调用 Windows 的系统 API，检测是否锁屏</title><link>https://blog.hellowood.dev/posts/go-%E8%B0%83%E7%94%A8-windows-%E7%9A%84%E7%B3%BB%E7%BB%9F-api%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E9%94%81%E5%B1%8F/</link><pubDate>Sun, 15 Sep 2019 21:56:13 +0800</pubDate><guid>https://blog.hellowood.dev/posts/go-%E8%B0%83%E7%94%A8-windows-%E7%9A%84%E7%B3%BB%E7%BB%9F-api%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E9%94%81%E5%B1%8F/</guid><description>&lt;blockquote>
 &lt;p>因为应用需要根据当前电脑是否处于活跃状态来执行不同的动作，所以需要获取电脑当前活跃的窗口判断是否处于锁屏
-可以通过调用Windows 的库来执行相应的API&lt;/p>
-&lt;/blockquote>
+可以通过调用Windows 的库来执行相应的API&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> (
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;log&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;syscall&amp;#34;&lt;/span>
@@ -5630,12 +5630,12 @@ notifyKey xxxx
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> &lt;span style="color:#00b1f7">main&lt;/span>() {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">const&lt;/span> &lt;span style="color:#c1abea">successCallMessage&lt;/span> = &lt;span style="color:#98c379">&amp;#34;The operation completed successfully.&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 加载类库
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">user32&lt;/span> = &lt;span style="color:#c1abea">syscall&lt;/span>.&lt;span style="color:#00b1f7">NewLazyDLL&lt;/span>(&lt;span style="color:#98c379">&amp;#34;user32.dll&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 创建新的调用进程
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">getForegroundWindow&lt;/span> = &lt;span style="color:#c1abea">user32&lt;/span>.&lt;span style="color:#00b1f7">NewProc&lt;/span>(&lt;span style="color:#98c379">&amp;#34;GetForegroundWindow&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 调用相应的函数
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">&lt;/span> &lt;span style="color:#c1abea">activeWindowId&lt;/span>, &lt;span style="color:#c1abea">_&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">getForegroundWindow&lt;/span>.&lt;span style="color:#00b1f7">Call&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 加载类库&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">user32&lt;/span> = &lt;span style="color:#c1abea">syscall&lt;/span>.&lt;span style="color:#00b1f7">NewLazyDLL&lt;/span>(&lt;span style="color:#98c379">&amp;#34;user32.dll&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 创建新的调用进程&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">getForegroundWindow&lt;/span> = &lt;span style="color:#c1abea">user32&lt;/span>.&lt;span style="color:#00b1f7">NewProc&lt;/span>(&lt;span style="color:#98c379">&amp;#34;GetForegroundWindow&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// 调用相应的函数&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">activeWindowId&lt;/span>, &lt;span style="color:#c1abea">_&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">getForegroundWindow&lt;/span>.&lt;span style="color:#00b1f7">Call&lt;/span>()
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">!=&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span> &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#c1abea">err&lt;/span>.&lt;span style="color:#00b1f7">Error&lt;/span>() &lt;span style="color:#c7bf54">!=&lt;/span> &lt;span style="color:#c1abea">successCallMessage&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#00b1f7">Println&lt;/span>(&lt;span style="color:#c1abea">err&lt;/span>)
@@ -5651,8 +5651,7 @@ notifyKey xxxx
 &lt;li>&lt;a href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getforegroundwindow">GetForegroundWindow function&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/golang/go/wiki/WindowsDLLs">WindowsDLLs&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>Kubenetes 部署 Dashboard</title><link>https://blog.hellowood.dev/posts/kubenetes-%E9%83%A8%E7%BD%B2-dashboard/</link><pubDate>Sun, 08 Sep 2019 19:28:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubenetes-%E9%83%A8%E7%BD%B2-dashboard/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://github.com/kubernetes/dashboard">Kubenestes Dashboard&lt;/a> 是提供 Kubernetes信息可视化的 Web 插件&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://github.com/kubernetes/dashboard">Kubenestes Dashboard&lt;/a> 是提供 Kubernetes信息可视化的 Web 插件&lt;/p>&lt;/blockquote>
 &lt;h2 id="部署">部署&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置">配置&lt;/h2>
@@ -5703,8 +5702,7 @@ notifyKey xxxx
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f admin-role.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="获取-token">获取 Token&lt;/h3>
 &lt;p>执行：&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</link><pubDate>Sun, 08 Sep 2019 19:18:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建应用">创建应用&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -5783,8 +5781,7 @@ notifyKey xxxx
 &lt;ul>
 &lt;li>
 &lt;p>构建并上传镜像&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:15:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建应用">创建应用&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -5809,7 +5806,7 @@ notifyKey xxxx
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> spring:
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> profiles: prod
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> config:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> applicationVersion: prod-0.0.1&lt;/span> 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> applicationVersion: prod-0.0.1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用&lt;code>application.yaml|properties&lt;/code>作为 key，需要注意的是环境配置是&lt;code>spring.profiles&lt;/code>，而不是&lt;code>spring.profiles.active&lt;/code>，否则只会使用最后一行的配置&lt;/p>
 &lt;p>通过以下命令将 ConfigMap 添加到 Kubernetes 中&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f config-map.yaml
@@ -5824,12 +5821,8 @@ notifyKey xxxx
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.cloud.kubernetes.reload.strategy&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">refresh&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>
-&lt;p>&lt;code>spring.profiles.active=${PROFILE:dev}&lt;/code>用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;code>spring.cloud.kubernetes.reload.enabled&lt;/code>默认是关闭的，所以需要主动开启&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;code>spring.profiles.active=${PROFILE:dev}&lt;/code>用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
+&lt;p>Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p>&lt;/blockquote>
 &lt;p>创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用&lt;/p>
 &lt;h2 id="provider">Provider&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
@@ -6020,8 +6013,7 @@ notifyKey xxxx
 &lt;h4 id="初始化">初始化&lt;/h4>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm create rest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后会在项目目录下创建一个 rest 的文件夹，里面包含所需要的 Helm 配置文件&lt;/p></description></item><item><title>Kubernetes 中安装 Helm</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E5%AE%89%E8%A3%85-helm/</link><pubDate>Sun, 08 Sep 2019 19:00:28 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E5%AE%89%E8%A3%85-helm/</guid><description>&lt;blockquote>
-&lt;p>Helm 是构建于 Kubernetes 之上的包管理器，可以理解为 yum，homebrew 或者 pip，用于简化包分发，安装，版本管理等操作流程&lt;/p>
-&lt;/blockquote>
+&lt;p>Helm 是构建于 Kubernetes 之上的包管理器，可以理解为 yum，homebrew 或者 pip，用于简化包分发，安装，版本管理等操作流程&lt;/p>&lt;/blockquote>
 &lt;h2 id="基本概念">基本概念&lt;/h2>
 &lt;ul>
 &lt;li>Chart&lt;/li>
@@ -6081,8 +6073,7 @@ Config 用于部署 chart 时自定义配置，在部署的时候，会将 Confi
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm init --service-account tiller
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这种方式默认会使用 &lt;code>gcr.io/kubernetes-helm/tiller&lt;/code>，可以通过指定镜像的方式初始化&lt;/p></description></item><item><title>Go 开发命令行工具-OSS文件上传</title><link>https://blog.hellowood.dev/posts/go-%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7-oss%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link><pubDate>Sun, 08 Sep 2019 18:53:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/go-%E5%BC%80%E5%8F%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7-oss%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid><description>&lt;blockquote>
 &lt;p>使用 Go 语言开发一个命令行工具，用于向 OSS 文件上传文件
-命令行工具有很多框架，选择使用 &lt;a href="https://github.com/spf13/cobra">Cobra&lt;/a>&lt;/p>
-&lt;/blockquote>
+命令行工具有很多框架，选择使用 &lt;a href="https://github.com/spf13/cobra">Cobra&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="准备">准备&lt;/h2>
 &lt;ul>
 &lt;li>安装 Cobra&lt;/li>
@@ -6116,8 +6107,7 @@ Config 用于部署 chart 时自定义配置，在部署的时候，会将 Confi
 &lt;li>添加 mod&lt;/li>
 &lt;/ul>
 &lt;p>添加mod 是为了更方便的管理依赖，module 设置 GitHub 是为了安装方便&lt;/p></description></item><item><title>Spring Boot 中使用Spring Cloud Stream</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8spring-cloud-stream/</link><pubDate>Sun, 08 Sep 2019 18:50:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8spring-cloud-stream/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://spring.io/projects/spring-cloud-stream">Spring Cloud Stream&lt;/a> 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://spring.io/projects/spring-cloud-stream">Spring Cloud Stream&lt;/a> 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>Binder: 负责提供与外部消息系统集成的组件&lt;/li>
 &lt;li>Binding: 提供外部消息系统与应用之间桥接的生产者和消费者&lt;/li>
@@ -6189,8 +6179,7 @@ Config 用于部署 chart 时自定义配置，在部署的时候，会将 Confi
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>发送消息可以通过注入 Binding 对象，或者注入 &lt;code>MessageChannel&lt;/code>对象时指定 Bean 来实现&lt;/p></description></item><item><title>Spring Boot 中使用 WebSocket</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8-websocket/</link><pubDate>Sun, 08 Sep 2019 18:48:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E4%BD%BF%E7%94%A8-websocket/</guid><description>&lt;blockquote>
-&lt;p>WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端&lt;/p>
-&lt;/blockquote>
+&lt;p>WebSocket 是一种长连接技术，可以实现服务端和客户端的双向通信，服务端可以主动推送信息给客户端&lt;/p>&lt;/blockquote>
 &lt;h2 id="构建应用">构建应用&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -6294,11 +6283,9 @@ Config 用于部署 chart 时自定义配置，在部署的时候，会将 Confi
 &lt;ul>
 &lt;li>&lt;code>org.springframework.web.servlet.HandlerExceptionResolver#resolveException&lt;/code>方法&lt;/li>
 &lt;li>&lt;code>org.springframework.web.bind.annotation.RestControllerAdvice&lt;/code>或&lt;code>org.springframework.web.bind.annotation.ControllerAdvice&lt;/code>和&lt;code>org.springframework.web.bind.annotation.ExceptionHandler&lt;/code>注解来实现&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>当两种方式都实现时，&lt;code>HandlerExceptionResolver&lt;/code>要先于&lt;code>ControllerAdvice&lt;/code>执行&lt;/p>
-&lt;/blockquote>
+&lt;p>当两种方式都实现时，&lt;code>HandlerExceptionResolver&lt;/code>要先于&lt;code>ControllerAdvice&lt;/code>执行&lt;/p>&lt;/blockquote>
 &lt;h2 id="使用-handlerexceptionresolver-处理异常">使用 HandlerExceptionResolver 处理异常&lt;/h2>
 &lt;ul>
 &lt;li>CustomExceptionHandlerResolver.java&lt;/li>
@@ -6355,8 +6342,7 @@ Config 用于部署 chart 时自定义配置，在部署的时候，会将 Confi
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>还需要将该配置添加到应用中&lt;/p></description></item><item><title>Spring Boot 中自定义接口返回格式</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F/</link><pubDate>Sun, 08 Sep 2019 18:45:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F/</guid><description>&lt;blockquote>
-&lt;p>Spring Boot 项目中提供的 REST 接口往往需要封装状态或者其他附加的内容返回给客户端，如果每个接口都用一些工具类来处理很繁琐，会增加很多重复代码，还有可能漏掉导致客户端无法解析；用切面也可以实现，但是 SpringBoot 提供了处理的接口&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Boot 项目中提供的 REST 接口往往需要封装状态或者其他附加的内容返回给客户端，如果每个接口都用一些工具类来处理很繁琐，会增加很多重复代码，还有可能漏掉导致客户端无法解析；用切面也可以实现，但是 SpringBoot 提供了处理的接口&lt;/p>&lt;/blockquote>
 &lt;h3 id="项目地址">项目地址&lt;/h3>
 &lt;p>&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-CustomResponse">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-CustomResponse&lt;/a>&lt;/p>
 &lt;h3 id="添加自定义注解">添加自定义注解&lt;/h3>
@@ -6479,9 +6465,8 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改-1">手动修改&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>Google Cloud Run 部署 Knative Serverless 应用</title><link>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</link><pubDate>Wed, 15 May 2019 08:23:26 +0800</pubDate><guid>https://blog.hellowood.dev/posts/google-cloud-run-%E9%83%A8%E7%BD%B2-knative-serverless-%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="安装-cloud-sdkhttpscloudgooglecomsdk">安装 &lt;a href="https://cloud.google.com/sdk/">Cloud SDK&lt;/a>&lt;/h2>
+&lt;p>Google Cloud Run 是 Google 最近推出的基于容器运行的支持 Serverless 应用的服务，是 Knative 的Google Cloud 托管版本；和其他的 Serverless 如Google Cloud Functions, AWS Lambda 等相比，优点在于完全的基于容器，且不限语言&lt;/p>&lt;/blockquote>
+&lt;h2 id="安装-cloud-sdk">安装 &lt;a href="https://cloud.google.com/sdk/">Cloud SDK&lt;/a>&lt;/h2>
 &lt;p>Cloud SDK 是 Google Cloud 的命令行工具，用于访问Google Cloud相关资源&lt;/p>
 &lt;p>具体平台的安装方式可以参考 &lt;a href="https://cloud.google.com/sdk/docs/quickstarts">https://cloud.google.com/sdk/docs/quickstarts&lt;/a>&lt;/p>
 &lt;h2 id="创建应用上传镜像">创建应用，上传镜像&lt;/h2>
@@ -6648,8 +6633,7 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;pre tabindex="0">&lt;code>docker-compose up -d
 &lt;/code>&lt;/pre>&lt;p>这样会启动一个 treafik 的 WebUI 和一个后端服务器&lt;/p></description></item><item><title>GraphQL Spring Boot 使用</title><link>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 29 Jan 2019 19:57:12 +0800</pubDate><guid>https://blog.hellowood.dev/posts/graphql-spring-boot-%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>项目地址 &lt;a href="https://github.com/helloworlde/spring-boot-graphql-demo">https://github.com/helloworlde/spring-boot-graphql-demo&lt;/a>&lt;/p>
 &lt;blockquote>
-&lt;p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建应用">创建应用&lt;/h2>
 &lt;ul>
 &lt;li>添加依赖&lt;/li>
@@ -6824,8 +6808,7 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;ul>
 &lt;li>
 &lt;p>启动应用&lt;/p></description></item><item><title>MySQL 中关于gap lock / next-key lock 的一个问题</title><link>https://blog.hellowood.dev/posts/mysql-%E4%B8%AD%E5%85%B3%E4%BA%8Egap-lock-next-key-lock-%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98/</link><pubDate>Mon, 07 Jan 2019 21:40:58 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mysql-%E4%B8%AD%E5%85%B3%E4%BA%8Egap-lock-next-key-lock-%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98/</guid><description>&lt;blockquote>
-&lt;p>在学习 MySQL 的过程中遇到的一个关于锁的问题，包含多个 MySQL 相关的知识；相关资料在文章末尾&lt;/p>
-&lt;/blockquote>
+&lt;p>在学习 MySQL 的过程中遇到的一个关于锁的问题，包含多个 MySQL 相关的知识；相关资料在文章末尾&lt;/p>&lt;/blockquote>
 &lt;h3 id="问题描述">问题描述&lt;/h3>
 &lt;ul>
 &lt;li>表初始化&lt;/li>
@@ -6873,8 +6856,7 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;li>这么看来上述语句都不在锁的范围内，为什么会被锁&lt;/li>
 &lt;/ul>
 &lt;p>这个问题其实是因为没有理解索引的结构，所以认为所有值都不应该被锁&lt;/p></description></item><item><title>SpringBoot 使用 MySQL保存emoji 表情</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mysql%E4%BF%9D%E5%AD%98emoji-%E8%A1%A8%E6%83%85/</link><pubDate>Mon, 31 Dec 2018 22:59:16 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mysql%E4%BF%9D%E5%AD%98emoji-%E8%A1%A8%E6%83%85/</guid><description>&lt;blockquote>
-&lt;p>在使用 SpringBoot 开发的应用中，有表单提交的内容中含有 emoji 表情，导致保存失败；这是因为MySQL 默认的 utf8 长度为3位，emoji 表情有4位&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 SpringBoot 开发的应用中，有表单提交的内容中含有 emoji 表情，导致保存失败；这是因为MySQL 默认的 utf8 长度为3位，emoji 表情有4位&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>更改表的字符集为&lt;code>utf8mb4&lt;/code>&lt;/li>
 &lt;/ul>
@@ -7134,11 +7116,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>{&amp;#34;message&amp;#34;:&amp;#34;Session Invalid&amp;#34;,&amp;#34;data&amp;#34;:null}
 &lt;/code>&lt;/pre></description></item><item><title>Kubernetes 配置 kubeconfig 访问多个集群</title><link>https://blog.hellowood.dev/posts/kubernetes-%E9%85%8D%E7%BD%AE-kubeconfig-%E8%AE%BF%E9%97%AE%E5%A4%9A%E4%B8%AA%E9%9B%86%E7%BE%A4/</link><pubDate>Tue, 23 Oct 2018 21:09:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E9%85%8D%E7%BD%AE-kubeconfig-%E8%AE%BF%E9%97%AE%E5%A4%9A%E4%B8%AA%E9%9B%86%E7%BE%A4/</guid><description>&lt;blockquote>
-&lt;p>如果有多个不同的集群，需要切换访问，就需要配置多个 Kubernetes 账号和 Context；集群的 KubeConfig 文件一般为&lt;code>~/.kube/config&lt;/code>，默认只能访问一个集群，如果需要访问多个集群就需要修改这个文件&lt;/p>
-&lt;/blockquote>
+&lt;p>如果有多个不同的集群，需要切换访问，就需要配置多个 Kubernetes 账号和 Context；集群的 KubeConfig 文件一般为&lt;code>~/.kube/config&lt;/code>，默认只能访问一个集群，如果需要访问多个集群就需要修改这个文件&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>可以参考文档 &lt;a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/">https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/&lt;/a>配置，但是这个文档描述不够直接简单，可以参考以下内容直接修改&lt;/p>
-&lt;/blockquote>
+&lt;p>可以参考文档 &lt;a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/">https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/&lt;/a>配置，但是这个文档描述不够直接简单，可以参考以下内容直接修改&lt;/p>&lt;/blockquote>
 &lt;p>假设现在有两个集群，一个是本地的 &lt;code>docker-for-desktop-cluster&lt;/code>，另一个是部署在测试环境的 &lt;code>kubernetes&lt;/code> ，本地只有 &lt;code>docker-for-desktop-cluster&lt;/code>的配置&lt;/p>
 &lt;p>根据官方文档合并后的 Demo，其实是将两个 Config 文件的相同类型的字段直接合并了，所以直接将相同的字段的其他集群的配置内容复制到当前的配置中即可，如：将&lt;code>kubernetes&lt;/code>中 &lt;code>cluster&lt;/code> 的配置直接复制到当前配置中：&lt;/p>
 &lt;ul>
@@ -7306,11 +7286,9 @@ users:
  client-certificate-data: CLIENT_CERTIFICATE_DATA
  client-key-data: CLIENT_KEY_DATA
 &lt;/code>&lt;/pre></description></item><item><title>Kubernetes 中部署 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Mon, 22 Oct 2018 18:30:37 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Kubernetes 中通过yaml 配置文件预先声明部署 SpringBoot 应用&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>代码地址 &lt;a href="https://github.com/helloworlde/k8s-service">https://github.com/helloworlde/k8s-service&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>代码地址 &lt;a href="https://github.com/helloworlde/k8s-service">https://github.com/helloworlde/k8s-service&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建-springboot-应用">创建 SpringBoot 应用&lt;/h2>
 &lt;ul>
 &lt;li>创建名为 k8s-service 的 SpringBoot 应用&lt;/li>
@@ -7414,11 +7392,9 @@ users:
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>等待服务启动之后访问 &lt;code>${NodeIP}:30090&lt;/code>，会返回 &lt;code>Hello Kubernetes&lt;/code>，部署完成&lt;/li>
 &lt;/ul></description></item><item><title>Ubuntu 搭建 ShadowSocks 服务</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 21 Oct 2018 22:39:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>来自 &lt;a href="https://teddysun.com/342.html">https://teddysun.com/342.html&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>来自 &lt;a href="https://teddysun.com/342.html">https://teddysun.com/342.html&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
 &lt;li>下载安装脚本&lt;/li>
@@ -7471,8 +7447,7 @@ Enjoy it!
 &lt;/code>&lt;/pre>&lt;h2 id="卸载">卸载&lt;/h2>
 &lt;pre tabindex="0">&lt;code>./shadowsocks.sh uninstall
 &lt;/code>&lt;/pre></description></item><item><title>Mac 客户端访问 Dropbox</title><link>https://blog.hellowood.dev/posts/mac-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AE%BF%E9%97%AE-dropbox/</link><pubDate>Sat, 13 Oct 2018 12:54:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mac-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AE%BF%E9%97%AE-dropbox/</guid><description>&lt;blockquote>
-&lt;p>通过使用 ShadowSocks 的 PAC 代理模式可以访问到 &lt;a href="https://www.dropbox.com/">Dropbox&lt;/a> 的网页版，但是在 Mac 上下载客户端，打开后却提示无法连接&lt;/p>
-&lt;/blockquote>
+&lt;p>通过使用 ShadowSocks 的 PAC 代理模式可以访问到 &lt;a href="https://www.dropbox.com/">Dropbox&lt;/a> 的网页版，但是在 Mac 上下载客户端，打开后却提示无法连接&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>参考文章 &lt;a href="https://my.oschina.net/frankies/blog/367659">https://my.oschina.net/frankies/blog/367659&lt;/a> 设置更改Host 无效&lt;/li>
 &lt;li>尝试开启 ShadowSocks 全局代理，同样无效，但是遇到过 ShadowSocks 的全局代理不生效的情况，所以尝试手动配置代理&lt;/li>
@@ -7491,8 +7466,7 @@ Enjoy it!
 &lt;ul>
 &lt;li>更新之后就可以正常通过客户端使用 Dropbox 了&lt;/li>
 &lt;/ul></description></item><item><title>Java 中计算字符串表达式的值</title><link>https://blog.hellowood.dev/posts/java-%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%80%BC/</link><pubDate>Sat, 25 Aug 2018 10:55:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/java-%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%80%BC/</guid><description>&lt;blockquote>
-&lt;p>在 Java 中计算字符串数值表达式可以用 &lt;code>javax.script.ScriptEngine#eval(java.lang.String)&lt;/code>，通过调用 JavaScript 来计算&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Java 中计算字符串数值表达式可以用 &lt;code>javax.script.ScriptEngine#eval(java.lang.String)&lt;/code>，通过调用 JavaScript 来计算&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.script.ScriptEngine&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.script.ScriptEngineManager&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">javax.script.ScriptException&lt;/span>;
@@ -7512,8 +7486,7 @@ Enjoy it!
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>结果： 23&lt;/p></description></item><item><title>Docker 容器中运行 Docker 命令</title><link>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</link><pubDate>Wed, 08 Aug 2018 16:04:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</guid><description>&lt;blockquote>
-&lt;p>在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>在启动容器时添加以下命令：&lt;/li>
 &lt;/ul>
@@ -7524,8 +7497,7 @@ Enjoy it!
 &lt;ul>
 &lt;li>&lt;code>--privileged&lt;/code> 表示该容器真正启用 root 权限&lt;/li>
 &lt;li>&lt;code>-v /var/run/docker.sock:/var/run/docker.sock&lt;/code>和&lt;code>-v $(which docker)r:/bin/docker&lt;/code>命令将相关的 Docker 文件挂载到容器&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;hr>
 &lt;ul>
 &lt;li>Demo: 启动 GitLab&lt;/li>
@@ -7543,8 +7515,7 @@ Enjoy it!
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v &lt;span style="color:#c678dd">$(&lt;/span>which docker&lt;span style="color:#c678dd">)&lt;/span>:/bin/docker &lt;span style="color:#d26464;font-weight:bold">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> gitlab/gitlab-ee:latest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>代码质量工具 Sonarqube 搭建使用</title><link>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</link><pubDate>Wed, 01 Aug 2018 00:31:41 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://www.sonarqube.org/">Sonarqube&lt;/a> 是一个代码质量管理平台，可以结合不同的测试工具，代码分析工具，持续集成工具等提供代码质量可是化和管理的工具&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://www.sonarqube.org/">Sonarqube&lt;/a> 是一个代码质量管理平台，可以结合不同的测试工具，代码分析工具，持续集成工具等提供代码质量可是化和管理的工具&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>&lt;a href="https://sonarcloud.io">在线工具&lt;/a>&lt;/li>
 &lt;li>截图
@@ -7580,8 +7551,7 @@ Enjoy it!
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -Dsonar.host.url&lt;span style="color:#c7bf54">=&lt;/span>http://localhost:9000 &lt;span style="color:#d26464;font-weight:bold">\
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -Dsonar.login&lt;span style="color:#c7bf54">=&lt;/span>d84cd047d5a4e149af1f4d614e28ed5183ef0c50
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>服务追踪工具 SkyWorking 搭建使用</title><link>https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</link><pubDate>Tue, 31 Jul 2018 23:56:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://github.com/apache/incubator-skywalking">SkyWalking&lt;/a> 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://github.com/apache/incubator-skywalking">SkyWalking&lt;/a> 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>
 &lt;p>&lt;a href="http://49.4.12.44:8080/#/monitor/dashboard">Demo&lt;/a>&lt;/p>
@@ -7600,8 +7570,7 @@ Enjoy it!
 &lt;li>SkyWalking 5.0.0-beat2&lt;/li>
 &lt;li>Mac OS&lt;/li>
 &lt;li>ElasticSearch 5.6.10&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;h2 id="安装-elasticsearch">安装 ElasticSearch&lt;/h2>
 &lt;ul>
 &lt;li>下载解压 ElasticSearch 5.6.10&lt;/li>
@@ -7719,13 +7688,11 @@ logging.level=INFO
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>./bin/startup.sh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或单独启动 Collector 和 Webapp&lt;/p></description></item><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://github.com/GoogleContainerTools/jib">Jib&lt;/a> 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://github.com/GoogleContainerTools/jib">Jib&lt;/a> 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/">&lt;code>com.palantir.docker&lt;/code>&lt;/a>等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p>
-&lt;/blockquote>
+&lt;p>有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/">&lt;code>com.palantir.docker&lt;/code>&lt;/a>等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p>&lt;/blockquote>
 &lt;h2 id="使用">使用&lt;/h2>
-&lt;h3 id="添加依赖httpspluginsgradleorgplugincomgooglecloudtoolsjib">&lt;a href="https://plugins.gradle.org/plugin/com.google.cloud.tools.jib">添加依赖&lt;/a>&lt;/h3>
+&lt;h3 id="添加依赖">&lt;a href="https://plugins.gradle.org/plugin/com.google.cloud.tools.jib">添加依赖&lt;/a>&lt;/h3>
 &lt;ul>
 &lt;li>Gradle&lt;/li>
 &lt;/ul>
@@ -7746,8 +7713,7 @@ logging.level=INFO
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="构建镜像">构建镜像&lt;/h3>
 &lt;blockquote>
-&lt;p>以下方式都需要终端能够访问 &lt;code>gcr.io&lt;/code>或 &lt;code>hub.docker.com&lt;/code>等 Docker Hub 才能成功&lt;/p>
-&lt;/blockquote>
+&lt;p>以下方式都需要终端能够访问 &lt;code>gcr.io&lt;/code>或 &lt;code>hub.docker.com&lt;/code>等 Docker Hub 才能成功&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>直接构建并推送到 &lt;a href="https://cloud.google.com/container-registry/">GCR&lt;/a>
 通过这种方式构建的镜像会以&lt;code>gcr.io/distroless/java&lt;/code>为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：&lt;/li>
@@ -7758,56 +7724,8 @@ logging.level=INFO
 &lt;/ul>
 &lt;p>&lt;a href="https://cloud.google.com/container-registry/">Google Container Center&lt;/a>, &lt;a href="https://aws.amazon.com/ecr/">Amazon Elastic Container Registry&lt;/a>, &lt;a href="https://hub.docker.com/">Docker Hub Registry&lt;/a>之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">gradle&lt;/span> &lt;span style="color:#c1abea">jib&lt;/span> &lt;span style="color:#c7bf54">--&lt;/span>&lt;span style="color:#c1abea">image&lt;/span> &lt;span style="color:#c1abea">registry&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">hub&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">docker&lt;/span>&lt;span style="color:#c7bf54">.&lt;/span>&lt;span style="color:#b3d23c">com&lt;/span>&lt;span style="color:#98c379">/helloworld/&lt;/span>&lt;span style="color:#f5a40d">java:&lt;/span>&lt;span style="color:#c1abea">jib&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者在&lt;code>build.gradle&lt;/code>中以下添加之后执行 &lt;code>gradle jib&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>jib.to.image = &amp;#39;registry.hub.docker.com/helloworld/java:jib&amp;#39;
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>保存在本地
-需要本地 Docker 应用已经启动&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>gradle jibDockerBuild
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>&lt;a href="https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#extended-usage">自定义基础镜像和参数(build.gradle)&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">jib&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">from&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">image&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;registry.hub.docker.com/openjdk:8-jdk-alpine&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">auth&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">username&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;username&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">password&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;password&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">to&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">image&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;registry.hub.docker.com/helloword/java:jib&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">auth&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">username&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;username&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">password&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;password&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">credHelper&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;osxkeychain&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">container&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">jvmFlags&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[&lt;/span>&lt;span style="color:#98c379">&amp;#39;-Djava.security.egd=file:/dev/./urandom&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">,&lt;/span> &lt;span style="color:#98c379">&amp;#39;-Duser.timezone=GMT+08&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">mainClass&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#39;example.jib.MainClass&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">args&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[&lt;/span>&lt;span style="color:#98c379">&amp;#39;test]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379"> ports = [&amp;#39;&lt;/span>&lt;span style="color:#d19a66">8080&lt;/span>&amp;#39;&lt;span style="color:#c7bf54">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;ul>
-&lt;li>&lt;code>from&lt;/code>：拉取的镜像的配置，默认为&lt;code>gcr.io/distroless/java&lt;/code>&lt;/li>
-&lt;li>&lt;code>to&lt;/code>:要生成的镜像的配置&lt;/li>
-&lt;li>&lt;code>image&lt;/code>：拉取或生成的镜像名称&lt;/li>
-&lt;li>&lt;code>auth&lt;/code>: 认证信息，分别为用户名和密码&lt;/li>
-&lt;li>&lt;a href="https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods">&lt;code>credHelper&lt;/code>&lt;/a>：鉴权信息的存放方式，Google 使用 &lt;code>gcr&lt;/code>, AWS使用 &lt;code>ecr-login&lt;/code>, DockerHub 根据平台使用 &lt;code>osxkeychain&lt;/code>, &lt;code>wincred&lt;/code>,&lt;code>secretservice&lt;/code>,&lt;code>pass&lt;/code>中的一种，可以参考 &lt;a href="https://github.com/docker/docker-credential-helpers">docker-credential-helpers&lt;/a>&lt;/li>
-&lt;li>&lt;code>container&lt;/code>: 容器的属性&lt;/li>
-&lt;li>&lt;code>jvmFlgs&lt;/code>: JVM 容器的参数，和 Dockerfile 的 &lt;code>ENTRYPOINT&lt;/code>作用相同&lt;/li>
-&lt;li>&lt;code>mainClass&lt;/code>: 启动类限定名&lt;/li>
-&lt;li>&lt;code>args&lt;/code>: &lt;code>main&lt;/code> 方法的传入参数&lt;/li>
-&lt;li>&lt;code>ports&lt;/code>: 容器暴露的端口，和 Dockerfile 的&lt;code>EXPOSE&lt;/code>作用相同&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;p>推荐&lt;code>from&lt;/code> 改为 &lt;code>registry.hub.docker.com/openjdk:8-jdk-alpine&lt;/code>, &lt;code>to&lt;/code>改为 &lt;code>registry.cn-qingdao.aliyuncs.com&lt;/code> 等国内的仓库，同时将 Docker 的镜像源改为&lt;a href="https://registry.docker-cn.com">https://registry.docker-cn.com&lt;/a> 或 &lt;a href="https://docker.mirrors.ustc.edu.cn">https://docker.mirrors.ustc.edu.cn&lt;/a>以减少构建时间&lt;/p></description></item><item><title>JRebel 安装激活</title><link>https://blog.hellowood.dev/posts/jrebel-%E5%AE%89%E8%A3%85%E6%BF%80%E6%B4%BB/</link><pubDate>Wed, 30 May 2018 01:27:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/jrebel-%E5%AE%89%E8%A3%85%E6%BF%80%E6%B4%BB/</guid><description>&lt;blockquote>
-&lt;p>JRebel 是适用于 Java IDE 的代码热更新工具，可以直接更新代码，避免重启应用，可以提高开发效率，官网是 &lt;a href="https://zeroturnaround.com/software/jrebel/">https://zeroturnaround.com/software/jrebel/&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者在&lt;code>build.gradle&lt;/code>中以下添加之后执行 &lt;code>gradle jib&lt;/code>&lt;/p></description></item><item><title>JRebel 安装激活</title><link>https://blog.hellowood.dev/posts/jrebel-%E5%AE%89%E8%A3%85%E6%BF%80%E6%B4%BB/</link><pubDate>Wed, 30 May 2018 01:27:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/jrebel-%E5%AE%89%E8%A3%85%E6%BF%80%E6%B4%BB/</guid><description>&lt;blockquote>
+&lt;p>JRebel 是适用于 Java IDE 的代码热更新工具，可以直接更新代码，避免重启应用，可以提高开发效率，官网是 &lt;a href="https://zeroturnaround.com/software/jrebel/">https://zeroturnaround.com/software/jrebel/&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;h4 id="eclipse">Eclipse&lt;/h4>
 &lt;ul>
@@ -7833,8 +7751,7 @@ logging.level=INFO
 &lt;/ul>
 &lt;h2 id="激活">激活&lt;/h2>
 &lt;blockquote>
-&lt;p>&lt;code>JRebel&lt;/code> 通过使用 &lt;code>Facebook&lt;/code>或者 &lt;code>Twitter&lt;/code> 可以免费激活&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;code>JRebel&lt;/code> 通过使用 &lt;code>Facebook&lt;/code>或者 &lt;code>Twitter&lt;/code> 可以免费激活&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>访问 &lt;a href="my.jrebel.com">&lt;code>my.jrebel.com&lt;/code>&lt;/a>&lt;/li>
 &lt;li>通过 &lt;code>Facebook&lt;/code>或者&lt;code>Twitter&lt;/code>登陆&lt;/li>
@@ -7886,8 +7803,7 @@ public class MessageConverter extends WebMvcConfigurerAdapter {
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>scp -p port source_dictionary_file user@ServerIp:target_dictionary_file
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>prot 默认是22，如果使用默认可以不写&lt;/p>
-&lt;/blockquote>
+&lt;p>prot 默认是22，如果使用默认可以不写&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>scp /User/hellowood/wechat.jpg root@192.168.0.2:/home/hellowood/wechat.jpg
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>上传整个文件夹&lt;/li>
@@ -7906,8 +7822,7 @@ public class MessageConverter extends WebMvcConfigurerAdapter {
 &lt;pre tabindex="0">&lt;code>scp -p port -r user@ServerIp:source_dictionary target_dictionry
 &lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>scp -r root@192.168.0.2:/home/hellowood/tomcat /User/hellowood/tomcat
 &lt;/code>&lt;/pre></description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置并启动-tomcat">配置并启动 Tomcat&lt;/h2>
 &lt;h2 id="安装-docker">安装 Docker&lt;/h2>
 &lt;h2 id="配置-nginx">配置 Nginx&lt;/h2>
@@ -8199,8 +8114,7 @@ sudo systemctl restart docker
 &lt;li>
 &lt;p>启动
 点击 Docker 图标启动&lt;/p></description></item><item><title>SpringBoot-使用 MyBatis 通用 Mapper</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</link><pubDate>Sun, 08 Apr 2018 15:11:45 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://github.com/abel533/Mapper">通用 Mapper&lt;/a> 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 &lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">PageHelper&lt;/a> 一起使用；通用 Mapper 插件虽然没有 &lt;a href="https://github.com/baomidou/mybatis-plus">MyBatis Plus&lt;/a> 强大，但是满足正常项目开发；&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://github.com/abel533/Mapper">通用 Mapper&lt;/a> 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 &lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">PageHelper&lt;/a> 一起使用；通用 Mapper 插件虽然没有 &lt;a href="https://github.com/baomidou/mybatis-plus">MyBatis Plus&lt;/a> 强大，但是满足正常项目开发；&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;ul>
 &lt;li>build.gradle&lt;/li>
@@ -8492,11 +8406,9 @@ spring.redis.password=123456
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>访问 &lt;code>http://localhost:8080&lt;/code>, 此时会显示 &lt;code>Session ID&lt;/code>, 重新启动应用，再次访问 &lt;code>http://localhost:8080&lt;/code>，此时 &lt;code>Session ID&lt;/code> 应该和第一次访问一致，说明 &lt;code>Session&lt;/code> 已被正确共享&lt;/p></description></item><item><title>SpringBoot 使用QuartzJob实现任务控制</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8quartzjob%E5%AE%9E%E7%8E%B0%E4%BB%BB%E5%8A%A1%E6%8E%A7%E5%88%B6/</link><pubDate>Mon, 12 Feb 2018 18:22:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8quartzjob%E5%AE%9E%E7%8E%B0%E4%BB%BB%E5%8A%A1%E6%8E%A7%E5%88%B6/</guid><description>&lt;blockquote>
-&lt;p>项目地址&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>项目地址&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ScheduledJob&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>在 SpringBoot 中通过 &lt;code>@Schedule&lt;/code>注解就可以简单的实现定时任务，但是这种方式够灵活，如果想要修改执行状态就必须修改代码；另外一种实现方式是通过 &lt;a href="http://www.quartz-scheduler.org/">&lt;code>Quartz&lt;/code>&lt;/a> 实现任务调度&lt;/p>
-&lt;/blockquote>
+&lt;p>在 SpringBoot 中通过 &lt;code>@Schedule&lt;/code>注解就可以简单的实现定时任务，但是这种方式够灵活，如果想要修改执行状态就必须修改代码；另外一种实现方式是通过 &lt;a href="http://www.quartz-scheduler.org/">&lt;code>Quartz&lt;/code>&lt;/a> 实现任务调度&lt;/p>&lt;/blockquote>
 &lt;h2 id="通过-springboot-实现简单任务">通过 SpringBoot 实现简单任务&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
@@ -8541,8 +8453,7 @@ spring.redis.password=123456
 &lt;blockquote>
 &lt;p>在 SpringBoot 的2.0 以上版本直接集成了 Quartz；
 本文通过 RESTful 接口 来实现，实现的大概思路是通过实现 &lt;code>org.quartz.Job&lt;/code>接口，在其&lt;code>execute()&lt;/code>中实现自己的逻辑；通过调用 &lt;code>org.quartz.Scheduler&lt;/code>的接口实现任务的创建，运行，暂停，更新，删除功能，核心的代码在 &lt;code>cn.com.hellowood.scheduledjob.job.ScheduleUtil&lt;/code>里&lt;/p></description></item><item><title>SpringBoot 使用 MyBatis PageHelper 分页插件</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</link><pubDate>Sat, 03 Feb 2018 11:56:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">MyBatis PageHelper&lt;/a> 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://github.com/pagehelper/Mybatis-PageHelper">MyBatis PageHelper&lt;/a> 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;ul>
 &lt;li>build.gradle&lt;/li>
@@ -8759,7 +8670,7 @@ CREATE TABLE logging_event_exception
  &amp;lt;appender-ref ref=&amp;#34;DB&amp;#34;/&amp;gt;
  &amp;lt;/root&amp;gt;
 &amp;lt;/configuration&amp;gt;
-&lt;/code>&lt;/pre>&lt;h2 id="输入日志到-logstashhttpswwwelasticcocnproductslogstash">输入日志到 &lt;a href="https://www.elastic.co/cn/products/logstash">&lt;code>Logstash&lt;/code>&lt;/a>&lt;/h2>
+&lt;/code>&lt;/pre>&lt;h2 id="输入日志到-logstash">输入日志到 &lt;a href="https://www.elastic.co/cn/products/logstash">&lt;code>Logstash&lt;/code>&lt;/a>&lt;/h2>
 &lt;ul>
 &lt;li>logback.xml&lt;/li>
 &lt;/ul>
@@ -8841,14 +8752,11 @@ logging.path=./logs
 &lt;/li>
 &lt;/ul>
 &lt;p>定义的变量可以通过&lt;code>${}&lt;/code>使用&lt;/p></description></item><item><title>SpringBoot 使用 ElasticSearch</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/</link><pubDate>Tue, 16 Jan 2018 00:45:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-elasticsearch/</guid><description>&lt;blockquote>
-&lt;p>项目地址：&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>项目地址：&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-ElasticSearch&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>&lt;a href="https://www.elastic.co/cn/products/elasticsearch">ElasticSearch&lt;/a> 是一个开源的分布式搜索引擎，用于存储数据&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://www.elastic.co/cn/products/elasticsearch">ElasticSearch&lt;/a> 是一个开源的分布式搜索引擎，用于存储数据&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
@@ -9221,8 +9129,7 @@ logging.path=./logs
 &lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger">https://github.com/helloworlde/SpringBootCollection/blob/master/SpringBoot-Swagger&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;a href="https://swagger.io/">Swaager&lt;/a> 是一个开源用于设计、撰写、测试 RESTful API 的工具&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://swagger.io/">Swaager&lt;/a> 是一个开源用于设计、撰写、测试 RESTful API 的工具&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;io.springfox:springfox-swagger2:2.7.0&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;io.springfox:springfox-swagger-ui:2.7.0&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
@@ -9399,8 +9306,7 @@ logging.path=./logs
 &lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Flyway&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>&lt;a href="https://flywaydb.org">Flyway&lt;/a> 是一个数据库版本管理工具，用于管理数据库操作脚本&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://flywaydb.org">Flyway&lt;/a> 是一个数据库版本管理工具，用于管理数据库操作脚本&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.flywaydb:flyway-core&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
@@ -9460,16 +9366,13 @@ logging.path=./logs
 &lt;blockquote>
 &lt;ul>
 &lt;li>如果按照 Flyway &lt;a href="https://flywaydb.org/documentation/plugins/springboot">官方文档&lt;/a> 的指导，仅配置 Flyway，应用启动时并不会执行 Flyway 的任何操作，这是因为 &lt;a href="https://docs.spring.io/spring-boot/docs/1.4.x/api/org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration.html">&lt;code>FlywayAutoConfiguration&lt;/code>&lt;/a> 类在启动时要求有 DataSource 的实例，如果没有配置，就不会执行 Flyway，所以在依赖里添加了 MyBatis(或 JPA) ，使用 MyBatis(或 JPA) 时会自动注入数据源，因此才会执行 Flyway，具体可以参考&lt;a href="https://github.com/spring-projects/spring-boot/issues/8649">https://github.com/spring-projects/spring-boot/issues/8649&lt;/a> 和 &lt;a href="https://stackoverflow.com/questions/43496506/how-to-debug-when-flyway-doesnt-work-on-spring-boot">https://stackoverflow.com/questions/43496506/how-to-debug-when-flyway-doesnt-work-on-spring-boot&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>如果是多个数据源，则需要在 Flyway 进行操作的数据源 Bean 上添加 &lt;code>@FlywayDataSource&lt;/code>注解或者在 &lt;code>application.properties&lt;/code> 里添加 &lt;code>spring.flyway.[url,user,password]&lt;/code>进行配置&lt;/li>
-&lt;/ul>
-&lt;/blockquote></description></item><item><title>Rocket MQ 相关知识</title><link>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</link><pubDate>Mon, 01 Jan 2018 12:54:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</guid><description>&lt;p>@(消息队列)[RocketMQ, 消息]&lt;/p>
+&lt;/ul>&lt;/blockquote></description></item><item><title>Rocket MQ 相关知识</title><link>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</link><pubDate>Mon, 01 Jan 2018 12:54:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/rocket-mq-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</guid><description>&lt;p>@(消息队列)[RocketMQ, 消息]&lt;/p>
 &lt;blockquote>
-&lt;p>Rocket MQ消息队列（Message Queue，简称 MQ）是阿里巴巴集团中间件技术部自主研发的专业消息中间件。产品基于高可用分布式集群技术，提供消息发布订阅、消息轨迹查询、定时（延时）消息、资源统计、监控报警等一系列消息云服务，是企业级互联网架构的核心产品。&lt;/p>
-&lt;/blockquote>
+&lt;p>Rocket MQ消息队列（Message Queue，简称 MQ）是阿里巴巴集团中间件技术部自主研发的专业消息中间件。产品基于高可用分布式集群技术，提供消息发布订阅、消息轨迹查询、定时（延时）消息、资源统计、监控报警等一系列消息云服务，是企业级互联网架构的核心产品。&lt;/p>&lt;/blockquote>
 &lt;h2 id="rocket-mq相关名词">Rocket MQ相关名词&lt;/h2>
 &lt;ul>
 &lt;li>Producer 消息生产者，负责生产消息&lt;/li>
@@ -9489,41 +9392,34 @@ logging.path=./logs
 &lt;ul>
 &lt;li>同步方式
 &lt;blockquote>
-&lt;p>发送消息，接收到结果之后再发送下一条消息，速度最慢，耗时最长&lt;/p>
-&lt;/blockquote>
+&lt;p>发送消息，接收到结果之后再发送下一条消息，速度最慢，耗时最长&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>异步方式
 &lt;blockquote>
-&lt;p>发送消息，不论是否收到结果，直接发送下一条消息，发送速度介于同步和单向方式之间&lt;/p>
-&lt;/blockquote>
+&lt;p>发送消息，不论是否收到结果，直接发送下一条消息，发送速度介于同步和单向方式之间&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>单向方式
 &lt;blockquote>
-&lt;p>发送消息，直接发送消息，不返回发送结果，发送速度最快&lt;/p>
-&lt;/blockquote>
+&lt;p>发送消息，直接发送消息，不返回发送结果，发送速度最快&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;/ul>
 &lt;h2 id="消息类型">消息类型&lt;/h2>
 &lt;ul>
 &lt;li>定时消息
 &lt;blockquote>
-&lt;p>在指定的发送时间发送消息&lt;/p>
-&lt;/blockquote>
+&lt;p>在指定的发送时间发送消息&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>延时消息
 &lt;blockquote>
-&lt;p>从当前时间开始，经过延时时间后再发送消息&lt;/p>
-&lt;/blockquote>
+&lt;p>从当前时间开始，经过延时时间后再发送消息&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>顺序消息
 &lt;blockquote>
-&lt;p>立即发送消息&lt;/p>
-&lt;/blockquote>
+&lt;p>立即发送消息&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>事务消息
 &lt;blockquote>
-&lt;p>MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致&lt;/p>
-&lt;/blockquote>
+&lt;p>MQ 提供类似 X/Open XA 的分布事务功能，通过 MQ 事务消息能达到分布式事务的最终一致&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;/ul>
 &lt;h1 id="实例代码">实例代码&lt;/h1>
@@ -9646,8 +9542,7 @@ logging.path=./logs
 &lt;/code>&lt;/pre></description></item><item><title>Rocket MQ 发送消息</title><link>https://blog.hellowood.dev/posts/rocket-mq-%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF/</link><pubDate>Mon, 01 Jan 2018 12:52:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/rocket-mq-%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF/</guid><description>&lt;h2 id="rocket-mq-发送消息">Rocket MQ 发送消息&lt;/h2>
 &lt;p>@(消息队列)[RocketMQ, 消息]&lt;/p>
 &lt;blockquote>
-&lt;p>使用阿里巴巴的Rocket MQ发送消息的SpringBoo项目&lt;/p>
-&lt;/blockquote>
+&lt;p>使用阿里巴巴的Rocket MQ发送消息的SpringBoo项目&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>使用之前请现在&lt;a href="https://ons.console.aliyun.com/?spm=5176.2020520001.1002.d10ons.61d991b3GbNJPR#/home/topic">阿里云&lt;/a>申请消息队列并创建消息TOPIC、Producer和Consumer&lt;/li>
 &lt;/ul>
@@ -9742,8 +9637,7 @@ spring.rocketmq.consumerId=订阅者
  &amp;#34;type&amp;#34;:&amp;#34;ORDER&amp;#34;
 }
 &lt;/code>&lt;/pre>&lt;p>&lt;strong>延时消息 Body&lt;/strong>&lt;/p></description></item><item><title>Windows Server搭建Shadowsocks服务器</title><link>https://blog.hellowood.dev/posts/windows-server%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 12:18:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/windows-server%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>在Windows Server 下搭建Shadowsocks，使用最简单的方式搭建&lt;/p>
-&lt;/blockquote>
+&lt;p>在Windows Server 下搭建Shadowsocks，使用最简单的方式搭建&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-下载shadowsocks程序">1. 下载Shadowsocks程序&lt;/h2>
 &lt;p>下载并解压Shadowsocks文件&lt;a href="https://github.com/shadowsocks/libQtShadowsocks/releases">https://github.com/shadowsocks/libQtShadowsocks/releases&lt;/a>&lt;/p>
 &lt;h2 id="2-添加configjson配置文件">2. 添加config.json配置文件&lt;/h2>
@@ -9770,8 +9664,7 @@ spring.rocketmq.consumerId=订阅者
 &lt;pre tabindex="0">&lt;code> @echo off
  shadowsocks-libqss.exe -c config.json -S
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>配置完成，在客户端配置后就可以使用了&lt;/p>
-&lt;/blockquote>
+&lt;p>配置完成，在客户端配置后就可以使用了&lt;/p>&lt;/blockquote>
 &lt;p>下载配置文件&lt;/p>
 &lt;ul>
 &lt;li>参考链接：
@@ -9781,13 +9674,11 @@ spring.rocketmq.consumerId=订阅者
 &lt;/ul>
 &lt;/li>
 &lt;/ul></description></item><item><title>Spring Boot Admin 管理应用-客户端注册</title><link>https://blog.hellowood.dev/posts/spring-boot-admin-%E7%AE%A1%E7%90%86%E5%BA%94%E7%94%A8-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B3%A8%E5%86%8C/</link><pubDate>Mon, 01 Jan 2018 12:15:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-admin-%E7%AE%A1%E7%90%86%E5%BA%94%E7%94%A8-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B3%A8%E5%86%8C/</guid><description>&lt;blockquote>
-&lt;p>客户端注册可以通过直接注册到管理应用和通过注册中心注册两种方式&lt;/p>
-&lt;/blockquote>
+&lt;p>客户端注册可以通过直接注册到管理应用和通过注册中心注册两种方式&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="直接注册到管理应用">直接注册到管理应用&lt;/h2>
 &lt;blockquote>
-&lt;p>直接注册到管理应用只需要一个Server和一个Client就可以，Client配置admin Server地址就可以实现管理&lt;/p>
-&lt;/blockquote>
+&lt;p>直接注册到管理应用只需要一个Server和一个Client就可以，Client配置admin Server地址就可以实现管理&lt;/p>&lt;/blockquote>
 &lt;h4 id="配置管理应用server">配置管理应用Server&lt;/h4>
 &lt;h4 id="修改客户端应用">修改客户端应用&lt;/h4>
 &lt;ol>
@@ -9802,11 +9693,9 @@ spring.rocketmq.consumerId=订阅者
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;h2 id="通过注册中心注册">通过注册中心注册&lt;/h2>
 &lt;blockquote>
-&lt;p>通过注册中心注册可以用于大量应用的管理，通过一个注册中心来管理注册，客户端和管理应用通过注册中心实现管理&lt;/p>
-&lt;/blockquote>
+&lt;p>通过注册中心注册可以用于大量应用的管理，通过一个注册中心来管理注册，客户端和管理应用通过注册中心实现管理&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>使用Spring Cloud Eureka作为注册中心，需要一个Eureka服务应用，一个Admin Server应用和一个被管理的客户端应用&lt;/p>
-&lt;/blockquote>
+&lt;p>使用Spring Cloud Eureka作为注册中心，需要一个Eureka服务应用，一个Admin Server应用和一个被管理的客户端应用&lt;/p>&lt;/blockquote>
 &lt;h4 id="配置eureka">配置Eureka&lt;/h4>
 &lt;h4 id="配置admin-server">配置Admin Server&lt;/h4>
 &lt;h4 id="配置client">配置Client&lt;/h4>
@@ -9834,8 +9723,7 @@ public class Application {
  }
 }
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装配置 Jenkins</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-jenkins/</link><pubDate>Mon, 01 Jan 2018 12:12:32 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-jenkins/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 下 Jenkins 服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 下 Jenkins 服务&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-安装">1. 安装&lt;/h2>
 &lt;ul>
 &lt;li>安装前确认JDK环境配置是正确的&lt;/li>
@@ -9848,8 +9736,7 @@ sudo apt-get install jenkins
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>等待安装完成，如果默认的8080端口没有被占用，则会自动启动 Jenkins 服务， 如果有其他程序占用了 8080 端口，则 Jenkins 会启动失败
 ##2. 更改 Jenkins 端口
-需要更改两个文件&lt;/p>
-&lt;/blockquote>
+需要更改两个文件&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>修改&lt;code>/etc/default/jenkins&lt;/code>文件，将 &lt;code>HTTP_PORT=8080&lt;/code>更改为你需要的端口&lt;/li>
 &lt;li>修改&lt;code>/etc/init.d/jenkins&lt;/code>文件，将&lt;code>do_start&lt;/code>函数的&lt;code>check_tcp_port&lt;/code>命令改为需要的端口&lt;/li>
@@ -9858,15 +9745,13 @@ sudo apt-get install jenkins
 &lt;pre tabindex="0">&lt;code>sudo /etc/init.d/jenkins start
 &lt;/code>&lt;/pre>&lt;p>##4. 访问并配置&lt;/p>
 &lt;blockquote>
-&lt;p>访问 Jenkins 的地址，会要求填写 Jenkins 的密码，该密码可以在&lt;code>/var/log/jenkins/jenkins.log&lt;/code>中找到&lt;/p>
-&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;hr>
+&lt;p>访问 Jenkins 的地址，会要求填写 Jenkins 的密码，该密码可以在&lt;code>/var/log/jenkins/jenkins.log&lt;/code>中找到&lt;/p>&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;hr>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>1 创建文件夹&lt;/p>
 &lt;pre tabindex="0">&lt;code>mkdir java
 &lt;/code>&lt;/pre>&lt;p>2 下载JDK&lt;/p>
 &lt;blockquote>
-&lt;p>JDK 下载地址&lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>JDK 下载地址&lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>wget --no-check-certificate --no-cookies --header &amp;#34;Cookie: oraclelicense=accept-securebackup-cookie&amp;#34; http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
 &lt;/code>&lt;/pre>&lt;p>3 解压&lt;/p>
 &lt;pre tabindex="0">&lt;code> tar -zxvf jdk-8u144-linux-x64.tar.gz
@@ -9900,8 +9785,7 @@ which java （java执行路径）
 echo $JAVA_HOME
 echo $PATH
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装 Nginx</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</link><pubDate>Mon, 01 Jan 2018 12:10:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 上安装 Nginx&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 上安装 Nginx&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
 &lt;li>安装&lt;/li>
@@ -9973,8 +9857,7 @@ echo $PATH
  // 重启
  sudo /etc/init.d/nginx restart
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装 Redis -编译方式安装</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-redis-%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 01 Jan 2018 12:09:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-redis-%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;blockquote>
-&lt;p>使用 &lt;code>sudo apt install redis-server&lt;/code>安装的 Redis 并不是最新的，通过在官网下载来安装最新的 Redis&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 &lt;code>sudo apt install redis-server&lt;/code>安装的 Redis 并不是最新的，通过在官网下载来安装最新的 Redis&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-创建文件夹">1 创建文件夹&lt;/h2>
 &lt;pre tabindex="0">&lt;code>mkdir redis
 &lt;/code>&lt;/pre>&lt;h2 id="2-下载-redis">2 下载 Redis&lt;/h2>
@@ -10000,8 +9883,7 @@ requirepass your_password
 &lt;/code>&lt;/pre>&lt;h2 id="6-启动">6 启动&lt;/h2>
 &lt;pre tabindex="0">&lt;code>redis-server ./redis-4.0.1/redis.conf
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu搭建Redis服务器</title><link>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAredis%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 12:08:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAredis%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>在Ubuntu中搭建Redis服务器&lt;/p>
-&lt;/blockquote>
+&lt;p>在Ubuntu中搭建Redis服务器&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>###1 安装&lt;/p>
 &lt;pre tabindex="0">&lt;code>sudo apt-get install redis-server
@@ -10034,32 +9916,27 @@ requirepass your_password
 5617:M 18 Sep 12:57:10.438 * DB loaded from disk: 0.000 seconds
 5617:M 18 Sep 12:57:10.438 * The server is now ready to accept connections on port 6379
 &lt;/code>&lt;/pre>&lt;p>###3 启动客户端&lt;/p></description></item><item><title>Redis基础知识-数据类型</title><link>https://blog.hellowood.dev/posts/redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link><pubDate>Mon, 01 Jan 2018 12:07:03 +0800</pubDate><guid>https://blog.hellowood.dev/posts/redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid><description>&lt;blockquote>
-&lt;p>Redis支持5种数据类型：字符串（string），哈希（hash），列表（list），集合（set），有序集合（sorted set）&lt;/p>
-&lt;/blockquote>
+&lt;p>Redis支持5种数据类型：字符串（string），哈希（hash），列表（list），集合（set），有序集合（sorted set）&lt;/p>&lt;/blockquote>
 &lt;h2 id="字符串string">字符串（string）&lt;/h2>
 &lt;blockquote>
-&lt;p>string 是 Redis最基本的类型，一个key对应一个value，string可以包含任何数据，比如jpg图片或者序列化的对象，string是Redis最基本的类型，一个键最大能存储512MB&lt;/p>
-&lt;/blockquote>
+&lt;p>string 是 Redis最基本的类型，一个key对应一个value，string可以包含任何数据，比如jpg图片或者序列化的对象，string是Redis最基本的类型，一个键最大能存储512MB&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>保存：SET key value
 读取：get key
 &lt;/code>&lt;/pre>&lt;h2 id="哈希hash">哈希（Hash）&lt;/h2>
 &lt;blockquote>
-&lt;p>Hash 是一个键名对集合，Hash是一个string类型的field和value的映射表，Hash特备适合存储对象&lt;/p>
-&lt;/blockquote>
+&lt;p>Hash 是一个键名对集合，Hash是一个string类型的field和value的映射表，Hash特备适合存储对象&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>保存：hmset key value1 value2 value3
 读取：hgetall key
 &lt;/code>&lt;/pre>&lt;h2 id="列表list">列表（List）&lt;/h2>
 &lt;blockquote>
-&lt;p>列表是简单的字符串列表，按照插入顺序排序，可以将元素添加到头部（左边）或尾部（右边）&lt;/p>
-&lt;/blockquote>
+&lt;p>列表是简单的字符串列表，按照插入顺序排序，可以将元素添加到头部（左边）或尾部（右边）&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>保存：
  lpush key value1 value2
  lpush key value3
 读取：lrange key 0 10
 &lt;/code>&lt;/pre>&lt;h2 id="集合set">集合（Set）&lt;/h2>
 &lt;blockquote>
-&lt;p>Redis 的set是string类型的无序集合，集合是通过哈希表实现，添加、删除、查找的复杂度都是O(1)&lt;/p>
-&lt;/blockquote>
+&lt;p>Redis 的set是string类型的无序集合，集合是通过哈希表实现，添加、删除、查找的复杂度都是O(1)&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>保存：
  sadd key value1
  sadd key value2
@@ -10067,16 +9944,14 @@ requirepass your_password
 读取：smembers key
 &lt;/code>&lt;/pre>&lt;h2 id="有序集合sort-set">有序集合（Sort Set）&lt;/h2>
 &lt;blockquote>
-&lt;p>Redis ZSet和set一样也是string类型元素的集合，且不允许重复的成员，不同的是每个元素都会关联一个double类型的分数，Redis通过这个分数来为集合中的成员进行从小到大的排序，zset的成员是唯一的，但分数（score）可以重复&lt;/p>
-&lt;/blockquote>
+&lt;p>Redis ZSet和set一样也是string类型元素的集合，且不允许重复的成员，不同的是每个元素都会关联一个double类型的分数，Redis通过这个分数来为集合中的成员进行从小到大的排序，zset的成员是唯一的，但分数（score）可以重复&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code class="language-:" data-lang=":">保存：
  zadd key score1 value1
  zadd key score2 value2
  zadd key score3 value3
 读取：zrangebyscore key 0 10
 &lt;/code>&lt;/pre></description></item><item><title>AngularJS配置Router(路由)提示Controller NaNunction/undefined错误</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 12:05:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
-&lt;p>在配置Angular 路由的时候，和以往一样使用如下配置：&lt;/p>
-&lt;/blockquote>
+&lt;p>在配置Angular 路由的时候，和以往一样使用如下配置：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>router.js&lt;/li>
 &lt;/ul>
@@ -10111,8 +9986,7 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
  console.log(&amp;#34;dashboardController&amp;#34;);
 });
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>但是提示错误：&lt;/p>
-&lt;/blockquote>
+&lt;p>但是提示错误：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>angular.min.js:118 Error: [ng:areq] http://errors.angularjs.org/1.5.8/ng/areq?p0=dashboardController&amp;amp;p1=not%20aNaNunction%2C%20got%20undefined
  at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:6:412
  at sb (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:23:18)
@@ -10127,12 +10001,10 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;blockquote>
 &lt;p>原因是因为直接写controller无法识别，所有需要使用register来注册该controller&lt;/p></description></item><item><title>AngularJS 配置路由</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</link><pubDate>Mon, 01 Jan 2018 12:04:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
-&lt;p>在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示&lt;/p>&lt;/blockquote>
 &lt;p>&lt;img src="http://img.blog.csdn.net/20170523210031963?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="控制面板">&lt;/p>
 &lt;blockquote>
-&lt;p>该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动&lt;/p>
-&lt;/blockquote>
+&lt;p>该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;p>##&lt;a href="http://download.csdn.net/detail/u013360850/9850266">项目下载&lt;/a> | &lt;a href="https://github.com/helloworlde/AngularRouter">GitHub下载&lt;/a> | &lt;a href="http://119.29.99.89/AngularRouter/pages/admin/index.html">演示地址&lt;/a> | &lt;a href="https://helloworlde.github.io/AngularRouter">GitHub演示地址&lt;/a>&lt;/p>
 &lt;hr>
@@ -10258,8 +10130,7 @@ http {
  }
 }
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>访问&lt;code>project.hellowood.com&lt;/code> 实际会访问该 IP 下的8080端口&lt;/p>
-&lt;/blockquote>
+&lt;p>访问&lt;code>project.hellowood.com&lt;/code> 实际会访问该 IP 下的8080端口&lt;/p>&lt;/blockquote>
 &lt;h2 id="2-不同的-url-访问不同的服务器">2. 不同的 URL 访问不同的服务器&lt;/h2>
 &lt;ul>
 &lt;li>配置 Server 节点&lt;/li>
@@ -10324,13 +10195,11 @@ http {
 &lt;p>访问&lt;code>project.hellowood.com&lt;/code> 实际会访问该 IP 下的8080端口
 访问&lt;code>introduce.hellowood.com&lt;/code> 实际会访问该 IP 下的8081端口
 访问&lt;code>helloworld.com&lt;/code> 实际会访问该 IP 下的8082端口&lt;/p></description></item><item><title>Tomcat9 配置HTTPS连接</title><link>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</link><pubDate>Mon, 01 Jan 2018 12:01:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</guid><description>&lt;blockquote>
-&lt;p>Tomcat中配置HTTPS连接可以分为两步：1. 生成证书&lt;/p>
-&lt;/blockquote>
+&lt;p>Tomcat中配置HTTPS连接可以分为两步：1. 生成证书&lt;/p>&lt;/blockquote>
 &lt;pre>&lt;code> 2. 配置Tomcat
 &lt;/code>&lt;/pre>
 &lt;blockquote>
-&lt;p>准备工作&lt;/p>
-&lt;/blockquote>
+&lt;p>准备工作&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>JDK&lt;/li>
 &lt;li>Tomcat&lt;/li>
@@ -10338,8 +10207,7 @@ http {
 &lt;hr>
 &lt;h1 id="1-生成证书">1. 生成证书&lt;/h1>
 &lt;blockquote>
-&lt;p>证书可以使用Java来生成&lt;/p>
-&lt;/blockquote>
+&lt;p>证书可以使用Java来生成&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>直接使用命令生成证书&lt;/li>
 &lt;/ul>
@@ -10347,8 +10215,7 @@ http {
 &lt;/code>&lt;/pre>&lt;p>&lt;img src="http://img.blog.csdn.net/20170424210011905?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="生成Keystore">&lt;/p>
 &lt;blockquote>
 &lt;p>这样就会在&lt;code>F:\&lt;/code>下生成一个&lt;code>tomcat.keystore&lt;/code> 文件
-密码在配置tomcat的时候会用到&lt;/p>
-&lt;/blockquote>
+密码在配置tomcat的时候会用到&lt;/p>&lt;/blockquote>
 &lt;h1 id="2-配置tomcat">2. 配置Tomcat&lt;/h1>
 &lt;ul>
 &lt;li>修改&lt;code>TOMCAT_HOME\conf\server.xml&lt;/code>文件，将以下内容粘贴到Tomcat配置文件中&lt;/li>
@@ -10368,27 +10235,22 @@ http {
 &lt;/ul>
 &lt;hr>
 &lt;blockquote>
-&lt;p>需要注意在配置文件有三种不同的实现方式&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意在配置文件有三种不同的实现方式&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code> - JSSE （作为Java运行部分）
  - JSSE （使用OpenSSL）
  - APR （使用OpenSSL）
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>这三种方式对应的配置文件并不一样，需要特别注意&lt;/p>
-&lt;/blockquote>
+&lt;p>这三种方式对应的配置文件并不一样，需要特别注意&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>另外&lt;code>protocol&lt;/code>如果写成&lt;code>HTTP/1.1&lt;/code>也会报错，应当使用以下三个中的一个，当使用APR的时候需要从&lt;a href="http://tomcat.apache.org/tomcat-7.0-doc/apr.html">下载&lt;code>tcnative-1.dll&lt;/code>&lt;/a>放到Tomcat的bin目录下，否则会报错&lt;/p>
-&lt;/blockquote>
+&lt;p>另外&lt;code>protocol&lt;/code>如果写成&lt;code>HTTP/1.1&lt;/code>也会报错，应当使用以下三个中的一个，当使用APR的时候需要从&lt;a href="http://tomcat.apache.org/tomcat-7.0-doc/apr.html">下载&lt;code>tcnative-1.dll&lt;/code>&lt;/a>放到Tomcat的bin目录下，否则会报错&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>org.apache.coyote.http11.Http11NioProtocol
 org.apache.coyote.http11.Http11Nio2Protocol
 org.apache.coyote.http11.Http11AprProtocol
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>这里的配置是第一种方式，也是最简单的方式&lt;/p>
-&lt;/blockquote>
+&lt;p>这里的配置是第一种方式，也是最简单的方式&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;p>详细配置请看官方文档 &lt;a href="http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html">http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html&lt;/a>&lt;/p></description></item><item><title>Windows下配置Chrome WebDriver</title><link>https://blog.hellowood.dev/posts/windows%E4%B8%8B%E9%85%8D%E7%BD%AEchrome-webdriver/</link><pubDate>Mon, 01 Jan 2018 11:59:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/windows%E4%B8%8B%E9%85%8D%E7%BD%AEchrome-webdriver/</guid><description>&lt;blockquote>
-&lt;p>WebDriver多用来执行自动化测试，可以通过Java文件或者其他方式在测试的时候打开，Firefox的自带了WebDriver，但是Chrome没有，需要手动安装&lt;/p>
-&lt;/blockquote>
+&lt;p>WebDriver多用来执行自动化测试，可以通过Java文件或者其他方式在测试的时候打开，Firefox的自带了WebDriver，但是Chrome没有，需要手动安装&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;ul>
 &lt;li>首先下载&lt;a href="https://sites.google.com/a/chromium.org/chromedriver/downloads">Chrome的WebDriver&lt;/a>&lt;/li>
@@ -10416,8 +10278,7 @@ org.apache.coyote.http11.Http11AprProtocol
 &lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>需要注意版本要一致，高版本的不支持这种方法，会出错&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意版本要一致，高版本的不支持这种方法，会出错&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;ul>
 &lt;li>将需要弹出的模态框的内容写在 script 标签中，指明属性，放在页面中&lt;/li>
@@ -10552,18 +10413,15 @@ app.controller(&amp;#39;modalCtrl&amp;#39;, function($scope, $modalInstance, dat
 &lt;/code>&lt;/pre></description></item><item><title>AngularJS 中ngTable自定义/重写过滤器</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 11:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</guid><description>&lt;blockquote>
 &lt;ul>
 &lt;li>在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>text:根据字符匹配，如果被过滤的值有该字符，则显示该记录&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;ul>
 &lt;li>
 &lt;p>number:根据数值进行匹配，如果数值相等，则显示该记录&lt;/p>
@@ -10783,8 +10641,7 @@ date:&amp;#39;yyyy-MM-dd&amp;#39;}}
 
  }
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>把&lt;code>request header&lt;/code>部分的 &lt;code>Accept-Encoding&lt;/code>的值，绑定到参数&lt;code>encoding&lt;/code>上了， &lt;code>Keep-Alive header&lt;/code>的值绑定到参数&lt;code>keepAlive&lt;/code>上。&lt;/p>
-&lt;/blockquote>
+&lt;p>把&lt;code>request header&lt;/code>部分的 &lt;code>Accept-Encoding&lt;/code>的值，绑定到参数&lt;code>encoding&lt;/code>上了， &lt;code>Keep-Alive header&lt;/code>的值绑定到参数&lt;code>keepAlive&lt;/code>上。&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;p>##@CookieValue&lt;/p>
 &lt;ul>
@@ -10798,17 +10655,13 @@ public void displayHeaderInfo(@CookieValue(&amp;#34;JSESSIONID&amp;#34;) String 
 }
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;p>##@RequestBody&lt;/p></description></item><item><title>Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:51:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka">本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2>
-&lt;/blockquote>
+&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka">本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p>
-&lt;/blockquote>
+&lt;p>因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47">http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47">http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置">配置&lt;/h2>
 &lt;ul>
 &lt;li>修改配置文件，添加以下内容&lt;/li>
@@ -10821,8 +10674,7 @@ public void displayHeaderInfo(@CookieValue(&amp;#34;JSESSIONID&amp;#34;) String 
 &lt;li>当 Client 加入了&lt;code>spring.boot.admin.client.prefer-ip=true&lt;/code>的时候会以所得到的 IP 注册，此时 IP 为内网 IP，如果部署到服务器上将会无法注册&lt;/li>
 &lt;li>当 Client 配置为&lt;code>spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}&lt;/code>时将会以所配置的地址进行注册&lt;/li>
 &lt;/ul></description></item><item><title>Spring MVC简单实现国际化/多语言</title><link>https://blog.hellowood.dev/posts/spring-mvc%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96-%E5%A4%9A%E8%AF%AD%E8%A8%80/</link><pubDate>Mon, 01 Jan 2018 11:48:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96-%E5%A4%9A%E8%AF%AD%E8%A8%80/</guid><description>&lt;blockquote>
-&lt;p>SpringMVC 可以通过Spring框架来实现多语言&lt;/p>
-&lt;/blockquote>
+&lt;p>SpringMVC 可以通过Spring框架来实现多语言&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-创建springmvc项目">1. 创建SpringMVC项目&lt;/h2>
 &lt;ul>
 &lt;li>配置web.xml&lt;/li>
@@ -10938,30 +10790,25 @@ public class HelloController {
 &lt;li>在JSP页面中使用
 &lt;blockquote>
 &lt;p>通过&lt;code>&amp;lt;spring:message code=&amp;quot;welcome&amp;quot;/&amp;gt;&lt;/code>将配置文件中的内容读取&lt;/p></description></item><item><title>SpringBoot中Junit测试注入Bean失败的解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:46:57 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E4%B8%ADjunit%E6%B5%8B%E8%AF%95%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：&lt;/p>
-&lt;/blockquote>
+&lt;p>在SpringBoot中使用Junit做测试的时候测试DAO层的接口，但是一直提示注入Bean失败，报以下错误：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &amp;#39;hellowood.TestFeedbackMapper&amp;#39;: Unsatisfied dependency expressed through field &amp;#39;feedbackDetailMapper&amp;#39;; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type &amp;#39;hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper&amp;#39; available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>在查询了其他项目的Junit后发现Junit的注解是这样的&lt;/p>
-&lt;/blockquote>
+&lt;p>在查询了其他项目的Junit后发现Junit的注解是这样的&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>@RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>而新建的项目中是这样的&lt;/p>
-&lt;/blockquote>
+&lt;p>而新建的项目中是这样的&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>@RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>直接修改注解后发现不能引入&lt;code>SpringApplicationConfiguration&lt;/code>，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用&lt;code>SpringBootTest&lt;/code>代替了&lt;code>SpringApplicationConfiguration&lt;/code>，所以将注解改为以下形式就可以正常注入Bean了&lt;/p>
-&lt;/blockquote>
+&lt;p>直接修改注解后发现不能引入&lt;code>SpringApplicationConfiguration&lt;/code>，而所有的依赖只是版本不一样，查阅了Spring官方文档后发现新版中用&lt;code>SpringBootTest&lt;/code>代替了&lt;code>SpringApplicationConfiguration&lt;/code>，所以将注解改为以下形式就可以正常注入Bean了&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 &lt;/code>&lt;/pre></description></item><item><title>AngularJS中使用ngTable</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</link><pubDate>Mon, 01 Jan 2018 11:42:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</guid><description>&lt;blockquote>
-&lt;p>在HTML中使用&lt;a href="http://ng-table.com/">ngTable&lt;/a> 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作&lt;/p>
-&lt;/blockquote>
+&lt;p>在HTML中使用&lt;a href="http://ng-table.com/">ngTable&lt;/a> 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>需要引用的文件
 &lt;ul>
@@ -11147,10 +10994,8 @@ app.controller(&amp;#39;controller&amp;#39;, function($scope,NgTableParams) {
 &lt;p>从GitHub下载文件一直非常慢，查看下载链接发现最终被指向了Amazon的服务器，下载地址是&lt;a href="http://github-cloud.s3.amazonaws.com/">http://github-cloud.s3.amazonaws.com/&lt;/a>，从国内访问Amazon非常慢，所以总是下载失败，解决方法时更改host文件，使该域名指向香港的服务器：&lt;/p>
 &lt;h2 id="更改hosts文件">更改hosts文件：&lt;/h2>
 &lt;p>更改&lt;code>C:\Windows\System32\drivers\etc\hosts&lt;/code>文件，在文件中追加
-&lt;code>219.76.4.4 github-cloud.s3.amazonaws.com&lt;/code>, 将域名指向该IP即可&lt;/p>
-&lt;/blockquote></description></item><item><title>Gauge中执行数据库测试</title><link>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/</link><pubDate>Mon, 01 Jan 2018 11:34:11 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/</guid><description>&lt;blockquote>
-&lt;p>使用Gauge对数据库的增删改查进行测试&lt;/p>
-&lt;/blockquote>
+&lt;code>219.76.4.4 github-cloud.s3.amazonaws.com&lt;/code>, 将域名指向该IP即可&lt;/p>&lt;/blockquote></description></item><item><title>Gauge中执行数据库测试</title><link>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/</link><pubDate>Mon, 01 Jan 2018 11:34:11 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/</guid><description>&lt;blockquote>
+&lt;p>使用Gauge对数据库的增删改查进行测试&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="打开数据库连接">打开数据库连接&lt;/h2>
 &lt;ul>
@@ -11318,8 +11163,7 @@ app.controller(&amp;#39;controller&amp;#39;, function($scope,NgTableParams) {
 &lt;li>使用了&lt;a href="https://dev.mysql.com/downloads/file/?id=465644">MySQL驱动&lt;/a>&lt;/li>
 &lt;li>&lt;a href="http://download.csdn.net/detail/u013360850/9760640">下载项目&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>Gauge中执行Http请求测试</title><link>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8Chttp%E8%AF%B7%E6%B1%82%E6%B5%8B%E8%AF%95/</link><pubDate>Mon, 01 Jan 2018 11:33:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8Chttp%E8%AF%B7%E6%B1%82%E6%B5%8B%E8%AF%95/</guid><description>&lt;blockquote>
-&lt;p>通过Gauge执行自动化测试，测试Http请求&lt;/p>
-&lt;/blockquote>
+&lt;p>通过Gauge执行自动化测试，测试Http请求&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>通过Java发送Http 请求来测试服务器请求执行状态&lt;/li>
 &lt;/ul>
@@ -11437,13 +11281,11 @@ gauge {
 &lt;/ul></description></item><item><title>Gauge中执行钩子(Hook)</title><link>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E9%92%A9%E5%AD%90-hook/</link><pubDate>Mon, 01 Jan 2018 11:31:40 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gauge%E4%B8%AD%E6%89%A7%E8%A1%8C%E9%92%A9%E5%AD%90-hook/</guid><description>&lt;p>本文所有内容均参考自&lt;a href="http://getgauge.io/documentation/user/current/language_features/execution_hooks.html">Gauge官方文档&lt;/a>&lt;/p>
 &lt;hr>
 &lt;blockquote>
-&lt;p>钩子可以理解为&lt;code>Java&lt;/code>中的&lt;code>AOP(Aspect Oriented Programming)&lt;/code>，把&lt;code>Specification&lt;/code>或&lt;code>Scenario&lt;/code>当做一个切面，在执行之前和执行之后做一些操作&lt;/p>
-&lt;/blockquote>
+&lt;p>钩子可以理解为&lt;code>Java&lt;/code>中的&lt;code>AOP(Aspect Oriented Programming)&lt;/code>，把&lt;code>Specification&lt;/code>或&lt;code>Scenario&lt;/code>当做一个切面，在执行之前和执行之后做一些操作&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="suit-hook">Suit Hook&lt;/h2>
 &lt;blockquote>
-&lt;p>作用于所有的&lt;code>Specification&lt;/code>，在&lt;code>Specification&lt;/code>执行之前或执行之后执行&lt;/p>
-&lt;/blockquote>
+&lt;p>作用于所有的&lt;code>Specification&lt;/code>，在&lt;code>Specification&lt;/code>执行之前或执行之后执行&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code> //在所有的Specification执行之前执行
  @BeforeSuite
  public void BeforeSuite() {
@@ -11458,8 +11300,7 @@ gauge {
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;p>##Specification Hook&lt;/p>
 &lt;blockquote>
-&lt;p>作用于&lt;code>Specification&lt;/code>，可以在某个&lt;code>Specification&lt;/code>执行之前或执行之后执行&lt;/p>
-&lt;/blockquote>
+&lt;p>作用于&lt;code>Specification&lt;/code>，可以在某个&lt;code>Specification&lt;/code>执行之前或执行之后执行&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code> //在每一个Specification执行之前执行
  @BeforeSpec
  public void BeforeSpec() {
@@ -11474,8 +11315,7 @@ gauge {
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;p>##Scenario Hook&lt;/p>
 &lt;blockquote>
-&lt;p>作用于&lt;code>Scenario&lt;/code> ，可以在某个&lt;code>Scenario&lt;/code> 执行之前或执行之后执行&lt;/p>
-&lt;/blockquote>
+&lt;p>作用于&lt;code>Scenario&lt;/code> ，可以在某个&lt;code>Scenario&lt;/code> 执行之前或执行之后执行&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code> //在每一个Scenario 执行之前执行
  @BeforeScenario
  public void BeforeScenario() {
@@ -11492,8 +11332,7 @@ gauge {
 &lt;hr>
 &lt;p>#初始化&lt;code>Java&lt;/code>项目&lt;/p>
 &lt;blockquote>
-&lt;p>会在指定的文件夹下创建一个新的&lt;code>Gauge&lt;/code>项目，如果没有安装&lt;code>Java&lt;/code>和&lt;code>Html-report&lt;/code>插件会自动安装&lt;/p>
-&lt;/blockquote>
+&lt;p>会在指定的文件夹下创建一个新的&lt;code>Gauge&lt;/code>项目，如果没有安装&lt;code>Java&lt;/code>和&lt;code>Html-report&lt;/code>插件会自动安装&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code> gauge --init java
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;h2 id="通过文件执行">通过文件执行&lt;/h2>
@@ -11518,8 +11357,7 @@ gauge {
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code> gauge specs/specs.spec:16
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>后面的数字是要执行的&lt;code>Scenario&lt;/code>所在的行数，从0开始&lt;/p>
-&lt;/blockquote>
+&lt;p>后面的数字是要执行的&lt;code>Scenario&lt;/code>所在的行数，从0开始&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>执行多个特定的&lt;code>Scenario&lt;/code>&lt;/li>
 &lt;/ul>
@@ -11601,16 +11439,14 @@ gauge {
 &lt;hr>
 &lt;blockquote>
 &lt;p>#基本思想
-&lt;code>Gauge&lt;/code>入门比较简单，&lt;code>Gauge&lt;/code>的基本思想就是通过&lt;code>.spec&lt;/code> 或者&lt;code>.md&lt;/code> 文件，使用&lt;code>MarkDown&lt;/code>语法去规定执行的动作，然后由&lt;code>Java&lt;/code>或者其他语言的文件去按照所写的&lt;code>.spec&lt;/code> 或者&lt;code>.md&lt;/code> 文件的顺序去执行&lt;code>Java&lt;/code>文件，从而达到测试的目的&lt;/p>
-&lt;/blockquote>
+&lt;code>Gauge&lt;/code>入门比较简单，&lt;code>Gauge&lt;/code>的基本思想就是通过&lt;code>.spec&lt;/code> 或者&lt;code>.md&lt;/code> 文件，使用&lt;code>MarkDown&lt;/code>语法去规定执行的动作，然后由&lt;code>Java&lt;/code>或者其他语言的文件去按照所写的&lt;code>.spec&lt;/code> 或者&lt;code>.md&lt;/code> 文件的顺序去执行&lt;code>Java&lt;/code>文件，从而达到测试的目的&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;hr>
 &lt;h2 id="specification">Specification&lt;/h2>
 &lt;blockquote>
 &lt;ul>
 &lt;li>作用：开始标志，只能有一个，每个Specification至少包含一个Scenario&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Specification name
 ==================
 
@@ -11622,8 +11458,7 @@ gauge {
 &lt;blockquote>
 &lt;ul>
 &lt;li>作用：特定的场景中的一个情节，一个或多个Scenario组成一个Specification，每个Scenario至少包含一个Step&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Scenario name
 -------------
 
@@ -11633,30 +11468,26 @@ gauge {
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;h2 id="step">Step&lt;/h2>
 &lt;blockquote>
-&lt;p>作用：Specification的可执行部分&lt;/p>
-&lt;/blockquote>
+&lt;p>作用：Specification的可执行部分&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>* Step Name
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;ul>
 &lt;li>一般Step&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;pre>&lt;code>- 正常执行的Step，包含在Scenario中
 &lt;/code>&lt;/pre>
 &lt;pre tabindex="0">&lt;code> * step
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;ul>
 &lt;li>Context Step&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;pre>&lt;code> - 在Scenario执行之前执行的操作，在每个Scenario执行之前都会先执行Context Step
 &lt;/code>&lt;/pre>
 &lt;pre tabindex="0">&lt;code> * Context step
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;ul>
 &lt;li>Teardown Step&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;pre>&lt;code> - 在Scenario执行之后执行的操作，在每个Scenario执行之后都会执行 Teardown Step
  -用半角下划线标识，不是横线
 
@@ -11690,8 +11521,7 @@ gauge {
  * Delete user &amp;#34;mike&amp;#34;
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>执行步骤：&lt;/p></description></item><item><title>在IDEA中配置Gauge环境</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8idea%E4%B8%AD%E9%85%8D%E7%BD%AEgauge%E7%8E%AF%E5%A2%83/</link><pubDate>Mon, 01 Jan 2018 11:28:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8idea%E4%B8%AD%E9%85%8D%E7%BD%AEgauge%E7%8E%AF%E5%A2%83/</guid><description>&lt;blockquote>
-&lt;h3 id="gaugehttpgetgaugeio是一个自动化测试工具主要是通过spec-文件指定执行的步骤然后由java代码去测试">&lt;a href="http://getgauge.io">Gauge&lt;/a>是一个自动化测试工具，主要是通过.spec 文件指定执行的步骤，然后由Java代码去测试&lt;/h3>
-&lt;/blockquote>
+&lt;h3 id="gauge是一个自动化测试工具主要是通过spec-文件指定执行的步骤然后由java代码去测试">&lt;a href="http://getgauge.io">Gauge&lt;/a>是一个自动化测试工具，主要是通过.spec 文件指定执行的步骤，然后由Java代码去测试&lt;/h3>&lt;/blockquote>
 &lt;ul>
 &lt;li>首先，&lt;a href="http://getgauge.io/get-started/index.html">下载&lt;/a>安装Gauge&lt;/li>
 &lt;li>安装后通过&lt;code>cmd&lt;/code>运行&lt;code>guage -v&lt;/code> 来确认Gauge安装成功
@@ -11731,8 +11561,7 @@ gauge {
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e"> A problem occurred evaluating root project &amp;#39;Gauge&amp;#39;.
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e"> &amp;gt; Could not find property &amp;#39;GaugeTask&amp;#39; on root project &amp;#39;Gauge&amp;#39;.
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>这是因为Gradle并不能识别GaugeTask，需要写GaugeTask的限定类名：&lt;/p>
-&lt;/blockquote>
+&lt;p>这是因为Gradle并不能识别GaugeTask，需要写GaugeTask的限定类名：&lt;/p>&lt;/blockquote>
 &lt;h2 id="解决方法">解决方法&lt;/h2>
 &lt;ul>
 &lt;li>在build.gradle中添加&lt;/li>
@@ -11753,11 +11582,9 @@ gauge {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>这样就可以识别执行了&lt;/p>
-&lt;/blockquote></description></item><item><title>IDEA Maven项目导入失败，无法识别pom文件</title><link>https://blog.hellowood.dev/posts/idea-maven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E5%A4%B1%E8%B4%A5%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%ABpom%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 01 Jan 2018 11:23:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea-maven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E5%A4%B1%E8%B4%A5%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%ABpom%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="解决思路">解决思路&lt;/h2>
+&lt;p>这样就可以识别执行了&lt;/p>&lt;/blockquote></description></item><item><title>IDEA Maven项目导入失败，无法识别pom文件</title><link>https://blog.hellowood.dev/posts/idea-maven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E5%A4%B1%E8%B4%A5%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%ABpom%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 01 Jan 2018 11:23:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea-maven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E5%A4%B1%E8%B4%A5%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%ABpom%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="解决思路">解决思路&lt;/h2>
 &lt;blockquote>
-&lt;h4 id="按照以下顺序逐个检查更改host文件比价极端应该很少见">按照以下顺序逐个检查，更改host文件比价极端，应该很少见&lt;/h4>
-&lt;/blockquote>
+&lt;h4 id="按照以下顺序逐个检查更改host文件比价极端应该很少见">按照以下顺序逐个检查，更改host文件比价极端，应该很少见&lt;/h4>&lt;/blockquote>
 &lt;h4 id="1-重启idea">1. 重启IDEA&lt;/h4>
 &lt;h4 id="2-重启电脑">2. 重启电脑&lt;/h4>
 &lt;h4 id="3-重新导入项目">3. 重新导入项目&lt;/h4>
@@ -11766,35 +11593,29 @@ gauge {
 &lt;h4 id="6-检查host文件中有没有其他地址指向localhost">6. 检查host文件中有没有其他地址指向&lt;code>localhost&lt;/code>&lt;/h4>
 &lt;hr>
 &lt;blockquote>
-&lt;p>一个Maven项目，之前是可以正常使用的，没有任何问题，但是今天去Debug启动Tomcat，提示Socket被占用， 错误信息如下：&lt;/p>
-&lt;/blockquote>
+&lt;p>一个Maven项目，之前是可以正常使用的，没有任何问题，但是今天去Debug启动Tomcat，提示Socket被占用， 错误信息如下：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Error running &amp;#39;Console&amp;#39;: Unable to open debugger port (127.0.0.1:63347): jav...
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;ul>
 &lt;li>正常启动时又提示JVM的1099端口被占用，无论如何修改端口都无效&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>先看到了这个帖子&lt;a href="http://blog.csdn.net/lutinghuan/article/details/45693577">nable to open debugger port (127.0.0.1:63777): java.net.BindException &amp;ldquo;Address already in use: JVM&lt;/a>，之后重启IDEA，重启电脑，重新导入项目，最后重装IDEA依然不好用；&lt;/li>
 &lt;li>之后又觉得可能是Maven的问题，运行Maven的命令后发现Maven是正常的；&lt;/li>
 &lt;li>最后发现了&lt;a href="http://www.jianshu.com/p/fb7bddca7b1e">IntellijIDEA 无法创建Maven工程，导入已有工程无法识别pom文件&lt;/a>这篇博客，发现问题挺像的，而我确实改过host文件，&lt;strong>将内网IP指向了&lt;code>localhost&lt;/code>&lt;/strong>；改回来之后发现可以正常导入了&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>问题的原因应该就是因为改了host文件导致localhost无法正常访问，所有各种端口都不行，也导致了无法访问Maven仓库，所以IDEA无法识别项目破，pom文件&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;h3 id="host文件除了127001和1之外不要有其他的地址指向localhost">host文件除了&lt;code>127.0.0.1&lt;/code>和&lt;code>::1&lt;/code>之外不要有其他的地址指向&lt;code>localhost&lt;/code>&lt;/h3></description></item><item><title>Spring Boot Actuator 添加 Git 和 Build 信息</title><link>https://blog.hellowood.dev/posts/spring-boot-actuator-%E6%B7%BB%E5%8A%A0-git-%E5%92%8C-build-%E4%BF%A1%E6%81%AF/</link><pubDate>Mon, 01 Jan 2018 11:20:12 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-actuator-%E6%B7%BB%E5%8A%A0-git-%E5%92%8C-build-%E4%BF%A1%E6%81%AF/</guid><description>&lt;blockquote>
-&lt;p>在使用 Spring Boot Actuator 时可以通过生成 Git 和编译文件来提供信息&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Boot Actuator 时可以通过生成 Git 和编译文件来提供信息&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加-git-信息">添加 Git 信息&lt;/h2>
 &lt;ul>
 &lt;li>添加插件
 &lt;blockquote>
-&lt;p>在 build.gradle 文件中添加一下配置&lt;/p>
-&lt;/blockquote>
+&lt;p>在 build.gradle 文件中添加一下配置&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>buildscript {
@@ -11810,13 +11631,11 @@ gauge {
 
 apply plugin: &amp;#39;com.gorylenko.gradle-git-properties&amp;#39;
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>这样就会在 &lt;code> build\main\resource\&lt;/code>下生成 &lt;code>git.properties&lt;/code>文件，该文件内会包含 Git 仓库的信息&lt;/p>
-&lt;/blockquote>
+&lt;p>这样就会在 &lt;code> build\main\resource\&lt;/code>下生成 &lt;code>git.properties&lt;/code>文件，该文件内会包含 Git 仓库的信息&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>其他配置
 &lt;blockquote>
-&lt;p>build.gradle&lt;/p>
-&lt;/blockquote>
+&lt;p>build.gradle&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>
@@ -11836,30 +11655,24 @@ gitProperties {
 &lt;li>添加配置信息
 &lt;blockquote>
 &lt;p>在 build.gradle 中添加&lt;/p></description></item><item><title>Tomcat启动时一直停留在一个应用的发布的解决办法</title><link>https://blog.hellowood.dev/posts/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6%E4%B8%80%E7%9B%B4%E5%81%9C%E7%95%99%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84%E5%8F%91%E5%B8%83%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 01:05:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6%E4%B8%80%E7%9B%B4%E5%81%9C%E7%95%99%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84%E5%8F%91%E5%B8%83%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>Tomcat在启动时一直停留在某一个应用无法启动或者需要很长时间才能启动，提示&lt;code>Deploying web application directory [/home/dev/tomcat/apache-tomcat-9.0.0.M26/webapps/ROOT&lt;/code>，可以通过如下配置来加速启动&lt;/p>
-&lt;/blockquote>
+&lt;p>Tomcat在启动时一直停留在某一个应用无法启动或者需要很长时间才能启动，提示&lt;code>Deploying web application directory [/home/dev/tomcat/apache-tomcat-9.0.0.M26/webapps/ROOT&lt;/code>，可以通过如下配置来加速启动&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置">配置&lt;/h2>
 &lt;p>###修改**&lt;code>${JAVA_HOME}/jre/lib/security/java.security&lt;/code>&lt;strong>文件 ###修改&lt;/strong>&lt;code>securerandom.source=file:/dev/random&lt;/code>&lt;strong>为&lt;/strong>&lt;code>securerandom.source=file:/dev/./urandom&lt;/code>**即可&lt;/p>
 &lt;h2 id="解释">解释&lt;/h2>
 &lt;blockquote>
 &lt;p>这是因为Tomcat 7以上的版本在启动的时候会使用 &lt;code>org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom&lt;/code>类产生安全随机类&lt;code>SecureRandom&lt;/code>的实例作为会话ID
-SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成器。&lt;/p>
-&lt;/blockquote>
+SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成器。&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>在SHA1PRNG中，有一个种子产生器，它根据配置执行各种操作。&lt;/p>
-&lt;/blockquote>
+&lt;p>在SHA1PRNG中，有一个种子产生器，它根据配置执行各种操作。&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Linux中的随机数可以从两个特殊的文件中产生，一个是/dev/urandom.另外一个是/dev/random。他们产生随机数的原理是利用当前系统的熵池来计算出固定一定数量的随机比特，然后将这些比特作为字节流返回。熵池就是当前系统的环境噪音，熵指的是一个系统的混乱程度，系统噪音可以通过很多参数来评估，如内存的使用，文件的使用量，不同类型的进程数量等等。如果当前环境噪音变化的不是很剧烈或者当前环境噪音很小，比如刚开机的时候，而当前需要大量的随机比特，这时产生的随机数的随机效果就不是很好了。&lt;/p>
-&lt;/blockquote>
+&lt;p>Linux中的随机数可以从两个特殊的文件中产生，一个是/dev/urandom.另外一个是/dev/random。他们产生随机数的原理是利用当前系统的熵池来计算出固定一定数量的随机比特，然后将这些比特作为字节流返回。熵池就是当前系统的环境噪音，熵指的是一个系统的混乱程度，系统噪音可以通过很多参数来评估，如内存的使用，文件的使用量，不同类型的进程数量等等。如果当前环境噪音变化的不是很剧烈或者当前环境噪音很小，比如刚开机的时候，而当前需要大量的随机比特，这时产生的随机数的随机效果就不是很好了。&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>这就是为什么会有/dev/urandom和/dev/random这两种不同的文件，后者在不能产生新的随机数时会阻塞程序，而前者不会（ublock），当然产生的随机数效果就不太好了，这对加密解密这样的应用来说就不是一种很好的选择。/dev/random会阻塞当前的程序，直到根据熵池产生新的随机字节之后才返回，所以使用/dev/random比使用/dev/urandom产生大量随机数的速度要慢。&lt;/p>
-&lt;/blockquote>
+&lt;p>这就是为什么会有/dev/urandom和/dev/random这两种不同的文件，后者在不能产生新的随机数时会阻塞程序，而前者不会（ublock），当然产生的随机数效果就不太好了，这对加密解密这样的应用来说就不是一种很好的选择。/dev/random会阻塞当前的程序，直到根据熵池产生新的随机字节之后才返回，所以使用/dev/random比使用/dev/urandom产生大量随机数的速度要慢。&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;p>具体参考
 &lt;a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp">https://wiki.apache.org/tomcat/HowTo/FasterStartUp&lt;/a>
 &lt;a href="https://my.oschina.net/wangnian/blog/687914">https://my.oschina.net/wangnian/blog/687914&lt;/a>&lt;/p></description></item><item><title>SpringMVC 生成验证码</title><link>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</link><pubDate>Mon, 01 Jan 2018 01:04:16 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springmvc-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/</guid><description>&lt;blockquote>
-&lt;p>使用 Google kaptcha 为 SpringMVC Maven 项目生成验证码&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Google kaptcha 为 SpringMVC Maven 项目生成验证码&lt;/p>&lt;/blockquote>
 &lt;p>##1 添加依赖&lt;/p>
 &lt;pre tabindex="0">&lt;code> &amp;lt;dependency&amp;gt;
  &amp;lt;groupId&amp;gt;com.github.penggle&amp;lt;/groupId&amp;gt;
@@ -12083,8 +11896,7 @@ SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成�
  return base64Encode.encode(str.getBytes());
  }
 &lt;/code>&lt;/pre></description></item><item><title>IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServlet...</title><link>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</link><pubDate>Mon, 01 Jan 2018 01:03:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</guid><description>&lt;blockquote>
-&lt;p>导入一个&lt;code>gradle&lt;/code> 的&lt;code>Spring Boot&lt;/code>项目，在启动的时候先提示找不到&lt;code>HttpServletRequest&lt;/code>这个包，错误如下：&lt;/p>
-&lt;/blockquote>
+&lt;p>导入一个&lt;code>gradle&lt;/code> 的&lt;code>Spring Boot&lt;/code>项目，在启动的时候先提示找不到&lt;code>HttpServletRequest&lt;/code>这个包，错误如下：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Caused by: java.lang.ClassNotFoundException: javax.servlet.http.HttpServletRequest
  at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_45]
  at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_45]
@@ -12092,17 +11904,14 @@ SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成�
  at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_45]
  ... 29 common frames omitted
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>但是相应的Java代码没有报错，所以单独找了&lt;code>servlet-api.jar&lt;/code>导入，并将其添加到&lt;code>Module&lt;/code>中，但是导入后出现另一个错误：&lt;/p>
-&lt;/blockquote>
+&lt;p>但是相应的Java代码没有报错，所以单独找了&lt;code>servlet-api.jar&lt;/code>导入，并将其添加到&lt;code>Module&lt;/code>中，但是导入后出现另一个错误：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
  at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:137) ~[spring-boot-1.5.2.RELEASE.jar:1.5.2.RELEASE]
 ....
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>找了很久都没有找到解决的方法，但是使用&lt;code>gradle bootrun&lt;/code>是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p>
-&lt;/blockquote>
+&lt;p>找了很久都没有找到解决的方法，但是使用&lt;code>gradle bootrun&lt;/code>是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>看到有一篇使用&lt;code>Maven&lt;/code>也遇到该问题的帖子，对比了依赖：&lt;/p>
-&lt;/blockquote>
+&lt;p>看到有一篇使用&lt;code>Maven&lt;/code>也遇到该问题的帖子，对比了依赖：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>dependencies {
  compile(&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0&amp;#39;)
  compile(&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;)
@@ -12114,18 +11923,13 @@ SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成�
 }
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>然后将&lt;code>providedRuntime&lt;/code>改成了&lt;code>runtime&lt;/code>，重新&lt;code>build&lt;/code>启动，没有任何问题
-该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code>Gradle&lt;/code>一样做完全的&lt;code>build&lt;/code>，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p>
-&lt;/blockquote>
-&lt;blockquote>
-&lt;p>&lt;strong>&lt;code>providedCompile&lt;/code> 和 &lt;code>providedRuntime&lt;/code>。虽然它们有各自的&lt;code>compile&lt;/code> 和 &lt;code>runtime&lt;/code> 配置，但这些配置有相同的作用域，只是它们不会添加到 &lt;code>war/jar&lt;/code> 文件中&lt;/strong>。&lt;/p></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
-&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>
-&lt;/blockquote>
+该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code>Gradle&lt;/code>一样做完全的&lt;code>build&lt;/code>，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
+&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
 
 org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): ...........
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>
-&lt;/blockquote>
+&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li>
 &lt;/ul>
@@ -12140,14 +11944,12 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;img src="http://img.blog.csdn.net/20170501203402426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改后的结构">&lt;/p>
 &lt;/li>
 &lt;/ul></description></item><item><title>Gradle 使用-编译时下载依赖失败解决方法</title><link>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-%E7%BC%96%E8%AF%91%E6%97%B6%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 01:00:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-%E7%BC%96%E8%AF%91%E6%97%B6%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>如果&lt;code>Gradle&lt;/code>在编译的时候没有在本地仓库中发现依赖，就会从远程仓库中下载，默认的远程仓库为&lt;code>mavenCentral()&lt;/code>，也就是&lt;a href="http://repo1.maven.org/maven2/">http://repo1.maven.org/maven2/&lt;/a>，但是往往访问速度特别慢，不翻墙经常会下载超时或者需要很长时间导致Build失败，因此，可以用国内的仓库代替：&lt;/p>
-&lt;/blockquote>
+&lt;p>如果&lt;code>Gradle&lt;/code>在编译的时候没有在本地仓库中发现依赖，就会从远程仓库中下载，默认的远程仓库为&lt;code>mavenCentral()&lt;/code>，也就是&lt;a href="http://repo1.maven.org/maven2/">http://repo1.maven.org/maven2/&lt;/a>，但是往往访问速度特别慢，不翻墙经常会下载超时或者需要很长时间导致Build失败，因此，可以用国内的仓库代替：&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;ul>
 &lt;li>阿里的仓库地址：&lt;a href="http://maven.aliyun.com/nexus/content/groups/public/">http://maven.aliyun.com/nexus/content/groups/public/&lt;/a>&lt;/li>
 &lt;li>OSChina的仓库地址：&lt;a href="http://maven.oschina.net/content/groups/public/">http://maven.oschina.net/content/groups/public/&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="修改单独项目">修改单独项目&lt;/h2>
 &lt;p>在项目的&lt;code>build.gradle&lt;/code>文件中，修改&lt;code>repositories&lt;/code>配置
@@ -12169,8 +11971,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;ul>
 &lt;li>build.gradle文件里有两处repositories，都需要改掉&lt;/li>
 &lt;li>阿里云的速度比较快，更稳定&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="更改所有项目">更改所有项目&lt;/h2>
 &lt;p>如果想一次更改所有的仓库地址，可以在&lt;code>USER_HOME/.gradle/&lt;/code>（如&lt;code>C:\Users\hellowood\.gradle&lt;/code>）文件夹下添加&lt;code>init.gradle&lt;/code>文件来配置&lt;/p>
@@ -12197,8 +11998,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;ul>
 &lt;li>&lt;code>init.build&lt;/code>脚本可以参考&lt;a href="https://docs.gradle.org/current/userguide/init_scripts.html">https://docs.gradle.org/current/userguide/init_scripts.html&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>Ubuntu搭建Shadowsocks服务器</title><link>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 00:58:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>在Ubuntu环境中搭建Shadowsocks服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在Ubuntu环境中搭建Shadowsocks服务&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-安装shadowsocks">1. 安装Shadowsocks&lt;/h2>
 &lt;pre tabindex="0">&lt;code># 更新apt-get
 sudo apt-get update
@@ -12344,8 +12144,7 @@ public class ApplicationListenerImpl implements ApplicationListener&amp;lt;Conte
  }
 }
 &lt;/code>&lt;/pre></description></item><item><title>Spring Boot 启动时执行加载资源/执行操作</title><link>https://blog.hellowood.dev/posts/spring-boot-%E5%90%AF%E5%8A%A8%E6%97%B6%E6%89%A7%E8%A1%8C%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90-%E6%89%A7%E8%A1%8C%E6%93%8D%E4%BD%9C/</link><pubDate>Mon, 01 Jan 2018 00:54:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E5%90%AF%E5%8A%A8%E6%97%B6%E6%89%A7%E8%A1%8C%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90-%E6%89%A7%E8%A1%8C%E6%93%8D%E4%BD%9C/</guid><description>&lt;blockquote>
-&lt;p>SpringBoot 在启动的时候加载资源或者执行操作，进行初始化来执行特定操作，SpringBoot已经提供了这样的接口，通过实现该接口就可以实现需要的操作&lt;/p>
-&lt;/blockquote>
+&lt;p>SpringBoot 在启动的时候加载资源或者执行操作，进行初始化来执行特定操作，SpringBoot已经提供了这样的接口，通过实现该接口就可以实现需要的操作&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="实现commandlinerunner接口">实现CommandLineRunner接口&lt;/h2>
 &lt;pre tabindex="0">&lt;code>@Order(value=2)
@@ -12370,20 +12169,17 @@ public class CommandLineRunnerListenerImpl implements ApplicationListener {
  }
 }
 &lt;/code>&lt;/pre></description></item><item><title>SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:53:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>在SpringBoot应用启动的过程中，因为报&lt;code>org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code>导致应用启动失败&lt;/p>
-&lt;/blockquote>
+&lt;p>在SpringBoot应用启动的过程中，因为报&lt;code>org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code>导致应用启动失败&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;blockquote>
-&lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class
 [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService]
  conflicts with existing, non-compatible bean definition of same name and class
  [cn.com.hellowood.dubbo.PersonDubboConsumerService]
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
-&lt;strong>通过指定注入对象的名称可以解决这个问题&lt;/strong>&lt;/p>
-&lt;/blockquote>
+&lt;strong>通过指定注入对象的名称可以解决这个问题&lt;/strong>&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>原来的代码&lt;/li>
 &lt;/ul>
@@ -12441,8 +12237,7 @@ public class PersonDubboConsumerService {
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e"> at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e"> ... 13 common frames omitted
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>SpringBoot中配置使用Druid数据库连接池</title><link>https://blog.hellowood.dev/posts/springboot%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8druid%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/</link><pubDate>Mon, 01 Jan 2018 00:52:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8druid%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/</guid><description>&lt;blockquote>
-&lt;p>Druid 是阿里巴巴开源的Java数据库连接池插件，Druid能够提供强大的监控和扩展功能&lt;/p>
-&lt;/blockquote>
+&lt;p>Druid 是阿里巴巴开源的Java数据库连接池插件，Druid能够提供强大的监控和扩展功能&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置使用druid数据库连接池">配置使用Druid数据库连接池&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -12457,8 +12252,7 @@ public class PersonDubboConsumerService {
  &amp;lt;version&amp;gt;${version}&amp;lt;/version&amp;gt;
 &lt;/code>&lt;/pre>&lt;h3 id="配置数据库连接">配置数据库连接&lt;/h3>
 &lt;blockquote>
-&lt;p>数据库配置和默认配置基本一样，按照正常配置就可以，具体可以参考&lt;a href="https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md">https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>数据库配置和默认配置基本一样，按照正常配置就可以，具体可以参考&lt;a href="https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md">https://github.com/alibaba/druid/blob/master/druid-spring-boot-starter/README.md&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>JDBC 配置&lt;/li>
 &lt;/ul>
@@ -12514,8 +12308,7 @@ spring.datasource.druid.aop-patterns= # Spring监控AOP切入点，如x.y.z.serv
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>配置好了之后启动应用就可以正常使用了，查看统计信息可以访问 http://localhost:8080/druid/index.html&lt;/p></description></item><item><title>SpringBoot项目生成War包</title><link>https://blog.hellowood.dev/posts/springboot%E9%A1%B9%E7%9B%AE%E7%94%9F%E6%88%90war%E5%8C%85/</link><pubDate>Mon, 01 Jan 2018 00:50:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E9%A1%B9%E7%9B%AE%E7%94%9F%E6%88%90war%E5%8C%85/</guid><description>&lt;blockquote>
 &lt;p>Spring Boot 项目默认生成Jar包，如果想发布到Tomcat还需要生成War包才能运行，SpringBoot官方文档中已经阐述了具体的操作方法，可以参考：&lt;a href="http://docs.spring.io/spring-boot/docs/2.0.0.M3/reference/htmlsingle/#howto-create-a-deployable-war-file">howto-create-a-deployable-war-file&lt;/a>；
-以下使用Gradle作为Build工具&lt;/p>
-&lt;/blockquote>
+以下使用Gradle作为Build工具&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-向buildgradle文件添加依赖">1. 向build.gradle文件添加依赖&lt;/h2>
 &lt;ul>
 &lt;li>build.gradle&lt;/li>
@@ -12575,8 +12368,7 @@ public class Application extends SpringBootServletInitializer {
 }
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>也可以单独写在另一个类中，效果是一样的&lt;/p></description></item><item><title>使用Gradle整合Flyway进行数据库迁移</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8gradle%E6%95%B4%E5%90%88flyway%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/</link><pubDate>Mon, 01 Jan 2018 00:49:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8gradle%E6%95%B4%E5%90%88flyway%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/</guid><description>&lt;blockquote>
-&lt;p>使用Flyway进行数据库迁移可以极大的减少开发过程中对数据库版本的操作，使用Gradle整合Flyway可以更好的和项目契合&lt;/p>
-&lt;/blockquote>
+&lt;p>使用Flyway进行数据库迁移可以极大的减少开发过程中对数据库版本的操作，使用Gradle整合Flyway可以更好的和项目契合&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置buildgradle文件">配置build.gradle文件&lt;/h2>
 &lt;pre tabindex="0">&lt;code>apply plugin: &amp;#39;org.flywaydb.flyway&amp;#39;
 
@@ -12625,8 +12417,7 @@ flyway {
 &lt;pre tabindex="0">&lt;code>gradle flywayBaseline
 &lt;/code>&lt;/pre></description></item><item><title>MyBatis 中使用 Association 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:48:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote>
 &lt;p>当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
-以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询&lt;/p>
-&lt;/blockquote>
+以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="javabean">JavaBean&lt;/h2>
 &lt;ul>
@@ -12753,8 +12544,7 @@ INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CU
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>此时，调用 &lt;code>getAllUsers()&lt;/code> 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p></description></item><item><title>MyBatis 中使用 Collection 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:47:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote>
 &lt;p>当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
-以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询&lt;/p>
-&lt;/blockquote>
+以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="javabean">JavaBean&lt;/h2>
 &lt;ul>
@@ -12904,8 +12694,7 @@ VALUES (2, 4, current_timestamp);
  &amp;lt;/select&amp;gt;
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>此时，调用 &lt;code>getRoles()&lt;/code> 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p></description></item><item><title>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-security-%E7%9A%84-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:37:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-%E7%9A%84-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="javalangillegalstateexception-userdetailsservice-is-required">java.lang.IllegalStateException: UserDetailsService is required.&lt;/h2>
 &lt;ul>
@@ -12952,12 +12741,10 @@ VALUES (2, 4, current_timestamp);
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>错误信息如下，发生该错误的原因是因为没有提供 UserDetailsService 的实例而出错，虽然调用了 &lt;code>userDetailsService()&lt;/code> 方法，
 但实际上并没有起作用，所以需要提供自定义的 &lt;code>UserDetailsService&lt;/code> 实例注入&lt;/p></description></item><item><title>Spring Security 中实现 Remember Me 记住密码功能</title><link>https://blog.hellowood.dev/posts/spring-security-%E4%B8%AD%E5%AE%9E%E7%8E%B0-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD/</link><pubDate>Mon, 01 Jan 2018 00:35:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-%E4%B8%AD%E5%AE%9E%E7%8E%B0-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD/</guid><description>&lt;blockquote>
-&lt;p>在 Spring Boot 应用中使用 Spring Security 并实现 Remember Me 记住密码功能，实现自动登录&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Spring Boot 应用中使用 Spring Security 并实现 Remember Me 记住密码功能，实现自动登录&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;blockquote>
-&lt;p>前置条件：在 Spring Boot 应用中已正确配置 Spring Security&lt;/p>
-&lt;/blockquote>
+&lt;p>前置条件：在 Spring Boot 应用中已正确配置 Spring Security&lt;/p>&lt;/blockquote>
 &lt;p>##在页面添加记住密码的复选框&lt;/p>
 &lt;pre tabindex="0">&lt;code> &amp;lt;input type=&amp;#34;checkbox&amp;#34; name=&amp;#34;remember-me&amp;#34;/&amp;gt; Remember me
 &lt;/code>&lt;/pre>&lt;p>##在 Security Config 配置文件中启用记住密码功能(验证信息存放在内存中)&lt;/p>
@@ -13019,11 +12806,10 @@ VALUES (2, 4, current_timestamp);
  }
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>这样就可以使用记住密码了，选择记住密码登录后会在本地保存 Cookie，下次登录的时候通过 Cookie 校验用户信息；用户登录的信息保存在内存中，当内存断电或被清除之后该 Cookie 即使在有效期内也无法登录。&lt;/p></description></item><item><title>Spring Boot 中集成 Spring Security</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E9%9B%86%E6%88%90-spring-security/</link><pubDate>Mon, 01 Jan 2018 00:09:27 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E9%9B%86%E6%88%90-spring-security/</guid><description>&lt;blockquote>
-&lt;p>Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板&lt;/p>&lt;/blockquote>
 &lt;hr>
-&lt;h3 id="项目地址-httpsgithubcomhelloworldespringsecurityhttpsgithubcomhelloworldespringsecurity">项目地址 &lt;a href="https://github.com/helloworlde/SpringSecurity">https://github.com/helloworlde/SpringSecurity&lt;/a>&lt;/h3>
-&lt;h3 id="演示-httpprojecthellowoodcomcnsecurityhttpprojecthellowoodcomcnsecurity">演示 &lt;a href="http://project.hellowood.com.cn/Security/">http://project.hellowood.com.cn/Security/&lt;/a>&lt;/h3>
+&lt;h3 id="项目地址-httpsgithubcomhelloworldespringsecurity">项目地址 &lt;a href="https://github.com/helloworlde/SpringSecurity">https://github.com/helloworlde/SpringSecurity&lt;/a>&lt;/h3>
+&lt;h3 id="演示-httpprojecthellowoodcomcnsecurity">演示 &lt;a href="http://project.hellowood.com.cn/Security/">http://project.hellowood.com.cn/Security/&lt;/a>&lt;/h3>
 &lt;h2 id="创建-spring-boot-应用">创建 Spring Boot 应用&lt;/h2>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;pre tabindex="0">&lt;code> compile(&amp;#39;org.springframework.boot:spring-boot-starter-security&amp;#39;)
@@ -13515,8 +13301,7 @@ VALUES (2, 4, current_timestamp);
 &lt;/code>&lt;/pre>&lt;hr>
 &lt;blockquote>
 &lt;p>启动应用，访问&lt;a href="http://localhost:8080/user/index">http://localhost:8080/user/index&lt;/a>，此时没有登录，会被拦截并重定向到登录页面&lt;a href="http://localhost:8080/login">http://localhost:8080/login&lt;/a>，输入用户名 &lt;code>username&lt;/code> 和密码 &lt;code>password&lt;/code>，登录成功后再次访问&lt;a href="http://localhost:8080/user/index">http://localhost:8080/user/index&lt;/a>，此时该 url 可以正常访问，当输入错误的用户名或密码时会提示错误信息，说明 Spring Security 配置正确&lt;/p></description></item><item><title>Spring MVC 使用 Spring Session 实现 Session 共享-Redis</title><link>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</link><pubDate>Mon, 01 Jan 2018 00:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc-%E4%BD%BF%E7%94%A8-spring-session-%E5%AE%9E%E7%8E%B0-session-%E5%85%B1%E4%BA%AB-redis/</guid><description>&lt;blockquote>
-&lt;p>使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用&lt;/p>
-&lt;/blockquote>
+&lt;p>使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>Spring Session 官方文档&lt;a href="https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction">https://docs.spring.io/spring-session/docs/2.0.0.M4/reference/html5/#introduction&lt;/a>&lt;/li>
 &lt;/ul>
@@ -13524,65 +13309,16 @@ VALUES (2, 4, current_timestamp);
 &lt;h2 id="session-共享的简单原理">Session 共享的简单原理&lt;/h2>
 &lt;blockquote>
 &lt;p>用户第一次访问应用时，应用会创建一个新的 Session，并且会将 Session 的 ID 作为 Cookie 缓存在浏览器，下一次访问时请求的头部中带着该 Cookie，应用通过获取的 Session ID 进行查找，如果该 Session 存在且有效，则继续该请求，如果 Cookie 无效或者 Session 无效，则会重新生成一个新的 Session&lt;/p>
-&lt;p>在普通的 JavaEE 应用中，Session 信息放在内存中，当容器（如 Tomcat）关闭后，内存中的 Session 被销毁；重启后如果当前用户再去访问对应的是一个新的 Session ，在多实例中无法共享，一个用户只能访问指定的实例才能使用相同的 Session；&lt;/p>
-&lt;/blockquote>
+&lt;p>在普通的 JavaEE 应用中，Session 信息放在内存中，当容器（如 Tomcat）关闭后，内存中的 Session 被销毁；重启后如果当前用户再去访问对应的是一个新的 Session ，在多实例中无法共享，一个用户只能访问指定的实例才能使用相同的 Session；&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>Session 共享实现的原理是将原来内存中的 Session 放在一个需要共享 Session 的实例都可以访问到的位置，如数据库，Redis 中等，从而实现多实例 Session 共享&lt;/p>
-&lt;p>实现共享后，只要浏览器的 Cookie 中的 Session ID 没有改变，多个实例中的任意一个被销毁不会影响用户访问&lt;/p>
-&lt;/blockquote>
+&lt;p>实现共享后，只要浏览器的 Cookie 中的 Session ID 没有改变，多个实例中的任意一个被销毁不会影响用户访问&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;h1 id="redis-方式实现">Redis 方式实现&lt;/h1>
 &lt;blockquote>
-&lt;p>将 Session 对象序列化存储到 Redis 中，多个实例访问时都会使用该 Session，Spring Session 会管理 Session 信息的管理，无需其他操作&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="1-添加依赖">1. 添加依赖&lt;/h2>
-&lt;ul>
-&lt;li>在 pom.xml 文件里面添加如下依赖&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code> &amp;lt;dependency&amp;gt;
- &amp;lt;groupId&amp;gt;redis.clients&amp;lt;/groupId&amp;gt;
- &amp;lt;artifactId&amp;gt;jedis&amp;lt;/artifactId&amp;gt;
- &amp;lt;version&amp;gt;2.9.0&amp;lt;/version&amp;gt;
- &amp;lt;/dependency&amp;gt;
- &amp;lt;dependency&amp;gt;
- &amp;lt;groupId&amp;gt;org.springframework.data&amp;lt;/groupId&amp;gt;
- &amp;lt;artifactId&amp;gt;spring-data-redis&amp;lt;/artifactId&amp;gt;
- &amp;lt;version&amp;gt;1.8.7.RELEAS&amp;lt;/version&amp;gt;
- &amp;lt;/dependency&amp;gt;
- &amp;lt;dependency&amp;gt;
- &amp;lt;groupId&amp;gt;org.springframework.session&amp;lt;/groupId&amp;gt;
- &amp;lt;artifactId&amp;gt;spring-session&amp;lt;/artifactId&amp;gt;
- &amp;lt;version&amp;gt;1.3.1.RELEASE&amp;lt;/version&amp;gt;
- &amp;lt;/dependency&amp;gt;
-&lt;/code>&lt;/pre>&lt;h2 id="2-添加配置">2. 添加配置&lt;/h2>
-&lt;ul>
-&lt;li>SpringConfig.xml 添加如下配置&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code> &amp;lt;!-- Spring Session共享 --&amp;gt;
- &amp;lt;bean class=&amp;#34;org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration&amp;#34;/&amp;gt;
- &amp;lt;bean class=&amp;#34;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&amp;#34;&amp;gt;
- &amp;lt;property name=&amp;#34;hostName&amp;#34; value=&amp;#34;localhost&amp;#34;/&amp;gt;
- &amp;lt;property name=&amp;#34;password&amp;#34; value=&amp;#34;123456&amp;#34;/&amp;gt;
- &amp;lt;property name=&amp;#34;port&amp;#34; value=&amp;#34;6379&amp;#34;/&amp;gt;
- &amp;lt;property name=&amp;#34;database&amp;#34; value=&amp;#34;3&amp;#34;/&amp;gt;
- &amp;lt;/bean&amp;gt;
-&lt;/code>&lt;/pre>&lt;h2 id="3-添加过滤器">3. 添加过滤器&lt;/h2>
-&lt;ul>
-&lt;li>在 web.xml 添加如下配置（过滤器）&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code> &amp;lt;filter&amp;gt;
- &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
- &amp;lt;filter-class&amp;gt;org.springframework.web.filter.DelegatingFilterProxy&amp;lt;/filter-class&amp;gt;
- &amp;lt;/filter&amp;gt;
- &amp;lt;filter-mapping&amp;gt;
- &amp;lt;filter-name&amp;gt;springSessionRepositoryFilter&amp;lt;/filter-name&amp;gt;
- &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
- &amp;lt;/filter-mapping&amp;gt;
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>该过滤器必须是第一个过滤器，所有的请求经过该过滤器后执行后续操作&lt;/p></description></item><item><title>Gradle 使用-多项目构建</title><link>https://blog.hellowood.dev/posts/gradle-%E6%B7%BB%E5%8A%A0%E5%A4%9A%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE/</link><pubDate>Mon, 01 Jan 2018 00:05:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E6%B7%BB%E5%8A%A0%E5%A4%9A%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE/</guid><description>&lt;h2 id="配置">配置&lt;/h2>
+&lt;p>将 Session 对象序列化存储到 Redis 中，多个实例访问时都会使用该 Session，Spring Session 会管理 Session 信息的管理，无需其他操作&lt;/p></description></item><item><title>Gradle 使用-多项目构建</title><link>https://blog.hellowood.dev/posts/gradle-%E6%B7%BB%E5%8A%A0%E5%A4%9A%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE/</link><pubDate>Mon, 01 Jan 2018 00:05:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E6%B7%BB%E5%8A%A0%E5%A4%9A%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96%E5%85%B6%E4%BB%96%E9%A1%B9%E7%9B%AE/</guid><description>&lt;h2 id="配置">配置&lt;/h2>
 &lt;blockquote>
-&lt;p>如该项目有三个模块，分别是&lt;code>Controller&lt;/code>, &lt;code>Service&lt;/code>, &lt;code>Dao&lt;/code>,&lt;code>Model&lt;/code>，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目&lt;/p>
-&lt;/blockquote>
+&lt;p>如该项目有三个模块，分别是&lt;code>Controller&lt;/code>, &lt;code>Service&lt;/code>, &lt;code>Dao&lt;/code>,&lt;code>Model&lt;/code>，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>项目根目录下添加 &lt;code>build.gradle&lt;/code>&lt;/li>
 &lt;/ul>
@@ -13672,8 +13408,7 @@ VALUES (2, 4, current_timestamp);
 }
 &lt;/code>&lt;/pre></description></item><item><title>Gradle 添加多项，依赖其他项目</title><link>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-%E5%A4%9A%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/</link><pubDate>Mon, 01 Jan 2018 00:05:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-%E5%A4%9A%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/</guid><description>&lt;h2 id="配置">配置&lt;/h2>
 &lt;blockquote>
-&lt;p>如该项目有四个模块，分别是&lt;code>Controller&lt;/code>, &lt;code>Service&lt;/code>, &lt;code>Dao&lt;/code>,&lt;code>Model&lt;/code>，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目&lt;/p>
-&lt;/blockquote>
+&lt;p>如该项目有四个模块，分别是&lt;code>Controller&lt;/code>, &lt;code>Service&lt;/code>, &lt;code>Dao&lt;/code>,&lt;code>Model&lt;/code>，根目录仅为父级目录，不存在任何代码；子目录为各个相应的模块或单独的项目&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>项目根目录下添加 &lt;code>build.gradle&lt;/code>&lt;/li>
 &lt;/ul>
@@ -13762,8 +13497,7 @@ VALUES (2, 4, current_timestamp);
  compile project(&amp;#39;:model&amp;#39;)
 }
 &lt;/code>&lt;/pre></description></item><item><title>Gradle 使用-添加 Jacoco 分析单元测试覆盖率工具</title><link>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-jacoco-%E5%88%86%E6%9E%90%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E5%B7%A5%E5%85%B7/</link><pubDate>Mon, 01 Jan 2018 00:03:40 +0800</pubDate><guid>https://blog.hellowood.dev/posts/gradle-%E4%BD%BF%E7%94%A8-jacoco-%E5%88%86%E6%9E%90%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E5%B7%A5%E5%85%B7/</guid><description>&lt;blockquote>
-&lt;p>Jacoco 是一个免费的 Java 单元测试覆盖率分析工具，在 Gradle 中添加插件，在编译的同事进行单元测试覆盖率分析&lt;/p>
-&lt;/blockquote>
+&lt;p>Jacoco 是一个免费的 Java 单元测试覆盖率分析工具，在 Gradle 中添加插件，在编译的同事进行单元测试覆盖率分析&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置">配置&lt;/h2>
 &lt;pre tabindex="0">&lt;code>buildscript {
  repositories {
@@ -13800,11 +13534,9 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 &lt;/code>&lt;/pre>&lt;h2 id="生成结果">生成结果&lt;/h2>
 &lt;blockquote>
-&lt;p>编译完成后会在 &lt;code>${buildDir}/build/reports/jacoco/&lt;/code> 下会生成报告&lt;/p>
-&lt;/blockquote>
+&lt;p>编译完成后会在 &lt;code>${buildDir}/build/reports/jacoco/&lt;/code> 下会生成报告&lt;/p>&lt;/blockquote>
 &lt;p>&lt;img src="http://img.blog.csdn.net/20171207221854097?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Jacoco测试结果">&lt;/p></description></item><item><title>Java 将单元测试覆盖率上传到 Codecov</title><link>https://blog.hellowood.dev/posts/java-%E5%B0%86%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E4%B8%8A%E4%BC%A0%E5%88%B0-codecov/</link><pubDate>Mon, 01 Jan 2018 00:00:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/java-%E5%B0%86%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87%E4%B8%8A%E4%BC%A0%E5%88%B0-codecov/</guid><description>&lt;blockquote>
-&lt;p>通过使用 &lt;a href="http://www.eclemma.org/jacoco/">Jacoco&lt;/a> 生成单元测试覆盖率报告，并将该报告上传到 &lt;a href="https://codecov.io">Codecov&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>通过使用 &lt;a href="http://www.eclemma.org/jacoco/">Jacoco&lt;/a> 生成单元测试覆盖率报告，并将该报告上传到 &lt;a href="https://codecov.io">Codecov&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置-jacoco">配置 Jacoco&lt;/h2>
 &lt;ul>
 &lt;li>配置 build.gradle 文件(以 SpringBoot 应用为例)&lt;/li>
@@ -13895,12 +13627,10 @@ check.dependsOn jacocoTestReport
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>此时在 &lt;code>build/reports/jacoco&lt;/code> 下生成 Jacoco 的测试报告&lt;/p></description></item><item><title>Spring Boot Mail Could not connect to SMTP host</title><link>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</link><pubDate>Sun, 31 Dec 2017 23:57:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</guid><description>&lt;blockquote>
 &lt;p>如果使用了 SSL 连接请添加配置：&lt;code>spring.mail.properties.mail.smtp.ssl.enable=true&lt;/code>
-可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>
-&lt;/blockquote>
+可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;blockquote>
-&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>application.properties&lt;/li>
 &lt;/ul>
@@ -13957,8 +13687,7 @@ check.dependsOn jacocoTestReport
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>但是邮件发送一直失败，异常信息如下：&lt;/p></description></item><item><title>Spring Boot 发送邮件</title><link>https://blog.hellowood.dev/posts/spring-boot-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</link><pubDate>Sun, 31 Dec 2017 23:55:11 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</guid><description>&lt;blockquote>
-&lt;p>在 Spring Boot 中使用 Spring Mail 发送邮件&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Spring Boot 中使用 Spring Mail 发送邮件&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-Mail">https://github.com/helloworlde/SpringBoot-Mail&lt;/a>&lt;/li>
 &lt;/ul>
@@ -14186,21 +13915,18 @@ check.dependsOn jacocoTestReport
 &lt;/code>&lt;/pre>&lt;h2 id="发送模板邮件">发送模板邮件&lt;/h2>
 &lt;blockquote>
 &lt;p>使用 Thymeleaf 作为模板&lt;/p></description></item><item><title>Spring Boot MyBatis 动态数据源常见问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Sun, 31 Dec 2017 23:45:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-orgapacheibatisbindingbindingexception-invalid-bound-statement-not-found">1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/h2>
 &lt;blockquote>
 &lt;p>在使用了动态数据源后遇到了该问题，从错误信息来看是因为没有找到 &lt;code>*.xml&lt;/code> 文件而导致的，但是在配置文件中
 确实添加了相关的配置，这种错误的原因是因为设置数据源后没有设置&lt;code>SqlSessionFactoryBean&lt;/code>的 &lt;code>typeAliasesPackage&lt;/code>
-和&lt;code>mapperLocations&lt;/code>属性或属性无效导致的；&lt;/p>
-&lt;/blockquote>
+和&lt;code>mapperLocations&lt;/code>属性或属性无效导致的；&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>解决方法：&lt;/li>
 &lt;/ul>
 &lt;blockquote>
 &lt;p>如果在应用的入口类中添加了 &lt;code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)&lt;/code>,
-在&lt;code>DataSourceConfigure&lt;/code>类的中设置相关属性：&lt;/p>
-&lt;/blockquote>
+在&lt;code>DataSourceConfigure&lt;/code>类的中设置相关属性：&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@ConfigurationProperties&lt;/span>(&lt;span style="color:#c1abea">prefix&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;mybatis&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#00b1f7">sqlSessionFactoryBean&lt;/span>() {
@@ -14223,8 +13949,7 @@ check.dependsOn jacocoTestReport
 &lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p>
-&lt;/blockquote>
+&lt;p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">master&lt;/a>: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡&lt;/li>
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev">dev&lt;/a>: 最简单的切面和注解方式实现的动态数据源切换&lt;/li>
@@ -14233,15 +13958,12 @@ check.dependsOn jacocoTestReport
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin">roundrobin&lt;/a>: 通过切面使用轮询方式实现的只读数据源负载均衡&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issueshttpsgithubcomhelloworldespringboot-dynamicdatasourceblobmasterissuesmd-里面">在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md">Issues&lt;/a> 里面&lt;/h3>
+&lt;p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p>&lt;/blockquote>
+&lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issues-里面">在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md">Issues&lt;/a> 里面&lt;/h3>
 &lt;blockquote>
-&lt;p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code>@Transactional&lt;/code> 注解以保证使用主数据源&lt;/p>
-&lt;/blockquote>
+&lt;p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code>@Transactional&lt;/code> 注解以保证使用主数据源&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code>@Transactional&lt;/code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code>@Transactional&lt;/code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>动态切换数据源依赖 &lt;code>configuration&lt;/code> 包下的4个类来实现，分别是：&lt;/p>
 &lt;ul>
@@ -14249,8 +13971,7 @@ check.dependsOn jacocoTestReport
 &lt;li>DataSourceConfigurer.java&lt;/li>
 &lt;li>DynamicDataSourceContextHolder.java&lt;/li>
 &lt;li>DynamicDataSourceAspect.java&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
@@ -14402,6 +14123,5 @@ check.dependsOn jacocoTestReport
 &lt;/ul>
 &lt;blockquote>
 &lt;p>该类继承自 &lt;code>AbstractRoutingDataSource&lt;/code> 类，在访问数据库时会调用该类的 &lt;code>determineCurrentLookupKey()&lt;/code> 方法获取数据库实例的 key&lt;/p></description></item><item><title>helloworld</title><link>https://blog.hellowood.dev/posts/helloworld/</link><pubDate>Sun, 24 Dec 2017 17:07:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/helloworld/</guid><description>&lt;blockquote>
-&lt;p>This is a blog for my personal technology note!&lt;/p>
-&lt;/blockquote>
+&lt;p>This is a blog for my personal technology note!&lt;/p>&lt;/blockquote>
 &lt;p>&lt;img src="http://img.hellowood.dev/blog/background.jpeg" alt="">&lt;/p></description></item></channel></rss>

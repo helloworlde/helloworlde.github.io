@@ -66,8 +66,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ol>
 &lt;p>最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信&lt;/p>
 &lt;blockquote>
-&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>
-&lt;/blockquote>
+&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>&lt;/blockquote>
 &lt;p>关于 WireGuard 的介绍可以参考 &lt;a href="https://www.wireguard.com/">WireGuard&lt;/a>&lt;/p>
 &lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg" alt="homelab-wireguard-vpn-for-sub-network.svg">&lt;/p>
 &lt;h2 id="安装配置-wireguard">安装配置 WireGuard&lt;/h2>
@@ -81,11 +80,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir wireguard &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">cd&lt;/span> wireguard
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">umask&lt;/span> &lt;span style="color:#d19a66">077&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p>
-&lt;ul>
-&lt;li>创建 OpenWrt 密钥对&lt;/li>
-&lt;/ul>
-&lt;p>先创建私钥，然后使用私钥创建公钥&lt;/p></description></item><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p></description></item><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
 &lt;p>&lt;a href="https://www.wireguard.com/">WireGuard&lt;/a> 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量&lt;/p>
 &lt;h2 id="核心概念">核心概念&lt;/h2>
 &lt;p>WireGuard中主要涉及以下几个概念：&lt;/p>

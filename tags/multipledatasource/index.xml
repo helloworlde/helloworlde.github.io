@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MultipleDataSource on HelloWood</title><link>https://blog.hellowood.dev/tags/multipledatasource/</link><description>Recent content in MultipleDataSource on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/multipledatasource/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot MyBatis 动态数据源常见问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Sun, 31 Dec 2017 23:45:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-orgapacheibatisbindingbindingexception-invalid-bound-statement-not-found">1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/h2>
 &lt;blockquote>
 &lt;p>在使用了动态数据源后遇到了该问题，从错误信息来看是因为没有找到 &lt;code>*.xml&lt;/code> 文件而导致的，但是在配置文件中
 确实添加了相关的配置，这种错误的原因是因为设置数据源后没有设置&lt;code>SqlSessionFactoryBean&lt;/code>的 &lt;code>typeAliasesPackage&lt;/code>
-和&lt;code>mapperLocations&lt;/code>属性或属性无效导致的；&lt;/p>
-&lt;/blockquote>
+和&lt;code>mapperLocations&lt;/code>属性或属性无效导致的；&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>解决方法：&lt;/li>
 &lt;/ul>
 &lt;blockquote>
 &lt;p>如果在应用的入口类中添加了 &lt;code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)&lt;/code>,
-在&lt;code>DataSourceConfigure&lt;/code>类的中设置相关属性：&lt;/p>
-&lt;/blockquote>
+在&lt;code>DataSourceConfigure&lt;/code>类的中设置相关属性：&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@ConfigurationProperties&lt;/span>(&lt;span style="color:#c1abea">prefix&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;mybatis&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">SqlSessionFactoryBean&lt;/span> &lt;span style="color:#00b1f7">sqlSessionFactoryBean&lt;/span>() {
@@ -36,8 +33,7 @@
 &lt;li>项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p>
-&lt;/blockquote>
+&lt;p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource">master&lt;/a>: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡&lt;/li>
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev">dev&lt;/a>: 最简单的切面和注解方式实现的动态数据源切换&lt;/li>
@@ -46,15 +42,12 @@
 &lt;li>&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin">roundrobin&lt;/a>: 通过切面使用轮询方式实现的只读数据源负载均衡&lt;/li>
 &lt;/ul>
 &lt;blockquote>
-&lt;p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issueshttpsgithubcomhelloworldespringboot-dynamicdatasourceblobmasterissuesmd-里面">在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md">Issues&lt;/a> 里面&lt;/h3>
+&lt;p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p>&lt;/blockquote>
+&lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issues-里面">在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md">Issues&lt;/a> 里面&lt;/h3>
 &lt;blockquote>
-&lt;p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code>@Transactional&lt;/code> 注解以保证使用主数据源&lt;/p>
-&lt;/blockquote>
+&lt;p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code>@Transactional&lt;/code> 注解以保证使用主数据源&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code>@Transactional&lt;/code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code>@Transactional&lt;/code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>动态切换数据源依赖 &lt;code>configuration&lt;/code> 包下的4个类来实现，分别是：&lt;/p>
 &lt;ul>
@@ -62,8 +55,7 @@
 &lt;li>DataSourceConfigurer.java&lt;/li>
 &lt;li>DynamicDataSourceContextHolder.java&lt;/li>
 &lt;li>DynamicDataSourceAspect.java&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;hr>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>

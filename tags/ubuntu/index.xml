@@ -46,14 +46,11 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="23-将模型导出为-onnx-格式">2.3 将模型导出为 onnx 格式&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>yolo &lt;span style="color:#ef8383">export&lt;/span> &lt;span style="color:#dcaeea">model&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>./yolov8n.pt &lt;span style="color:#dcaeea">imgsz&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">640&lt;/span> &lt;span style="color:#dcaeea">format&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>onnx &lt;span style="color:#dcaeea">opset&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">11&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>imgsz=640 指定输入图片的尺寸（图像大小），即 640x640。这个尺寸是模型在推理时处理图像的分辨率&lt;/p></description></item><item><title>Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器</title><link>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</link><pubDate>Sun, 01 Sep 2024 11:22:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>Hailo 是一家位于以色列的边缘人工智能处理器的先驱芯片制造商，该公司成立于2017年；专注于为边缘设备开发高效的深度学习处理器。Hailo 的核心产品是其自研的 Hailo-8 人工智能处理器，这款芯片特别设计用于在资源受限的边缘设备上运行复杂的深度学习模型&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo 是一家位于以色列的边缘人工智能处理器的先驱芯片制造商，该公司成立于2017年；专注于为边缘设备开发高效的深度学习处理器。Hailo 的核心产品是其自研的 Hailo-8 人工智能处理器，这款芯片特别设计用于在资源受限的边缘设备上运行复杂的深度学习模型&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Hailo-8 能够在嵌入式系统中支持实时处理应用，如计算机视觉、自动驾驶、智能城市监控、医疗设备和工业物联网等&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo-8 能够在嵌入式系统中支持实时处理应用，如计算机视觉、自动驾驶、智能城市监控、医疗设备和工业物联网等&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 &lt;a href="https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/">Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>Hailo 在 2024年6月4日宣布被 Raspberry Pi 选中，为 Raspberry Pi AI Kit 提供 AI 加速器；支持使用 Hailo-8 和 Hailo-8L 进行加速，参考 &lt;a href="https://hailo.ai/zh-hans/company-overview/newsroom/news-zh-hans/raspberry-pi-selects-hailo-to-enable-advanced-ai-capabilities-for-raspberry-pi-5/">Raspberry Pi Selects Hailo to Enable Advanced AI Capabilities for Raspberry Pi 5&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>Hailo8 发布于 2021年，算力为 26 TOPS，Hailo8L 发布于 2023 年，算力为 13 TOPS；两款产品除了算力外，其他特性差别不大，均支持 TensorFlow，TensorFlow Lite，Keras，PyTorch &amp;amp; ONNX 框架，主机架构支持 X86 和 ARM，操作系统支持 Linux 和 Windows；更多信息参考官网介绍：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://hailo.ai/zh-hans/products/ai-accelerators/hailo-8-ai-accelerator/#hailo-8-features">Hailo-8 AI处理器&lt;/a>&lt;/li>
@@ -61,9 +58,7 @@
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8-product-brief-en/">hailo-8-product-brief&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8l-m-2-et-product-brief-en/">hailo-8l-m-2-et-product-brief&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L">&lt;/p>
-&lt;p>Hailo 相关软件功能如图：&lt;/p>
-&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/HailoRT-Diagram.png" alt="">&lt;/p></description></item><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
+&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L">&lt;/p></description></item><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
 &lt;h2 id="安装-nvidia-容器工具包">安装 NVIDIA 容器工具包&lt;/h2>
 &lt;ul>
 &lt;li>添加软件源&lt;/li>
@@ -292,8 +287,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="容器中使用-nfs-数据卷">容器中使用 NFS 数据卷&lt;/h2>
 &lt;h3 id="在容器中挂载">在容器中挂载&lt;/h3>
 &lt;p>以 Nginx 为例，挂载 &lt;code>nginx-volume&lt;/code> 到容器中；也可以使用 &lt;code>-v nginx-volume:/data&lt;/code>的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code>-v&lt;/code> 会创建一个，而 &lt;code>--mount&lt;/code>会报错&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;blockquote>
-&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Esxi 安装 Ubuntu Server 后，发现分配的 20G 磁盘空间不够，通过 Esxi 控制台将磁盘扩容到 40G，重启后还需要手动调整&lt;/p>&lt;/blockquote>
 &lt;h3 id="检查未分区空间">检查未分区空间&lt;/h3>
 &lt;p>修改了磁盘大小后，新增的空间状态是未分区，首先检查是否新增成功&lt;/p>
 &lt;ul>
@@ -390,8 +384,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#d19a66">2048&lt;/span> &lt;span style="color:#d19a66">526335&lt;/span> &lt;span style="color:#d19a66">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#c7bf54">(&lt;/span>LBA&lt;span style="color:#c7bf54">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#d19a66">526336&lt;/span> &lt;span style="color:#d19a66">6366175&lt;/span> &lt;span style="color:#d19a66">5839840&lt;/span> 2.8G &lt;span style="color:#d19a66">83&lt;/span> Linux
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
-&lt;p>必需设备：&lt;/p>
-&lt;/blockquote>
+&lt;p>必需设备：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>树莓派 4b&lt;/li>
 &lt;li>SD 卡&lt;/li>
@@ -473,11 +466,9 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改-1">手动修改&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>Ubuntu 搭建 ShadowSocks 服务</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 21 Oct 2018 22:39:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>来自 &lt;a href="https://teddysun.com/342.html">https://teddysun.com/342.html&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>来自 &lt;a href="https://teddysun.com/342.html">https://teddysun.com/342.html&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
 &lt;li>下载安装脚本&lt;/li>
@@ -536,8 +527,7 @@ Enjoy it!
 &lt;/ul>
 &lt;pre tabindex="0">&lt;code>scp -p port source_dictionary_file user@ServerIp:target_dictionary_file
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>prot 默认是22，如果使用默认可以不写&lt;/p>
-&lt;/blockquote>
+&lt;p>prot 默认是22，如果使用默认可以不写&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>scp /User/hellowood/wechat.jpg root@192.168.0.2:/home/hellowood/wechat.jpg
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>上传整个文件夹&lt;/li>
@@ -556,8 +546,7 @@ Enjoy it!
 &lt;pre tabindex="0">&lt;code>scp -p port -r user@ServerIp:source_dictionary target_dictionry
 &lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>scp -r root@192.168.0.2:/home/hellowood/tomcat /User/hellowood/tomcat
 &lt;/code>&lt;/pre></description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置并启动-tomcat">配置并启动 Tomcat&lt;/h2>
 &lt;h2 id="安装-docker">安装 Docker&lt;/h2>
 &lt;h2 id="配置-nginx">配置 Nginx&lt;/h2>
@@ -653,8 +642,7 @@ docker run --name tomcat -d -p 8080:8080 tomcat
  }
 }
 &lt;/code>&lt;/pre>&lt;p>&lt;code>http://tomcat:8080&lt;/code>: 将所有请求都转发到 &lt;code>tomcat&lt;/code> 容器的 &lt;code>8080&lt;/code>端口(不是映射端口)&lt;/p></description></item><item><title>Ubuntu安装配置 Jenkins</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-jenkins/</link><pubDate>Mon, 01 Jan 2018 12:12:32 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-jenkins/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 下 Jenkins 服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 下 Jenkins 服务&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-安装">1. 安装&lt;/h2>
 &lt;ul>
 &lt;li>安装前确认JDK环境配置是正确的&lt;/li>
@@ -667,8 +655,7 @@ sudo apt-get install jenkins
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>等待安装完成，如果默认的8080端口没有被占用，则会自动启动 Jenkins 服务， 如果有其他程序占用了 8080 端口，则 Jenkins 会启动失败
 ##2. 更改 Jenkins 端口
-需要更改两个文件&lt;/p>
-&lt;/blockquote>
+需要更改两个文件&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>修改&lt;code>/etc/default/jenkins&lt;/code>文件，将 &lt;code>HTTP_PORT=8080&lt;/code>更改为你需要的端口&lt;/li>
 &lt;li>修改&lt;code>/etc/init.d/jenkins&lt;/code>文件，将&lt;code>do_start&lt;/code>函数的&lt;code>check_tcp_port&lt;/code>命令改为需要的端口&lt;/li>
@@ -677,15 +664,13 @@ sudo apt-get install jenkins
 &lt;pre tabindex="0">&lt;code>sudo /etc/init.d/jenkins start
 &lt;/code>&lt;/pre>&lt;p>##4. 访问并配置&lt;/p>
 &lt;blockquote>
-&lt;p>访问 Jenkins 的地址，会要求填写 Jenkins 的密码，该密码可以在&lt;code>/var/log/jenkins/jenkins.log&lt;/code>中找到&lt;/p>
-&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;hr>
+&lt;p>访问 Jenkins 的地址，会要求填写 Jenkins 的密码，该密码可以在&lt;code>/var/log/jenkins/jenkins.log&lt;/code>中找到&lt;/p>&lt;/blockquote></description></item><item><title>Ubuntu安装JDK</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</link><pubDate>Mon, 01 Jan 2018 12:11:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85jdk/</guid><description>&lt;hr>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>1 创建文件夹&lt;/p>
 &lt;pre tabindex="0">&lt;code>mkdir java
 &lt;/code>&lt;/pre>&lt;p>2 下载JDK&lt;/p>
 &lt;blockquote>
-&lt;p>JDK 下载地址&lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>JDK 下载地址&lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>wget --no-check-certificate --no-cookies --header &amp;#34;Cookie: oraclelicense=accept-securebackup-cookie&amp;#34; http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
 &lt;/code>&lt;/pre>&lt;p>3 解压&lt;/p>
 &lt;pre tabindex="0">&lt;code> tar -zxvf jdk-8u144-linux-x64.tar.gz
@@ -719,8 +704,7 @@ which java （java执行路径）
 echo $JAVA_HOME
 echo $PATH
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装 Nginx</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</link><pubDate>Mon, 01 Jan 2018 12:10:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-nginx/</guid><description>&lt;blockquote>
-&lt;p>在 Ubuntu 上安装 Nginx&lt;/p>
-&lt;/blockquote>
+&lt;p>在 Ubuntu 上安装 Nginx&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;ul>
 &lt;li>安装&lt;/li>
@@ -792,8 +776,7 @@ echo $PATH
  // 重启
  sudo /etc/init.d/nginx restart
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu安装 Redis -编译方式安装</title><link>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-redis-%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</link><pubDate>Mon, 01 Jan 2018 12:09:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E5%AE%89%E8%A3%85-redis-%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/</guid><description>&lt;blockquote>
-&lt;p>使用 &lt;code>sudo apt install redis-server&lt;/code>安装的 Redis 并不是最新的，通过在官网下载来安装最新的 Redis&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 &lt;code>sudo apt install redis-server&lt;/code>安装的 Redis 并不是最新的，通过在官网下载来安装最新的 Redis&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-创建文件夹">1 创建文件夹&lt;/h2>
 &lt;pre tabindex="0">&lt;code>mkdir redis
 &lt;/code>&lt;/pre>&lt;h2 id="2-下载-redis">2 下载 Redis&lt;/h2>
@@ -819,8 +802,7 @@ requirepass your_password
 &lt;/code>&lt;/pre>&lt;h2 id="6-启动">6 启动&lt;/h2>
 &lt;pre tabindex="0">&lt;code>redis-server ./redis-4.0.1/redis.conf
 &lt;/code>&lt;/pre></description></item><item><title>Ubuntu搭建Redis服务器</title><link>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAredis%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 12:08:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAredis%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>在Ubuntu中搭建Redis服务器&lt;/p>
-&lt;/blockquote>
+&lt;p>在Ubuntu中搭建Redis服务器&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>###1 安装&lt;/p>
 &lt;pre tabindex="0">&lt;code>sudo apt-get install redis-server
@@ -853,8 +835,7 @@ requirepass your_password
 5617:M 18 Sep 12:57:10.438 * DB loaded from disk: 0.000 seconds
 5617:M 18 Sep 12:57:10.438 * The server is now ready to accept connections on port 6379
 &lt;/code>&lt;/pre>&lt;p>###3 启动客户端&lt;/p></description></item><item><title>Ubuntu搭建Shadowsocks服务器</title><link>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 00:58:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu%E6%90%AD%E5%BB%BAshadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;p>在Ubuntu环境中搭建Shadowsocks服务&lt;/p>
-&lt;/blockquote>
+&lt;p>在Ubuntu环境中搭建Shadowsocks服务&lt;/p>&lt;/blockquote>
 &lt;h2 id="1-安装shadowsocks">1. 安装Shadowsocks&lt;/h2>
 &lt;pre tabindex="0">&lt;code># 更新apt-get
 sudo apt-get update

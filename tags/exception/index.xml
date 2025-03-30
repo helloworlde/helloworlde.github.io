@@ -7,11 +7,9 @@
 &lt;ul>
 &lt;li>&lt;code>org.springframework.web.servlet.HandlerExceptionResolver#resolveException&lt;/code>方法&lt;/li>
 &lt;li>&lt;code>org.springframework.web.bind.annotation.RestControllerAdvice&lt;/code>或&lt;code>org.springframework.web.bind.annotation.ControllerAdvice&lt;/code>和&lt;code>org.springframework.web.bind.annotation.ExceptionHandler&lt;/code>注解来实现&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>当两种方式都实现时，&lt;code>HandlerExceptionResolver&lt;/code>要先于&lt;code>ControllerAdvice&lt;/code>执行&lt;/p>
-&lt;/blockquote>
+&lt;p>当两种方式都实现时，&lt;code>HandlerExceptionResolver&lt;/code>要先于&lt;code>ControllerAdvice&lt;/code>执行&lt;/p>&lt;/blockquote>
 &lt;h2 id="使用-handlerexceptionresolver-处理异常">使用 HandlerExceptionResolver 处理异常&lt;/h2>
 &lt;ul>
 &lt;li>CustomExceptionHandlerResolver.java&lt;/li>
@@ -68,8 +66,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>还需要将该配置添加到应用中&lt;/p></description></item><item><title>IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServlet...</title><link>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</link><pubDate>Mon, 01 Jan 2018 01:03:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</guid><description>&lt;blockquote>
-&lt;p>导入一个&lt;code>gradle&lt;/code> 的&lt;code>Spring Boot&lt;/code>项目，在启动的时候先提示找不到&lt;code>HttpServletRequest&lt;/code>这个包，错误如下：&lt;/p>
-&lt;/blockquote>
+&lt;p>导入一个&lt;code>gradle&lt;/code> 的&lt;code>Spring Boot&lt;/code>项目，在启动的时候先提示找不到&lt;code>HttpServletRequest&lt;/code>这个包，错误如下：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Caused by: java.lang.ClassNotFoundException: javax.servlet.http.HttpServletRequest
  at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_45]
  at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_45]
@@ -77,17 +74,14 @@
  at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_45]
  ... 29 common frames omitted
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>但是相应的Java代码没有报错，所以单独找了&lt;code>servlet-api.jar&lt;/code>导入，并将其添加到&lt;code>Module&lt;/code>中，但是导入后出现另一个错误：&lt;/p>
-&lt;/blockquote>
+&lt;p>但是相应的Java代码没有报错，所以单独找了&lt;code>servlet-api.jar&lt;/code>导入，并将其添加到&lt;code>Module&lt;/code>中，但是导入后出现另一个错误：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
  at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:137) ~[spring-boot-1.5.2.RELEASE.jar:1.5.2.RELEASE]
 ....
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>找了很久都没有找到解决的方法，但是使用&lt;code>gradle bootrun&lt;/code>是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p>
-&lt;/blockquote>
+&lt;p>找了很久都没有找到解决的方法，但是使用&lt;code>gradle bootrun&lt;/code>是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>看到有一篇使用&lt;code>Maven&lt;/code>也遇到该问题的帖子，对比了依赖：&lt;/p>
-&lt;/blockquote>
+&lt;p>看到有一篇使用&lt;code>Maven&lt;/code>也遇到该问题的帖子，对比了依赖：&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>dependencies {
  compile(&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0&amp;#39;)
  compile(&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;)
@@ -99,18 +93,13 @@
 }
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>然后将&lt;code>providedRuntime&lt;/code>改成了&lt;code>runtime&lt;/code>，重新&lt;code>build&lt;/code>启动，没有任何问题
-该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code>Gradle&lt;/code>一样做完全的&lt;code>build&lt;/code>，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p>
-&lt;/blockquote>
-&lt;blockquote>
-&lt;p>&lt;strong>&lt;code>providedCompile&lt;/code> 和 &lt;code>providedRuntime&lt;/code>。虽然它们有各自的&lt;code>compile&lt;/code> 和 &lt;code>runtime&lt;/code> 配置，但这些配置有相同的作用域，只是它们不会添加到 &lt;code>war/jar&lt;/code> 文件中&lt;/strong>。&lt;/p></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
-&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>
-&lt;/blockquote>
+该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code>Gradle&lt;/code>一样做完全的&lt;code>build&lt;/code>，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
+&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
 
 org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): ...........
 &lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>
-&lt;/blockquote>
+&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li>
 &lt;/ul>
@@ -125,20 +114,17 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;img src="http://img.blog.csdn.net/20170501203402426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改后的结构">&lt;/p>
 &lt;/li>
 &lt;/ul></description></item><item><title>SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:53:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>在SpringBoot应用启动的过程中，因为报&lt;code>org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code>导致应用启动失败&lt;/p>
-&lt;/blockquote>
+&lt;p>在SpringBoot应用启动的过程中，因为报&lt;code>org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code>导致应用启动失败&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;blockquote>
-&lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>&lt;/blockquote>
 &lt;pre tabindex="0">&lt;code>Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class
 [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService]
  conflicts with existing, non-compatible bean definition of same name and class
  [cn.com.hellowood.dubbo.PersonDubboConsumerService]
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
-&lt;strong>通过指定注入对象的名称可以解决这个问题&lt;/strong>&lt;/p>
-&lt;/blockquote>
+&lt;strong>通过指定注入对象的名称可以解决这个问题&lt;/strong>&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>原来的代码&lt;/li>
 &lt;/ul>
@@ -197,12 +183,10 @@ public class PersonDubboConsumerService {
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e"> ... 13 common frames omitted
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Spring Boot Mail Could not connect to SMTP host</title><link>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</link><pubDate>Sun, 31 Dec 2017 23:57:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</guid><description>&lt;blockquote>
 &lt;p>如果使用了 SSL 连接请添加配置：&lt;code>spring.mail.properties.mail.smtp.ssl.enable=true&lt;/code>
-可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>
-&lt;/blockquote>
+可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;hr>
 &lt;blockquote>
-&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>&lt;/blockquote>
 &lt;ul>
 &lt;li>application.properties&lt;/li>
 &lt;/ul>

@@ -350,8 +350,7 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">exposure&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">include&lt;/span>: &lt;span style="color:#63c381">&amp;#34;*&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</link><pubDate>Sun, 08 Sep 2019 19:18:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建应用">创建应用&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -430,8 +429,7 @@
 &lt;ul>
 &lt;li>
 &lt;p>构建并上传镜像&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:15:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p>
-&lt;/blockquote>
+&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p>&lt;/blockquote>
 &lt;h2 id="创建应用">创建应用&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
 &lt;ul>
@@ -456,7 +454,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> spring:
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> profiles: prod
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> config:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> applicationVersion: prod-0.0.1&lt;/span> 
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7e97c3"> applicationVersion: prod-0.0.1&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用&lt;code>application.yaml|properties&lt;/code>作为 key，需要注意的是环境配置是&lt;code>spring.profiles&lt;/code>，而不是&lt;code>spring.profiles.active&lt;/code>，否则只会使用最后一行的配置&lt;/p>
 &lt;p>通过以下命令将 ConfigMap 添加到 Kubernetes 中&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f config-map.yaml
@@ -471,12 +469,8 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.cloud.kubernetes.reload.strategy&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">refresh&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>
-&lt;p>&lt;code>spring.profiles.active=${PROFILE:dev}&lt;/code>用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;code>spring.cloud.kubernetes.reload.enabled&lt;/code>默认是关闭的，所以需要主动开启&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;code>spring.profiles.active=${PROFILE:dev}&lt;/code>用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
+&lt;p>Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p>&lt;/blockquote>
 &lt;p>创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用&lt;/p>
 &lt;h2 id="provider">Provider&lt;/h2>
 &lt;h3 id="添加依赖">添加依赖&lt;/h3>
@@ -536,17 +530,13 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ADD&lt;/span> discovery/provider/build/libs/provider-0.0.1-SNAPSHOT.jar app.jar
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENTRYPOINT&lt;/span> [&lt;span style="color:#63c381">&amp;#34;java&amp;#34;&lt;/span>,&lt;span style="color:#63c381">&amp;#34;-Djava.security.egd=file:/dev/./urandom&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;-Duser.timezone=GMT+08&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;-jar&amp;#34;&lt;/span>,&lt;span style="color:#63c381">&amp;#34;/app.jar&amp;#34;&lt;/span>]
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>构建并上传镜像&lt;/p></description></item><item><title>Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:51:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka">本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2>
-&lt;/blockquote>
+&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka">本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p>
-&lt;/blockquote>
+&lt;p>在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p>
-&lt;/blockquote>
+&lt;p>因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47">http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47">http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;h2 id="配置">配置&lt;/h2>
 &lt;ul>
 &lt;li>修改配置文件，添加以下内容&lt;/li>
