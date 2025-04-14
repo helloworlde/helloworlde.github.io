@@ -42,21 +42,35 @@ pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译�
 apt install pve-headers
 ```
 
-- 安装 NVIDIA 驱动
+- 下载驱动
 
-安装 nvidia 驱动和需要的依赖
+访问 [https://www.nvidia.cn/drivers/unix/](https://www.nvidia.cn/drivers/unix/)，找到 `Linux x86_64/AMD64/EM64T`
+![homelab-pve-nvidia-driver-install-download-0.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-0.png)
+
+点击[压缩文件](https://www.nvidia.cn/drivers/unix/linux-amd64-display-archive/)查看历史版本，选择 `535.216.01` 版本，
+![homelab-pve-nvidia-driver-install-download-1.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-1.png)
+
+点击链接查看驱动详细信息，右键复制下载链接地址
+![homelab-pve-nvidia-driver-install-download-2.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-2.png)
+
+然后在 PVE 宿主机中通过 wget 下载驱动
 
 ```bash
-apt install libnvidia-cfg1 nvidia-kernel-source nvidia-kernel-common nvidia-driver
+wget https://cn.download.nvidia.com/XFree86/Linux-x86_64/535.216.01/NVIDIA-Linux-x86_64-535.216.01.run
+```
+![homelab-pve-nvidia-driver-install-lxc-install.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install.png)
+
+- 授予执行权限
+
+```bash
+chmod +x ./NVIDIA-Linux-x86_64-535.216.01.run
 ```
 
-| 软件包                  | 作用                                       | 是否必须安装           |
-|-------------------------|------------------------------------------|----------------------|
-| `libnvidia-cfg1`        | GPU 配置库，支持 `nvidia-settings`       | 可选                 |
-| `nvidia-kernel-source`  | 提供 NVIDIA 内核模块源码，支持 DKMS      | 可选（用于手动编译）   |
-| `nvidia-kernel-common`  | 包含 NVIDIA 内核模块的公共组件           | 必须                 |
-| `nvidia-driver`         | 完整的 NVIDIA 驱动                       | 必须                 |
+- 安装驱动
 
+```bash
+./NVIDIA-Linux-x86_64-535.216.01.run
+```
 
 ### 1.3 重启系统
 
@@ -181,31 +195,14 @@ pct reboot 120
 
 进入 LXC 容器安装 NVIDIA 驱动，LXC 容器中的驱动版本需要和宿主机的版本一致，否则可能会返回 `Failed to initialize NVML: Driver/library version mismatch NVML library version: 535.230`
 
-在宿主机可以直接使用 apt 安装，这样能保证驱动是 PVE 兼容的版本；但是在 LXC 容器中可能因为系统、版本不一样，安装的驱动并不是宿主机兼容的版本，所以需要手动下载驱动
+~~在宿主机可以直接使用 apt 安装，这样能保证驱动是 PVE 兼容的版本；但是在 LXC 容器中可能因为系统、版本不一样，安装的驱动并不是宿主机兼容的版本，所以需要手动下载驱动~~
+即使在 PVE 中通过 apt 安装的驱动版本和 LXC 中安装的版本一样，依然可能存在不兼容的问题，所以无论是 LXC容器还是 PVE 宿主机，都建议手动下载安装相同的驱动
 
 #### 2.2.1 下载驱动
 
-- 获取驱动版本
-
-在宿主机上执行 `nvidia-smi` 获取驱动版本，我这里的版本是 `Driver Version: 535.216.01`
-
 - 下载驱动
 
-访问 [https://www.nvidia.cn/drivers/unix/](https://www.nvidia.cn/drivers/unix/)，找到 `Linux x86_64/AMD64/EM64T`
-![homelab-pve-nvidia-driver-install-download-0.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-0.png)
-
-点击[压缩文件](https://www.nvidia.cn/drivers/unix/linux-amd64-display-archive/)查看历史版本，找到对应的的 `535.216.01` 版本，
-![homelab-pve-nvidia-driver-install-download-1.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-1.png)
-
-点击链接查看驱动详细信息，右键复制下载链接地址
-![homelab-pve-nvidia-driver-install-download-2.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-2.png)
-
-然后在 LXC 容器中通过 wget 下载驱动
-
-```bash
-wget https://cn.download.nvidia.com/XFree86/Linux-x86_64/535.216.01/NVIDIA-Linux-x86_64-535.216.01.run
-```
-![homelab-pve-nvidia-driver-install-lxc-install.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install.png)
+和宿主机下载驱动一样通过 wget 下载即可
 
 #### 2.2.2 安装驱动
 
