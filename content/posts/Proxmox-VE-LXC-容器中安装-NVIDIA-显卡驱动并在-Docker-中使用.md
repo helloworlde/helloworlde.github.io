@@ -47,7 +47,7 @@ apt install pve-headers
 访问 [https://www.nvidia.cn/drivers/unix/](https://www.nvidia.cn/drivers/unix/)，找到 `Linux x86_64/AMD64/EM64T`
 ![homelab-pve-nvidia-driver-install-download-0.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-0.png)
 
-点击[压缩文件](https://www.nvidia.cn/drivers/unix/linux-amd64-display-archive/)查看历史版本，选择 `535.216.01` 版本，
+点击[压缩文件](https://www.nvidia.cn/drivers/unix/linux-amd64-display-archive/)查看历史版本，选择 `535.216.01` 版本(ubuntu 22 推荐的版本)
 ![homelab-pve-nvidia-driver-install-download-1.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-1.png)
 
 点击链接查看驱动详细信息，右键复制下载链接地址
@@ -188,7 +188,7 @@ lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-caps/nvidia-cap2 none bind,opt
 然后重启 LXC 容器即可
 
 ```bash
-pct reboot 120
+pct reboot 100
 ```
 
 ### 2.2 安装 NVIDIA 驱动
@@ -196,6 +196,7 @@ pct reboot 120
 进入 LXC 容器安装 NVIDIA 驱动，LXC 容器中的驱动版本需要和宿主机的版本一致，否则可能会返回 `Failed to initialize NVML: Driver/library version mismatch NVML library version: 535.230`
 
 ~~在宿主机可以直接使用 apt 安装，这样能保证驱动是 PVE 兼容的版本；但是在 LXC 容器中可能因为系统、版本不一样，安装的驱动并不是宿主机兼容的版本，所以需要手动下载驱动~~
+
 即使在 PVE 中通过 apt 安装的驱动版本和 LXC 中安装的版本一样，依然可能存在不兼容的问题，所以无论是 LXC容器还是 PVE 宿主机，都建议手动下载安装相同的驱动
 
 #### 2.2.1 下载驱动
@@ -298,7 +299,7 @@ sudo apt update && sudo apt install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 ```
 
-将会修改 ```/etc/docker/daemon.json``` 文件，添加 nvidia-container-runtime 配置
+将会修改 `/etc/docker/daemon.json` 文件，添加 nvidia-container-runtime 配置
 
 ```bash
 INFO[0000] Loading config from /etc/docker/daemon.json
