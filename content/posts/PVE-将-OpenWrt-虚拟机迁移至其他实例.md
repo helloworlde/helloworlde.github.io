@@ -4,8 +4,12 @@ date: 2025-04-15
 # image: ""
 lastmod: 2025-04-15
 showTableOfContents: false
-# tags: ["",]
-title: "PVE 将虚拟机迁移至其他实例"
+tags:
+  - PVE
+  - OpenWrt
+  - HomeLab
+featured: true
+title: "PVE 将 OpenWrt 虚拟机迁移至其他实例"
 type: "post"
 ---
 
