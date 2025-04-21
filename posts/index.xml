@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>PVE 将 OpenWrt 虚拟机迁移至其他实例</title><link>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</link><pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</guid><description>&lt;p>因为需要下线维护当前的 PVE 实例，所以新建了一台 PVE 实例，需要把之前的虚拟机迁移到新的 PVE 实例上，但是通过组建集群复制的方式会从当前的 PVE 中删除该实例，并且新的实例是临时性的，组建集群会带来额外的维护成本，因此通过命令行迁移&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统</title><link>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</link><pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</guid><description>&lt;p>红米 AX6000 是 WiFi6 早期阶段性能极强并且有性价比的路由器，缺点是不支持 2.5G网口；在使用两年后刷为 OpenWrt 用于安装 OpenClash 等软件&lt;/p>
+&lt;h2 id="启用-telnet-并解锁-ssh">启用 telnet 并解锁 SSH&lt;/h2>
+&lt;p>刷机需要登录到路由器操作，因此需要先启用 telnet 并解锁 SSH；解锁过程比较简单，直接访问对应的地址就可以&lt;/p>
+&lt;h3 id="确认固件版本">确认固件版本&lt;/h3>
+&lt;p>登录路由器后台，需要确认固件版本是否是 1.0.48、1.0.60 或者 1.0.67，只有这三个版本支持；如果不是这三个版本，需要下载其中某个版本刷入；最新的固件版本是 1.0.67，并且这款路由器已经没有新版本更新了&lt;/p>
+&lt;p>固件地址可以参考: &lt;a href="https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version">https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version&lt;/a>&lt;/p>
+&lt;h3 id="启用-telnet">启用 telnet&lt;/h3>
+&lt;ul>
+&lt;li>获取 stock&lt;/li>
+&lt;/ul>
+&lt;p>stock 是小米路由器访问的鉴权 token，每次登录后生成新的，登录后可以浏览器的地址栏 URL 中直接获取，比如：066801299c1f7845d1871e50c4a307df&lt;/p>
+&lt;ul>
+&lt;li>开启开发/调试模式&lt;/li>
+&lt;/ul>
+&lt;p>将 &lt;code>{token}&lt;/code> 替换为 URL获取的 stock，浏览器访问 URL:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea">stok&lt;/span>&lt;span style="color:#c7bf54">={&lt;/span>token&lt;span style="color:#c7bf54">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54">=&lt;/span>%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个操作会将 &lt;code>\xa5\x5a\x00\x00&lt;/code> 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;code&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后访问重启路由器&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea">stok&lt;/span>&lt;span style="color:#c7bf54">={&lt;/span>token&lt;span style="color:#c7bf54">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54">=&lt;/span>%20%27%20%3b%20reboot%20%3b%20
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改 Bdata, 开启 telnet&lt;/li>
+&lt;/ul>
+&lt;p>再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea">stok&lt;/span>&lt;span style="color:#c7bf54">={&lt;/span>token&lt;span style="color:#c7bf54">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54">=&lt;/span>%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后再次访问 URL 重启路由器&lt;/p></description></item><item><title>PVE 将 OpenWrt 虚拟机迁移至其他实例</title><link>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</link><pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</guid><description>&lt;p>因为需要下线维护当前的 PVE 实例，所以新建了一台 PVE 实例，需要把之前的虚拟机迁移到新的 PVE 实例上，但是通过组建集群复制的方式会从当前的 PVE 中删除该实例，并且新的实例是临时性的，组建集群会带来额外的维护成本，因此通过命令行迁移&lt;/p>
 &lt;h2 id="备份虚拟机">备份虚拟机&lt;/h2>
 &lt;p>将虚拟机备份到 &lt;code>~/workspace&lt;/code> 目录下&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir ~/workspace
