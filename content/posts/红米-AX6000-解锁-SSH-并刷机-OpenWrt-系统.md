@@ -212,6 +212,10 @@ Sun Apr 20 07:51:18 UTC 2025 upgrade: Commencing upgrade. Closing all shell sess
 
 完成后会自动重启，访问 192.168.1.1 即可进入 OpenWrt 
 
+## 配置 WiFi 启用 160Mhz 频段
+
+默认启用的 WiFi 是 80Mhz，如果要启用 160Mhz 频段，需要将模式改为 AX，信道改为 64，国家改为 US，即可启用，其他配置会启用失败
+
 ## 参考文档
 
 - [红米AX6000拆机，最便宜的四核2.0GHz](https://www.acwifi.net/19676.html)
