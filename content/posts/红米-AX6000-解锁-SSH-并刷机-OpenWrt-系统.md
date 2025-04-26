@@ -151,7 +151,7 @@ nvram commit
 最新的固件地址可以从 [redmi_ax6000#installation](https://openwrt.org/toh/xiaomi/redmi_ax6000#installation) 的 `Firmware OpenWrt Install URL` 获取下载地址
 
 ```bash
-curl -O https://downloads.openwrt.org/releases/24.10.0/targets/mediatek/filogic/openwrt-24.10.0-mediatek-filogic-xiaomi_redmi-router-ax6000-stock-initramfs-factory.ubi
+cd /tmp && curl -O https://downloads.openwrt.org/releases/24.10.0/targets/mediatek/filogic/openwrt-24.10.0-mediatek-filogic-xiaomi_redmi-router-ax6000-stock-initramfs-factory.ubi
 ```
 
 ```bash
@@ -196,7 +196,7 @@ fw_setenv mtdparts "nmbm0:1024k(bl2),256k(Nvram),256k(Bdata),2048k(factory),2048
 - 下载 OpenWrt 升级固件
 
 ```bash
-wget https://downloads.openwrt.org/releases/24.10.0/targets/mediatek/filogic/openwrt-24.10.0-mediatek-filogic-xiaomi_redmi-router-ax6000-stock-squashfs-sysupgrade.bin
+cd /tmp && wget https://downloads.openwrt.org/releases/24.10.0/targets/mediatek/filogic/openwrt-24.10.0-mediatek-filogic-xiaomi_redmi-router-ax6000-stock-squashfs-sysupgrade.bin
 ```
 
 - 刷入升级固件
