@@ -5,6 +5,7 @@ date: 2022-08-25T11:20:19+08:00
 tags:
   - OpenClash
   - Clash
+  - Proxy
   - HomeLab
   - OpenWrt
 featured: true

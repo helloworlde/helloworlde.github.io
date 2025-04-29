@@ -68,7 +68,6 @@ rsync -avhW --info=progress2 /root/workspace/vzdump-qemu-122-2025_04_18-09_27_17
 qmrestore ~/workspace/vzdump-qemu-122-2025_04_18-09_27_17.vma 125
 ```
 
-
 ```bash
 restore vma archive: vma extract -v -r /var/tmp/vzdumptmp1083179.fifo /root/workspace/vzdump-qemu-122-2025_04_18-09_27_17.vma /var/tmp/vzdumptmp1083179
 CFG: size: 468 name: qemu-server.conf

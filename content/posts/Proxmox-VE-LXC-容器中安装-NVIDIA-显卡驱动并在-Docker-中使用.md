@@ -17,7 +17,7 @@ featured: true
 
 ### 1.1 修改订阅源
 
-- 修改 `/etc/apt/sources.list` 文件，添加 pve-no-subscription 源；完整的配置如下: 
+- 修改 `/etc/apt/sources.list` 文件，添加 pve-no-subscription 源；完整的配置如下:
 
 ```bash
 deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
@@ -58,6 +58,7 @@ apt install pve-headers
 ```bash
 wget https://cn.download.nvidia.com/XFree86/Linux-x86_64/535.216.01/NVIDIA-Linux-x86_64-535.216.01.run
 ```
+
 ![homelab-pve-nvidia-driver-install-lxc-install.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install.png)
 
 - 授予执行权限
@@ -144,23 +145,22 @@ cr--r--r-- 1 root root 238, 2 Mar 23 23:03 nvidia-cap2
 
 - 设备文件列表及作用
 
-| 设备文件                  | 作用描述 |
-|---------------------------|----------------|
-| **`/dev/nvidia0`**        | 代表第一块 GPU，多个 GPU 会有 `/dev/nvidia1` 等 |
-| **`/dev/nvidiactl`**      | 控制 NVIDIA 驱动程序，管理 GPU 资源 |
-| **`/dev/nvidia-modeset`** | 负责 GPU 显示模式管理（适用于 Xorg/Wayland）|
-| **`/dev/nvidia-uvm`**     | 负责 **Unified Virtual Memory (UVM)** 机制，支持 CPU-GPU 共享内存 |
-| **`/dev/nvidia-uvm-tools`** | 提供 UVM 相关的工具支持 |
+| 设备文件                    | 作用描述                                                          |
+| --------------------------- | ----------------------------------------------------------------- |
+| **`/dev/nvidia0`**          | 代表第一块 GPU，多个 GPU 会有 `/dev/nvidia1` 等                   |
+| **`/dev/nvidiactl`**        | 控制 NVIDIA 驱动程序，管理 GPU 资源                               |
+| **`/dev/nvidia-modeset`**   | 负责 GPU 显示模式管理（适用于 Xorg/Wayland）                      |
+| **`/dev/nvidia-uvm`**       | 负责 **Unified Virtual Memory (UVM)** 机制，支持 CPU-GPU 共享内存 |
+| **`/dev/nvidia-uvm-tools`** | 提供 UVM 相关的工具支持                                           |
 
 - `/dev/nvidia-caps/` 目录
 
 此目录包含 **与 GPU 访问控制相关的设备文件**，用于限制对某些 GPU 功能的访问。
 
-| 设备文件                      | 作用描述 |
-|-------------------------------|----------------|
+| 设备文件                           | 作用描述                                                                    |
+| ---------------------------------- | --------------------------------------------------------------------------- |
 | **`/dev/nvidia-caps/nvidia-cap1`** | 仅 `root` 可访问，通常与安全关键的 GPU 功能（如 `nvidia-persistenced`）相关 |
-| **`/dev/nvidia-caps/nvidia-cap2`** | 允许所有用户读取，可能用于 GPU 监控等非特权操作 |
-
+| **`/dev/nvidia-caps/nvidia-cap2`** | 允许所有用户读取，可能用于 GPU 监控等非特权操作                             |
 
 #### 2.1.2 将设备挂载到 LXC 容器中
 
@@ -349,7 +349,7 @@ Sun Mar 30 03:38:52 2025
 - Docker Compose 中使用 NVIDIA 显卡
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   cuda-nvidia-smi:

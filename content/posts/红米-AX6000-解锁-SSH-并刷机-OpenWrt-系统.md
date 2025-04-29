@@ -26,7 +26,7 @@ featured: true
 
 固件地址可以参考: [https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version](https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version)
 
-### 启用 telnet 
+### 启用 telnet
 
 - 获取 stock
 
@@ -34,12 +34,11 @@ stock 是小米路由器访问的鉴权 token，每次登录后生成新的，�
 
 - 开启开发/调试模式
 
-将 `{token}` 替换为 URL获取的 stock，浏览器访问 URL: 
+将 `{token}` 替换为 URL获取的 stock，浏览器访问 URL:
 
 ```bash
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
 ```
-
 
 这个操作会将 `\xa5\x5a\x00\x00` 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功
 
@@ -55,8 +54,7 @@ http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezon
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3b%20reboot%20%3b%20
 ```
 
-
-- 修改 Bdata, 开启 telnet 
+- 修改 Bdata, 开启 telnet
 
 再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功
 
@@ -68,7 +66,7 @@ http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezon
 
 ```bash
 http://192.168.31.1/cgi-bin/luci/;stok={token}/api/misystem/set_sys_time?timezone=%20%27%20%3b%20reboot%20%3b%20
-``` 
+```
 
 ### 启用 ssh
 
@@ -82,7 +80,7 @@ telnet 192.168.31.1
 
 - 开启并固化 ssh
 
-如果只需要刷为 OpenWrt，这一步不需要执行；如果不想刷机了，只想开启 ssh，可以通过设置启动脚本的方式自定开启 ssh 
+如果只需要刷为 OpenWrt，这一步不需要执行；如果不想刷机了，只想开启 ssh，可以通过设置启动脚本的方式自定开启 ssh
 
 ```bash
 echo -e 'admin\nadmin' | passwd root
@@ -110,7 +108,7 @@ mtd erase crash
 reboot
 ```
 
-## 刷入 OpenWrt 
+## 刷入 OpenWrt
 
 AX6000 有两种分区方式，stock 方式和 U-Boot 方式；U-Boot 方式会覆盖路由器的分区，存储空间会增加，但是无法恢复为官方的模式；如果想后续刷回小米的固件，建议使用 stock 方式
 
@@ -210,7 +208,7 @@ verifying sysupgrade tar file integrity
 Sun Apr 20 07:51:18 UTC 2025 upgrade: Commencing upgrade. Closing all shell sessions.
 ```
 
-完成后会自动重启，访问 192.168.1.1 即可进入 OpenWrt 
+完成后会自动重启，访问 192.168.1.1 即可进入 OpenWrt
 
 ## 配置 WiFi 启用 160Mhz 频段
 

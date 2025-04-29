@@ -107,11 +107,11 @@ Number of devices:				 1
   Device Type:					 CL_DEVICE_TYPE_GPU
   Vendor ID:					 1002h
   Board name:					 AMD Radeon Graphics
- 
+
 # ...
 ```
 
-- rocm-smi 
+- rocm-smi
 
 rocm-smi 是一个用于监视和管理 ROCm 设备的工具。它可以显示设备的当前状态、温度、功耗、内存使用情况等信息
 
