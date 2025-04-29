@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dae on HelloWood</title><link>https://blog.hellowood.dev/tags/dae/</link><description>Recent content in Dae on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/dae/index.xml" rel="self" type="application/rss+xml"/><item><title>Dae 代理软件的配置</title><link>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="tbd">TBD&lt;/h1></description></item><item><title>OpenWrt 安装使用 Dae 作为代理</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Mon, 28 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://github.com/daeuniverse/dae">Dae&lt;/a> 是一种高性能透明代理解决方案，在 Linux 内核中使用 eBPF 实现了代理能力；支持以域名、源 IP、目的 IP、源端口、目的端口、TCP/UDP、IPv4/IPv6、进程名、MAC 地址等对流量进行分流；相对于其他代理方案，如 Clash 等，Dae 的代理规则相对灵活，直连的性能更好(本机进程，作为网关实际效果差距不大)&lt;/p>
+&lt;p>Dae 的出栈协议支持 HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等&lt;/p>
+&lt;p>Dae 和其他的代理软件如 Clash 等相比，在可靠性、稳定性、速度、容灾等方面并没有明显的优势，并且对设备的要求较高，因此并不见得是最佳选择&lt;/p>
+&lt;h2 id="安装-openwrt">安装 OpenWrt&lt;/h2>
+&lt;p>因为 dae 是基于 eBPF 实现的，所以需要 OpenWrt 内核支持 eBPF，内核版本需要大于 5.17，并且需要开启 eBPF；OpenWrt 官方提供的镜像未开启 eBPF 支持，需要自行编译，或者使用 ImmortalWRT 构建的镜像&lt;/p>
+&lt;h3 id="使用-immortalwrt-构建镜像">使用 ImmortalWRT 构建镜像&lt;/h3>
+&lt;p>访问 &lt;a href="https://firmware-selector.immortalwrt.org/">https://firmware-selector.immortalwrt.org/&lt;/a>，我是在 x86 机器的 PVE 中使用虚拟机的方式运行 OpenWrt，因此选择 &lt;code>Generic x86/64&lt;/code>，其他平台如 arm 等选择对应的平台即可&lt;/p>
+&lt;p>在 Installed Packages 后面追加 eBPF 和 Dae 相关的包：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>软件包的作用如下：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名&lt;/th>
+ &lt;th>作用&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;code>kmod-xdp-sockets-diag&lt;/code>&lt;/td>
+ &lt;td>提供 XDP 套接字诊断，用于监控与排查基于 XDP 的高性能网络程序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>kmod-veth&lt;/code>&lt;/td>
+ &lt;td>支持成对虚拟以太网设备（veth），常用于容器网络隔离&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>kmod-sched-core&lt;/code>&lt;/td>
+ &lt;td>提供 Linux 内核的流量调度核心框架，支撑 QoS 策略&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>kmod-sched-bpf&lt;/code>&lt;/td>
+ &lt;td>基于 BPF 的流量调度扩展，支持自定义数据包处理策略&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>kmod-nft-bridge&lt;/code>&lt;/td>
+ &lt;td>在桥接接口上集成 nftables 防火墙规则&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>dae-geosite&lt;/code>&lt;/td>
+ &lt;td>为 dae 守护进程提供 GeoSite 支持，可按域名或网站分类过滤流量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>dae-geoip&lt;/code>&lt;/td>
+ &lt;td>为 dae 守护进程提供 GeoIP 支持，可按 IP 地理位置过滤或路由流量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;code>dae&lt;/code>&lt;/td>
+ &lt;td>核心 dae 守护进程，实现后台流量过滤与转发等网络服务&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>完整的包列表如下：&lt;/p></description></item></channel></rss>
