@@ -159,12 +159,12 @@ dae 的配置订阅处于早期阶段，兼容性较差，dae 会过滤包含 `:
 
 - 示例配置
 
-配置分为两部分，tag 和订阅地址，tag 是订阅地址的唯一表示，用于 group 分组筛选节点
+配置分为两部分，tag 和订阅地址，tag 是订阅地址的唯一标识，用于 group 分组筛选节点
 
 ```conf
 subscription {
     # 订阅地址
-    free_node: 'https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt'
+    sub_airport_1: 'https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt'
 }
 ```
 
@@ -286,7 +286,7 @@ group {
 
 - 示例配置
 
-分流规则分为两部分，左侧为匹配规则，右侧为匹配到规则后使用的节点分组，规则按从上到下的顺序匹配；内置的出站规则有 `block`, `direct`, `must_rules`，除此之外必须使用 group 定义的节点分组，如 前面定义的 `proxy`, `ai` 等
+分流规则分为两部分，左侧为匹配规则，右侧为匹配到规则后使用的节点分组，规则按从上到下的顺序匹配；内置的出站规则有 `block`, `direct`, `must_direct`, `must_rules`(must_rules 表示不将DNS流量重定向至 dae 并继续匹配) , 除此之外必须使用 group 定义的节点分组，如 前面定义的 `proxy`, `ai` 等
 
 ```conf
 # 分流规则
