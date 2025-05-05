@@ -124,7 +124,7 @@ node {
     hy2: "hysteria2://user:password@host:443/?insecure=false"
 }
 
-# 出栈节点分组
+# 节点分组
 group {
     # 分组一，名称是 proxy，用于 routing 选择
     # 没有过滤条件，使用所有节点
@@ -144,7 +144,7 @@ group {
 
 # 路由配置
 routing {
-    # DNS/SSH 等进程强制直连
+    # DNS/SSH 等相关进程强制直连
     pname(dnsmasq, dropbear) -> must_direct
     # DNS 地址或域名，强制直连
     dip(8.8.8.8) -> must_direct
