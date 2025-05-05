@@ -1,4 +1,186 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>Dae 代理软件的配置</title><link>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</guid><description>&lt;h1 id="tbd">TBD&lt;/h1></description></item><item><title>OpenWrt 安装使用 Dae 作为代理</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Mon, 28 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://github.com/daeuniverse/dae">Dae&lt;/a> 是一种高性能透明代理解决方案，在 Linux 内核中使用 eBPF 实现了代理能力；支持以域名、源 IP、目的 IP、源端口、目的端口、TCP/UDP、IPv4/IPv6、进程名、MAC 地址等对流量进行分流；相对于其他代理方案，如 Clash 等，Dae 的代理规则相对灵活，直连的性能更好(本机进程，作为网关实际效果差距不大)&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>Dae 代理软件的配置</title><link>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>dae 的配置使用的是自定义的 &lt;code>.dae&lt;/code> 格式的文件，语法类似 &lt;code>yaml&lt;/code> 的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下&lt;/p>
+&lt;h2 id="一配置文件结构">一、配置文件结构&lt;/h2>
+&lt;p>Dae的配置文件分为以下几个主要部分：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>配置&lt;/th>
+ &lt;th>说明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>global&lt;/td>
+ &lt;td>全局配置，包括日志级别、监听地址、端口等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>dns&lt;/td>
+ &lt;td>DNS配置，包括上游 DNS 服务器、DNS 分流策略等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>subscription&lt;/td>
+ &lt;td>节点订阅配置，用于从订阅服务器获取节点信息，解析到的节点会被添加到 node 中&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>node&lt;/td>
+ &lt;td>节点配置，包括节点的地址、端口、协议、加密方式等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>group&lt;/td>
+ &lt;td>节点分组，根据过滤规则对节点进行分组，用于 routing 分流到不同的节点&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>routing&lt;/td>
+ &lt;td>路由规则，根据规则决定流量的处理策略，包括直连、分流代理到特定的分组或节点&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>格式：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf"># 全局配置
+global {
+}
+
+# DNS 配置
+dns {
+}
+
+# 订阅地址
+subscription {
+}
+
+# 节点
+node {
+}
+
+# 节点分组
+group {
+}
+
+# 路由配置
+routing {
+}
+&lt;/code>&lt;/pre>&lt;h2 id="二配置">二、配置&lt;/h2>
+&lt;h3 id="21-global">2.1 global&lt;/h3>
+&lt;ul>
+&lt;li>示例配置&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">global {
+ # Log level: error, warn, info, debug, trace.
+ log_level: info
+ # 代理流量的 LAN 接口
+ lan_interface: eth0,enp2s0
+ # 代理 WAN 接口，代理本机流量
+ wan_interface: auto
+
+ # 代理模式：ip/domain/domain+/domain++
+ dial_mode: domain++
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>配置说明&lt;/li>
+&lt;/ul>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>配置项名称&lt;/th>
+ &lt;th>说明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>tproxy_port&lt;/td>
+ &lt;td>TProxy 端口，仅供 eBPF 使用，通常无需修改，默认为 12345&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>tproxy_port_protect&lt;/td>
+ &lt;td>是否保护 TProxy 端口不被非法访问；若设为 false，用户需自行配置 iptables，默认为 true&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>pprof_port&lt;/td>
+ &lt;td>启用 pprof 的端口，设为非零值开启&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>so_mark_from_dae&lt;/td>
+ &lt;td>设置 dae 发出的流量的 SO_MARK，避免与 iptables tproxy 规则冲突&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>log_level&lt;/td>
+ &lt;td>日志等级，默认为 info，支持 error/warn/info/debug/trace&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>disable_waiting_network&lt;/td>
+ &lt;td>禁用等待网络连接后再拉取订阅功能，默认为 false&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>enable_local_tcp_fast_redirect&lt;/td>
+ &lt;td>启用本地 TCP 快速重定向（实验功能），可能导致部分代理/客户端异常，默认为 false&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>lan_interface&lt;/td>
+ &lt;td>要绑定的局域网接口，支持多个接口以英文逗号分隔，通常配置为 eth0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>wan_interface&lt;/td>
+ &lt;td>要绑定的广域网接口，auto 表示自动检测，支持多个接口&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>auto_config_kernel_parameter&lt;/td>
+ &lt;td>是否自动配置 Linux 内核参数（如 ip_forward 等），默认为 true&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>tcp_check_url&lt;/td>
+ &lt;td>用于 TCP 节点连通性检查的网址，推荐选择响应快的 anycast 地址，默认值 &lt;a href="http://cp.cloudflare.com">http://cp.cloudflare.com&lt;/a>,1.1.1.1,2606:4700:4700::1111&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>tcp_check_http_method&lt;/td>
+ &lt;td>TCP 检查所使用的 HTTP 方法，默认 HEAD 流量更节省，支持 GET/POST 等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>udp_check_dns&lt;/td>
+ &lt;td>用于检查 UDP（及 TCP DNS）连通性的 DNS 服务器地址，默认为 dns.google:53,8.8.8.8,2001:4860:4860::8888&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>check_interval&lt;/td>
+ &lt;td>节点连通性检测的时间间隔，默认为 30s&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>check_tolerance&lt;/td>
+ &lt;td>节点切换容差阈值；仅当新延迟 ≤ 旧延迟 - 容差时才切换节点， 默认 50ms&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>dial_mode&lt;/td>
+ &lt;td>代理模式，默认为 domain，支持 ip/domain/domain+/domain++&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>allow_insecure&lt;/td>
+ &lt;td>是否允许不安全的 TLS 证书（如自签证书）；不推荐启用，默认为 false&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>sniffing_timeout&lt;/td>
+ &lt;td>嗅探超时等待首个数据包的时间，dial_mode 为 ip 时该值无效，默认为 100ms&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>tls_implementation&lt;/td>
+ &lt;td>TLS 实现方式：tls 使用 Go 原生库，utls 模拟浏览器，默认为 tls，支持 tls/utls&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>utls_imitate&lt;/td>
+ &lt;td>当 tls_implementation 为 utls 时，指定模拟的浏览器类型，值为chrome_auto&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>mptcp&lt;/td>
+ &lt;td>是否启用 Multipath TCP，用于多链路负载均衡与故障转移，默认 false&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>bandwidth_max_tx&lt;/td>
+ &lt;td>最大上行带宽（用于部分协议性能优化），单位支持 b/kb/mb/gb/tb&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>bandwidth_max_rx&lt;/td>
+ &lt;td>最大下行带宽，单位支持 b/kb/mb/gb/tb&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>&lt;code>dial_mode&lt;/code> 支持以下几种模式：&lt;/p></description></item><item><title>OpenWrt 安装使用 Dae 作为代理</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</link><pubDate>Mon, 28 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p>&lt;a href="https://github.com/daeuniverse/dae">Dae&lt;/a> 是一种高性能透明代理解决方案，在 Linux 内核中使用 eBPF 实现了代理能力；支持以域名、源 IP、目的 IP、源端口、目的端口、TCP/UDP、IPv4/IPv6、进程名、MAC 地址等对流量进行分流；相对于其他代理方案，如 Clash 等，Dae 的代理规则相对灵活，直连的性能更好(本机进程，作为网关实际效果差距不大)&lt;/p>
 &lt;p>Dae 的出栈协议支持 HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等&lt;/p>
 &lt;p>Dae 和其他的代理软件如 Clash 等相比，在可靠性、稳定性、速度、容灾等方面并没有明显的优势，并且对设备的要求较高，因此并不见得是最佳选择&lt;/p>
 &lt;h2 id="安装-openwrt">安装 OpenWrt&lt;/h2>
