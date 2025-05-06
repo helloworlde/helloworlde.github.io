@@ -2,7 +2,7 @@
 date: 2025-04-29
 # description: ""
 # image: ""
-lastmod: 2025-05-05
+lastmod: 2025-05-06
 showTableOfContents: false
 tags:
   - Proxy
@@ -14,7 +14,7 @@ type: "post"
 featured: true
 ---
 
-dae 的配置使用的是自定义的 `.dae` 格式的文件，语法类似 `yaml` 的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下
+dae 的配置使用的是自定义的 `.dae` 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下
 
 ## 一、配置文件结构
 
@@ -31,7 +31,7 @@ Dae的配置文件分为以下几个主要部分：
 
 格式：
 
-```conf
+```nginx
 # 全局配置
 global {
 }
@@ -63,7 +63,7 @@ routing {
 
 - 示例配置
 
-```conf
+```nginx
 global {
     # Log level: error, warn, info, debug, trace.
     log_level: info
@@ -120,7 +120,7 @@ global {
 
 完整的 DNS 分流参考 [DNS](URL_ADDRESS.com/daeuniverse/dae/blob/main/docs/zh/configuration/dns.md)
 
-```conf
+```nginx
 dns {
   # 上游 DNS
   upstream {
@@ -161,7 +161,7 @@ dae 的配置订阅处于早期阶段，兼容性较差，dae 会过滤包含 `:
 
 配置分为两部分，tag 和订阅地址，tag 是订阅地址的唯一标识，用于 group 分组筛选节点
 
-```conf
+```nginx
 subscription {
     # 订阅地址
     sub_airport_1: 'https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt'
@@ -208,7 +208,7 @@ subscription {
 
 - txt 格式
 
-```txt
+```text
 trojan://password@remote_host:remote_port
 hysteria2://letmein@example.com:123,5000-6000/?insecure=1&obfs=salamander&obfs-password=gawrgura&pinSHA256=deadbeef&sni=real.example.com
 ```
@@ -217,7 +217,7 @@ hysteria2://letmein@example.com:123,5000-6000/?insecure=1&obfs=salamander&obfs-p
 
 是 txt 格式 base64 编码后的内容
 
-```
+```text
 dHJvamFuOi8vcGFzc3dvcmRAcmVtb3RlX2hvc3Q6cmVtb3RlX3BvcnQKaHlzdGVyaWEyOi8vbGV0bWVpbkBleGFtcGxlLmNvbToxMjMsNTAwMC02MDAwLz9pbnNlY3VyZT0xJm9iZnM9c2FsYW1hbmRlciZvYmZzLXBhc3N3b3JkPWdhd3JndXJhJnBpblNIQTI1Nj1kZWFkYmVlZiZzbmk9cmVhbC5leGFtcGxlLmNvbQ==
 ```
 
@@ -225,7 +225,7 @@ dHJvamFuOi8vcGFzc3dvcmRAcmVtb3RlX2hvc3Q6cmVtb3RlX3BvcnQKaHlzdGVyaWEyOi8vbGV0bWVp
 
 是 txt 格式 urlencode 编码后的内容
 
-```
+```text
 trojan%3A%2F%2Fpassword%40remote_host%3Aremote_port
 hysteria2%3A%2F%2Fletmein%40example.com%3A123%2C5000-6000%2F%3Finsecure%3D1%26obfs%3Dsalamander%26obfs-password%3Dgawrgura%26pinSHA256%3Ddeadbeef%26sni%3Dreal.example.com
 ```
@@ -236,7 +236,7 @@ hysteria2%3A%2F%2Fletmein%40example.com%3A123%2C5000-6000%2F%3Finsecure%3D1%26ob
 
 node 分为两部分，tag 和 URI，tag 是节点的唯一标识，用于 group 分组，URI 是节点的连接信息，根据不同的协议有不同的格式，具体参考：[其他代理协议](https://github.com/daeuniverse/dae/blob/main/docs/zh/proxy-protocols.md)
 
-```conf
+```nginx
 node {
     # HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等格式
     hy2: "hysteria2://user:password@host:443/?insecure=false"
@@ -249,7 +249,7 @@ node {
 
 详细参考: [https://github.com/daeuniverse/dae/blob/main/example.dae](https://github.com/daeuniverse/dae/blob/main/example.dae)
 
-```conf
+```nginx
 # 节点分组
 group {
     # 分组一，名称是 proxy，用于 routing 选择
@@ -288,7 +288,7 @@ group {
 
 分流规则分为两部分，左侧为匹配规则，右侧为匹配到规则后使用的节点分组，规则按从上到下的顺序匹配；内置的出站规则有 `block`, `direct`, `must_direct`, `must_rules`(must_rules 表示不将DNS流量重定向至 dae 并继续匹配) , 除此之外必须使用 group 定义的节点分组，如 前面定义的 `proxy`, `ai` 等
 
-```conf
+```nginx
 # 分流规则
 routing {
     # DNS/SSH 等相关进程强制直连
@@ -343,7 +343,7 @@ routing {
 
 - config.dae
 
-```conf
+```nginx
 # 完整配置参考 https://github.com/daeuniverse/dae/blob/main/example.dae
 global {
     # 修改日志级别为 debug，方便调试

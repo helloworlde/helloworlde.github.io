@@ -2,7 +2,7 @@
 date: 2025-04-28
 # description: ""
 # image: ""
-lastmod: 2025-04-28
+lastmod: 2025-05-06
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 Dae 作为代理"
@@ -31,7 +31,7 @@ Dae 和其他的代理软件如 Clash 等相比，在可靠性、稳定性、速
 
 在 Installed Packages 后面追加 eBPF 和 Dae 相关的包：
 
-```bash
+```shell
 kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
 ```
 
@@ -50,7 +50,7 @@ kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge d
 
 完整的包列表如下：
 
-```bash
+```shell
 autocore automount base-files block-mount ca-bundle default-settings-chn dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup i915-firmware-dmc kmod-8139cp kmod-8139too kmod-button-hotplug kmod-e1000e kmod-fs-f2fs kmod-i40e kmod-igb kmod-igbvf kmod-igc kmod-ixgbe kmod-ixgbevf kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-pcnet32 kmod-r8101 kmod-r8125 kmod-r8126 kmod-r8168 kmod-tulip kmod-usb-hid kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152-vendor kmod-vmxnet3 libc libgcc libustream-openssl logd luci-app-package-manager luci-compat luci-lib-base luci-lib-ipkg luci-light mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000 kmod-dwmac-intel kmod-forcedeth kmod-fs-vfat kmod-tg3 kmod-drm-i915 kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
 ```
 
@@ -72,7 +72,7 @@ autocore automount base-files block-mount ca-bundle default-settings-chn dnsmasq
 
 - `/etc/dae/config.dae`
 
-```conf
+```nginx
 # 完整配置参考 https://github.com/daeuniverse/dae/blob/main/example.dae
 global {
     # 修改日志级别为 debug，方便调试
