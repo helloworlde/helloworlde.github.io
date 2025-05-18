@@ -1,4 +1,78 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>Dae 代理软件的配置</title><link>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>dae 的配置使用的是自定义的 &lt;code>.dae&lt;/code> 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p>&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki">OpenWrt-nikki&lt;/a> 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/">mihome&lt;/a> 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p>
+&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png" alt="homelab-openwrt-nikki-dashboard.png">&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;h3 id="通过软件源安装">通过软件源安装&lt;/h3>
+&lt;p>OpenWrt-nikki 提供了软件源，添加软件源后可以通过 opkg/apt 安装&lt;/p>
+&lt;h4 id="通过脚本添加软件源">通过脚本添加软件源&lt;/h4>
+&lt;p>登录 OpenWrt 执行以下命令&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行后会将以下内容添加到 &lt;code>/etc/opkg/customfeeds.conf&lt;/code> 文件中：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="安装-1">安装&lt;/h4>
+&lt;p>通过 opkg 安装即可(如果用的是 apt，则将 opkg 替换为 opkg 即可)&lt;/p>
+&lt;ul>
+&lt;li>更新&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/nikki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_core
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_base
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_kmods
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_luci
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_packages
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_routing
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_telephony
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.sig
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg install nikki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-nikki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-nikki-zh-cn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install nikki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing nikki &lt;span style="color:#c7bf54">(&lt;/span>2025.05.13~266fb038-r1&lt;span style="color:#c7bf54">)&lt;/span> to root...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/nikki_2025.05.13~266fb038-r1_x86_64.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing kmod-nf-socket &lt;span style="color:#c7bf54">(&lt;/span>6.6.69-r1&lt;span style="color:#c7bf54">)&lt;/span> to root...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nf-socket_6.6.69-r1_x86_64.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing kmod-nft-socket &lt;span style="color:#c7bf54">(&lt;/span>6.6.69-r1&lt;span style="color:#c7bf54">)&lt;/span> to root...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nft-socket_6.6.69-r1_x86_64.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring kmod-nf-socket.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring kmod-nft-socket.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring nikki.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install luci-app-nikki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing luci-app-nikki &lt;span style="color:#c7bf54">(&lt;/span>1.22.3-r1&lt;span style="color:#c7bf54">)&lt;/span> to root...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-app-nikki_1.22.3-r1_all.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring luci-app-nikki.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install luci-i18n-nikki-zh-cn
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing luci-i18n-nikki-zh-cn &lt;span style="color:#c7bf54">(&lt;/span>25.133.29857~0832917&lt;span style="color:#c7bf54">)&lt;/span> to root...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-i18n-nikki-zh-cn_25.133.29857~0832917_all.ipk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring luci-i18n-nikki-zh-cn.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后重启，登录 OpenWrt 后在服务中可以看到 nikki 服务
+&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png" alt="homelab-openwrt-nikki-homepage.png">&lt;/p></description></item><item><title>Dae 代理软件的配置</title><link>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 29 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>dae 的配置使用的是自定义的 &lt;code>.dae&lt;/code> 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下&lt;/p>
 &lt;h2 id="一配置文件结构">一、配置文件结构&lt;/h2>
 &lt;p>Dae的配置文件分为以下几个主要部分：&lt;/p>
 &lt;table>
@@ -2274,7 +2348,12 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul>
 &lt;li>添加 DDNS 配置&lt;/li>
 &lt;/ul>
-&lt;p>添加 DDNS 配置，输入 DDNS 配置名称，选择 IPV4 版本，DDNS 服务提供商选择 Godaddy&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;h2 id="clash-使用方式对比">Clash 使用方式对比&lt;/h2>
+&lt;p>添加 DDNS 配置，输入 DDNS 配置名称，选择 IPV4 版本，DDNS 服务提供商选择 Godaddy&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;p>OpenWrt 除了 OpenClash 外，还有其他类似代理软件，如 Nikki, dae 等，可以参考以下内容：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/">OpenWrt 安装使用 Dae 作为代理&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/">OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="clash-使用方式对比">Clash 使用方式对比&lt;/h2>
 &lt;p>OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：&lt;/p>
 &lt;ul>
 &lt;li>运行客户端&lt;/li>
@@ -2291,22 +2370,14 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;p>需要使用 Clash 配置网络，用于访问特定的资源；&lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 是 Openwrt 的 Clash 客户端；&lt;/p>
 &lt;ol>
-&lt;li>OpenClash 依赖的是 &lt;code>dnsmasq-full&lt;/code>，所以需要移除默认的&lt;code>dnsmasq&lt;/code>，否则会导致 OpenClash 安装失败&lt;/li>
+&lt;li>安装依赖软件&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg remove dnsmasq &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> opkg install dnsmasq-full
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>下载并安装 OpenClash&lt;/li>
 &lt;/ol>
-&lt;p>可以在 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/vernesong/OpenClash/releases/download/v0.45.35-beta/luci-app-openclash_0.45.35-beta_all.ipk -O openclash.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install openclash.ipk
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
-&lt;li>添加 &lt;code>luci-compact&lt;/code> 并重启，否则会提示进入 luci 页面错误&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg install luci luci-base luci-compat
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>reboot
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>待重启完成后重新登录控制台，可以在服务菜单中看到 &lt;code>OpenClash&lt;/code>&lt;/p></description></item><item><title>N5105 构建 Esxi 镜像</title><link>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</link><pubDate>Thu, 11 Aug 2022 10:53:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</guid><description>&lt;p>N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并没有该网卡的驱动，安装时会因为没有网卡导致安装失败；另外，因为买了一个国产的光威 NVME 硬盘(千万别买！)，也没有相应的驱动，安装时提示没有硬盘&lt;/p>
+&lt;p>可以在 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p></description></item><item><title>N5105 构建 Esxi 镜像</title><link>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</link><pubDate>Thu, 11 Aug 2022 10:53:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/n5105-%E6%9E%84%E5%BB%BA-esxi-%E9%95%9C%E5%83%8F/</guid><description>&lt;p>N5105 使用的是 Intel i225V 网卡，但是VMWare 官方的 Esxi 镜像里并没有该网卡的驱动，安装时会因为没有网卡导致安装失败；另外，因为买了一个国产的光威 NVME 硬盘(千万别买！)，也没有相应的驱动，安装时提示没有硬盘&lt;/p>
 &lt;p>经过一番搜索，发现 &lt;a href="https://sysin.org/blog/vmware-esxi-7-u3e-nuc-usb-nvme/#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80-313">VMware ESXi 7.0 U3e SLIC 2.6 &amp;amp; Unlocker 集成 Intel NUC 网卡、USB 网卡和 NVMe 驱动 (2022.07 更新)&lt;/a> 里面有一个添加了驱动的镜像文件，但是分享链接是百度网盘，下载完的时候我已经单独构建好了，测试可以使用&lt;/p>
 &lt;p>考虑到安全问题，想通过官方的镜像添加驱动的方式自行构建镜像；需要用到 Windows 电脑和 PowerShell；手里没有 Windows 电脑的可以用虚拟机或者申请按时付费的云服务器&lt;/p>
 &lt;h2 id="1-下载所需的镜像和驱动">1. 下载所需的镜像和驱动&lt;/h2>
