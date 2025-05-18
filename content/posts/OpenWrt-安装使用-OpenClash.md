@@ -2,6 +2,7 @@
 title: OpenWrt  安装使用 OpenClash
 type: post
 date: 2022-08-25T11:20:19+08:00
+lastmod: 2025-05-11
 tags:
   - OpenClash
   - Clash
@@ -10,6 +11,10 @@ tags:
   - OpenWrt
 featured: true
 ---
+
+OpenWrt 除了 OpenClash 外，还有其他类似代理软件，如 Nikki, dae 等，可以参考以下内容：
+- [OpenWrt 安装使用 Dae 作为代理](https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/)
+- [OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki](https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/)
 
 ## Clash 使用方式对比
 
@@ -31,10 +36,11 @@ OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直
 
 需要使用 Clash 配置网络，用于访问特定的资源；[OpenClash](https://github.com/vernesong/OpenClash) 是 Openwrt 的 Clash 客户端；
 
-1. OpenClash 依赖的是 `dnsmasq-full`，所以需要移除默认的`dnsmasq`，否则会导致 OpenClash 安装失败
+1. 安装依赖软件
 
 ```bash
-opkg remove dnsmasq && opkg install dnsmasq-full
+opkg update
+opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
 ```
 
 2. 下载并安装 OpenClash
@@ -42,19 +48,11 @@ opkg remove dnsmasq && opkg install dnsmasq-full
 可以在 [OpenClash](https://github.com/vernesong/OpenClash) 仓库的 [Release](https://github.com/vernesong/OpenClash/releases) 页面选择对应的版本进行下载
 
 ```bash
-wget https://github.com/vernesong/OpenClash/releases/download/v0.45.35-beta/luci-app-openclash_0.45.35-beta_all.ipk -O openclash.ipk
-opkg update
+wget https://github.com/vernesong/OpenClash/releases/download/v0.46.079/luci-app-openclash_0.46.079_all.ipk -O openclash.ipk
 opkg install openclash.ipk
 ```
 
-3. 添加 `luci-compact` 并重启，否则会提示进入 luci 页面错误
-
-```bash
-opkg install luci luci-base luci-compat
-reboot
-```
-
-待重启完成后重新登录控制台，可以在服务菜单中看到 `OpenClash`
+待安装完成后重启 OpenWrt 并重新登录控制台，可以在服务菜单中看到 `OpenClash`
 
 ![homelab-openwrt-openclash-init-page.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-init-page.png)
 
@@ -67,6 +65,8 @@ reboot
 ![homelab-openwrt-init-openclash-config.png](https://img.hellowood.dev/picture/homelab-openwrt-init-openclash-config.png)
 
 ### 配置 DNS
+
+> 适用于使用了 SmartDNS 的场景，如果没有使用则可以忽略这部分
 
 OpenClash 默认提供 7874 端口用于 DNS 查询；启动后会劫持 Dnsmasq，只保留自己作为 Dnsmasq 的上游；
 
