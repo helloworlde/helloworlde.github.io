@@ -7,7 +7,10 @@
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install netdata
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="homelab-openwrt-metrics-netdata.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="homelab-openwrt-metrics-netdata.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>通过 Prometheus 抓取数据&lt;/li>
 &lt;/ul>
@@ -186,9 +189,15 @@ management.metrics.tags.application=${spring.application.name}
 &lt;pre tabindex="0">&lt;code>label_values(application)
 &lt;/code>&lt;/pre>&lt;p>instance&lt;/p>
 &lt;pre tabindex="0">&lt;code>label_values(jvm_memory_used_bytes{application=&amp;#34;$application&amp;#34;},instance)
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard-variable.png" alt="springboot-grafana-dashboard-variable.png">&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard-variable.png" alt="springboot-grafana-dashboard-variable.png" loading="lazy">
+&lt;/p>
 &lt;p>这样，就可以实现 application 和 instance的联动，选择application后，instance中显示相应的应用的实例&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="springboot-grafana-dashboard.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="springboot-grafana-dashboard.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="监控方法执行时间和数量">监控方法执行时间和数量&lt;/h2>
 &lt;p>Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code>@Counted&lt;/code>和&lt;code>@Timed&lt;/code>来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation">The @Timed annotation&lt;/a>&lt;/p>
 &lt;ul>

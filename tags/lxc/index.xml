@@ -25,7 +25,10 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p>在使用 PVE 的过程中会创建多个容器，容器的基础配置基本相同，通过模板的方式创建更方便；虽然 LXC 容器提供了类似 Dockerfile 的配置文件可以创建镜像，但是使用起来比较复杂，学习成本较高；因此可以基于 LXC 容器进行初始化，然后将修改后的 LXC 容器作为基础创建模板&lt;/p>
 &lt;h2 id="创建-lxc-容器">创建 LXC 容器&lt;/h2>
 &lt;p>以 Ubuntu 容器为例进行模板的创建，在 PVE 控制页面创建一个 LXC 容器并启动&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-by-origin-template.png" alt="homelab-pve-ct-template-create-ct-by-origin-template.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-by-origin-template.png" alt="homelab-pve-ct-template-create-ct-by-origin-template.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="初始化-lxc-容器配置">初始化 LXC 容器配置&lt;/h2>
 &lt;p>登录到创建的 LXC 容器中，根据需求安装需要用到的软件和配置进行初始化，可以参考 &lt;a href="https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96">ubuntu-22-环境初始化&lt;/a>&lt;/p>
 &lt;h2 id="创建-ct-模板">创建 CT 模板&lt;/h2>
@@ -46,7 +49,10 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">history&lt;/span> -c
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="备份-lxc-容器">备份 LXC 容器&lt;/h3>
 &lt;p>清理完成后，回到 PVE 的控制页面，选择刚才创建的 CT 容器进行备份&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-ct-template-backup-ct-as-template.png" alt="homelab-pve-ct-template-backup-ct-as-template.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-pve-ct-template-backup-ct-as-template.png" alt="homelab-pve-ct-template-backup-ct-as-template.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="将备份作为-ct-模板">将备份作为 CT 模板&lt;/h3>
 &lt;p>登录到 PVE 机器，将刚才的备份从 &lt;code>/var/lib/vz/dump/&lt;/code> 目录移动到存放 CT 模板的 &lt;code>/var/lib/vz/template/cache/&lt;/code> 目录&lt;/p></description></item><item><title>在PVE的LXC容器中直通核心显卡</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8pve%E7%9A%84lxc%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9B%B4%E9%80%9A%E6%A0%B8%E5%BF%83%E6%98%BE%E5%8D%A1/</link><pubDate>Sat, 09 Sep 2023 17:53:36 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8pve%E7%9A%84lxc%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9B%B4%E9%80%9A%E6%A0%B8%E5%BF%83%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在 ProxmoxVE 平台中使用 LXC 容器使用 Docker 部署 &lt;a href="https://frigate.video/">frigate&lt;/a> 时(或其他需要GPU的容器如Jellyfin等)，需要使用 GPU 对 ffmpeg 进行加速，因此需要将宿主机 N5105 的核心显卡挂载到 LXC 容器到 Docker 容器中&lt;/p>
 &lt;h2 id="安装核显驱动">安装核显驱动&lt;/h2>
@@ -65,8 +71,14 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通常不需要安装驱动，如果设备没有正确识别，可以参考 &lt;a href="https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps">https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps&lt;/a> 进行安装&lt;/p>
 &lt;h2 id="创建-lxc-容器">创建 LXC 容器&lt;/h2>
 &lt;p>如图，在 PVE的控制界面，选择创建 CT 容器；配置中取消 &amp;ldquo;无特权容器&amp;rdquo; 的勾选，模板选择 CentOS 或 Ubuntu 等均可&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-1.png" alt="homelab-pve-lxc-intel-graphics-mount-1.png">&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-2.png" alt="homelab-pve-lxc-intel-graphics-mount-2.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-1.png" alt="homelab-pve-lxc-intel-graphics-mount-1.png" loading="lazy">
+&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-pve-lxc-intel-graphics-mount-2.png" alt="homelab-pve-lxc-intel-graphics-mount-2.png" loading="lazy">
+&lt;/p>
 &lt;p>创建完成后，即可看到容器的 ID，即VMID，这里是 104&lt;/p>
 &lt;h2 id="修改核心显卡直通">修改核心显卡直通&lt;/h2>
 &lt;p>修改核心显卡直通，需要使用 PVE 宿主机的命令行修改 LXC 容器的配置文件&lt;/p></description></item></channel></rss>

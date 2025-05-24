@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Synology on HelloWood</title><link>https://blog.hellowood.dev/tags/synology/</link><description>Recent content in Synology on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/synology/index.xml" rel="self" type="application/rss+xml"/><item><title>使用arpl在PVE上安装黑群晖</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8arpl%E5%9C%A8pve%E4%B8%8A%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/</link><pubDate>Sat, 01 Jul 2023 16:12:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8arpl%E5%9C%A8pve%E4%B8%8A%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/</guid><description>&lt;p>&lt;a href="https://github.com/fbelavenuto/arpl">arpl&lt;/a> 是 GitHub 上开源的自动装载程序，能够实现使用 arpl 在物理机或虚拟机中安装黑群晖&lt;/p>
 &lt;h2 id="1-下载-arpl">1. 下载 arpl&lt;/h2>
 &lt;p>在 GitHub 项目 &lt;a href="https://github.com/fbelavenuto/arpl">fbelavenuto/arpl&lt;/a> 的 &lt;a href="https://github.com/fbelavenuto/arpl/releases">Releases&lt;/a> 中选择下载最新版本，选择 &lt;code>img.zip&lt;/code> 后缀的文件进行下载&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-download.png" alt="homelab-nas-synology-arpl-download.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-download.png" alt="homelab-nas-synology-arpl-download.png" loading="lazy">
+&lt;/p>
 &lt;p>解压后可以得到一个名为 &lt;code>arpl.img&lt;/code> 的文件，这个文件用于后续安装黑群晖&lt;/p>
 &lt;h2 id="2-配置虚拟机">2. 配置虚拟机&lt;/h2>
 &lt;h3 id="21-上传-arpl">2.1 上传 arpl&lt;/h3>
 &lt;p>将 &lt;code>arpl.img&lt;/code> 文件上传到 PVE 的 ISO 镜像中，用于后续引导黑群晖&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-upload-arpl-img.png" alt="homelab-nas-synology-upload-arpl-img.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-upload-arpl-img.png" alt="homelab-nas-synology-upload-arpl-img.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="22-创建虚拟机">2.2 创建虚拟机&lt;/h3>
 &lt;p>在 PVE 中创建一个新的虚拟机，操作系统选择 &amp;lsquo;不使用任何介质&amp;rsquo;，不使用磁盘，或者在创建后将磁盘删除&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-create-vm-instance.png" alt="homelab-nas-synology-create-vm-instance.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-create-vm-instance.png" alt="homelab-nas-synology-create-vm-instance.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="23-配置磁盘">2.3 配置磁盘&lt;/h3>
 &lt;h4 id="231-将-arpl-作为磁盘导入虚拟机">2.3.1 将 arpl 作为磁盘导入虚拟机&lt;/h4>
 &lt;p>使用 PVE 的命令行，使用以下命令将 arpl.img 作为虚拟机的磁盘导入，虚拟机 ID 为 101&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qm importdisk &lt;span style="color:#d19a66">101&lt;/span> /var/lib/vz/template/iso/arpl.img local-lvm
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后在控制台修改磁盘 &amp;lsquo;总线/设备&amp;rsquo; 为 SATA 并添加&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-import-as-disk-set-sata.png" alt="homelab-nas-synology-arpl-import-as-disk-set-sata.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-import-as-disk-set-sata.png" alt="homelab-nas-synology-arpl-import-as-disk-set-sata.png" loading="lazy">
+&lt;/p>
 &lt;h4 id="232-配置系统硬盘">2.3.2 配置系统硬盘&lt;/h4>
 &lt;p>在控制台再添加一个 SATA 硬盘，用于安装群晖系统及套件&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-system-disk.png" alt="homelab-nas-synology-arpl-system-disk.png">&lt;/p></description></item></channel></rss>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-synology-arpl-system-disk.png" alt="homelab-nas-synology-arpl-system-disk.png" loading="lazy">
+&lt;/p>
+&lt;h3 id="24-修改引导顺序">2.4 修改引导顺序&lt;/h3>
+&lt;p>在选项-引导顺序中，启用 arpl 作为的引导，这样启动后就可以使用 arpl 安装和引导群晖了&lt;/p></description></item></channel></rss>

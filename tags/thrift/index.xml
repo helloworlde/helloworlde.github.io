@@ -175,7 +175,10 @@
 &lt;p>异步的客户端由抽象类 &lt;code>TAsyncClient&lt;/code> 定义，实现类继承了 &lt;code>TAsyncClient&lt;/code>，同时实现了 &lt;code>AsyncIface&lt;/code>；
 在构建其 Factory 时需要三个参数，分别是 &lt;code>TAsyncClientManager&lt;/code>，用于管理调用请求的所有流程；和 &lt;code>TProtocolFactory&lt;/code>，用于获取协议；还有 &lt;code>TNonblockingTransport&lt;/code>，用于底层的传输，必须是非阻塞的&lt;/p></description></item><item><title>Thrift 中的 Transport</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</guid><description>&lt;p>Thrift 中有 &lt;code>TTransport&lt;/code> 和 &lt;code>TServerTransport&lt;/code>，封装了底层传输层的数据读写；分别用于客户端和服务端&lt;/p>
 &lt;h2 id="ttransport">TTransport&lt;/h2>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="thrift-java-source-class-transport.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="thrift-java-source-class-transport.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="方法">方法&lt;/h3>
 &lt;ul>
 &lt;li>open&lt;/li>
@@ -227,7 +230,10 @@
 &lt;li>&lt;code>TFastFramedTransport&lt;/code>： 复用并扩展了读写缓冲区的 Transport，避免每次都创建新的 byte 数组&lt;/li>
 &lt;/ul>
 &lt;h2 id="tservertransport">TServerTransport&lt;/h2>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="thrift-java-source-class-server-transport.png">&lt;/p></description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="thrift-java-source-class-server-transport.png" loading="lazy">
+&lt;/p></description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现">实现&lt;/h2>
 &lt;h3 id="idl">IDL&lt;/h3>
 &lt;ul>
 &lt;li>helloworld.thrift&lt;/li>
@@ -291,7 +297,10 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="请求处理流程">请求处理流程&lt;/h2>
 &lt;p>Server 端同步与异步处理的流程区别在于使用的 &lt;code>TProcessor&lt;/code> 不同；同步使用 &lt;code>TProcessor&lt;/code>，异步使用 &lt;code>TAsyncProcessor&lt;/code>；除此之外，其他的流程与使用 NIO 的同步处理没有区别&lt;/p></description></item><item><title>Thrift 中的 Protocol</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</link><pubDate>Sun, 31 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</guid><description>&lt;p>&lt;code>TProtocol&lt;/code> 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="thrift-java-source-class-protocol.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="thrift-java-source-class-protocol.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="属性">属性&lt;/h2>
 &lt;p>&lt;code>TProtocol&lt;/code> 中有 &lt;code>TTransport&lt;/code>类型的属性&lt;code>trans_&lt;/code>，用于与底层的传输层进行数据交互&lt;/p>
 &lt;h2 id="方法">方法&lt;/h2>
@@ -455,7 +464,10 @@
 &lt;p>关闭 Server，断开连接，释放并清除资源&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">stop&lt;/span>() {}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="实现类">实现类&lt;/h2>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="thrift-source-server-subclass.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="thrift-source-server-subclass.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="阻塞">阻塞&lt;/h3>
 &lt;ul>
 &lt;li>TSimpleServer&lt;/li>

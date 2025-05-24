@@ -81,7 +81,10 @@
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
 &lt;p>申请后的证书放在 &lt;code>cert/&lt;/code>路径下，挂载到容器中&lt;/p></description></item><item><title>使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</link><pubDate>Mon, 23 Sep 2024 08:34:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tailscale-funnel-%E4%B8%BA-traefik-%E6%8F%90%E4%BE%9B%E8%AF%81%E4%B9%A6%E5%B9%B6%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E5%85%A5%E5%8F%A3/</guid><description>&lt;p>&lt;a href="https://tailscale.com/kb/1223/funnel">Tailscale Funnel&lt;/a> 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等&lt;/p>
-&lt;p>&lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&amp;amp;w=3840&amp;amp;q=75" alt="" loading="lazy">
+&lt;/p>
 &lt;p>不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口&lt;/p>
 &lt;h2 id="配置-traefik">配置 Traefik&lt;/h2>
 &lt;p>在 Tailscale 的节点上使用 docker-compose 部署 traefik&lt;/p>
@@ -211,7 +214,10 @@
 &lt;/ul>
 &lt;p>tailscale 的 &lt;a href="https://tailscale.com/kb/1118/custom-derp-servers#prerequisites">Prerequisites&lt;/a>文档中要求开放HTTP/HTTPS/STUN 三个端口，默认是 80/443/3478 端口，实际上有 HTTPS/STUN 就够了&lt;/p></description></item><item><title>使用阿尔卡特猫棒替换北京移动 GPON 光猫</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E5%B0%94%E5%8D%A1%E7%89%B9%E7%8C%AB%E6%A3%92%E6%9B%BF%E6%8D%A2%E5%8C%97%E4%BA%AC%E7%A7%BB%E5%8A%A8-gpon-%E5%85%89%E7%8C%AB/</link><pubDate>Mon, 27 Nov 2023 18:08:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E9%98%BF%E5%B0%94%E5%8D%A1%E7%89%B9%E7%8C%AB%E6%A3%92%E6%9B%BF%E6%8D%A2%E5%8C%97%E4%BA%AC%E7%A7%BB%E5%8A%A8-gpon-%E5%85%89%E7%8C%AB/</guid><description>&lt;p>最近移动送了条免费宽带，刚好联通宽带到期了，可以无缝衔接上；之前使用的是 ODI 猫棒+兮克的 SKS3200M-8GPY1XF 交换机，因此想继续使用 ODI 猫棒，但是一番尝试后始终无法成功拨号，于是改成了使用阿尔卡特猫棒&lt;/p>
 &lt;p>阿尔卡特猫棒型号为 G-010S-P，版本为 6BA1896SPE2C05&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-status.png" alt="homelab-network-gpon-pon-stick-setup-status.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-status.png" alt="homelab-network-gpon-pon-stick-setup-status.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="宽带配置">宽带配置&lt;/h2>
 &lt;ul>
 &lt;li>改为桥接模式&lt;/li>
@@ -242,7 +248,10 @@
 &lt;li>PLOAM 密码&lt;/li>
 &lt;/ul>
 &lt;p>PLOAM 密码的路径为网络-远程管理-认证，&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-model-info-ploam-password.png" alt="homelab-network-gpon-model-info-ploam-password.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-network-gpon-model-info-ploam-password.png" alt="homelab-network-gpon-model-info-ploam-password.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>VLAN ID&lt;/li>
 &lt;/ul>
@@ -258,7 +267,10 @@
 &lt;/ul>
 &lt;p>配置后，点击应用配置&lt;/p></description></item><item><title>使用兮克 2.5G 交换机将北京联通 EPON 改为 ODI 猫棒接入</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AE%E5%85%8B-2.5g-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%B0%86%E5%8C%97%E4%BA%AC%E8%81%94%E9%80%9A-epon-%E6%94%B9%E4%B8%BA-odi-%E7%8C%AB%E6%A3%92%E6%8E%A5%E5%85%A5/</link><pubDate>Mon, 19 Jun 2023 08:54:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AE%E5%85%8B-2.5g-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%B0%86%E5%8C%97%E4%BA%AC%E8%81%94%E9%80%9A-epon-%E6%94%B9%E4%B8%BA-odi-%E7%8C%AB%E6%A3%92%E6%8E%A5%E5%85%A5/</guid><description>&lt;p>最近入手了兮克2.5G交换机（兮克SKS1200-8GPY1XF），有 8 个 2.5G 电口和 1 个 10G SFP+ 光口；支持多种组网模式，其中一种是支持使用猫棒接入，由路由器拨号后再回接到交换机，这样就可以替换掉光猫了
 (注意：兮克 SKS1200-8GPY1XF 不支持 VLAN 隔离，将网线接到路由器再回接会形成环路，导致网络频繁抖动；建议使用最新的支持 VLAN 隔离的版本)&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-switch-sfp-network.png" alt="homelab-switch-sfp-network.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-switch-sfp-network.png" alt="homelab-switch-sfp-network.png" loading="lazy">
+&lt;/p>
 &lt;p>替换光猫有以下原因：&lt;/p>
 &lt;ol>
 &lt;li>千兆及以上宽带突破不到千兆限制：运营商的千兆光猫一般只能跑到 950M左右，而 EPON 支持 1.25G 下行，GPON 支持 2.5G 下行&lt;/li>

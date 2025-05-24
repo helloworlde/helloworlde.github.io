@@ -31,7 +31,10 @@
 &lt;/ol>
 &lt;p>访问 &lt;a href="https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro">Linux® Drivers for AMD Radeon™ and Radeon PRO™ Graphics&lt;/a>，找到 Ubuntu 对应的驱动安装软件；右击 Download 按钮复制下载地址，即可得到下载链接；然后使用 curl 或者 wget 在 Ubuntu 下载，如：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png" alt="homelab-ubuntu-22-install-amd-graphics-driver.png">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png" alt="homelab-ubuntu-22-install-amd-graphics-driver.png" loading="lazy">
+&lt;/p>
 &lt;ol start="2">
 &lt;li>安装下载软件&lt;/li>
 &lt;/ol>
@@ -85,7 +88,11 @@
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8-product-brief-en/">hailo-8-product-brief&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://hailo.ai/files/hailo-8l-m-2-et-product-brief-en/">hailo-8l-m-2-et-product-brief&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L">&lt;/p></description></item><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
+&lt;p>
+
+ &lt;img src="https://hailo.ai/wp-content/uploads/2023/09/Hailo-8L%E2%84%A2_Entry-Level_M.2_AI_Acceleration_Module_Overview.webp" alt="Hailo8L" loading="lazy">
+&lt;/p>
+&lt;p>Hailo 相关软件功能如图：&lt;/p></description></item><item><title>Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</link><pubDate>Tue, 06 Aug 2024 09:15:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8-nvidia-%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在容器中运行需要使用 NVIDIA 显卡进行加速的服务，如图像识别、LLM 等，需要将显卡挂载到容器中&lt;/p>
 &lt;h2 id="安装-nvidia-容器工具包">安装 NVIDIA 容器工具包&lt;/h2>
 &lt;ul>
 &lt;li>添加软件源&lt;/li>
@@ -135,7 +142,10 @@
 &lt;p>Google Coral TPU 是一款专为边缘应用设计的机器学习加速器，由 Google 设计和开发，它基于 TensorFlow Lite 模型，能够在低功耗的情况下提供快速的神经网络性能，适用于边缘设备，用于目标检测和图像分类(如开源 NVR Frigate)；可以使用 Yolo、MobikeNet 等模型&lt;/p>
 &lt;p>单个 Coral TPU 芯片有 4T OPS 的算力，每秒可以识别大概 100 帧的视频内容，非常适合低功耗、本地场景，可以有效保护隐私；虽然 Coral 从 2021年开始不再更新，但是在边缘场景下依然是非常合适的选择&lt;/p>
 &lt;p>Coral TPU 有多种型号，如开发板、USB 配件、M2、Mini PCIE等，这里使用的是 M.2 Accelerator B+M key 的版本。关于 Coral 不同类型的设备更多信息参考 &lt;a href="https://coral.ai/products/">Products&lt;/a>&lt;/p>
-&lt;p>&lt;img src="https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw" alt="">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw" alt="" loading="lazy">
+&lt;/p>
 &lt;h2 id="要求">要求&lt;/h2>
 &lt;ul>
 &lt;li>系统：Linux、Windows&lt;/li>
@@ -152,7 +162,10 @@
 &lt;/ul>
 &lt;p>等待启动后，检查 NVME 连接&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci -nn | grep 089a
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>03:00.0 System peripheral &lt;span style="color:#c7bf54">[&lt;/span>0880&lt;span style="color:#c7bf54">]&lt;/span>: Global Unichip Corp. Coral Edge TPU &lt;span style="color:#c7bf54">[&lt;/span>1ac1:089a&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动">安装驱动&lt;/h3>
+&lt;p>需要安装 &lt;code>gasket-dkms&lt;/code> 和 &lt;code>libedgetpu1-std&lt;/code>；&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
 &lt;h2 id="安装驱动">安装驱动&lt;/h2>
 &lt;h3 id="获取支持的驱动">获取支持的驱动&lt;/h3>
 &lt;ul>
@@ -389,10 +402,19 @@
 &lt;p>直接从 &lt;a href="https://www.raspberrypi.org/software/">https://www.raspberrypi.org/software/&lt;/a> 下载 Raspberry Pi Imager，并在 Mac 上安装&lt;/p>
 &lt;h3 id="2-写入镜像">2. 写入镜像&lt;/h3>
 &lt;p>选择 Ubuntu Server 21.04 64 bit 的镜像，第一次可能需要一些时间下载镜像&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png" alt="RaspberryPiImagerChooseImage.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png" alt="RaspberryPiImagerChooseImage.png" loading="lazy">
+&lt;/p>
 &lt;p>插入硬盘后选择要写入的硬盘，并点击写入&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png" alt="RaspberryPiImagerChooseDisk.png">&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/RaspberryPiImageWriting.png" alt="RaspberryPiImageWriting.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png" alt="RaspberryPiImagerChooseDisk.png" loading="lazy">
+&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImageWriting.png" alt="RaspberryPiImageWriting.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="3-配置">3. 配置&lt;/h3>
 &lt;p>硬盘镜像写入完成后，会挂载一个名为 &lt;code>system-boot&lt;/code>的目录，进入该目录，修改配置&lt;/p>
 &lt;h4 id="挂载文件">挂载文件&lt;/h4>
@@ -422,10 +444,16 @@
 &lt;/ul>
 &lt;h2 id="设置镜像">设置镜像&lt;/h2>
 &lt;p>在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即&lt;a href="https://ubuntu.com/download/raspberry-pi">https://ubuntu.com/download/raspberry-pi&lt;/a>
-&lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu.png" alt="raspberrypi-ubuntu.png">&lt;/p>
+
+
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu.png" alt="raspberrypi-ubuntu.png" loading="lazy">
+&lt;/p>
 &lt;h3 id="下载镜像">下载镜像&lt;/h3>
 &lt;p>点击下载 64 位镜像，随后会开始下载&lt;a href="http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584">ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a>这个文件&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png" alt="raspberrypi-ubuntu-download.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png" alt="raspberrypi-ubuntu-download.png" loading="lazy">
+&lt;/p>
 &lt;p>但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 &lt;a href="https://img.hellowood.dev/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz">ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a>&lt;/p>
 &lt;h3 id="刻录镜像">刻录镜像&lt;/h3>
 &lt;h4 id="格式化-sd卡">格式化 SD卡&lt;/h4>

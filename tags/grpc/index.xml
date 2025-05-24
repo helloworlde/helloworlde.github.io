@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GRPC on HelloWood</title><link>https://blog.hellowood.dev/tags/grpc/</link><description>Recent content in GRPC on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/grpc/index.xml" rel="self" type="application/rss+xml"/><item><title>gRPC 对冲请求取消流程</title><link>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E8%AF%B7%E6%B1%82%E5%8F%96%E6%B6%88%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>当客户端接收到对冲请求集合中的一个完成时，会取消其他的请求，被取消的请求最终会提交一个 CancelClientStreamCommand，发送一个 RST_STEAM 请求；当服务端接受到这个流后，如果监听器还没有关闭，会执行取消上下文的操作，最终将这个请求取消&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg" alt="grpc-hedging-request-cancel.svg">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg" alt="grpc-hedging-request-cancel.svg" loading="lazy">
+&lt;/p>
 &lt;h2 id="客户端">客户端&lt;/h2>
 &lt;p>当客户端成功接收到响应会，会在 io.grpc.internal.RetriableStream.Sublistener#close 中将成功的流进行提交&lt;/p>
 &lt;ul>
@@ -41,7 +44,10 @@
 &lt;li>io.grpc.netty.shaded.io.grpc.netty.NettyClientStream.Sink#cancel&lt;/li>
 &lt;/ul>
 &lt;p>提交取消流的指令&lt;/p></description></item><item><title>gRPC 服务间调用事件流程</title><link>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E9%97%B4%E8%B0%83%E7%94%A8%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B/</guid><description>&lt;h2 id="调用流程图">调用流程图&lt;/h2>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/gRPC%E8%AF%B7%E6%B1%82%E4%BA%8B%E4%BB%B6%E6%B5%81%E7%A8%8B.svg" alt="gRPC请求事件流程.svg">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/gRPC%e8%af%b7%e6%b1%82%e4%ba%8b%e4%bb%b6%e6%b5%81%e7%a8%8b.svg" alt="gRPC请求事件流程.svg" loading="lazy">
+&lt;/p>
 &lt;h2 id="可监听的事件">可监听的事件&lt;/h2>
 &lt;h3 id="客户端">客户端&lt;/h3>
 &lt;h4 id="clientcall">ClientCall&lt;/h4>
@@ -722,7 +728,10 @@ IP.2 = 127.0.0.1
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="绑定端口">绑定端口&lt;/h4>
 &lt;p>指定了要监听的端口，会根据不同的 &lt;code>Server&lt;/code> 实现绑定端口&lt;/p></description></item><item><title>gRPC Channel</title><link>https://blog.hellowood.dev/posts/grpc-channel/</link><pubDate>Wed, 18 Nov 2020 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-channel/</guid><description>&lt;p>&lt;code>Channel&lt;/code> 是用于执行 RPC 请求的概念上的端点连接，基于负载和配置，一个 &lt;code>Channel&lt;/code> 可以有 0 或多个真实连接&lt;/p>
 &lt;p>&lt;code>Subchannel&lt;/code> 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png" alt="grpc-source-code-channel-class-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png" alt="grpc-source-code-channel-class-diagram.png" loading="lazy">
+&lt;/p>
 &lt;p>Channel 有多个子类：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>ManagedChannel&lt;/code>： 实现了生命周期管理能力的抽象子类
@@ -812,7 +821,10 @@ IP.2 = 127.0.0.1
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">this&lt;/span>.&lt;span style="color:#b3d23c">target&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">checkNotNull&lt;/span>(&lt;span style="color:#c1abea">builder&lt;/span>.&lt;span style="color:#b3d23c">target&lt;/span>, &lt;span style="color:#98c379">&amp;#34;target&amp;#34;&lt;/span>);
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="设置-transportfactory">设置 TransportFactory&lt;/h5>
 &lt;p>创建了支持鉴权的代理的 &lt;code>TransportFactory&lt;/code>，用于支持向服务端发起请求进行鉴权&lt;/p></description></item><item><title>gRPC Stream</title><link>https://blog.hellowood.dev/posts/grpc-stream/</link><pubDate>Sun, 08 Nov 2020 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-stream/</guid><description>&lt;p>Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 &lt;code>ClientStream&lt;/code> 和 &lt;code>ServerStream&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png" alt="grpc-source-code-stream-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png" alt="grpc-source-code-stream-diagram.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="clientstream">ClientStream&lt;/h2>
 &lt;p>&lt;code>ClientStream&lt;/code> 接口继承 Stream 接口，有多个实现类或抽象实现类：&lt;/p>
 &lt;ul>
@@ -862,7 +874,10 @@ IP.2 = 127.0.0.1
 &lt;li>onReady&lt;/li>
 &lt;/ul>
 &lt;p>当接收得此事件说明 Transport 已经准备好发送附加消息了&lt;/p></description></item><item><title>gRPC Transport</title><link>https://blog.hellowood.dev/posts/grpc-transport/</link><pubDate>Thu, 22 Oct 2020 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-transport/</guid><description>&lt;p>Transport 分为 &lt;code>ClientTransport&lt;/code> 和 &lt;code>ServerTransport&lt;/code>，分别用于客户端和服务端&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png" alt="grpc-source-code-transport-classes-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png" alt="grpc-source-code-transport-classes-diagram.png" loading="lazy">
+&lt;/p>
 &lt;h2 id="clienttransport">ClientTransport&lt;/h2>
 &lt;p>&lt;code>ClientTransport&lt;/code> 与真正的 IP 地址是一一对应的，用于建立连接，创建流&lt;/p>
 &lt;h3 id="实现">实现&lt;/h3>
@@ -1142,27 +1157,45 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;ul>
 &lt;li>io.grpc.stub.ClientCalls#blockingUnaryCall&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-blockingUnaryCall-diagram.png" alt="grpc-java-blockingUnaryCall-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-blockingUnaryCall-diagram.png" alt="grpc-java-blockingUnaryCall-diagram.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>io.grpc.internal.ClientCallImpl#startInternal&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-client-call-start.png" alt="grpc-java-client-call-start.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-client-call-start.png" alt="grpc-java-client-call-start.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-transport-provider-new-retriable-stream.png" alt="grpc-java-transport-provider-new-retriable-stream.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-transport-provider-new-retriable-stream.png" alt="grpc-java-transport-provider-new-retriable-stream.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>io.grpc.internal.RetriableStream#start&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-start.png" alt="grpc-java-retriable-stream-start.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-start.png" alt="grpc-java-retriable-stream-start.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>io.grpc.internal.RetriableStream#createSubstream&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-create-sub-stream.png" alt="grpc-java-retriable-stream-create-sub-stream.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-create-sub-stream.png" alt="grpc-java-retriable-stream-create-sub-stream.png" loading="lazy">
+&lt;/p>
 &lt;ul>
 &lt;li>io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream#RetryStream#newSubstream&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png" alt="grpc-java-retriable-stream-new-sub-stream.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png" alt="grpc-java-retriable-stream-new-sub-stream.png" loading="lazy">
+&lt;/p>
 &lt;ol>
 &lt;li>通过生成的代码中的方法，调用 &lt;code>io.grpc.stub.ClientCalls#blockingUnaryCall&lt;/code>&lt;/li>
 &lt;/ol>
@@ -1385,16 +1418,25 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;li>执行健康检查&lt;/li>
 &lt;/ol>
 &lt;p>在发起请求前，会先使用 Service 的名称请求服务端健康检查服务，检查服务是否处于 &lt;code>SERVING&lt;/code> 状态，如果状态正常，则发起请求，否则将会失败&lt;/p></description></item><item><title>gRPC 负载均衡</title><link>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link><pubDate>Sun, 20 Sep 2020 22:36:58 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid><description>&lt;p>gRPC 内定义了 LoadBalancer 接口，用于负载均衡&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-methods.png" alt="grpc-source-code-loadbalancer-methods.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-methods.png" alt="grpc-source-code-loadbalancer-methods.png" loading="lazy">
+&lt;/p>
 &lt;p>LoadBalancer 中的主要方法&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>handleResolvedAddress&lt;/code>：处理 &lt;code>NameResolver&lt;/code> 解析的地址，用于创建 &lt;code>Subchannel&lt;/code>&lt;/li>
 &lt;li>&lt;code>handleNameResolutionError&lt;/code>: 处理命名解析失败，会销毁已经存在的 &lt;code>Suchannel&lt;/code>&lt;/li>
 &lt;li>&lt;code>requestConnection&lt;/code>: 创建连接，会为 &lt;code>Subchannel&lt;/code> 初始化 &lt;code>Transport&lt;/code>，并建立连接&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-sub-class.png" alt="grpc-source-code-loadbalancer-sub-class.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-sub-class.png" alt="grpc-source-code-loadbalancer-sub-class.png" loading="lazy">
+&lt;/p>
 &lt;p>LoadBalancer 接口有多个实现类，如用于代理的 &lt;code>ForwardingLoadBalancer&lt;/code>；基于策略的 &lt;code>RoundRobinLoadBalancer&lt;/code>,&lt;code>PickFirstLoadBalancer&lt;/code>, &lt;code>GrpclbLoadBalancer&lt;/code>等；支持扩展功能的&lt;code>HealthCheckingLoadBalancer&lt;/code>, &lt;code>GracefulSwitchLoadBalancer&lt;/code> 等&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-class-diagram.png" alt="grpc-source-code-loadbalancer-class-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-loadbalancer-class-diagram.png" alt="grpc-source-code-loadbalancer-class-diagram.png" loading="lazy">
+&lt;/p>
 &lt;p>LoadBalancer 有多个内部类，用于实现负载均衡&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Factory&lt;/code>: 用于创建 &lt;code>LoadBalancer&lt;/code>，通过 &lt;code>LoadBalancerProvider&lt;/code> 实现&lt;/li>
@@ -1429,12 +1471,21 @@ Channel 握手成功建立连接，并且所有的后续通信尝试均已成功
 &lt;li>在 &lt;code>io.grpc.internal.ManagedChannelImpl#ManagedChannelImpl&lt;/code> 构造方法中初始化 Factory&lt;/li>
 &lt;/ol>
 &lt;p>Factory 的实现类是 &lt;code>AutoConfiguredLoadBalancerFactory&lt;/code>&lt;/p></description></item><item><title>gRPC 命名解析</title><link>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 20 Sep 2020 22:35:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/grpc-%E5%91%BD%E5%90%8D%E8%A7%A3%E6%9E%90/</guid><description>&lt;p>命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png" alt="grpc-source-code-name-resolver-diagram.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png" alt="grpc-source-code-name-resolver-diagram.png" loading="lazy">
+&lt;/p>
 &lt;p>gRPC 的命名解析的父类接口是 &lt;code>NameResolver&lt;/code>
-&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-class.png" alt="grpc-source-code-name-resolver-class.png">&lt;/p>
+
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-class.png" alt="grpc-source-code-name-resolver-class.png" loading="lazy">
+&lt;/p>
 &lt;p>&lt;code>NameResolver&lt;/code> 包含有多个子类，用于实现命名解析
 每个 &lt;code>NameResolver&lt;/code> 都有一个 &lt;code>Provider&lt;/code>，用于创建 &lt;code>NameResolver&lt;/code> 实例；所有的 &lt;code>Provider&lt;/code> 都注册到 &lt;code>NameResolverRegistry&lt;/code> 中，&lt;code>NameResolverRegistry&lt;/code> 创建 &lt;code>Factory&lt;/code> 实例，最终通过 &lt;code>Provider&lt;/code> 创建 &lt;code>NameResolver&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-with-sub-class.png" alt="grpc-source-code-name-resolver-with-sub-class.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/grpc-source-code-name-resolver-with-sub-class.png" alt="grpc-source-code-name-resolver-with-sub-class.png" loading="lazy">
+&lt;/p>
 &lt;p>命名解析的整个工作流程是：&lt;/p>
 &lt;ol>
 &lt;li>使用 &lt;code>NameResolverRegistry&lt;/code> 或者 SPI 方式注册 Provider&lt;/li>

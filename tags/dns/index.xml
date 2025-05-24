@@ -8,12 +8,18 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-smartdns-zh-cn
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-smartdns">配置 SmartDNS&lt;/h2>
 &lt;p>安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code>/etc/config/smartdns&lt;/code> 配置文件）&lt;/p>
-&lt;p>&lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png">&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png" loading="lazy">
+&lt;/p>
 &lt;p>这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p>
 &lt;h2 id="配置-dnsmasq">配置 Dnsmasq&lt;/h2>
 &lt;p>OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p>
 &lt;p>在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
-&lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png">&lt;/p></description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p>
+
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" loading="lazy">
+&lt;/p></description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p>
 &lt;p>另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供&lt;/p>
 &lt;h2 id="配置-docker-macvlan-网络">配置 Docker macvlan 网络&lt;/h2>
 &lt;p>因为在同一个服务器上提供了多个服务，因此存在端口冲突问题，Pi-hole 和 Smartdns 都需要 53 端口用于提供 DNS，而且 53 端口默认被 Ubuntu Server 使用；而且局域网中的设备需要访问 DHCP 服务，因此为了避免冲突，需要使用 &lt;code>macvlan&lt;/code> 作为 Docker 网络的驱动&lt;/p>
