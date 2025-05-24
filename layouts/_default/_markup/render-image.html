@@ -1,0 +1,10 @@
+{{ $original := .Page.Resources.GetMatch (printf "**%s" .Destination) }}
+{{ if $original }}
+  {{ $webp := $original | images.Convert "webp" }}
+  <picture>
+    <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+    <img src="{{ $original.RelPermalink }}" alt="{{ .Text }}" loading="lazy">
+  </picture>
+{{ else }}
+  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy">
+{{ end }}
