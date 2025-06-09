@@ -1,4 +1,104 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p>&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki">OpenWrt-nikki&lt;/a> 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/">mihome&lt;/a> 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>Easytier 使用自建公共节点进行异地组网</title><link>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p>&lt;a href="https://easytier.cn/guide/introduction.html">Easytier&lt;/a> 是一个基于 WireGuard 的 VPN 工具，使用 Rust 语言开发，支持跨平台、NAT穿透、子网代理，智能路由等功能&lt;/p>
+&lt;h2 id="部署共享节点">部署共享节点&lt;/h2>
+&lt;p>使用 docker 部署共享节点，需要开放 11010/11011/11012 这三个端口；共享节点不需要指定任何参数，直接启动 &lt;code>easytier-core&lt;/code> 即可&lt;/p>
+&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">easytier&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">easytier/easytier:latest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">${HOSTNAME}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">easytier&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">network_mode&lt;/span>: &lt;span style="color:#98c379">host&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cap_add&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">NET_ADMIN&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">NET_RAW&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">devices&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/dev/net/tun:/dev/net/tun&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">./data:/root&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/etc/machine-id:/etc/machine-id:ro&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过启动日志查看启动状态&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>easytier | Starting easytier with config:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#8a93a5;font-style:italic">############### TOML ###############&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">instance_name&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#63c381">&amp;#34;default&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">dhcp&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#ef8383">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">listeners&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#63c381">&amp;#34;tcp://0.0.0.0:11010&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#63c381">&amp;#34;udp://0.0.0.0:11010&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#63c381">&amp;#34;wg://0.0.0.0:11011&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#63c381">&amp;#34;ws://0.0.0.0:11011/&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#63c381">&amp;#34;wss://0.0.0.0:11012/&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">mapped_listeners&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">exit_nodes&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">peer&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c7bf54">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">rpc_portal&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#63c381">&amp;#34;0.0.0.0:15888&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#c7bf54">[&lt;/span>network_identity&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">network_name&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#63c381">&amp;#34;default&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#dcaeea">network_secret&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#63c381">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#c7bf54">[&lt;/span>flags&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | -----------------------------------
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://0.0.0.0:11010
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: udp://0.0.0.0:11010
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://&lt;span style="color:#c7bf54">[&lt;/span>::&lt;span style="color:#c7bf54">]&lt;/span>:11010
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: udp://&lt;span style="color:#c7bf54">[&lt;/span>::&lt;span style="color:#c7bf54">]&lt;/span>:11010
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wg://0.0.0.0:11011
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wg://&lt;span style="color:#c7bf54">[&lt;/span>::&lt;span style="color:#c7bf54">]&lt;/span>:11011
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: ws://0.0.0.0:11011/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: ws://&lt;span style="color:#c7bf54">[&lt;/span>::&lt;span style="color:#c7bf54">]&lt;/span>:11011/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wss://0.0.0.0:11012/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wss://&lt;span style="color:#c7bf54">[&lt;/span>::&lt;span style="color:#c7bf54">]&lt;/span>:11012/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="部署边缘节点">部署边缘节点&lt;/h2>
+&lt;h3 id="部署">部署&lt;/h3>
+&lt;p>Easytier 依赖 tun 创建虚拟网络，因此如果是在 PVE 的 CT 容器中部署，需要将 tun 挂载到容器中，可以参考 &lt;a href="https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/">Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限&lt;/a>&lt;/p></description></item><item><title>使用 wg-easy 进行异地组网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p>&lt;a href="https://wg-easy.github.io/wg-easy/latest/">wg-easy&lt;/a> 是一个开源的 WireGuard 配置管理工具，支持通过 Web 界面快速生成和管理 WireGuard 配置文件，以及客 WireGuard 节点之间的简单的监控&lt;/p>
+&lt;p>
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-homepage.png" alt="homelab-sd-wan-wg-easy-homepage.png" loading="lazy">
+&lt;/p>
+&lt;p>这里总共有五个节点，用 WireGuard 进行组网，在其中一个部署 wg-easy&lt;/p>
+&lt;h2 id="部署-wg-easy">部署 wg-easy&lt;/h2>
+&lt;p>使用 docker 在 VPS 上部署 wg-easy，作用控制面和中转节点；在 sysctls 中开启 ipv4 转发和 ipv6 转发，用于转发不同节点之间的流量&lt;/p>
+&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">wg-easy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">ghcr.io/wg-easy/wg-easy:15&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">wg-easy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">wg-easy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;51820:51820/udp&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;51821:51821/tcp&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">PORT=51821&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">HOST=0.0.0.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">INSECURE=true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/etc/wireguard:/etc/wireguard&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/lib/modules:/lib/modules:ro&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">cap_add&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">NET_ADMIN&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">SYS_MODULE&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">sysctls&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">net.ipv4.ip_forward=1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">net.ipv4.conf.all.src_valid_mark=1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">net.ipv6.conf.all.disable_ipv6=0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">net.ipv6.conf.all.forwarding=1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">net.ipv6.conf.default.forwarding=1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-wireguard">配置 WireGuard&lt;/h2>
+&lt;ul>
+&lt;li>配置用户&lt;/li>
+&lt;/ul>
+&lt;p>首次登录需要配置用户，并设置密码&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p>&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki">OpenWrt-nikki&lt;/a> 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/">mihome&lt;/a> 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p>
 &lt;p>
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png" alt="homelab-openwrt-nikki-dashboard.png" loading="lazy">
