@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>服务追踪工具 SkyWorking 搭建使用</title><meta name=description content=" SkyWalking 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>服务追踪工具 SkyWorking 搭建使用</title><meta name=description content=" SkyWalking 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具
 Demo
 截图
 环境
@@ -13,96 +13,96 @@ Demo
 SkyWalking 5.0.0-beat2 Mac OS ElasticSearch 5.6.10 安装 ElasticSearch 下载解压 ElasticSearch …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/%E6%9C%8D%E5%8A%A1%E8%BF%BD%E8%B8%AA%E5%B7%A5%E5%85%B7-skyworking-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>服务追踪工具 SkyWorking 搭建使用</h1><small role=doc-subtitle></small><p class=post-date>2018-07-31</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/skywalking>SkyWalking</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/tool>Tool</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/trace>Trace</a></li></ul></div><div class=post-content><blockquote><p><a href=https://github.com/apache/incubator-skywalking>SkyWalking</a> 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具</p></blockquote><ul><li><p><a href=http://49.4.12.44:8080/#/monitor/dashboard>Demo</a></p></li><li><p>截图</p></li></ul><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo1.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo1.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo2.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo2.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo3.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo3.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo4.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo4.png loading=lazy></p><blockquote><p>环境</p><ul><li>SkyWalking 5.0.0-beat2</li><li>Mac OS</li><li>ElasticSearch 5.6.10</li></ul></blockquote><h2 id=安装-elasticsearch>安装 ElasticSearch</h2><ul><li>下载解压 ElasticSearch 5.6.10</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.tar.gz
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>服务追踪工具 SkyWorking 搭建使用</h1><small role=doc-subtitle></small><p class=post-date>2018-07-31</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/skywalking>SkyWalking</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/tool>Tool</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/trace>Trace</a></li></ul></div><div class=post-content><blockquote><p><a href=https://github.com/apache/incubator-skywalking>SkyWalking</a> 是用于对微服务，Cloud Native，容器等提供应用性能监控和分布式调用链追踪的工具</p></blockquote><ul><li><p><a href=http://49.4.12.44:8080/#/monitor/dashboard>Demo</a></p></li><li><p>截图</p></li></ul><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo1.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo1.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo2.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo2.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo3.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo3.png loading=lazy></p><p><img src=https://img.hellowood.dev/blog/SkyWalkingDemo4.png alt=https://img.hellowood.dev/blog/SkyWalkingDemo4.png loading=lazy></p><blockquote><p>环境</p><ul><li>SkyWalking 5.0.0-beat2</li><li>Mac OS</li><li>ElasticSearch 5.6.10</li></ul></blockquote><h2 id=安装-elasticsearch>安装 ElasticSearch</h2><ul><li>下载解压 ElasticSearch 5.6.10</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.tar.gz
 </span></span><span style=display:flex><span>tar -vxf elasticsearch-5.6.10.tar.gz
-</span></span></code></pre></div><ul><li>修改配置文件<code>config/elasticsearch.yml</code></li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>cluster.name</span>: <span style=color:#98c379>CollectorDBCluster</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>node.name</span>: <span style=color:#98c379>CollectorDBCluster1</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>network.host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span></code></pre></div><p>需要注意的是<code>cluster.name</code>最好是<code>CollectorDBCluster</code>，<code>network.host</code>最好是局域网 IP，否则可能会在使用时出现很多问题</p><ul><li>启动</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/elasticsearch
-</span></span></code></pre></div><h2 id=安装-skywalking>安装 SkyWalking</h2><ul><li>下载解压 SkyWalking 5.0.0-beat2</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -L -O https://mirrors.tuna.tsinghua.edu.cn/apache/incubator/skywalking/5.0.0-beta/apache-skywalking-apm-incubating-5.0.0-beta.tar.gz
+</span></span></code></pre></div><ul><li>修改配置文件<code>config/elasticsearch.yml</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>cluster.name</span>: <span style=color:#ae81ff>CollectorDBCluster</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>node.name</span>: <span style=color:#ae81ff>CollectorDBCluster1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>network.host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span></code></pre></div><p>需要注意的是<code>cluster.name</code>最好是<code>CollectorDBCluster</code>，<code>network.host</code>最好是局域网 IP，否则可能会在使用时出现很多问题</p><ul><li>启动</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/elasticsearch
+</span></span></code></pre></div><h2 id=安装-skywalking>安装 SkyWalking</h2><ul><li>下载解压 SkyWalking 5.0.0-beat2</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -L -O https://mirrors.tuna.tsinghua.edu.cn/apache/incubator/skywalking/5.0.0-beta/apache-skywalking-apm-incubating-5.0.0-beta.tar.gz
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>tar -vxf apache-skywalking-apm-incubating-5.0.0-beta.tar.gz
-</span></span></code></pre></div><ul><li>修改配置文件<code>config/application.yml</code>，修改所有的<code>localhost</code>为局域网 IP</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#98c379>cluster</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>10800</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>contextPath</span>: <span style=color:#98c379>/</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>cache</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>caffeine</span>:
-</span></span><span style=display:flex><span><span style=color:#e06c75>remote</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>gRPC</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>11800</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>agent_gRPC</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>gRPC</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>11800</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>agent_jetty</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>jetty</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>12800</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>contextPath</span>: <span style=color:#98c379>/</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>analysis_register</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>default</span>:
-</span></span><span style=display:flex><span><span style=color:#e06c75>analysis_jvm</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>default</span>:
-</span></span><span style=display:flex><span><span style=color:#e06c75>analysis_segment_parser</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>default</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bufferFilePath</span>: <span style=color:#98c379>../buffer/</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bufferOffsetMaxFileSize</span>: <span style=color:#98c379>10M</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bufferSegmentMaxFileSize</span>: <span style=color:#98c379>500M</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bufferFileCleanWhenRestart</span>: <span style=color:#b756ff;font-weight:700>true</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>ui</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>jetty</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>host</span>: <span style=color:#d19a66>10.0.0.34</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>port</span>: <span style=color:#d19a66>12800</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>contextPath</span>: <span style=color:#98c379>/</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>storage</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>elasticsearch</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>clusterName</span>: <span style=color:#98c379>CollectorDBCluster</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>clusterTransportSniffer</span>: <span style=color:#b756ff;font-weight:700>true</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>clusterNodes</span>: <span style=color:#98c379>localhost:9300</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>indexShardsNumber</span>: <span style=color:#d19a66>2</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>indexReplicasNumber</span>: <span style=color:#d19a66>0</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>highPerformanceMode</span>: <span style=color:#b756ff;font-weight:700>true</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bulkActions</span>: <span style=color:#d19a66>2000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>bulkSize</span>: <span style=color:#d19a66>20</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>flushInterval</span>: <span style=color:#d19a66>10</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>concurrentRequests</span>: <span style=color:#d19a66>2</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>traceDataTTL</span>: <span style=color:#d19a66>90</span> <span style=color:#8a93a5;font-style:italic># Unit is minute</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>minuteMetricDataTTL</span>: <span style=color:#d19a66>90</span> <span style=color:#8a93a5;font-style:italic># Unit is minute</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>hourMetricDataTTL</span>: <span style=color:#d19a66>36</span> <span style=color:#8a93a5;font-style:italic># Unit is hour</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>dayMetricDataTTL</span>: <span style=color:#d19a66>45</span> <span style=color:#8a93a5;font-style:italic># Unit is day</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>monthMetricDataTTL</span>: <span style=color:#d19a66>18</span> <span style=color:#8a93a5;font-style:italic># Unit is month</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>configuration</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>default</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>applicationApdexThreshold</span>: <span style=color:#d19a66>2000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>serviceErrorRateThreshold</span>: <span style=color:#d19a66>10.00</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>serviceAverageResponseTimeThreshold</span>: <span style=color:#d19a66>2000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>instanceErrorRateThreshold</span>: <span style=color:#d19a66>10.00</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>instanceAverageResponseTimeThreshold</span>: <span style=color:#d19a66>2000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>applicationErrorRateThreshold</span>: <span style=color:#d19a66>10.00</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>applicationAverageResponseTimeThreshold</span>: <span style=color:#d19a66>2000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>thermodynamicResponseTimeStep</span>: <span style=color:#d19a66>50</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>thermodynamicCountOfResponseTimeSteps</span>: <span style=color:#d19a66>40</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>workerCacheMaxSize</span>: <span style=color:#d19a66>10000</span>
-</span></span></code></pre></div><ul><li>修改 <code>webapp/webapp.yml</code> Collector 地址</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>server</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8080</span>
+</span></span></code></pre></div><ul><li>修改配置文件<code>config/application.yml</code>，修改所有的<code>localhost</code>为局域网 IP</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>cluster</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>10800</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>contextPath</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>cache</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>caffeine</span>:
+</span></span><span style=display:flex><span><span style=color:#f92672>remote</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>gRPC</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>11800</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>agent_gRPC</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>gRPC</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>11800</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>agent_jetty</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>jetty</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>12800</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>contextPath</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>analysis_register</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>default</span>:
+</span></span><span style=display:flex><span><span style=color:#f92672>analysis_jvm</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>default</span>:
+</span></span><span style=display:flex><span><span style=color:#f92672>analysis_segment_parser</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>default</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bufferFilePath</span>: <span style=color:#ae81ff>../buffer/</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bufferOffsetMaxFileSize</span>: <span style=color:#ae81ff>10M</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bufferSegmentMaxFileSize</span>: <span style=color:#ae81ff>500M</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bufferFileCleanWhenRestart</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>ui</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>jetty</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>host</span>: <span style=color:#ae81ff>10.0.0.34</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>12800</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>contextPath</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>storage</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>elasticsearch</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>clusterName</span>: <span style=color:#ae81ff>CollectorDBCluster</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>clusterTransportSniffer</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>clusterNodes</span>: <span style=color:#ae81ff>localhost:9300</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>indexShardsNumber</span>: <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>indexReplicasNumber</span>: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>highPerformanceMode</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bulkActions</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>bulkSize</span>: <span style=color:#ae81ff>20</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>flushInterval</span>: <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>concurrentRequests</span>: <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>traceDataTTL</span>: <span style=color:#ae81ff>90</span> <span style=color:#75715e># Unit is minute</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>minuteMetricDataTTL</span>: <span style=color:#ae81ff>90</span> <span style=color:#75715e># Unit is minute</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>hourMetricDataTTL</span>: <span style=color:#ae81ff>36</span> <span style=color:#75715e># Unit is hour</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>dayMetricDataTTL</span>: <span style=color:#ae81ff>45</span> <span style=color:#75715e># Unit is day</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>monthMetricDataTTL</span>: <span style=color:#ae81ff>18</span> <span style=color:#75715e># Unit is month</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>configuration</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>default</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>applicationApdexThreshold</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>serviceErrorRateThreshold</span>: <span style=color:#ae81ff>10.00</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>serviceAverageResponseTimeThreshold</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>instanceErrorRateThreshold</span>: <span style=color:#ae81ff>10.00</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>instanceAverageResponseTimeThreshold</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>applicationErrorRateThreshold</span>: <span style=color:#ae81ff>10.00</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>applicationAverageResponseTimeThreshold</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>thermodynamicResponseTimeStep</span>: <span style=color:#ae81ff>50</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>thermodynamicCountOfResponseTimeSteps</span>: <span style=color:#ae81ff>40</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>workerCacheMaxSize</span>: <span style=color:#ae81ff>10000</span>
+</span></span></code></pre></div><ul><li>修改 <code>webapp/webapp.yml</code> Collector 地址</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>server</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8080</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>collector</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>path</span>: <span style=color:#98c379>/graphql</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>ribbon</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>ReadTimeout</span>: <span style=color:#d19a66>10000</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>listOfServers</span>: <span style=color:#d19a66>10.0.0.34</span>:<span style=color:#d19a66>10800</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>collector</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/graphql</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ribbon</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>ReadTimeout</span>: <span style=color:#ae81ff>10000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>listOfServers</span>: <span style=color:#ae81ff>10.0.0.34</span>:<span style=color:#ae81ff>10800</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>security</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>user</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>admin</span>:
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>password</span>: <span style=color:#98c379>admin</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>security</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>user</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>admin</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>password</span>: <span style=color:#ae81ff>admin</span>
 </span></span></code></pre></div><ul><li>修改 <code>config/agent.config</code> Collector 地址</li></ul><pre tabindex=0><code>agent.application_code=AppService
 collector.servers=10.0.0.34:10800
 logging.level=INFO
-</code></pre><ul><li>启动 Collector 和 Webapp</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/startup.sh
-</span></span></code></pre></div><p>或单独启动 Collector 和 Webapp</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/collectorService.sh
+</code></pre><ul><li>启动 Collector 和 Webapp</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/startup.sh
+</span></span></code></pre></div><p>或单独启动 Collector 和 Webapp</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./bin/collectorService.sh
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>./bin/webappService.sh
 </span></span></code></pre></div><h2 id=使用>使用</h2><ul><li>Jar 启动时添加 VM 参数</li></ul><pre tabindex=0><code>-javaagent:/path/to/apache-skywalking-apm-incubating/agent/skywalking-agent.jar -Dskywalking.agent.application_code=YOUR_APP_NAME

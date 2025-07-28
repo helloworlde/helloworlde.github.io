@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>gRPC 对冲原理</title><meta name=description content="gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>gRPC 对冲原理</title><meta name=description content="gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消
 对冲适用于当下游服务部分节点故障无法及时响应或者响应不及时的场景，通过对冲可以减少请求的失败率，但是可能会导致延时增加
 对冲和重试的流程相似，在第一次发起请求的时候根据服务名和 …"><meta name=keywords content='blog,hugo,gRPC'><meta property="og:url" content="https://blog.hellowood.dev/posts/grpc-%E5%AF%B9%E5%86%B2%E5%8E%9F%E7%90%86/"><meta property="og:type" content="website"><meta property="og:title" content="gRPC 对冲原理"><meta property="og:description" content="gRPC 对冲开启后，当请求在指定的时间间隔后没有返回时，会发起对冲请求，继续等待，如果依然没有返回，则重复发送直到接收到返回结果或者超时取消
 对冲适用于当下游服务部分节点故障无法及时响应或者响应不及时的场景，通过对冲可以减少请求的失败率，但是可能会导致延时增加
@@ -56,51 +56,51 @@
     // 消耗缓冲的请求
     drain(substream);
   }
-</code></pre><ul><li>io.grpc.internal.RetriableStream.HedgingRunnable</li></ul><p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>  <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>HedgingRunnable</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>Runnable</span> {
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>run</span>() {
-</span></span><span style=display:flex><span>      <span style=color:#c1abea>callExecutor</span>.<span style=color:#b3d23c>execute</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>Runnable</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>run</span>() {
-</span></span><span style=display:flex><span>          <span style=color:#8a93a5;font-style:italic>// 创建对冲流</span>
-</span></span><span style=display:flex><span>          <span style=color:#c1abea>Substream</span> <span style=color:#c1abea>newSubstream</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>createSubstream</span>(<span style=color:#c1abea>state</span>.<span style=color:#b3d23c>hedgingAttemptCount</span>);
-</span></span><span style=display:flex><span>          <span style=color:#ef8383>boolean</span> <span style=color:#c1abea>cancelled</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>false</span>;
-</span></span><span style=display:flex><span>          <span style=color:#c1abea>FutureCanceller</span> <span style=color:#c1abea>future</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>null</span>;
+</code></pre><ul><li>io.grpc.internal.RetriableStream.HedgingRunnable</li></ul><p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>HedgingRunnable</span> <span style=color:#66d9ef>implements</span> Runnable {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>run</span>() {
+</span></span><span style=display:flex><span>      callExecutor.<span style=color:#a6e22e>execute</span>(<span style=color:#66d9ef>new</span> Runnable() {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>run</span>() {
+</span></span><span style=display:flex><span>          <span style=color:#75715e>// 创建对冲流</span>
+</span></span><span style=display:flex><span>          Substream newSubstream <span style=color:#f92672>=</span> createSubstream(state.<span style=color:#a6e22e>hedgingAttemptCount</span>);
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>boolean</span> cancelled <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>          FutureCanceller future <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>          <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>lock</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// 如果请求被取消了，则取消流</span>
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c1abea>scheduledHedgingRef</span>.<span style=color:#b3d23c>isCancelled</span>()) {
-</span></span><span style=display:flex><span>              <span style=color:#c1abea>cancelled</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>            } <span style=color:#c678dd>else</span> {
-</span></span><span style=display:flex><span>              <span style=color:#8a93a5;font-style:italic>// 将新创建的流添加到对冲流集合中</span>
-</span></span><span style=display:flex><span>              <span style=color:#c1abea>state</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>state</span>.<span style=color:#b3d23c>addActiveHedge</span>(<span style=color:#c1abea>newSubstream</span>);
-</span></span><span style=display:flex><span>              <span style=color:#8a93a5;font-style:italic>// 没有提交的流，且没有达到最大对冲次数，且没有终止，且没有节流或者没有达到节流阈值，</span>
-</span></span><span style=display:flex><span>              <span style=color:#8a93a5;font-style:italic>// 则创建 Future</span>
-</span></span><span style=display:flex><span>              <span style=color:#c678dd>if</span> (<span style=color:#c1abea>hasPotentialHedging</span>(<span style=color:#c1abea>state</span>) <span style=color:#c7bf54>&amp;&amp;</span> (<span style=color:#c1abea>throttle</span> <span style=color:#c7bf54>==</span> <span style=color:#b756ff;font-weight:700>null</span> <span style=color:#c7bf54>||</span> <span style=color:#c1abea>throttle</span>.<span style=color:#b3d23c>isAboveThreshold</span>())) {
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>scheduledHedging</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>future</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>FutureCanceller</span>(<span style=color:#c1abea>lock</span>);
-</span></span><span style=display:flex><span>              } <span style=color:#c678dd>else</span> {
-</span></span><span style=display:flex><span>                <span style=color:#8a93a5;font-style:italic>// 否则冻结对冲</span>
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>state</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>state</span>.<span style=color:#b3d23c>freezeHedging</span>();
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>scheduledHedging</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>null</span>;
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>synchronized</span> (lock) {
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// 如果请求被取消了，则取消流</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (scheduledHedgingRef.<span style=color:#a6e22e>isCancelled</span>()) {
+</span></span><span style=display:flex><span>              cancelled <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>            } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>              <span style=color:#75715e>// 将新创建的流添加到对冲流集合中</span>
+</span></span><span style=display:flex><span>              state <span style=color:#f92672>=</span> state.<span style=color:#a6e22e>addActiveHedge</span>(newSubstream);
+</span></span><span style=display:flex><span>              <span style=color:#75715e>// 没有提交的流，且没有达到最大对冲次数，且没有终止，且没有节流或者没有达到节流阈值，</span>
+</span></span><span style=display:flex><span>              <span style=color:#75715e>// 则创建 Future</span>
+</span></span><span style=display:flex><span>              <span style=color:#66d9ef>if</span> (hasPotentialHedging(state) <span style=color:#f92672>&amp;&amp;</span> (throttle <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>||</span> throttle.<span style=color:#a6e22e>isAboveThreshold</span>())) {
+</span></span><span style=display:flex><span>                scheduledHedging <span style=color:#f92672>=</span> future <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> FutureCanceller(lock);
+</span></span><span style=display:flex><span>              } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                <span style=color:#75715e>// 否则冻结对冲</span>
+</span></span><span style=display:flex><span>                state <span style=color:#f92672>=</span> state.<span style=color:#a6e22e>freezeHedging</span>();
+</span></span><span style=display:flex><span>                scheduledHedging <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>;
 </span></span><span style=display:flex><span>              }
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>          }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>          <span style=color:#8a93a5;font-style:italic>// 如果请求已经取消了，则取消流并返回</span>
-</span></span><span style=display:flex><span>          <span style=color:#c678dd>if</span> (<span style=color:#c1abea>cancelled</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>newSubstream</span>.<span style=color:#b3d23c>stream</span>.<span style=color:#b3d23c>cancel</span>(<span style=color:#c1abea>Status</span>.<span style=color:#b3d23c>CANCELLED</span>.<span style=color:#b3d23c>withDescription</span>(<span style=color:#98c379>&#34;Unneeded hedging&#34;</span>));
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span>;
+</span></span><span style=display:flex><span>          <span style=color:#75715e>// 如果请求已经取消了，则取消流并返回</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>if</span> (cancelled) {
+</span></span><span style=display:flex><span>            newSubstream.<span style=color:#a6e22e>stream</span>.<span style=color:#a6e22e>cancel</span>(Status.<span style=color:#a6e22e>CANCELLED</span>.<span style=color:#a6e22e>withDescription</span>(<span style=color:#e6db74>&#34;Unneeded hedging&#34;</span>));
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span>;
 </span></span><span style=display:flex><span>          }
-</span></span><span style=display:flex><span>          <span style=color:#8a93a5;font-style:italic>// 如果对冲请求不为空，则提交延时任务</span>
-</span></span><span style=display:flex><span>          <span style=color:#c678dd>if</span> (<span style=color:#c1abea>future</span> <span style=color:#c7bf54>!=</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>future</span>.<span style=color:#b3d23c>setFuture</span>(
-</span></span><span style=display:flex><span>                    <span style=color:#c1abea>scheduledExecutorService</span>.<span style=color:#b3d23c>schedule</span>(
-</span></span><span style=display:flex><span>                            <span style=color:#c678dd>new</span> <span style=color:#c1abea>HedgingRunnable</span>(<span style=color:#c1abea>future</span>),
-</span></span><span style=display:flex><span>                            <span style=color:#c1abea>hedgingPolicy</span>.<span style=color:#b3d23c>hedgingDelayNanos</span>,
-</span></span><span style=display:flex><span>                            <span style=color:#c1abea>TimeUnit</span>.<span style=color:#b3d23c>NANOSECONDS</span>));
+</span></span><span style=display:flex><span>          <span style=color:#75715e>// 如果对冲请求不为空，则提交延时任务</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>if</span> (future <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>            future.<span style=color:#a6e22e>setFuture</span>(
+</span></span><span style=display:flex><span>                    scheduledExecutorService.<span style=color:#a6e22e>schedule</span>(
+</span></span><span style=display:flex><span>                            <span style=color:#66d9ef>new</span> HedgingRunnable(future),
+</span></span><span style=display:flex><span>                            hedgingPolicy.<span style=color:#a6e22e>hedgingDelayNanos</span>,
+</span></span><span style=display:flex><span>                            TimeUnit.<span style=color:#a6e22e>NANOSECONDS</span>));
 </span></span><span style=display:flex><span>          }
-</span></span><span style=display:flex><span>          <span style=color:#8a93a5;font-style:italic>// 消耗缓冲的请求</span>
-</span></span><span style=display:flex><span>          <span style=color:#c1abea>drain</span>(<span style=color:#c1abea>newSubstream</span>);
+</span></span><span style=display:flex><span>          <span style=color:#75715e>// 消耗缓冲的请求</span>
+</span></span><span style=display:flex><span>          drain(newSubstream);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>      });
 </span></span><span style=display:flex><span>    }

@@ -10,21 +10,21 @@
 &lt;li>创建环境&lt;/li>
 &lt;/ul>
 &lt;p>单独创建 ultralytics 的环境，用于训练和导出 yolo 模型为其他格式&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n ultralytics &lt;span style="color:#dcaeea">python&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>3.10
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n ultralytics python&lt;span style="color:#f92672">=&lt;/span>3.10
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>激活环境&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate ultralytics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate ultralytics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>安装 ultralytics&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pip install ultralytics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pip install ultralytics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等待安装完成后就可以使用 &lt;code>yolo&lt;/code> 命令训练和导出模型了&lt;/p>
 &lt;h3 id="22-训练模型">2.2 训练模型&lt;/h3>
 &lt;p>训练模型可以参考 roboflow 的博客 &lt;a href="https://blog.roboflow.com/how-to-train-yolov8-on-a-custom-dataset/">How to Train YOLOv8 Object Detection on a Custom Dataset&lt;/a>；为了测试验证流程，先使用官方提供的 yolov8n 当作训练的模型，可以从 &lt;a href="https://github.com/ultralytics/assets/releases">https://github.com/ultralytics/assets/releases/&lt;/a> 下载，以 yolov8n 为例，下载地址为 &lt;a href="https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt">https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="23-将模型导出为-onnx-格式">2.3 将模型导出为 onnx 格式&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>yolo &lt;span style="color:#ef8383">export&lt;/span> &lt;span style="color:#dcaeea">model&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>./yolov8n.pt &lt;span style="color:#dcaeea">imgsz&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">640&lt;/span> &lt;span style="color:#dcaeea">format&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>onnx &lt;span style="color:#dcaeea">opset&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">11&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>yolo export model&lt;span style="color:#f92672">=&lt;/span>./yolov8n.pt imgsz&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">640&lt;/span> format&lt;span style="color:#f92672">=&lt;/span>onnx opset&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">11&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>imgsz=640 指定输入图片的尺寸（图像大小），即 640x640。这个尺寸是模型在推理时处理图像的分辨率&lt;/p></description></item><item><title>Frigate 使用 Hailo 8 或 Hailo 8L 进行对象识别</title><link>https://blog.hellowood.dev/posts/frigate-%E4%BD%BF%E7%94%A8-hailo-8-%E6%88%96-hailo-8l-%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB/</link><pubDate>Sun, 01 Sep 2024 11:25:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/frigate-%E4%BD%BF%E7%94%A8-hailo-8-%E6%88%96-hailo-8l-%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB/</guid><description>&lt;p>Hailo8/Hailo-8L 是一家以色列的边缘人工智能公司发布的边缘加速器，定位和 &lt;a href="https://coral.ai/products/">Google Coral TPU&lt;/a> 完全一致；Hailo-8 算力为 26 TOPS，Hailo-8L 算力为 13 TOPS&lt;/p>
 &lt;table>
  &lt;thead>

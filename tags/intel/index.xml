@@ -4,32 +4,32 @@
 &lt;ul>
 &lt;li>安装 intel-gpu-tools&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install intel-gpu-tools
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install intel-gpu-tools
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>检查状态&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>intel_gpu_top
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>No device filter specified and no discrete/integrated i915 devices found
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>intel_gpu_top
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>No device filter specified and no discrete/integrated i915 devices found
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装驱动">安装驱动&lt;/h2>
 &lt;h3 id="配置软件源">配置软件源&lt;/h3>
 &lt;ul>
 &lt;li>安装依赖工具&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install -y gpg-agent wget
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>添加 Intel 软件源&lt;/li>
 &lt;/ul>
 &lt;p>运行以下命令，将 Intel 软件源添加到 apt 的配置中并更新&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>. /etc/os-release
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c7bf54">[[&lt;/span> ! &lt;span style="color:#63c381">&amp;#34; jammy &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span>~ &lt;span style="color:#63c381">&amp;#34; &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">]]&lt;/span>; &lt;span style="color:#c678dd">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;Ubuntu version &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> not supported&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">else&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381">/lts/2350 unified&amp;#34;&lt;/span> | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>.list
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>. /etc/os-release
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> ! &lt;span style="color:#e6db74">&amp;#34; jammy &amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span>~ &lt;span style="color:#e6db74">&amp;#34; &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> &amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Ubuntu version &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> not supported&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/lts/2350 unified&amp;#34;&lt;/span> | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>.list
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo apt update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动-1">安装驱动&lt;/h3>
 &lt;p>安装依赖的软件和显卡驱动&lt;/p></description></item></channel></rss>

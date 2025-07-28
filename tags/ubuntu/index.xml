@@ -4,23 +4,23 @@
 &lt;ul>
 &lt;li>添加 gpg 密钥&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo mkdir --parents --mode&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0755&lt;/span> /etc/apt/keyrings
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo mkdir --parents --mode&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0755&lt;/span> /etc/apt/keyrings
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>添加源&lt;/li>
 &lt;/ul>
 &lt;p>分别添加 AMDGPU 驱动程序的软件源和 ROCm 软件源，并设置软件源的优先级，确保在有多个版本可用时，系统会优先安装来自 AMD 官方仓库的软件包&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.4/ubuntu jammy main&amp;#34;&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> | sudo tee /etc/apt/sources.list.d/amdgpu.list
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 noble main&amp;#34;&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> | sudo tee --append /etc/apt/sources.list.d/rocm.list
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">echo&lt;/span> -e &lt;span style="color:#98c379">&amp;#39;Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600&amp;#39;&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> | sudo tee /etc/apt/preferences.d/rocm-pin-600
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.4/ubuntu jammy main&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> | sudo tee /etc/apt/sources.list.d/amdgpu.list
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 noble main&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> | sudo tee --append /etc/apt/sources.list.d/rocm.list
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo -e &lt;span style="color:#e6db74">&amp;#39;Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600&amp;#39;&lt;/span> &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> | sudo tee /etc/apt/preferences.d/rocm-pin-600
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>更新软件包&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-rocm-1">安装 ROCm&lt;/h3>
 &lt;ul>
 &lt;li>安装 ROCm&lt;/li>
@@ -30,7 +30,7 @@
 &lt;li>下载 amdgpu-install&lt;/li>
 &lt;/ol>
 &lt;p>访问 &lt;a href="https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro">Linux® Drivers for AMD Radeon™ and Radeon PRO™ Graphics&lt;/a>，找到 Ubuntu 对应的驱动安装软件；右击 Download 按钮复制下载地址，即可得到下载链接；然后使用 curl 或者 wget 在 Ubuntu 下载，如：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png" alt="homelab-ubuntu-22-install-amd-graphics-driver.png" loading="lazy">
@@ -39,12 +39,12 @@
 &lt;li>安装下载软件&lt;/li>
 &lt;/ol>
 &lt;p>使用 apt 安装刚才下载的软件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install ./amdgpu-install_6.1.60103-1_all.deb
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install ./amdgpu-install_6.1.60103-1_all.deb
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
 &lt;li>安装显卡驱动&lt;/li>
 &lt;/ol>
 &lt;p>使用 amdgpu-install 安装显卡驱动&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>amdgpu-install -y --usecase&lt;span style="color:#c7bf54">=&lt;/span>graphics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>amdgpu-install -y --usecase&lt;span style="color:#f92672">=&lt;/span>graphics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="参考文档">参考文档&lt;/h2>
 &lt;ul>
 &lt;li>&lt;a href="https://amdgpu-install.readthedocs.io/en/latest/index.html">Radeon™ Software for Linux® Installation&lt;/a>&lt;/li>
@@ -60,21 +60,21 @@
 &lt;li>创建环境&lt;/li>
 &lt;/ul>
 &lt;p>单独创建 ultralytics 的环境，用于训练和导出 yolo 模型为其他格式&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n ultralytics &lt;span style="color:#dcaeea">python&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>3.10
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n ultralytics python&lt;span style="color:#f92672">=&lt;/span>3.10
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>激活环境&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate ultralytics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate ultralytics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>安装 ultralytics&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pip install ultralytics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pip install ultralytics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等待安装完成后就可以使用 &lt;code>yolo&lt;/code> 命令训练和导出模型了&lt;/p>
 &lt;h3 id="22-训练模型">2.2 训练模型&lt;/h3>
 &lt;p>训练模型可以参考 roboflow 的博客 &lt;a href="https://blog.roboflow.com/how-to-train-yolov8-on-a-custom-dataset/">How to Train YOLOv8 Object Detection on a Custom Dataset&lt;/a>；为了测试验证流程，先使用官方提供的 yolov8n 当作训练的模型，可以从 &lt;a href="https://github.com/ultralytics/assets/releases">https://github.com/ultralytics/assets/releases/&lt;/a> 下载，以 yolov8n 为例，下载地址为 &lt;a href="https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt">https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="23-将模型导出为-onnx-格式">2.3 将模型导出为 onnx 格式&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>yolo &lt;span style="color:#ef8383">export&lt;/span> &lt;span style="color:#dcaeea">model&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>./yolov8n.pt &lt;span style="color:#dcaeea">imgsz&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">640&lt;/span> &lt;span style="color:#dcaeea">format&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>onnx &lt;span style="color:#dcaeea">opset&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">11&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>yolo export model&lt;span style="color:#f92672">=&lt;/span>./yolov8n.pt imgsz&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">640&lt;/span> format&lt;span style="color:#f92672">=&lt;/span>onnx opset&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">11&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>imgsz=640 指定输入图片的尺寸（图像大小），即 640x640。这个尺寸是模型在推理时处理图像的分辨率&lt;/p></description></item><item><title>Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器</title><link>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</link><pubDate>Sun, 01 Sep 2024 11:22:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/</guid><description>&lt;blockquote>
 &lt;p>Hailo 是一家位于以色列的边缘人工智能处理器的先驱芯片制造商，该公司成立于2017年；专注于为边缘设备开发高效的深度学习处理器。Hailo 的核心产品是其自研的 Hailo-8 人工智能处理器，这款芯片特别设计用于在资源受限的边缘设备上运行复杂的深度学习模型&lt;/p>&lt;/blockquote>
 &lt;blockquote>
@@ -98,24 +98,24 @@
 &lt;li>添加软件源&lt;/li>
 &lt;/ul>
 &lt;p>需要添加 NVIDIA 容器工具包的软件源和 gpg 签名&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sed &lt;span style="color:#98c379">&amp;#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&amp;#39;&lt;/span> | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sed &lt;span style="color:#e6db74">&amp;#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&amp;#39;&lt;/span> | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>更新软件并安装 NVIDIA 容器工具包&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> sudo apt-get install -y nvidia-container-toolkit
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo apt-get install -y nvidia-container-toolkit
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-docker">配置 Docker&lt;/h2>
 &lt;ul>
 &lt;li>使用 nvidia-ctk 修改 Docker 配置&lt;/li>
 &lt;/ul>
 &lt;p>修改 Docker 配置，允许将显卡挂载到容器中&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo nvidia-ctk runtime configure --runtime&lt;span style="color:#c7bf54">=&lt;/span>docker
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>WARN&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Ignoring runtime-config-override flag &lt;span style="color:#c678dd">for&lt;/span> docker
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Loading config from /etc/docker/daemon.json
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> Wrote updated config to /etc/docker/daemon.json
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#c7bf54">[&lt;/span>0000&lt;span style="color:#c7bf54">]&lt;/span> It is recommended that docker daemon be restarted.
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo nvidia-ctk runtime configure --runtime&lt;span style="color:#f92672">=&lt;/span>docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>WARN&lt;span style="color:#f92672">[&lt;/span>0000&lt;span style="color:#f92672">]&lt;/span> Ignoring runtime-config-override flag &lt;span style="color:#66d9ef">for&lt;/span> docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#f92672">[&lt;/span>0000&lt;span style="color:#f92672">]&lt;/span> Loading config from /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#f92672">[&lt;/span>0000&lt;span style="color:#f92672">]&lt;/span> Wrote updated config to /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>INFO&lt;span style="color:#f92672">[&lt;/span>0000&lt;span style="color:#f92672">]&lt;/span> It is recommended that docker daemon be restarted.
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样会自动修改 &lt;code>/etc/docker/daemon.json&lt;/code> 文件，添加显卡 &lt;code>runtimes&lt;/code> 相关的内容：&lt;/p></description></item><item><title>Ubuntu 22 运行 Google Coral TPU 示例</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</link><pubDate>Tue, 09 Jul 2024 09:30:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</guid><description>&lt;p>在 Ubuntu 22 上运行 Google Coral TPU 的示例项目&lt;/p>
 &lt;h2 id="配置运行环境">配置运行环境&lt;/h2>
 &lt;p>Coral 只支持 Python 3.6～3.9 的环境，而 Ubuntu 22 的 Python 版本为 3.10；因此需要使用 Anaconda 创建独立的运行环境&lt;/p>
@@ -123,19 +123,19 @@
 &lt;p>参考 &lt;a href="https://docs.anaconda.com/anaconda/install/linux/">Installing on Linux&lt;/a> 安装&lt;/p>
 &lt;h3 id="初始化环境">初始化环境&lt;/h3>
 &lt;p>使用 Python 3.8 版本创建运行环境&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n coral &lt;span style="color:#dcaeea">python&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>3.8
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n coral python&lt;span style="color:#f92672">=&lt;/span>3.8
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>待创建完成后激活该环境&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate coral
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate coral
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="运行-demo">运行 Demo&lt;/h2>
 &lt;h3 id="下载项目">下载项目&lt;/h3>
 &lt;ul>
 &lt;li>创建 Coral 的工作目录，并克隆项目到本地&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir coral &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ef8383">cd&lt;/span> coral
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir coral &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> cd coral
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone https://github.com/google-coral/pycoral.git
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="下载依赖">下载依赖&lt;/h3>
 &lt;h4 id="下载模型图片依赖">下载模型、图片依赖&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> pycoral
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cd pycoral
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash examples/install_requirements.sh classify_image.py
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="安装项目依赖">安装项目依赖&lt;/h4>
 &lt;p>需要安装 pycoral 和 tflite-runtime，但是在 Ubuntu 22 上无法通过 &lt;code>sudo apt-get install python3-pycoral&lt;/code> 直接安装 &lt;code>python3-pycoral&lt;/code>，因此需要指定依赖地址安装；相关版本可以从 &lt;a href="https://github.com/google-coral/pycoral/releases/">https://github.com/google-coral/pycoral/releases/&lt;/a> 查找&lt;/p></description></item><item><title>Ubuntu 22 安装 Google Coral TPU NVME 驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 09:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>最近折腾图像识别和视频对象检测，因为需要长期低功耗运行，所以购入了 Google Coral TPU&lt;/p>
@@ -161,9 +161,9 @@
 &lt;li>检查连接&lt;/li>
 &lt;/ul>
 &lt;p>等待启动后，检查 NVME 连接&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci -nn | grep 089a
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci -nn | grep 089a
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>03:00.0 System peripheral &lt;span style="color:#c7bf54">[&lt;/span>0880&lt;span style="color:#c7bf54">]&lt;/span>: Global Unichip Corp. Coral Edge TPU &lt;span style="color:#c7bf54">[&lt;/span>1ac1:089a&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>03:00.0 System peripheral &lt;span style="color:#f92672">[&lt;/span>0880&lt;span style="color:#f92672">]&lt;/span>: Global Unichip Corp. Coral Edge TPU &lt;span style="color:#f92672">[&lt;/span>1ac1:089a&lt;span style="color:#f92672">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动">安装驱动&lt;/h3>
 &lt;p>需要安装 &lt;code>gasket-dkms&lt;/code> 和 &lt;code>libedgetpu1-std&lt;/code>；&lt;/p></description></item><item><title>Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</link><pubDate>Mon, 08 Jul 2024 08:58:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%E5%92%8C-cuda/</guid><description>&lt;p>在 Ubuntu 22 上使用 NVIDIA 的显卡运行图像识别的训练，需要安装驱动和 CUDA&lt;/p>
 &lt;h2 id="安装驱动">安装驱动&lt;/h2>
@@ -171,22 +171,22 @@
 &lt;ul>
 &lt;li>更新 Ubuntu 依赖&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>安装 ubuntu-drivers-common&lt;/li>
 &lt;/ul>
 &lt;p>&lt;code>ubuntu-drivers-common&lt;/code> 是 Ubuntu 用于管理和安装第三方硬件驱动程序的工具，能够管理和安装硬件驱动程序&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install ubuntu-drivers-common
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install ubuntu-drivers-common
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>获取支持的驱动列表&lt;/li>
 &lt;/ul>
 &lt;p>&lt;code>ubuntu-drivers&lt;/code> 获取适用于系统的 NVIDIA 驱动程序列表&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ubuntu-drivers devices
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ubuntu-drivers devices
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在输出信息中，可以看到设备是 &lt;code>GeForce RTX 3070 Ti&lt;/code>, 推荐使用的驱动是 &lt;code>nvidia-driver-555&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">==&lt;/span> /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 &lt;span style="color:#c7bf54">==&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">==&lt;/span> /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 &lt;span style="color:#f92672">==&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>modalias : pci:v000010DEd00002482sv000010DEsd0000146Abc03sc00i00
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vendor : NVIDIA Corporation
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>model : GA104 &lt;span style="color:#c7bf54">[&lt;/span>GeForce RTX &lt;span style="color:#d19a66">3070&lt;/span> Ti&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>model : GA104 &lt;span style="color:#f92672">[&lt;/span>GeForce RTX &lt;span style="color:#ae81ff">3070&lt;/span> Ti&lt;span style="color:#f92672">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-550 - third-party non-free
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-520 - third-party non-free
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-525 - third-party non-free
@@ -202,12 +202,12 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-545 - third-party non-free
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-535-server-open - distro non-free
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : nvidia-driver-555-open - third-party non-free
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : xserver-xorg-video-nouveau - distro free &lt;span style="color:#ef8383">builtin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>driver : xserver-xorg-video-nouveau - distro free builtin
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-nvidia-驱动">安装 NVIDIA 驱动&lt;/h3>
 &lt;ul>
 &lt;li>安装驱动&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install nvidia-driver-555
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install nvidia-driver-555
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>重启系统&lt;/li>
 &lt;/ul>
@@ -217,55 +217,55 @@
 &lt;ul>
 &lt;li>安装 intel-gpu-tools&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install intel-gpu-tools
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install intel-gpu-tools
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>检查状态&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>intel_gpu_top
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>No device filter specified and no discrete/integrated i915 devices found
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>intel_gpu_top
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>No device filter specified and no discrete/integrated i915 devices found
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装驱动">安装驱动&lt;/h2>
 &lt;h3 id="配置软件源">配置软件源&lt;/h3>
 &lt;ul>
 &lt;li>安装依赖工具&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install -y gpg-agent wget
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>添加 Intel 软件源&lt;/li>
 &lt;/ul>
 &lt;p>运行以下命令，将 Intel 软件源添加到 apt 的配置中并更新&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>. /etc/os-release
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c7bf54">[[&lt;/span> ! &lt;span style="color:#63c381">&amp;#34; jammy &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span>~ &lt;span style="color:#63c381">&amp;#34; &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> &amp;#34;&lt;/span> &lt;span style="color:#c7bf54">]]&lt;/span>; &lt;span style="color:#c678dd">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;Ubuntu version &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> not supported&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">else&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ef8383">echo&lt;/span> &lt;span style="color:#63c381">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381">/lts/2350 unified&amp;#34;&lt;/span> | &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">VERSION_CODENAME&lt;/span>&lt;span style="color:#98c379">}&lt;/span>.list
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>. /etc/os-release
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> ! &lt;span style="color:#e6db74">&amp;#34; jammy &amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span>~ &lt;span style="color:#e6db74">&amp;#34; &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> &amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Ubuntu version &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> not supported&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/lts/2350 unified&amp;#34;&lt;/span> | &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>.list
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo apt update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动-1">安装驱动&lt;/h3>
 &lt;p>安装依赖的软件和显卡驱动&lt;/p></description></item><item><title>使用 Ubuntu 搭建 NFS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-ubuntu-%E6%90%AD%E5%BB%BA-nfs-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 27 Jan 2024 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-ubuntu-%E6%90%AD%E5%BB%BA-nfs-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>NFS(Network File System) 是由 Sun 公司提出的分布式文件系统协议，可以通过网络共享远程目录；默认没有加密，不提供身份验证，而是通过客户端 IP 或主机名限制客户端的访问&lt;/p>
 &lt;h2 id="搭建-server-端">搭建 Server 端&lt;/h2>
 &lt;h3 id="安装-nfs-kernel-server">安装 nfs-kernel-server&lt;/h3>
 &lt;p>NFS 的 Server 端由 &lt;code>nfs-kernel-server&lt;/code> 提供，使用 apt 进行安装&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>apt install -y nfs-kernel-server
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 &lt;code>systemctl&lt;/code> 查看状态&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>systemctl status nfs-mountd.service
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>● nfs-mountd.service - NFS Mount Daemon
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Loaded: loaded &lt;span style="color:#c7bf54">(&lt;/span>/lib/systemd/system/nfs-mountd.service; static&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Active: active &lt;span style="color:#c7bf54">(&lt;/span>running&lt;span style="color:#c7bf54">)&lt;/span> since Thu 2022-09-22 18:43:43 CST; 1h 5min ago
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Main PID: &lt;span style="color:#d19a66">128914&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>rpc.mountd&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Tasks: &lt;span style="color:#d19a66">1&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>limit: 4415&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>systemctl status nfs-mountd.service
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>● nfs-mountd.service - NFS Mount Daemon
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Loaded: loaded &lt;span style="color:#f92672">(&lt;/span>/lib/systemd/system/nfs-mountd.service; static&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Active: active &lt;span style="color:#f92672">(&lt;/span>running&lt;span style="color:#f92672">)&lt;/span> since Thu 2022-09-22 18:43:43 CST; 1h 5min ago
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Main PID: &lt;span style="color:#ae81ff">128914&lt;/span> &lt;span style="color:#f92672">(&lt;/span>rpc.mountd&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Tasks: &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">(&lt;/span>limit: 4415&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Memory: 556.0K
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CPU: 59ms
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CGroup: /system.slice/nfs-mountd.service
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─128914 /usr/sbin/rpc.mountd
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#d19a66">22&lt;/span> 18:43:43 rasp systemd&lt;span style="color:#c7bf54">[&lt;/span>1&lt;span style="color:#c7bf54">]&lt;/span>: Starting NFS Mount Daemon...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#d19a66">22&lt;/span> 18:43:43 rasp rpc.mountd&lt;span style="color:#c7bf54">[&lt;/span>128914&lt;span style="color:#c7bf54">]&lt;/span>: Version 2.6.1 starting
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#d19a66">22&lt;/span> 18:43:43 rasp systemd&lt;span style="color:#c7bf54">[&lt;/span>1&lt;span style="color:#c7bf54">]&lt;/span>: Started NFS Mount Daemon.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#ae81ff">22&lt;/span> 18:43:43 rasp systemd&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span>: Starting NFS Mount Daemon...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#ae81ff">22&lt;/span> 18:43:43 rasp rpc.mountd&lt;span style="color:#f92672">[&lt;/span>128914&lt;span style="color:#f92672">]&lt;/span>: Version 2.6.1 starting
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sep &lt;span style="color:#ae81ff">22&lt;/span> 18:43:43 rasp systemd&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span>: Started NFS Mount Daemon.
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="修改-nfs-配置">修改 NFS 配置&lt;/h3>
 &lt;ul>
 &lt;li>创建挂载目录并修改权限&lt;/li>
@@ -273,57 +273,57 @@
 &lt;p>首先，创建需要分享的目录，如 &lt;code>/data/nfs&lt;/code>&lt;/p></description></item><item><title>Ubuntu 22 环境初始化</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 07 Jan 2024 18:03:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;p>在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置&lt;/p>
 &lt;h2 id="修改主机名">修改主机名&lt;/h2>
 &lt;p>将主机名改为 &lt;code>homelab&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>hostnamectl hostname homelab
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>hostnamectl hostname homelab
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="引入-ssh-公钥">引入 SSH 公钥&lt;/h2>
 &lt;ul>
 &lt;li>从本地导入&lt;/li>
 &lt;/ul>
 &lt;p>在本地执行，将公钥复制到要登录的机器上&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="修改-apt-源">修改 APT 源&lt;/h2>
 &lt;p>将默认的 APT 源替换为&lt;a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">清华&lt;/a>的源&lt;/p>
 &lt;ul>
 &lt;li>修改镜像源&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mv /etc/apt/sources.list /etc/apt/sources.list.backup
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mv /etc/apt/sources.list /etc/apt/sources.list.backup
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo bash -c &lt;span style="color:#63c381">&amp;#34;cat &amp;lt;&amp;lt; EOF &amp;gt; /etc/apt/sources.list &amp;amp;&amp;amp; apt update
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381">EOF&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo bash -c &lt;span style="color:#e6db74">&amp;#34;cat &amp;lt;&amp;lt; EOF &amp;gt; /etc/apt/sources.list &amp;amp;&amp;amp; apt update
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOF&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后使用 update 验证&lt;/p></description></item><item><title>Docker 使用 NFS 作为数据卷存储</title><link>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</link><pubDate>Thu, 22 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E4%BD%BF%E7%94%A8-nfs-%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AD%98%E5%82%A8/</guid><description>&lt;p>在搭建 HomeLab 的过程中，出现因虚拟机故障导致容器挂载在虚拟机上的数据丢失的问题，因此，将数据挂载在虚拟机上仍然存在风险；同时为了将计算和数据分离，HomeLab 所在的服务器只做计算，将数据存储转移到 NAS上；因此，使用 NFS 作为 Docker 的数据卷，将数据挂载到远程的 NAS 存储中&lt;/p>
 &lt;p>Docker 支持 Samba/NFS 等协议的远程存储&lt;/p>
 &lt;h2 id="创建-docker-nfs-数据卷">创建 Docker NFS 数据卷&lt;/h2>
 &lt;p>通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code>local&lt;/code>，类型是 &lt;code>nfs&lt;/code>，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code>nginx-volume&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume create --driver &lt;span style="color:#ef8383">local&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">type&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>nfs &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">o&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#dcaeea">addr&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>192.168.2.10,nolock,vers&lt;span style="color:#c7bf54">=&lt;/span>4,soft,rw &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>--opt &lt;span style="color:#dcaeea">device&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>nginx-volume
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume create --driver local &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>--opt type&lt;span style="color:#f92672">=&lt;/span>nfs &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>--opt o&lt;span style="color:#f92672">=&lt;/span>addr&lt;span style="color:#f92672">=&lt;/span>192.168.2.10,nolock,vers&lt;span style="color:#f92672">=&lt;/span>4,soft,rw &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>--opt device&lt;span style="color:#f92672">=&lt;/span>:/workspaces/data/docker/nginx &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>nginx-volume
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>查看 &lt;code>nginx-volume&lt;/code> 信息&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume inspect nginx-volume
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker volume inspect nginx-volume
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;CreatedAt&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;2022-09-22T14:48:26+08:00&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Driver&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;local&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Labels&amp;#34;&lt;/span>: &lt;span style="color:#c7bf54">{}&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Mountpoint&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;/var/lib/docker/volumes/nginx-volume/_data&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Name&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;nfs-volume&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Options&amp;#34;&lt;/span>: &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;device&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;:/workspaces/data/docker/nginx&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;o&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;addr=192.168.2.10,nolock,vers=4,soft,rw&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;nfs&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#63c381">&amp;#34;Scope&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;local&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c7bf54">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;CreatedAt&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2022-09-22T14:48:26+08:00&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Driver&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;local&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Labels&amp;#34;&lt;/span>: &lt;span style="color:#f92672">{}&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Mountpoint&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/var/lib/docker/volumes/nginx-volume/_data&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Name&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;nfs-volume&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Options&amp;#34;&lt;/span>: &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;device&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;:/workspaces/data/docker/nginx&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;o&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;addr=192.168.2.10,nolock,vers=4,soft,rw&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;nfs&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Scope&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;local&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="容器中使用-nfs-数据卷">容器中使用 NFS 数据卷&lt;/h2>
 &lt;h3 id="在容器中挂载">在容器中挂载&lt;/h3>
 &lt;p>以 Nginx 为例，挂载 &lt;code>nginx-volume&lt;/code> 到容器中；也可以使用 &lt;code>-v nginx-volume:/data&lt;/code>的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code>-v&lt;/code> 会创建一个，而 &lt;code>--mount&lt;/code>会报错&lt;/p></description></item><item><title>Ubuntu Server 22 虚拟机空间扩容</title><link>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</link><pubDate>Fri, 09 Sep 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-server-22-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/</guid><description>&lt;blockquote>
@@ -334,26 +334,26 @@
 &lt;li>使用 &lt;code>fdisk&lt;/code> 查看&lt;/li>
 &lt;/ul>
 &lt;p>使用 &lt;code>fdisk&lt;/code> 命令查看 &lt;code>/dev/sda&lt;/code>设备情况&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>fdisk /dev/sda
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>fdisk /dev/sda
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入 &lt;code>F&lt;/code> 显示未分区的空间大小&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Command &lt;span style="color:#c7bf54">(&lt;/span>m &lt;span style="color:#c678dd">for&lt;/span> &lt;span style="color:#ef8383">help&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>: F
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Command &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#66d9ef">for&lt;/span> help&lt;span style="color:#f92672">)&lt;/span>: F
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Unpartitioned space /dev/sda: &lt;span style="color:#d19a66">20971520&lt;/span> B, &lt;span style="color:#d19a66">167772160&lt;/span> bytes, &lt;span style="color:#d19a66">0&lt;/span> sectors
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Units: sectors of &lt;span style="color:#d19a66">1&lt;/span> * &lt;span style="color:#dcaeea">512&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#d19a66">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sector size &lt;span style="color:#c7bf54">(&lt;/span>logical/physical&lt;span style="color:#c7bf54">)&lt;/span>: &lt;span style="color:#d19a66">512&lt;/span> bytes / &lt;span style="color:#d19a66">512&lt;/span> bytes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Unpartitioned space /dev/sda: &lt;span style="color:#ae81ff">20971520&lt;/span> B, &lt;span style="color:#ae81ff">167772160&lt;/span> bytes, &lt;span style="color:#ae81ff">0&lt;/span> sectors
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Units: sectors of &lt;span style="color:#ae81ff">1&lt;/span> * 512 &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">512&lt;/span> bytes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sector size &lt;span style="color:#f92672">(&lt;/span>logical/physical&lt;span style="color:#f92672">)&lt;/span>: &lt;span style="color:#ae81ff">512&lt;/span> bytes / &lt;span style="color:#ae81ff">512&lt;/span> bytes
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="将未分区空间添加到已有分区">将未分区空间添加到已有分区&lt;/h3>
 &lt;p>需要先将这部分空间添加到系统挂载的对应分区&lt;/p>
 &lt;ol>
 &lt;li>查找根目录挂载的设备&lt;/li>
 &lt;/ol>
 &lt;p>通过 &lt;code>df&lt;/code> 命令查看空间，发现挂载到根&lt;code>/&lt;/code>目录的设备是 &lt;code>/dev/mapper/ubuntu--vg-ubuntu--lv&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>df -h
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>df -h
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>结果：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Filesystem Size Used Avail Use% Mounted on
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Filesystem Size Used Avail Use% Mounted on
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 796M 1.5M 794M 1% /run
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mapper/ubuntu--vg-ubuntu--lv 19G 16G 1.6G 92% /
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 3.9G &lt;span style="color:#d19a66">0&lt;/span> 3.9G 0% /dev/shm
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 5.0M &lt;span style="color:#d19a66">0&lt;/span> 5.0M 0% /run/lock
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 3.9G &lt;span style="color:#ae81ff">0&lt;/span> 3.9G 0% /dev/shm
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 5.0M &lt;span style="color:#ae81ff">0&lt;/span> 5.0M 0% /run/lock
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/sda2 2.0G 127M 1.7G 7% /boot
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/sda1 1.1G 5.3M 1.1G 1% /boot/efi
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tmpfs 796M 4.0K 796M 1% /run/user/0
@@ -363,31 +363,31 @@
 &lt;h3 id="1-查找网卡">1 查找网卡&lt;/h3>
 &lt;p>通常情况下，有线网卡名称通常为 &lt;code>eth0&lt;/code>，无线网卡名称通常为 &lt;code>wlan0&lt;/code>；&lt;/p>
 &lt;p>通过 &lt;code>ifconfig&lt;/code> 命令查看网卡信息，返回的 &lt;code>ens160&lt;/code> 就是有线网卡&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker0: &lt;span style="color:#dcaeea">flags&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>4099&amp;lt;UP,BROADCAST,MULTICAST&amp;gt; mtu &lt;span style="color:#d19a66">1500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker0: flags&lt;span style="color:#f92672">=&lt;/span>4099&amp;lt;UP,BROADCAST,MULTICAST&amp;gt; mtu &lt;span style="color:#ae81ff">1500&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 172.17.0.1 netmask 255.255.0.0 broadcast 172.17.255.255
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ether 02:42:e2:0c:77:47 txqueuelen &lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>Ethernet&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX packets &lt;span style="color:#d19a66">0&lt;/span> bytes &lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>0.0 B&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> frame &lt;span style="color:#d19a66">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX packets &lt;span style="color:#d19a66">0&lt;/span> bytes &lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>0.0 B&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> carrier &lt;span style="color:#d19a66">0&lt;/span> collisions &lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ether 02:42:e2:0c:77:47 txqueuelen &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">(&lt;/span>Ethernet&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX packets &lt;span style="color:#ae81ff">0&lt;/span> bytes &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">(&lt;/span>0.0 B&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> frame &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX packets &lt;span style="color:#ae81ff">0&lt;/span> bytes &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">(&lt;/span>0.0 B&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> carrier &lt;span style="color:#ae81ff">0&lt;/span> collisions &lt;span style="color:#ae81ff">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ens160: &lt;span style="color:#dcaeea">flags&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu &lt;span style="color:#d19a66">1500&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ether 00:0c:29:df:81:93 txqueuelen &lt;span style="color:#d19a66">1000&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>Ethernet&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX packets &lt;span style="color:#d19a66">73618&lt;/span> bytes &lt;span style="color:#d19a66">24761397&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>24.7 MB&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> frame &lt;span style="color:#d19a66">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX packets &lt;span style="color:#d19a66">27757&lt;/span> bytes &lt;span style="color:#d19a66">7800899&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>7.8 MB&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> carrier &lt;span style="color:#d19a66">0&lt;/span> collisions &lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ens160: flags&lt;span style="color:#f92672">=&lt;/span>4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu &lt;span style="color:#ae81ff">1500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ether 00:0c:29:df:81:93 txqueuelen &lt;span style="color:#ae81ff">1000&lt;/span> &lt;span style="color:#f92672">(&lt;/span>Ethernet&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX packets &lt;span style="color:#ae81ff">73618&lt;/span> bytes &lt;span style="color:#ae81ff">24761397&lt;/span> &lt;span style="color:#f92672">(&lt;/span>24.7 MB&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> frame &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX packets &lt;span style="color:#ae81ff">27757&lt;/span> bytes &lt;span style="color:#ae81ff">7800899&lt;/span> &lt;span style="color:#f92672">(&lt;/span>7.8 MB&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> carrier &lt;span style="color:#ae81ff">0&lt;/span> collisions &lt;span style="color:#ae81ff">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lo: &lt;span style="color:#dcaeea">flags&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>73&amp;lt;UP,LOOPBACK,RUNNING&amp;gt; mtu &lt;span style="color:#d19a66">65536&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lo: flags&lt;span style="color:#f92672">=&lt;/span>73&amp;lt;UP,LOOPBACK,RUNNING&amp;gt; mtu &lt;span style="color:#ae81ff">65536&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 127.0.0.1 netmask 255.0.0.0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 ::1 prefixlen &lt;span style="color:#d19a66">128&lt;/span> scopeid 0x10&amp;lt;host&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> loop txqueuelen &lt;span style="color:#d19a66">1000&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>Local Loopback&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> RX packets &lt;span style="color:#d19a66">298&lt;/span> bytes &lt;span style="color:#d19a66">48692&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>48.6 KB&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> RX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> frame &lt;span style="color:#d19a66">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX packets &lt;span style="color:#d19a66">298&lt;/span> bytes &lt;span style="color:#d19a66">48692&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>48.6 KB&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX errors &lt;span style="color:#d19a66">0&lt;/span> dropped &lt;span style="color:#d19a66">0&lt;/span> overruns &lt;span style="color:#d19a66">0&lt;/span> carrier &lt;span style="color:#d19a66">0&lt;/span> collisions &lt;span style="color:#d19a66">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 ::1 prefixlen &lt;span style="color:#ae81ff">128&lt;/span> scopeid 0x10&amp;lt;host&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> loop txqueuelen &lt;span style="color:#ae81ff">1000&lt;/span> &lt;span style="color:#f92672">(&lt;/span>Local Loopback&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> RX packets &lt;span style="color:#ae81ff">298&lt;/span> bytes &lt;span style="color:#ae81ff">48692&lt;/span> &lt;span style="color:#f92672">(&lt;/span>48.6 KB&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> RX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> frame &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX packets &lt;span style="color:#ae81ff">298&lt;/span> bytes &lt;span style="color:#ae81ff">48692&lt;/span> &lt;span style="color:#f92672">(&lt;/span>48.6 KB&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TX errors &lt;span style="color:#ae81ff">0&lt;/span> dropped &lt;span style="color:#ae81ff">0&lt;/span> overruns &lt;span style="color:#ae81ff">0&lt;/span> carrier &lt;span style="color:#ae81ff">0&lt;/span> collisions &lt;span style="color:#ae81ff">0&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2-修改网络配置">2 修改网络配置&lt;/h3>
 &lt;p>Ubuntu 22 的配置文件位置是 &lt;code>/etc/netplan/***.yaml&lt;/code>，通常是 &lt;code>/etc/netplan/00-installer-config.yaml&lt;/code>，也可能是 &lt;code>50-cloud-init.yaml&lt;/code>；&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
 &lt;h2 id="依赖">依赖&lt;/h2>
@@ -419,19 +419,19 @@
 &lt;p>硬盘镜像写入完成后，会挂载一个名为 &lt;code>system-boot&lt;/code>的目录，进入该目录，修改配置&lt;/p>
 &lt;h4 id="挂载文件">挂载文件&lt;/h4>
 &lt;p>如果可以直接在 Mac 上修改文件，可以跳过这一步；如果文件是只读的，无法修改，可以将磁盘弹出，然后手动挂载或挂载到其他的机器上修改&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic"># 查找磁盘&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 查找磁盘&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>fdisk -l
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disk /dev/mmcblk0: 59.63 GiB, &lt;span style="color:#d19a66">64021856256&lt;/span> bytes, &lt;span style="color:#d19a66">125042688&lt;/span> sectors
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Units: sectors of &lt;span style="color:#d19a66">1&lt;/span> * &lt;span style="color:#dcaeea">512&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#d19a66">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sector size &lt;span style="color:#c7bf54">(&lt;/span>logical/physical&lt;span style="color:#c7bf54">)&lt;/span>: &lt;span style="color:#d19a66">512&lt;/span> bytes / &lt;span style="color:#d19a66">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>I/O size &lt;span style="color:#c7bf54">(&lt;/span>minimum/optimal&lt;span style="color:#c7bf54">)&lt;/span>: &lt;span style="color:#d19a66">512&lt;/span> bytes / &lt;span style="color:#d19a66">512&lt;/span> bytes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disk /dev/mmcblk0: 59.63 GiB, &lt;span style="color:#ae81ff">64021856256&lt;/span> bytes, &lt;span style="color:#ae81ff">125042688&lt;/span> sectors
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Units: sectors of &lt;span style="color:#ae81ff">1&lt;/span> * 512 &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">512&lt;/span> bytes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sector size &lt;span style="color:#f92672">(&lt;/span>logical/physical&lt;span style="color:#f92672">)&lt;/span>: &lt;span style="color:#ae81ff">512&lt;/span> bytes / &lt;span style="color:#ae81ff">512&lt;/span> bytes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>I/O size &lt;span style="color:#f92672">(&lt;/span>minimum/optimal&lt;span style="color:#f92672">)&lt;/span>: &lt;span style="color:#ae81ff">512&lt;/span> bytes / &lt;span style="color:#ae81ff">512&lt;/span> bytes
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disklabel type: dos
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disk identifier: 0x4ec8ea53
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Device Boot Start End Sectors Size Id Type
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#d19a66">2048&lt;/span> &lt;span style="color:#d19a66">526335&lt;/span> &lt;span style="color:#d19a66">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#c7bf54">(&lt;/span>LBA&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#d19a66">526336&lt;/span> &lt;span style="color:#d19a66">6366175&lt;/span> &lt;span style="color:#d19a66">5839840&lt;/span> 2.8G &lt;span style="color:#d19a66">83&lt;/span> Linux
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#ae81ff">2048&lt;/span> &lt;span style="color:#ae81ff">526335&lt;/span> &lt;span style="color:#ae81ff">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#f92672">(&lt;/span>LBA&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#ae81ff">526336&lt;/span> &lt;span style="color:#ae81ff">6366175&lt;/span> &lt;span style="color:#ae81ff">5839840&lt;/span> 2.8G &lt;span style="color:#ae81ff">83&lt;/span> Linux
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
 &lt;p>必需设备：&lt;/p>&lt;/blockquote>
 &lt;ul>
@@ -464,7 +464,7 @@
 &lt;ul>
 &lt;li>查找 SD 卡挂载名称&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>diskutil list
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>diskutil list
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code>/dev/disk0 (internal, physical):
  #: TYPE NAME SIZE IDENTIFIER
  0: GUID_partition_scheme *500.3 GB disk0
@@ -486,9 +486,9 @@
 1: DOS_FAT_32 SD 32.0 GB disk3s1
 &lt;/code>&lt;/pre>&lt;p>其中的 &lt;code>/dev/disk3&lt;/code>就是 SD卡&lt;/p></description></item><item><title>Ubuntu/Docker 替换软件源</title><link>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</link><pubDate>Mon, 27 May 2019 15:06:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</guid><description>&lt;h2 id="ubuntu">Ubuntu&lt;/h2>
 &lt;h3 id="使用-sed-命令">使用 sed 命令&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apt/sources.list/
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo sed -i &lt;span style="color:#e6db74">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apt/sources.list/
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改">手动修改&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">cd&lt;/span> /etc/apt/
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cd /etc/apt/
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mv sources.list sources.list.bak
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -510,16 +510,16 @@ deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted univer
 
 deb http://archive.canonical.com/ubuntu/ xenial partner
 deb http://extras.ubuntu.com/ubuntu/ xenial main
-&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get upgrade
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="docker-alpine-镜像替换软件源">Docker alpine 镜像替换软件源&lt;/h2>
 &lt;h3 id="在-dockerfile-中添加">在 Dockerfile 中添加&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="修改容器中软件源">修改容器中软件源&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">RUN&lt;/span> sed -i &lt;span style="color:#e6db74">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="修改容器中软件源">修改容器中软件源&lt;/h3>
 &lt;h4 id="使用-sed-命令-1">使用 sed 命令&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed -i &lt;span style="color:#98c379">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sed -i &lt;span style="color:#e6db74">&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span> /etc/apk/repositories
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="手动修改-1">手动修改&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vi etc/apk/repositories
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>输入以下内容&lt;/p></description></item><item><title>Ubuntu 搭建 ShadowSocks 服务</title><link>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sun, 21 Oct 2018 22:39:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-%E6%90%AD%E5%BB%BA-shadowsocks-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;blockquote>
 &lt;p>在 Ubuntu 服务器上通过脚本安装 ShadowSocks 服务&lt;/p>&lt;/blockquote>
 &lt;blockquote>

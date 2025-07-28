@@ -1,237 +1,237 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>gRPC 使用自定义的 LoadBalancer</title><meta name=description content="gRPC 中提供了 round_robin, pick_first, grpclb, HealthCheckingRoundRobin 等负载均衡的实现，默认使用HealthCheckingRoundRobin，该负载均衡支持检查 Subchannel 的健康状态
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>gRPC 使用自定义的 LoadBalancer</title><meta name=description content="gRPC 中提供了 round_robin, pick_first, grpclb, HealthCheckingRoundRobin 等负载均衡的实现，默认使用HealthCheckingRoundRobin，该负载均衡支持检查 Subchannel 的健康状态
 LoadBalancer …"><meta name=keywords content='blog,hugo,gRPC'><meta property="og:url" content="https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/"><meta property="og:type" content="website"><meta property="og:title" content="gRPC 使用自定义的 LoadBalancer"><meta property="og:description" content="gRPC 中提供了 round_robin, pick_first, grpclb, HealthCheckingRoundRobin 等负载均衡的实现，默认使用HealthCheckingRoundRobin，该负载均衡支持检查 Subchannel 的健康状态
 LoadBalancer …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="gRPC 使用自定义的 LoadBalancer"><meta name=twitter:description content="gRPC 中提供了 round_robin, pick_first, grpclb, HealthCheckingRoundRobin 等负载均衡的实现，默认使用HealthCheckingRoundRobin，该负载均衡支持检查 Subchannel 的健康状态
 LoadBalancer …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/grpc-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84-loadbalancer/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC 使用自定义的 LoadBalancer</h1><small role=doc-subtitle></small><p class=post-date>2020-09-29</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><p>gRPC 中提供了 <code>round_robin</code>, <code>pick_first</code>, <code>grpclb</code>, <code>HealthCheckingRoundRobin</code> 等负载均衡的实现，默认使用<code>HealthCheckingRoundRobin</code>，该负载均衡支持检查 Subchannel 的健康状态</p><p>LoadBalancer 主要类包括 <code>LoadBalancerProvider</code>, <code>LoadBalancer</code>, <code>SubchannelPicker</code>, <code>LoadBalancer.SubchannelStateListener </code>，所以实现自定义的 LoadBalancer 实现这几个类就可以</p><h2 id=实现自定义的-loadbalancer>实现自定义的 LoadBalancer</h2><p>自定义实现一个轮询策略的负载均衡器</p><ul><li>CustomLoadBalancerProvider.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>CustomLoadBalancerProvider</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>LoadBalancerProvider</span> {
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC 使用自定义的 LoadBalancer</h1><small role=doc-subtitle></small><p class=post-date>2020-09-29</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><p>gRPC 中提供了 <code>round_robin</code>, <code>pick_first</code>, <code>grpclb</code>, <code>HealthCheckingRoundRobin</code> 等负载均衡的实现，默认使用<code>HealthCheckingRoundRobin</code>，该负载均衡支持检查 Subchannel 的健康状态</p><p>LoadBalancer 主要类包括 <code>LoadBalancerProvider</code>, <code>LoadBalancer</code>, <code>SubchannelPicker</code>, <code>LoadBalancer.SubchannelStateListener </code>，所以实现自定义的 LoadBalancer 实现这几个类就可以</p><h2 id=实现自定义的-loadbalancer>实现自定义的 LoadBalancer</h2><p>自定义实现一个轮询策略的负载均衡器</p><ul><li>CustomLoadBalancerProvider.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CustomLoadBalancerProvider</span> <span style=color:#66d9ef>extends</span> LoadBalancerProvider {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>boolean</span> <span style=color:#00b1f7>isAvailable</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>true</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isAvailable</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>int</span> <span style=color:#00b1f7>getPriority</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>10</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>getPriority</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> 10;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getPolicyName</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;custom_round_robin&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getPolicyName</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;custom_round_robin&#34;</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>LoadBalancer</span> <span style=color:#00b1f7>newLoadBalancer</span>(<span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Helper</span> <span style=color:#c1abea>helper</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>CustomLoadBalancer</span>(<span style=color:#c1abea>helper</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>CustomLoadBalancer.java</li></ul><p>在 CustomLoadBalancer 中实现了地址的处理，根据地址创建 Subchannel，并启动 Subchannel 状态监听器</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>CustomLoadBalancer</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>LoadBalancer</span> {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Attributes</span>.<span style=color:#b3d23c>Key</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Ref</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>ConnectivityState</span><span style=color:#c7bf54>&gt;&gt;</span> <span style=color:#c1abea>STATE_INFO</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>Attributes</span>.<span style=color:#b3d23c>Key</span>.<span style=color:#b3d23c>create</span>(<span style=color:#98c379>&#34;state-info&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Helper</span> <span style=color:#c1abea>helper</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span>, <span style=color:#c1abea>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>subchannelMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ConcurrentHashMap</span><span style=color:#c7bf54>&lt;&gt;</span>();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#00b1f7>CustomLoadBalancer</span>(<span style=color:#c1abea>Helper</span> <span style=color:#c1abea>helper</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>helper</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>helper</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>handleResolvedAddresses</span>(<span style=color:#c1abea>ResolvedAddresses</span> <span style=color:#c1abea>resolvedAddresses</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;处理地址:{}&#34;</span>, <span style=color:#c1abea>resolvedAddresses</span>.<span style=color:#b3d23c>getAddresses</span>().<span style=color:#b3d23c>toString</span>());
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将解析的地址分割成单个 Address</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>latestAddresses</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>resolvedAddresses</span>.<span style=color:#b3d23c>getAddresses</span>()
-</span></span><span style=display:flex><span>                                                                        .<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                                                                        .<span style=color:#b3d23c>flatMap</span>(<span style=color:#c678dd>this</span>::<span style=color:#c1abea>splitAddressCollection</span>)
-</span></span><span style=display:flex><span>                                                                        .<span style=color:#b3d23c>distinct</span>()
-</span></span><span style=display:flex><span>                                                                        .<span style=color:#b3d23c>collect</span>(<span style=color:#c1abea>Collectors</span>.<span style=color:#b3d23c>toList</span>());
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 已经存在的地址</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Set</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>originAddresses</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>subchannelMap</span>.<span style=color:#b3d23c>keySet</span>();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 对新的 Address 创建 Subchannel</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span>, <span style=color:#c1abea>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>newSubchannelMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>latestAddresses</span>.<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                                                                                  .<span style=color:#b3d23c>filter</span>(<span style=color:#c1abea>e</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c7bf54>!</span><span style=color:#c1abea>originAddresses</span>.<span style=color:#b3d23c>contains</span>(<span style=color:#c1abea>e</span>))
-</span></span><span style=display:flex><span>                                                                                  .<span style=color:#b3d23c>map</span>(<span style=color:#c678dd>this</span>::<span style=color:#c1abea>buildCreateSubchannelArgs</span>)
-</span></span><span style=display:flex><span>                                                                                  .<span style=color:#b3d23c>map</span>(<span style=color:#c1abea>helper</span>::<span style=color:#c1abea>createSubchannel</span>)
-</span></span><span style=display:flex><span>                                                                                  .<span style=color:#b3d23c>map</span>(<span style=color:#c678dd>this</span>::<span style=color:#c1abea>processSubchannel</span>)
-</span></span><span style=display:flex><span>                                                                                  .<span style=color:#b3d23c>collect</span>(<span style=color:#c1abea>Collectors</span>.<span style=color:#b3d23c>toConcurrentMap</span>(<span style=color:#c1abea>Subchannel</span>::<span style=color:#c1abea>getAddresses</span>, <span style=color:#c1abea>s</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c1abea>s</span>));
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将已存在的 Subchannel 放到新的集合中</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>originAddresses</span>.<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                       .<span style=color:#b3d23c>filter</span>(<span style=color:#c1abea>latestAddresses</span>::<span style=color:#c1abea>contains</span>)
-</span></span><span style=display:flex><span>                       .<span style=color:#b3d23c>forEach</span>(<span style=color:#c1abea>e</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c1abea>newSubchannelMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#c1abea>e</span>, <span style=color:#c1abea>subchannelMap</span>.<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>e</span>)));
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 关闭需要移除的 Subchannel</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>originAddresses</span>.<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                       .<span style=color:#b3d23c>filter</span>(<span style=color:#c1abea>e</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c7bf54>!</span><span style=color:#c1abea>latestAddresses</span>.<span style=color:#b3d23c>contains</span>(<span style=color:#c1abea>e</span>))
-</span></span><span style=display:flex><span>                       .<span style=color:#b3d23c>map</span>(<span style=color:#c1abea>e</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c1abea>subchannelMap</span>.<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>e</span>))
-</span></span><span style=display:flex><span>                       .<span style=color:#b3d23c>forEach</span>(<span style=color:#c1abea>Subchannel</span>::<span style=color:#c1abea>shutdown</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>subchannelMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>newSubchannelMap</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>CreateSubchannelArgs</span> <span style=color:#00b1f7>buildCreateSubchannelArgs</span>(<span style=color:#c1abea>EquivalentAddressGroup</span> <span style=color:#c1abea>e</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>CreateSubchannelArgs</span>.<span style=color:#b3d23c>newBuilder</span>()
-</span></span><span style=display:flex><span>                                   .<span style=color:#b3d23c>setAddresses</span>(<span style=color:#c1abea>e</span>)
-</span></span><span style=display:flex><span>                                   .<span style=color:#b3d23c>setAttributes</span>(<span style=color:#c1abea>Attributes</span>.<span style=color:#b3d23c>newBuilder</span>()
-</span></span><span style=display:flex><span>                                                            .<span style=color:#b3d23c>set</span>(<span style=color:#c1abea>STATE_INFO</span>, <span style=color:#c678dd>new</span> <span style=color:#c1abea>Ref</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>IDLE</span>))
-</span></span><span style=display:flex><span>                                                            .<span style=color:#b3d23c>build</span>())
-</span></span><span style=display:flex><span>                                   .<span style=color:#b3d23c>build</span>();
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>Stream</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>splitAddressCollection</span>(<span style=color:#c1abea>EquivalentAddressGroup</span> <span style=color:#c1abea>equivalentAddressGroup</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Attributes</span> <span style=color:#c1abea>attributes</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>equivalentAddressGroup</span>.<span style=color:#b3d23c>getAttributes</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>equivalentAddressGroup</span>.<span style=color:#b3d23c>getAddresses</span>()
-</span></span><span style=display:flex><span>                                     .<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                                     .<span style=color:#b3d23c>map</span>(<span style=color:#c1abea>e</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>EquivalentAddressGroup</span>(<span style=color:#c1abea>e</span>, <span style=color:#c1abea>attributes</span>));
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>Subchannel</span> <span style=color:#00b1f7>processSubchannel</span>(<span style=color:#c1abea>Subchannel</span> <span style=color:#c1abea>subchannel</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>subchannelMap</span>.<span style=color:#b3d23c>containsValue</span>(<span style=color:#c1abea>subchannel</span>)) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;{} {} 已经存在&#34;</span>, <span style=color:#c1abea>subchannel</span>, <span style=color:#c1abea>subchannel</span>.<span style=color:#b3d23c>getAddresses</span>());
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>subchannel</span>;
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>subchannel</span>.<span style=color:#b3d23c>start</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>CustomSubchannelStateListener</span>(<span style=color:#c678dd>this</span>, <span style=color:#c1abea>subchannel</span>, <span style=color:#c1abea>helper</span>));
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>subchannel</span>.<span style=color:#b3d23c>requestConnection</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>subchannel</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>handleNameResolutionError</span>(<span style=color:#c1abea>Status</span> <span style=color:#c1abea>error</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;命名解析失败:{}&#34;</span>, <span style=color:#c1abea>error</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>helper</span>.<span style=color:#b3d23c>updateBalancingState</span>(<span style=color:#c1abea>ConnectivityState</span>.<span style=color:#b3d23c>TRANSIENT_FAILURE</span>, <span style=color:#c678dd>new</span> <span style=color:#c1abea>CustomSubchannelPicker</span>(<span style=color:#c1abea>PickResult</span>.<span style=color:#b3d23c>withNoResult</span>()));
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>shutdown</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>subchannelMap</span>.<span style=color:#b3d23c>values</span>()
-</span></span><span style=display:flex><span>                     .<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                     .<span style=color:#b3d23c>peek</span>(<span style=color:#c1abea>s</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;关闭 {} {}&#34;</span>, <span style=color:#c1abea>s</span>, <span style=color:#c1abea>s</span>.<span style=color:#b3d23c>getAddresses</span>()))
-</span></span><span style=display:flex><span>                     .<span style=color:#b3d23c>forEach</span>(<span style=color:#c1abea>Subchannel</span>::<span style=color:#c1abea>shutdown</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>EquivalentAddressGroup</span>, <span style=color:#c1abea>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>getSubchannelMap</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ConcurrentHashMap</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c678dd>this</span>.<span style=color:#b3d23c>subchannelMap</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> LoadBalancer <span style=color:#a6e22e>newLoadBalancer</span>(LoadBalancer.<span style=color:#a6e22e>Helper</span> helper) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> CustomLoadBalancer(helper);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>CustomSubchannelStateListener.java</li></ul><p>Subchannel 的状态监听器，当 Subchannel 状态发生变化时进行处理</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>class</span> <span style=color:#76a9f9>CustomSubchannelStateListener</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>SubchannelStateListener</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span> <span style=color:#c1abea>subchannel</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Helper</span> <span style=color:#c1abea>helper</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>CustomLoadBalancer</span> <span style=color:#c1abea>loadBalancer</span>;
+</span></span></code></pre></div><ul><li>CustomLoadBalancer.java</li></ul><p>在 CustomLoadBalancer 中实现了地址的处理，根据地址创建 Subchannel，并启动 Subchannel 状态监听器</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CustomLoadBalancer</span> <span style=color:#66d9ef>extends</span> LoadBalancer {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#00b1f7>CustomSubchannelStateListener</span>(<span style=color:#c1abea>CustomLoadBalancer</span> <span style=color:#c1abea>customLoadBalancer</span>,
-</span></span><span style=display:flex><span>                                         <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span> <span style=color:#c1abea>subchannel</span>,
-</span></span><span style=display:flex><span>                                         <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Helper</span> <span style=color:#c1abea>helper</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>loadBalancer</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>customLoadBalancer</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>subchannel</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>subchannel</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>helper</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>helper</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Attributes.<span style=color:#a6e22e>Key</span><span style=color:#f92672>&lt;</span>Ref<span style=color:#f92672>&lt;</span>ConnectivityState<span style=color:#f92672>&gt;&gt;</span> STATE_INFO <span style=color:#f92672>=</span> Attributes.<span style=color:#a6e22e>Key</span>.<span style=color:#a6e22e>create</span>(<span style=color:#e6db74>&#34;state-info&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Helper helper;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Map<span style=color:#f92672>&lt;</span>EquivalentAddressGroup, Subchannel<span style=color:#f92672>&gt;</span> subchannelMap <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ConcurrentHashMap<span style=color:#f92672>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>CustomLoadBalancer</span>(Helper helper) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>helper</span> <span style=color:#f92672>=</span> helper;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>onSubchannelState</span>(<span style=color:#c1abea>ConnectivityStateInfo</span> <span style=color:#c1abea>stateInfo</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Ref</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>ConnectivityState</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>stateInfoRef</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>subchannel</span>.<span style=color:#b3d23c>getAttributes</span>().<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>STATE_INFO</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>ConnectivityState</span> <span style=color:#c1abea>currentState</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>stateInfoRef</span>.<span style=color:#b3d23c>getValue</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>ConnectivityState</span> <span style=color:#c1abea>newState</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>stateInfo</span>.<span style=color:#b3d23c>getState</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleResolvedAddresses</span>(ResolvedAddresses resolvedAddresses) {
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;处理地址:{}&#34;</span>, resolvedAddresses.<span style=color:#a6e22e>getAddresses</span>().<span style=color:#a6e22e>toString</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;{} 状态变化:{}&#34;</span>, <span style=color:#c1abea>subchannel</span>, <span style=color:#c1abea>newState</span>);
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将解析的地址分割成单个 Address</span>
+</span></span><span style=display:flex><span>        List<span style=color:#f92672>&lt;</span>EquivalentAddressGroup<span style=color:#f92672>&gt;</span> latestAddresses <span style=color:#f92672>=</span> resolvedAddresses.<span style=color:#a6e22e>getAddresses</span>()
+</span></span><span style=display:flex><span>                                                                        .<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                                                                        .<span style=color:#a6e22e>flatMap</span>(<span style=color:#66d9ef>this</span>::splitAddressCollection)
+</span></span><span style=display:flex><span>                                                                        .<span style=color:#a6e22e>distinct</span>()
+</span></span><span style=display:flex><span>                                                                        .<span style=color:#a6e22e>collect</span>(Collectors.<span style=color:#a6e22e>toList</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>newState</span> <span style=color:#c7bf54>==</span> <span style=color:#c1abea>SHUTDOWN</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;关闭 {}&#34;</span>, <span style=color:#c1abea>subchannel</span>);
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span>;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 已经存在的地址</span>
+</span></span><span style=display:flex><span>        Set<span style=color:#f92672>&lt;</span>EquivalentAddressGroup<span style=color:#f92672>&gt;</span> originAddresses <span style=color:#f92672>=</span> subchannelMap.<span style=color:#a6e22e>keySet</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 对新的 Address 创建 Subchannel</span>
+</span></span><span style=display:flex><span>        Map<span style=color:#f92672>&lt;</span>EquivalentAddressGroup, Subchannel<span style=color:#f92672>&gt;</span> newSubchannelMap <span style=color:#f92672>=</span> latestAddresses.<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                                                                                  .<span style=color:#a6e22e>filter</span>(e <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>!</span>originAddresses.<span style=color:#a6e22e>contains</span>(e))
+</span></span><span style=display:flex><span>                                                                                  .<span style=color:#a6e22e>map</span>(<span style=color:#66d9ef>this</span>::buildCreateSubchannelArgs)
+</span></span><span style=display:flex><span>                                                                                  .<span style=color:#a6e22e>map</span>(helper::createSubchannel)
+</span></span><span style=display:flex><span>                                                                                  .<span style=color:#a6e22e>map</span>(<span style=color:#66d9ef>this</span>::processSubchannel)
+</span></span><span style=display:flex><span>                                                                                  .<span style=color:#a6e22e>collect</span>(Collectors.<span style=color:#a6e22e>toConcurrentMap</span>(Subchannel::getAddresses, s <span style=color:#f92672>-&gt;</span> s));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将已存在的 Subchannel 放到新的集合中</span>
+</span></span><span style=display:flex><span>        originAddresses.<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                       .<span style=color:#a6e22e>filter</span>(latestAddresses::contains)
+</span></span><span style=display:flex><span>                       .<span style=color:#a6e22e>forEach</span>(e <span style=color:#f92672>-&gt;</span> newSubchannelMap.<span style=color:#a6e22e>put</span>(e, subchannelMap.<span style=color:#a6e22e>get</span>(e)));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 关闭需要移除的 Subchannel</span>
+</span></span><span style=display:flex><span>        originAddresses.<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                       .<span style=color:#a6e22e>filter</span>(e <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>!</span>latestAddresses.<span style=color:#a6e22e>contains</span>(e))
+</span></span><span style=display:flex><span>                       .<span style=color:#a6e22e>map</span>(e <span style=color:#f92672>-&gt;</span> subchannelMap.<span style=color:#a6e22e>get</span>(e))
+</span></span><span style=display:flex><span>                       .<span style=color:#a6e22e>forEach</span>(Subchannel::shutdown);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        subchannelMap <span style=color:#f92672>=</span> newSubchannelMap;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> CreateSubchannelArgs <span style=color:#a6e22e>buildCreateSubchannelArgs</span>(EquivalentAddressGroup e) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> CreateSubchannelArgs.<span style=color:#a6e22e>newBuilder</span>()
+</span></span><span style=display:flex><span>                                   .<span style=color:#a6e22e>setAddresses</span>(e)
+</span></span><span style=display:flex><span>                                   .<span style=color:#a6e22e>setAttributes</span>(Attributes.<span style=color:#a6e22e>newBuilder</span>()
+</span></span><span style=display:flex><span>                                                            .<span style=color:#a6e22e>set</span>(STATE_INFO, <span style=color:#66d9ef>new</span> Ref<span style=color:#f92672>&lt;&gt;</span>(IDLE))
+</span></span><span style=display:flex><span>                                                            .<span style=color:#a6e22e>build</span>())
+</span></span><span style=display:flex><span>                                   .<span style=color:#a6e22e>build</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Stream<span style=color:#f92672>&lt;</span>EquivalentAddressGroup<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>splitAddressCollection</span>(EquivalentAddressGroup equivalentAddressGroup) {
+</span></span><span style=display:flex><span>        Attributes attributes <span style=color:#f92672>=</span> equivalentAddressGroup.<span style=color:#a6e22e>getAttributes</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> equivalentAddressGroup.<span style=color:#a6e22e>getAddresses</span>()
+</span></span><span style=display:flex><span>                                     .<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                                     .<span style=color:#a6e22e>map</span>(e <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>new</span> EquivalentAddressGroup(e, attributes));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Subchannel <span style=color:#a6e22e>processSubchannel</span>(Subchannel subchannel) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (subchannelMap.<span style=color:#a6e22e>containsValue</span>(subchannel)) {
+</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;{} {} 已经存在&#34;</span>, subchannel, subchannel.<span style=color:#a6e22e>getAddresses</span>());
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> subchannel;
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>newState</span> <span style=color:#c7bf54>==</span> <span style=color:#c1abea>READY</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>subchannel</span>.<span style=color:#b3d23c>requestConnection</span>();
+</span></span><span style=display:flex><span>        subchannel.<span style=color:#a6e22e>start</span>(<span style=color:#66d9ef>new</span> CustomSubchannelStateListener(<span style=color:#66d9ef>this</span>, subchannel, helper));
+</span></span><span style=display:flex><span>        subchannel.<span style=color:#a6e22e>requestConnection</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> subchannel;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleNameResolutionError</span>(Status error) {
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;命名解析失败:{}&#34;</span>, error);
+</span></span><span style=display:flex><span>        helper.<span style=color:#a6e22e>updateBalancingState</span>(ConnectivityState.<span style=color:#a6e22e>TRANSIENT_FAILURE</span>, <span style=color:#66d9ef>new</span> CustomSubchannelPicker(PickResult.<span style=color:#a6e22e>withNoResult</span>()));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shutdown</span>() {
+</span></span><span style=display:flex><span>        subchannelMap.<span style=color:#a6e22e>values</span>()
+</span></span><span style=display:flex><span>                     .<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                     .<span style=color:#a6e22e>peek</span>(s <span style=color:#f92672>-&gt;</span> log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;关闭 {} {}&#34;</span>, s, s.<span style=color:#a6e22e>getAddresses</span>()))
+</span></span><span style=display:flex><span>                     .<span style=color:#a6e22e>forEach</span>(Subchannel::shutdown);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Map<span style=color:#f92672>&lt;</span>EquivalentAddressGroup, Subchannel<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getSubchannelMap</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ConcurrentHashMap<span style=color:#f92672>&lt;&gt;</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>subchannelMap</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li>CustomSubchannelStateListener.java</li></ul><p>Subchannel 的状态监听器，当 Subchannel 状态发生变化时进行处理</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CustomSubchannelStateListener</span> <span style=color:#66d9ef>implements</span> LoadBalancer.<span style=color:#a6e22e>SubchannelStateListener</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> LoadBalancer.<span style=color:#a6e22e>Subchannel</span> subchannel;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> LoadBalancer.<span style=color:#a6e22e>Helper</span> helper;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> CustomLoadBalancer loadBalancer;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>CustomSubchannelStateListener</span>(CustomLoadBalancer customLoadBalancer,
+</span></span><span style=display:flex><span>                                         LoadBalancer.<span style=color:#a6e22e>Subchannel</span> subchannel,
+</span></span><span style=display:flex><span>                                         LoadBalancer.<span style=color:#a6e22e>Helper</span> helper) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>loadBalancer</span> <span style=color:#f92672>=</span> customLoadBalancer;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>subchannel</span> <span style=color:#f92672>=</span> subchannel;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>helper</span> <span style=color:#f92672>=</span> helper;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onSubchannelState</span>(ConnectivityStateInfo stateInfo) {
+</span></span><span style=display:flex><span>        Ref<span style=color:#f92672>&lt;</span>ConnectivityState<span style=color:#f92672>&gt;</span> stateInfoRef <span style=color:#f92672>=</span> subchannel.<span style=color:#a6e22e>getAttributes</span>().<span style=color:#a6e22e>get</span>(STATE_INFO);
+</span></span><span style=display:flex><span>        ConnectivityState currentState <span style=color:#f92672>=</span> stateInfoRef.<span style=color:#a6e22e>getValue</span>();
+</span></span><span style=display:flex><span>        ConnectivityState newState <span style=color:#f92672>=</span> stateInfo.<span style=color:#a6e22e>getState</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;{} 状态变化:{}&#34;</span>, subchannel, newState);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (newState <span style=color:#f92672>==</span> SHUTDOWN) {
+</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;关闭 {}&#34;</span>, subchannel);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span>;
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>currentState</span> <span style=color:#c7bf54>==</span> <span style=color:#c1abea>TRANSIENT_FAILURE</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c1abea>newState</span> <span style=color:#c7bf54>==</span> <span style=color:#c1abea>CONNECTING</span> <span style=color:#c7bf54>||</span> <span style=color:#c1abea>newState</span> <span style=color:#c7bf54>==</span> <span style=color:#c1abea>IDLE</span>) {
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;{} 建立连接或者失败&#34;</span>, <span style=color:#c1abea>subchannel</span>);
-</span></span><span style=display:flex><span>                <span style=color:#c678dd>return</span>;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (newState <span style=color:#f92672>==</span> READY) {
+</span></span><span style=display:flex><span>            subchannel.<span style=color:#a6e22e>requestConnection</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (currentState <span style=color:#f92672>==</span> TRANSIENT_FAILURE) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (newState <span style=color:#f92672>==</span> CONNECTING <span style=color:#f92672>||</span> newState <span style=color:#f92672>==</span> IDLE) {
+</span></span><span style=display:flex><span>                log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;{} 建立连接或者失败&#34;</span>, subchannel);
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span>;
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>stateInfoRef</span>.<span style=color:#b3d23c>setValue</span>(<span style=color:#c1abea>newState</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>updateLoadBalancerState</span>();
+</span></span><span style=display:flex><span>        stateInfoRef.<span style=color:#a6e22e>setValue</span>(newState);
+</span></span><span style=display:flex><span>        updateLoadBalancerState();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>updateLoadBalancerState</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>readySubchannels</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>loadBalancer</span>.<span style=color:#b3d23c>getSubchannelMap</span>()
-</span></span><span style=display:flex><span>                                                                     .<span style=color:#b3d23c>values</span>()
-</span></span><span style=display:flex><span>                                                                     .<span style=color:#b3d23c>stream</span>()
-</span></span><span style=display:flex><span>                                                                     .<span style=color:#b3d23c>filter</span>(<span style=color:#c1abea>s</span> <span style=color:#c7bf54>-&gt;</span> <span style=color:#c1abea>s</span>.<span style=color:#b3d23c>getAttributes</span>().<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>STATE_INFO</span>).<span style=color:#b3d23c>getValue</span>() <span style=color:#c7bf54>==</span> <span style=color:#c1abea>READY</span>)
-</span></span><span style=display:flex><span>                                                                     .<span style=color:#b3d23c>collect</span>(<span style=color:#c1abea>Collectors</span>.<span style=color:#b3d23c>toList</span>());
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>updateLoadBalancerState</span>() {
+</span></span><span style=display:flex><span>        List<span style=color:#f92672>&lt;</span>LoadBalancer.<span style=color:#a6e22e>Subchannel</span><span style=color:#f92672>&gt;</span> readySubchannels <span style=color:#f92672>=</span> loadBalancer.<span style=color:#a6e22e>getSubchannelMap</span>()
+</span></span><span style=display:flex><span>                                                                     .<span style=color:#a6e22e>values</span>()
+</span></span><span style=display:flex><span>                                                                     .<span style=color:#a6e22e>stream</span>()
+</span></span><span style=display:flex><span>                                                                     .<span style=color:#a6e22e>filter</span>(s <span style=color:#f92672>-&gt;</span> s.<span style=color:#a6e22e>getAttributes</span>().<span style=color:#a6e22e>get</span>(STATE_INFO).<span style=color:#a6e22e>getValue</span>() <span style=color:#f92672>==</span> READY)
+</span></span><span style=display:flex><span>                                                                     .<span style=color:#a6e22e>collect</span>(Collectors.<span style=color:#a6e22e>toList</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>readySubchannels</span>.<span style=color:#b3d23c>isEmpty</span>()) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;更新 LB 状态为 CONNECTING，没有 READY 的 Subchannel&#34;</span>);
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>helper</span>.<span style=color:#b3d23c>updateBalancingState</span>(<span style=color:#c1abea>CONNECTING</span>, <span style=color:#c678dd>new</span> <span style=color:#c1abea>CustomSubchannelPicker</span>(<span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span>.<span style=color:#b3d23c>withNoResult</span>()));
-</span></span><span style=display:flex><span>        } <span style=color:#c678dd>else</span> {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;更新 LB 状态为 READY，Subchannel 为:{}&#34;</span>, <span style=color:#c1abea>readySubchannels</span>.<span style=color:#b3d23c>toArray</span>());
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>helper</span>.<span style=color:#b3d23c>updateBalancingState</span>(<span style=color:#c1abea>READY</span>, <span style=color:#c678dd>new</span> <span style=color:#c1abea>CustomSubchannelPicker</span>(<span style=color:#c1abea>readySubchannels</span>));
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (readySubchannels.<span style=color:#a6e22e>isEmpty</span>()) {
+</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;更新 LB 状态为 CONNECTING，没有 READY 的 Subchannel&#34;</span>);
+</span></span><span style=display:flex><span>            helper.<span style=color:#a6e22e>updateBalancingState</span>(CONNECTING, <span style=color:#66d9ef>new</span> CustomSubchannelPicker(LoadBalancer.<span style=color:#a6e22e>PickResult</span>.<span style=color:#a6e22e>withNoResult</span>()));
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;更新 LB 状态为 READY，Subchannel 为:{}&#34;</span>, readySubchannels.<span style=color:#a6e22e>toArray</span>());
+</span></span><span style=display:flex><span>            helper.<span style=color:#a6e22e>updateBalancingState</span>(READY, <span style=color:#66d9ef>new</span> CustomSubchannelPicker(readySubchannels));
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>CustomSubchannelPicker.java</li></ul><p>实现选择 Subchannel 的逻辑，这里使用的是轮询策略</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>class</span> <span style=color:#76a9f9>CustomSubchannelPicker</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>SubchannelPicker</span> {
+</span></span></code></pre></div><ul><li>CustomSubchannelPicker.java</li></ul><p>实现选择 Subchannel 的逻辑，这里使用的是轮询策略</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CustomSubchannelPicker</span> <span style=color:#66d9ef>extends</span> LoadBalancer.<span style=color:#a6e22e>SubchannelPicker</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>AtomicInteger</span> <span style=color:#c1abea>index</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>AtomicInteger</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> AtomicInteger index <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> AtomicInteger();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>subchannelList</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> List<span style=color:#f92672>&lt;</span>LoadBalancer.<span style=color:#a6e22e>Subchannel</span><span style=color:#f92672>&gt;</span> subchannelList;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span> <span style=color:#c1abea>pickResult</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> LoadBalancer.<span style=color:#a6e22e>PickResult</span> pickResult;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#00b1f7>CustomSubchannelPicker</span>(<span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span> <span style=color:#c1abea>pickResult</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>pickResult</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>pickResult</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>CustomSubchannelPicker</span>(LoadBalancer.<span style=color:#a6e22e>PickResult</span> pickResult) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>pickResult</span> <span style=color:#f92672>=</span> pickResult;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#00b1f7>CustomSubchannelPicker</span>(<span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>subchannelList</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>subchannelList</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>subchannelList</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>CustomSubchannelPicker</span>(List<span style=color:#f92672>&lt;</span>LoadBalancer.<span style=color:#a6e22e>Subchannel</span><span style=color:#f92672>&gt;</span> subchannelList) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>subchannelList</span> <span style=color:#f92672>=</span> subchannelList;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span> <span style=color:#00b1f7>pickSubchannel</span>(<span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickSubchannelArgs</span> <span style=color:#c1abea>args</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>pickResult</span> <span style=color:#c7bf54>!=</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;有错误的 pickResult，返回:{}&#34;</span>, <span style=color:#c1abea>pickResult</span>);
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c1abea>pickResult</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> LoadBalancer.<span style=color:#a6e22e>PickResult</span> <span style=color:#a6e22e>pickSubchannel</span>(LoadBalancer.<span style=color:#a6e22e>PickSubchannelArgs</span> args) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (pickResult <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;有错误的 pickResult，返回:{}&#34;</span>, pickResult);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> pickResult;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span> <span style=color:#c1abea>pickResult</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>nextSubchannel</span>(<span style=color:#c1abea>args</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;Pick 下一个 Subchannel:{}&#34;</span>, <span style=color:#c1abea>pickResult</span>.<span style=color:#b3d23c>getSubchannel</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>pickResult</span>;
+</span></span><span style=display:flex><span>        LoadBalancer.<span style=color:#a6e22e>PickResult</span> pickResult <span style=color:#f92672>=</span> nextSubchannel(args);
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;Pick 下一个 Subchannel:{}&#34;</span>, pickResult.<span style=color:#a6e22e>getSubchannel</span>());
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> pickResult;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span> <span style=color:#00b1f7>nextSubchannel</span>(<span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickSubchannelArgs</span> <span style=color:#c1abea>args</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>index</span>.<span style=color:#b3d23c>get</span>() <span style=color:#c7bf54>&gt;=</span> <span style=color:#c1abea>subchannelList</span>.<span style=color:#b3d23c>size</span>()) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>index</span>.<span style=color:#b3d23c>set</span>(<span style=color:#c1abea>0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> LoadBalancer.<span style=color:#a6e22e>PickResult</span> <span style=color:#a6e22e>nextSubchannel</span>(LoadBalancer.<span style=color:#a6e22e>PickSubchannelArgs</span> args) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (index.<span style=color:#a6e22e>get</span>() <span style=color:#f92672>&gt;=</span> subchannelList.<span style=color:#a6e22e>size</span>()) {
+</span></span><span style=display:flex><span>            index.<span style=color:#a6e22e>set</span>(0);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>Subchannel</span> <span style=color:#c1abea>subchannel</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>subchannelList</span>.<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>index</span>.<span style=color:#b3d23c>getAndIncrement</span>());
+</span></span><span style=display:flex><span>        LoadBalancer.<span style=color:#a6e22e>Subchannel</span> subchannel <span style=color:#f92672>=</span> subchannelList.<span style=color:#a6e22e>get</span>(index.<span style=color:#a6e22e>getAndIncrement</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;返回 Subchannel:{}&#34;</span>, <span style=color:#c1abea>subchannel</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>LoadBalancer</span>.<span style=color:#b3d23c>PickResult</span>.<span style=color:#b3d23c>withSubchannel</span>(<span style=color:#c1abea>subchannel</span>);
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;返回 Subchannel:{}&#34;</span>, subchannel);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> LoadBalancer.<span style=color:#a6e22e>PickResult</span>.<span style=color:#a6e22e>withSubchannel</span>(subchannel);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>Ref.java</li></ul><p>用于保存 Subchannel 状态的工具类</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>Ref</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>T</span><span style=color:#c7bf54>&gt;</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>T</span> <span style=color:#c1abea>value</span>;
+</span></span></code></pre></div><ul><li>Ref.java</li></ul><p>用于保存 Subchannel 状态的工具类</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>final</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Ref</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> {
+</span></span><span style=display:flex><span>    T value;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Ref</span>(<span style=color:#c1abea>T</span> <span style=color:#c1abea>value</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>value</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>value</span>;
+</span></span><span style=display:flex><span>    Ref(T value) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>value</span> <span style=color:#f92672>=</span> value;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setValue</span>(<span style=color:#c1abea>T</span> <span style=color:#c1abea>value</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>this</span>.<span style=color:#b3d23c>value</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>value</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setValue</span>(T value) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>value</span> <span style=color:#f92672>=</span> value;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>T</span> <span style=color:#00b1f7>getValue</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>value</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> T <span style=color:#a6e22e>getValue</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> value;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>

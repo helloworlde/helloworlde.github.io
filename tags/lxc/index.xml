@@ -2,7 +2,7 @@
 &lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
 &lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
 &lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>113.conf&lt;/li>
 &lt;/ul>
@@ -37,16 +37,16 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul>
 &lt;li>清除无效软件&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt autoremove
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt autoremove
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>清除 DNS 和主机名配置&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rm /etc/resolv.conf
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rm /etc/resolv.conf
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rm /etc/hostname
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>清除操作命令&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">history&lt;/span> -c
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>history -c
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="备份-lxc-容器">备份 LXC 容器&lt;/h3>
 &lt;p>清理完成后，回到 PVE 的控制页面，选择刚才创建的 CT 容器进行备份&lt;/p>
 &lt;p>
@@ -60,13 +60,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li>查看设备&lt;/li>
 &lt;/ul>
 &lt;p>如果能够看到 PCI 设备中包含核心显卡，说明设备识别正常&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci | grep VGA
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>00:02.0 VGA compatible controller: Intel Corporation JasperLake &lt;span style="color:#c7bf54">[&lt;/span>UHD Graphics&lt;span style="color:#c7bf54">]&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>rev 01&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci | grep VGA
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>00:02.0 VGA compatible controller: Intel Corporation JasperLake &lt;span style="color:#f92672">[&lt;/span>UHD Graphics&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">(&lt;/span>rev 01&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>查看驱动&lt;/li>
 &lt;/ul>
 &lt;p>可以看到 card0 和 renderD128 都存在，说明驱动正常&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ls /dev/dri/
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ls /dev/dri/
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>by-path card0	renderD128
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通常不需要安装驱动，如果设备没有正确识别，可以参考 &lt;a href="https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps">https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps&lt;/a> 进行安装&lt;/p>
 &lt;h2 id="创建-lxc-容器">创建 LXC 容器&lt;/h2>

@@ -1,132 +1,132 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>gRPC Server 端关闭流程</title><meta name=description content="关闭 Server 关闭 Server 可以使用 shutdown 或者 shutdownNow 方法
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>gRPC Server 端关闭流程</title><meta name=description content="关闭 Server 关闭 Server 可以使用 shutdown 或者 shutdownNow 方法
 shutdown server.shutdown().awaitTermination(10, TimeUnit.SECONDS); io.grpc.internal.ServerImpl#shutdown 开始顺序 …"><meta name=keywords content='blog,hugo,gRPC'><meta property="og:url" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/"><meta property="og:type" content="website"><meta property="og:title" content="gRPC Server 端关闭流程"><meta property="og:description" content="关闭 Server 关闭 Server 可以使用 shutdown 或者 shutdownNow 方法
 shutdown server.shutdown().awaitTermination(10, TimeUnit.SECONDS); io.grpc.internal.ServerImpl#shutdown 开始顺序 …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="gRPC Server 端关闭流程"><meta name=twitter:description content="关闭 Server 关闭 Server 可以使用 shutdown 或者 shutdownNow 方法
 shutdown server.shutdown().awaitTermination(10, TimeUnit.SECONDS); io.grpc.internal.ServerImpl#shutdown 开始顺序 …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/grpc-server-%E7%AB%AF%E5%85%B3%E9%97%AD%E6%B5%81%E7%A8%8B/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC Server 端关闭流程</h1><small role=doc-subtitle></small><p class=post-date>2020-12-05</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><h2 id=关闭-server>关闭 Server</h2><p>关闭 Server 可以使用 <code>shutdown</code> 或者 <code>shutdownNow</code> 方法</p><h4 id=shutdown>shutdown</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c1abea>server</span>.<span style=color:#b3d23c>shutdown</span>().<span style=color:#b3d23c>awaitTermination</span>(<span style=color:#c1abea>10</span>, <span style=color:#c1abea>TimeUnit</span>.<span style=color:#b3d23c>SECONDS</span>);
-</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl#shutdown</li></ul><p>开始顺序的关闭 Server，已经存在的请求会继续执行，新的请求会被拒绝</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c1abea>ServerImpl</span> <span style=color:#00b1f7>shutdown</span>() {
-</span></span><span style=display:flex><span>    <span style=color:#ef8383>boolean</span> <span style=color:#c1abea>shutdownTransportServers</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>lock</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>shutdown</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c678dd>this</span>;
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>gRPC Server 端关闭流程</h1><small role=doc-subtitle></small><p class=post-date>2020-12-05</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/grpc>gRPC</a></li></ul></div><div class=post-content><h2 id=关闭-server>关闭 Server</h2><p>关闭 Server 可以使用 <code>shutdown</code> 或者 <code>shutdownNow</code> 方法</p><h4 id=shutdown>shutdown</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>server.<span style=color:#a6e22e>shutdown</span>().<span style=color:#a6e22e>awaitTermination</span>(10, TimeUnit.<span style=color:#a6e22e>SECONDS</span>);
+</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl#shutdown</li></ul><p>开始顺序的关闭 Server，已经存在的请求会继续执行，新的请求会被拒绝</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> ServerImpl <span style=color:#a6e22e>shutdown</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>boolean</span> shutdownTransportServers;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>synchronized</span> (lock) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (shutdown) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>shutdown</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>shutdownTransportServers</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>started</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c7bf54>!</span><span style=color:#c1abea>shutdownTransportServers</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>transportServersTerminated</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// 检查是否终止</span>
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>checkForTermination</span>();
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>shutdownTransportServers</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 遍历所有的 Server 并关闭</span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>for</span> (<span style=color:#c1abea>InternalServer</span> <span style=color:#c1abea>ts</span> : <span style=color:#c1abea>transportServers</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>ts</span>.<span style=color:#b3d23c>shutdown</span>();
+</span></span><span style=display:flex><span>        shutdown <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>        shutdownTransportServers <span style=color:#f92672>=</span> started;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>shutdownTransportServers) {
+</span></span><span style=display:flex><span>            transportServersTerminated <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// 检查是否终止</span>
+</span></span><span style=display:flex><span>            checkForTermination();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>return</span> <span style=color:#c678dd>this</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (shutdownTransportServers) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 遍历所有的 Server 并关闭</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> (InternalServer ts : transportServers) {
+</span></span><span style=display:flex><span>            ts.<span style=color:#a6e22e>shutdown</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span>;
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p>关闭时，首先会检查 Server 是否已经关闭了，如果已经关闭了，则抛出异常；如果没有关闭，则会修改关闭状态，返huan连接池，通知其他的锁；
-然后会遍历所有的 Server，调用其 <code>shutdown</code> 方法进行关闭</p><ul><li>io.grpc.netty.NettyServer#shutdown</li></ul><p>关闭 <code>NettySerer</code>，添加关闭事件监听器，并等待关闭；在监听器中会释放资源，关闭协议协调器，关闭 Transport 等</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>shutdown</span>() {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 如果 channel 已经关闭了，则返回</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>channel</span> <span style=color:#c7bf54>==</span> <span style=color:#b756ff;font-weight:700>null</span> <span style=color:#c7bf54>||</span> <span style=color:#c7bf54>!</span><span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>isOpen</span>()) {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Already closed.</span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span>;
+然后会遍历所有的 Server，调用其 <code>shutdown</code> 方法进行关闭</p><ul><li>io.grpc.netty.NettyServer#shutdown</li></ul><p>关闭 <code>NettySerer</code>，添加关闭事件监听器，并等待关闭；在监听器中会释放资源，关闭协议协调器，关闭 Transport 等</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shutdown</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 如果 channel 已经关闭了，则返回</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (channel <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>||</span> <span style=color:#f92672>!</span>channel.<span style=color:#a6e22e>isOpen</span>()) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// Already closed.</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span>;
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 添加监听器，用于在关闭时释放资源，关闭协议，关闭 Transport 等</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>close</span>().<span style=color:#b3d23c>addListener</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>ChannelFutureListener</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>operationComplete</span>(<span style=color:#c1abea>ChannelFuture</span> <span style=color:#c1abea>future</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>Exception</span> {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c7bf54>!</span><span style=color:#c1abea>future</span>.<span style=color:#b3d23c>isSuccess</span>()) {
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>log</span>(<span style=color:#c1abea>Level</span>.<span style=color:#b3d23c>WARNING</span>, <span style=color:#98c379>&#34;Error shutting down server&#34;</span>, <span style=color:#c1abea>future</span>.<span style=color:#b3d23c>cause</span>());
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 添加监听器，用于在关闭时释放资源，关闭协议，关闭 Transport 等</span>
+</span></span><span style=display:flex><span>    channel.<span style=color:#a6e22e>close</span>().<span style=color:#a6e22e>addListener</span>(<span style=color:#66d9ef>new</span> ChannelFutureListener() {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>operationComplete</span>(ChannelFuture future) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>future.<span style=color:#a6e22e>isSuccess</span>()) {
+</span></span><span style=display:flex><span>                log.<span style=color:#a6e22e>log</span>(Level.<span style=color:#a6e22e>WARNING</span>, <span style=color:#e6db74>&#34;Error shutting down server&#34;</span>, future.<span style=color:#a6e22e>cause</span>());
 </span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>InternalInstrumented</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>SocketStats</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>stats</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>listenSocketStats</span>;
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>listenSocketStats</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>null</span>;
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c1abea>stats</span> <span style=color:#c7bf54>!=</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>channelz</span>.<span style=color:#b3d23c>removeListenSocket</span>(<span style=color:#c1abea>stats</span>);
+</span></span><span style=display:flex><span>            InternalInstrumented<span style=color:#f92672>&lt;</span>SocketStats<span style=color:#f92672>&gt;</span> stats <span style=color:#f92672>=</span> listenSocketStats;
+</span></span><span style=display:flex><span>            listenSocketStats <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>;
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (stats <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>                channelz.<span style=color:#a6e22e>removeListenSocket</span>(stats);
 </span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>sharedResourceReferenceCounter</span>.<span style=color:#b3d23c>release</span>();
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>protocolNegotiator</span>.<span style=color:#b3d23c>close</span>();
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>NettyServer</span>.<span style=color:#b3d23c>this</span>) {
-</span></span><span style=display:flex><span>                <span style=color:#8a93a5;font-style:italic>// 关闭 Transport</span>
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>listener</span>.<span style=color:#b3d23c>serverShutdown</span>();
+</span></span><span style=display:flex><span>            sharedResourceReferenceCounter.<span style=color:#a6e22e>release</span>();
+</span></span><span style=display:flex><span>            protocolNegotiator.<span style=color:#a6e22e>close</span>();
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>synchronized</span> (NettyServer.<span style=color:#a6e22e>this</span>) {
+</span></span><span style=display:flex><span>                <span style=color:#75715e>// 关闭 Transport</span>
+</span></span><span style=display:flex><span>                listener.<span style=color:#a6e22e>serverShutdown</span>();
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    });
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>try</span> {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 关闭 channel</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>closeFuture</span>().<span style=color:#b3d23c>await</span>();
-</span></span><span style=display:flex><span>    } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>InterruptedException</span> <span style=color:#c1abea>e</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>log</span>(<span style=color:#c1abea>Level</span>.<span style=color:#b3d23c>FINE</span>, <span style=color:#98c379>&#34;Interrupted while shutting down&#34;</span>, <span style=color:#c1abea>e</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Thread</span>.<span style=color:#b3d23c>currentThread</span>().<span style=color:#b3d23c>interrupt</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 关闭 channel</span>
+</span></span><span style=display:flex><span>        channel.<span style=color:#a6e22e>closeFuture</span>().<span style=color:#a6e22e>await</span>();
+</span></span><span style=display:flex><span>    } <span style=color:#66d9ef>catch</span> (InterruptedException e) {
+</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>log</span>(Level.<span style=color:#a6e22e>FINE</span>, <span style=color:#e6db74>&#34;Interrupted while shutting down&#34;</span>, e);
+</span></span><span style=display:flex><span>        Thread.<span style=color:#a6e22e>currentThread</span>().<span style=color:#a6e22e>interrupt</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl.ServerListenerImpl#serverShutdown</li></ul><p>监听 Server 关闭事件，根据关闭的状态，选择调用 <code>Transport</code> 的 <code>shutdown</code> 或者 <code>shutdownNow</code> 关闭 <code>ServerTransport</code></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>serverShutdown</span>() {
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>ServerTransport</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>copiedTransports</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Status</span> <span style=color:#c1abea>shutdownNowStatusCopy</span>;
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 复制 Transport 和状态</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>lock</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>activeTransportServers</span><span style=color:#c7bf54>--</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>activeTransportServers</span> <span style=color:#c7bf54>!=</span> <span style=color:#c1abea>0</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span>;
+</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl.ServerListenerImpl#serverShutdown</li></ul><p>监听 Server 关闭事件，根据关闭的状态，选择调用 <code>Transport</code> 的 <code>shutdown</code> 或者 <code>shutdownNow</code> 关闭 <code>ServerTransport</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>serverShutdown</span>() {
+</span></span><span style=display:flex><span>    ArrayList<span style=color:#f92672>&lt;</span>ServerTransport<span style=color:#f92672>&gt;</span> copiedTransports;
+</span></span><span style=display:flex><span>    Status shutdownNowStatusCopy;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 复制 Transport 和状态</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>synchronized</span> (lock) {
+</span></span><span style=display:flex><span>        activeTransportServers<span style=color:#f92672>--</span>;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (activeTransportServers <span style=color:#f92672>!=</span> 0) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span>;
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// transports collection can be modified during shutdown(), even if we hold the lock, due</span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// to reentrancy.</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>copiedTransports</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>transports</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>shutdownNowStatusCopy</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>shutdownNowStatus</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>serverShutdownCallbackInvoked</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>true</span>;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// transports collection can be modified during shutdown(), even if we hold the lock, due</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// to reentrancy.</span>
+</span></span><span style=display:flex><span>        copiedTransports <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;</span>(transports);
+</span></span><span style=display:flex><span>        shutdownNowStatusCopy <span style=color:#f92672>=</span> shutdownNowStatus;
+</span></span><span style=display:flex><span>        serverShutdownCallbackInvoked <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 遍历 Transport，如果没有关闭状态，则调用shutdown 关闭，如果有状态，则调用 shutdownNow 立即关闭</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>for</span> (<span style=color:#c1abea>ServerTransport</span> <span style=color:#c1abea>transport</span> : <span style=color:#c1abea>copiedTransports</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>shutdownNowStatusCopy</span> <span style=color:#c7bf54>==</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>transport</span>.<span style=color:#b3d23c>shutdown</span>();
-</span></span><span style=display:flex><span>        } <span style=color:#c678dd>else</span> {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>transport</span>.<span style=color:#b3d23c>shutdownNow</span>(<span style=color:#c1abea>shutdownNowStatusCopy</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 遍历 Transport，如果没有关闭状态，则调用shutdown 关闭，如果有状态，则调用 shutdownNow 立即关闭</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (ServerTransport transport : copiedTransports) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (shutdownNowStatusCopy <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>            transport.<span style=color:#a6e22e>shutdown</span>();
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>            transport.<span style=color:#a6e22e>shutdownNow</span>(shutdownNowStatusCopy);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>lock</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>transportServersTerminated</span> <span style=color:#c7bf54>=</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 是否终止的通知</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>checkForTermination</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>synchronized</span> (lock) {
+</span></span><span style=display:flex><span>        transportServersTerminated <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 是否终止的通知</span>
+</span></span><span style=display:flex><span>        checkForTermination();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>io.grpc.netty.NettyServerTransport#shutdown</li></ul><p>最终在 Transport 中调用了 Netty Channel 的关闭方法，进行关闭</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>shutdown</span>() {
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>isOpen</span>()) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>close</span>();
+</span></span></code></pre></div><ul><li>io.grpc.netty.NettyServerTransport#shutdown</li></ul><p>最终在 Transport 中调用了 Netty Channel 的关闭方法，进行关闭</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shutdown</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (channel.<span style=color:#a6e22e>isOpen</span>()) {
+</span></span><span style=display:flex><span>        channel.<span style=color:#a6e22e>close</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h4 id=shutdownnow>shutdownNow</h4><p>立即关闭 Server，已经存在的请求和新的请求都会被拒绝；尽管是强制的，但是 Server 并不会瞬间关闭</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c1abea>server</span>.<span style=color:#b3d23c>shutdownNow</span>();
-</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl#shutdownNow</li></ul><p>立即关闭时，会先调用 <code>shutdown</code> 方法执行正常的关闭流程，然后修改关闭状态；遍历所有的 <code>ServerTransport</code>，调用其 <code>shutdownNow</code> 方法进行关闭</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c1abea>ServerImpl</span> <span style=color:#00b1f7>shutdownNow</span>() {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 调用 shutdown 关闭 Transport</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>shutdown</span>();
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Collection</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>ServerTransport</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>transportsCopy</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Status</span> <span style=color:#c1abea>nowStatus</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>Status</span>.<span style=color:#b3d23c>UNAVAILABLE</span>.<span style=color:#b3d23c>withDescription</span>(<span style=color:#98c379>&#34;Server shutdownNow invoked&#34;</span>);
-</span></span><span style=display:flex><span>    <span style=color:#ef8383>boolean</span> <span style=color:#c1abea>savedServerShutdownCallbackInvoked</span>;
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>synchronized</span> (<span style=color:#c1abea>lock</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>shutdownNowStatus</span> <span style=color:#c7bf54>!=</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>return</span> <span style=color:#c678dd>this</span>;
+</span></span></code></pre></div><h4 id=shutdownnow>shutdownNow</h4><p>立即关闭 Server，已经存在的请求和新的请求都会被拒绝；尽管是强制的，但是 Server 并不会瞬间关闭</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>server.<span style=color:#a6e22e>shutdownNow</span>();
+</span></span></code></pre></div><ul><li>io.grpc.internal.ServerImpl#shutdownNow</li></ul><p>立即关闭时，会先调用 <code>shutdown</code> 方法执行正常的关闭流程，然后修改关闭状态；遍历所有的 <code>ServerTransport</code>，调用其 <code>shutdownNow</code> 方法进行关闭</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> ServerImpl <span style=color:#a6e22e>shutdownNow</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 调用 shutdown 关闭 Transport</span>
+</span></span><span style=display:flex><span>    shutdown();
+</span></span><span style=display:flex><span>    Collection<span style=color:#f92672>&lt;</span>ServerTransport<span style=color:#f92672>&gt;</span> transportsCopy;
+</span></span><span style=display:flex><span>    Status nowStatus <span style=color:#f92672>=</span> Status.<span style=color:#a6e22e>UNAVAILABLE</span>.<span style=color:#a6e22e>withDescription</span>(<span style=color:#e6db74>&#34;Server shutdownNow invoked&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>boolean</span> savedServerShutdownCallbackInvoked;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>synchronized</span> (lock) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (shutdownNowStatus <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span>;
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>shutdownNowStatus</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>nowStatus</span>;
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>transportsCopy</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>transports</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>savedServerShutdownCallbackInvoked</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>serverShutdownCallbackInvoked</span>;
+</span></span><span style=display:flex><span>        shutdownNowStatus <span style=color:#f92672>=</span> nowStatus;
+</span></span><span style=display:flex><span>        transportsCopy <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;</span>(transports);
+</span></span><span style=display:flex><span>        savedServerShutdownCallbackInvoked <span style=color:#f92672>=</span> serverShutdownCallbackInvoked;
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 遍历 Transport 调用 shutdownNow</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>savedServerShutdownCallbackInvoked</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>//</span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>for</span> (<span style=color:#c1abea>ServerTransport</span> <span style=color:#c1abea>transport</span> : <span style=color:#c1abea>transportsCopy</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>transport</span>.<span style=color:#b3d23c>shutdownNow</span>(<span style=color:#c1abea>nowStatus</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 遍历 Transport 调用 shutdownNow</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (savedServerShutdownCallbackInvoked) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>//</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> (ServerTransport transport : transportsCopy) {
+</span></span><span style=display:flex><span>            transport.<span style=color:#a6e22e>shutdownNow</span>(nowStatus);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>return</span> <span style=color:#c678dd>this</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span>;
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>io.grpc.netty.NettyServerTransport#shutdownNow</li></ul><p><code>ServerTransport</code> 的 <code>shutdownNow</code> 会提交一个强制关闭的指令，并清空 channel，执行关闭</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>shutdownNow</span>(<span style=color:#c1abea>Status</span> <span style=color:#c1abea>reason</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>if</span> (<span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>isOpen</span>()) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>channel</span>.<span style=color:#b3d23c>writeAndFlush</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>ForcefulCloseCommand</span>(<span style=color:#c1abea>reason</span>));
+</span></span></code></pre></div><ul><li>io.grpc.netty.NettyServerTransport#shutdownNow</li></ul><p><code>ServerTransport</code> 的 <code>shutdownNow</code> 会提交一个强制关闭的指令，并清空 channel，执行关闭</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>shutdownNow</span>(Status reason) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (channel.<span style=color:#a6e22e>isOpen</span>()) {
+</span></span><span style=display:flex><span>        channel.<span style=color:#a6e22e>writeAndFlush</span>(<span style=color:#66d9ef>new</span> ForcefulCloseCommand(reason));
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>

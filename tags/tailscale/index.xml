@@ -10,41 +10,41 @@
 &lt;li>创建网络&lt;/li>
 &lt;/ul>
 &lt;p>为了方便能通过 Docker 自动发现服务路由，创建一个容器共用的网络，用于 Traefik 路由到对应服务&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker network create traefik
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker network create traefik
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
 &lt;p>需要在 docker-compose 指定网络，并挂载 &lt;code>/var/run/docker.sock&lt;/code>，用于自动获取路由规则&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">networks&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">traefik&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">external&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">networks&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">traefik&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">external&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">traefik&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">hostname&lt;/span>: &lt;span style="color:#98c379">traefik&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">always&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">healthcheck&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">test&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;CMD&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;wget&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;-q&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;--spider&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;http://localhost:8080/ping&amp;#34;&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">retries&lt;/span>: &lt;span style="color:#d19a66">3&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">start_period&lt;/span>: &lt;span style="color:#98c379">30s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">command&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;--configFile=/etc/traefik/traefik.yml&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;81:80&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8443:443&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8080:8080&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;/etc/localtime:/etc/localtime:ro&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;/var/run/docker.sock:/var/run/docker.sock:ro&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;./traefik.yml:/etc/traefik/traefik.yml&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">networks&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">traefik&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">traefik&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">healthcheck&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">test&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;CMD&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;wget&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;-q&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;--spider&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;http://localhost:8080/ping&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">interval&lt;/span>: &lt;span style="color:#ae81ff">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">timeout&lt;/span>: &lt;span style="color:#ae81ff">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">retries&lt;/span>: &lt;span style="color:#ae81ff">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">start_period&lt;/span>: &lt;span style="color:#ae81ff">30s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">command&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;--configFile=/etc/traefik/traefik.yml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;81:80&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8443:443&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8080:8080&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;/etc/localtime:/etc/localtime:ro&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;/var/run/docker.sock:/var/run/docker.sock:ro&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;./traefik.yml:/etc/traefik/traefik.yml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">networks&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">traefik&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TZ=Asia/Shanghai&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>traefik.yml&lt;/li>
 &lt;/ul>
@@ -55,60 +55,60 @@
 &lt;ul>
 &lt;li>下载项目&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/tailscale/tailscale.git
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/tailscale/tailscale.git
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>创建 Dockerfile&lt;/li>
 &lt;/ul>
 &lt;p>进入项目下，并在根目录创建 Dockerfile.derpprobe 文件，内容如下：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Dockerfile" data-lang="Dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> golang:1.23-alpine AS build-env&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Dockerfile" data-lang="Dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">FROM&lt;/span>&lt;span style="color:#e6db74"> golang:1.23-alpine AS build-env&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">WORKDIR&lt;/span>&lt;span style="color:#e6db74"> /go/src/tailscale&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">COPY&lt;/span> tailscale/go.mod tailscale/go.sum ./&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">RUN&lt;/span> go mod download&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">COPY&lt;/span> tailscale .&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ARG&lt;/span> TARGETARCH&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">RUN&lt;/span> GOARCH&lt;span style="color:#f92672">=&lt;/span>$TARGETARCH go build -o derpprobe cmd/derpprobe/derpprobe.go&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">FROM&lt;/span>&lt;span style="color:#e6db74"> alpine:3.18&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">RUN&lt;/span> apk add --no-cache ca-certificates&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENV&lt;/span> DERP_MAP&lt;span style="color:#f92672">=&lt;/span>https://login.tailscale.com/derpmap/default&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENV&lt;/span> LISTEN&lt;span style="color:#f92672">=&lt;/span>:8030&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENV&lt;/span> ONCE&lt;span style="color:#f92672">=&lt;/span>false
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> SPREAD&lt;span style="color:#f92672">=&lt;/span>false
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> INTERVAL&lt;span style="color:#f92672">=&lt;/span>15s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> MESH_INTERVAL&lt;span style="color:#f92672">=&lt;/span>15s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> STUN_INTERVAL&lt;span style="color:#f92672">=&lt;/span>15s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> TLS_INTERVAL&lt;span style="color:#f92672">=&lt;/span>15s
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> BW_INTERVAL&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">ENV&lt;/span> BW_PROBE_SIZE_BYTES&lt;span style="color:#f92672">=&lt;/span>1_000_000
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">WORKDIR&lt;/span>&lt;span style="color:#98c379"> /go/src/tailscale&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">COPY&lt;/span> tailscale/go.mod tailscale/go.sum ./
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> go mod download
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">COPY&lt;/span> tailscale .
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ARG&lt;/span> TARGETARCH
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> &lt;span style="color:#dcaeea">GOARCH&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#dcaeea">$TARGETARCH&lt;/span> go build -o derpprobe cmd/derpprobe/derpprobe.go
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">FROM&lt;/span>&lt;span style="color:#98c379"> alpine:3.18&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">RUN&lt;/span> apk add --no-cache ca-certificates
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">DERP_MAP&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>https://login.tailscale.com/derpmap/default
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">LISTEN&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>:8030
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">ONCE&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#ef8383">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">SPREAD&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#ef8383">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">INTERVAL&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>15s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">MESH_INTERVAL&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>15s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">STUN_INTERVAL&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>15s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">TLS_INTERVAL&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>15s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">BW_INTERVAL&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENV&lt;/span> &lt;span style="color:#dcaeea">BW_PROBE_SIZE_BYTES&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>1_000_000
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">COPY&lt;/span> --from&lt;span style="color:#c7bf54">=&lt;/span>build-env /go/src/tailscale/derpprobe /usr/local/bin/derpprobe
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">ENTRYPOINT&lt;/span> &lt;span style="color:#c7bf54">[&lt;/span>&lt;span style="color:#63c381">&amp;#34;sh&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;-c&amp;#34;&lt;/span>, &lt;span style="color:#63c381">&amp;#34;/usr/local/bin/derpprobe \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -derp-map=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">DERP_MAP&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -listen=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">LISTEN&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -once=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">ONCE&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -spread=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">SPREAD&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -interval=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">INTERVAL&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -mesh-interval=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">MESH_INTERVAL&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -stun-interval=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">STUN_INTERVAL&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -tls-interval=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">TLS_INTERVAL&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -bw-interval=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">BW_INTERVAL&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381"> \
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#63c381"> -bw-probe-size-bytes=&lt;/span>&lt;span style="color:#98c379">${&lt;/span>&lt;span style="color:#dcaeea">BW_PROBE_SIZE_BYTES&lt;/span>&lt;span style="color:#98c379">}&lt;/span>&lt;span style="color:#63c381">&amp;#34;&lt;/span>&lt;span style="color:#c7bf54">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">COPY&lt;/span> --from&lt;span style="color:#f92672">=&lt;/span>build-env /go/src/tailscale/derpprobe /usr/local/bin/derpprobe&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENTRYPOINT&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;sh&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;-c&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;/usr/local/bin/derpprobe \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -derp-map=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>DERP_MAP&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -listen=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>LISTEN&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -once=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>ONCE&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -spread=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>SPREAD&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -interval=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>INTERVAL&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -mesh-interval=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>MESH_INTERVAL&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -stun-interval=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>STUN_INTERVAL&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -tls-interval=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>TLS_INTERVAL&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -bw-interval=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>BW_INTERVAL&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> -bw-probe-size-bytes=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>BW_PROBE_SIZE_BYTES&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>构建镜像&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker build -t derpprobe -f Dockerfile.derpprobe .
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker build -t derpprobe -f Dockerfile.derpprobe .
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="部署">部署&lt;/h2>
 &lt;p>通过 docker compose 部署&lt;/p></description></item><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p>PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p>
 &lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
 &lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
 &lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>113.conf&lt;/li>
 &lt;/ul>

@@ -148,61 +148,61 @@ CREATE TABLE logging_event_exception
 &lt;blockquote>
 &lt;p>使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能&lt;/p>&lt;/blockquote>
 &lt;h2 id="添加依赖">添加依赖&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c1abea">dependencies&lt;/span> &lt;span style="color:#c7bf54">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;net.java.dev.jna:jna&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">testCompile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c7bf54">}&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>dependencies &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;net.java.dev.jna:jna&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> testCompile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不添加 &lt;code>'net.java.dev.jna:jna'&lt;/code> 依赖会提示 &lt;code>java.lang.ClassNotFoundException: com.sun.jna.Native&lt;/code> 错误&lt;/p>
 &lt;h2 id="添加配置">添加配置&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b3d23c">spring.data.elasticsearch.repositories.enabled&lt;/span>&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#98c379">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8a93a5;font-style:italic">#spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.data.elasticsearch.repositories.enabled&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/code> 只有当使用外部集群时配置，只使用本机时会提示错误&lt;/p>
 &lt;h2 id="modal">Modal&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal&lt;/span>;
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> cn.com.hellowood.elasticsearch.modal;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.annotation.Id&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.elasticsearch.annotations.Document&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.annotation.Id;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.elasticsearch.annotations.Document;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.io.Serializable&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> java.io.Serializable;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Document&lt;/span>(&lt;span style="color:#c1abea">indexName&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;elasticsearch&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">type&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;product&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">Product&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">Serializable&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Document&lt;/span>(indexName &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;elasticsearch&amp;#34;&lt;/span>, type &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;product&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Product&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> Serializable {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#ef8383">long&lt;/span> &lt;span style="color:#c1abea">serialVersionUID&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">1435515995276255188L&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">long&lt;/span> serialVersionUID &lt;span style="color:#f92672">=&lt;/span> 1435515995276255188L;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Id&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Id&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> Long id;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> String name;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">price&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> Integer price;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8a93a5;font-style:italic">// ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// ...&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="实现-repository-接口">实现 Repository 接口&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.repository&lt;/span>;
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> cn.com.hellowood.elasticsearch.repository;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Page&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Pageable&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.elasticsearch.repository.ElasticsearchRepository&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Component&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.modal.Product;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.domain.Page;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.domain.Pageable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.stereotype.Component;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> java.util.List;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">interface&lt;/span> &lt;span style="color:#76a9f9">ProductRepository&lt;/span> &lt;span style="color:#c678dd">extends&lt;/span> &lt;span style="color:#c1abea">ElasticsearchRepository&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> &lt;span style="color:#a6e22e">ProductRepository&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> ElasticsearchRepository&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product, Long&lt;span style="color:#f92672">&amp;gt;&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findById&lt;/span>(Long id);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Page&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByName&lt;/span>(String name, Pageable pageable);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Page&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameLike&lt;/span>(String name, Pageable pageable);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Page&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameNot&lt;/span>(String name, Pageable pageable);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Page&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>, &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Page&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByPriceBetween&lt;/span>(Long priceFrom, Long priceTo, Pageable pageable);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>方法命名使用关键词来命名，用法和 JPA 类似&lt;/li>
@@ -211,116 +211,116 @@ CREATE TABLE logging_event_exception
 &lt;ul>
 &lt;li>ProductController.java&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.controller&lt;/span>;
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> cn.com.hellowood.elasticsearch.controller;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.ProductService&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.web.bind.annotation.*&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.modal.Product;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.service.ProductService;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.slf4j.Logger;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.slf4j.LoggerFactory;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.web.bind.annotation.*;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> java.util.List;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@RestController&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@RequestMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/product&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">ProductController&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@RestController&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@RequestMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/product&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ProductController&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger logger &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span>(getClass());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ProductService&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ProductService productService;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@PostMapping&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#e5c07b">@RequestBody&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#c1abea">product&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">product&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@PostMapping&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> Product &lt;span style="color:#a6e22e">save&lt;/span>(&lt;span style="color:#a6e22e">@RequestBody&lt;/span> Product product) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">save&lt;/span>(product);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/id&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/find/id&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findById&lt;/span>(&lt;span style="color:#a6e22e">@RequestParam&lt;/span> Long id) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">findById&lt;/span>(id);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByName&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/find/name&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByName&lt;/span>(&lt;span style="color:#a6e22e">@RequestParam&lt;/span> String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">findByName&lt;/span>(name);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name/like&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/find/name/like&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameLike&lt;/span>(&lt;span style="color:#a6e22e">@RequestParam&lt;/span> String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">findByNameLike&lt;/span>(name);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/name/notLike&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/find/name/notLike&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameNot&lt;/span>(&lt;span style="color:#a6e22e">@RequestParam&lt;/span> String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">findByNameNot&lt;/span>(name);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/find/price/between&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#e5c07b">@RequestParam&lt;/span> &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productService&lt;/span>.&lt;span style="color:#b3d23c">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">priceTo&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/find/price/between&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByPriceBetween&lt;/span>(&lt;span style="color:#a6e22e">@RequestParam&lt;/span> Long priceFrom, &lt;span style="color:#a6e22e">@RequestParam&lt;/span> Long priceTo) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productService.&lt;span style="color:#a6e22e">findByPriceBetween&lt;/span>(priceFrom, priceTo);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>ProductServiceImpl.java&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">package&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.impl&lt;/span>;
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> cn.com.hellowood.elasticsearch.service.impl;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.modal.Product&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.repository.ProductRepository&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">cn.com.hellowood.elasticsearch.service.ProductService&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.Logger&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.slf4j.LoggerFactory&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.beans.factory.annotation.Autowired&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.PageRequest&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.data.domain.Pageable&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">org.springframework.stereotype.Service&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.modal.Product;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.repository.ProductRepository;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> cn.com.hellowood.elasticsearch.service.ProductService;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.slf4j.Logger;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.slf4j.LoggerFactory;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.domain.PageRequest;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.data.domain.Pageable;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.springframework.stereotype.Service;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">import&lt;/span> &lt;span style="color:#76a9f9">java.util.List&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> java.util.List;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">ProductServiceImpl&lt;/span> &lt;span style="color:#c678dd">implements&lt;/span> &lt;span style="color:#c1abea">ProductService&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Service&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ProductServiceImpl&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> ProductService {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Logger&lt;/span> &lt;span style="color:#c1abea">logger&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">LoggerFactory&lt;/span>.&lt;span style="color:#b3d23c">getLogger&lt;/span>(&lt;span style="color:#c1abea">getClass&lt;/span>());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger logger &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span>(getClass());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageNum&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Integer pageNum &lt;span style="color:#f92672">=&lt;/span> 0;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Integer&lt;/span> &lt;span style="color:#c1abea">pageSize&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">10&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Integer pageSize &lt;span style="color:#f92672">=&lt;/span> 10;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Pageable&lt;/span> &lt;span style="color:#c1abea">pageable&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">PageRequest&lt;/span>(&lt;span style="color:#c1abea">pageNum&lt;/span>, &lt;span style="color:#c1abea">pageSize&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Pageable pageable &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PageRequest(pageNum, pageSize);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Autowired&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ProductRepository&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Autowired&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ProductRepository productRepository;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#00b1f7">save&lt;/span>(&lt;span style="color:#c1abea">Product&lt;/span> &lt;span style="color:#c1abea">product&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">save&lt;/span>(&lt;span style="color:#c1abea">product&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> Product &lt;span style="color:#a6e22e">save&lt;/span>(Product product) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">save&lt;/span>(product);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findById&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">id&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findById&lt;/span>(&lt;span style="color:#c1abea">id&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findById&lt;/span>(Long id) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">findById&lt;/span>(id);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByName&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByName&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByName&lt;/span>(String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">findByName&lt;/span>(name, pageable).&lt;span style="color:#a6e22e">getContent&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByNameLike&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameLike&lt;/span>(String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">findByNameLike&lt;/span>(name, pageable).&lt;span style="color:#a6e22e">getContent&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">String&lt;/span> &lt;span style="color:#c1abea">name&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByNameNot&lt;/span>(&lt;span style="color:#c1abea">name&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByNameNot&lt;/span>(String name) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">findByNameNot&lt;/span>(name, pageable).&lt;span style="color:#a6e22e">getContent&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">List&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;&lt;/span>&lt;span style="color:#c1abea">Product&lt;/span>&lt;span style="color:#c7bf54">&amp;gt;&lt;/span> &lt;span style="color:#00b1f7">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">Long&lt;/span> &lt;span style="color:#c1abea">priceTo&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">productRepository&lt;/span>.&lt;span style="color:#b3d23c">findByPriceBetween&lt;/span>(&lt;span style="color:#c1abea">priceFrom&lt;/span>, &lt;span style="color:#c1abea">priceTo&lt;/span>, &lt;span style="color:#c1abea">pageable&lt;/span>).&lt;span style="color:#b3d23c">getContent&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Product&lt;span style="color:#f92672">&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">findByPriceBetween&lt;/span>(Long priceFrom, Long priceTo) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> productRepository.&lt;span style="color:#a6e22e">findByPriceBetween&lt;/span>(priceFrom, priceTo, pageable).&lt;span style="color:#a6e22e">getContent&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="插入数据">插入数据&lt;/h2>

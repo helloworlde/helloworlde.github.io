@@ -4,7 +4,7 @@
 &lt;ul>
 &lt;li>安装&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install netdata
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p>
 &lt;p>
@@ -16,81 +16,81 @@
 &lt;/ul>
 &lt;p>Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是&lt;code>/api/v1/allmetrics?format=prometheus_all_hosts&lt;/code>；如 &lt;a href="http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts">http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts&lt;/a>&lt;/p>
 &lt;p>Prometheus 任务配置：需要注意，要添加参数 &lt;code>format=prometheus_all_hosts&lt;/code> 才可以抓取到 Prometheus 格式&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">job_name&lt;/span>: &lt;span style="color:#98c379">openwrt-netdata&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">honor_timestamps&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_timeout&lt;/span>: &lt;span style="color:#98c379">5s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">metrics_path&lt;/span>: &lt;span style="color:#98c379">/api/v1/allmetrics&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scheme&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">params&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">format&lt;/span>: [&lt;span style="color:#63c381">&amp;#34;prometheus_all_hosts&amp;#34;&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">static_configs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">targets&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#d19a66">192.168.2.2&lt;/span>:&lt;span style="color:#d19a66">19999&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">job_name&lt;/span>: &lt;span style="color:#ae81ff">openwrt-netdata&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">honor_timestamps&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">scrape_interval&lt;/span>: &lt;span style="color:#ae81ff">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">scrape_timeout&lt;/span>: &lt;span style="color:#ae81ff">5s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metrics_path&lt;/span>: &lt;span style="color:#ae81ff">/api/v1/allmetrics&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">scheme&lt;/span>: &lt;span style="color:#ae81ff">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">params&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">format&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;prometheus_all_hosts&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">targets&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#ae81ff">192.168.2.2&lt;/span>:&lt;span style="color:#ae81ff">19999&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="通过-grafana-监控">通过 Grafana 监控&lt;/h2>
 &lt;p>OpenWrt 提供了 Prometheus 数据导出的软件，安装软件后便可以配置 Prometheus 抓取数据&lt;/p>
 &lt;ul>
 &lt;li>安装软件&lt;/li>
 &lt;/ul>
 &lt;p>安装需要的 Prometheus 数据导出软件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install prometheus-node-exporter-lua &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>prometheus-node-exporter-lua-netstat &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>prometheus-node-exporter-lua-openwrt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install prometheus-node-exporter-lua &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>prometheus-node-exporter-lua-netstat &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>prometheus-node-exporter-lua-openwrt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果 OpenWrt 有无线网络，可以安装无线网络数据 的抓取&lt;/p></description></item><item><title>Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据</title><link>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</link><pubDate>Sat, 16 May 2020 14:49:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</guid><description>&lt;p>使用 Prometheus监控 SpringBoot 应用，当应用很多，且上下线频繁时，需要不断的更改 Prometheus 的配置文件，不能灵活的使用，可以通过为 Prometheus配置注册中心，从注册中心拉取应用数据获取监控数据&lt;/p>
 &lt;h2 id="启动-prometheus">启动 Prometheus&lt;/h2>
 &lt;ul>
 &lt;li>添加配置文件 prometheus.yaml&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/prometheus/config
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/prometheus/config
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vi ~/docker/prometheus/config/prometheus.yml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">global&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scrape_timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">evaluation_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">alerting&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">alertmanagers&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">static_configs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">targets&lt;/span>: []
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scheme&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">api_version&lt;/span>: &lt;span style="color:#98c379">v1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">scrape_configs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">job_name&lt;/span>: &lt;span style="color:#98c379">prometheus&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">honor_timestamps&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">15s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scrape_timeout&lt;/span>: &lt;span style="color:#98c379">10s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">metrics_path&lt;/span>: &lt;span style="color:#98c379">/metrics&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scheme&lt;/span>: &lt;span style="color:#98c379">http&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">static_configs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">targets&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">localhost:9090&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">global&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scrape_interval&lt;/span>: &lt;span style="color:#ae81ff">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scrape_timeout&lt;/span>: &lt;span style="color:#ae81ff">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">evaluation_interval&lt;/span>: &lt;span style="color:#ae81ff">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">alerting&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">alertmanagers&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">targets&lt;/span>: []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scheme&lt;/span>: &lt;span style="color:#ae81ff">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">timeout&lt;/span>: &lt;span style="color:#ae81ff">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">api_version&lt;/span>: &lt;span style="color:#ae81ff">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">scrape_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">job_name&lt;/span>: &lt;span style="color:#ae81ff">prometheus&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">honor_timestamps&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scrape_interval&lt;/span>: &lt;span style="color:#ae81ff">15s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scrape_timeout&lt;/span>: &lt;span style="color:#ae81ff">10s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">metrics_path&lt;/span>: &lt;span style="color:#ae81ff">/metrics&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scheme&lt;/span>: &lt;span style="color:#ae81ff">http&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">targets&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">localhost:9090&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>启动容器&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -d &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --name prometheus &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -p 9090:9090 &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v ~/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> prom/prometheus
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -d &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name prometheus &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 9090:9090 &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -v ~/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> prom/prometheus
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="启动-consul">启动 Consul&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -d &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --name consul &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -p 8500:8500 &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> consul
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -d &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name consul &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 8500:8500 &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> consul
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="启动-spring-boot-应用">启动 Spring Boot 应用&lt;/h2>
 &lt;h3 id="添加监控">添加监控&lt;/h3>
 &lt;ul>
 &lt;li>添加依赖 build.gradle&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.cloud:spring-cloud-starter-consul-discovery&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span> &lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span> &lt;span style="color:#98c379">&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span> &lt;span style="color:#98c379">&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> compile &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-consul-discovery&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile &lt;span style="color:#e6db74">&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile &lt;span style="color:#e6db74">&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>修改应用配置 applicaiton.properties&lt;/li>
 &lt;/ul>
@@ -111,11 +111,11 @@ management.metrics.tags.application=${spring.application.name}
 &lt;ul>
 &lt;li>通过 Docker 启动&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name exporter -d -p 9107:9107 prom/consul-exporter --consul.server&lt;span style="color:#c7bf54">=&lt;/span>host.docker.internal:8500
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name exporter -d -p 9107:9107 prom/consul-exporter --consul.server&lt;span style="color:#f92672">=&lt;/span>host.docker.internal:8500
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>检查数据&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:9107/metrics
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:9107/metrics
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>会返回相应的监控数据，这样就可以将 Consul中未提供的数据添加到 Prometheus中了&lt;/p>
 &lt;h2 id="自定义监控数据">自定义监控数据&lt;/h2>
 &lt;p>如果数据仍然不满足，可以基于&lt;a href="https://github.com/prometheus/consul_exporter">consul_exporter&lt;/a> 这个项目进行扩展，添加自定义的统计数据；如现在需要统计集群的响应时间，可以通过统计请求consul的耗时来实现：&lt;/p>
@@ -123,45 +123,45 @@ management.metrics.tags.application=${spring.application.name}
 &lt;li>添加自定义的统计项&lt;/li>
 &lt;/ol>
 &lt;p>在常量中添加一个新的统计项&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">responseTime&lt;/span> = &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#00b1f7">NewDesc&lt;/span>(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#00b1f7">BuildFQName&lt;/span>(&lt;span style="color:#c1abea">namespace&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;response_time&amp;#34;&lt;/span>),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;Time spend for a request &amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> []&lt;span style="color:#ef8383">string&lt;/span>{&lt;span style="color:#98c379">&amp;#34;node&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;server_ip&amp;#34;&lt;/span>}, &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span>,
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">responseTime&lt;/span> = &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">NewDesc&lt;/span>(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">BuildFQName&lt;/span>(&lt;span style="color:#a6e22e">namespace&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;response_time&amp;#34;&lt;/span>),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Time spend for a request &amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> []&lt;span style="color:#66d9ef">string&lt;/span>{&lt;span style="color:#e6db74">&amp;#34;node&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;server_ip&amp;#34;&lt;/span>}, &lt;span style="color:#66d9ef">nil&lt;/span>,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
 &lt;li>实现统计方法&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> (&lt;span style="color:#c1abea">e&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">Exporter&lt;/span>) &lt;span style="color:#00b1f7">collectResponseTime&lt;/span>(&lt;span style="color:#c1abea">ch&lt;/span> &lt;span style="color:#c678dd">chan&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;-&lt;/span> &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#c1abea">Metric&lt;/span>) &lt;span style="color:#ef8383">bool&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">start&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">time&lt;/span>.&lt;span style="color:#00b1f7">Now&lt;/span>().&lt;span style="color:#00b1f7">Nanosecond&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">serverIp&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#c1abea">client&lt;/span>.&lt;span style="color:#00b1f7">Status&lt;/span>().&lt;span style="color:#00b1f7">Leader&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">if&lt;/span> &lt;span style="color:#c1abea">err&lt;/span> &lt;span style="color:#c7bf54">!=&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">nil&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">_&lt;/span> = &lt;span style="color:#c1abea">level&lt;/span>.&lt;span style="color:#00b1f7">Error&lt;/span>(&lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#c1abea">logger&lt;/span>).&lt;span style="color:#00b1f7">Log&lt;/span>(&lt;span style="color:#98c379">&amp;#34;msg&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;Failed to query leader data&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;err&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">err&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">false&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">e&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Exporter&lt;/span>) &lt;span style="color:#a6e22e">collectResponseTime&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>&lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">Metric&lt;/span>) &lt;span style="color:#66d9ef">bool&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">start&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Now&lt;/span>().&lt;span style="color:#a6e22e">Nanosecond&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">serverIp&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">e&lt;/span>.&lt;span style="color:#a6e22e">client&lt;/span>.&lt;span style="color:#a6e22e">Status&lt;/span>().&lt;span style="color:#a6e22e">Leader&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">err&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">_&lt;/span> = &lt;span style="color:#a6e22e">level&lt;/span>.&lt;span style="color:#a6e22e">Error&lt;/span>(&lt;span style="color:#a6e22e">e&lt;/span>.&lt;span style="color:#a6e22e">logger&lt;/span>).&lt;span style="color:#a6e22e">Log&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;msg&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Failed to query leader data&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;err&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">err&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">costTime&lt;/span> &lt;span style="color:#c7bf54">:=&lt;/span> &lt;span style="color:#c1abea">time&lt;/span>.&lt;span style="color:#00b1f7">Now&lt;/span>().&lt;span style="color:#00b1f7">Nanosecond&lt;/span>() &lt;span style="color:#c7bf54">-&lt;/span> &lt;span style="color:#c1abea">start&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">costTime&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Now&lt;/span>().&lt;span style="color:#a6e22e">Nanosecond&lt;/span>() &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">start&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ch&lt;/span> &lt;span style="color:#c7bf54">&amp;lt;-&lt;/span> &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#00b1f7">MustNewConstMetric&lt;/span>(&lt;span style="color:#c1abea">responseTime&lt;/span>, &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#c1abea">GaugeValue&lt;/span>, &lt;span style="color:#ef8383">float64&lt;/span>(&lt;span style="color:#c1abea">costTime&lt;/span>), &lt;span style="color:#98c379">&amp;#34;leader&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">serverIp&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">MustNewConstMetric&lt;/span>(&lt;span style="color:#a6e22e">responseTime&lt;/span>, &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">GaugeValue&lt;/span>, float64(&lt;span style="color:#a6e22e">costTime&lt;/span>), &lt;span style="color:#e6db74">&amp;#34;leader&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">serverIp&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
 &lt;li>将统计项添加到 &lt;code>Collect&lt;/code> 和 &lt;code>Describe&lt;/code>中&lt;/li>
 &lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> (&lt;span style="color:#c1abea">e&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">Exporter&lt;/span>) &lt;span style="color:#00b1f7">Describe&lt;/span>(&lt;span style="color:#c1abea">ch&lt;/span> &lt;span style="color:#c678dd">chan&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;-&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#c1abea">Desc&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ch&lt;/span> &lt;span style="color:#c7bf54">&amp;lt;-&lt;/span> &lt;span style="color:#c1abea">responseTime&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-go" data-lang="go">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">e&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Exporter&lt;/span>) &lt;span style="color:#a6e22e">Describe&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>&lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">Desc&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#a6e22e">responseTime&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">func&lt;/span> (&lt;span style="color:#c1abea">e&lt;/span> &lt;span style="color:#c7bf54">*&lt;/span>&lt;span style="color:#c1abea">Exporter&lt;/span>) &lt;span style="color:#00b1f7">Collect&lt;/span>(&lt;span style="color:#c1abea">ch&lt;/span> &lt;span style="color:#c678dd">chan&lt;/span>&lt;span style="color:#c7bf54">&amp;lt;-&lt;/span> &lt;span style="color:#c1abea">prometheus&lt;/span>.&lt;span style="color:#c1abea">Metric&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">ok&lt;/span> = &lt;span style="color:#c1abea">e&lt;/span>.&lt;span style="color:#00b1f7">collectResponseTime&lt;/span>(&lt;span style="color:#c1abea">ch&lt;/span>) &lt;span style="color:#c7bf54">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#c1abea">ok&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">e&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Exporter&lt;/span>) &lt;span style="color:#a6e22e">Collect&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>&lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#a6e22e">prometheus&lt;/span>.&lt;span style="color:#a6e22e">Metric&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">ok&lt;/span> = &lt;span style="color:#a6e22e">e&lt;/span>.&lt;span style="color:#a6e22e">collectResponseTime&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span>) &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#a6e22e">ok&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样，就会在启动后获取相应的数据，之后在 Prometheus 和 Grafana 中可以看到相应的数据&lt;/p></description></item><item><title>使用 Prometheus 和 Grafana 监控 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Sat, 16 May 2020 14:43:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;p>监控 Spring Boot 应用的状态，以及一些自定义的业务数据&lt;/p>
 &lt;h2 id="监控-spring-boot-应用">监控 Spring Boot 应用&lt;/h2>
 &lt;ul>
 &lt;li>添加依赖 build.gradle&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">compile&lt;/span>&lt;span style="color:#c7bf54">(&lt;/span>&lt;span style="color:#98c379">&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span>&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>修改配置 application.properties&lt;/li>
 &lt;/ul>
@@ -173,12 +173,12 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/code>&lt;/pre>&lt;ul>
 &lt;li>添加 Prometheus 监控&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">job_name&lt;/span>: &lt;span style="color:#63c381">&amp;#34;spring-prometheus&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">metrics_path&lt;/span>: &lt;span style="color:#63c381">&amp;#34;/actuator/prometheus&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">scrape_interval&lt;/span>: &lt;span style="color:#98c379">5s&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">static_configs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">targets&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">host.docker.internal:8081&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">job_name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;spring-prometheus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">metrics_path&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/actuator/prometheus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">scrape_interval&lt;/span>: &lt;span style="color:#ae81ff">5s&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">static_configs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">targets&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">host.docker.internal:8081&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>配置 Grafana&lt;/li>
 &lt;/ul>
@@ -199,125 +199,71 @@ management.metrics.tags.application=${spring.application.name}
  &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="springboot-grafana-dashboard.png" loading="lazy">
 &lt;/p>
 &lt;h2 id="监控方法执行时间和数量">监控方法执行时间和数量&lt;/h2>
-&lt;p>Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code>@Counted&lt;/code>和&lt;code>@Timed&lt;/code>来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation">The @Timed annotation&lt;/a>&lt;/p>
-&lt;ul>
-&lt;li>注入切面的Bean&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@EnableAspectJAutoProxy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Configuration&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">PrometheusAspectConfig&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">TimedAspect&lt;/span> &lt;span style="color:#00b1f7">timedAspect&lt;/span>(&lt;span style="color:#c1abea">MeterRegistry&lt;/span> &lt;span style="color:#c1abea">registry&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">TimedAspect&lt;/span>(&lt;span style="color:#c1abea">registry&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">CountedAspect&lt;/span> &lt;span style="color:#00b1f7">countedAspect&lt;/span>(&lt;span style="color:#c1abea">MeterRegistry&lt;/span> &lt;span style="color:#c1abea">registry&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">CountedAspect&lt;/span>(&lt;span style="color:#c1abea">registry&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="监控定时任务">监控定时任务&lt;/h4>
-&lt;ul>
-&lt;li>监控定时任务&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Slf4j&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e5c07b">@Component&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c678dd">class&lt;/span> &lt;span style="color:#76a9f9">CustomScheduleTask&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">private&lt;/span> &lt;span style="color:#c678dd">static&lt;/span> &lt;span style="color:#c678dd">final&lt;/span> &lt;span style="color:#c1abea">Random&lt;/span> &lt;span style="color:#c1abea">random&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c678dd">new&lt;/span> &lt;span style="color:#c1abea">Random&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Scheduled&lt;/span>(&lt;span style="color:#c1abea">fixedDelay&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#c1abea">5000&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Timed&lt;/span>(&lt;span style="color:#c1abea">value&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;custom_task_time&amp;#34;&lt;/span>, &lt;span style="color:#c1abea">extraTags&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> {&lt;span style="color:#98c379">&amp;#34;name&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;自定义定时任务&amp;#34;&lt;/span>}, &lt;span style="color:#c1abea">description&lt;/span> &lt;span style="color:#c7bf54">=&lt;/span> &lt;span style="color:#98c379">&amp;#34;自定义定时任务监控&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#ef8383">void&lt;/span> &lt;span style="color:#00b1f7">customSchedule&lt;/span>() &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">InterruptedException&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">Thread&lt;/span>.&lt;span style="color:#b3d23c">sleep&lt;/span>(&lt;span style="color:#c1abea">random&lt;/span>.&lt;span style="color:#b3d23c">nextInt&lt;/span>(&lt;span style="color:#c1abea">5000&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c1abea">log&lt;/span>.&lt;span style="color:#b3d23c">info&lt;/span>(&lt;span style="color:#98c379">&amp;#34;定时任务执行完成&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>查看监控数据&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:8081/actuator/prometheus | grep custom_task
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="监控接口">监控接口&lt;/h4>
-&lt;ul>
-&lt;li>controller&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Timed&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@Counted&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e5c07b">@GetMapping&lt;/span>(&lt;span style="color:#98c379">&amp;#34;/timed&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">public&lt;/span> &lt;span style="color:#c1abea">Object&lt;/span> &lt;span style="color:#00b1f7">timed&lt;/span>() &lt;span style="color:#c678dd">throws&lt;/span> &lt;span style="color:#c1abea">InterruptedException&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c678dd">return&lt;/span> &lt;span style="color:#c1abea">customService&lt;/span>.&lt;span style="color:#b3d23c">timed&lt;/span>(&lt;span style="color:#c1abea">UUID&lt;/span>.&lt;span style="color:#b3d23c">randomUUID&lt;/span>().&lt;span style="color:#b3d23c">toString&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>监控数据&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:8081/actuator/prometheus | grep method_time
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="自定义监控指标">自定义监控指标&lt;/h2>
-&lt;p>通过自定义监控指标监控业务相关数据&lt;/p></description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p>使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p>
+&lt;p>Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code>@Counted&lt;/code>和&lt;code>@Timed&lt;/code>来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation">The @Timed annotation&lt;/a>&lt;/p></description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p>使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p>
 &lt;h2 id="启动-consul">启动 Consul&lt;/h2>
 &lt;ul>
 &lt;li>创建配置文件&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/consul/config
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/consul/config
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vi ~/docker/consul/config/config.json
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>添加以下内容，目的是为了启用 Consul 的 Prometheus，否则会在调用相关端口时提示 &lt;code>415 Unsupport Media Type&lt;/code> 和 &lt;code>Prometheus is not enabled since its retention time is not positive&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;telemetry&amp;#34;&lt;/span>: {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;prometheus_retention_time&amp;#34;&lt;/span>: &lt;span style="color:#63c381">&amp;#34;480h&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;disable_hostname&amp;#34;&lt;/span>: &lt;span style="color:#b756ff;font-weight:bold">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;telemetry&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;prometheus_retention_time&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;480h&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;disable_hostname&amp;#34;&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>启动容器&lt;/li>
 &lt;/ul>
 &lt;p>将当前目录挂载到容器的config目录下&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -d &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> --name consul &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -v ~/docker/consul/config:/consul/config &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> -p 8500:8500 &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span> consul
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -d &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name consul &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -v ~/docker/consul/config:/consul/config &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 8500:8500 &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> consul
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>检查是否正常&lt;/li>
 &lt;/ul>
 &lt;p>如果正常的话会返回相应的 Prometheus 数据&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl http://127.0.0.1:8500/v1/agent/metrics&lt;span style="color:#d26464;font-weight:bold">\?&lt;/span>format&lt;span style="color:#d26464;font-weight:bold">\=&lt;/span>prometheus
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl http://127.0.0.1:8500/v1/agent/metrics&lt;span style="color:#ae81ff">\?&lt;/span>format&lt;span style="color:#ae81ff">\=&lt;/span>prometheus
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="启动-prometheus">启动 Prometheus&lt;/h2>
 &lt;ul>
 &lt;li>创建配置文件&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/prometheus/config
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p ~/docker/prometheus/config
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vi ~/docker/prometheus/config/prometheus.yml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>添加以下内容:&lt;/p></description></item><item><title>Kubernetes 中使用 Helm 部署使用 Prometheus</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</link><pubDate>Sun, 29 Dec 2019 18:57:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</guid><description>&lt;blockquote>
 &lt;p>使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3&lt;/p>&lt;/blockquote>
 &lt;h2 id="安装-prometheus-和-grafana">安装 Prometheus 和 Grafana&lt;/h2>
 &lt;h3 id="添加标准仓库">添加标准仓库&lt;/h3>
 &lt;p>如果没有 stable 仓库，会提示找不到 &lt;code>prometheus-operator&lt;/code>这个应用，需要先添加stable 仓库：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm repo add stable https://kubernetes-charts.storage.googleapis.com
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm repo add stable https://kubernetes-charts.storage.googleapis.com
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-prometheus">安装 Prometheus&lt;/h3>
 &lt;h4 id="使用参数指定配置">使用参数指定配置&lt;/h4>
 &lt;p>指定节点的端口用于在集群外的机器访问&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set prometheus.service.type&lt;span style="color:#c7bf54">=&lt;/span>NodePort &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set prometheus.service.nodePort&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">30090&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.service.type&lt;span style="color:#c7bf54">=&lt;/span>NodePort &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.service.nodePort&lt;span style="color:#c7bf54">=&lt;/span>&lt;span style="color:#d19a66">30080&lt;/span> &lt;span style="color:#d26464;font-weight:bold">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d26464;font-weight:bold">&lt;/span>	--set grafana.adminPassword&lt;span style="color:#c7bf54">=&lt;/span>admin
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--set prometheus.service.type&lt;span style="color:#f92672">=&lt;/span>NodePort &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--set prometheus.service.nodePort&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">30090&lt;/span> &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--set grafana.service.type&lt;span style="color:#f92672">=&lt;/span>NodePort &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--set grafana.service.nodePort&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">30080&lt;/span> &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--set grafana.adminPassword&lt;span style="color:#f92672">=&lt;/span>admin
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="指定配置文件安装">指定配置文件安装&lt;/h4>
 &lt;ul>
 &lt;li>如果有需要自定义的配置，可以下载应用后修改&lt;code>values.yaml&lt;/code>，然后指定该配置文件进行安装&lt;/li>
 &lt;/ul>
 &lt;p>values.yaml&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">prometheus&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">service&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">nodePort&lt;/span>: &lt;span style="color:#d19a66">30090&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">NodePort&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">prometheus&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">service&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">nodePort&lt;/span>: &lt;span style="color:#ae81ff">30090&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">type&lt;/span>: &lt;span style="color:#ae81ff">NodePort&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">grafana&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">service&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">nodePort&lt;/span>: &lt;span style="color:#d19a66">30080&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">type&lt;/span>: &lt;span style="color:#98c379">NodePort&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">adminPassword&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">grafana&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">service&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">nodePort&lt;/span>: &lt;span style="color:#ae81ff">30080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">type&lt;/span>: &lt;span style="color:#ae81ff">NodePort&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">adminPassword&lt;/span>: &lt;span style="color:#ae81ff">admin&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator -f values.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>helm install prometheus stable/prometheus-operator -f values.yaml
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果有更多配置项，可以通过下载 Helm 的安装包，解压后自己修改：&lt;/p></description></item></channel></rss>

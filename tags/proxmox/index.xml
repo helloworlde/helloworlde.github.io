@@ -2,7 +2,7 @@
 &lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
 &lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
 &lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>113.conf&lt;/li>
 &lt;/ul>
@@ -37,16 +37,16 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul>
 &lt;li>清除无效软件&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt autoremove
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt autoremove
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>清除 DNS 和主机名配置&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rm /etc/resolv.conf
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rm /etc/resolv.conf
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rm /etc/hostname
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>清除操作命令&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ef8383">history&lt;/span> -c
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>history -c
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="备份-lxc-容器">备份 LXC 容器&lt;/h3>
 &lt;p>清理完成后，回到 PVE 的控制页面，选择刚才创建的 CT 容器进行备份&lt;/p>
 &lt;p>
@@ -66,34 +66,34 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;code>/var/log/proxmox-backup&lt;/code>: 用于存储日志信息
 &lt;code>/var/lib/proxmox-backup&lt;/code>：用于存储数据
 &lt;code>/backups&lt;/code>：存储容器、虚拟机的备份数据&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;2.1&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2.1&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">pve-backup-server&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">ayufan/proxmox-backup-server:latest&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8007:8007&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/docker/PVEBackup/etc:/etc/proxmox-backup&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/docker/PVEBackup/log:/var/log/proxmox-backup&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/docker/PVEBackup/lib:/var/lib/proxmox-backup&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/BackupServer:/backups&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tmpfs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">/run&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">restart&lt;/span>: &lt;span style="color:#98c379">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">pve-backup-server&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">ayufan/proxmox-backup-server:latest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8007:8007&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/docker/PVEBackup/etc:/etc/proxmox-backup&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/docker/PVEBackup/log:/var/log/proxmox-backup&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/docker/PVEBackup/lib:/var/lib/proxmox-backup&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/BackupServer:/backups&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">tmpfs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/run&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置完成后启动容器，访问 &lt;code>https://&amp;lt;ip&amp;gt;:8007/&lt;/code> 端口即可进行登录，默认的用户名是 &lt;code>admin&lt;/code>，密码是 &lt;code>pbspbs&lt;/code>，选择 &lt;code>Proxmox Backup authentication server&lt;/code> 领域进行登录&lt;/p></description></item><item><title>在PVE的LXC容器中直通核心显卡</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8pve%E7%9A%84lxc%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9B%B4%E9%80%9A%E6%A0%B8%E5%BF%83%E6%98%BE%E5%8D%A1/</link><pubDate>Sat, 09 Sep 2023 17:53:36 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8pve%E7%9A%84lxc%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9B%B4%E9%80%9A%E6%A0%B8%E5%BF%83%E6%98%BE%E5%8D%A1/</guid><description>&lt;p>在 ProxmoxVE 平台中使用 LXC 容器使用 Docker 部署 &lt;a href="https://frigate.video/">frigate&lt;/a> 时(或其他需要GPU的容器如Jellyfin等)，需要使用 GPU 对 ffmpeg 进行加速，因此需要将宿主机 N5105 的核心显卡挂载到 LXC 容器到 Docker 容器中&lt;/p>
 &lt;h2 id="安装核显驱动">安装核显驱动&lt;/h2>
 &lt;ul>
 &lt;li>查看设备&lt;/li>
 &lt;/ul>
 &lt;p>如果能够看到 PCI 设备中包含核心显卡，说明设备识别正常&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci | grep VGA
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>00:02.0 VGA compatible controller: Intel Corporation JasperLake &lt;span style="color:#c7bf54">[&lt;/span>UHD Graphics&lt;span style="color:#c7bf54">]&lt;/span> &lt;span style="color:#c7bf54">(&lt;/span>rev 01&lt;span style="color:#c7bf54">)&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci | grep VGA
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>00:02.0 VGA compatible controller: Intel Corporation JasperLake &lt;span style="color:#f92672">[&lt;/span>UHD Graphics&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">(&lt;/span>rev 01&lt;span style="color:#f92672">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>查看驱动&lt;/li>
 &lt;/ul>
 &lt;p>可以看到 card0 和 renderD128 都存在，说明驱动正常&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ls /dev/dri/
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ls /dev/dri/
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>by-path card0	renderD128
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通常不需要安装驱动，如果设备没有正确识别，可以参考 &lt;a href="https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps">https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps&lt;/a> 进行安装&lt;/p>
 &lt;h2 id="创建-lxc-容器">创建 LXC 容器&lt;/h2>

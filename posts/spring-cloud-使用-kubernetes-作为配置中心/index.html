@@ -1,116 +1,116 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><meta name=description content=" Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><meta name=description content=" Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
 创建应用 添加依赖 build.gradle dependencies { implementation …"><meta name=keywords content='blog,hugo,SpringCloud,Kubernetes'><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/"><meta property="og:type" content="website"><meta property="og:title" content="Spring Cloud 使用 Kubernetes 作为配置中心"><meta property="og:description" content=" Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
 创建应用 添加依赖 build.gradle dependencies { implementation …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Spring Cloud 使用 Kubernetes 作为配置中心"><meta name=twitter:description content=" Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新
 创建应用 添加依赖 build.gradle dependencies { implementation …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Cloud 使用 Kubernetes 作为配置中心</h1><small role=doc-subtitle></small><p class=post-date>2019-09-08</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springcloud>SpringCloud</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li></ul></div><div class=post-content><blockquote><p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新</p></blockquote><h2 id=创建应用>创建应用</h2><h3 id=添加依赖>添加依赖</h3><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
-</span></span><span style=display:flex><span>	<span style=color:#c1abea>implementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
-</span></span></code></pre></div><h3 id=添加配置>添加配置</h3><h4 id=configmap>ConfigMap</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ConfigMap</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>data</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>application.yaml</span>: |-<span style=color:#7e97c3>
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    spring:
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>      profiles: dev
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    config:
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        applicationVersion: dev-0.0.1
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    ---
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    spring:
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>      profiles: prod
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    config:
-</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        applicationVersion: prod-0.0.1</span>
-</span></span></code></pre></div><p>ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用<code>application.yaml|properties</code>作为 key，需要注意的是环境配置是<code>spring.profiles</code>，而不是<code>spring.profiles.active</code>，否则只会使用最后一行的配置</p><p>通过以下命令将 ConfigMap 添加到 Kubernetes 中</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f config-map.yaml
-</span></span></code></pre></div><h4 id=applicationproperties>application.properties</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#b3d23c>spring.application.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.profiles.active</span><span style=color:#c7bf54>=</span><span style=color:#98c379>${PROFILE:dev}</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>management.endpoint.restart.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Reload Config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.reload.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.reload.mode</span><span style=color:#c7bf54>=</span><span style=color:#98c379>polling</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.reload.period</span><span style=color:#c7bf54>=</span><span style=color:#98c379>5000</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.reload.strategy</span><span style=color:#c7bf54>=</span><span style=color:#98c379>refresh</span>
-</span></span></code></pre></div><ul><li><p><code>spring.profiles.active=${PROFILE:dev}</code>用于获取 Deployment 传递的参数来决定使用什么配置</p></li><li><p><code>spring.cloud.kubernetes.reload.enabled</code>默认是关闭的，所以需要主动开启</p></li><li><p><code>spring.cloud.kubernetes.reload.mode</code>有两种模式，<code>polling</code>和<code>event</code>：</p><ul><li><code>polling</code>会启动一个定时任务，定时拉取配置，时间由<code>spring.cloud.kubernetes.reload.period</code>配置</li><li><code>event</code>会监听 Kubernetes 的事件，当 ConfigMap 或者 Secrets 发生变化时会触发配置更新事件</li></ul></li><li><p><code>spring.cloud.kubernetes.reload.strategy</code>配置更新策略，有 <code>refresh</code>,<code>restart_context</code>和<code>shutdown</code>：</p><ul><li><code>refresh</code>可以通过设置<code>@RefreshContext</code>或者<code>@ConfigurationProperties</code>更新配置</li><li><code>restart_context</code>会主动重启应用</li><li><code>shutdown</code>会关闭应用，由 Deployment 检测存活失败后重启应用</li></ul></li></ul><p>需要注意的是，开启了 reload 后，还需要允许应用重启<code>management.endpoint.restart.enabled=true</code>，否则会提示有两个用于重启的 Bean 冲突</p><h3 id=添加接口>添加接口</h3><ul><li>ConfigProperties.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Data</span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;config&#34;</span>)
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ConfigProperties</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>applicationVersion</span>;
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Cloud 使用 Kubernetes 作为配置中心</h1><small role=doc-subtitle></small><p class=post-date>2019-09-08</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springcloud>SpringCloud</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li></ul></div><div class=post-content><blockquote><p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新</p></blockquote><h2 id=创建应用>创建应用</h2><h3 id=添加依赖>添加依赖</h3><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>	implementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h3 id=添加配置>添加配置</h3><h4 id=configmap>ConfigMap</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ConfigMap</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>data</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>application.yaml</span>: |-<span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    spring:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      profiles: dev
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    config:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        applicationVersion: dev-0.0.1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    ---
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    spring:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      profiles: prod
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    config:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        applicationVersion: prod-0.0.1</span>
+</span></span></code></pre></div><p>ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用<code>application.yaml|properties</code>作为 key，需要注意的是环境配置是<code>spring.profiles</code>，而不是<code>spring.profiles.active</code>，否则只会使用最后一行的配置</p><p>通过以下命令将 ConfigMap 添加到 Kubernetes 中</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f config-map.yaml
+</span></span></code></pre></div><h4 id=applicationproperties>application.properties</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>spring.application.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>config-map-service</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.profiles.active</span><span style=color:#f92672>=</span><span style=color:#e6db74>${PROFILE:dev}</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>management.endpoint.restart.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Reload Config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.reload.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.reload.mode</span><span style=color:#f92672>=</span><span style=color:#e6db74>polling</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.reload.period</span><span style=color:#f92672>=</span><span style=color:#e6db74>5000</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.reload.strategy</span><span style=color:#f92672>=</span><span style=color:#e6db74>refresh</span>
+</span></span></code></pre></div><ul><li><p><code>spring.profiles.active=${PROFILE:dev}</code>用于获取 Deployment 传递的参数来决定使用什么配置</p></li><li><p><code>spring.cloud.kubernetes.reload.enabled</code>默认是关闭的，所以需要主动开启</p></li><li><p><code>spring.cloud.kubernetes.reload.mode</code>有两种模式，<code>polling</code>和<code>event</code>：</p><ul><li><code>polling</code>会启动一个定时任务，定时拉取配置，时间由<code>spring.cloud.kubernetes.reload.period</code>配置</li><li><code>event</code>会监听 Kubernetes 的事件，当 ConfigMap 或者 Secrets 发生变化时会触发配置更新事件</li></ul></li><li><p><code>spring.cloud.kubernetes.reload.strategy</code>配置更新策略，有 <code>refresh</code>,<code>restart_context</code>和<code>shutdown</code>：</p><ul><li><code>refresh</code>可以通过设置<code>@RefreshContext</code>或者<code>@ConfigurationProperties</code>更新配置</li><li><code>restart_context</code>会主动重启应用</li><li><code>shutdown</code>会关闭应用，由 Deployment 检测存活失败后重启应用</li></ul></li></ul><p>需要注意的是，开启了 reload 后，还需要允许应用重启<code>management.endpoint.restart.enabled=true</code>，否则会提示有两个用于重启的 Bean 冲突</p><h3 id=添加接口>添加接口</h3><ul><li>ConfigProperties.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Data</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;config&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ConfigProperties</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String applicationVersion;
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>ConfigMapController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@RestController</span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ConfigMapController</span> {
+</span></span></code></pre></div><ul><li>ConfigMapController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ConfigMapController</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>ConfigProperties</span> <span style=color:#c1abea>configProperties</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ConfigProperties configProperties;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Value</span>(<span style=color:#98c379>&#34;${spring.profiles.active}&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>profile</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Value</span>(<span style=color:#e6db74>&#34;${spring.profiles.active}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String profile;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>(<span style=color:#98c379>&#34;/version&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>config</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>configProperties</span>.<span style=color:#b3d23c>getApplicationVersion</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>(<span style=color:#e6db74>&#34;/version&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>config</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> configProperties.<span style=color:#a6e22e>getApplicationVersion</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>(<span style=color:#98c379>&#34;/profile&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>profile</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>profile</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>(<span style=color:#e6db74>&#34;/profile&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>profile</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> profile;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=部署应用>部署应用</h3><ul><li><p>构建并上传镜像</p></li><li><p>config-map-service.yaml</p></li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
-</span></span><span style=display:flex><span>    - <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8081</span>
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>nodePort</span>: <span style=color:#d19a66>30081</span>
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>config-map-service</span>
+</span></span></code></pre></div><h3 id=部署应用>部署应用</h3><ul><li><p>构建并上传镜像</p></li><li><p>config-map-service.yaml</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8081</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>nodePort</span>: <span style=color:#ae81ff>30081</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>config-map-service</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>apps/v1</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Deployment</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>matchLabels</span>:
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>config-map-service</span>
-</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#63c381>&#34;hellowoodes/spring-cloud-k8s-config-map:1.2&#34;</span>
-</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>PROFILE</span>
-</span></span><span style=display:flex><span>              <span style=color:#e06c75>value</span>: <span style=color:#98c379>prod</span>
-</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8081</span>
-</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
-</span></span></code></pre></div><p>其中Deployment 的<code>spec.template.spec.env</code>的<code>PROFILE</code>用于指定环境</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f config-map-service.yaml
-</span></span></code></pre></div><h3 id=测试>测试</h3><p>待应用启动后， 访问相应的 URL</p><ul><li>查看此时的配置</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/profile
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>config-map-service</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#e6db74>&#34;hellowoodes/spring-cloud-k8s-config-map:1.2&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>PROFILE</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>value</span>: <span style=color:#ae81ff>prod</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8081</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
+</span></span></code></pre></div><p>其中Deployment 的<code>spec.template.spec.env</code>的<code>PROFILE</code>用于指定环境</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f config-map-service.yaml
+</span></span></code></pre></div><h3 id=测试>测试</h3><p>待应用启动后， 访问相应的 URL</p><ul><li>查看此时的配置</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/profile
 </span></span><span style=display:flex><span>prod%
-</span></span></code></pre></div><ul><li>查看配置的版本</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
+</span></span></code></pre></div><ul><li>查看配置的版本</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
 </span></span><span style=display:flex><span>prod-0.0.1%
-</span></span></code></pre></div><p>修改应用配置，将版本号改为 <code>prod-0.0.2</code>并应用到 Kubernetes 中后再次访问</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
+</span></span></code></pre></div><p>修改应用配置，将版本号改为 <code>prod-0.0.2</code>并应用到 Kubernetes 中后再次访问</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
 </span></span><span style=display:flex><span>prod-0.0.2%
-</span></span></code></pre></div><ul><li>修改<code>spec.template.spec.env.PROFILE</code>配置为 dev 并应用到 Kubernetes 中</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/profile
+</span></span></code></pre></div><ul><li>修改<code>spec.template.spec.env.PROFILE</code>配置为 dev 并应用到 Kubernetes 中</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/profile
 </span></span><span style=display:flex><span>dev%
-</span></span></code></pre></div><p>查看版本</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
+</span></span></code></pre></div><p>查看版本</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30081/version
 </span></span><span style=display:flex><span>dev-0.0.1%
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2019 hellowood.dev</span>

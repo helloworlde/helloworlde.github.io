@@ -4,20 +4,20 @@
 &lt;ul>
 &lt;li>修改 &lt;code>/etc/apt/sources.list&lt;/code> 文件，添加 pve-no-subscription 源；完整的配置如下:&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates main contrib non-free non-free-firmware
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>更新&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="12-安装-nvidia-驱动">1.2 安装 NVIDIA 驱动&lt;/h3>
 &lt;ul>
 &lt;li>安装内核头文件&lt;/li>
 &lt;/ul>
 &lt;p>pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译和安装动态内核模块，即 NVIDIA 驱动&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install pve-headers
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt install pve-headers
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>下载驱动&lt;/li>
 &lt;/ul>
@@ -64,24 +64,24 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;ul>
 &lt;li>docker-compose.yaml&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">version&lt;/span>: &lt;span style="color:#63c381">&amp;#34;3&amp;#34;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">influxdb&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">container_name&lt;/span>: &lt;span style="color:#98c379">influxdb&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">image&lt;/span>: &lt;span style="color:#98c379">influxdb:2.6&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#63c381">&amp;#34;8086:8086&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">./data/influx/data:/var/lib/influxdb2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#98c379">./data/influx/config:/etc/influxdb2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_MODE&lt;/span>: &lt;span style="color:#98c379">setup&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_USERNAME&lt;/span>: &lt;span style="color:#98c379">admin&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_PASSWORD&lt;/span>: &lt;span style="color:#98c379">qwertyuiop&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_ORG&lt;/span>: &lt;span style="color:#98c379">influx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_BUCKET&lt;/span>: &lt;span style="color:#98c379">influx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/span>: &lt;span style="color:#d19a66">123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">influxdb&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">influxdb&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">influxdb:2.6&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8086:8086&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/influx/data:/var/lib/influxdb2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/influx/config:/etc/influxdb2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_MODE&lt;/span>: &lt;span style="color:#ae81ff">setup&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_USERNAME&lt;/span>: &lt;span style="color:#ae81ff">admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_PASSWORD&lt;/span>: &lt;span style="color:#ae81ff">qwertyuiop&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_ORG&lt;/span>: &lt;span style="color:#ae81ff">influx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_BUCKET&lt;/span>: &lt;span style="color:#ae81ff">influx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/span>: &lt;span style="color:#ae81ff">123456&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>DOCKER_INFLUXDB_INIT_MODE&lt;/code>它用于指定容器启动时运行的初始化模式。该变量有两个有效值：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>setup&lt;/code>: 表示在容器首次启动时，将执行InfluxDB初始化脚本并创建管理员用户。&lt;/li>
@@ -125,7 +125,7 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;li>解压&lt;/li>
 &lt;/ul>
 &lt;p>使用 &lt;code>gunzip&lt;/code> 命令解压 &lt;code>gz&lt;/code> 压缩文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将下载的镜像解压后得到 &lt;code>img&lt;/code>格式的文件&lt;/p>
 &lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
 &lt;h3 id="创建虚拟机">创建虚拟机&lt;/h3>
@@ -157,7 +157,7 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;li>将 img 镜像导入为虚拟磁盘&lt;/li>
 &lt;/ul>
 &lt;p>打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qm importdisk &lt;span style="color:#d19a66">106&lt;/span> /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>qm importdisk &lt;span style="color:#ae81ff">106&lt;/span> /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png" alt="homelab-openwrt-pve-init-convert-img-to-disk.png" loading="lazy">

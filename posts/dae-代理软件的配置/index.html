@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>Dae 代理软件的配置</title><meta name=description content="dae 的配置使用的是自定义的 .dae 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>Dae 代理软件的配置</title><meta name=description content="dae 的配置使用的是自定义的 .dae 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下
 一、配置文件结构 Dae的配置文件分为以下几个主要部分：
 配置 说明 global 全局配置，包括日志级别、监听地址、端口等 dns DNS配置， …"><meta name=keywords content='blog,hugo,Proxy,Dae,HomeLab,OpenWrt'><meta property="og:url" content="https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/"><meta property="og:type" content="website"><meta property="og:title" content="Dae 代理软件的配置"><meta property="og:description" content="dae 的配置使用的是自定义的 .dae 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下
 一、配置文件结构 Dae的配置文件分为以下几个主要部分：
@@ -7,242 +7,242 @@
 配置 说明 global 全局配置，包括日志级别、监听地址、端口等 dns DNS配置， …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Dae 代理软件的配置</h1><small role=doc-subtitle></small><p class=post-date>2025-04-29</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/proxy>Proxy</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/dae>Dae</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/homelab>HomeLab</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/openwrt>OpenWrt</a></li></ul></div><div class=post-content><p>dae 的配置使用的是自定义的 <code>.dae</code> 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下</p><h2 id=一配置文件结构>一、配置文件结构</h2><p>Dae的配置文件分为以下几个主要部分：</p><table><thead><tr><th>配置</th><th>说明</th></tr></thead><tbody><tr><td>global</td><td>全局配置，包括日志级别、监听地址、端口等</td></tr><tr><td>dns</td><td>DNS配置，包括上游 DNS 服务器、DNS 分流策略等</td></tr><tr><td>subscription</td><td>节点订阅配置，用于从订阅服务器获取节点信息，解析到的节点会被添加到 node 中</td></tr><tr><td>node</td><td>节点配置，包括节点的地址、端口、协议、加密方式等</td></tr><tr><td>group</td><td>节点分组，根据过滤规则对节点进行分组，用于 routing 分流到不同的节点</td></tr><tr><td>routing</td><td>路由规则，根据规则决定流量的处理策略，包括直连、分流代理到特定的分组或节点</td></tr></tbody></table><p>格式：</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 全局配置
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>global</span> {
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Dae 代理软件的配置</h1><small role=doc-subtitle></small><p class=post-date>2025-04-29</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/proxy>Proxy</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/dae>Dae</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/homelab>HomeLab</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/openwrt>OpenWrt</a></li></ul></div><div class=post-content><p>dae 的配置使用的是自定义的 <code>.dae</code> 格式的文件，语法类似 NGINX 配置的变体；dae 的文档介绍有限，很多配置需要翻阅源码才知道如何配置，因此记录一下</p><h2 id=一配置文件结构>一、配置文件结构</h2><p>Dae的配置文件分为以下几个主要部分：</p><table><thead><tr><th>配置</th><th>说明</th></tr></thead><tbody><tr><td>global</td><td>全局配置，包括日志级别、监听地址、端口等</td></tr><tr><td>dns</td><td>DNS配置，包括上游 DNS 服务器、DNS 分流策略等</td></tr><tr><td>subscription</td><td>节点订阅配置，用于从订阅服务器获取节点信息，解析到的节点会被添加到 node 中</td></tr><tr><td>node</td><td>节点配置，包括节点的地址、端口、协议、加密方式等</td></tr><tr><td>group</td><td>节点分组，根据过滤规则对节点进行分组，用于 routing 分流到不同的节点</td></tr><tr><td>routing</td><td>路由规则，根据规则决定流量的处理策略，包括直连、分流代理到特定的分组或节点</td></tr></tbody></table><p>格式：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#75715e># 全局配置
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>global</span> {
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># DNS 配置
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>dns</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># DNS 配置
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>dns</span> {
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 订阅地址
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>subscription</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># 订阅地址
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>subscription</span> {
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>node</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># 节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>node</span> {
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 节点分组
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>group</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># 节点分组
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>group</span> {
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 路由配置
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>routing</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e># 路由配置
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>routing</span> {
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=二配置>二、配置</h2><h3 id=21-global>2.1 global</h3><ul><li>示例配置</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#c678dd>global</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># Log level: error, warn, info, debug, trace.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>log_level:</span> <span style=color:#98c379>info</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 代理流量的 LAN 接口
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>lan_interface:</span> <span style=color:#98c379>eth0,enp2s0</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 代理 WAN 接口，代理本机流量
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>wan_interface:</span> <span style=color:#98c379>auto</span>
+</span></span></code></pre></div><h2 id=二配置>二、配置</h2><h3 id=21-global>2.1 global</h3><ul><li>示例配置</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#66d9ef>global</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Log level: error, warn, info, debug, trace.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>log_level:</span> <span style=color:#e6db74>info</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 代理流量的 LAN 接口
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>lan_interface:</span> <span style=color:#e6db74>eth0,enp2s0</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 代理 WAN 接口，代理本机流量
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>wan_interface:</span> <span style=color:#e6db74>auto</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 代理模式：ip/domain/domain+/domain++
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dial_mode:</span> <span style=color:#98c379>domain++</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>tproxy_port</td><td>TProxy 端口，仅供 eBPF 使用，通常无需修改，默认为 12345</td></tr><tr><td>tproxy_port_protect</td><td>是否保护 TProxy 端口不被非法访问；若设为 false，用户需自行配置 iptables，默认为 true</td></tr><tr><td>pprof_port</td><td>启用 pprof 的端口，设为非零值开启</td></tr><tr><td>so_mark_from_dae</td><td>设置 dae 发出的流量的 SO_MARK，避免与 iptables tproxy 规则冲突</td></tr><tr><td>log_level</td><td>日志等级，默认为 info，支持 error/warn/info/debug/trace</td></tr><tr><td>disable_waiting_network</td><td>禁用等待网络连接后再拉取订阅功能，默认为 false</td></tr><tr><td>enable_local_tcp_fast_redirect</td><td>启用本地 TCP 快速重定向（实验功能），可能导致部分代理/客户端异常，默认为 false</td></tr><tr><td>lan_interface</td><td>要绑定的局域网接口，支持多个接口以英文逗号分隔，通常配置为 eth0</td></tr><tr><td>wan_interface</td><td>要绑定的广域网接口，auto 表示自动检测，支持多个接口</td></tr><tr><td>auto_config_kernel_parameter</td><td>是否自动配置 Linux 内核参数（如 ip_forward 等），默认为 true</td></tr><tr><td>tcp_check_url</td><td>用于 TCP 节点连通性检查的网址，推荐选择响应快的 anycast 地址，默认值 <a href=http://cp.cloudflare.com>http://cp.cloudflare.com</a>,1.1.1.1,2606:4700:4700::1111</td></tr><tr><td>tcp_check_http_method</td><td>TCP 检查所使用的 HTTP 方法，默认 HEAD 流量更节省，支持 GET/POST 等</td></tr><tr><td>udp_check_dns</td><td>用于检查 UDP（及 TCP DNS）连通性的 DNS 服务器地址，默认为 dns.google:53,8.8.8.8,2001:4860:4860::8888</td></tr><tr><td>check_interval</td><td>节点连通性检测的时间间隔，默认为 30s</td></tr><tr><td>check_tolerance</td><td>节点切换容差阈值；仅当新延迟 ≤ 旧延迟 - 容差时才切换节点， 默认 50ms</td></tr><tr><td>dial_mode</td><td>代理模式，默认为 domain，支持 ip/domain/domain+/domain++</td></tr><tr><td>allow_insecure</td><td>是否允许不安全的 TLS 证书（如自签证书）；不推荐启用，默认为 false</td></tr><tr><td>sniffing_timeout</td><td>嗅探超时等待首个数据包的时间，dial_mode 为 ip 时该值无效，默认为 100ms</td></tr><tr><td>tls_implementation</td><td>TLS 实现方式：tls 使用 Go 原生库，utls 模拟浏览器，默认为 tls，支持 tls/utls</td></tr><tr><td>utls_imitate</td><td>当 tls_implementation 为 utls 时，指定模拟的浏览器类型，值为chrome_auto</td></tr><tr><td>mptcp</td><td>是否启用 Multipath TCP，用于多链路负载均衡与故障转移，默认 false</td></tr><tr><td>bandwidth_max_tx</td><td>最大上行带宽（用于部分协议性能优化），单位支持 b/kb/mb/gb/tb</td></tr><tr><td>bandwidth_max_rx</td><td>最大下行带宽，单位支持 b/kb/mb/gb/tb</td></tr></tbody></table><p><code>dial_mode</code> 支持以下几种模式：</p><table><thead><tr><th>模式名称</th><th>说明</th></tr></thead><tbody><tr><td>ip</td><td>直接使用 DNS 返回的 IP 代理，该模式下会禁用嗅探</td></tr><tr><td>domain</td><td>嗅探域名进行代理，需要客户端使用 dae 作为 DNS</td></tr><tr><td>domain+</td><td>基于 domain 模式，嗅探域名进行代理，但是不验证真实性，适用于不使用 dae 作为 DNS 的场景</td></tr><tr><td>domain++</td><td>基于 domain+ 模式，强制进行域名嗅探并重新分流，会消耗更多的 CPU</td></tr></tbody></table><h3 id=22-dns>2.2 dns</h3><ul><li>示例配置：</li></ul><p>完整的 DNS 分流参考 <a href=URL_ADDRESS.com/daeuniverse/dae/blob/main/docs/zh/configuration/dns.md>DNS</a></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#c678dd>dns</span> {
-</span></span><span style=display:flex><span>  <span style=color:#8a93a5;font-style:italic># 上游 DNS
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>  <span style=color:#c678dd>upstream</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 阿里云 DNS，用于国内域名查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>alidns:</span> <span style=color:#98c379>&#39;udp://223.5.5.5:53&#39;</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># Cloudflare DNS，用于非国内的 DNS 查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>cfdns:</span> <span style=color:#98c379>&#39;tcp+udp://1.1.1.1:53&#39;</span>
-</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 代理模式：ip/domain/domain+/domain++
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dial_mode:</span> <span style=color:#e6db74>domain++</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>tproxy_port</td><td>TProxy 端口，仅供 eBPF 使用，通常无需修改，默认为 12345</td></tr><tr><td>tproxy_port_protect</td><td>是否保护 TProxy 端口不被非法访问；若设为 false，用户需自行配置 iptables，默认为 true</td></tr><tr><td>pprof_port</td><td>启用 pprof 的端口，设为非零值开启</td></tr><tr><td>so_mark_from_dae</td><td>设置 dae 发出的流量的 SO_MARK，避免与 iptables tproxy 规则冲突</td></tr><tr><td>log_level</td><td>日志等级，默认为 info，支持 error/warn/info/debug/trace</td></tr><tr><td>disable_waiting_network</td><td>禁用等待网络连接后再拉取订阅功能，默认为 false</td></tr><tr><td>enable_local_tcp_fast_redirect</td><td>启用本地 TCP 快速重定向（实验功能），可能导致部分代理/客户端异常，默认为 false</td></tr><tr><td>lan_interface</td><td>要绑定的局域网接口，支持多个接口以英文逗号分隔，通常配置为 eth0</td></tr><tr><td>wan_interface</td><td>要绑定的广域网接口，auto 表示自动检测，支持多个接口</td></tr><tr><td>auto_config_kernel_parameter</td><td>是否自动配置 Linux 内核参数（如 ip_forward 等），默认为 true</td></tr><tr><td>tcp_check_url</td><td>用于 TCP 节点连通性检查的网址，推荐选择响应快的 anycast 地址，默认值 <a href=http://cp.cloudflare.com>http://cp.cloudflare.com</a>,1.1.1.1,2606:4700:4700::1111</td></tr><tr><td>tcp_check_http_method</td><td>TCP 检查所使用的 HTTP 方法，默认 HEAD 流量更节省，支持 GET/POST 等</td></tr><tr><td>udp_check_dns</td><td>用于检查 UDP（及 TCP DNS）连通性的 DNS 服务器地址，默认为 dns.google:53,8.8.8.8,2001:4860:4860::8888</td></tr><tr><td>check_interval</td><td>节点连通性检测的时间间隔，默认为 30s</td></tr><tr><td>check_tolerance</td><td>节点切换容差阈值；仅当新延迟 ≤ 旧延迟 - 容差时才切换节点， 默认 50ms</td></tr><tr><td>dial_mode</td><td>代理模式，默认为 domain，支持 ip/domain/domain+/domain++</td></tr><tr><td>allow_insecure</td><td>是否允许不安全的 TLS 证书（如自签证书）；不推荐启用，默认为 false</td></tr><tr><td>sniffing_timeout</td><td>嗅探超时等待首个数据包的时间，dial_mode 为 ip 时该值无效，默认为 100ms</td></tr><tr><td>tls_implementation</td><td>TLS 实现方式：tls 使用 Go 原生库，utls 模拟浏览器，默认为 tls，支持 tls/utls</td></tr><tr><td>utls_imitate</td><td>当 tls_implementation 为 utls 时，指定模拟的浏览器类型，值为chrome_auto</td></tr><tr><td>mptcp</td><td>是否启用 Multipath TCP，用于多链路负载均衡与故障转移，默认 false</td></tr><tr><td>bandwidth_max_tx</td><td>最大上行带宽（用于部分协议性能优化），单位支持 b/kb/mb/gb/tb</td></tr><tr><td>bandwidth_max_rx</td><td>最大下行带宽，单位支持 b/kb/mb/gb/tb</td></tr></tbody></table><p><code>dial_mode</code> 支持以下几种模式：</p><table><thead><tr><th>模式名称</th><th>说明</th></tr></thead><tbody><tr><td>ip</td><td>直接使用 DNS 返回的 IP 代理，该模式下会禁用嗅探</td></tr><tr><td>domain</td><td>嗅探域名进行代理，需要客户端使用 dae 作为 DNS</td></tr><tr><td>domain+</td><td>基于 domain 模式，嗅探域名进行代理，但是不验证真实性，适用于不使用 dae 作为 DNS 的场景</td></tr><tr><td>domain++</td><td>基于 domain+ 模式，强制进行域名嗅探并重新分流，会消耗更多的 CPU</td></tr></tbody></table><h3 id=22-dns>2.2 dns</h3><ul><li>示例配置：</li></ul><p>完整的 DNS 分流参考 <a href=URL_ADDRESS.com/daeuniverse/dae/blob/main/docs/zh/configuration/dns.md>DNS</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#66d9ef>dns</span> {
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 上游 DNS
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#f92672>upstream</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 阿里云 DNS，用于国内域名查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>alidns:</span> <span style=color:#e6db74>&#39;udp://223.5.5.5:53&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Cloudflare DNS，用于非国内的 DNS 查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>cfdns:</span> <span style=color:#e6db74>&#39;tcp+udp://1.1.1.1:53&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#8a93a5;font-style:italic># DNS 查询规则
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>  <span style=color:#98c379>routing</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 根据 DNS 查询，决定使用哪个 DNS 上游，按由上到下的顺序匹配
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>request</span> {
-</span></span><span style=display:flex><span>      <span style=color:#8a93a5;font-style:italic># 国内域名使用阿里云
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>      <span style=color:#c678dd>qname(geosite:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>alidns</span>
-</span></span><span style=display:flex><span>      <span style=color:#8a93a5;font-style:italic># fallback 即默认兜底 DNS
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>      <span style=color:#98c379>fallback:</span> <span style=color:#98c379>cfdns</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>ipversion_prefer</td><td>首选 IP 协议版本，若为 4，域名有 A 和 AAAA 记录时仅响应 A 记录，AAAA 返回空</td></tr><tr><td>fixed_domain_ttl</td><td>指定域名的固定 TTL，设为 0 表示不缓存，始终请求上游 DNS</td></tr><tr><td>upstream</td><td>配置上游 DNS 服务器，支持多种协议（udp/tcp/http3/h3/https/tls 等），也支持自定义路径</td></tr><tr><td>routing.request</td><td>指定 DNS 查询规则，如对中国域名使用 alidns，其余使用 googledns</td></tr><tr><td>routing.response</td><td>（可选）根据响应结果决定是否接受或重新使用其他 DNS 上游再查询</td></tr></tbody></table><h3 id=23-subscription>2.3 subscription</h3><p>dae 的配置订阅处于早期阶段，兼容性较差，dae 会过滤包含 <code>://</code> 的行作为节点进行检测，因此订阅内容必须是符合 SIP008 格式或者 base64/urlencode 编码或者 txt 格式的节点列表</p><ul><li>示例配置</li></ul><p>配置分为两部分，tag 和订阅地址，tag 是订阅地址的唯一标识，用于 group 分组筛选节点</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#c678dd>subscription</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 订阅地址
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>sub_airport_1:</span> <span style=color:#98c379>&#39;https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt&#39;</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>订阅地址说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>https/http</td><td>在线订阅地址，如 <code>https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt</code></td></tr><tr><td>file</td><td>订阅文件路径，如 <code>/etc/dae/static_subscription.sub</code></td></tr><tr><td>https-file/http-file</td><td>在线订阅地址，并自动保存到本地，路径是 <code>config_dir/persist.d/订阅tag.sub</code></td></tr></tbody></table><h4 id=231-配置格式>2.3.1 配置格式</h4><ul><li>SIP008 格式：</li></ul><p>是 Shadowsocks/ShadowsocksR 的默认格式</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;version&#34;</span>: <span style=color:#d19a66>1</span>,
-</span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;servers&#34;</span>: [
+</span></span><span style=display:flex><span>  <span style=color:#75715e># DNS 查询规则
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#e6db74>routing</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 根据 DNS 查询，决定使用哪个 DNS 上游，按由上到下的顺序匹配
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>request</span> {
+</span></span><span style=display:flex><span>      <span style=color:#75715e># 国内域名使用阿里云
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#f92672>qname(geosite:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>alidns</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># fallback 即默认兜底 DNS
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#e6db74>fallback:</span> <span style=color:#e6db74>cfdns</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>ipversion_prefer</td><td>首选 IP 协议版本，若为 4，域名有 A 和 AAAA 记录时仅响应 A 记录，AAAA 返回空</td></tr><tr><td>fixed_domain_ttl</td><td>指定域名的固定 TTL，设为 0 表示不缓存，始终请求上游 DNS</td></tr><tr><td>upstream</td><td>配置上游 DNS 服务器，支持多种协议（udp/tcp/http3/h3/https/tls 等），也支持自定义路径</td></tr><tr><td>routing.request</td><td>指定 DNS 查询规则，如对中国域名使用 alidns，其余使用 googledns</td></tr><tr><td>routing.response</td><td>（可选）根据响应结果决定是否接受或重新使用其他 DNS 上游再查询</td></tr></tbody></table><h3 id=23-subscription>2.3 subscription</h3><p>dae 的配置订阅处于早期阶段，兼容性较差，dae 会过滤包含 <code>://</code> 的行作为节点进行检测，因此订阅内容必须是符合 SIP008 格式或者 base64/urlencode 编码或者 txt 格式的节点列表</p><ul><li>示例配置</li></ul><p>配置分为两部分，tag 和订阅地址，tag 是订阅地址的唯一标识，用于 group 分组筛选节点</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#66d9ef>subscription</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 订阅地址
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>sub_airport_1:</span> <span style=color:#e6db74>&#39;https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><ul><li>订阅地址说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>https/http</td><td>在线订阅地址，如 <code>https://node.freeclashnode.com/uploads/2025/05/0-20250505.txt</code></td></tr><tr><td>file</td><td>订阅文件路径，如 <code>/etc/dae/static_subscription.sub</code></td></tr><tr><td>https-file/http-file</td><td>在线订阅地址，并自动保存到本地，路径是 <code>config_dir/persist.d/订阅tag.sub</code></td></tr></tbody></table><h4 id=231-配置格式>2.3.1 配置格式</h4><ul><li>SIP008 格式：</li></ul><p>是 Shadowsocks/ShadowsocksR 的默认格式</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;servers&#34;</span>: [
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;server&#34;</span>: <span style=color:#63c381>&#34;example.com&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;server_port&#34;</span>: <span style=color:#d19a66>8388</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;method&#34;</span>: <span style=color:#63c381>&#34;aes-256-gcm&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;password&#34;</span>: <span style=color:#63c381>&#34;your_password&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;remarks&#34;</span>: <span style=color:#63c381>&#34;节点1&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;server&#34;</span>: <span style=color:#e6db74>&#34;example.com&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;server_port&#34;</span>: <span style=color:#ae81ff>8388</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;method&#34;</span>: <span style=color:#e6db74>&#34;aes-256-gcm&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;password&#34;</span>: <span style=color:#e6db74>&#34;your_password&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;remarks&#34;</span>: <span style=color:#e6db74>&#34;节点1&#34;</span>
 </span></span><span style=display:flex><span>    },
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;server&#34;</span>: <span style=color:#63c381>&#34;1.2.3.4&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;server_port&#34;</span>: <span style=color:#d19a66>443</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;method&#34;</span>: <span style=color:#63c381>&#34;chacha20-ietf-poly1305&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;password&#34;</span>: <span style=color:#63c381>&#34;another_password&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;remarks&#34;</span>: <span style=color:#63c381>&#34;节点2&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;plugin&#34;</span>: <span style=color:#63c381>&#34;obfs-local&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;plugin_opts&#34;</span>: <span style=color:#63c381>&#34;obfs=tls;obfs-host=www.bing.com&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;server&#34;</span>: <span style=color:#e6db74>&#34;1.2.3.4&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;server_port&#34;</span>: <span style=color:#ae81ff>443</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;method&#34;</span>: <span style=color:#e6db74>&#34;chacha20-ietf-poly1305&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;password&#34;</span>: <span style=color:#e6db74>&#34;another_password&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;remarks&#34;</span>: <span style=color:#e6db74>&#34;节点2&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;plugin&#34;</span>: <span style=color:#e6db74>&#34;obfs-local&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;plugin_opts&#34;</span>: <span style=color:#e6db74>&#34;obfs=tls;obfs-host=www.bing.com&#34;</span>
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  ]
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>txt 格式</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>trojan://password@remote_host:remote_port
+</span></span></code></pre></div><ul><li>txt 格式</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>trojan://password@remote_host:remote_port
 </span></span><span style=display:flex><span>hysteria2://letmein@example.com:123,5000-6000/?insecure=1&amp;obfs=salamander&amp;obfs-password=gawrgura&amp;pinSHA256=deadbeef&amp;sni=real.example.com
-</span></span></code></pre></div><ul><li>base64 编码</li></ul><p>是 txt 格式 base64 编码后的内容</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>dHJvamFuOi8vcGFzc3dvcmRAcmVtb3RlX2hvc3Q6cmVtb3RlX3BvcnQKaHlzdGVyaWEyOi8vbGV0bWVpbkBleGFtcGxlLmNvbToxMjMsNTAwMC02MDAwLz9pbnNlY3VyZT0xJm9iZnM9c2FsYW1hbmRlciZvYmZzLXBhc3N3b3JkPWdhd3JndXJhJnBpblNIQTI1Nj1kZWFkYmVlZiZzbmk9cmVhbC5leGFtcGxlLmNvbQ==
-</span></span></code></pre></div><ul><li>urlencode 格式</li></ul><p>是 txt 格式 urlencode 编码后的内容</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>trojan%3A%2F%2Fpassword%40remote_host%3Aremote_port
+</span></span></code></pre></div><ul><li>base64 编码</li></ul><p>是 txt 格式 base64 编码后的内容</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>dHJvamFuOi8vcGFzc3dvcmRAcmVtb3RlX2hvc3Q6cmVtb3RlX3BvcnQKaHlzdGVyaWEyOi8vbGV0bWVpbkBleGFtcGxlLmNvbToxMjMsNTAwMC02MDAwLz9pbnNlY3VyZT0xJm9iZnM9c2FsYW1hbmRlciZvYmZzLXBhc3N3b3JkPWdhd3JndXJhJnBpblNIQTI1Nj1kZWFkYmVlZiZzbmk9cmVhbC5leGFtcGxlLmNvbQ==
+</span></span></code></pre></div><ul><li>urlencode 格式</li></ul><p>是 txt 格式 urlencode 编码后的内容</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>trojan%3A%2F%2Fpassword%40remote_host%3Aremote_port
 </span></span><span style=display:flex><span>hysteria2%3A%2F%2Fletmein%40example.com%3A123%2C5000-6000%2F%3Finsecure%3D1%26obfs%3Dsalamander%26obfs-password%3Dgawrgura%26pinSHA256%3Ddeadbeef%26sni%3Dreal.example.com
-</span></span></code></pre></div><h3 id=24-node>2.4 node</h3><ul><li>示例配置</li></ul><p>node 分为两部分，tag 和 URI，tag 是节点的唯一标识，用于 group 分组，URI 是节点的连接信息，根据不同的协议有不同的格式，具体参考：<a href=https://github.com/daeuniverse/dae/blob/main/docs/zh/proxy-protocols.md>其他代理协议</a></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#c678dd>node</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等格式
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>hy2:</span> <span style=color:#98c379>&#34;hysteria2://user:password@host:443/?insecure=false&#34;</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=25-group>2.5 group</h3><ul><li>示例配置：</li></ul><p>详细参考: <a href=https://github.com/daeuniverse/dae/blob/main/example.dae>https://github.com/daeuniverse/dae/blob/main/example.dae</a></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 节点分组
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>group</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 分组一，名称是 proxy，用于 routing 选择
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#8a93a5;font-style:italic># 没有过滤条件，使用所有节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>proxy</span> {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 节点选择策略使用 最小移动平均延迟节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#c678dd>policy:</span> <span style=color:#98c379>min_moving_avg</span>
-</span></span><span style=display:flex><span>    }
+</span></span></code></pre></div><h3 id=24-node>2.4 node</h3><ul><li>示例配置</li></ul><p>node 分为两部分，tag 和 URI，tag 是节点的唯一标识，用于 group 分组，URI 是节点的连接信息，根据不同的协议有不同的格式，具体参考：<a href=https://github.com/daeuniverse/dae/blob/main/docs/zh/proxy-protocols.md>其他代理协议</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#66d9ef>node</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等格式
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>hy2:</span> <span style=color:#e6db74>&#34;hysteria2://user:password@host:443/?insecure=false&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><h3 id=25-group>2.5 group</h3><ul><li>示例配置：</li></ul><p>详细参考: <a href=https://github.com/daeuniverse/dae/blob/main/example.dae>https://github.com/daeuniverse/dae/blob/main/example.dae</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#75715e># 节点分组
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>group</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 分组一，名称是 proxy，用于 routing 选择
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e># 没有过滤条件，使用所有节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>proxy</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 节点选择策略使用 最小移动平均延迟节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#f92672>policy:</span> <span style=color:#e6db74>min_moving_avg</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># AI 分组，用于 claude 等对地区有限制的服务商
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>ai</span> {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 从 subscription 的 sub_airport_1 中过滤名称包含新加坡的作为这个分组的可用节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#c678dd>filter:</span> <span style=color:#98c379>subtag(sub_airport_1)</span> <span style=color:#98c379>&amp;&amp;</span> <span style=color:#98c379>name(keyword:</span> <span style=color:#98c379>&#39;新加坡&#39;)</span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 节点选择策略使用 最小移动平均延迟节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#98c379>policy:</span> <span style=color:#98c379>min_moving_avg</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>group</td><td>出站节点分组，可基于策略从全局节点池中选取节点，如果没有任何过滤条件，则选择所有节点</td></tr><tr><td>filter</td><td>分组节点的过滤条件：1. <code>subtag(tag_name)</code>：按订阅标签过滤；2. <code>name(name1, name2)</code>：按节点名称精确过滤；3. <code>keyword:</code>、<code>regex:</code>：关键字或正则匹配名称；过滤条件可组合，如<code>subtag(regex: '^my_', another_sub) && !name(keyword: 'ExpireAt:')</code>; 节点可用 <code>add_latency:</code> 指定延迟偏移以影响选择排序 , 用于从全局节点池中筛选进入该组的节点</td></tr><tr><td>policy</td><td>分组内节点的负载均衡选择策略: 1.<code>random</code>：每次连接随机选择一个节点; 2. <code>fixed(0)</code>：始终使用第一个节点; 3. <code>min</code>：使用最近一次延迟最小的节点; 4. <code>min_moving_avg</code>：使用延迟移动平均值最小的节点; 5. <code>min_avg10</code>：使用最近 10 次平均延迟最小的节点，定义该分组的节点选择策略</td></tr><tr><td>tcp_check_url</td><td>（可选）默认继承自 global；如设置：<code>http://test.steampowered.com</code> , 覆盖全局设置的 TCP 节点连通性检查 URL，适用于特殊分组（如 steam）测试目标优化。</td></tr><tr><td>tcp_check_http_method</td><td>自定义 HTTP 请求方法，通常用于规避计费、污染等问题，默认为 HEAD</td></tr><tr><td>udp_check_dns</td><td>自定义 UDP 连通性测试 DNS，适用于分组层面特殊连接测试策略。</td></tr><tr><td>check_interval</td><td>节点连通性测试间隔，默认 30s</td></tr><tr><td>check_tolerance</td><td>延迟容忍度，仅当新节点延迟明显优于旧节点时才触发切换，默认为 50ms</td></tr></tbody></table><h3 id=26-routing>2.6 routing</h3><ul><li>示例配置</li></ul><p>分流规则分为两部分，左侧为匹配规则，右侧为匹配到规则后使用的节点分组，规则按从上到下的顺序匹配；内置的出站规则有 <code>block</code>, <code>direct</code>, <code>must_direct</code>, <code>must_rules</code>(must_rules 表示不将DNS流量重定向至 dae 并继续匹配) , 除此之外必须使用 group 定义的节点分组，如 前面定义的 <code>proxy</code>, <code>ai</code> 等</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 分流规则
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>routing</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># DNS/SSH 等相关进程强制直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>pname(dnsmasq,</span> <span style=color:#98c379>dropbear)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># DNS 地址或域名，强制直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(8.8.8.8)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>dip(1.1.1.1)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(dns.alidns.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(dns.google)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(cloudflare-dns.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># AI 分组，用于 claude 等对地区有限制的服务商
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>ai</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 从 subscription 的 sub_airport_1 中过滤名称包含新加坡的作为这个分组的可用节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#f92672>filter:</span> <span style=color:#e6db74>subtag(sub_airport_1)</span> <span style=color:#e6db74>&amp;&amp;</span> <span style=color:#e6db74>name(keyword:</span> <span style=color:#e6db74>&#39;新加坡&#39;)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 节点选择策略使用 最小移动平均延迟节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#e6db74>policy:</span> <span style=color:#e6db74>min_moving_avg</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><ul><li>配置说明</li></ul><table><thead><tr><th>配置项名称</th><th>说明</th></tr></thead><tbody><tr><td>group</td><td>出站节点分组，可基于策略从全局节点池中选取节点，如果没有任何过滤条件，则选择所有节点</td></tr><tr><td>filter</td><td>分组节点的过滤条件：1. <code>subtag(tag_name)</code>：按订阅标签过滤；2. <code>name(name1, name2)</code>：按节点名称精确过滤；3. <code>keyword:</code>、<code>regex:</code>：关键字或正则匹配名称；过滤条件可组合，如<code>subtag(regex: '^my_', another_sub) && !name(keyword: 'ExpireAt:')</code>; 节点可用 <code>add_latency:</code> 指定延迟偏移以影响选择排序 , 用于从全局节点池中筛选进入该组的节点</td></tr><tr><td>policy</td><td>分组内节点的负载均衡选择策略: 1.<code>random</code>：每次连接随机选择一个节点; 2. <code>fixed(0)</code>：始终使用第一个节点; 3. <code>min</code>：使用最近一次延迟最小的节点; 4. <code>min_moving_avg</code>：使用延迟移动平均值最小的节点; 5. <code>min_avg10</code>：使用最近 10 次平均延迟最小的节点，定义该分组的节点选择策略</td></tr><tr><td>tcp_check_url</td><td>（可选）默认继承自 global；如设置：<code>http://test.steampowered.com</code> , 覆盖全局设置的 TCP 节点连通性检查 URL，适用于特殊分组（如 steam）测试目标优化。</td></tr><tr><td>tcp_check_http_method</td><td>自定义 HTTP 请求方法，通常用于规避计费、污染等问题，默认为 HEAD</td></tr><tr><td>udp_check_dns</td><td>自定义 UDP 连通性测试 DNS，适用于分组层面特殊连接测试策略。</td></tr><tr><td>check_interval</td><td>节点连通性测试间隔，默认 30s</td></tr><tr><td>check_tolerance</td><td>延迟容忍度，仅当新节点延迟明显优于旧节点时才触发切换，默认为 50ms</td></tr></tbody></table><h3 id=26-routing>2.6 routing</h3><ul><li>示例配置</li></ul><p>分流规则分为两部分，左侧为匹配规则，右侧为匹配到规则后使用的节点分组，规则按从上到下的顺序匹配；内置的出站规则有 <code>block</code>, <code>direct</code>, <code>must_direct</code>, <code>must_rules</code>(must_rules 表示不将DNS流量重定向至 dae 并继续匹配) , 除此之外必须使用 group 定义的节点分组，如 前面定义的 <code>proxy</code>, <code>ai</code> 等</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#75715e># 分流规则
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>routing</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># DNS/SSH 等相关进程强制直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>pname(dnsmasq,</span> <span style=color:#e6db74>dropbear)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># DNS 地址或域名，强制直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(8.8.8.8)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>dip(1.1.1.1)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(dns.alidns.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(dns.google)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(cloudflare-dns.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP 多播、广播地址，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(224.0.0.0/3,</span> <span style=color:#98c379>&#39;ff00::/8&#39;)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP geoip 中的内网地址，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(geoip:private)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP 多播、广播地址，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(224.0.0.0/3,</span> <span style=color:#e6db74>&#39;ff00::/8&#39;)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP geoip 中的内网地址，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(geoip:private)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP 中国 IP，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(geoip:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 中国域名，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(geosite:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP 中国 IP，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(geoip:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 中国域名，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(geosite:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 广告域名，拒绝
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(geosite:category-ads)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>block</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 广告域名，拒绝
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(geosite:category-ads)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>block</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># AI 域名，AI 分组代理
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(suffix:</span> <span style=color:#98c379>claude.ai)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>ai</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(suffix:</span> <span style=color:#98c379>openai.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>ai</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># AI 域名，AI 分组代理
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(suffix:</span> <span style=color:#e6db74>claude.ai)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>ai</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(suffix:</span> <span style=color:#e6db74>openai.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>ai</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 未命中上面的规则的走 proxy 代理
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>fallback:</span> <span style=color:#98c379>proxy</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>常用匹配规则语法</li></ul><p>完整的分流规则参考 <a href=https://github.com/daeuniverse/dae/blob/main/docs/zh/configuration/routing.md>路由</a></p><table><thead><tr><th>规则</th><th>说明</th><th>举例</th></tr></thead><tbody><tr><td>fallback</td><td>未匹配规则时使用的默认出站</td><td><code>fallback: my_group</code></td></tr><tr><td>pname</td><td>匹配进程名（仅适用于本机进程）</td><td><code>pname(curl) -> direct</code></td></tr><tr><td>domain</td><td>匹配域名，支持多种方式</td><td><code>domain(keyword: facebook) -> my_group</code>, <code>domain(geosite:cn) -> direct</code>, <code>domain(suffix: v2raya.org) -> my_group</code></td></tr><tr><td>dip</td><td>匹配目标 IP，可用单个/多个 IP、CIDR、geoip</td><td><code>dip(8.8.8.8) -> direct</code>, <code>dip(geoip:cn) -> direct</code></td></tr><tr><td>sip</td><td>匹配源 IP，可用单个 IP、CIDR、多值</td><td><code>sip(192.168.0.0/24) -> my_group</code></td></tr><tr><td>dport</td><td>匹配目标端口，支持单端口或范围</td><td><code>dport(80) -> direct</code>, <code>dport(10080-30000) -> direct</code></td></tr><tr><td>sport</td><td>匹配源端口，支持单端口或范围</td><td><code>sport(38563) -> direct</code>, <code>sport(10080-30000) -> direct</code></td></tr><tr><td>l4proto</td><td>匹配四层协议</td><td><code>l4proto(tcp) -> my_group</code>, <code>l4proto(udp) -> direct</code></td></tr><tr><td>ipversion</td><td>匹配 IP 协议版本</td><td><code>ipversion(4) -> block</code>, <code>ipversion(6) -> ipv6_group</code></td></tr><tr><td>mac</td><td>匹配源 MAC 地址</td><td><code>mac('02:42:ac:11:00:02') -> direct</code></td></tr></tbody></table><h2 id=三完整示例配置>三、完整示例配置</h2><ul><li>config.dae</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 完整配置参考 https://github.com/daeuniverse/dae/blob/main/example.dae
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#c678dd>global</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 修改日志级别为 debug，方便调试
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>log_level:</span> <span style=color:#98c379>debug</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># lan 口绑定 eth0
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>lan_interface:</span> <span style=color:#98c379>eth0</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 用强制 SNI 嗅探进行分流
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dial_mode:</span> <span style=color:#98c379>domain++</span>
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 未命中上面的规则的走 proxy 代理
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>fallback:</span> <span style=color:#e6db74>proxy</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
+</span></span></code></pre></div><ul><li>常用匹配规则语法</li></ul><p>完整的分流规则参考 <a href=https://github.com/daeuniverse/dae/blob/main/docs/zh/configuration/routing.md>路由</a></p><table><thead><tr><th>规则</th><th>说明</th><th>举例</th></tr></thead><tbody><tr><td>fallback</td><td>未匹配规则时使用的默认出站</td><td><code>fallback: my_group</code></td></tr><tr><td>pname</td><td>匹配进程名（仅适用于本机进程）</td><td><code>pname(curl) -> direct</code></td></tr><tr><td>domain</td><td>匹配域名，支持多种方式</td><td><code>domain(keyword: facebook) -> my_group</code>, <code>domain(geosite:cn) -> direct</code>, <code>domain(suffix: v2raya.org) -> my_group</code></td></tr><tr><td>dip</td><td>匹配目标 IP，可用单个/多个 IP、CIDR、geoip</td><td><code>dip(8.8.8.8) -> direct</code>, <code>dip(geoip:cn) -> direct</code></td></tr><tr><td>sip</td><td>匹配源 IP，可用单个 IP、CIDR、多值</td><td><code>sip(192.168.0.0/24) -> my_group</code></td></tr><tr><td>dport</td><td>匹配目标端口，支持单端口或范围</td><td><code>dport(80) -> direct</code>, <code>dport(10080-30000) -> direct</code></td></tr><tr><td>sport</td><td>匹配源端口，支持单端口或范围</td><td><code>sport(38563) -> direct</code>, <code>sport(10080-30000) -> direct</code></td></tr><tr><td>l4proto</td><td>匹配四层协议</td><td><code>l4proto(tcp) -> my_group</code>, <code>l4proto(udp) -> direct</code></td></tr><tr><td>ipversion</td><td>匹配 IP 协议版本</td><td><code>ipversion(4) -> block</code>, <code>ipversion(6) -> ipv6_group</code></td></tr><tr><td>mac</td><td>匹配源 MAC 地址</td><td><code>mac('02:42:ac:11:00:02') -> direct</code></td></tr></tbody></table><h2 id=三完整示例配置>三、完整示例配置</h2><ul><li>config.dae</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nginx data-lang=nginx><span style=display:flex><span><span style=color:#75715e># 完整配置参考 https://github.com/daeuniverse/dae/blob/main/example.dae
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>global</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 修改日志级别为 debug，方便调试
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>log_level:</span> <span style=color:#e6db74>debug</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># lan 口绑定 eth0
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>lan_interface:</span> <span style=color:#e6db74>eth0</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 用强制 SNI 嗅探进行分流
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dial_mode:</span> <span style=color:#e6db74>domain++</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># DNS 配置
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#98c379>dns</span> {
-</span></span><span style=display:flex><span>  <span style=color:#8a93a5;font-style:italic># 使用 IPv4 的 DNS，避免部分 node 不支持 IPv6 导致请求失败
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>  <span style=color:#c678dd>ipversion_prefer:</span> <span style=color:#d19a66>4</span>
-</span></span><span style=display:flex><span>  <span style=color:#8a93a5;font-style:italic># 上游 DNS
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>  <span style=color:#98c379>upstream</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 阿里云 DNS，用于国内域名查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>alidns:</span> <span style=color:#98c379>&#39;udp://223.5.5.5:53&#39;</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 本地 DNS，用于内网自定义的  DNS 查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>adguard:</span> <span style=color:#98c379>&#39;udp://10.0.0.1:53&#39;</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># Cloudflare DNS，用于非国内的 DNS 查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>cfdns:</span> <span style=color:#98c379>&#39;tcp+udp://1.1.1.1:53&#39;</span>
-</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span><span style=color:#75715e># DNS 配置
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>dns</span> {
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 使用 IPv4 的 DNS，避免部分 node 不支持 IPv6 导致请求失败
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#f92672>ipversion_prefer:</span> <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 上游 DNS
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#e6db74>upstream</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 阿里云 DNS，用于国内域名查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>alidns:</span> <span style=color:#e6db74>&#39;udp://223.5.5.5:53&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 本地 DNS，用于内网自定义的  DNS 查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>adguard:</span> <span style=color:#e6db74>&#39;udp://10.0.0.1:53&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Cloudflare DNS，用于非国内的 DNS 查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>cfdns:</span> <span style=color:#e6db74>&#39;tcp+udp://1.1.1.1:53&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#8a93a5;font-style:italic># DNS 查询规则
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>  <span style=color:#98c379>routing</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 根据 DNS 查询，决定使用哪个 DNS 上游，按由上到下的顺序匹配
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>request</span> {
-</span></span><span style=display:flex><span>      <span style=color:#8a93a5;font-style:italic># svc.local 结尾的域名，用本地的 DNS 查询
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>      <span style=color:#c678dd>qname(suffix:</span> <span style=color:#98c379>svc.local)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>adguard</span>
-</span></span><span style=display:flex><span>      <span style=color:#8a93a5;font-style:italic># 对于中国大陆域名使用 alidns，其他使用 cfdns 查询。
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>      <span style=color:#98c379>qname(geosite:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>alidns</span>
-</span></span><span style=display:flex><span>      <span style=color:#8a93a5;font-style:italic># fallback 即默认兜底 DNS
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>      <span style=color:#98c379>fallback:</span> <span style=color:#98c379>cfdns</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>  <span style=color:#75715e># DNS 查询规则
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#e6db74>routing</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 根据 DNS 查询，决定使用哪个 DNS 上游，按由上到下的顺序匹配
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>request</span> {
+</span></span><span style=display:flex><span>      <span style=color:#75715e># svc.local 结尾的域名，用本地的 DNS 查询
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#f92672>qname(suffix:</span> <span style=color:#e6db74>svc.local)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>adguard</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># 对于中国大陆域名使用 alidns，其他使用 cfdns 查询。
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#e6db74>qname(geosite:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>alidns</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># fallback 即默认兜底 DNS
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#e6db74>fallback:</span> <span style=color:#e6db74>cfdns</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 如果使用订阅地址，必须是符合 SIP008 格式或者 base64/urlencode 编码或者 txt 格式的节点列表，详细参考: https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># subscription 的节点解析过滤后作为 node，tag 是
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#98c379>subscription</span> {
-</span></span><span style=display:flex><span>  <span style=color:#c678dd>sub_airport_1:</span> <span style=color:#98c379>&#39;https://订阅地址&#39;</span>
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#75715e># 如果使用订阅地址，必须是符合 SIP008 格式或者 base64/urlencode 编码或者 txt 格式的节点列表，详细参考: https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#75715e># subscription 的节点解析过滤后作为 node，tag 是
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>subscription</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>sub_airport_1:</span> <span style=color:#e6db74>&#39;https://订阅地址&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 自己搭建的节点，直接配置到 node 方便调试
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#98c379>node</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等格式
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>hy2:</span> <span style=color:#98c379>&#34;hysteria2://user:password@host:443/?insecure=false&#34;</span>
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#75715e># 自己搭建的节点，直接配置到 node 方便调试
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>node</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># HTTPS/VMess/VLESS/Shadowsocks/Trojan/Tuic/Juicity/Hysteria2 等格式
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>hy2:</span> <span style=color:#e6db74>&#34;hysteria2://user:password@host:443/?insecure=false&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 节点分组
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#98c379>group</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 分组一，名称是 proxy，用于 routing 选择
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#8a93a5;font-style:italic># 没有过滤条件，使用所有节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>proxy</span> {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 节点选择策略使用 最小移动平均延迟节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#c678dd>policy:</span> <span style=color:#98c379>min_moving_avg</span>
-</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span><span style=color:#75715e># 节点分组
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>group</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 分组一，名称是 proxy，用于 routing 选择
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e># 没有过滤条件，使用所有节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>proxy</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 节点选择策略使用 最小移动平均延迟节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#f92672>policy:</span> <span style=color:#e6db74>min_moving_avg</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># AI 分组，用于 claude 等对地区有限制的服务商
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>ai</span> {
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 从 subscription 的 sub_airport_1 中过滤名称包含新加坡的作为这个分组的可用节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#c678dd>filter:</span> <span style=color:#98c379>subtag(sub_airport_1)</span> <span style=color:#98c379>&amp;&amp;</span> <span style=color:#98c379>name(keyword:</span> <span style=color:#98c379>&#39;新加坡&#39;)</span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic># 节点选择策略使用 最小移动平均延迟节点
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>        <span style=color:#98c379>policy:</span> <span style=color:#98c379>min_moving_avg</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>    <span style=color:#75715e># AI 分组，用于 claude 等对地区有限制的服务商
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>ai</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 从 subscription 的 sub_airport_1 中过滤名称包含新加坡的作为这个分组的可用节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#f92672>filter:</span> <span style=color:#e6db74>subtag(sub_airport_1)</span> <span style=color:#e6db74>&amp;&amp;</span> <span style=color:#e6db74>name(keyword:</span> <span style=color:#e6db74>&#39;新加坡&#39;)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 节点选择策略使用 最小移动平均延迟节点
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#e6db74>policy:</span> <span style=color:#e6db74>min_moving_avg</span>
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>}</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># 分流规则
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span><span style=color:#98c379>routing</span> {
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># DNS/SSH 等相关进程强制直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#c678dd>pname(dnsmasq,</span> <span style=color:#98c379>dropbear)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># DNS 地址或域名，强制直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(8.8.8.8)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>dip(1.1.1.1)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(dns.alidns.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(dns.google)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(cloudflare-dns.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>must_direct</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 分流规则
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>routing</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e># DNS/SSH 等相关进程强制直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#f92672>pname(dnsmasq,</span> <span style=color:#e6db74>dropbear)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># DNS 地址或域名，强制直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(8.8.8.8)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>dip(1.1.1.1)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(dns.alidns.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(dns.google)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(cloudflare-dns.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>must_direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP 多播、广播地址，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(224.0.0.0/3,</span> <span style=color:#98c379>&#39;ff00::/8&#39;)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP geoip 中的内网地址，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(geoip:private)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP 多播、广播地址，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(224.0.0.0/3,</span> <span style=color:#e6db74>&#39;ff00::/8&#39;)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP geoip 中的内网地址，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(geoip:private)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 目标 IP 中国 IP，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>dip(geoip:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 中国域名，直连
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(geosite:cn)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 目标 IP 中国 IP，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>dip(geoip:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 中国域名，直连
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(geosite:cn)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>direct</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 广告域名，拒绝
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(geosite:category-ads)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>block</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 广告域名，拒绝
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(geosite:category-ads)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>block</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># AI 域名，AI 分组代理
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>domain(suffix:</span> <span style=color:#98c379>claude.ai)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>ai</span>
-</span></span><span style=display:flex><span>    <span style=color:#98c379>domain(suffix:</span> <span style=color:#98c379>openai.com)</span> <span style=color:#98c379>-&gt;</span> <span style=color:#98c379>ai</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># AI 域名，AI 分组代理
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>domain(suffix:</span> <span style=color:#e6db74>claude.ai)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>ai</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>domain(suffix:</span> <span style=color:#e6db74>openai.com)</span> <span style=color:#e6db74>-&gt;</span> <span style=color:#e6db74>ai</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic># 未命中上面的规则的走 proxy 代理
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic></span>    <span style=color:#98c379>fallback:</span> <span style=color:#98c379>proxy</span>
-</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 未命中上面的规则的走 proxy 代理
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#e6db74>fallback:</span> <span style=color:#e6db74>proxy</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>}</span>
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2025 hellowood.dev</span>
 <span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>

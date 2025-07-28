@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>gRPC 服务使用 TLS 加密</title><meta name=description content="gRPC 支持使用 TLS 对请求进行加密
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>gRPC 服务使用 TLS 加密</title><meta name=description content="gRPC 支持使用 TLS 对请求进行加密
 SSL(Secure Socket Layer，安全套接字)，是面向连接的网络层和应用层协议之间的一种协议层；SSL 通过互相认证、使用数字签名确保完整性、使用加密确保隐私性，以实现客户端和服务端之间的安全通讯
 TLS(Transport Layer Security, 传输 …"><meta name=keywords content='blog,hugo,gRPC'><meta property="og:url" content="https://blog.hellowood.dev/posts/grpc-%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8-tls-%E5%8A%A0%E5%AF%86/"><meta property="og:type" content="website"><meta property="og:title" content="gRPC 服务使用 TLS 加密"><meta property="og:description" content="gRPC 支持使用 TLS 对请求进行加密
 SSL(Secure Socket Layer，安全套接字)，是面向连接的网络层和应用层协议之间的一种协议层；SSL 通过互相认证、使用数字签名确保完整性、使用加密确保隐私性，以实现客户端和服务端之间的安全通讯
@@ -24,14 +24,14 @@ subjectAltName = @alt_names
 DNS.1 = localhost
 IP.1 = ::1
 IP.2 = 127.0.0.1
-</code></pre><ol start=2><li>生成证书</li></ol><p>生成自签名的证书，因为 Netty 的 <code>SslContextBuilder</code> 和 <code>SslContext</code> 仅支持 <code>PKCS8</code> 格式的 key，所以需要将其他格式的 key 转换为 <code>PKCS8</code> 格式</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>openssl genrsa -out ca.key <span style=color:#d19a66>4096</span>
-</span></span><span style=display:flex><span>openssl req -new -x509 -key ca.key -sha256 -subj <span style=color:#63c381>&#34;/C=US/ST=NJ/O=CA, Inc.&#34;</span> -days <span style=color:#d19a66>3650</span> -out ca.cert
-</span></span><span style=display:flex><span>openssl genrsa -out private.key <span style=color:#d19a66>4096</span>
+</code></pre><ol start=2><li>生成证书</li></ol><p>生成自签名的证书，因为 Netty 的 <code>SslContextBuilder</code> 和 <code>SslContext</code> 仅支持 <code>PKCS8</code> 格式的 key，所以需要将其他格式的 key 转换为 <code>PKCS8</code> 格式</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>openssl genrsa -out ca.key <span style=color:#ae81ff>4096</span>
+</span></span><span style=display:flex><span>openssl req -new -x509 -key ca.key -sha256 -subj <span style=color:#e6db74>&#34;/C=US/ST=NJ/O=CA, Inc.&#34;</span> -days <span style=color:#ae81ff>3650</span> -out ca.cert
+</span></span><span style=display:flex><span>openssl genrsa -out private.key <span style=color:#ae81ff>4096</span>
 </span></span><span style=display:flex><span>openssl req -new -key private.key -out private.csr -config certificate.conf
-</span></span><span style=display:flex><span>openssl x509 -req -in private.csr -CA ca.cert -CAkey ca.key -CAcreateserial -out server.pem -days <span style=color:#d19a66>3650</span> -sha256 -extfile certificate.conf -extensions req_ext
+</span></span><span style=display:flex><span>openssl x509 -req -in private.csr -CA ca.cert -CAkey ca.key -CAcreateserial -out server.pem -days <span style=color:#ae81ff>3650</span> -sha256 -extfile certificate.conf -extensions req_ext
 </span></span><span style=display:flex><span>openssl pkcs8 -topk8 -nocrypt -in private.key -out server.key
-</span></span></code></pre></div><p>执行命名后，会生成多个文件，其中 Server 端需要私钥 <code>server.key</code> 以及证书 <code>server.pem</code>，客户端需要证书 <code>server.pem</code></p><h2 id=server-端>Server 端</h2><ul><li>配置 SSL</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:#a2cbff>@Slf4j
-</span></span></span><span style=display:flex><span><span style=color:#a2cbff></span>public class TlsServer {
+</span></span></code></pre></div><p>执行命名后，会生成多个文件，其中 Server 端需要私钥 <code>server.key</code> 以及证书 <code>server.pem</code>，客户端需要证书 <code>server.pem</code></p><h2 id=server-端>Server 端</h2><ul><li>配置 SSL</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:#75715e>@Slf4j
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>public class TlsServer {
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    @SneakyThrows
 </span></span><span style=display:flex><span>    public static void main(String[] args) {
@@ -64,8 +64,8 @@ IP.2 = 127.0.0.1
 </span></span><span style=display:flex><span>        server.awaitTermination();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=client-端>Client 端</h2><ul><li>配置 SSL</li></ul><p>为 Channel 指定了 SSL 上下文配置，并且覆盖了 <code>authority</code>，要和证书中的配置一致，用于建立连接时校验</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:#a2cbff>@Slf4j
-</span></span></span><span style=display:flex><span><span style=color:#a2cbff></span>public class TlsClient {
+</span></span></code></pre></div><h2 id=client-端>Client 端</h2><ul><li>配置 SSL</li></ul><p>为 Channel 指定了 SSL 上下文配置，并且覆盖了 <code>authority</code>，要和证书中的配置一致，用于建立连接时校验</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:#75715e>@Slf4j
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>public class TlsClient {
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    @SneakyThrows
 </span></span><span style=display:flex><span>    public static void main(String[] args) {
@@ -96,15 +96,15 @@ IP.2 = 127.0.0.1
 </span></span><span style=display:flex><span>        channel.awaitTermination(5, TimeUnit.SECONDS);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=测试>测试</h2><ol><li>调整日志级别</li></ol><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#c1abea>setLogger</span>(<span style=color:#98c379>&#34;io.grpc&#34;</span>);
+</span></span></code></pre></div><h2 id=测试>测试</h2><ol><li>调整日志级别</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    setLogger(<span style=color:#e6db74>&#34;io.grpc&#34;</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setLogger</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>className</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>Logger</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>className</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>setLevel</span>(<span style=color:#c1abea>Level</span>.<span style=color:#b3d23c>ALL</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setLogger</span>(String className) {
+</span></span><span style=display:flex><span>        Logger logger <span style=color:#f92672>=</span> Logger.<span style=color:#a6e22e>getLogger</span>(className);
+</span></span><span style=display:flex><span>        logger.<span style=color:#a6e22e>setLevel</span>(Level.<span style=color:#a6e22e>ALL</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>ConsoleHandler</span> <span style=color:#c1abea>handler</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ConsoleHandler</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>handler</span>.<span style=color:#b3d23c>setLevel</span>(<span style=color:#c1abea>Level</span>.<span style=color:#b3d23c>ALL</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>addHandler</span>(<span style=color:#c1abea>handler</span>);
+</span></span><span style=display:flex><span>        ConsoleHandler handler <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ConsoleHandler();
+</span></span><span style=display:flex><span>        handler.<span style=color:#a6e22e>setLevel</span>(Level.<span style=color:#a6e22e>ALL</span>);
+</span></span><span style=display:flex><span>        logger.<span style=color:#a6e22e>addHandler</span>(handler);
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><ol start=2><li><p>启动 Serve 端</p></li><li><p>启动 Client 端，发起请求</p></li></ol><pre tabindex=0><code>一月 05, 2021 5:22:21 下午 io.grpc.netty.ProtocolNegotiators logSslEngineDetails
 较详细: TLS negotiation succeeded.

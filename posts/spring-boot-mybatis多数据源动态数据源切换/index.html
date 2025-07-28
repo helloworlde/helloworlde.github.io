@@ -1,541 +1,541 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:17.5px}</style><title>Spring Boot MyBatis Druid 多数据源、动态数据源切换</title><meta name=description content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta name=keywords content='blog,hugo,Java,SpringBoot,MyBatis,DynamicDataSource,MultipleDataSource,Druid'><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta property="og:type" content="website"><meta property="og:title" content="Spring Boot MyBatis Druid 多数据源、动态数据源切换"><meta property="og:description" content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Spring Boot MyBatis Druid 多数据源、动态数据源切换"><meta name=twitter:description content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>Spring Boot MyBatis Druid 多数据源、动态数据源切换</title><meta name=description content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta name=keywords content='blog,hugo,Java,SpringBoot,MyBatis,DynamicDataSource,MultipleDataSource,Druid'><meta property="og:url" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta property="og:type" content="website"><meta property="og:title" content="Spring Boot MyBatis Druid 多数据源、动态数据源切换"><meta property="og:description" content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Spring Boot MyBatis Druid 多数据源、动态数据源切换"><meta name=twitter:description content=" 项目地址：https://github.com/helloworlde/SpringBoot-DynamicDataSource 本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常 …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/spring-boot-mybatis%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
-<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Boot MyBatis Druid 多数据源、动态数据源切换</h1><small role=doc-subtitle></small><p class=post-date>2017-12-31</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/mybatis>MyBatis</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/dynamicdatasource>DynamicDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/multipledatasource>MultipleDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/druid>Druid</a></li></ul></div><div class=post-content><ul><li>项目地址：<a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource>https://github.com/helloworlde/SpringBoot-DynamicDataSource</a></li></ul><blockquote><p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：</p></blockquote><ul><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource>master</a>: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev>dev</a>: 最简单的切面和注解方式实现的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid>druid</a>: 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao>aspect_dao</a>: 通过切面实现的 DAO 层的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin>roundrobin</a>: 通过切面使用轮询方式实现的只读数据源负载均衡</li></ul><blockquote><p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源</p></blockquote><h3 id=在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issues-里面>在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 <a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md>Issues</a> 里面</h3><blockquote><p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 <code>@Transactional</code> 注解以保证使用主数据源</p></blockquote><blockquote><p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 <code>@Transactional</code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法</p></blockquote><blockquote><p>动态切换数据源依赖 <code>configuration</code> 包下的4个类来实现，分别是：</p><ul><li>DataSourceRoutingDataSource.java</li><li>DataSourceConfigurer.java</li><li>DynamicDataSourceContextHolder.java</li><li>DynamicDataSourceAspect.java</li></ul></blockquote><hr><h2 id=添加依赖>添加依赖</h2><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>compile</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>compile</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>compile</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-aop&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>compile</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;com.alibaba:druid-spring-boot-starter:1.1.6&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>runtime</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;mysql:mysql-connector-java&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>testCompile</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span><span style=color:#c7bf54>)</span>
-</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
-</span></span></code></pre></div><h2 id=创建数据库及表>创建数据库及表</h2><ul><li>分别创建数据库<code>product_master</code>, <code>product_slave_alpha</code>, <code>product_slave_beta</code>, <code>product_slave_gamma</code></li><li>在以上数据库中分别创建表 <code>product</code>，并插入不同数据</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#c678dd>DROP</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c678dd>IF</span> <span style=color:#c678dd>EXISTS</span> <span style=color:#c1abea>product_master</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c1abea>product_master</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>TABLE</span> <span style=color:#c1abea>product_master</span>.<span style=color:#c1abea>product</span>(
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>id</span> <span style=color:#ef8383>INT</span> <span style=color:#c678dd>PRIMARY</span> <span style=color:#c678dd>KEY</span> <span style=color:#c1abea>AUTO_INCREMENT</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>name</span> <span style=color:#ef8383>VARCHAR</span>(<span style=color:#d19a66>50</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>price</span> <span style=color:#c1abea>DOUBLE</span>(<span style=color:#d19a66>10</span>,<span style=color:#d19a66>2</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span> <span style=color:#c678dd>DEFAULT</span> <span style=color:#d19a66>0</span>);
-</span></span><span style=display:flex><span><span style=color:#c678dd>INSERT</span> <span style=color:#c678dd>INTO</span> <span style=color:#c1abea>product_master</span>.<span style=color:#c1abea>product</span> (<span style=color:#c1abea>name</span>, <span style=color:#c1abea>price</span>) <span style=color:#c678dd>VALUES</span>(<span style=color:#98c379>&#39;master&#39;</span>, <span style=color:#98c379>&#39;1&#39;</span>);
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Boot MyBatis Druid 多数据源、动态数据源切换</h1><small role=doc-subtitle></small><p class=post-date>2017-12-31</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/mybatis>MyBatis</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/dynamicdatasource>DynamicDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/multipledatasource>MultipleDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/druid>Druid</a></li></ul></div><div class=post-content><ul><li>项目地址：<a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource>https://github.com/helloworlde/SpringBoot-DynamicDataSource</a></li></ul><blockquote><p>本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：</p></blockquote><ul><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource>master</a>: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev>dev</a>: 最简单的切面和注解方式实现的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/druid>druid</a>: 通过切面和注解方式实现的使用 Druid 连接池的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/aspect_dao>aspect_dao</a>: 通过切面实现的 DAO 层的动态数据源切换</li><li><a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin>roundrobin</a>: 通过切面使用轮询方式实现的只读数据源负载均衡</li></ul><blockquote><p>以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源</p></blockquote><h3 id=在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issues-里面>在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 <a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md>Issues</a> 里面</h3><blockquote><p>该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 <code>@Transactional</code> 注解以保证使用主数据源</p></blockquote><blockquote><p>需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 <code>@Transactional</code> 注解，而应该添加在方法上，这也是 Spring 推荐的做法</p></blockquote><blockquote><p>动态切换数据源依赖 <code>configuration</code> 包下的4个类来实现，分别是：</p><ul><li>DataSourceRoutingDataSource.java</li><li>DataSourceConfigurer.java</li><li>DynamicDataSourceContextHolder.java</li><li>DynamicDataSourceAspect.java</li></ul></blockquote><hr><h2 id=添加依赖>添加依赖</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-aop&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;com.alibaba:druid-spring-boot-starter:1.1.6&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    runtime<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;mysql:mysql-connector-java&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    testCompile<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=创建数据库及表>创建数据库及表</h2><ul><li>分别创建数据库<code>product_master</code>, <code>product_slave_alpha</code>, <code>product_slave_beta</code>, <code>product_slave_gamma</code></li><li>在以上数据库中分别创建表 <code>product</code>，并插入不同数据</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>DROP</span> <span style=color:#66d9ef>DATABASE</span> <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>EXISTS</span> product_master;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>DATABASE</span> product_master;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> product_master.product(
+</span></span><span style=display:flex><span>  id INT <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  name VARCHAR(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+</span></span><span style=display:flex><span>  price DOUBLE(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>DEFAULT</span> <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> product_master.product (name, price) <span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;master&#39;</span>, <span style=color:#e6db74>&#39;1&#39;</span>);
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>DROP</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c678dd>IF</span> <span style=color:#c678dd>EXISTS</span> <span style=color:#c1abea>product_slave_alpha</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c1abea>product_slave_alpha</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>TABLE</span> <span style=color:#c1abea>product_slave_alpha</span>.<span style=color:#c1abea>product</span>(
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>id</span> <span style=color:#ef8383>INT</span> <span style=color:#c678dd>PRIMARY</span> <span style=color:#c678dd>KEY</span> <span style=color:#c1abea>AUTO_INCREMENT</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>name</span> <span style=color:#ef8383>VARCHAR</span>(<span style=color:#d19a66>50</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>price</span> <span style=color:#c1abea>DOUBLE</span>(<span style=color:#d19a66>10</span>,<span style=color:#d19a66>2</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span> <span style=color:#c678dd>DEFAULT</span> <span style=color:#d19a66>0</span>);
-</span></span><span style=display:flex><span><span style=color:#c678dd>INSERT</span> <span style=color:#c678dd>INTO</span> <span style=color:#c1abea>product_slave_alpha</span>.<span style=color:#c1abea>product</span> (<span style=color:#c1abea>name</span>, <span style=color:#c1abea>price</span>) <span style=color:#c678dd>VALUES</span>(<span style=color:#98c379>&#39;slaveAlpha&#39;</span>, <span style=color:#98c379>&#39;1&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DROP</span> <span style=color:#66d9ef>DATABASE</span> <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>EXISTS</span> product_slave_alpha;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>DATABASE</span> product_slave_alpha;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> product_slave_alpha.product(
+</span></span><span style=display:flex><span>  id INT <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  name VARCHAR(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+</span></span><span style=display:flex><span>  price DOUBLE(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>DEFAULT</span> <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> product_slave_alpha.product (name, price) <span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;slaveAlpha&#39;</span>, <span style=color:#e6db74>&#39;1&#39;</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>DROP</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c678dd>IF</span> <span style=color:#c678dd>EXISTS</span> <span style=color:#c1abea>product_slave_beta</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c1abea>product_slave_beta</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>TABLE</span> <span style=color:#c1abea>product_slave_beta</span>.<span style=color:#c1abea>product</span>(
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>id</span> <span style=color:#ef8383>INT</span> <span style=color:#c678dd>PRIMARY</span> <span style=color:#c678dd>KEY</span> <span style=color:#c1abea>AUTO_INCREMENT</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>name</span> <span style=color:#ef8383>VARCHAR</span>(<span style=color:#d19a66>50</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>price</span> <span style=color:#c1abea>DOUBLE</span>(<span style=color:#d19a66>10</span>,<span style=color:#d19a66>2</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span> <span style=color:#c678dd>DEFAULT</span> <span style=color:#d19a66>0</span>);
-</span></span><span style=display:flex><span><span style=color:#c678dd>INSERT</span> <span style=color:#c678dd>INTO</span> <span style=color:#c1abea>product_slave_beta</span>.<span style=color:#c1abea>product</span> (<span style=color:#c1abea>name</span>, <span style=color:#c1abea>price</span>) <span style=color:#c678dd>VALUES</span>(<span style=color:#98c379>&#39;slaveBeta&#39;</span>, <span style=color:#98c379>&#39;1&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DROP</span> <span style=color:#66d9ef>DATABASE</span> <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>EXISTS</span> product_slave_beta;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>DATABASE</span> product_slave_beta;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> product_slave_beta.product(
+</span></span><span style=display:flex><span>  id INT <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  name VARCHAR(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+</span></span><span style=display:flex><span>  price DOUBLE(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>DEFAULT</span> <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> product_slave_beta.product (name, price) <span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;slaveBeta&#39;</span>, <span style=color:#e6db74>&#39;1&#39;</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>DROP</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c678dd>IF</span> <span style=color:#c678dd>EXISTS</span> <span style=color:#c1abea>product_slave_gamma</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>DATABASE</span> <span style=color:#c1abea>product_slave_gamma</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>CREATE</span> <span style=color:#c678dd>TABLE</span> <span style=color:#c1abea>product_slave_gamma</span>.<span style=color:#c1abea>product</span>(
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>id</span> <span style=color:#ef8383>INT</span> <span style=color:#c678dd>PRIMARY</span> <span style=color:#c678dd>KEY</span> <span style=color:#c1abea>AUTO_INCREMENT</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>name</span> <span style=color:#ef8383>VARCHAR</span>(<span style=color:#d19a66>50</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span>,
-</span></span><span style=display:flex><span>  <span style=color:#c1abea>price</span> <span style=color:#c1abea>DOUBLE</span>(<span style=color:#d19a66>10</span>,<span style=color:#d19a66>2</span>) <span style=color:#c678dd>NOT</span> <span style=color:#c678dd>NULL</span> <span style=color:#c678dd>DEFAULT</span> <span style=color:#d19a66>0</span>);
-</span></span><span style=display:flex><span><span style=color:#c678dd>INSERT</span> <span style=color:#c678dd>INTO</span> <span style=color:#c1abea>product_slave_gamma</span>.<span style=color:#c1abea>product</span> (<span style=color:#c1abea>name</span>, <span style=color:#c1abea>price</span>) <span style=color:#c678dd>VALUES</span>(<span style=color:#98c379>&#39;slaveGamma&#39;</span>, <span style=color:#98c379>&#39;1&#39;</span>);
-</span></span></code></pre></div><h2 id=配置数据源>配置数据源</h2><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Master datasource config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>master</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.driver-class-name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>com.mysql.jdbc.Driver</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.url</span><span style=color:#c7bf54>=</span><span style=color:#98c379>jdbc:mysql://localhost/product_master?useSSL=false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>3306</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>root</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.master.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>123456</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DROP</span> <span style=color:#66d9ef>DATABASE</span> <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>EXISTS</span> product_slave_gamma;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>DATABASE</span> product_slave_gamma;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> product_slave_gamma.product(
+</span></span><span style=display:flex><span>  id INT <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  name VARCHAR(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+</span></span><span style=display:flex><span>  price DOUBLE(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>DEFAULT</span> <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> product_slave_gamma.product (name, price) <span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;slaveGamma&#39;</span>, <span style=color:#e6db74>&#39;1&#39;</span>);
+</span></span></code></pre></div><h2 id=配置数据源>配置数据源</h2><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#75715e># Master datasource config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>master</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.driver-class-name</span><span style=color:#f92672>=</span><span style=color:#e6db74>com.mysql.jdbc.Driver</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.url</span><span style=color:#f92672>=</span><span style=color:#e6db74>jdbc:mysql://localhost/product_master?useSSL=false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>3306</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>root</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.master.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>123456</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># SlaveAlpha datasource config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>SlaveAlpha</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.driver-class-name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>com.mysql.jdbc.Driver</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.url</span><span style=color:#c7bf54>=</span><span style=color:#98c379>jdbc:mysql://localhost/product_slave_alpha?useSSL=false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>3306</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>root</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-alpha.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>123456</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># SlaveAlpha datasource config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>SlaveAlpha</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.driver-class-name</span><span style=color:#f92672>=</span><span style=color:#e6db74>com.mysql.jdbc.Driver</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.url</span><span style=color:#f92672>=</span><span style=color:#e6db74>jdbc:mysql://localhost/product_slave_alpha?useSSL=false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>3306</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>root</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-alpha.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>123456</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># SlaveBeta datasource config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>SlaveBeta</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.driver-class-name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>com.mysql.jdbc.Driver</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.url</span><span style=color:#c7bf54>=</span><span style=color:#98c379>jdbc:mysql://localhost/product_slave_beta?useSSL=false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>3306</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>root</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-beta.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>123456</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># SlaveBeta datasource config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>SlaveBeta</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.driver-class-name</span><span style=color:#f92672>=</span><span style=color:#e6db74>com.mysql.jdbc.Driver</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.url</span><span style=color:#f92672>=</span><span style=color:#e6db74>jdbc:mysql://localhost/product_slave_beta?useSSL=false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>3306</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>root</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-beta.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>123456</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># SlaveGamma datasource config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>SlaveGamma</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.driver-class-name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>com.mysql.jdbc.Driver</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.url</span><span style=color:#c7bf54>=</span><span style=color:#98c379>jdbc:mysql://localhost/product_slave_gamma?useSSL=false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>3306</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>root</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.slave-gamma.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>123456</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># SlaveGamma datasource config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>SlaveGamma</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.driver-class-name</span><span style=color:#f92672>=</span><span style=color:#e6db74>com.mysql.jdbc.Driver</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.url</span><span style=color:#f92672>=</span><span style=color:#e6db74>jdbc:mysql://localhost/product_slave_gamma?useSSL=false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>3306</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>root</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.slave-gamma.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>123456</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Druid dataSource config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.type</span><span style=color:#c7bf54>=</span><span style=color:#98c379>com.alibaba.druid.pool.DruidDataSource</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.initial-size</span><span style=color:#c7bf54>=</span><span style=color:#98c379>5</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.max-active</span><span style=color:#c7bf54>=</span><span style=color:#98c379>20</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.min-idle</span><span style=color:#c7bf54>=</span><span style=color:#98c379>5</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.max-wait</span><span style=color:#c7bf54>=</span><span style=color:#98c379>60000</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.pool-prepared-statements</span><span style=color:#c7bf54>=</span><span style=color:#98c379>false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.validation-query</span><span style=color:#c7bf54>=</span><span style=color:#98c379>SELECT 1</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.validation-query-timeout</span><span style=color:#c7bf54>=</span><span style=color:#98c379>30000</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.test-on-borrow</span><span style=color:#c7bf54>=</span><span style=color:#98c379>false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.test-on-return</span><span style=color:#c7bf54>=</span><span style=color:#98c379>false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.test-while-idle</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.time-between-eviction-runs-millis=</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.min-evictable-idle-time-millis=</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.max-evictable-idle-time-millis=10000</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Druid dataSource config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.type</span><span style=color:#f92672>=</span><span style=color:#e6db74>com.alibaba.druid.pool.DruidDataSource</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.initial-size</span><span style=color:#f92672>=</span><span style=color:#e6db74>5</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.max-active</span><span style=color:#f92672>=</span><span style=color:#e6db74>20</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.min-idle</span><span style=color:#f92672>=</span><span style=color:#e6db74>5</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.max-wait</span><span style=color:#f92672>=</span><span style=color:#e6db74>60000</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.pool-prepared-statements</span><span style=color:#f92672>=</span><span style=color:#e6db74>false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.validation-query</span><span style=color:#f92672>=</span><span style=color:#e6db74>SELECT 1</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.validation-query-timeout</span><span style=color:#f92672>=</span><span style=color:#e6db74>30000</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.test-on-borrow</span><span style=color:#f92672>=</span><span style=color:#e6db74>false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.test-on-return</span><span style=color:#f92672>=</span><span style=color:#e6db74>false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.test-while-idle</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.time-between-eviction-runs-millis=</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.min-evictable-idle-time-millis=</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.max-evictable-idle-time-millis=10000</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Druid stat filter config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filters</span><span style=color:#c7bf54>=</span><span style=color:#98c379>stat,wall,log4j</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.url-pattern</span><span style=color:#c7bf54>=</span><span style=color:#98c379>/*</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.exclusions</span><span style=color:#c7bf54>=</span><span style=color:#98c379>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.session-stat-enable</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.session-stat-max-count</span><span style=color:#c7bf54>=</span><span style=color:#98c379>10</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.principal-session-name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>user</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.web-stat-filter.principal-cookie-name=</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.web-stat-filter.profile-enable</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.stat.db-type</span><span style=color:#c7bf54>=</span><span style=color:#98c379>mysql</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.stat.log-slow-sql</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.stat.slow-sql-millis</span><span style=color:#c7bf54>=</span><span style=color:#98c379>1000</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.stat.merge-sql</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.wall.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.wall.config.delete-allow</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.wall.config.drop-table-allow</span><span style=color:#c7bf54>=</span><span style=color:#98c379>false</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.filter.slf4j.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Druid manage page config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.stat-view-servlet.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.stat-view-servlet.url-pattern</span><span style=color:#c7bf54>=</span><span style=color:#98c379>/druid/*</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.stat-view-servlet.reset-enable</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.stat-view-servlet.login-username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>admin</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.stat-view-servlet.login-password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>admin</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.stat-view-servlet.allow=</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.datasource.druid.stat-view-servlet.deny=</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.use-global-data-source-stat</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Druid AOP config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.druid.aop-patterns</span><span style=color:#c7bf54>=</span><span style=color:#98c379>cn.com.hellowood.dynamicdatasource.service.*</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.aop.proxy-target-class</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Druid stat filter config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filters</span><span style=color:#f92672>=</span><span style=color:#e6db74>stat,wall,log4j</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.url-pattern</span><span style=color:#f92672>=</span><span style=color:#e6db74>/*</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.exclusions</span><span style=color:#f92672>=</span><span style=color:#e6db74>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.session-stat-enable</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.session-stat-max-count</span><span style=color:#f92672>=</span><span style=color:#e6db74>10</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.principal-session-name</span><span style=color:#f92672>=</span><span style=color:#e6db74>user</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.web-stat-filter.principal-cookie-name=</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.web-stat-filter.profile-enable</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.stat.db-type</span><span style=color:#f92672>=</span><span style=color:#e6db74>mysql</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.stat.log-slow-sql</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.stat.slow-sql-millis</span><span style=color:#f92672>=</span><span style=color:#e6db74>1000</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.stat.merge-sql</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.wall.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.wall.config.delete-allow</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.wall.config.drop-table-allow</span><span style=color:#f92672>=</span><span style=color:#e6db74>false</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.filter.slf4j.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Druid manage page config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.stat-view-servlet.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.stat-view-servlet.url-pattern</span><span style=color:#f92672>=</span><span style=color:#e6db74>/druid/*</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.stat-view-servlet.reset-enable</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.stat-view-servlet.login-username</span><span style=color:#f92672>=</span><span style=color:#e6db74>admin</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.stat-view-servlet.login-password</span><span style=color:#f92672>=</span><span style=color:#e6db74>admin</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.stat-view-servlet.allow=</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#spring.datasource.druid.stat-view-servlet.deny=</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.use-global-data-source-stat</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Druid AOP config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.druid.aop-patterns</span><span style=color:#f92672>=</span><span style=color:#e6db74>cn.com.hellowood.dynamicdatasource.service.*</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.aop.proxy-target-class</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># MyBatis config</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>mybatis.type-aliases-package</span><span style=color:#c7bf54>=</span><span style=color:#98c379>cn.com.hellowood.dynamicdatasource.mapper</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>mybatis.mapper-locations</span><span style=color:#c7bf54>=</span><span style=color:#98c379>mappers/**Mapper.xml</span>
-</span></span><span style=display:flex><span><span style=color:#b3d23c>server.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>9999</span>
-</span></span></code></pre></div><h2 id=配置数据源-1>配置数据源</h2><ul><li>DataSourceKey.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.common</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e># MyBatis config</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>mybatis.type-aliases-package</span><span style=color:#f92672>=</span><span style=color:#e6db74>cn.com.hellowood.dynamicdatasource.mapper</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>mybatis.mapper-locations</span><span style=color:#f92672>=</span><span style=color:#e6db74>mappers/**Mapper.xml</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>server.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>9999</span>
+</span></span></code></pre></div><h2 id=配置数据源-1>配置数据源</h2><ul><li>DataSourceKey.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.common;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>enum</span> <span style=color:#c1abea>DataSourceKey</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>master</span>,
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>slaveAlpha</span>,
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>slaveBeta</span>,
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>slaveGamma</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>enum</span> DataSourceKey {
+</span></span><span style=display:flex><span>    master,
+</span></span><span style=display:flex><span>    slaveAlpha,
+</span></span><span style=display:flex><span>    slaveBeta,
+</span></span><span style=display:flex><span>    slaveGamma
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>DataSourceRoutingDataSource.java</li></ul><blockquote><p>该类继承自 <code>AbstractRoutingDataSource</code> 类，在访问数据库时会调用该类的 <code>determineCurrentLookupKey()</code> 方法获取数据库实例的 key</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.configuration</span>;
+</span></span></code></pre></div><ul><li>DataSourceRoutingDataSource.java</li></ul><blockquote><p>该类继承自 <code>AbstractRoutingDataSource</code> 类，在访问数据库时会调用该类的 <code>determineCurrentLookupKey()</code> 方法获取数据库实例的 key</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.configuration;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.Logger</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.LoggerFactory</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.Logger;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.LoggerFactory;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>DynamicRoutingDataSource</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>AbstractRoutingDataSource</span> {
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DynamicRoutingDataSource</span> <span style=color:#66d9ef>extends</span> AbstractRoutingDataSource {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>LoggerFactory</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>getClass</span>());
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(getClass());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>protected</span> <span style=color:#c1abea>Object</span> <span style=color:#00b1f7>determineCurrentLookupKey</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;Current DataSource is [{}]&#34;</span>, <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>getDataSourceKey</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>getDataSourceKey</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> Object <span style=color:#a6e22e>determineCurrentLookupKey</span>() {
+</span></span><span style=display:flex><span>        logger.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;Current DataSource is [{}]&#34;</span>, DynamicDataSourceContextHolder.<span style=color:#a6e22e>getDataSourceKey</span>());
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DynamicDataSourceContextHolder.<span style=color:#a6e22e>getDataSourceKey</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>DataSourceConfigurer.java</li></ul><blockquote><p>数据源配置类，在该类中生成多个数据源实例并将其注入到 <code>ApplicationContext</code> 中</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.configuration</span>;
+</span></span></code></pre></div><ul><li>DataSourceConfigurer.java</li></ul><blockquote><p>数据源配置类，在该类中生成多个数据源实例并将其注入到 <code>ApplicationContext</code> 中</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.configuration;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.mybatis.spring.SqlSessionFactoryBean</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.boot.context.properties.ConfigurationProperties</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.context.annotation.Bean</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.context.annotation.Configuration</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.context.annotation.Primary</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.mybatis.spring.SqlSessionFactoryBean;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.boot.context.properties.ConfigurationProperties;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.context.annotation.Bean;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.context.annotation.Configuration;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.context.annotation.Primary;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>javax.sql.DataSource</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.HashMap</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.Map</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> javax.sql.DataSource;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.HashMap;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.Map;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Configuration</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>DataSourceConfigurer</span> {
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Configuration</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DataSourceConfigurer</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * master DataSource
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有5个 DataSource Bean，该注解可用于 master
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return data source
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;master&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Primary</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;spring.datasource.druid.master&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>master</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DruidDataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * master DataSource
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有5个 DataSource Bean，该注解可用于 master
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return data source
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;master&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Primary</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spring.datasource.druid.master&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>master</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DruidDataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Slave alpha data source.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return the data source
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;slaveAlpha&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;spring.datasource.druid.slave-alpha&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>slaveAlpha</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DruidDataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Slave alpha data source.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return the data source
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;slaveAlpha&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spring.datasource.druid.slave-alpha&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>slaveAlpha</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DruidDataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Slave beta data source.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return the data source
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;slaveBeta&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;spring.datasource.druid.slave-beta&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>slaveBeta</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DruidDataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Slave beta data source.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return the data source
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;slaveBeta&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spring.datasource.druid.slave-beta&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>slaveBeta</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DruidDataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Slave gamma data source.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return the data source
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;slaveGamma&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;spring.datasource.druid.slave-gamma&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>slaveGamma</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DruidDataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Slave gamma data source.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return the data source
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;slaveGamma&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spring.datasource.druid.slave-gamma&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>slaveGamma</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DruidDataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Dynamic data source.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return the data source
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;dynamicDataSource&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>dynamicDataSource</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicRoutingDataSource</span> <span style=color:#c1abea>dynamicRoutingDataSource</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DynamicRoutingDataSource</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span>, <span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>dataSourceMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>HashMap</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>4</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>master</span>.<span style=color:#b3d23c>name</span>(), <span style=color:#c1abea>master</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>slaveAlpha</span>.<span style=color:#b3d23c>name</span>(), <span style=color:#c1abea>slaveAlpha</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>slaveBeta</span>.<span style=color:#b3d23c>name</span>(), <span style=color:#c1abea>slaveBeta</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>slaveGamma</span>.<span style=color:#b3d23c>name</span>(), <span style=color:#c1abea>slaveGamma</span>());
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Dynamic data source.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return the data source
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;dynamicDataSource&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>dynamicDataSource</span>() {
+</span></span><span style=display:flex><span>        DynamicRoutingDataSource dynamicRoutingDataSource <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DynamicRoutingDataSource();
+</span></span><span style=display:flex><span>        Map<span style=color:#f92672>&lt;</span>Object, Object<span style=color:#f92672>&gt;</span> dataSourceMap <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>(4);
+</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(DataSourceKey.<span style=color:#a6e22e>master</span>.<span style=color:#a6e22e>name</span>(), master());
+</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(DataSourceKey.<span style=color:#a6e22e>slaveAlpha</span>.<span style=color:#a6e22e>name</span>(), slaveAlpha());
+</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(DataSourceKey.<span style=color:#a6e22e>slaveBeta</span>.<span style=color:#a6e22e>name</span>(), slaveBeta());
+</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(DataSourceKey.<span style=color:#a6e22e>slaveGamma</span>.<span style=color:#a6e22e>name</span>(), slaveGamma());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将 master 数据源作为默认指定的数据源</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setDefaultTargetDataSource</span>(<span style=color:#c1abea>master</span>());
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将 master 和 slave 数据源作为指定的数据源</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setTargetDataSources</span>(<span style=color:#c1abea>dataSourceMap</span>);
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将 master 数据源作为默认指定的数据源</span>
+</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setDefaultTargetDataSource</span>(master());
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将 master 和 slave 数据源作为指定的数据源</span>
+</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setTargetDataSources</span>(dataSourceMap);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将数据源的 key 放到数据源上下文的 key 集合中，用于切换时判断数据源是否有效</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>dataSourceKeys</span>.<span style=color:#b3d23c>addAll</span>(<span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>keySet</span>());
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将数据源的 key 放到数据源上下文的 key 集合中，用于切换时判断数据源是否有效</span>
+</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>dataSourceKeys</span>.<span style=color:#a6e22e>addAll</span>(dataSourceMap.<span style=color:#a6e22e>keySet</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 将 Slave 数据源的 key 放在集合中，用于轮循</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>slaveDataSourceKeys</span>.<span style=color:#b3d23c>addAll</span>(<span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>keySet</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>slaveDataSourceKeys</span>.<span style=color:#b3d23c>remove</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>master</span>.<span style=color:#b3d23c>name</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>dynamicRoutingDataSource</span>;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 将 Slave 数据源的 key 放在集合中，用于轮循</span>
+</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>slaveDataSourceKeys</span>.<span style=color:#a6e22e>addAll</span>(dataSourceMap.<span style=color:#a6e22e>keySet</span>());
+</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>slaveDataSourceKeys</span>.<span style=color:#a6e22e>remove</span>(DataSourceKey.<span style=color:#a6e22e>master</span>.<span style=color:#a6e22e>name</span>());
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dynamicRoutingDataSource;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 配置 SqlSessionFactoryBean
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Bean 的属性中，如果没有使用 *.xml 则可以不用该配置，否则将会产生 invalid bond statement 异常
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return the sql session factory bean
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;mybatis&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#00b1f7>sqlSessionFactoryBean</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#c1abea>sqlSessionFactoryBean</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>SqlSessionFactoryBean</span>();
-</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换</span>
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setDataSource</span>(<span style=color:#c1abea>dynamicDataSource</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>sqlSessionFactoryBean</span>;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 配置 SqlSessionFactoryBean
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @ConfigurationProperties 在这里是为了将 MyBatis 的 mapper 位置和持久层接口的别名设置到
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Bean 的属性中，如果没有使用 *.xml 则可以不用该配置，否则将会产生 invalid bond statement 异常
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return the sql session factory bean
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mybatis&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> SqlSessionFactoryBean <span style=color:#a6e22e>sqlSessionFactoryBean</span>() {
+</span></span><span style=display:flex><span>        SqlSessionFactoryBean sqlSessionFactoryBean <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SqlSessionFactoryBean();
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换</span>
+</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setDataSource</span>(dynamicDataSource());
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> sqlSessionFactoryBean;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 注入 DataSourceTransactionManager 用于事务管理
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>PlatformTransactionManager</span> <span style=color:#00b1f7>transactionManager</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DataSourceTransactionManager</span>(<span style=color:#c1abea>dynamicDataSource</span>());
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 注入 DataSourceTransactionManager 用于事务管理
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> PlatformTransactionManager <span style=color:#a6e22e>transactionManager</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> DataSourceTransactionManager(dynamicDataSource());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>DynamicDataSourceContextHolder.java</li></ul><blockquote><p>该类为数据源上下文配置，用于切换数据源</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.configuration</span>;
+</span></span></code></pre></div><ul><li>DynamicDataSourceContextHolder.java</li></ul><blockquote><p>该类为数据源上下文配置，用于切换数据源</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.configuration;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.common.DataSourceKey</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.Logger</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.LoggerFactory</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.common.DataSourceKey;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.Logger;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.LoggerFactory;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.ArrayList</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.List</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.concurrent.locks.Lock</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.concurrent.locks.ReentrantLock</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.ArrayList;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.concurrent.locks.Lock;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.concurrent.locks.ReentrantLock;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>DynamicDataSourceContextHolder</span> {
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DynamicDataSourceContextHolder</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>LoggerFactory</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>class</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(DynamicDataSourceContextHolder.<span style=color:#a6e22e>class</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 用于在切换数据源时保证不会被其他线程修改
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#c1abea>Lock</span> <span style=color:#c1abea>lock</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ReentrantLock</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 用于在切换数据源时保证不会被其他线程修改
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> Lock lock <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ReentrantLock();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 用于轮循的计数器
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>int</span> <span style=color:#c1abea>counter</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 用于轮循的计数器
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>int</span> counter <span style=color:#f92672>=</span> 0;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Maintain variable for every thread, to avoid effect other thread
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>ThreadLocal</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>CONTEXT_HOLDER</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>ThreadLocal</span>.<span style=color:#b3d23c>withInitial</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>master</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Maintain variable for every thread, to avoid effect other thread
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> ThreadLocal<span style=color:#f92672>&lt;</span>Object<span style=color:#f92672>&gt;</span> CONTEXT_HOLDER <span style=color:#f92672>=</span> ThreadLocal.<span style=color:#a6e22e>withInitial</span>(DataSourceKey.<span style=color:#a6e22e>master</span>);
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * All DataSource List
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>dataSourceKeys</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * All DataSource List
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> List<span style=color:#f92672>&lt;</span>Object<span style=color:#f92672>&gt;</span> dataSourceKeys <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * The constant slaveDataSourceKeys.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>slaveDataSourceKeys</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * The constant slaveDataSourceKeys.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> List<span style=color:#f92672>&lt;</span>Object<span style=color:#f92672>&gt;</span> slaveDataSourceKeys <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * To switch DataSource
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @param key the key
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>setDataSourceKey</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>key</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>CONTEXT_HOLDER</span>.<span style=color:#b3d23c>set</span>(<span style=color:#c1abea>key</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * To switch DataSource
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @param key the key
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setDataSourceKey</span>(String key) {
+</span></span><span style=display:flex><span>        CONTEXT_HOLDER.<span style=color:#a6e22e>set</span>(key);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Use master data source.
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>useMasterDataSource</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>CONTEXT_HOLDER</span>.<span style=color:#b3d23c>set</span>(<span style=color:#c1abea>DataSourceKey</span>.<span style=color:#b3d23c>master</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Use master data source.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>useMasterDataSource</span>() {
+</span></span><span style=display:flex><span>        CONTEXT_HOLDER.<span style=color:#a6e22e>set</span>(DataSourceKey.<span style=color:#a6e22e>master</span>);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 当使用只读数据源时通过轮循方式选择要使用的数据源
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>useSlaveDataSource</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>lock</span>.<span style=color:#b3d23c>lock</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 当使用只读数据源时通过轮循方式选择要使用的数据源
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>useSlaveDataSource</span>() {
+</span></span><span style=display:flex><span>        lock.<span style=color:#a6e22e>lock</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
-</span></span><span style=display:flex><span>            <span style=color:#ef8383>int</span> <span style=color:#c1abea>datasourceKeyIndex</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>counter</span> <span style=color:#c7bf54>%</span> <span style=color:#c1abea>slaveDataSourceKeys</span>.<span style=color:#b3d23c>size</span>();
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>CONTEXT_HOLDER</span>.<span style=color:#b3d23c>set</span>(<span style=color:#c1abea>String</span>.<span style=color:#b3d23c>valueOf</span>(<span style=color:#c1abea>slaveDataSourceKeys</span>.<span style=color:#b3d23c>get</span>(<span style=color:#c1abea>datasourceKeyIndex</span>)));
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>counter</span><span style=color:#c7bf54>++</span>;
-</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>Exception</span> <span style=color:#c1abea>e</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>error</span>(<span style=color:#98c379>&#34;Switch slave datasource failed, error message is {}&#34;</span>, <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>getMessage</span>());
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>useMasterDataSource</span>();
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
-</span></span><span style=display:flex><span>        } <span style=color:#c678dd>finally</span> {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>lock</span>.<span style=color:#b3d23c>unlock</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>int</span> datasourceKeyIndex <span style=color:#f92672>=</span> counter <span style=color:#f92672>%</span> slaveDataSourceKeys.<span style=color:#a6e22e>size</span>();
+</span></span><span style=display:flex><span>            CONTEXT_HOLDER.<span style=color:#a6e22e>set</span>(String.<span style=color:#a6e22e>valueOf</span>(slaveDataSourceKeys.<span style=color:#a6e22e>get</span>(datasourceKeyIndex)));
+</span></span><span style=display:flex><span>            counter<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (Exception e) {
+</span></span><span style=display:flex><span>            logger.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;Switch slave datasource failed, error message is {}&#34;</span>, e.<span style=color:#a6e22e>getMessage</span>());
+</span></span><span style=display:flex><span>            useMasterDataSource();
+</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>finally</span> {
+</span></span><span style=display:flex><span>            lock.<span style=color:#a6e22e>unlock</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Get current DataSource
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return data source key
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>getDataSourceKey</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>CONTEXT_HOLDER</span>.<span style=color:#b3d23c>get</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Get current DataSource
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return data source key
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> String <span style=color:#a6e22e>getDataSourceKey</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> CONTEXT_HOLDER.<span style=color:#a6e22e>get</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * To set DataSource as default
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>clearDataSourceKey</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>CONTEXT_HOLDER</span>.<span style=color:#b3d23c>remove</span>();
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * To set DataSource as default
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>clearDataSourceKey</span>() {
+</span></span><span style=display:flex><span>        CONTEXT_HOLDER.<span style=color:#a6e22e>remove</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * Check if give DataSource is in current DataSource list
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @param key the key
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return boolean boolean
-</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>boolean</span> <span style=color:#00b1f7>containDataSourceKey</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>key</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>dataSourceKeys</span>.<span style=color:#b3d23c>contains</span>(<span style=color:#c1abea>key</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * Check if give DataSource is in current DataSource list
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @param key the key
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return boolean boolean
+</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>containDataSourceKey</span>(String key) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dataSourceKeys.<span style=color:#a6e22e>contains</span>(key);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><ul><li>DynamicDataSourceAspect.java</li></ul><blockquote><p>动态数据源切换的切面，切 DAO 层，通过 DAO 层方法名判断使用哪个数据源，实现数据源切换
-关于切面的 Order 可以可以不设，因为 <code>@Transactional</code> 是最低的，取决于其他切面的设置，并且在 <code>org.springframework.core.annotation.AnnotationAwareOrderComparator</code> 会重新排序</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.configuration</span>;
+关于切面的 Order 可以可以不设，因为 <code>@Transactional</code> 是最低的，取决于其他切面的设置，并且在 <code>org.springframework.core.annotation.AnnotationAwareOrderComparator</code> 会重新排序</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.configuration;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.aspectj.lang.JoinPoint</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.aspectj.lang.annotation.After</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.aspectj.lang.annotation.Aspect</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.aspectj.lang.annotation.Before</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.aspectj.lang.annotation.Pointcut</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.Logger</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.LoggerFactory</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.stereotype.Component</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.aspectj.lang.JoinPoint;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.aspectj.lang.annotation.After;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.aspectj.lang.annotation.Aspect;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.aspectj.lang.annotation.Before;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.aspectj.lang.annotation.Pointcut;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.Logger;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.slf4j.LoggerFactory;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.stereotype.Component;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Aspect</span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>DynamicDataSourceAspect</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>LoggerFactory</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>DynamicDataSourceAspect</span>.<span style=color:#b3d23c>class</span>);
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Aspect</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DynamicDataSourceAspect</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(DynamicDataSourceAspect.<span style=color:#a6e22e>class</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c1abea>String</span><span style=color:#c7bf54>[]</span> <span style=color:#c1abea>QUERY_PREFIX</span> <span style=color:#c7bf54>=</span> {<span style=color:#98c379>&#34;select&#34;</span>};
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> String<span style=color:#f92672>[]</span> QUERY_PREFIX <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;select&#34;</span>};
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Pointcut</span>(<span style=color:#98c379>&#34;execution( * cn.com.hellowood.dynamicdatasource.mapper.*.*(..))&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>daoAspect</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Pointcut</span>(<span style=color:#e6db74>&#34;execution( * cn.com.hellowood.dynamicdatasource.mapper.*.*(..))&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>daoAspect</span>() {
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Before</span>(<span style=color:#98c379>&#34;daoAspect()&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>switchDataSource</span>(<span style=color:#c1abea>JoinPoint</span> <span style=color:#c1abea>point</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Boolean</span> <span style=color:#c1abea>isQueryMethod</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>isQueryMethod</span>(<span style=color:#c1abea>point</span>.<span style=color:#b3d23c>getSignature</span>().<span style=color:#b3d23c>getName</span>());
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>isQueryMethod</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>useSlaveDataSource</span>();
-</span></span><span style=display:flex><span>            <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;Switch DataSource to [{}] in Method [{}]&#34;</span>,
-</span></span><span style=display:flex><span>                    <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>getDataSourceKey</span>(), <span style=color:#c1abea>point</span>.<span style=color:#b3d23c>getSignature</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Before</span>(<span style=color:#e6db74>&#34;daoAspect()&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>switchDataSource</span>(JoinPoint point) {
+</span></span><span style=display:flex><span>        Boolean isQueryMethod <span style=color:#f92672>=</span> isQueryMethod(point.<span style=color:#a6e22e>getSignature</span>().<span style=color:#a6e22e>getName</span>());
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (isQueryMethod) {
+</span></span><span style=display:flex><span>            DynamicDataSourceContextHolder.<span style=color:#a6e22e>useSlaveDataSource</span>();
+</span></span><span style=display:flex><span>            logger.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;Switch DataSource to [{}] in Method [{}]&#34;</span>,
+</span></span><span style=display:flex><span>                    DynamicDataSourceContextHolder.<span style=color:#a6e22e>getDataSourceKey</span>(), point.<span style=color:#a6e22e>getSignature</span>());
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@After</span>(<span style=color:#98c379>&#34;daoAspect())&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>restoreDataSource</span>(<span style=color:#c1abea>JoinPoint</span> <span style=color:#c1abea>point</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>clearDataSourceKey</span>();
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;Restore DataSource to [{}] in Method [{}]&#34;</span>,
-</span></span><span style=display:flex><span>                <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>getDataSourceKey</span>(), <span style=color:#c1abea>point</span>.<span style=color:#b3d23c>getSignature</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@After</span>(<span style=color:#e6db74>&#34;daoAspect())&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>restoreDataSource</span>(JoinPoint point) {
+</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>clearDataSourceKey</span>();
+</span></span><span style=display:flex><span>        logger.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;Restore DataSource to [{}] in Method [{}]&#34;</span>,
+</span></span><span style=display:flex><span>                DynamicDataSourceContextHolder.<span style=color:#a6e22e>getDataSourceKey</span>(), point.<span style=color:#a6e22e>getSignature</span>());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>Boolean</span> <span style=color:#00b1f7>isQueryMethod</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>methodName</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>for</span> (<span style=color:#c1abea>String</span> <span style=color:#c1abea>prefix</span> : <span style=color:#c1abea>QUERY_PREFIX</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c1abea>methodName</span>.<span style=color:#b3d23c>startsWith</span>(<span style=color:#c1abea>prefix</span>)) {
-</span></span><span style=display:flex><span>                <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>true</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Boolean <span style=color:#a6e22e>isQueryMethod</span>(String methodName) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> (String prefix : QUERY_PREFIX) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (methodName.<span style=color:#a6e22e>startsWith</span>(prefix)) {
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>false</span>;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=配置-product-rest-api-接口>配置 Product REST API 接口</h2><ul><li>ProductController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.controller</span>;
+</span></span></code></pre></div><h2 id=配置-product-rest-api-接口>配置 Product REST API 接口</h2><ul><li>ProductController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.controller;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.common.CommonResponse</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.common.ResponseUtil</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.modal.Product</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.service.ProductService</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.utils.ServiceException</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.beans.factory.annotation.Autowired</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.web.bind.annotation.*</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.common.CommonResponse;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.common.ResponseUtil;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.modal.Product;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.service.ProductService;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.web.bind.annotation.*;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@RestController</span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@RequestMapping</span>(<span style=color:#98c379>&#34;/product&#34;</span>)
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ProductController</span> {
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@RequestMapping</span>(<span style=color:#e6db74>&#34;/product&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ProductController</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>ProductService</span> <span style=color:#c1abea>productService</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ProductService productService;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>(<span style=color:#98c379>&#34;/{id}&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>CommonResponse</span> <span style=color:#00b1f7>getProduct</span>(<span style=color:#e5c07b>@PathVariable</span>(<span style=color:#98c379>&#34;id&#34;</span>) <span style=color:#c1abea>Long</span> <span style=color:#c1abea>productId</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>ResponseUtil</span>.<span style=color:#b3d23c>generateResponse</span>(<span style=color:#c1abea>productService</span>.<span style=color:#b3d23c>select</span>(<span style=color:#c1abea>productId</span>));
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>(<span style=color:#e6db74>&#34;/{id}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> CommonResponse <span style=color:#a6e22e>getProduct</span>(<span style=color:#a6e22e>@PathVariable</span>(<span style=color:#e6db74>&#34;id&#34;</span>) Long productId) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ResponseUtil.<span style=color:#a6e22e>generateResponse</span>(productService.<span style=color:#a6e22e>select</span>(productId));
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>CommonResponse</span> <span style=color:#00b1f7>getAllProduct</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>ResponseUtil</span>.<span style=color:#b3d23c>generateResponse</span>(<span style=color:#c1abea>productService</span>.<span style=color:#b3d23c>getAllProduct</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> CommonResponse <span style=color:#a6e22e>getAllProduct</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ResponseUtil.<span style=color:#a6e22e>generateResponse</span>(productService.<span style=color:#a6e22e>getAllProduct</span>());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@PutMapping</span>(<span style=color:#98c379>&#34;/{id}&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>CommonResponse</span> <span style=color:#00b1f7>updateProduct</span>(<span style=color:#e5c07b>@PathVariable</span>(<span style=color:#98c379>&#34;id&#34;</span>) <span style=color:#c1abea>Long</span> <span style=color:#c1abea>productId</span>, <span style=color:#e5c07b>@RequestBody</span> <span style=color:#c1abea>Product</span> <span style=color:#c1abea>newProduct</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>ResponseUtil</span>.<span style=color:#b3d23c>generateResponse</span>(<span style=color:#c1abea>productService</span>.<span style=color:#b3d23c>update</span>(<span style=color:#c1abea>productId</span>, <span style=color:#c1abea>newProduct</span>));
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@PutMapping</span>(<span style=color:#e6db74>&#34;/{id}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> CommonResponse <span style=color:#a6e22e>updateProduct</span>(<span style=color:#a6e22e>@PathVariable</span>(<span style=color:#e6db74>&#34;id&#34;</span>) Long productId, <span style=color:#a6e22e>@RequestBody</span> Product newProduct) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ResponseUtil.<span style=color:#a6e22e>generateResponse</span>(productService.<span style=color:#a6e22e>update</span>(productId, newProduct));
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@DeleteMapping</span>(<span style=color:#98c379>&#34;/{id}&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>CommonResponse</span> <span style=color:#00b1f7>deleteProduct</span>(<span style=color:#e5c07b>@PathVariable</span>(<span style=color:#98c379>&#34;id&#34;</span>) <span style=color:#ef8383>long</span> <span style=color:#c1abea>productId</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>ResponseUtil</span>.<span style=color:#b3d23c>generateResponse</span>(<span style=color:#c1abea>productService</span>.<span style=color:#b3d23c>delete</span>(<span style=color:#c1abea>productId</span>));
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@DeleteMapping</span>(<span style=color:#e6db74>&#34;/{id}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> CommonResponse <span style=color:#a6e22e>deleteProduct</span>(<span style=color:#a6e22e>@PathVariable</span>(<span style=color:#e6db74>&#34;id&#34;</span>) <span style=color:#66d9ef>long</span> productId) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ResponseUtil.<span style=color:#a6e22e>generateResponse</span>(productService.<span style=color:#a6e22e>delete</span>(productId));
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@PostMapping</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>CommonResponse</span> <span style=color:#00b1f7>addProduct</span>(<span style=color:#e5c07b>@RequestBody</span> <span style=color:#c1abea>Product</span> <span style=color:#c1abea>newProduct</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>ResponseUtil</span>.<span style=color:#b3d23c>generateResponse</span>(<span style=color:#c1abea>productService</span>.<span style=color:#b3d23c>add</span>(<span style=color:#c1abea>newProduct</span>));
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>ProductService.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.service</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.mapper.ProductDao</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.modal.Product</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.utils.ServiceException</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.beans.factory.annotation.Autowired</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.dao.DataAccessException</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.stereotype.Service</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.transaction.annotation.Transactional</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.List</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Service</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ProductService</span> {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>ProductDao</span> <span style=color:#c1abea>productDao</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Product</span> <span style=color:#00b1f7>select</span>(<span style=color:#ef8383>long</span> <span style=color:#c1abea>productId</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Product</span> <span style=color:#c1abea>product</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>productDao</span>.<span style=color:#b3d23c>select</span>(<span style=color:#c1abea>productId</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>product</span> <span style=color:#c7bf54>==</span> <span style=color:#b756ff;font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ServiceException</span>(<span style=color:#98c379>&#34;Product:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>productId</span> <span style=color:#c7bf54>+</span> <span style=color:#98c379>&#34; not found&#34;</span>);
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>product</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Transactional</span>(<span style=color:#c1abea>rollbackFor</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>DataAccessException</span>.<span style=color:#b3d23c>class</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Product</span> <span style=color:#00b1f7>update</span>(<span style=color:#ef8383>long</span> <span style=color:#c1abea>productId</span>, <span style=color:#c1abea>Product</span> <span style=color:#c1abea>newProduct</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>productDao</span>.<span style=color:#b3d23c>update</span>(<span style=color:#c1abea>newProduct</span>) <span style=color:#c7bf54>&lt;=</span> <span style=color:#c1abea>0</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ServiceException</span>(<span style=color:#98c379>&#34;Update product:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>productId</span> <span style=color:#c7bf54>+</span> <span style=color:#98c379>&#34;failed&#34;</span>);
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>newProduct</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Transactional</span>(<span style=color:#c1abea>rollbackFor</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>DataAccessException</span>.<span style=color:#b3d23c>class</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>boolean</span> <span style=color:#00b1f7>add</span>(<span style=color:#c1abea>Product</span> <span style=color:#c1abea>newProduct</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Integer</span> <span style=color:#c1abea>num</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>productDao</span>.<span style=color:#b3d23c>insert</span>(<span style=color:#c1abea>newProduct</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>num</span> <span style=color:#c7bf54>&lt;=</span> <span style=color:#c1abea>0</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ServiceException</span>(<span style=color:#98c379>&#34;Add product failed&#34;</span>);
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Transactional</span>(<span style=color:#c1abea>rollbackFor</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>DataAccessException</span>.<span style=color:#b3d23c>class</span>)
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>boolean</span> <span style=color:#00b1f7>delete</span>(<span style=color:#ef8383>long</span> <span style=color:#c1abea>productId</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>ServiceException</span> {
-</span></span><span style=display:flex><span>        <span style=color:#c1abea>Integer</span> <span style=color:#c1abea>num</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>productDao</span>.<span style=color:#b3d23c>delete</span>(<span style=color:#c1abea>productId</span>);
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>if</span> (<span style=color:#c1abea>num</span> <span style=color:#c7bf54>&lt;=</span> <span style=color:#c1abea>0</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>ServiceException</span>(<span style=color:#98c379>&#34;Delete product:&#34;</span> <span style=color:#c7bf54>+</span> <span style=color:#c1abea>productId</span> <span style=color:#c7bf54>+</span> <span style=color:#98c379>&#34;failed&#34;</span>);
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Product</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>getAllProduct</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>productDao</span>.<span style=color:#b3d23c>getAllProduct</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@PostMapping</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> CommonResponse <span style=color:#a6e22e>addProduct</span>(<span style=color:#a6e22e>@RequestBody</span> Product newProduct) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> ResponseUtil.<span style=color:#a6e22e>generateResponse</span>(productService.<span style=color:#a6e22e>add</span>(newProduct));
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>ProductDao.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.mapper</span>;
+</span></span></code></pre></div><ul><li>ProductService.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.service;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.dynamicdatasource.modal.Product</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.apache.ibatis.annotations.Mapper</span>;
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.apache.ibatis.annotations.Param</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.mapper.ProductDao;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.modal.Product;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.utils.ServiceException;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.dao.DataAccessException;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.stereotype.Service;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.transaction.annotation.Transactional;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.List</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#e5c07b>@Mapper</span>
-</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>ProductDao</span> {
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Product</span> <span style=color:#00b1f7>select</span>(<span style=color:#e5c07b>@Param</span>(<span style=color:#98c379>&#34;id&#34;</span>) <span style=color:#ef8383>long</span> <span style=color:#c1abea>id</span>);
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Service</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ProductService</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Integer</span> <span style=color:#00b1f7>update</span>(<span style=color:#c1abea>Product</span> <span style=color:#c1abea>product</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ProductDao productDao;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Integer</span> <span style=color:#00b1f7>insert</span>(<span style=color:#c1abea>Product</span> <span style=color:#c1abea>product</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Product <span style=color:#a6e22e>select</span>(<span style=color:#66d9ef>long</span> productId) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        Product product <span style=color:#f92672>=</span> productDao.<span style=color:#a6e22e>select</span>(productId);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (product <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException(<span style=color:#e6db74>&#34;Product:&#34;</span> <span style=color:#f92672>+</span> productId <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; not found&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> product;
+</span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>Integer</span> <span style=color:#00b1f7>delete</span>(<span style=color:#ef8383>long</span> <span style=color:#c1abea>productId</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transactional</span>(rollbackFor <span style=color:#f92672>=</span> DataAccessException.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Product <span style=color:#a6e22e>update</span>(<span style=color:#66d9ef>long</span> productId, Product newProduct) <span style=color:#66d9ef>throws</span> ServiceException {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#c1abea>List</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Product</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>getAllProduct</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (productDao.<span style=color:#a6e22e>update</span>(newProduct) <span style=color:#f92672>&lt;=</span> 0) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException(<span style=color:#e6db74>&#34;Update product:&#34;</span> <span style=color:#f92672>+</span> productId <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;failed&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> newProduct;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transactional</span>(rollbackFor <span style=color:#f92672>=</span> DataAccessException.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>add</span>(Product newProduct) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        Integer num <span style=color:#f92672>=</span> productDao.<span style=color:#a6e22e>insert</span>(newProduct);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (num <span style=color:#f92672>&lt;=</span> 0) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException(<span style=color:#e6db74>&#34;Add product failed&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transactional</span>(rollbackFor <span style=color:#f92672>=</span> DataAccessException.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>delete</span>(<span style=color:#66d9ef>long</span> productId) <span style=color:#66d9ef>throws</span> ServiceException {
+</span></span><span style=display:flex><span>        Integer num <span style=color:#f92672>=</span> productDao.<span style=color:#a6e22e>delete</span>(productId);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (num <span style=color:#f92672>&lt;=</span> 0) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> ServiceException(<span style=color:#e6db74>&#34;Delete product:&#34;</span> <span style=color:#f92672>+</span> productId <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;failed&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getAllProduct</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> productDao.<span style=color:#a6e22e>getAllProduct</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li>ProductDao.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> cn.com.hellowood.dynamicdatasource.mapper;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> cn.com.hellowood.dynamicdatasource.modal.Product;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.apache.ibatis.annotations.Mapper;
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.apache.ibatis.annotations.Param;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.List;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Mapper</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>ProductDao</span> {
+</span></span><span style=display:flex><span>    Product <span style=color:#a6e22e>select</span>(<span style=color:#a6e22e>@Param</span>(<span style=color:#e6db74>&#34;id&#34;</span>) <span style=color:#66d9ef>long</span> id);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Integer <span style=color:#a6e22e>update</span>(Product product);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Integer <span style=color:#a6e22e>insert</span>(Product product);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Integer <span style=color:#a6e22e>delete</span>(<span style=color:#66d9ef>long</span> productId);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    List<span style=color:#f92672>&lt;</span>Product<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getAllProduct</span>();
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><ul><li>ProductMapper.xml</li></ul><blockquote><p>启动项目，此时访问 <code>/product/1</code> 会返回 <code>product_master</code> 数据库中 <code>product</code> 表中的所有数据，多次访问 <code>/product</code> 会分别返回 <code>product_slave_alpha</code>、<code>product_slave_beta</code>、<code>product_slave_gamma</code> 数据库中 <code>product</code> 表中的数据，同时也可以在看到切换数据源的 log，说明动态切换数据源是有效的</p></blockquote><hr><h2 id=注意>注意</h2><blockquote><p>在该应用中因为使用了 DAO 层的切面切换数据源，所以 <code>@Transactional</code> 注解不能加在类上，只能用于方法；有 <code>@Trasactional</code>注解的方法无法切换数据源</p></blockquote></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2017 hellowood.dev</span>
