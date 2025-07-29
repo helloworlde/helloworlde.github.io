@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Caddy on HelloWood</title><link>https://blog.hellowood.dev/tags/caddy/</link><description>Recent content in Caddy on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/caddy/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Caddy 作为 HomeLab 内网服务的代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</guid><description>&lt;p>HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等&lt;/p>
+&lt;p>&lt;a href="https://caddyserver.com/">Caddy&lt;/a> 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景&lt;/p>
+&lt;p>通过 Caddy 代理 PVE 服务，访问地址为 &lt;code>https://pve.svc.homelab&lt;/code>：
+
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png" alt="homelab-caddy-proxy-pve-homepage.png" loading="lazy">
+&lt;/p>
+&lt;h2 id="部署">部署&lt;/h2>
+&lt;p>使用 docker-compose 部署&lt;/p>
+&lt;h3 id="启动-caddy">启动 Caddy&lt;/h3>
+&lt;ul>
+&lt;li>Caddyfile&lt;/li>
+&lt;/ul>
+&lt;p>Caddy 默认使用 Caddyfile 作为配置文件，Caddyfile 语法和 Nginx 类似，可以参考 &lt;a href="https://caddyserver.com/docs/caddyfile">Caddyfile 语法&lt;/a>；先配置一个最简单的&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">{
+ log {
+ output stdout
+ format console
+ level info
+ }
+ admin 0.0.0.0:2019
+}
+
+http://localhost:80 {
+ respond &amp;#34;hello caddy&amp;#34;
+}
+
+https://localhost:443 {
+ tls internal
+ respond &amp;#34;hello https caddy&amp;#34;
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">caddy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;80:80&amp;#34;&lt;/span> &lt;span style="color:#75715e">#http &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;443:443&amp;#34;&lt;/span> &lt;span style="color:#75715e"># https&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;2019:2019&amp;#34;&lt;/span> &lt;span style="color:#75715e"># admin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./Caddyfile:/etc/caddy/Caddyfile&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data:/data/caddy&lt;/span> &lt;span style="color:#75715e"># 证书等信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./config:/config/caddy&lt;/span> &lt;span style="color:#75715e"># 路由信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./router:/etc/caddy/router&lt;/span> &lt;span style="color:#75715e"># 路由配置文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>docker compose up&lt;/code> 启动&lt;/p></description></item></channel></rss>

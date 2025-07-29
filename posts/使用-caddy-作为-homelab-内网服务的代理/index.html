@@ -1,0 +1,103 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D;--font-size:1.1rem}</style><title>使用 Caddy 作为 HomeLab 内网服务的代理</title><meta name=description content="HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等
+Caddy 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配 …"><meta name=keywords content='blog,hugo,Caddy,HomeLab'><meta property="og:url" content="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"><meta property="og:type" content="website"><meta property="og:title" content="使用 Caddy 作为 HomeLab 内网服务的代理"><meta property="og:description" content="HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等
+Caddy 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配 …"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="使用 Caddy 作为 HomeLab 内网服务的代理"><meta name=twitter:description content="HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等
+Caddy 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配 …"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.70293498aa96b2dbb767ec11a622eb2266d8fc37a0fff88233a82952e3c72b15.js integrity="sha256-cCk0mKqWstu3Z+wRpiLrImbY/Deg//iCM6gpUuPHKxU="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>使用 Caddy 作为 HomeLab 内网服务的代理</h1><small role=doc-subtitle></small><p class=post-date>2025-07-20</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/caddy>Caddy</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/homelab>HomeLab</a></li></ul></div><div class=post-content><p>HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等</p><p><a href=https://caddyserver.com/>Caddy</a> 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景</p><p>通过 Caddy 代理 PVE 服务，访问地址为 <code>https://pve.svc.homelab</code>：
+<img src=https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png alt=homelab-caddy-proxy-pve-homepage.png loading=lazy></p><h2 id=部署>部署</h2><p>使用 docker-compose 部署</p><h3 id=启动-caddy>启动 Caddy</h3><ul><li>Caddyfile</li></ul><p>Caddy 默认使用 Caddyfile 作为配置文件，Caddyfile 语法和 Nginx 类似，可以参考 <a href=https://caddyserver.com/docs/caddyfile>Caddyfile 语法</a>；先配置一个最简单的</p><pre tabindex=0><code class=language-conf data-lang=conf>{
+    log {
+        output stdout
+        format console
+        level info
+    }
+    admin 0.0.0.0:2019
+}
+
+http://localhost:80 {
+    respond &#34;hello caddy&#34;
+}
+
+https://localhost:443 {
+    tls internal
+    respond &#34;hello https caddy&#34;
+}
+</code></pre><ul><li>docker-compose.yml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>services</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>caddy</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>caddy</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>caddy</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;80:80&#34;</span> <span style=color:#75715e>#http </span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;443:443&#34;</span> <span style=color:#75715e># https</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;2019:2019&#34;</span> <span style=color:#75715e># admin</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>volumes</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./Caddyfile:/etc/caddy/Caddyfile</span>
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./data:/data/caddy</span> <span style=color:#75715e># 证书等信息</span>
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./config:/config/caddy</span> <span style=color:#75715e># 路由信息</span>
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./router:/etc/caddy/router</span> <span style=color:#75715e># 路由配置文件</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>unless-stopped</span>
+</span></span></code></pre></div><p>通过 <code>docker compose up</code> 启动</p><h3 id=测试路由>测试路由</h3><ul><li>测试 80 端口</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -i http://localhost:80
+</span></span><span style=display:flex><span>HTTP/1.1 <span style=color:#ae81ff>200</span> OK
+</span></span><span style=display:flex><span>Content-Type: text/plain; charset<span style=color:#f92672>=</span>utf-8
+</span></span><span style=display:flex><span>Server: Caddy
+</span></span><span style=display:flex><span>Date: Tue, <span style=color:#ae81ff>29</span> Jul <span style=color:#ae81ff>2025</span> 15:00:50 GMT
+</span></span><span style=display:flex><span>Content-Length: <span style=color:#ae81ff>11</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hello caddy
+</span></span></code></pre></div><ul><li>测试 443 端口</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -i -k https://localhost:443
+</span></span><span style=display:flex><span>HTTP/2 <span style=color:#ae81ff>200</span>
+</span></span><span style=display:flex><span>alt-svc: h3<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;:443&#34;</span>; ma<span style=color:#f92672>=</span><span style=color:#ae81ff>2592000</span>
+</span></span><span style=display:flex><span>content-type: text/plain; charset<span style=color:#f92672>=</span>utf-8
+</span></span><span style=display:flex><span>server: Caddy
+</span></span><span style=display:flex><span>content-length: <span style=color:#ae81ff>17</span>
+</span></span><span style=display:flex><span>date: Tue, <span style=color:#ae81ff>29</span> Jul <span style=color:#ae81ff>2025</span> 15:00:21 GMT
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hello https caddy#
+</span></span></code></pre></div><ul><li>测试 admin 端口</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -i http://localhost:2019/config/
+</span></span><span style=display:flex><span>HTTP/1.1 <span style=color:#ae81ff>200</span> OK
+</span></span><span style=display:flex><span>Content-Type: application/json
+</span></span><span style=display:flex><span>Etag: <span style=color:#e6db74>&#34;/config/ cb0f204627d2880f&#34;</span>
+</span></span><span style=display:flex><span>Date: Tue, <span style=color:#ae81ff>29</span> Jul <span style=color:#ae81ff>2025</span> 15:01:20 GMT
+</span></span><span style=display:flex><span>Content-Length: <span style=color:#ae81ff>672</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;admin&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;listen&#34;</span>:<span style=color:#e6db74>&#34;0.0.0.0:2019&#34;</span><span style=color:#f92672>}</span>,<span style=color:#e6db74>&#34;apps&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;http&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;servers&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;srv0&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;listen&#34;</span>:<span style=color:#f92672>[</span><span style=color:#e6db74>&#34;:443&#34;</span><span style=color:#f92672>]</span>,<span style=color:#e6db74>&#34;routes&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handle&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handler&#34;</span>:<span style=color:#e6db74>&#34;subroute&#34;</span>,<span style=color:#e6db74>&#34;routes&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handle&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;body&#34;</span>:<span style=color:#e6db74>&#34;hello https caddy&#34;</span>,<span style=color:#e6db74>&#34;handler&#34;</span>:<span style=color:#e6db74>&#34;static_response&#34;</span><span style=color:#f92672>}]}]}]</span>,<span style=color:#e6db74>&#34;match&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;host&#34;</span>:<span style=color:#f92672>[</span><span style=color:#e6db74>&#34;localhost&#34;</span><span style=color:#f92672>]}]</span>,<span style=color:#e6db74>&#34;terminal&#34;</span>:true<span style=color:#f92672>}]}</span>,<span style=color:#e6db74>&#34;srv1&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;listen&#34;</span>:<span style=color:#f92672>[</span><span style=color:#e6db74>&#34;:80&#34;</span><span style=color:#f92672>]</span>,<span style=color:#e6db74>&#34;routes&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handle&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handler&#34;</span>:<span style=color:#e6db74>&#34;subroute&#34;</span>,<span style=color:#e6db74>&#34;routes&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;handle&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;body&#34;</span>:<span style=color:#e6db74>&#34;hello caddy&#34;</span>,<span style=color:#e6db74>&#34;handler&#34;</span>:<span style=color:#e6db74>&#34;static_response&#34;</span><span style=color:#f92672>}]}]}]</span>,<span style=color:#e6db74>&#34;match&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;host&#34;</span>:<span style=color:#f92672>[</span><span style=color:#e6db74>&#34;localhost&#34;</span><span style=color:#f92672>]}]</span>,<span style=color:#e6db74>&#34;terminal&#34;</span>:true<span style=color:#f92672>}]}}}</span>,<span style=color:#e6db74>&#34;tls&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;automation&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;policies&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;issuers&#34;</span>:<span style=color:#f92672>[{</span><span style=color:#e6db74>&#34;module&#34;</span>:<span style=color:#e6db74>&#34;internal&#34;</span><span style=color:#f92672>}]</span>,<span style=color:#e6db74>&#34;subjects&#34;</span>:<span style=color:#f92672>[</span><span style=color:#e6db74>&#34;localhost&#34;</span><span style=color:#f92672>]}]}}}</span>,<span style=color:#e6db74>&#34;logging&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;logs&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;default&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;encoder&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;format&#34;</span>:<span style=color:#e6db74>&#34;console&#34;</span><span style=color:#f92672>}</span>,<span style=color:#e6db74>&#34;level&#34;</span>:<span style=color:#e6db74>&#34;info&#34;</span>,<span style=color:#e6db74>&#34;writer&#34;</span>:<span style=color:#f92672>{</span><span style=color:#e6db74>&#34;output&#34;</span>:<span style=color:#e6db74>&#34;stdout&#34;</span><span style=color:#f92672>}}}}}</span>
+</span></span></code></pre></div><p>可以正常返回说明路由配置没有问题</p><h2 id=配置路由>配置路由</h2><h3 id=修改-dns>修改 DNS</h3><p>内网部署的服务使用 <code>svc.homelab</code> 结尾的域名，如果内网有多个设备需要访问，则需要修改 DNS 服务器，将所有的 <code>svc.homelab</code> 结尾的域名解析到 Caddy 服务器的 IP 地址；可以在 AdGuard 或者 OpenWrt 中修改；如果仅在本地使用，则可以直接修改 <code>/etc/hosts</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>127.0.0.1 caddy.svc.homelab 
+</span></span></code></pre></div><h3 id=配置路由-1>配置路由</h3><ul><li>Caddyfile</li></ul><p>修改 Caddyfile，配置 <code>*.svc.homelab</code> 的路由规则；为了维护方便，将具体的路由分不同的文件配置，通过 <code>import</code> 导入
+通常 HTTP 的路由就够了，HTTPS 只用于 PVE 等个别必须使用 HTTPS 访问的服务</p><pre tabindex=0><code class=language-conf data-lang=conf>{
+    log {
+        output stdout
+        format console
+        level info
+    }
+    admin 0.0.0.0:2019
+}
+
+http://*.svc.homelab:80, https://*.svc.homelab:443 {
+    tls internal
+    # 为了维护方便，将具体的路由分不同的文件配置
+    import /etc/caddy/router/*.conf
+
+    handle {
+        respond &#34;unknown service&#34; 404
+    }
+}
+</code></pre><ul><li>router/saas.conf</li></ul><p>saas 中配置了一些自己部署的服务，如 OpenWrt、PVE 等，通过请求的 host 匹配；</p><p>建议不同的服务使用不同的 host，如果通过 path 转发，一些服务的前端页面可能无法正确资源和路由导致无法使用</p><pre tabindex=0><code class=language-conf data-lang=conf>    # 路由器
+    @router host router.svc.homelab
+    handle @router {
+        reverse_proxy 10.0.0.1
+    }
+  
+    # PVE，需要用 https 转发
+    @pve host pve.svc.homelab
+    handle @pve {
+        reverse_proxy https://10.0.0.2:8006 {
+            # 忽略 https 证书验证
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
+    }
+</code></pre><p>这样访问 PVE 就可以通过 <code>https://pve.svc.homelab</code> 访问</p><h2 id=动态更新路由>动态更新路由</h2><p>caddy 支持动态更新路由，每次修改路由配置后，进入到 Caddy 容器中执行 <code>caddy reload</code> 即可：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>caddy reload --config /etc/caddy/Caddyfile
+</span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2025 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>
