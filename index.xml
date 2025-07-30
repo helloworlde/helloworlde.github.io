@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权</title><link>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</guid><description>&lt;p>在使用 Cloudflare Tunnel 代理内网服务后，服务直接暴露在公网任何人都可以访问，非常不安全，因此需要为对应的域名通过应用程序和策略来为 Tunnel 代理的服务添加鉴权&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p>
+&lt;h2 id="使用-cloudflare-tunnel-将服务转发给-caddy">使用 Cloudflare Tunnel 将服务转发给 Caddy&lt;/h2>
+&lt;p>关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a>&lt;/p>
+&lt;p>关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为反向代理访问内网服务&lt;/a>&lt;/p>
+&lt;p>以 traefik/whoami 服务为例&lt;/p>
+&lt;h3 id="部署-whoami-服务">部署 whoami 服务&lt;/h3>
+&lt;p>traefik/whoami 是一个可以返回请求信息的 Go 服务，用 docker-compose 部署&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">whoami&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">traefik/whoami&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">whoami&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">whoami&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">8081&lt;/span>:&lt;span style="color:#ae81ff">80&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动后请求 &lt;code>http://localhost:8081&lt;/code> 会返回请求信息&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:8081
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Hostname: whoami
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: 127.0.0.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: ::1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: 172.20.0.4
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RemoteAddr: 172.20.0.1:59018
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GET / HTTP/1.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Host: localhost:8081
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>User-Agent: curl/8.9.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Accept: */*
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置-caddy">配置 Caddy&lt;/h3>
+&lt;p>在 Caddyfile 中新增一条路由规则，将 whoami.homelab.dev 转发给 whoami 服务&lt;/p></description></item><item><title>Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权</title><link>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</guid><description>&lt;p>在使用 Cloudflare Tunnel 代理内网服务后，服务直接暴露在公网任何人都可以访问，非常不安全，因此需要为对应的域名通过应用程序和策略来为 Tunnel 代理的服务添加鉴权&lt;/p>
 &lt;p>
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png" alt="homelab-cloudflare-application-login-page.png" loading="lazy">
