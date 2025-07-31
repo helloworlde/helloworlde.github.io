@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS</title><link>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</guid><description>&lt;p>国内购买的服务器在没有域名备案的情况下通过域名请求会被拦截，只能通过 IP 访问，但是一些服务如 DoH 等必须通过可信的 HTTPS 访问，刚好 ZeroSSL 支持为 IP 申请证书，这样就可以直接使用 IP 安全访问云主机里部署服务&lt;/p>
+&lt;p>为了方便管理和访问，使用 Caddy 作为反向代理，将所有请求都通过 Caddy 处理，这样只需要在 Caddy 配置一次可信的 HTTPS 证书即可；关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a>&lt;/p>
+&lt;p>假设公网 IPv4 地址为 &lt;code>100.0.0.1&lt;/code>，使用这个 IP 申请证书和配置 Caddy；申请证书时需要通过 80 端口进行验证，所以需要 80 和 443 端口在公网可以访问&lt;/p>
+&lt;h2 id="启动-caddy">启动 Caddy&lt;/h2>
+&lt;p>ZeroSSL 需要访问 &lt;code>http://100.0.0.1/.well-known/pki-validation/xxx.txt&lt;/code> 路径进行验证，xxx.txt 是在申请证书时生成的，所以需要在 Caddy 中配置这个路径&lt;/p>
+&lt;ul>
+&lt;li>认证文件&lt;/li>
+&lt;/ul>
+&lt;p>将 xxx.txt 放到 &lt;code>static&lt;/code> 目录下，为了方便直接将 &lt;code>static&lt;/code> 目录映射到 Caddy 容器的 &lt;code>/var/www/html/.well-known/pki-validation&lt;/code>，文件目录如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>├── Caddyfile
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── docker-compose.yaml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── static
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └── xxx.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Caddyfile&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">{
+ log {
+ output stdout
+ format console
+ level info
+ }
+}
+
+http://100.0.0.1:80 {
+ root * /var/www/html
+ file_server
+}
+
+https://100.0.0.1:443 {
+ respond &amp;#34;https&amp;#34;
+}
+&lt;/code>&lt;/pre>&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">caddy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;80:80&amp;#34;&lt;/span> &lt;span style="color:#75715e">#http &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;443:443&amp;#34;&lt;/span> &lt;span style="color:#75715e"># https&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./Caddyfile:/etc/caddy/Caddyfile&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./static:/var/www/html/.well-known/pki-validation&lt;/span> &lt;span style="color:#75715e"># 认证文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./certs:/certs&lt;/span> &lt;span style="color:#75715e"># TLS 证书&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>docker compose up&lt;/code> 启动&lt;/p></description></item><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p>
 &lt;h2 id="使用-cloudflare-tunnel-将服务转发给-caddy">使用 Cloudflare Tunnel 将服务转发给 Caddy&lt;/h2>
 &lt;p>关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a>&lt;/p>
 &lt;p>关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为反向代理访问内网服务&lt;/a>&lt;/p>
