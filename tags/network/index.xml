@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on HelloWood</title><link>https://blog.hellowood.dev/tags/network/</link><description>Recent content in Network on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>解决阿里云和 Tailscale 的 100 网段冲突的问题</title><link>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>&lt;p>Tailscale 使用的 &lt;code>100.64.0.0/10&lt;/code> 是一个运营商级网络地址转换(CGNAT)网段，这个网段是一个私有 IP 范围，不用于公共互联网，因此一些云服务商如阿里云等也使用这个网段作为内网网段，这样在阿里云服务器使用 Tailscale 的时候就会出现冲突，表现为启用 Tailscale 开启后阿里云的 DNS、软件源等 100 网段的服务都无法使用&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on HelloWood</title><link>https://blog.hellowood.dev/tags/network/</link><description>Recent content in Network on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>使用公网 IP 免域名部署自建的 Tailscale DERP Server</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/</guid><description>&lt;p>之前&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/">使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点&lt;/a>，但是部分服务器不支持 IPv6；另外 IPv6 开启后如果 DNS 或者 MSS 钳制配置不当会导致部分流量无法正常路由，可能会影响其他设备使用，因此作为补充，使用阿里云的服务器部署 DERP 服务器，用于提供 IPv4 的流量转发&lt;/p>
+&lt;p>Tailscale 从 &lt;a href="https://tailscale.com/changelog#2025-03-26">1.82.0&lt;/a> 版本开始支持使用自签的 IP 证书部署 DERP Server，而不再强制使用域名，因此可以使用 ZeroSSL 的 IP 证书和阿里云的公网 IP 自建免域名的 DERP Server&lt;/p>
+&lt;h2 id="申请-zerossl-ip-证书">申请 ZeroSSL IP 证书&lt;/h2>
+&lt;p>申请 ZeroSSL IP 证书可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/">阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS&lt;/a> 进行申请获取证书&lt;/p>
+&lt;h2 id="部署-derp-server">部署 DERP Server&lt;/h2>
+&lt;p>使用 docker-compose 部署 DERP Server，docker 镜像可以使用 &lt;code>ghcr.io/helloworlde/derper&lt;/code>，这是基于 Tailscale 源码构建的镜像；代码参考 &lt;a href="https://github.com/helloworlde/derper">ghcr.io/helloworlde/derper&lt;/a>&lt;/p>
+&lt;p>将 ZeroSSL 申请的证书添加到 cert 目录下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── cert
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── 10.0.0.2.crt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   └── 10.0.0.2.key
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── docker-compose.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">derper&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">ghcr.io/helloworlde/derper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">derper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">network_mode&lt;/span>: &lt;span style="color:#ae81ff">host&lt;/span> &lt;span style="color:#75715e"># 使用宿主机的网络&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./config:/app/config&lt;/span> &lt;span style="color:#75715e"># 用于挂载调试和私钥的 key&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./cert:/app/certs&lt;/span> &lt;span style="color:#75715e"># 挂载证书&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock&lt;/span> &lt;span style="color:#75715e"># 挂载 tailscaled.sock，用于验证客户端&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TZ=Asia/Shanghai&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DEV=false&lt;/span> &lt;span style="color:#75715e"># 关闭 dev 模式&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">ADDR=:20443&lt;/span> &lt;span style="color:#75715e"># derp 的 HTTPS 地址&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">HTTP_PORT=81&lt;/span> &lt;span style="color:#75715e"># HTTP 端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">STUN_PORT=3478&lt;/span> &lt;span style="color:#75715e"># STUN 端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">HOSTNAME=10.0.0.2&lt;/span> &lt;span style="color:#75715e"># 公网 IP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">CERTS_DIR=/app/certs/&lt;/span> &lt;span style="color:#75715e"># 证书路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">CERTMODE=manual&lt;/span> &lt;span style="color:#75715e"># 证书模式&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">STUN_ENABLE=true&lt;/span> &lt;span style="color:#75715e"># 开启 STUN&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DERP_ENABLE=true&lt;/span> &lt;span style="color:#75715e"># 开启 DERP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">VERIFY_CLIENTS=true&lt;/span> &lt;span style="color:#75715e"># 验证客户端&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TS_DEBUG_KEY_PATH=/app/config/debug.key&lt;/span> &lt;span style="color:#75715e"># debug key 文件的路径，用于访问 debug 端口测试&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DERP_DEBUG_LOGS=false&lt;/span> &lt;span style="color:#75715e"># 关闭 DERP debug 日志&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">CONFIG_PATH=/app/config/derper.key&lt;/span> &lt;span style="color:#75715e"># 私钥文件，用于验证中继的身份&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>启动 DERP Server&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docekr compose up -d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动后访问 &lt;code> https://10.0.0.2:20443/&lt;/code> 验证，可以正确访问说明部署成功：&lt;/p></description></item><item><title>解决阿里云和 Tailscale 的 100 网段冲突的问题</title><link>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>&lt;p>Tailscale 使用的 &lt;code>100.64.0.0/10&lt;/code> 是一个运营商级网络地址转换(CGNAT)网段，这个网段是一个私有 IP 范围，不用于公共互联网，因此一些云服务商如阿里云等也使用这个网段作为内网网段，这样在阿里云服务器使用 Tailscale 的时候就会出现冲突，表现为启用 Tailscale 开启后阿里云的 DNS、软件源等 100 网段的服务都无法使用&lt;/p>
 &lt;p>这个问题可以通过配置 Tailscale 的防火墙策略解决&lt;/p>
 &lt;h2 id="配置-tailscale-的防火墙">配置 Tailscale 的防火墙&lt;/h2>
 &lt;p>在启动时将自动防火墙配置程度设置为 &lt;code>nodivert&lt;/code>，这样 Tailscale 就不会自动配置防火墙规则，而是使用阿里云的防火墙规则；同时启用接受来自控制台的 DNS 配置，用于解析 Tailscale 节点的 IP 地址；这样就可以解决阿里云和 Tailscale 的 100 网段冲突的问题；&lt;/p>
