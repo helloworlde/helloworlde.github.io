@@ -2,6 +2,7 @@
 title: "使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点"
 type: post
 date: 2024-06-11T21:33:44+08:00
+lastmod: 2025-08-02
 tags:
   - HomeLab
   - Network
@@ -11,6 +12,8 @@ featured: true
 日常使用 Tailscale 连接异地的设备，但是因为经常出现无法直接连接，需要通过香港或东京的 DERP 服务器进行转发，导致延迟很高，影响网络质量；因此计划使用自建的 DERP 解决无法直连的问题；如果部署在国内的服务器上绑定域名需要备案，但是活动购买的服务器限制性能限制带宽限制流量还要单独购买公网 IP，并不合适；国外的延迟高可能还不如 Tailscale 官方的 DERP；
 
 另外自建的 DERP 服务器要求节点能够直接通过公网访问，不能在 NAT 或者负载均衡后面，因此基于家庭宽带的公网 IPV6 自建 DERP 服务器最合适
+
+> 从 tailscale 1.82.0 版本开始支持直接使用自签名的 IP 证书部署，可以通过 ZeroSSL 申请证书，免域名部署在国内的服务器上，具体参考 [使用公网 IP 免域名部署自建的 Tailscale DERP Server](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/)
 
 ## 现状
 
