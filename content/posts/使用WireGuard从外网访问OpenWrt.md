@@ -127,7 +127,6 @@ PersistentKeepalive = 25
 ```
 
 - `Interface`：表示本地节点的网络接口属性配置
-
   - `PrivateKey` 是本地节点的私钥，用于加解密网络数据包
   - `Address` 是该节点所在子网的 IPv4 地址，需要和在 OpenWrt 配置的对端的地址一致
 

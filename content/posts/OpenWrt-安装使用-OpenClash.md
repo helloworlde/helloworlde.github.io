@@ -13,6 +13,7 @@ featured: true
 ---
 
 OpenWrt 除了 OpenClash 外，还有其他类似代理软件，如 Nikki, dae 等，可以参考以下内容：
+
 - [OpenWrt 安装使用 Dae 作为代理](https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/)
 - [OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki](https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/)
 

@@ -52,7 +52,7 @@ User-Agent: curl/8.9.1
 Accept: */*
 ```
 
-### 配置 Caddy 
+### 配置 Caddy
 
 在 Caddyfile 中新增一条路由规则，将 whoami.homelab.dev 转发给 whoami 服务
 
@@ -93,7 +93,6 @@ X-Forwarded-Proto: http
 修改 Cloduflare Tunnel 的路由，将 `whoami` 主机名转发到 `whoami.svc.homelab`，同时需要在 HTTP 设置中配置 HTTP 主机头为 `whoami.svc.homelab`，否则在经过 Tunnel 后没有 host header, Caddy 不知道转发到哪里
 
 ![homelab-tunnel-to-caddy-cloudflare-edit-tunnel-router.png](https://img.hellowood.dev/picture/homelab-tunnel-to-caddy-cloudflare-edit-tunnel-router.png)
-
 
 然后请求 `https://whoami.example.com`, 会返回 Caddy 转发的 whoami 服务的信息
 

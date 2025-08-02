@@ -28,11 +28,11 @@ tailscale up --netfilter-mode=nodivert --accept-dns=true
 ```
 
 `--netfilter-mode=nodivert` 这个参数是用于控制 Tailscale 自动配置防火墙（iptables/netfilter）规则的程度：
-| 参数值        | 含义                                                                 |
+| 参数值 | 含义 |
 |---------------|----------------------------------------------------------------------|
-| `on`          | Tailscale 自动管理 netfilter/iptables 规则，默认使用             |
-| `nodivert`    | Tailscale 创建并管理自有规则链，但不会挂载到系统主链，需要用户主动调用    |
-| `off`         | 完全不管理任何防火墙规则，所有流量控制需用户自行配置 |
+| `on` | Tailscale 自动管理 netfilter/iptables 规则，默认使用 |
+| `nodivert` | Tailscale 创建并管理自有规则链，但不会挂载到系统主链，需要用户主动调用 |
+| `off` | 完全不管理任何防火墙规则，所有流量控制需用户自行配置 |
 
 但是修改为 `nodivert` 会存在安全漏洞 [[CVE-2019-14899] Inferring and hijacking VPN-tunneled TCP connections.](https://seclists.org/oss-sec/2019/q4/122)；这个漏洞可以让攻击者通过旁路监听（man-in-the-middle 或同网段监听）的方式，识别并劫持 VPN 隧道内的 TCP 连接，不过在内网环境下，这个漏洞的影响范围相对较小；如果是公网或者开放环境，则需要注意
 

@@ -116,6 +116,7 @@ Configuring luci-i18n-nikki-zh-cn.
 
 安装完成后重启，登录 OpenWrt 后在服务中可以看到 nikki 服务
 ![homelab-openwrt-nikki-homepage.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png)
+
 ## 配置
 
 ### 准备配置文件

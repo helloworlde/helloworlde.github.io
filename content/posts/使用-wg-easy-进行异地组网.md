@@ -113,7 +113,6 @@ Endpoint = 100.64.1.251:51820
 
 - 启动 WireGuard
 
-
 ```bash
 wg-quick up wg0
 ```
@@ -151,7 +150,7 @@ peer: 1F7BRiqsR/GsNGw3etrjzZxGsKTrUlOKK9dloSE2Q2g=
   persistent keepalive: every 15 seconds
 ```
 
-## 添加监控 
+## 添加监控
 
 在 wg-easy 中点击 Admin Pannel，在 General 中开启 Prometheus 监控，并添加对应的任务和面板即可看到 wg-easy 的监控信息，详细参考 [Prometheus](https://wg-easy.github.io/wg-easy/latest/advanced/metrics/prometheus/)
 

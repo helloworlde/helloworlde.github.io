@@ -25,7 +25,7 @@ HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要
 
 ### 启动 Caddy
 
-- Caddyfile 
+- Caddyfile
 
 Caddy 默认使用 Caddyfile 作为配置文件，Caddyfile 语法和 Nginx 类似，可以参考 [Caddyfile 语法](https://caddyserver.com/docs/caddyfile)；先配置一个最简单的
 
@@ -57,7 +57,7 @@ services:
     image: caddy
     container_name: caddy
     ports:
-      - "80:80" #http 
+      - "80:80" #http
       - "443:443" # https
       - "2019:2019" # admin
     volumes:
@@ -70,7 +70,7 @@ services:
 
 通过 `docker compose up` 启动
 
-### 测试路由 
+### 测试路由
 
 - 测试 80 端口
 
@@ -121,7 +121,7 @@ Content-Length: 672
 内网部署的服务使用 `svc.homelab` 结尾的域名，如果内网有多个设备需要访问，则需要修改 DNS 服务器，将所有的 `svc.homelab` 结尾的域名解析到 Caddy 服务器的 IP 地址；可以在 AdGuard 或者 OpenWrt 中修改；如果仅在本地使用，则可以直接修改 `/etc/hosts`：
 
 ```bash
-127.0.0.1 caddy.svc.homelab 
+127.0.0.1 caddy.svc.homelab
 ```
 
 ### 配置路由
@@ -164,7 +164,7 @@ saas 中配置了一些自己部署的服务，如 OpenWrt、PVE 等，通过请
     handle @router {
         reverse_proxy 10.0.0.1
     }
-  
+
     # PVE，需要用 https 转发
     @pve host pve.svc.homelab
     handle @pve {
@@ -178,7 +178,6 @@ saas 中配置了一些自己部署的服务，如 OpenWrt、PVE 等，通过请
 ```
 
 这样访问 PVE 就可以通过 `https://pve.svc.homelab` 访问
-
 
 ## 动态更新路由
 

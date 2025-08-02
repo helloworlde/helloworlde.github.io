@@ -34,7 +34,7 @@ ZeroSSL 需要访问 `http://100.0.0.1/.well-known/pki-validation/xxx.txt` 路�
     └── xxx.txt
 ```
 
-- Caddyfile 
+- Caddyfile
 
 ```conf
 {
@@ -63,7 +63,7 @@ services:
     image: caddy
     container_name: caddy
     ports:
-      - "80:80" #http 
+      - "80:80" #http
       - "443:443" # https
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
@@ -127,7 +127,7 @@ cat certificate.crt ca_bundle.crt > fullchain.crt
 https://100.0.0.1:443 {
     tls /certs/fullchain.crt /certs/private.key
 
-    # 配置路由  
+    # 配置路由
     route /whoami {
         reverse_proxy http://localhost:8081
     }

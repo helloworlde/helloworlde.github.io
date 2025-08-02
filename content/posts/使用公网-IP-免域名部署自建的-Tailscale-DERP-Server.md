@@ -94,7 +94,7 @@ docekr compose up -d
 						"RegionID":         903, // 对应上方ID
 						"HostName":         "10.0.0.2", // hostname 改为 IP 地址
 						"IPv4":             "10.0.0.2", // IPv4 地址
-						"InsecureForTests": true, 
+						"InsecureForTests": true,
 						"DERPPort":         20443, // HTTPS 端口
 						"STUNPort":         3478, // 你的DERP服务端口,
 						"CanPort80":        false,
@@ -186,7 +186,7 @@ tailscale debug force-prefer-derp 903
 						"RegionID":         903, // 对应上方ID
 						"HostName":         "10.0.0.2", // hostname 改为 IP 地址
 						"IPv4":             "10.0.0.2", // IPv4 地址
-						"InsecureForTests": true, 
+						"InsecureForTests": true,
 						"DERPPort":         20443, // HTTPS 端口
 						"STUNPort":         3478, // 你的DERP服务端口,
 						"CanPort80":        false,

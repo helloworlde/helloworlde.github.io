@@ -38,7 +38,7 @@ services:
     volumes:
       - ./data:/root
       - /etc/machine-id:/etc/machine-id:ro
-```      
+```
 
 通过启动日志查看启动状态
 
@@ -110,7 +110,7 @@ services:
     command: -i ${ADDR} --network-name ${NETWORK_NAME} --network-secret ${NETWORK_PASSWORD} -p ${PUBLIC_PEER}
 ```
 
-- .env 
+- .env
 
 ```bash
 ADDR=10.2.0.3/24

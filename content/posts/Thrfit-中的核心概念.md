@@ -30,13 +30,11 @@ Thrift Server 设计大致可以分为四层，分别是：
 - Server：负责连接调度、服务的生命周期，定义接口是`TServer` - `TSimpleServer`：简单的阻塞服务端 - `TThreadPoolServer`：使用线程池的处理请求的阻塞服务端 - `THsHaServer`：使用线程池处理请求的基于 NIO 的非阻塞服务端 - `TThreadedSelectorServer`：使用多种线程池的基于 NIO 的非阻塞服务端
 
 - Processor：处理请求，具体的实现由生成的代码处理，定义接口是 `TProcessor`
-
   - `TBaseProcessor`：同步处理的 Processor
   - `TBaseAsyncProcessor`：异步处理的 Processor
   - `TMultiplexedProcessor`：支持多个服务的同步 Processor
 
 - Protocol：请求协议，数据的编解码实现，定义接口是 `TProtocol`
-
   - `TBinaryProtocol`：二进制协议
   - `TCompactProtocol`：压缩协议
   - `TJSONProtocol`：JSON 格式协议
@@ -67,7 +65,6 @@ Thrift Client 设计分为三层，分别是：
 - Client：客户端，用于发起请求，接收响应 - `TServiceClient`：同步调用的客户端 - `TAsyncClient`：异步调用的客户端
 
 - Protocol：请求协议，数据的编解码实现，定义接口是 `TProtocol`
-
   - `TBinaryProtocol`：二进制协议
   - `TCompactProtocol`：压缩协议
   - `TJSONProtocol`：JSON 格式协议
