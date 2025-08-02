@@ -46,7 +46,7 @@ https://100.0.0.1:443 {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./certs:/certs&lt;/span> &lt;span style="color:#75715e"># TLS 证书&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>docker compose up&lt;/code> 启动&lt;/p></description></item><item><title>使用 Caddy 作为 HomeLab 内网服务的代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</guid><description>&lt;p>HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等&lt;/p>
-&lt;p>&lt;a href="https://caddyserver.com/">Caddy&lt;/a> 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景&lt;/p>
+&lt;p>&lt;a href="https://caddyserver.com/">Caddy&lt;/a> 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景下代理 HTTP/HTTPS 服务（Caddy 不支持直接代理 TCP/UDP 服务，如果需要代理 TCP/UDP 服务，需要使用 &lt;a href="https://github.com/mholt/caddy-l4?tab=readme-ov-file">caddy-l4&lt;/a> 等插件支持）&lt;/p>
 &lt;p>通过 Caddy 代理 PVE 服务，访问地址为 &lt;code>https://pve.svc.homelab&lt;/code>：
 
 
