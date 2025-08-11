@@ -36,3 +36,4 @@ uci commit dhcp
 
 - [DHCP options](https://openwrt.org/docs/guide-user/base-system/dhcp_configuration#dhcp_options)
 - [Client classifying and individual options](https://openwrt.org/docs/guide-user/base-system/dhcp_configuration#client_classifying_and_individual_options)
+- [DHCP pools](https://openwrt.org/docs/guide-user/base-system/dhcp#dhcp_pools)
