@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Caddy on HelloWood</title><link>https://blog.hellowood.dev/tags/caddy/</link><description>Recent content in Caddy on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/caddy/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Caddy on HelloWood</title><link>https://blog.hellowood.dev/tags/caddy/</link><description>Recent content in Caddy on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/caddy/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</guid><description>&lt;p>有一些服务如用于登录的 PocketId 等需要使用 HTTPS 进行访问，但是 Caddy 生成的证书是自签名的，访问时会提示不受信任；因此需要使用一个可信的 CA 来颁发证书；这里使用 &lt;a href="https://smallstep.com/docs/platform/">Step CA&lt;/a> 作为 ACME Server，为 Caddy 颁发可信的 HTTPS 证书&lt;/p>
+&lt;h2 id="部署-step-ca">部署 Step CA&lt;/h2>
+&lt;h3 id="使用-docker-部署-step-ca">使用 Docker 部署 Step CA&lt;/h3>
+&lt;ul>
+&lt;li>创建挂载目录&lt;/li>
+&lt;/ul>
+&lt;p>需要注意的是，CA 证书的根证书和中间证书一旦生成就不能更改，否则会影响到所有使用该 CA 颁发的证书，因此一定要挂载到一个持久化的目录下安全保存&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p data/config data/certs data/secrets data/db
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改目录权限&lt;/li>
+&lt;/ul>
+&lt;p>Step CA 默认使用 UID 1000 的用户运行，因此需要将挂载目录的权限修改为 1000:1000，避免 Step CA 因权限问题无法写入证书和配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">step-ca&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">smallstep/step-ca:latest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">step-ca&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">user&lt;/span>: &lt;span style="color:#ae81ff">1000&lt;/span>:&lt;span style="color:#ae81ff">1000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;9000:9000&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/config:/home/step/config:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/certs:/home/step/certs:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/secrets:/home/step/secrets:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/db:/home/step/db:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_NAME=Homelab Internal CA&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_DNS_NAMES=ca.svc.homelab,*.svc.homelab,localhost&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ADMIN_SUBJECT=hellowood&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_PASSWORD=123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ACME=true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>目录说明：&lt;/p></description></item><item><title>使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询&lt;/p>
 &lt;p>在服务器部署 Caddy 对外提供 DoH 接口，然后将请求转发到 Blocky 服务，Blocky 服务再将 DNS 请求转发给阿里云的服务器的 DNS，间接实现 DoH 服务；经过测试，平均响应延迟在 16ms 左右，比直接使用阿里云的公网 DNS 更快更稳定&lt;/p>
 &lt;p>
 

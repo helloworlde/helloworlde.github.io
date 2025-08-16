@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 使用 Tag 给特定的 MAC 前缀的设备单独指定旁路网关的地址和 DNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84-mac-%E5%89%8D%E7%BC%80%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/</link><pubDate>Mon, 11 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84-mac-%E5%89%8D%E7%BC%80%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/</guid><description>&lt;p>之前使用 tag 给特定的设备单独指定胖路网关的地址和 DNS，通过设备的 MAC 地址匹配，(参考 &lt;a href="https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/">OpenWrt 使用 Tag 给特定的设备单独指定旁路网关的地址和 DNS&lt;/a>)&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</guid><description>&lt;p>有一些服务如用于登录的 PocketId 等需要使用 HTTPS 进行访问，但是 Caddy 生成的证书是自签名的，访问时会提示不受信任；因此需要使用一个可信的 CA 来颁发证书；这里使用 &lt;a href="https://smallstep.com/docs/platform/">Step CA&lt;/a> 作为 ACME Server，为 Caddy 颁发可信的 HTTPS 证书&lt;/p>
+&lt;h2 id="部署-step-ca">部署 Step CA&lt;/h2>
+&lt;h3 id="使用-docker-部署-step-ca">使用 Docker 部署 Step CA&lt;/h3>
+&lt;ul>
+&lt;li>创建挂载目录&lt;/li>
+&lt;/ul>
+&lt;p>需要注意的是，CA 证书的根证书和中间证书一旦生成就不能更改，否则会影响到所有使用该 CA 颁发的证书，因此一定要挂载到一个持久化的目录下安全保存&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p data/config data/certs data/secrets data/db
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>修改目录权限&lt;/li>
+&lt;/ul>
+&lt;p>Step CA 默认使用 UID 1000 的用户运行，因此需要将挂载目录的权限修改为 1000:1000，避免 Step CA 因权限问题无法写入证书和配置文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>docker-compose.yml&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">step-ca&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">smallstep/step-ca:latest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">step-ca&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">user&lt;/span>: &lt;span style="color:#ae81ff">1000&lt;/span>:&lt;span style="color:#ae81ff">1000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;9000:9000&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/config:/home/step/config:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/certs:/home/step/certs:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/secrets:/home/step/secrets:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/db:/home/step/db:rw&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_NAME=Homelab Internal CA&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_DNS_NAMES=ca.svc.homelab,*.svc.homelab,localhost&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ADMIN_SUBJECT=hellowood&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_PASSWORD=123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ACME=true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>目录说明：&lt;/p></description></item><item><title>OpenWrt 使用 Tag 给特定的 MAC 前缀的设备单独指定旁路网关的地址和 DNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84-mac-%E5%89%8D%E7%BC%80%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/</link><pubDate>Mon, 11 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84-mac-%E5%89%8D%E7%BC%80%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/</guid><description>&lt;p>之前使用 tag 给特定的设备单独指定胖路网关的地址和 DNS，通过设备的 MAC 地址匹配，(参考 &lt;a href="https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/">OpenWrt 使用 Tag 给特定的设备单独指定旁路网关的地址和 DNS&lt;/a>)&lt;/p>
 &lt;p>但是这种方式只能匹配到具体的设备，如果想给特定的 MAC 前缀的设备使用相同的规则，可以使用 mac 前缀的方式来实现；如我在 PVE 中配置所有的 LXC 容器的 MAC 地址前缀都是 &lt;code>AA:BB:CC&lt;/code>，可以通过这个前缀来给所有的 LXC 容器指定旁路网关和 DNS 地址&lt;/p>
 &lt;h2 id="添加匹配规则">添加匹配规则&lt;/h2>
 &lt;p>登录到 OpenWrt 的命令行，执行以下命令：&lt;/p>
