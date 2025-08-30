@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AWS on HelloWood</title><link>https://blog.hellowood.dev/tags/aws/</link><description>Recent content in AWS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS Lambda 部署 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Mon, 06 May 2019 11:36:14 +0800</pubDate><guid>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;h2 id="配置-aws-cli-和-severless">配置 AWS CLI 和 Severless&lt;/h2>
-&lt;p>AWS CLI 和 Serverless 都可以用于部署 Serverless 应用&lt;/p>
-&lt;h3 id="获取密钥">获取密钥&lt;/h3>
-&lt;ol>
-&lt;li>登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户&lt;/li>
-&lt;/ol>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AWS on HelloWood</title><link>https://blog.hellowood.dev/tags/aws/</link><description>Recent content in AWS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS Lambda 部署 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Mon, 06 May 2019 11:36:14 +0800</pubDate><guid>https://blog.hellowood.dev/posts/aws-lambda-%E9%83%A8%E7%BD%B2-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;h2 id="配置-aws-cli-和-severless"&gt;配置 AWS CLI 和 Severless&lt;/h2&gt;
+&lt;p&gt;AWS CLI 和 Serverless 都可以用于部署 Serverless 应用&lt;/p&gt;
+&lt;h3 id="获取密钥"&gt;获取密钥&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless1.png" alt="Serverless1" loading="lazy">
-&lt;/p>
-&lt;ol start="2">
-&lt;li>输入用户名，选择编程访问&lt;/li>
-&lt;/ol>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless1.png" alt="Serverless1" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;输入用户名，选择编程访问&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png" alt="Serverless2-add-user" loading="lazy">
-&lt;/p>
-&lt;ol start="3">
-&lt;li>选择权限-直接附加现有策略，搜索&lt;code>AdministratorAccess&lt;/code>并选中(有最高权限)&lt;/li>
-&lt;/ol>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png" alt="Serverless2-add-user" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;选择权限-直接附加现有策略，搜索&lt;code&gt;AdministratorAccess&lt;/code&gt;并选中(有最高权限)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png" alt="Serverless3-add-permission" loading="lazy">
-&lt;/p>
-&lt;ol start="4">
-&lt;li>选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)&lt;/li>
-&lt;/ol>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png" alt="Serverless3-add-permission" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ol start="4"&gt;
+&lt;li&gt;选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png" alt="Serverless3-save-secret" loading="lazy">
-&lt;/p>
-&lt;h3 id="安装配置-aws-cli">安装配置 AWS CLI&lt;/h3>
-&lt;h4 id="安装">安装&lt;/h4>
-&lt;p>参考 &lt;a href="https://aws.amazon.com/cn/cli/">AWS 命令行界面&lt;/a> 安装&lt;/p>
-&lt;ul>
-&lt;li>Win 下载 &lt;a href="https://s3.amazonaws.com/aws-cli/AWSCLI64.msi">https://s3.amazonaws.com/aws-cli/AWSCLI64.msi&lt;/a> 安装&lt;/li>
-&lt;li>Mac/Linux 执行 &lt;code>pip install awscli&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;h4 id="配置-aws-cli">配置 AWS CLI&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>aws configure
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如&lt;code>us-east-1&lt;/code>&lt;/p>
-&lt;h3 id="安装配置-severless">安装配置 Severless&lt;/h3>
-&lt;h4 id="安装-1">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install -g serverless
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>或
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn global add serverless
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="配置">配置&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>serverless config credentials --provider aws --key YOUR_KEY --secret YOUR_SECRET
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装配置-aws-sam-local">安装配置 AWS SAM Local&lt;/h3>
-&lt;p>aws-sam-local 是用于本地调试 Serverless 应用的工具&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png" alt="Serverless3-save-secret" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="安装配置-aws-cli"&gt;安装配置 AWS CLI&lt;/h3&gt;
+&lt;h4 id="安装"&gt;安装&lt;/h4&gt;
+&lt;p&gt;参考 &lt;a href="https://aws.amazon.com/cn/cli/"&gt;AWS 命令行界面&lt;/a&gt; 安装&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Win 下载 &lt;a href="https://s3.amazonaws.com/aws-cli/AWSCLI64.msi"&gt;https://s3.amazonaws.com/aws-cli/AWSCLI64.msi&lt;/a&gt; 安装&lt;/li&gt;
+&lt;li&gt;Mac/Linux 执行 &lt;code&gt;pip install awscli&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="配置-aws-cli"&gt;配置 AWS CLI&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws configure
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如&lt;code&gt;us-east-1&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id="安装配置-severless"&gt;安装配置 Severless&lt;/h3&gt;
+&lt;h4 id="安装-1"&gt;安装&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm install -g serverless
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;或
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yarn global add serverless
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="配置"&gt;配置&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;serverless config credentials --provider aws --key YOUR_KEY --secret YOUR_SECRET
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装配置-aws-sam-local"&gt;安装配置 AWS SAM Local&lt;/h3&gt;
+&lt;p&gt;aws-sam-local 是用于本地调试 Serverless 应用的工具&lt;/p&gt;</description></item></channel></rss>

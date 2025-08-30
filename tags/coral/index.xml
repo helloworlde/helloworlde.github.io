@@ -1,50 +1,50 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coral on HelloWood</title><link>https://blog.hellowood.dev/tags/coral/</link><description>Recent content in Coral on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/coral/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 运行 Google Coral TPU 示例</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</link><pubDate>Tue, 09 Jul 2024 09:30:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</guid><description>&lt;p>在 Ubuntu 22 上运行 Google Coral TPU 的示例项目&lt;/p>
-&lt;h2 id="配置运行环境">配置运行环境&lt;/h2>
-&lt;p>Coral 只支持 Python 3.6～3.9 的环境，而 Ubuntu 22 的 Python 版本为 3.10；因此需要使用 Anaconda 创建独立的运行环境&lt;/p>
-&lt;h3 id="安装-anaconda">安装 Anaconda&lt;/h3>
-&lt;p>参考 &lt;a href="https://docs.anaconda.com/anaconda/install/linux/">Installing on Linux&lt;/a> 安装&lt;/p>
-&lt;h3 id="初始化环境">初始化环境&lt;/h3>
-&lt;p>使用 Python 3.8 版本创建运行环境&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda create -n coral python&lt;span style="color:#f92672">=&lt;/span>3.8
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>待创建完成后激活该环境&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>conda activate coral
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="运行-demo">运行 Demo&lt;/h2>
-&lt;h3 id="下载项目">下载项目&lt;/h3>
-&lt;ul>
-&lt;li>创建 Coral 的工作目录，并克隆项目到本地&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir coral &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> cd coral
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone https://github.com/google-coral/pycoral.git
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="下载依赖">下载依赖&lt;/h3>
-&lt;h4 id="下载模型图片依赖">下载模型、图片依赖&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cd pycoral
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash examples/install_requirements.sh classify_image.py
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="安装项目依赖">安装项目依赖&lt;/h4>
-&lt;p>需要安装 pycoral 和 tflite-runtime，但是在 Ubuntu 22 上无法通过 &lt;code>sudo apt-get install python3-pycoral&lt;/code> 直接安装 &lt;code>python3-pycoral&lt;/code>，因此需要指定依赖地址安装；相关版本可以从 &lt;a href="https://github.com/google-coral/pycoral/releases/">https://github.com/google-coral/pycoral/releases/&lt;/a> 查找&lt;/p></description></item><item><title>Ubuntu 22 安装 Google Coral TPU NVME 驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 09:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>最近折腾图像识别和视频对象检测，因为需要长期低功耗运行，所以购入了 Google Coral TPU&lt;/p>
-&lt;p>Google Coral TPU 是一款专为边缘应用设计的机器学习加速器，由 Google 设计和开发，它基于 TensorFlow Lite 模型，能够在低功耗的情况下提供快速的神经网络性能，适用于边缘设备，用于目标检测和图像分类(如开源 NVR Frigate)；可以使用 Yolo、MobikeNet 等模型&lt;/p>
-&lt;p>单个 Coral TPU 芯片有 4T OPS 的算力，每秒可以识别大概 100 帧的视频内容，非常适合低功耗、本地场景，可以有效保护隐私；虽然 Coral 从 2021年开始不再更新，但是在边缘场景下依然是非常合适的选择&lt;/p>
-&lt;p>Coral TPU 有多种型号，如开发板、USB 配件、M2、Mini PCIE等，这里使用的是 M.2 Accelerator B+M key 的版本。关于 Coral 不同类型的设备更多信息参考 &lt;a href="https://coral.ai/products/">Products&lt;/a>&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coral on HelloWood</title><link>https://blog.hellowood.dev/tags/coral/</link><description>Recent content in Coral on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/coral/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 运行 Google Coral TPU 示例</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</link><pubDate>Tue, 09 Jul 2024 09:30:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E8%BF%90%E8%A1%8C-google-coral-tpu-%E7%A4%BA%E4%BE%8B/</guid><description>&lt;p&gt;在 Ubuntu 22 上运行 Google Coral TPU 的示例项目&lt;/p&gt;
+&lt;h2 id="配置运行环境"&gt;配置运行环境&lt;/h2&gt;
+&lt;p&gt;Coral 只支持 Python 3.6～3.9 的环境，而 Ubuntu 22 的 Python 版本为 3.10；因此需要使用 Anaconda 创建独立的运行环境&lt;/p&gt;
+&lt;h3 id="安装-anaconda"&gt;安装 Anaconda&lt;/h3&gt;
+&lt;p&gt;参考 &lt;a href="https://docs.anaconda.com/anaconda/install/linux/"&gt;Installing on Linux&lt;/a&gt; 安装&lt;/p&gt;
+&lt;h3 id="初始化环境"&gt;初始化环境&lt;/h3&gt;
+&lt;p&gt;使用 Python 3.8 版本创建运行环境&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;conda create -n coral python&lt;span style="color:#f92672"&gt;=&lt;/span&gt;3.8
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;待创建完成后激活该环境&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;conda activate coral
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="运行-demo"&gt;运行 Demo&lt;/h2&gt;
+&lt;h3 id="下载项目"&gt;下载项目&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 Coral 的工作目录，并克隆项目到本地&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir coral &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd coral
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/google-coral/pycoral.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="下载依赖"&gt;下载依赖&lt;/h3&gt;
+&lt;h4 id="下载模型图片依赖"&gt;下载模型、图片依赖&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd pycoral
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bash examples/install_requirements.sh classify_image.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="安装项目依赖"&gt;安装项目依赖&lt;/h4&gt;
+&lt;p&gt;需要安装 pycoral 和 tflite-runtime，但是在 Ubuntu 22 上无法通过 &lt;code&gt;sudo apt-get install python3-pycoral&lt;/code&gt; 直接安装 &lt;code&gt;python3-pycoral&lt;/code&gt;，因此需要指定依赖地址安装；相关版本可以从 &lt;a href="https://github.com/google-coral/pycoral/releases/"&gt;https://github.com/google-coral/pycoral/releases/&lt;/a&gt; 查找&lt;/p&gt;</description></item><item><title>Ubuntu 22 安装 Google Coral TPU NVME 驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 09:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-google-coral-tpu-nvme-%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p&gt;最近折腾图像识别和视频对象检测，因为需要长期低功耗运行，所以购入了 Google Coral TPU&lt;/p&gt;
+&lt;p&gt;Google Coral TPU 是一款专为边缘应用设计的机器学习加速器，由 Google 设计和开发，它基于 TensorFlow Lite 模型，能够在低功耗的情况下提供快速的神经网络性能，适用于边缘设备，用于目标检测和图像分类(如开源 NVR Frigate)；可以使用 Yolo、MobikeNet 等模型&lt;/p&gt;
+&lt;p&gt;单个 Coral TPU 芯片有 4T OPS 的算力，每秒可以识别大概 100 帧的视频内容，非常适合低功耗、本地场景，可以有效保护隐私；虽然 Coral 从 2021年开始不再更新，但是在边缘场景下依然是非常合适的选择&lt;/p&gt;
+&lt;p&gt;Coral TPU 有多种型号，如开发板、USB 配件、M2、Mini PCIE等，这里使用的是 M.2 Accelerator B+M key 的版本。关于 Coral 不同类型的设备更多信息参考 &lt;a href="https://coral.ai/products/"&gt;Products&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw" alt="" loading="lazy">
-&lt;/p>
-&lt;h2 id="要求">要求&lt;/h2>
-&lt;ul>
-&lt;li>系统：Linux、Windows&lt;/li>
-&lt;li>环境：python3.6-3.9&lt;/li>
-&lt;/ul>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;h3 id="安装-coral-tpu">安装 Coral TPU&lt;/h3>
-&lt;ul>
-&lt;li>安装 Coral TPU&lt;/li>
-&lt;/ul>
-&lt;p>将 Coral TPU 安装到 M.2 插槽&lt;/p>
-&lt;ul>
-&lt;li>检查连接&lt;/li>
-&lt;/ul>
-&lt;p>等待启动后，检查 NVME 连接&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lspci -nn | grep 089a
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>已经正确识别到了 Coral TPU&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>03:00.0 System peripheral &lt;span style="color:#f92672">[&lt;/span>0880&lt;span style="color:#f92672">]&lt;/span>: Global Unichip Corp. Coral Edge TPU &lt;span style="color:#f92672">[&lt;/span>1ac1:089a&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动">安装驱动&lt;/h3>
-&lt;p>需要安装 &lt;code>gasket-dkms&lt;/code> 和 &lt;code>libedgetpu1-std&lt;/code>；&lt;/p></description></item></channel></rss>
+ &lt;img src="https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw" alt="" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="要求"&gt;要求&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;系统：Linux、Windows&lt;/li&gt;
+&lt;li&gt;环境：python3.6-3.9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;h3 id="安装-coral-tpu"&gt;安装 Coral TPU&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 Coral TPU&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 Coral TPU 安装到 M.2 插槽&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;等待启动后，检查 NVME 连接&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lspci -nn | grep 089a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;已经正确识别到了 Coral TPU&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:00.0 System peripheral &lt;span style="color:#f92672"&gt;[&lt;/span&gt;0880&lt;span style="color:#f92672"&gt;]&lt;/span&gt;: Global Unichip Corp. Coral Edge TPU &lt;span style="color:#f92672"&gt;[&lt;/span&gt;1ac1:089a&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装驱动"&gt;安装驱动&lt;/h3&gt;
+&lt;p&gt;需要安装 &lt;code&gt;gasket-dkms&lt;/code&gt; 和 &lt;code&gt;libedgetpu1-std&lt;/code&gt;；&lt;/p&gt;</description></item></channel></rss>

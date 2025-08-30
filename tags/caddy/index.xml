@@ -1,70 +1,70 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Caddy on HelloWood</title><link>https://blog.hellowood.dev/tags/caddy/</link><description>Recent content in Caddy on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/caddy/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</guid><description>&lt;p>有一些服务如用于登录的 PocketId 等需要使用 HTTPS 进行访问，但是 Caddy 生成的证书是自签名的，访问时会提示不受信任；因此需要使用一个可信的 CA 来颁发证书；这里使用 &lt;a href="https://smallstep.com/docs/platform/">Step CA&lt;/a> 作为 ACME Server，为 Caddy 颁发可信的 HTTPS 证书&lt;/p>
-&lt;h2 id="部署-step-ca">部署 Step CA&lt;/h2>
-&lt;h3 id="使用-docker-部署-step-ca">使用 Docker 部署 Step CA&lt;/h3>
-&lt;ul>
-&lt;li>创建挂载目录&lt;/li>
-&lt;/ul>
-&lt;p>需要注意的是，CA 证书的根证书和中间证书一旦生成就不能更改，否则会影响到所有使用该 CA 颁发的证书，因此一定要挂载到一个持久化的目录下安全保存&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir -p data/config data/certs data/secrets data/db
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>修改目录权限&lt;/li>
-&lt;/ul>
-&lt;p>Step CA 默认使用 UID 1000 的用户运行，因此需要将挂载目录的权限修改为 1000:1000，避免 Step CA 因权限问题无法写入证书和配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>docker-compose.yml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">step-ca&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">smallstep/step-ca:latest&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">step-ca&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">always&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">user&lt;/span>: &lt;span style="color:#ae81ff">1000&lt;/span>:&lt;span style="color:#ae81ff">1000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;9000:9000&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/config:/home/step/config:rw&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/certs:/home/step/certs:rw&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/secrets:/home/step/secrets:rw&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/db:/home/step/db:rw&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_NAME=Homelab Internal CA&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_DNS_NAMES=ca.svc.homelab,*.svc.homelab,localhost&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ADMIN_SUBJECT=hellowood&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_PASSWORD=123456&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">DOCKER_STEPCA_INIT_ACME=true&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>目录说明：&lt;/p></description></item><item><title>使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询&lt;/p>
-&lt;p>在服务器部署 Caddy 对外提供 DoH 接口，然后将请求转发到 Blocky 服务，Blocky 服务再将 DNS 请求转发给阿里云的服务器的 DNS，间接实现 DoH 服务；经过测试，平均响应延迟在 16ms 左右，比直接使用阿里云的公网 DNS 更快更稳定&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Caddy on HelloWood</title><link>https://blog.hellowood.dev/tags/caddy/</link><description>Recent content in Caddy on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/caddy/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</guid><description>&lt;p&gt;有一些服务如用于登录的 PocketId 等需要使用 HTTPS 进行访问，但是 Caddy 生成的证书是自签名的，访问时会提示不受信任；因此需要使用一个可信的 CA 来颁发证书；这里使用 &lt;a href="https://smallstep.com/docs/platform/"&gt;Step CA&lt;/a&gt; 作为 ACME Server，为 Caddy 颁发可信的 HTTPS 证书&lt;/p&gt;
+&lt;h2 id="部署-step-ca"&gt;部署 Step CA&lt;/h2&gt;
+&lt;h3 id="使用-docker-部署-step-ca"&gt;使用 Docker 部署 Step CA&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;创建挂载目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要注意的是，CA 证书的根证书和中间证书一旦生成就不能更改，否则会影响到所有使用该 CA 颁发的证书，因此一定要挂载到一个持久化的目录下安全保存&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p data/config data/certs data/secrets data/db
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;修改目录权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Step CA 默认使用 UID 1000 的用户运行，因此需要将挂载目录的权限修改为 1000:1000，避免 Step CA 因权限问题无法写入证书和配置文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;step-ca&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;smallstep/step-ca:latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;step-ca&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;user&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;1000&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;9000:9000&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/config:/home/step/config:rw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/certs:/home/step/certs:rw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/secrets:/home/step/secrets:rw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/db:/home/step/db:rw&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_NAME=Homelab Internal CA&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_DNS_NAMES=ca.svc.homelab,*.svc.homelab,localhost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_ADMIN_SUBJECT=hellowood&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_PASSWORD=123456&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;DOCKER_STEPCA_INIT_ACME=true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目录说明：&lt;/p&gt;</description></item><item><title>使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询&lt;/p&gt;
+&lt;p&gt;在服务器部署 Caddy 对外提供 DoH 接口，然后将请求转发到 Blocky 服务，Blocky 服务再将 DNS 请求转发给阿里云的服务器的 DNS，间接实现 DoH 服务；经过测试，平均响应延迟在 16ms 左右，比直接使用阿里云的公网 DNS 更快更稳定&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" alt="homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" loading="lazy">
-&lt;/p>
-&lt;p>可选择的 DoH 服务有 AdGuard、Blocky、Kind、CordDNS 等，因为需要过滤广告，支持 HTTP 查询，并且需要可观测，所以选择 Blocky 作为 DoH 服务；整体的请求链路是：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>客户端 -&lt;span style="color:#f92672">(&lt;/span>https&lt;span style="color:#f92672">)&lt;/span>-&amp;gt; Caddy -&lt;span style="color:#f92672">(&lt;/span>http&lt;span style="color:#f92672">)&lt;/span>-&amp;gt; Blocky -&lt;span style="color:#f92672">(&lt;/span>udp&lt;span style="color:#f92672">)&lt;/span>-&amp;gt; 阿里云内网 DNS
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a>，HTTPS 证书使用 ZeroSSL 提供的 IP 证书，可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/">阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS&lt;/a>&lt;/p>
-&lt;h2 id="部署-blocky">部署 Blocky&lt;/h2>
-&lt;ul>
-&lt;li>查找服务器使用的 DNS&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>resolvectl status
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>resolvectl&lt;/code> 查看系统的 DNS 信息，&lt;code>100.100.2.136&lt;/code> 和 &lt;code>100.100.2.138&lt;/code> 就是默认的 DNS 服务器地址，这个地址需要作为 blocky 的上游&lt;/p></description></item><item><title>阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS</title><link>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</guid><description>&lt;p>国内购买的服务器在没有域名备案的情况下通过域名请求会被拦截，只能通过 IP 访问，但是一些服务如 DoH 等必须通过可信的 HTTPS 访问，刚好 ZeroSSL 支持为 IP 申请证书，这样就可以直接使用 IP 安全访问云主机里部署服务&lt;/p>
-&lt;p>为了方便管理和访问，使用 Caddy 作为反向代理，将所有请求都通过 Caddy 处理，这样只需要在 Caddy 配置一次可信的 HTTPS 证书即可；关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a>&lt;/p>
-&lt;p>假设公网 IPv4 地址为 &lt;code>100.0.0.1&lt;/code>，使用这个 IP 申请证书和配置 Caddy；申请证书时需要通过 80 端口进行验证，所以需要 80 和 443 端口在公网可以访问&lt;/p>
-&lt;h2 id="启动-caddy">启动 Caddy&lt;/h2>
-&lt;p>ZeroSSL 需要访问 &lt;code>http://100.0.0.1/.well-known/pki-validation/xxx.txt&lt;/code> 路径进行验证，xxx.txt 是在申请证书时生成的，所以需要在 Caddy 中配置这个路径&lt;/p>
-&lt;ul>
-&lt;li>认证文件&lt;/li>
-&lt;/ul>
-&lt;p>将 xxx.txt 放到 &lt;code>static&lt;/code> 目录下，为了方便直接将 &lt;code>static&lt;/code> 目录映射到 Caddy 容器的 &lt;code>/var/www/html/.well-known/pki-validation&lt;/code>，文件目录如下：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>├── Caddyfile
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── docker-compose.yaml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── static
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └── xxx.txt
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>Caddyfile&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">{
+ &lt;img src="https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" alt="homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;可选择的 DoH 服务有 AdGuard、Blocky、Kind、CordDNS 等，因为需要过滤广告，支持 HTTP 查询，并且需要可观测，所以选择 Blocky 作为 DoH 服务；整体的请求链路是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;客户端 -&lt;span style="color:#f92672"&gt;(&lt;/span&gt;https&lt;span style="color:#f92672"&gt;)&lt;/span&gt;-&amp;gt; Caddy -&lt;span style="color:#f92672"&gt;(&lt;/span&gt;http&lt;span style="color:#f92672"&gt;)&lt;/span&gt;-&amp;gt; Blocky -&lt;span style="color:#f92672"&gt;(&lt;/span&gt;udp&lt;span style="color:#f92672"&gt;)&lt;/span&gt;-&amp;gt; 阿里云内网 DNS
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;，HTTPS 证书使用 ZeroSSL 提供的 IP 证书，可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/"&gt;阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="部署-blocky"&gt;部署 Blocky&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;查找服务器使用的 DNS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;resolvectl status
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;resolvectl&lt;/code&gt; 查看系统的 DNS 信息，&lt;code&gt;100.100.2.136&lt;/code&gt; 和 &lt;code&gt;100.100.2.138&lt;/code&gt; 就是默认的 DNS 服务器地址，这个地址需要作为 blocky 的上游&lt;/p&gt;</description></item><item><title>阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS</title><link>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</guid><description>&lt;p&gt;国内购买的服务器在没有域名备案的情况下通过域名请求会被拦截，只能通过 IP 访问，但是一些服务如 DoH 等必须通过可信的 HTTPS 访问，刚好 ZeroSSL 支持为 IP 申请证书，这样就可以直接使用 IP 安全访问云主机里部署服务&lt;/p&gt;
+&lt;p&gt;为了方便管理和访问，使用 Caddy 作为反向代理，将所有请求都通过 Caddy 处理，这样只需要在 Caddy 配置一次可信的 HTTPS 证书即可；关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;假设公网 IPv4 地址为 &lt;code&gt;100.0.0.1&lt;/code&gt;，使用这个 IP 申请证书和配置 Caddy；申请证书时需要通过 80 端口进行验证，所以需要 80 和 443 端口在公网可以访问&lt;/p&gt;
+&lt;h2 id="启动-caddy"&gt;启动 Caddy&lt;/h2&gt;
+&lt;p&gt;ZeroSSL 需要访问 &lt;code&gt;http://100.0.0.1/.well-known/pki-validation/xxx.txt&lt;/code&gt; 路径进行验证，xxx.txt 是在申请证书时生成的，所以需要在 Caddy 中配置这个路径&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;认证文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 xxx.txt 放到 &lt;code&gt;static&lt;/code&gt; 目录下，为了方便直接将 &lt;code&gt;static&lt;/code&gt; 目录映射到 Caddy 容器的 &lt;code&gt;/var/www/html/.well-known/pki-validation&lt;/code&gt;，文件目录如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Caddyfile
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── docker-compose.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── static
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── xxx.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Caddyfile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;{
  log {
  output stdout
  format console
@@ -80,36 +80,36 @@ http://100.0.0.1:80 {
 https://100.0.0.1:443 {
  respond &amp;#34;https&amp;#34;
 }
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>docker-compose.yml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">caddy&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;80:80&amp;#34;&lt;/span> &lt;span style="color:#75715e">#http&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;443:443&amp;#34;&lt;/span> &lt;span style="color:#75715e"># https&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./Caddyfile:/etc/caddy/Caddyfile&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./static:/var/www/html/.well-known/pki-validation&lt;/span> &lt;span style="color:#75715e"># 认证文件&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./certs:/certs&lt;/span> &lt;span style="color:#75715e"># TLS 证书&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>docker compose up&lt;/code> 启动&lt;/p></description></item><item><title>使用 Caddy 作为 HomeLab 内网服务的代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</guid><description>&lt;p>HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等&lt;/p>
-&lt;p>&lt;a href="https://caddyserver.com/">Caddy&lt;/a> 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景下代理 HTTP/HTTPS 服务（Caddy 不支持直接代理 TCP/UDP 服务，如果需要代理 TCP/UDP 服务，需要使用 &lt;a href="https://github.com/mholt/caddy-l4?tab=readme-ov-file">caddy-l4&lt;/a> 等插件支持）&lt;/p>
-&lt;p>通过 Caddy 代理 PVE 服务，访问地址为 &lt;code>https://pve.svc.homelab&lt;/code>：
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;caddy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;caddy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;caddy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;80:80&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;#http&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;443:443&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# https&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./Caddyfile:/etc/caddy/Caddyfile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./static:/var/www/html/.well-known/pki-validation&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 认证文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./certs:/certs&lt;/span&gt; &lt;span style="color:#75715e"&gt;# TLS 证书&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 &lt;code&gt;docker compose up&lt;/code&gt; 启动&lt;/p&gt;</description></item><item><title>使用 Caddy 作为 HomeLab 内网服务的代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/</guid><description>&lt;p&gt;HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要记住对应的端口，通过 IP:Port 的方式访问起来非常不方便，因此需要通过反向代理服务，通过域名的方式进行访问；代理服务器常用的有 Nginx、Traefik、Caddy 等&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://caddyserver.com/"&gt;Caddy&lt;/a&gt; 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景下代理 HTTP/HTTPS 服务（Caddy 不支持直接代理 TCP/UDP 服务，如果需要代理 TCP/UDP 服务，需要使用 &lt;a href="https://github.com/mholt/caddy-l4?tab=readme-ov-file"&gt;caddy-l4&lt;/a&gt; 等插件支持）&lt;/p&gt;
+&lt;p&gt;通过 Caddy 代理 PVE 服务，访问地址为 &lt;code&gt;https://pve.svc.homelab&lt;/code&gt;：
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png" alt="homelab-caddy-proxy-pve-homepage.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="部署">部署&lt;/h2>
-&lt;p>使用 docker-compose 部署&lt;/p>
-&lt;h3 id="启动-caddy">启动 Caddy&lt;/h3>
-&lt;ul>
-&lt;li>Caddyfile&lt;/li>
-&lt;/ul>
-&lt;p>Caddy 默认使用 Caddyfile 作为配置文件，Caddyfile 语法和 Nginx 类似，可以参考 &lt;a href="https://caddyserver.com/docs/caddyfile">Caddyfile 语法&lt;/a>；先配置一个最简单的&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">{
+ &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png" alt="homelab-caddy-proxy-pve-homepage.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
+&lt;p&gt;使用 docker-compose 部署&lt;/p&gt;
+&lt;h3 id="启动-caddy"&gt;启动 Caddy&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Caddyfile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Caddy 默认使用 Caddyfile 作为配置文件，Caddyfile 语法和 Nginx 类似，可以参考 &lt;a href="https://caddyserver.com/docs/caddyfile"&gt;Caddyfile 语法&lt;/a&gt;；先配置一个最简单的&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;{
  log {
  output stdout
  format console
@@ -126,21 +126,21 @@ https://localhost:443 {
  tls internal
  respond &amp;#34;hello https caddy&amp;#34;
 }
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>docker-compose.yml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">caddy&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">caddy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;80:80&amp;#34;&lt;/span> &lt;span style="color:#75715e">#http&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;443:443&amp;#34;&lt;/span> &lt;span style="color:#75715e"># https&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;2019:2019&amp;#34;&lt;/span> &lt;span style="color:#75715e"># admin&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./Caddyfile:/etc/caddy/Caddyfile&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data:/data/caddy&lt;/span> &lt;span style="color:#75715e"># 证书等信息&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./config:/config/caddy&lt;/span> &lt;span style="color:#75715e"># 路由信息&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./router:/etc/caddy/router&lt;/span> &lt;span style="color:#75715e"># 路由配置文件&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>docker compose up&lt;/code> 启动&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;caddy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;caddy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;caddy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;80:80&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;#http&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;443:443&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# https&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;2019:2019&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# admin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./Caddyfile:/etc/caddy/Caddyfile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data:/data/caddy&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 证书等信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./config:/config/caddy&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 路由信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./router:/etc/caddy/router&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 路由配置文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 &lt;code&gt;docker compose up&lt;/code&gt; 启动&lt;/p&gt;</description></item></channel></rss>

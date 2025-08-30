@@ -1,49 +1,49 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sonarqube on HelloWood</title><link>https://blog.hellowood.dev/tags/sonarqube/</link><description>Recent content in Sonarqube on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/sonarqube/index.xml" rel="self" type="application/rss+xml"/><item><title>代码质量工具 Sonarqube 搭建使用</title><link>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</link><pubDate>Wed, 01 Aug 2018 00:31:41 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://www.sonarqube.org/">Sonarqube&lt;/a> 是一个代码质量管理平台，可以结合不同的测试工具，代码分析工具，持续集成工具等提供代码质量可是化和管理的工具&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>&lt;a href="https://sonarcloud.io">在线工具&lt;/a>&lt;/li>
-&lt;li>截图
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sonarqube on HelloWood</title><link>https://blog.hellowood.dev/tags/sonarqube/</link><description>Recent content in Sonarqube on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/sonarqube/index.xml" rel="self" type="application/rss+xml"/><item><title>代码质量工具 Sonarqube 搭建使用</title><link>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</link><pubDate>Wed, 01 Aug 2018 00:31:41 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E5%B7%A5%E5%85%B7-sonarqube-%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://www.sonarqube.org/"&gt;Sonarqube&lt;/a&gt; 是一个代码质量管理平台，可以结合不同的测试工具，代码分析工具，持续集成工具等提供代码质量可是化和管理的工具&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://sonarcloud.io"&gt;在线工具&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;截图
 
 
- &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo1.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo1.png" loading="lazy">
-
-
-
- &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo2.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo2.png" loading="lazy">
+ &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo1.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo1.png" loading="lazy"&gt;
 
 
 
- &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo3.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo3.png" loading="lazy">
+ &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo2.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo2.png" loading="lazy"&gt;
 
 
 
- &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo4.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo4.png" loading="lazy">
-&lt;/li>
-&lt;/ul>
-&lt;h2 id="使用">使用&lt;/h2>
-&lt;h3 id="启动容器">启动容器&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run -d --name sonarqube &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 9000:9000 -p 9092:9092 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -e SONARQUBE_JDBC_USERNAME&lt;span style="color:#f92672">=&lt;/span>root &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -e SONARQUBE_JDBC_PASSWORD&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">123456&lt;/span> &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -e SONARQUBE_JDBC_URL&lt;span style="color:#f92672">=&lt;/span>jdbc:mysql://localhost:3308/sonar&lt;span style="color:#ae81ff">\?&lt;/span>useUnicode&lt;span style="color:#f92672">=&lt;/span>true&lt;span style="color:#ae81ff">\&amp;amp;&lt;/span>characterEncoding&lt;span style="color:#f92672">=&lt;/span>utf8 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sonarqube
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="分析项目">分析项目&lt;/h3>
-&lt;ul>
-&lt;li>Java - Maven&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mvn sonar:sonar &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -Dsonar.host.url&lt;span style="color:#f92672">=&lt;/span>http://localhost:9000 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -Dsonar.login&lt;span style="color:#f92672">=&lt;/span>d84cd047d5a4e149af1f4d614e28ed5183ef0c50
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>Java - Gradle&lt;/li>
-&lt;li>build.gradle&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gradle" data-lang="gradle">&lt;span style="display:flex;">&lt;span>plugins &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> id &lt;span style="color:#e6db74">&amp;#34;org.sonarqube&amp;#34;&lt;/span> version &lt;span style="color:#e6db74">&amp;#34;2.6&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>./gradlew sonarqube &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -Dsonar.host.url&lt;span style="color:#f92672">=&lt;/span>http://localhost:9000 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -Dsonar.login&lt;span style="color:#f92672">=&lt;/span>d84cd047d5a4e149af1f4d614e28ed5183ef0c50
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo3.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo3.png" loading="lazy"&gt;
+
+
+
+ &lt;img src="https://img.hellowood.dev/blog/SonarqubeDemo4.png" alt="https://img.hellowood.dev/blog/SonarqubeDemo4.png" loading="lazy"&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="使用"&gt;使用&lt;/h2&gt;
+&lt;h3 id="启动容器"&gt;启动容器&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d --name sonarqube &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 9000:9000 -p 9092:9092 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -e SONARQUBE_JDBC_USERNAME&lt;span style="color:#f92672"&gt;=&lt;/span&gt;root &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -e SONARQUBE_JDBC_PASSWORD&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;123456&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -e SONARQUBE_JDBC_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;jdbc:mysql://localhost:3308/sonar&lt;span style="color:#ae81ff"&gt;\?&lt;/span&gt;useUnicode&lt;span style="color:#f92672"&gt;=&lt;/span&gt;true&lt;span style="color:#ae81ff"&gt;\&amp;amp;&lt;/span&gt;characterEncoding&lt;span style="color:#f92672"&gt;=&lt;/span&gt;utf8 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; sonarqube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="分析项目"&gt;分析项目&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Java - Maven&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mvn sonar:sonar &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -Dsonar.host.url&lt;span style="color:#f92672"&gt;=&lt;/span&gt;http://localhost:9000 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -Dsonar.login&lt;span style="color:#f92672"&gt;=&lt;/span&gt;d84cd047d5a4e149af1f4d614e28ed5183ef0c50
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Java - Gradle&lt;/li&gt;
+&lt;li&gt;build.gradle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;plugins &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#34;org.sonarqube&amp;#34;&lt;/span&gt; version &lt;span style="color:#e6db74"&gt;&amp;#34;2.6&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;./gradlew sonarqube &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -Dsonar.host.url&lt;span style="color:#f92672"&gt;=&lt;/span&gt;http://localhost:9000 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -Dsonar.login&lt;span style="color:#f92672"&gt;=&lt;/span&gt;d84cd047d5a4e149af1f4d614e28ed5183ef0c50
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

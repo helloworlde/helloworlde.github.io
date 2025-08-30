@@ -1,55 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>WireGuard on HelloWood</title><link>https://blog.hellowood.dev/tags/wireguard/</link><description>Recent content in WireGuard on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/wireguard/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 wg-easy 进行异地组网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p>&lt;a href="https://wg-easy.github.io/wg-easy/latest/">wg-easy&lt;/a> 是一个开源的 WireGuard 配置管理工具，支持通过 Web 界面快速生成和管理 WireGuard 配置文件，以及客 WireGuard 节点之间的简单的监控&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>WireGuard on HelloWood</title><link>https://blog.hellowood.dev/tags/wireguard/</link><description>Recent content in WireGuard on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/wireguard/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 wg-easy 进行异地组网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-wg-easy-%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p&gt;&lt;a href="https://wg-easy.github.io/wg-easy/latest/"&gt;wg-easy&lt;/a&gt; 是一个开源的 WireGuard 配置管理工具，支持通过 Web 界面快速生成和管理 WireGuard 配置文件，以及客 WireGuard 节点之间的简单的监控&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-homepage.png" alt="homelab-sd-wan-wg-easy-homepage.png" loading="lazy">
-&lt;/p>
-&lt;p>这里总共有五个节点，用 WireGuard 进行组网，在其中一个部署 wg-easy&lt;/p>
-&lt;h2 id="部署-wg-easy">部署 wg-easy&lt;/h2>
-&lt;p>使用 docker 在 VPS 上部署 wg-easy，作用控制面和中转节点；在 sysctls 中开启 ipv4 转发和 ipv6 转发，用于转发不同节点之间的流量&lt;/p>
-&lt;ul>
-&lt;li>docker-compose.yml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">wg-easy&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">ghcr.io/wg-easy/wg-easy:15&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">wg-easy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">wg-easy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;51820:51820/udp&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;51821:51821/tcp&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">PORT=51821&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">HOST=0.0.0.0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">INSECURE=true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/etc/wireguard:/etc/wireguard&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/lib/modules:/lib/modules:ro&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cap_add&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">NET_ADMIN&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">SYS_MODULE&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">sysctls&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">net.ipv4.ip_forward=1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">net.ipv4.conf.all.src_valid_mark=1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">net.ipv6.conf.all.disable_ipv6=0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">net.ipv6.conf.all.forwarding=1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">net.ipv6.conf.default.forwarding=1&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-wireguard">配置 WireGuard&lt;/h2>
-&lt;ul>
-&lt;li>配置用户&lt;/li>
-&lt;/ul>
-&lt;p>首次登录需要配置用户，并设置密码&lt;/p></description></item><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p>PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p>
-&lt;h2 id="修改容器配置">修改容器配置&lt;/h2>
-&lt;p>需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code>/etc/pve/lxc/xxx.conf&lt;/code>，xxx 是容器的编号，以 113 这个容器为例：&lt;/p>
-&lt;p>使用 nano 编辑 113.conf 配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nano /etc/pve/lxc/113.conf
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>113.conf&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">lxc.cgroup2.devices.allow: c 10:200 rwm
+ &lt;img src="https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-homepage.png" alt="homelab-sd-wan-wg-easy-homepage.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;这里总共有五个节点，用 WireGuard 进行组网，在其中一个部署 wg-easy&lt;/p&gt;
+&lt;h2 id="部署-wg-easy"&gt;部署 wg-easy&lt;/h2&gt;
+&lt;p&gt;使用 docker 在 VPS 上部署 wg-easy，作用控制面和中转节点；在 sysctls 中开启 ipv4 转发和 ipv6 转发，用于转发不同节点之间的流量&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;wg-easy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ghcr.io/wg-easy/wg-easy:15&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;wg-easy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;wg-easy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;51820:51820/udp&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;51821:51821/tcp&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;PORT=51821&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;HOST=0.0.0.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;INSECURE=true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;/etc/wireguard:/etc/wireguard&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;/lib/modules:/lib/modules:ro&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cap_add&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;NET_ADMIN&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;SYS_MODULE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;sysctls&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;net.ipv4.ip_forward=1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;net.ipv4.conf.all.src_valid_mark=1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;net.ipv6.conf.all.disable_ipv6=0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;net.ipv6.conf.all.forwarding=1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;net.ipv6.conf.default.forwarding=1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置-wireguard"&gt;配置 WireGuard&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;配置用户&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;首次登录需要配置用户，并设置密码&lt;/p&gt;</description></item><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p&gt;PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p&gt;
+&lt;h2 id="修改容器配置"&gt;修改容器配置&lt;/h2&gt;
+&lt;p&gt;需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code&gt;/etc/pve/lxc/xxx.conf&lt;/code&gt;，xxx 是容器的编号，以 113 这个容器为例：&lt;/p&gt;
+&lt;p&gt;使用 nano 编辑 113.conf 配置文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nano /etc/pve/lxc/113.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;113.conf&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;lxc.cgroup2.devices.allow: c 10:200 rwm
 lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
-&lt;/code>&lt;/pre>&lt;p>修改后的完整配置如下：&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">arch: amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改后的完整配置如下：&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;arch: amd64
 cores: 2
 features: nesting=1
 hostname: Debian
@@ -61,85 +61,85 @@ swap: 4096
 unprivileged: 1
 lxc.cgroup2.devices.allow: c 10:200 rwm
 lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
-&lt;/code>&lt;/pre>&lt;p>修改后在 PVE 控制台重启容器即可&lt;/p></description></item><item><title>WireGuard对端动态IP时主动更新地址</title><link>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</link><pubDate>Sun, 24 Sep 2023 18:37:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</guid><description>&lt;p>如果 WireGuard 对端的 &lt;code>Endpoint&lt;/code> 是一个域名，这个域名只会在启动的时候解析一次，后续不会更新；当这个域名发生变化时，WireGuard 连接就会断开&lt;/p>
-&lt;p>wireguard-tools 的仓库中提供了检测 IP 变化并更新 &lt;code>Endpoint&lt;/code> 的脚本 &lt;a href="https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh">https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh&lt;/a>，因此可以使用该脚本，通过定时任务的方式可以实现域名 IP 变化后更新 WireGuard&lt;/p>
-&lt;ul>
-&lt;li>下载仓库&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://git.zx2c4.com/wireguard-tools /usr/share/wireguard-tools
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>配置更新服务&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.service
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Unit]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Description=Update DNS of all WireGuard endpoints
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Wants=network.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">After=network.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Service]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Type=oneshot
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">ExecStart=/bin/sh -c &amp;#39;for i in /etc/wireguard/*.conf; do /usr/share/wireguard-tools/contrib/reresolve-dns/reresolve-dns.sh &amp;#34;\$i&amp;#34;; done&amp;#39;
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOL&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>配置定时任务服务&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.timer
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Unit]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">Description=Update DNS of all WireGuard endpoints
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Timer]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">OnCalendar=*:*:0/30
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">[Install]
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">WantedBy=timers.target
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">EOL&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>启动服务&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>systemctl enable wireguard-update-dns.service wireguard-update-dns.timer --now
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样，就会每隔 30s 检测并更新一次 Endpoint 的地址了&lt;/p></description></item><item><title>使用WireGuard连接异地局域网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</link><pubDate>Sun, 24 Sep 2023 17:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</guid><description>&lt;p>最近使用 Frigate 做家庭监控，因为 Frigate 部署在自己的 HomeLab 服务器里，有几个监控在老家，需要跨地域访问；有以下几种方案：&lt;/p>
-&lt;ol>
-&lt;li>使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP&lt;/li>
-&lt;li>使用 TailScale 组网：测试过程中发现 TailScale 需要从香港中转，延迟很高，视频经常断开；自己部署 DERP 服务端同样需要在公网开放多个端口，不安全并且比较麻烦&lt;/li>
-&lt;li>使用 Cloudflare Tunnel 转发：使用 Tunnel 延迟也很高，并不稳定&lt;/li>
-&lt;li>使用 WireGuard 组网：对端直接连接，延迟低，仅需要开放一个 UDP 端口，较安全&lt;/li>
-&lt;/ol>
-&lt;p>最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信&lt;/p>
-&lt;blockquote>
-&lt;p>注意：需要对端其中一方有可以直接访问的公网IP&lt;/p>&lt;/blockquote>
-&lt;p>关于 WireGuard 的介绍可以参考 &lt;a href="https://www.wireguard.com/">WireGuard&lt;/a>&lt;/p>
-&lt;p>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改后在 PVE 控制台重启容器即可&lt;/p&gt;</description></item><item><title>WireGuard对端动态IP时主动更新地址</title><link>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</link><pubDate>Sun, 24 Sep 2023 18:37:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</guid><description>&lt;p&gt;如果 WireGuard 对端的 &lt;code&gt;Endpoint&lt;/code&gt; 是一个域名，这个域名只会在启动的时候解析一次，后续不会更新；当这个域名发生变化时，WireGuard 连接就会断开&lt;/p&gt;
+&lt;p&gt;wireguard-tools 的仓库中提供了检测 IP 变化并更新 &lt;code&gt;Endpoint&lt;/code&gt; 的脚本 &lt;a href="https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh"&gt;https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh&lt;/a&gt;，因此可以使用该脚本，通过定时任务的方式可以实现域名 IP 变化后更新 WireGuard&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载仓库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://git.zx2c4.com/wireguard-tools /usr/share/wireguard-tools
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;配置更新服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.service
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Unit]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Description=Update DNS of all WireGuard endpoints
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Wants=network.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;After=network.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Service]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Type=oneshot
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;ExecStart=/bin/sh -c &amp;#39;for i in /etc/wireguard/*.conf; do /usr/share/wireguard-tools/contrib/reresolve-dns/reresolve-dns.sh &amp;#34;\$i&amp;#34;; done&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;配置定时任务服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#e6db74"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.timer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Unit]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;Description=Update DNS of all WireGuard endpoints
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Timer]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;OnCalendar=*:*:0/30
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;[Install]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;WantedBy=timers.target
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;EOL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;启动服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl enable wireguard-update-dns.service wireguard-update-dns.timer --now
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，就会每隔 30s 检测并更新一次 Endpoint 的地址了&lt;/p&gt;</description></item><item><title>使用WireGuard连接异地局域网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</link><pubDate>Sun, 24 Sep 2023 17:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</guid><description>&lt;p&gt;最近使用 Frigate 做家庭监控，因为 Frigate 部署在自己的 HomeLab 服务器里，有几个监控在老家，需要跨地域访问；有以下几种方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP&lt;/li&gt;
+&lt;li&gt;使用 TailScale 组网：测试过程中发现 TailScale 需要从香港中转，延迟很高，视频经常断开；自己部署 DERP 服务端同样需要在公网开放多个端口，不安全并且比较麻烦&lt;/li&gt;
+&lt;li&gt;使用 Cloudflare Tunnel 转发：使用 Tunnel 延迟也很高，并不稳定&lt;/li&gt;
+&lt;li&gt;使用 WireGuard 组网：对端直接连接，延迟低，仅需要开放一个 UDP 端口，较安全&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最终选择使用 WireGuard 组网方案，在老家放了一台树莓派4B，用于运行 WireGuard 进行流量转发；HomeLab 服务器部署了一台 LXC 容器运行 WireGuard，用于连接树莓派；开启了局域网转发后，本地的局域网设备可以和老家的局域网设备互相通信&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：需要对端其中一方有可以直接访问的公网IP&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;关于 WireGuard 的介绍可以参考 &lt;a href="https://www.wireguard.com/"&gt;WireGuard&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg" alt="homelab-wireguard-vpn-for-sub-network.svg" loading="lazy">
-&lt;/p>
-&lt;h2 id="安装配置-wireguard">安装配置 WireGuard&lt;/h2>
-&lt;h3 id="安装-wireguard">安装 wireguard&lt;/h3>
-&lt;p>因为 LXC 容器和树莓派都使用的是 Ubuntu 22.04 的系统，因此直接使用 apt 安装即可&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> apt install -y wireguard-tools
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="生成密钥对">生成密钥对&lt;/h3>
-&lt;p>详细操作参考 &lt;a href="https://www.wireguard.com/quickstart/#key-generation">Key Generation&lt;/a>&lt;/p>
-&lt;ul>
-&lt;li>创建文件夹并修改权限&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkdir wireguard &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> cd wireguard
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>umask &lt;span style="color:#ae81ff">077&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>umask 077&lt;/code> 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p></description></item><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;p>在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p>
-&lt;p>&lt;a href="https://www.wireguard.com/">WireGuard&lt;/a> 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量&lt;/p>
-&lt;h2 id="核心概念">核心概念&lt;/h2>
-&lt;p>WireGuard中主要涉及以下几个概念：&lt;/p>
-&lt;ul>
-&lt;li>接口（Interface）：表示一个 WireGuard 端点（Peer）的虚拟网络接口，用于处理加密和解密流量、路由和其他传输信息。&lt;/li>
-&lt;li>对等端（Peer）：表示使用 WireGuard 连接的每个设备或节点。每个 Peer 在连接时需要交换公钥和预共享密钥等信息。&lt;/li>
-&lt;li>公钥（PublicKey）：每个 WireGuard 对等端拥有的公钥，用于加密通信流量和生成预共享密钥。&lt;/li>
-&lt;li>私钥（PrivateKey）：与每个公钥相配对的私钥，只应该存储在拥有者的设备上。&lt;/li>
-&lt;li>端点（Endpoint）：是在网络中可访问某个 Peer 的 IP 地址和端口号，用于建立连接。&lt;/li>
-&lt;li>IP 分配（IP Address Assignment）：指定每个接口使用的 IPv4/IPv6 前缀范围。&lt;/li>
-&lt;li>允许 IP（Allowed IP）：定义被 WireGuard 处理的哪些 IP 包，以及将这些包重新路由到哪个接口。&lt;/li>
-&lt;li>预共享密钥（Pre-shared Key）：在 Peer 之间建立安全连接时使用的共享密钥，用于加密数据包。&lt;/li>
-&lt;li>Listen Port（监听端口）：一个 Peer 监听的 UDP 端口号。其他 Peer 使用此端口发送数据包到该 Peer&lt;/li>
-&lt;/ul>
-&lt;h2 id="配置-openwrt">配置 OpenWrt&lt;/h2>
-&lt;h3 id="安装-wireguard">安装 WireGuard&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg" alt="homelab-wireguard-vpn-for-sub-network.svg" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="安装配置-wireguard"&gt;安装配置 WireGuard&lt;/h2&gt;
+&lt;h3 id="安装-wireguard"&gt;安装 wireguard&lt;/h3&gt;
+&lt;p&gt;因为 LXC 容器和树莓派都使用的是 Ubuntu 22.04 的系统，因此直接使用 apt 安装即可&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y wireguard-tools
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="生成密钥对"&gt;生成密钥对&lt;/h3&gt;
+&lt;p&gt;详细操作参考 &lt;a href="https://www.wireguard.com/quickstart/#key-generation"&gt;Key Generation&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建文件夹并修改权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir wireguard &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd wireguard
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;umask &lt;span style="color:#ae81ff"&gt;077&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;umask 077&lt;/code&gt; 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p&gt;</description></item><item><title>使用WireGuard从外网访问OpenWrt</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</link><pubDate>Mon, 12 Jun 2023 16:30:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E4%BB%8E%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AEopenwrt/</guid><description>&lt;p&gt;在使用过程中，如果通过DDNS 的方式将 OpenWrt 暴露在公网中，很容易遭受攻击或者入侵，因此可以使用 WireGuard 作为 VPN 进行访问，更加安全；因此，使用 OpenWrt 搭建 WireGuard VPN，实现从外网访问 OpenWrt&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.wireguard.com/"&gt;WireGuard&lt;/a&gt; 是一种现代的 VPN 协议，可以快速、安全地建立虚拟私人网络连接。相比于传统的 VPN 协议，如 OpenVPN 和I PSec，WireGuard 具有更简单的设计、更快的速度、更高的安全性和更小的代码量&lt;/p&gt;
+&lt;h2 id="核心概念"&gt;核心概念&lt;/h2&gt;
+&lt;p&gt;WireGuard中主要涉及以下几个概念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;接口（Interface）：表示一个 WireGuard 端点（Peer）的虚拟网络接口，用于处理加密和解密流量、路由和其他传输信息。&lt;/li&gt;
+&lt;li&gt;对等端（Peer）：表示使用 WireGuard 连接的每个设备或节点。每个 Peer 在连接时需要交换公钥和预共享密钥等信息。&lt;/li&gt;
+&lt;li&gt;公钥（PublicKey）：每个 WireGuard 对等端拥有的公钥，用于加密通信流量和生成预共享密钥。&lt;/li&gt;
+&lt;li&gt;私钥（PrivateKey）：与每个公钥相配对的私钥，只应该存储在拥有者的设备上。&lt;/li&gt;
+&lt;li&gt;端点（Endpoint）：是在网络中可访问某个 Peer 的 IP 地址和端口号，用于建立连接。&lt;/li&gt;
+&lt;li&gt;IP 分配（IP Address Assignment）：指定每个接口使用的 IPv4/IPv6 前缀范围。&lt;/li&gt;
+&lt;li&gt;允许 IP（Allowed IP）：定义被 WireGuard 处理的哪些 IP 包，以及将这些包重新路由到哪个接口。&lt;/li&gt;
+&lt;li&gt;预共享密钥（Pre-shared Key）：在 Peer 之间建立安全连接时使用的共享密钥，用于加密数据包。&lt;/li&gt;
+&lt;li&gt;Listen Port（监听端口）：一个 Peer 监听的 UDP 端口号。其他 Peer 使用此端口发送数据包到该 Peer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="配置-openwrt"&gt;配置 OpenWrt&lt;/h2&gt;
+&lt;h3 id="安装-wireguard"&gt;安装 WireGuard&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p&gt;</description></item></channel></rss>

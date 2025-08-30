@@ -1,88 +1,88 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Exception on HelloWood</title><link>https://blog.hellowood.dev/tags/exception/</link><description>Recent content in Exception on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/exception/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中自定义异常处理</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link><pubDate>Sun, 08 Sep 2019 18:47:12 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid><description>&lt;ul>
-&lt;li>项目地址&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception">https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>Spring Boot 中提供了默认的异常处理，但是对于应用来说，这些信息并不应该直接返回或者不够明确，需要结合自己的情况进行定制
-自定义处理异常有两种方式:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>org.springframework.web.servlet.HandlerExceptionResolver#resolveException&lt;/code>方法&lt;/li>
-&lt;li>&lt;code>org.springframework.web.bind.annotation.RestControllerAdvice&lt;/code>或&lt;code>org.springframework.web.bind.annotation.ControllerAdvice&lt;/code>和&lt;code>org.springframework.web.bind.annotation.ExceptionHandler&lt;/code>注解来实现&lt;/li>
-&lt;/ul>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>当两种方式都实现时，&lt;code>HandlerExceptionResolver&lt;/code>要先于&lt;code>ControllerAdvice&lt;/code>执行&lt;/p>&lt;/blockquote>
-&lt;h2 id="使用-handlerexceptionresolver-处理异常">使用 HandlerExceptionResolver 处理异常&lt;/h2>
-&lt;ul>
-&lt;li>CustomExceptionHandlerResolver.java&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomExceptionHandlerResolver&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> HandlerExceptionResolver {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> ObjectMapper OBJECT_MAPPER;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">static&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> OBJECT_MAPPER &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ObjectMapper();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> OBJECT_MAPPER.&lt;span style="color:#a6e22e">configure&lt;/span>(JsonParser.&lt;span style="color:#a6e22e">Feature&lt;/span>.&lt;span style="color:#a6e22e">ALLOW_SINGLE_QUOTES&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> OBJECT_MAPPER.&lt;span style="color:#a6e22e">configure&lt;/span>(JsonParser.&lt;span style="color:#a6e22e">Feature&lt;/span>.&lt;span style="color:#a6e22e">ALLOW_UNQUOTED_FIELD_NAMES&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> OBJECT_MAPPER.&lt;span style="color:#a6e22e">setDateFormat&lt;/span>(&lt;span style="color:#66d9ef">new&lt;/span> SimpleDateFormat(&lt;span style="color:#e6db74">&amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> ModelAndView &lt;span style="color:#a6e22e">resolveException&lt;/span>(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> String message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;服务器错误&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (o &lt;span style="color:#66d9ef">instanceof&lt;/span> HandlerMethod) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (e &lt;span style="color:#66d9ef">instanceof&lt;/span> IllegalArgumentException) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;参数错误&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (e &lt;span style="color:#66d9ef">instanceof&lt;/span> SecurityException) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;不允许访问&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (e &lt;span style="color:#66d9ef">instanceof&lt;/span> NullPointerException) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;空指针异常&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (e &lt;span style="color:#66d9ef">instanceof&lt;/span> NoHandlerFoundException) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;未找到相应资源&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (e &lt;span style="color:#66d9ef">instanceof&lt;/span> HttpMediaTypeNotSupportedException) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;请求类型不支持&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> httpServletResponse.&lt;span style="color:#a6e22e">setCharacterEncoding&lt;/span>(StandardCharsets.&lt;span style="color:#a6e22e">UTF_8&lt;/span>.&lt;span style="color:#a6e22e">name&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> httpServletResponse.&lt;span style="color:#a6e22e">setContentType&lt;/span>(MediaType.&lt;span style="color:#a6e22e">APPLICATION_JSON_UTF8_VALUE&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> httpServletResponse.&lt;span style="color:#a6e22e">getWriter&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">write&lt;/span>(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> OBJECT_MAPPER.&lt;span style="color:#a6e22e">writeValueAsString&lt;/span>(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CustomResponseContent.&lt;span style="color:#a6e22e">builder&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">code&lt;/span>(500)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">status&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;fail&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">message&lt;/span>(message)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">build&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> );
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (IOException ex) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ex.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ModelAndView();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>还需要将该配置添加到应用中&lt;/p></description></item><item><title>IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServlet...</title><link>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</link><pubDate>Mon, 01 Jan 2018 01:03:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</guid><description>&lt;blockquote>
-&lt;p>导入一个&lt;code>gradle&lt;/code> 的&lt;code>Spring Boot&lt;/code>项目，在启动的时候先提示找不到&lt;code>HttpServletRequest&lt;/code>这个包，错误如下：&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>Caused by: java.lang.ClassNotFoundException: javax.servlet.http.HttpServletRequest
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Exception on HelloWood</title><link>https://blog.hellowood.dev/tags/exception/</link><description>Recent content in Exception on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/exception/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Boot 中自定义异常处理</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</link><pubDate>Sun, 08 Sep 2019 18:47:12 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</guid><description>&lt;ul&gt;
+&lt;li&gt;项目地址&lt;a href="https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception"&gt;https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Exception&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Spring Boot 中提供了默认的异常处理，但是对于应用来说，这些信息并不应该直接返回或者不够明确，需要结合自己的情况进行定制
+自定义处理异常有两种方式:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;org.springframework.web.servlet.HandlerExceptionResolver#resolveException&lt;/code&gt;方法&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;org.springframework.web.bind.annotation.RestControllerAdvice&lt;/code&gt;或&lt;code&gt;org.springframework.web.bind.annotation.ControllerAdvice&lt;/code&gt;和&lt;code&gt;org.springframework.web.bind.annotation.ExceptionHandler&lt;/code&gt;注解来实现&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当两种方式都实现时，&lt;code&gt;HandlerExceptionResolver&lt;/code&gt;要先于&lt;code&gt;ControllerAdvice&lt;/code&gt;执行&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="使用-handlerexceptionresolver-处理异常"&gt;使用 HandlerExceptionResolver 处理异常&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CustomExceptionHandlerResolver.java&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;CustomExceptionHandlerResolver&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;implements&lt;/span&gt; HandlerExceptionResolver {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; ObjectMapper OBJECT_MAPPER;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OBJECT_MAPPER &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ObjectMapper();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OBJECT_MAPPER.&lt;span style="color:#a6e22e"&gt;configure&lt;/span&gt;(JsonParser.&lt;span style="color:#a6e22e"&gt;Feature&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ALLOW_SINGLE_QUOTES&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OBJECT_MAPPER.&lt;span style="color:#a6e22e"&gt;configure&lt;/span&gt;(JsonParser.&lt;span style="color:#a6e22e"&gt;Feature&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;ALLOW_UNQUOTED_FIELD_NAMES&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OBJECT_MAPPER.&lt;span style="color:#a6e22e"&gt;setDateFormat&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; SimpleDateFormat(&lt;span style="color:#e6db74"&gt;&amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; ModelAndView &lt;span style="color:#a6e22e"&gt;resolveException&lt;/span&gt;(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; String message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;服务器错误&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (o &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; HandlerMethod) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (e &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; IllegalArgumentException) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;参数错误&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (e &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; SecurityException) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;不允许访问&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (e &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; NullPointerException) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;空指针异常&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (e &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; NoHandlerFoundException) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;未找到相应资源&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (e &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; HttpMediaTypeNotSupportedException) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;请求类型不支持&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httpServletResponse.&lt;span style="color:#a6e22e"&gt;setCharacterEncoding&lt;/span&gt;(StandardCharsets.&lt;span style="color:#a6e22e"&gt;UTF_8&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httpServletResponse.&lt;span style="color:#a6e22e"&gt;setContentType&lt;/span&gt;(MediaType.&lt;span style="color:#a6e22e"&gt;APPLICATION_JSON_UTF8_VALUE&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; httpServletResponse.&lt;span style="color:#a6e22e"&gt;getWriter&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;write&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; OBJECT_MAPPER.&lt;span style="color:#a6e22e"&gt;writeValueAsString&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; CustomResponseContent.&lt;span style="color:#a6e22e"&gt;builder&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;code&lt;/span&gt;(500)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;fail&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;message&lt;/span&gt;(message)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;build&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (IOException ex) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ex.&lt;span style="color:#a6e22e"&gt;printStackTrace&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ModelAndView();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;还需要将该配置添加到应用中&lt;/p&gt;</description></item><item><title>IDEA启动Spring Boot项目提示Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServlet...</title><link>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</link><pubDate>Mon, 01 Jan 2018 01:03:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E5%90%AF%E5%8A%A8spring-boot%E9%A1%B9%E7%9B%AE%E6%8F%90%E7%A4%BAunable-to-start-embeddedwebapplicationcontext-due-to-missing-embeddedservlet/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;导入一个&lt;code&gt;gradle&lt;/code&gt; 的&lt;code&gt;Spring Boot&lt;/code&gt;项目，在启动的时候先提示找不到&lt;code&gt;HttpServletRequest&lt;/code&gt;这个包，错误如下：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Caused by: java.lang.ClassNotFoundException: javax.servlet.http.HttpServletRequest
  at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_45]
  at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_45]
  at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_45]
  at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_45]
  ... 29 common frames omitted
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>但是相应的Java代码没有报错，所以单独找了&lt;code>servlet-api.jar&lt;/code>导入，并将其添加到&lt;code>Module&lt;/code>中，但是导入后出现另一个错误：&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;但是相应的Java代码没有报错，所以单独找了&lt;code&gt;servlet-api.jar&lt;/code&gt;导入，并将其添加到&lt;code&gt;Module&lt;/code&gt;中，但是导入后出现另一个错误：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
  at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:137) ~[spring-boot-1.5.2.RELEASE.jar:1.5.2.RELEASE]
 ....
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>找了很久都没有找到解决的方法，但是使用&lt;code>gradle bootrun&lt;/code>是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>看到有一篇使用&lt;code>Maven&lt;/code>也遇到该问题的帖子，对比了依赖：&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>dependencies {
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;找了很久都没有找到解决的方法，但是使用&lt;code&gt;gradle bootrun&lt;/code&gt;是可以正常启动运行的，在另外一台机子上也没有任何问题，所以认为项目本身没有任何问题，是在IDEA启动的过程中出现了问题导致的，&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;看到有一篇使用&lt;code&gt;Maven&lt;/code&gt;也遇到该问题的帖子，对比了依赖：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;dependencies {
  compile(&amp;#39;org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0&amp;#39;)
  compile(&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;)
  runtime(&amp;#39;mysql:mysql-connector-java&amp;#39;)
@@ -91,50 +91,50 @@
  // this is for generate war file
  providedRuntime(&amp;#39;org.springframework.boot:spring-boot-starter-tomcat&amp;#39;)
 }
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>然后将&lt;code>providedRuntime&lt;/code>改成了&lt;code>runtime&lt;/code>，重新&lt;code>build&lt;/code>启动，没有任何问题
-该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code>Gradle&lt;/code>一样做完全的&lt;code>build&lt;/code>，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p></description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
-&lt;p>一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code>错误&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;然后将&lt;code&gt;providedRuntime&lt;/code&gt;改成了&lt;code&gt;runtime&lt;/code&gt;，重新&lt;code&gt;build&lt;/code&gt;启动，没有任何问题
+该问题产生的原因很可能是因为IDEA在启动的过程中并没有像&lt;code&gt;Gradle&lt;/code&gt;一样做完全的&lt;code&gt;build&lt;/code&gt;，只是进行了热更新，没有将需要的Jar包编译到项目里&lt;/p&gt;</description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code&gt;org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code&gt;错误&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
 
 org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): ...........
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code> mybatis.mapper-locations=classpath*:/mapper/**Mapper.xml
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>
-&lt;p>修改前的结构
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt; mybatis.mapper-locations=classpath*:/mapper/**Mapper.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;修改前的结构
 
 
- &lt;img src="http://img.blog.csdn.net/20170501203323011?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改前的结构" loading="lazy">
-&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>修改后的结构
+ &lt;img src="http://img.blog.csdn.net/20170501203323011?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改前的结构" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改后的结构
 
 
- &lt;img src="http://img.blog.csdn.net/20170501203402426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改后的结构" loading="lazy">
-&lt;/p>
-&lt;/li>
-&lt;/ul></description></item><item><title>SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:53:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;p>在SpringBoot应用启动的过程中，因为报&lt;code>org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code>导致应用启动失败&lt;/p>&lt;/blockquote>
-&lt;hr>
-&lt;blockquote>
-&lt;p>&lt;strong>错误信息：&lt;/strong>&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class
+ &lt;img src="http://img.blog.csdn.net/20170501203402426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="修改后的结构" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法</title><link>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:53:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot%E5%90%AF%E5%8A%A8%E6%97%B6%E6%8A%A5org-springframework-context-annotation-conflictingbeandefinitionexception%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;在SpringBoot应用启动的过程中，因为报&lt;code&gt;org.springframework.context.annotation.ConflictingBeanDefinitionException&lt;/code&gt;导致应用启动失败&lt;/p&gt;&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;错误信息：&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class
 [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService]
  conflicts with existing, non-compatible bean definition of same name and class
  [cn.com.hellowood.dubbo.PersonDubboConsumerService]
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
-&lt;strong>通过指定注入对象的名称可以解决这个问题&lt;/strong>&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>原来的代码&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>@Component
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;这是因为在应用中使用到了多个该类的对象，而该类的对象通过注解的方式注入到应用中，在注入的过程中因为对象的名称重复导致了该异常
+&lt;strong&gt;通过指定注入对象的名称可以解决这个问题&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原来的代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;@Component
 public class PersonDubboConsumerService {
 
  @Reference(version = &amp;#34;1.0.0&amp;#34;)
@@ -145,10 +145,10 @@ public class PersonDubboConsumerService {
  Person person = service.sayHello(name);
  }
 }
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>修改后（&lt;strong>Component注解加上名称就可以，要和另一个bean的名称不同&lt;/strong>）&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>@Component(&amp;#34;personConsumerService&amp;#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;修改后（&lt;strong&gt;Component注解加上名称就可以，要和另一个bean的名称不同&lt;/strong&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;@Component(&amp;#34;personConsumerService&amp;#34;)
 public class PersonDubboConsumerService {
 
  @Reference(version = &amp;#34;1.0.0&amp;#34;)
@@ -159,93 +159,93 @@ public class PersonDubboConsumerService {
  Person person = service.sayHello(name);
  }
 }
-&lt;/code>&lt;/pre>&lt;hr>
-&lt;ul>
-&lt;li>异常信息&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-console" data-lang="console">&lt;span style="display:flex;">&lt;span>org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [cn.com.hellowood.DubboClientApplication]; nested exception is org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService] conflicts with existing, non-compatible bean definition of same name and class [cn.com.hellowood.dubbo.PersonDubboConsumerService]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:181) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:308) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:228) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:270) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:93) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:687) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:525) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) ~[spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at cn.com.hellowood.DubboClientApplication.main(DubboClientApplication.java:14) [classes/:na]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService] conflicts with existing, non-compatible bean definition of same name and class [cn.com.hellowood.dubbo.PersonDubboConsumerService]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:345) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:283) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:135) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:287) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:245) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:198) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ... 13 common frames omitted
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Spring Boot Mail Could not connect to SMTP host</title><link>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</link><pubDate>Sun, 31 Dec 2017 23:57:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</guid><description>&lt;blockquote>
-&lt;p>如果使用了 SSL 连接请添加配置：&lt;code>spring.mail.properties.mail.smtp.ssl.enable=true&lt;/code>
-可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp">https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a>&lt;/p>&lt;/blockquote>
-&lt;hr>
-&lt;blockquote>
-&lt;p>在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>application.properties&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.host&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">smtpdm.aliyun.com&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.port&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">465&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.username&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">username&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.password&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">password&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.properties.smtp.auth&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.mail.properties.smtp.starttls.enable&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>MailUtil.java：&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.slf4j.Logger;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.slf4j.LoggerFactory;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.springframework.mail.MailException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.springframework.mail.SimpleMailMessage;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.springframework.mail.javamail.JavaMailSender;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.springframework.stereotype.Component;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> org.thymeleaf.TemplateEngine;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Component&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MailUtil&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger logger &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span>(getClass());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Autowired&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> JavaMailSender mailSender;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Autowired&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TemplateEngine templateEngine;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sendSimpleEmail&lt;/span>(String deliver, String&lt;span style="color:#f92672">[]&lt;/span> receiver, String&lt;span style="color:#f92672">[]&lt;/span> carbonCopy, String subject, String content) &lt;span style="color:#66d9ef">throws&lt;/span> ServiceException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">long&lt;/span> startTimestamp &lt;span style="color:#f92672">=&lt;/span> System.&lt;span style="color:#a6e22e">currentTimeMillis&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> logger.&lt;span style="color:#a6e22e">info&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Start send mail ... &amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SimpleMailMessage message &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> SimpleMailMessage();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message.&lt;span style="color:#a6e22e">setFrom&lt;/span>(deliver);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message.&lt;span style="color:#a6e22e">setTo&lt;/span>(receiver);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message.&lt;span style="color:#a6e22e">setCc&lt;/span>(carbonCopy);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message.&lt;span style="color:#a6e22e">setSubject&lt;/span>(subject);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> message.&lt;span style="color:#a6e22e">setText&lt;/span>(content);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mailSender.&lt;span style="color:#a6e22e">send&lt;/span>(message);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> logger.&lt;span style="color:#a6e22e">info&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Send mail success, cost {} million seconds&amp;#34;&lt;/span>, System.&lt;span style="color:#a6e22e">currentTimeMillis&lt;/span>() &lt;span style="color:#f92672">-&lt;/span> startTimestamp);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (MailException e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> logger.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Send mail failed, error message is : {} \n&amp;#34;&lt;/span>, e.&lt;span style="color:#a6e22e">getMessage&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> e.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ServiceException(e.&lt;span style="color:#a6e22e">getMessage&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>但是邮件发送一直失败，异常信息如下：&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;异常信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [cn.com.hellowood.DubboClientApplication]; nested exception is org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService] conflicts with existing, non-compatible bean definition of same name and class [cn.com.hellowood.dubbo.PersonDubboConsumerService]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:181) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:308) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:228) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:270) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:93) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:687) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:525) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) ~[spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.6.RELEASE.jar:1.5.6.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at cn.com.hellowood.DubboClientApplication.main(DubboClientApplication.java:14) [classes/:na]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name &amp;#39;personDubboConsumerService&amp;#39; for bean class [cn.com.hellowood.dubboclient.dubbo.PersonDubboConsumerService] conflicts with existing, non-compatible bean definition of same name and class [cn.com.hellowood.dubbo.PersonDubboConsumerService]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:345) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:283) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:135) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:287) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:245) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:198) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ... 13 common frames omitted
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Spring Boot Mail Could not connect to SMTP host</title><link>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</link><pubDate>Sun, 31 Dec 2017 23:57:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mail-could-not-connect-to-smtp-host/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;如果使用了 SSL 连接请添加配置：&lt;code&gt;spring.mail.properties.mail.smtp.ssl.enable=true&lt;/code&gt;
+可以参考 &lt;a href="https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp"&gt;https://stackoverflow.com/questions/31721298/spring-boot-1-2-5-release-sending-e-mail-via-gmail-smtp&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在使用 Spring Boot 发送邮件时遇到了无法连接服务器的问题，使用的是阿里云的邮件服务，配置如下：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;application.properties&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.host&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;smtpdm.aliyun.com&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.port&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;465&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.username&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;username&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.password&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.properties.smtp.auth&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.mail.properties.smtp.starttls.enable&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;MailUtil.java：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.slf4j.Logger;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.slf4j.LoggerFactory;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.beans.factory.annotation.Autowired;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.mail.MailException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.mail.SimpleMailMessage;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.mail.javamail.JavaMailSender;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.stereotype.Component;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.thymeleaf.TemplateEngine;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;MailUtil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; Logger logger &lt;span style="color:#f92672"&gt;=&lt;/span&gt; LoggerFactory.&lt;span style="color:#a6e22e"&gt;getLogger&lt;/span&gt;(getClass());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; JavaMailSender mailSender;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TemplateEngine templateEngine;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;sendSimpleEmail&lt;/span&gt;(String deliver, String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; receiver, String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; carbonCopy, String subject, String content) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; ServiceException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;long&lt;/span&gt; startTimestamp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; System.&lt;span style="color:#a6e22e"&gt;currentTimeMillis&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Start send mail ... &amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; SimpleMailMessage message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; SimpleMailMessage();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message.&lt;span style="color:#a6e22e"&gt;setFrom&lt;/span&gt;(deliver);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message.&lt;span style="color:#a6e22e"&gt;setTo&lt;/span&gt;(receiver);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message.&lt;span style="color:#a6e22e"&gt;setCc&lt;/span&gt;(carbonCopy);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message.&lt;span style="color:#a6e22e"&gt;setSubject&lt;/span&gt;(subject);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; message.&lt;span style="color:#a6e22e"&gt;setText&lt;/span&gt;(content);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mailSender.&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;(message);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Send mail success, cost {} million seconds&amp;#34;&lt;/span&gt;, System.&lt;span style="color:#a6e22e"&gt;currentTimeMillis&lt;/span&gt;() &lt;span style="color:#f92672"&gt;-&lt;/span&gt; startTimestamp);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (MailException e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;error&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Send mail failed, error message is : {} \n&amp;#34;&lt;/span&gt;, e.&lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; e.&lt;span style="color:#a6e22e"&gt;printStackTrace&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ServiceException(e.&lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;但是邮件发送一直失败，异常信息如下：&lt;/p&gt;</description></item></channel></rss>

@@ -1,66 +1,66 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NgTable on HelloWood</title><link>https://blog.hellowood.dev/tags/ngtable/</link><description>Recent content in NgTable on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ngtable/index.xml" rel="self" type="application/rss+xml"/><item><title>AngularJS 中ngTable自定义/重写过滤器</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 11:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</guid><description>&lt;blockquote>
-&lt;ul>
-&lt;li>在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器&lt;/li>
-&lt;/ul>&lt;/blockquote>
-&lt;blockquote>
-&lt;ul>
-&lt;li>###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤&lt;/li>
-&lt;/ul>&lt;/blockquote>
-&lt;blockquote>
-&lt;ul>
-&lt;li>text:根据字符匹配，如果被过滤的值有该字符，则显示该记录&lt;/li>
-&lt;/ul>&lt;/blockquote>
-&lt;ul>
-&lt;li>
-&lt;p>number:根据数值进行匹配，如果数值相等，则显示该记录&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>添加自定义的过滤器控件&lt;/p>
-&lt;ul>
-&lt;li>在HTML中&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>&amp;lt;script type=&amp;#34;text/ng-template&amp;#34; id=&amp;#34;/filter/js/startDateFilter.html&amp;#34;&amp;gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NgTable on HelloWood</title><link>https://blog.hellowood.dev/tags/ngtable/</link><description>Recent content in NgTable on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ngtable/index.xml" rel="self" type="application/rss+xml"/><item><title>AngularJS 中ngTable自定义/重写过滤器</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</link><pubDate>Mon, 01 Jan 2018 11:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%ADngtable%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%87%8D%E5%86%99%E8%BF%87%E6%BB%A4%E5%99%A8/</guid><description>&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;在使用ngTable 时用到了需要进行按时间过滤，但是ngTable并没有该功能，所以需要自定义过滤器，但是如果自定义了过滤器，则会覆盖原来的，所以就需要重写过滤器&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;###ngTable过滤器的原理是按照过滤的条件遍历所有的列表项内容，如果满足过滤条件则返回true，显示该记录，如果不满足条件则返回false，不显示该条记录，过滤条件有任何变化都会触发过滤&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;text:根据字符匹配，如果被过滤的值有该字符，则显示该记录&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;number:根据数值进行匹配，如果数值相等，则显示该记录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;select:根据下拉列表选择的值进行匹配，如果值相等，则显示该记录&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;添加自定义的过滤器控件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在HTML中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;script type=&amp;#34;text/ng-template&amp;#34; id=&amp;#34;/filter/js/startDateFilter.html&amp;#34;&amp;gt;
  &amp;lt;input type=&amp;#34;text&amp;#34;&amp;gt;
 &amp;lt;/script&amp;gt;
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>添加自定义的过滤器控件
-&lt;ul>
-&lt;li>在js中&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>$scope.customFilter = {
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;添加自定义的过滤器控件
+&lt;ul&gt;
+&lt;li&gt;在js中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$scope.customFilter = {
  start:{
  id:&amp;#39;/filter/js/startDateFilter.html&amp;#39;,
  placeholder:&amp;#39;Start&amp;#39;
  }
  }
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>需要在ngTable的配置中指定过滤器&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>$scope.userTable = new NgTableParams({},
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;需要在ngTable的配置中指定过滤器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$scope.userTable = new NgTableParams({},
  {
  // initial sort order
  filterDelay: 0,
  filterOptions: {filterFn: $scope.customFilterFn},
  dataset: data
  });
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>为指定列设置控件&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>&amp;lt;td data-title=&amp;#34;&amp;#39;日期&amp;#39;&amp;#34; filter=&amp;#34;customFilter&amp;#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;为指定列设置控件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;td data-title=&amp;#34;&amp;#39;日期&amp;#39;&amp;#34; filter=&amp;#34;customFilter&amp;#34;&amp;gt;
  {{user.date|type: post
 date:&amp;#39;yyyy-MM-dd&amp;#39;}}
  &amp;lt;/td&amp;gt;
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>重写过滤器方法，实现过滤器功能&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>$scope.customFilterFn = function (date, filterValues) {
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;重写过滤器方法，实现过滤器功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;$scope.customFilterFn = function (date, filterValues) {
  return data.filter(function (item) {
  var result = true;
  if (typeof(filterValues.name) != undefined &amp;amp;&amp;amp; filterValues.name != null) {
@@ -77,11 +77,11 @@ date:&amp;#39;yyyy-MM-dd&amp;#39;}}
  return result;
  })
  }
-&lt;/code>&lt;/pre>&lt;hr>
-&lt;ul>
-&lt;li>页面代码&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>&amp;lt;!DOCTYPE html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;页面代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html lang=&amp;#34;en&amp;#34; ng-app=&amp;#34;myApp&amp;#34; ng-controller=&amp;#34;myCtrl&amp;#34;&amp;gt;
 &amp;lt;head&amp;gt;
  &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt;
@@ -190,24 +190,24 @@ date:&amp;#39;yyyy-MM-dd&amp;#39;}}
  })
 &amp;lt;/script&amp;gt;
 &amp;lt;/html&amp;gt;
-&lt;/code>&lt;/pre></description></item><item><title>AngularJS中使用ngTable</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</link><pubDate>Mon, 01 Jan 2018 11:42:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</guid><description>&lt;blockquote>
-&lt;p>在HTML中使用&lt;a href="http://ng-table.com/">ngTable&lt;/a> 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>需要引用的文件
-&lt;ul>
-&lt;li>angular.js&lt;/li>
-&lt;li>ng-table.js&lt;/li>
-&lt;li>ng-table.css&lt;/li>
-&lt;li>bootrasp.css&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;hr>
-&lt;ul>
-&lt;li>注入依赖&lt;/li>
-&lt;li>为ng-table 设置属性和数据&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>var app = angular.module(&amp;#39;app&amp;#39;, [ &amp;#39;ngTable&amp;#39;]);
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>AngularJS中使用ngTable</title><link>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</link><pubDate>Mon, 01 Jan 2018 11:42:21 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E4%B8%AD%E4%BD%BF%E7%94%A8ngtable/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;在HTML中使用&lt;a href="http://ng-table.com/"&gt;ngTable&lt;/a&gt; 可以方便的进行排序，筛选，分页，添加，编辑删除等操作，不用再从数据库里面进行分页等操作&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;需要引用的文件
+&lt;ul&gt;
+&lt;li&gt;angular.js&lt;/li&gt;
+&lt;li&gt;ng-table.js&lt;/li&gt;
+&lt;li&gt;ng-table.css&lt;/li&gt;
+&lt;li&gt;bootrasp.css&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;注入依赖&lt;/li&gt;
+&lt;li&gt;为ng-table 设置属性和数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;var app = angular.module(&amp;#39;app&amp;#39;, [ &amp;#39;ngTable&amp;#39;]);
 app.controller(&amp;#39;controller&amp;#39;, function($scope,NgTableParams) {
  $http.get(&amp;#34;/query&amp;#34;)
  .success(function(data) {
@@ -222,11 +222,11 @@ app.controller(&amp;#39;controller&amp;#39;, function($scope,NgTableParams) {
  })
  });
 }
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>为 table 添加 ng-table 属性&lt;/li>
-&lt;li>显示数据&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>&amp;lt;table ng-table=&amp;#34;userTable&amp;#34; class=&amp;#34;table table-hover&amp;#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;为 table 添加 ng-table 属性&lt;/li&gt;
+&lt;li&gt;显示数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;table ng-table=&amp;#34;userTable&amp;#34; class=&amp;#34;table table-hover&amp;#34;&amp;gt;
  &amp;lt;tbody&amp;gt;
  &amp;lt;tr&amp;gt;
  &amp;lt;th&amp;gt;编号&amp;lt;/th&amp;gt;
@@ -238,4 +238,4 @@ app.controller(&amp;#39;controller&amp;#39;, function($scope,NgTableParams) {
  &amp;lt;/tr&amp;gt;
  &amp;lt;/tbody&amp;gt;
  &amp;lt;/table&amp;gt;
-&lt;/code>&lt;/pre></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;</description></item></channel></rss>

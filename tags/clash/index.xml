@@ -1,181 +1,181 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clash on HelloWood</title><link>https://blog.hellowood.dev/tags/clash/</link><description>Recent content in Clash on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/clash/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p>&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki">OpenWrt-nikki&lt;/a> 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/">mihome&lt;/a> 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Clash on HelloWood</title><link>https://blog.hellowood.dev/tags/clash/</link><description>Recent content in Clash on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/clash/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p&gt;&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki"&gt;OpenWrt-nikki&lt;/a&gt; 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/"&gt;mihome&lt;/a&gt; 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png" alt="homelab-openwrt-nikki-dashboard.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;h3 id="通过软件源安装">通过软件源安装&lt;/h3>
-&lt;p>OpenWrt-nikki 提供了软件源，添加软件源后可以通过 opkg/apt 安装&lt;/p>
-&lt;h4 id="通过脚本添加软件源">通过脚本添加软件源&lt;/h4>
-&lt;p>登录 OpenWrt 执行以下命令&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行后会将以下内容添加到 &lt;code>/etc/opkg/customfeeds.conf&lt;/code> 文件中：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="安装-1">安装&lt;/h4>
-&lt;p>通过 opkg 安装即可(如果用的是 apt，则将 opkg 替换为 opkg 即可)&lt;/p>
-&lt;ul>
-&lt;li>更新&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/nikki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_core
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_base
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_kmods
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_luci
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_packages
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_routing
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Updated list of available packages in /var/opkg-lists/openwrt_telephony
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.sig
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Signature check passed.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>安装&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg install nikki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-nikki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-nikki-zh-cn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install nikki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing nikki &lt;span style="color:#f92672">(&lt;/span>2025.05.13~266fb038-r1&lt;span style="color:#f92672">)&lt;/span> to root...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/nikki_2025.05.13~266fb038-r1_x86_64.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing kmod-nf-socket &lt;span style="color:#f92672">(&lt;/span>6.6.69-r1&lt;span style="color:#f92672">)&lt;/span> to root...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nf-socket_6.6.69-r1_x86_64.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing kmod-nft-socket &lt;span style="color:#f92672">(&lt;/span>6.6.69-r1&lt;span style="color:#f92672">)&lt;/span> to root...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nft-socket_6.6.69-r1_x86_64.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring kmod-nf-socket.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring kmod-nft-socket.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring nikki.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install luci-app-nikki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing luci-app-nikki &lt;span style="color:#f92672">(&lt;/span>1.22.3-r1&lt;span style="color:#f92672">)&lt;/span> to root...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-app-nikki_1.22.3-r1_all.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring luci-app-nikki.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root@OpenWrt:/etc/opkg# opkg install luci-i18n-nikki-zh-cn
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Installing luci-i18n-nikki-zh-cn &lt;span style="color:#f92672">(&lt;/span>25.133.29857~0832917&lt;span style="color:#f92672">)&lt;/span> to root...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-i18n-nikki-zh-cn_25.133.29857~0832917_all.ipk
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Configuring luci-i18n-nikki-zh-cn.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后重启，登录 OpenWrt 后在服务中可以看到 nikki 服务
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png" alt="homelab-openwrt-nikki-dashboard.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;h3 id="通过软件源安装"&gt;通过软件源安装&lt;/h3&gt;
+&lt;p&gt;OpenWrt-nikki 提供了软件源，添加软件源后可以通过 opkg/apt 安装&lt;/p&gt;
+&lt;h4 id="通过脚本添加软件源"&gt;通过脚本添加软件源&lt;/h4&gt;
+&lt;p&gt;登录 OpenWrt 执行以下命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行后会将以下内容添加到 &lt;code&gt;/etc/opkg/customfeeds.conf&lt;/code&gt; 文件中：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="安装-1"&gt;安装&lt;/h4&gt;
+&lt;p&gt;通过 opkg 安装即可(如果用的是 apt，则将 opkg 替换为 opkg 即可)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/nikki
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_core
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/packages/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_base
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/base/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_kmods
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_luci
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/luci/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_packages
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/packages/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_routing
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/routing/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/openwrt_telephony
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/packages/x86_64/telephony/Packages.sig
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Signature check passed.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install nikki
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-nikki
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-nikki-zh-cn
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install nikki
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing nikki &lt;span style="color:#f92672"&gt;(&lt;/span&gt;2025.05.13~266fb038-r1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; to root...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/nikki_2025.05.13~266fb038-r1_x86_64.ipk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing kmod-nf-socket &lt;span style="color:#f92672"&gt;(&lt;/span&gt;6.6.69-r1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; to root...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nf-socket_6.6.69-r1_x86_64.ipk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing kmod-nft-socket &lt;span style="color:#f92672"&gt;(&lt;/span&gt;6.6.69-r1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; to root...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://downloads.openwrt.org/releases/24.10.0-rc5/targets/x86/64/kmods/6.6.69-1-5509b70aad67fe27570100db8e5f3b66/kmod-nft-socket_6.6.69-r1_x86_64.ipk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configuring kmod-nf-socket.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configuring kmod-nft-socket.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configuring nikki.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install luci-app-nikki
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing luci-app-nikki &lt;span style="color:#f92672"&gt;(&lt;/span&gt;1.22.3-r1&lt;span style="color:#f92672"&gt;)&lt;/span&gt; to root...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-app-nikki_1.22.3-r1_all.ipk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configuring luci-app-nikki.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install luci-i18n-nikki-zh-cn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing luci-i18n-nikki-zh-cn &lt;span style="color:#f92672"&gt;(&lt;/span&gt;25.133.29857~0832917&lt;span style="color:#f92672"&gt;)&lt;/span&gt; to root...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/luci-i18n-nikki-zh-cn_25.133.29857~0832917_all.ipk
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Configuring luci-i18n-nikki-zh-cn.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后重启，登录 OpenWrt 后在服务中可以看到 nikki 服务
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png" alt="homelab-openwrt-nikki-homepage.png" loading="lazy">
-&lt;/p></description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p>Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p>
-&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
-&lt;p>大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/">Clash 使用 Docker 部署&lt;/a> 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>&lt;/p>
-&lt;h2 id="修改配置">修改配置&lt;/h2>
-&lt;h3 id="基础配置">基础配置&lt;/h3>
-&lt;p>基础配置部分用于指定 Clash 的端口、代理模式等；使用 TUN 后可以代理 UDP 流量，开启 tracing 可以对 Clash 进行性能监控&lt;/p>
-&lt;ul>
-&lt;li>config.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">port&lt;/span>: &lt;span style="color:#ae81ff">7890&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">socks-port&lt;/span>: &lt;span style="color:#ae81ff">7891&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">redir-port&lt;/span>: &lt;span style="color:#ae81ff">7892&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">allow-lan&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">mode&lt;/span>: &lt;span style="color:#ae81ff">rule&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">log-level&lt;/span>: &lt;span style="color:#ae81ff">info&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 控制端口&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">external-controller&lt;/span>: :&lt;span style="color:#ae81ff">9090&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 访问密码，建议设置&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">secret&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;123456&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">tun&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">enable&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">stack&lt;/span>: &lt;span style="color:#ae81ff">system&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">auto-route&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">auto-redir&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">auto-detect-interface&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 用于性能分析&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">profile&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">tracing&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置策略组">配置策略组&lt;/h3>
-&lt;p>代理提供方 &lt;code>proxy-providers&lt;/code> 用于为策略组 &lt;code>proxy-groups&lt;/code> 提供代理节点；这部分用于取代 Clash 中的 &lt;code>proxies&lt;/code>&lt;/p></description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</guid><description>&lt;p>使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/">使用 Docker 部署 Clash Premium&lt;/a>&lt;/p>
-&lt;p>在一些场景下无法使用 Clash 客户端进行代理，也无法使用软路由，这时候可以由一台服务器运行 Clash，作为其他客户端的代理；同时 Clash 支持以 Docker 容器的方式运行，方便部署和运维&lt;/p>
-&lt;h2 id="订阅格式转换">订阅格式转换&lt;/h2>
-&lt;p>机场提供的订阅可能无法被 Clash 直接使用，或者分流配置不合理，需要转换格式；可以使用在线的订阅转换工具，如 &lt;a href="https://acl4ssr-sub.github.io/">https://acl4ssr-sub.github.io/&lt;/a>等，也可以使用开源的服务自行搭建；&lt;/p>
-&lt;p>为了安全和隐私，可以基于 &lt;a href="https://github.com/CareyWang/sub-web">https://github.com/CareyWang/sub-web&lt;/a> 和 &lt;a href="https://github.com/tindy2013/subconverter">https://github.com/tindy2013/subconverter&lt;/a> 服务搭建，分别是前端和后端服务&lt;/p>
-&lt;ul>
-&lt;li>docker-compose.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">subweb&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">careywong/subweb&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">subweb&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">subweb&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">18080&lt;/span>:&lt;span style="color:#ae81ff">80&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TZ=Asia/Shanghai&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">subconverter&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">tindy2013/subconverter&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">subconverter&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">subconverter&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">25500&lt;/span>:&lt;span style="color:#ae81ff">25500&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TZ=Asia/Shanghai&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png" alt="homelab-openwrt-nikki-homepage.png" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p&gt;Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p&gt;
+&lt;h2 id="订阅格式转换"&gt;订阅格式转换&lt;/h2&gt;
+&lt;p&gt;大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/"&gt;Clash 使用 Docker 部署&lt;/a&gt; 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/"&gt;https://acl4ssr-sub.github.io/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="修改配置"&gt;修改配置&lt;/h2&gt;
+&lt;h3 id="基础配置"&gt;基础配置&lt;/h3&gt;
+&lt;p&gt;基础配置部分用于指定 Clash 的端口、代理模式等；使用 TUN 后可以代理 UDP 流量，开启 tracing 可以对 Clash 进行性能监控&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;config.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7890&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;socks-port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7891&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;redir-port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7892&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;allow-lan&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;mode&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;rule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;log-level&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 控制端口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;external-controller&lt;/span&gt;: :&lt;span style="color:#ae81ff"&gt;9090&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 访问密码，建议设置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;secret&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;123456&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;tun&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;enable&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stack&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-route&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-redir&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-detect-interface&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 用于性能分析&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;profile&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;tracing&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="配置策略组"&gt;配置策略组&lt;/h3&gt;
+&lt;p&gt;代理提供方 &lt;code&gt;proxy-providers&lt;/code&gt; 用于为策略组 &lt;code&gt;proxy-groups&lt;/code&gt; 提供代理节点；这部分用于取代 Clash 中的 &lt;code&gt;proxies&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</guid><description>&lt;p&gt;使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/"&gt;使用 Docker 部署 Clash Premium&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在一些场景下无法使用 Clash 客户端进行代理，也无法使用软路由，这时候可以由一台服务器运行 Clash，作为其他客户端的代理；同时 Clash 支持以 Docker 容器的方式运行，方便部署和运维&lt;/p&gt;
+&lt;h2 id="订阅格式转换"&gt;订阅格式转换&lt;/h2&gt;
+&lt;p&gt;机场提供的订阅可能无法被 Clash 直接使用，或者分流配置不合理，需要转换格式；可以使用在线的订阅转换工具，如 &lt;a href="https://acl4ssr-sub.github.io/"&gt;https://acl4ssr-sub.github.io/&lt;/a&gt;等，也可以使用开源的服务自行搭建；&lt;/p&gt;
+&lt;p&gt;为了安全和隐私，可以基于 &lt;a href="https://github.com/CareyWang/sub-web"&gt;https://github.com/CareyWang/sub-web&lt;/a&gt; 和 &lt;a href="https://github.com/tindy2013/subconverter"&gt;https://github.com/tindy2013/subconverter&lt;/a&gt; 服务搭建，分别是前端和后端服务&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;subweb&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;careywong/subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;18080&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;TZ=Asia/Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;subconverter&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tindy2013/subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;25500&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;25500&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;TZ=Asia/Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-clash-proxy-config-convert-to-clash.png" alt="homelab-clash-proxy-config-convert-to-clash.png" loading="lazy">
-&lt;/p>
-&lt;ul>
-&lt;li>自定义配置&lt;/li>
-&lt;/ul>
-&lt;p>如果有自定义配置，可以指定远程配置，参考&lt;a href="https://github.com/tindy2013/subconverter/blob/master/README-cn.md#%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE">外部配置&lt;/a>，指定 &lt;code>clash_rule_base&lt;/code> 配置模板；不过该方式比较麻烦，自己使用可以直接通过更改 subconverter 默认配置的方式实现；&lt;/p>
-&lt;p>subconverter 默认的配置是 &lt;code>/base/pref.toml&lt;/code>文件，其中指定了 clash 的配置文件模板为 &lt;code>clash_rule_base = &amp;quot;base/all_base.tpl&amp;quot;&lt;/code>，所以修改 &lt;code>base/all_base.tpl&lt;/code> 文件即可&lt;/p></description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;p>OpenWrt 除了 OpenClash 外，还有其他类似代理软件，如 Nikki, dae 等，可以参考以下内容：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/">OpenWrt 安装使用 Dae 作为代理&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/">OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="clash-使用方式对比">Clash 使用方式对比&lt;/h2>
-&lt;p>OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：&lt;/p>
-&lt;ul>
-&lt;li>运行客户端&lt;/li>
-&lt;/ul>
-&lt;p>客户端直接使用的方式最灵活，调整代理方式或策略比较方便，可以选择性的开启或关闭，会代理设备上支持代理的所有流量；适用于手机，电脑等有客户端支持等设备&lt;/p>
-&lt;ul>
-&lt;li>代理方式使用&lt;/li>
-&lt;/ul>
-&lt;p>代理方式适用于没有客户端软件的场景，如命令行，为特定的软件配置代理等；这种方式不够灵活，可按需为特定应用或设备配置&lt;/p>
-&lt;ul>
-&lt;li>运行在OpenWrt&lt;/li>
-&lt;/ul>
-&lt;p>运行在 OpenWrt 等主路由或旁路由中，可以透明代理整个局域网内的流量，对于一些无法直接操作的 IoT 设备非常方便；也不需要修改客户端任何配置；缺点是如果不稳定会影响局域网内的所有设备&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;p>需要使用 Clash 配置网络，用于访问特定的资源；&lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 是 Openwrt 的 Clash 客户端；&lt;/p>
-&lt;ol>
-&lt;li>安装依赖软件&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
-&lt;li>下载并安装 OpenClash&lt;/li>
-&lt;/ol>
-&lt;p>可以在 &lt;a href="https://github.com/vernesong/OpenClash">OpenClash&lt;/a> 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases">Release&lt;/a> 页面选择对应的版本进行下载&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-clash-proxy-config-convert-to-clash.png" alt="homelab-clash-proxy-config-convert-to-clash.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自定义配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果有自定义配置，可以指定远程配置，参考&lt;a href="https://github.com/tindy2013/subconverter/blob/master/README-cn.md#%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE"&gt;外部配置&lt;/a&gt;，指定 &lt;code&gt;clash_rule_base&lt;/code&gt; 配置模板；不过该方式比较麻烦，自己使用可以直接通过更改 subconverter 默认配置的方式实现；&lt;/p&gt;
+&lt;p&gt;subconverter 默认的配置是 &lt;code&gt;/base/pref.toml&lt;/code&gt;文件，其中指定了 clash 的配置文件模板为 &lt;code&gt;clash_rule_base = &amp;quot;base/all_base.tpl&amp;quot;&lt;/code&gt;，所以修改 &lt;code&gt;base/all_base.tpl&lt;/code&gt; 文件即可&lt;/p&gt;</description></item><item><title>OpenWrt 安装使用 OpenClash</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</link><pubDate>Thu, 25 Aug 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash/</guid><description>&lt;p&gt;OpenWrt 除了 OpenClash 外，还有其他类似代理软件，如 Nikki, dae 等，可以参考以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/"&gt;OpenWrt 安装使用 Dae 作为代理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/"&gt;OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="clash-使用方式对比"&gt;Clash 使用方式对比&lt;/h2&gt;
+&lt;p&gt;OpenClash 是 Clash 的 OpenWrt 客户端；Clash 有多种使用方式，如直接使用客户端，或者以容器或进程的方式运行在服务器上，客户端以代理的方式使用，或者运行在 OpenWrt 中等；因为各种因素影响，不同的使用方式有不同的适用场景：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;运行客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;客户端直接使用的方式最灵活，调整代理方式或策略比较方便，可以选择性的开启或关闭，会代理设备上支持代理的所有流量；适用于手机，电脑等有客户端支持等设备&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代理方式使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代理方式适用于没有客户端软件的场景，如命令行，为特定的软件配置代理等；这种方式不够灵活，可按需为特定应用或设备配置&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;运行在OpenWrt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行在 OpenWrt 等主路由或旁路由中，可以透明代理整个局域网内的流量，对于一些无法直接操作的 IoT 设备非常方便；也不需要修改客户端任何配置；缺点是如果不稳定会影响局域网内的所有设备&lt;/p&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;p&gt;需要使用 Clash 配置网络，用于访问特定的资源；&lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 是 Openwrt 的 Clash 客户端；&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装依赖软件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
+&lt;li&gt;下载并安装 OpenClash&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以在 &lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases"&gt;Release&lt;/a&gt; 页面选择对应的版本进行下载&lt;/p&gt;</description></item></channel></rss>

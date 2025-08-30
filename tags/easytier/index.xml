@@ -1,61 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Easytier on HelloWood</title><link>https://blog.hellowood.dev/tags/easytier/</link><description>Recent content in Easytier on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/easytier/index.xml" rel="self" type="application/rss+xml"/><item><title>Easytier 使用自建公共节点进行异地组网</title><link>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p>&lt;a href="https://easytier.cn/guide/introduction.html">Easytier&lt;/a> 是一个基于 WireGuard 的 VPN 工具，使用 Rust 语言开发，支持跨平台、NAT穿透、子网代理，智能路由等功能&lt;/p>
-&lt;h2 id="部署共享节点">部署共享节点&lt;/h2>
-&lt;p>使用 docker 部署共享节点，需要开放 11010/11011/11012 这三个端口；共享节点不需要指定任何参数，直接启动 &lt;code>easytier-core&lt;/code> 即可&lt;/p>
-&lt;ul>
-&lt;li>docker-compose.yml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">easytier&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">easytier/easytier:latest&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">${HOSTNAME}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">easytier&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">network_mode&lt;/span>: &lt;span style="color:#ae81ff">host&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cap_add&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">NET_ADMIN&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">NET_RAW&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">TZ=Asia/Shanghai&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">devices&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/dev/net/tun:/dev/net/tun&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data:/root&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">/etc/machine-id:/etc/machine-id:ro&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过启动日志查看启动状态&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>easytier | Starting easytier with config:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#75715e">############### TOML ###############&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | instance_name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;default&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | dhcp &lt;span style="color:#f92672">=&lt;/span> false
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | listeners &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#e6db74">&amp;#34;tcp://0.0.0.0:11010&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#e6db74">&amp;#34;udp://0.0.0.0:11010&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#e6db74">&amp;#34;wg://0.0.0.0:11011&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#e6db74">&amp;#34;ws://0.0.0.0:11011/&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#e6db74">&amp;#34;wss://0.0.0.0:11012/&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | mapped_listeners &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | exit_nodes &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | peer &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | rpc_portal &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;0.0.0.0:15888&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#f92672">[&lt;/span>network_identity&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | network_name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;default&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | network_secret &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | &lt;span style="color:#f92672">[&lt;/span>flags&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier |
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | -----------------------------------
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://0.0.0.0:11010
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: udp://0.0.0.0:11010
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://&lt;span style="color:#f92672">[&lt;/span>::&lt;span style="color:#f92672">]&lt;/span>:11010
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: udp://&lt;span style="color:#f92672">[&lt;/span>::&lt;span style="color:#f92672">]&lt;/span>:11010
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wg://0.0.0.0:11011
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wg://&lt;span style="color:#f92672">[&lt;/span>::&lt;span style="color:#f92672">]&lt;/span>:11011
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: ws://0.0.0.0:11011/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: ws://&lt;span style="color:#f92672">[&lt;/span>::&lt;span style="color:#f92672">]&lt;/span>:11011/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wss://0.0.0.0:11012/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>easytier | 2025-06-09 09:31:01: new listener added. listener: wss://&lt;span style="color:#f92672">[&lt;/span>::&lt;span style="color:#f92672">]&lt;/span>:11012/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="部署边缘节点">部署边缘节点&lt;/h2>
-&lt;h3 id="部署">部署&lt;/h3>
-&lt;p>Easytier 依赖 tun 创建虚拟网络，因此如果是在 PVE 的 CT 容器中部署，需要将 tun 挂载到容器中，可以参考 &lt;a href="https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/">Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限&lt;/a>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Easytier on HelloWood</title><link>https://blog.hellowood.dev/tags/easytier/</link><description>Recent content in Easytier on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/easytier/index.xml" rel="self" type="application/rss+xml"/><item><title>Easytier 使用自建公共节点进行异地组网</title><link>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/easytier-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%BB%BA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/</guid><description>&lt;p&gt;&lt;a href="https://easytier.cn/guide/introduction.html"&gt;Easytier&lt;/a&gt; 是一个基于 WireGuard 的 VPN 工具，使用 Rust 语言开发，支持跨平台、NAT穿透、子网代理，智能路由等功能&lt;/p&gt;
+&lt;h2 id="部署共享节点"&gt;部署共享节点&lt;/h2&gt;
+&lt;p&gt;使用 docker 部署共享节点，需要开放 11010/11011/11012 这三个端口；共享节点不需要指定任何参数，直接启动 &lt;code&gt;easytier-core&lt;/code&gt; 即可&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;easytier&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;easytier/easytier:latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;${HOSTNAME}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;easytier&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;network_mode&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;host&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cap_add&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;NET_ADMIN&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;NET_RAW&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;TZ=Asia/Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;devices&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;/dev/net/tun:/dev/net/tun&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data:/root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;/etc/machine-id:/etc/machine-id:ro&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过启动日志查看启动状态&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | Starting easytier with config:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#75715e"&gt;############### TOML ###############&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | instance_name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | dhcp &lt;span style="color:#f92672"&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | listeners &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#e6db74"&gt;&amp;#34;tcp://0.0.0.0:11010&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#e6db74"&gt;&amp;#34;udp://0.0.0.0:11010&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#e6db74"&gt;&amp;#34;wg://0.0.0.0:11011&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#e6db74"&gt;&amp;#34;ws://0.0.0.0:11011/&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#e6db74"&gt;&amp;#34;wss://0.0.0.0:11012/&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | mapped_listeners &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | exit_nodes &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | peer &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | rpc_portal &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0.0.0.0:15888&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#f92672"&gt;[&lt;/span&gt;network_identity&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | network_name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | network_secret &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#f92672"&gt;[&lt;/span&gt;flags&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | -----------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://0.0.0.0:11010
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: udp://0.0.0.0:11010
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: tcp://&lt;span style="color:#f92672"&gt;[&lt;/span&gt;::&lt;span style="color:#f92672"&gt;]&lt;/span&gt;:11010
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: udp://&lt;span style="color:#f92672"&gt;[&lt;/span&gt;::&lt;span style="color:#f92672"&gt;]&lt;/span&gt;:11010
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: wg://0.0.0.0:11011
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: wg://&lt;span style="color:#f92672"&gt;[&lt;/span&gt;::&lt;span style="color:#f92672"&gt;]&lt;/span&gt;:11011
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: ws://0.0.0.0:11011/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: ws://&lt;span style="color:#f92672"&gt;[&lt;/span&gt;::&lt;span style="color:#f92672"&gt;]&lt;/span&gt;:11011/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: wss://0.0.0.0:11012/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | 2025-06-09 09:31:01: new listener added. listener: wss://&lt;span style="color:#f92672"&gt;[&lt;/span&gt;::&lt;span style="color:#f92672"&gt;]&lt;/span&gt;:11012/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="部署边缘节点"&gt;部署边缘节点&lt;/h2&gt;
+&lt;h3 id="部署"&gt;部署&lt;/h3&gt;
+&lt;p&gt;Easytier 依赖 tun 创建虚拟网络，因此如果是在 PVE 的 CT 容器中部署，需要将 tun 挂载到容器中，可以参考 &lt;a href="https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/"&gt;Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -1,93 +1,93 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeAssistant on HelloWood</title><link>https://blog.hellowood.dev/tags/homeassistant/</link><description>Recent content in HomeAssistant on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homeassistant/index.xml" rel="self" type="application/rss+xml"/><item><title>使用培正 PZEM 004T 和 HomeAssistant 监测家庭用电情况</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%9F%B9%E6%AD%A3-pzem-004t-%E5%92%8C-homeassistant-%E7%9B%91%E6%B5%8B%E5%AE%B6%E5%BA%AD%E7%94%A8%E7%94%B5%E6%83%85%E5%86%B5/</link><pubDate>Sun, 12 Feb 2023 21:44:13 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%9F%B9%E6%AD%A3-pzem-004t-%E5%92%8C-homeassistant-%E7%9B%91%E6%B5%8B%E5%AE%B6%E5%BA%AD%E7%94%A8%E7%94%B5%E6%83%85%E5%86%B5/</guid><description>&lt;p>培正 PZEM-004T 是一个电能监控模块，能够监测家庭用电的电压，电流，频率，实时功率，耗电量等信息；支持通过 UART 协议进行读取；因此可以使用 ESP8266 或者 ESP32 等模块，将用电信息添加到 HomeAssistant 中&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeAssistant on HelloWood</title><link>https://blog.hellowood.dev/tags/homeassistant/</link><description>Recent content in HomeAssistant on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homeassistant/index.xml" rel="self" type="application/rss+xml"/><item><title>使用培正 PZEM 004T 和 HomeAssistant 监测家庭用电情况</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%9F%B9%E6%AD%A3-pzem-004t-%E5%92%8C-homeassistant-%E7%9B%91%E6%B5%8B%E5%AE%B6%E5%BA%AD%E7%94%A8%E7%94%B5%E6%83%85%E5%86%B5/</link><pubDate>Sun, 12 Feb 2023 21:44:13 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%9F%B9%E6%AD%A3-pzem-004t-%E5%92%8C-homeassistant-%E7%9B%91%E6%B5%8B%E5%AE%B6%E5%BA%AD%E7%94%A8%E7%94%B5%E6%83%85%E5%86%B5/</guid><description>&lt;p&gt;培正 PZEM-004T 是一个电能监控模块，能够监测家庭用电的电压，电流，频率，实时功率，耗电量等信息；支持通过 UART 协议进行读取；因此可以使用 ESP8266 或者 ESP32 等模块，将用电信息添加到 HomeAssistant 中&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-pannel.png" alt="homelab-homeassistant-power-monitor-pannel.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="硬件">硬件&lt;/h2>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>硬件&lt;/th>
- &lt;th>价格&lt;/th>
- &lt;th>数量&lt;/th>
- &lt;th>备注&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>peacefair PZEM-004T 100A 主机+开合式CT&lt;/td>
- &lt;td>42&lt;/td>
- &lt;td>1&lt;/td>
- &lt;td>电表，建议使用开合式CT，不需要改动电路&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>220V 转 5V1A 供电模块&lt;/td>
- &lt;td>8&lt;/td>
- &lt;td>1&lt;/td>
- &lt;td>用于为培正电表和 3v 模块供电&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>5V 转 3.3V 供电模块&lt;/td>
- &lt;td>3.5&lt;/td>
- &lt;td>1&lt;/td>
- &lt;td>用于为 ESP-01S 模块供电&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>40P杜邦线母对母&lt;/td>
- &lt;td>2.6&lt;/td>
- &lt;td>1&lt;/td>
- &lt;td>用于连接所有的模块&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>40P杜邦线母对公&lt;/td>
- &lt;td>2.6&lt;/td>
- &lt;td>1&lt;/td>
- &lt;td>用于连接所有的模块&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;p>##1. ESP-01S 刷入 esphome 固件&lt;/p>
-&lt;h3 id="运行-esphome-容器">运行 esphome 容器&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;esphome&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 6052:6052 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -e TZ&lt;span style="color:#f92672">=&lt;/span>Asia/Shanghai &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --hostname&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;esphome&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -v ~/esphome/config:/config &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --privileged &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> esphome/esphome
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="刷入固件">刷入固件&lt;/h3>
-&lt;p>启动后访问 &lt;a href="http://localhost:6052/">http://localhost:6052/&lt;/a>，选择添加设备，完整配置文件如下：&lt;/p></description></item><item><title>HomeAssistant 基于容器搭建与使用</title><link>https://blog.hellowood.dev/posts/homeassistant-%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/</link><pubDate>Sun, 13 Nov 2022 21:51:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/homeassistant-%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid><description>&lt;p>&lt;a href="https://www.home-assistant.io/">HomeAssistant&lt;/a> 是免费开源的智能家庭自动化控制系统，支持接入多种平台，如 HomeKit，米家，ESPHome 等；国内大部分应用场景是将米家的设备通过 HomeAssistant 接入苹果生态，或者使用第三方组件，监控水电气等&lt;/p>
-&lt;h2 id="基于容器搭建">基于容器搭建&lt;/h2>
-&lt;p>HomeAssistant 支持多种运行方式，如以OS方式运行，或者使用二进制或容器等方式运行；容器等方式更方便管理&lt;/p>
-&lt;h3 id="使用-docker-直接运行">使用 Docker 直接运行&lt;/h3>
-&lt;p>在 Linux 服务器使用容器启动 HomeAssistant，HomeAssistant 的所有配置和数据都在 &lt;code>/config&lt;/code> 目录下，为了持久化数据，将当前路径挂载到 HomeAssistant 的 config 目录下；因为 HomeAssistant 需要访问局域网内的其他设备，因此，建议容器的网络模式使用 &lt;code>host&lt;/code>，或者通过 &lt;code>macvlan&lt;/code> 驱动为其单独创建网络&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;home-assistant&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> -v &lt;span style="color:#e6db74">${&lt;/span>pwd&lt;span style="color:#e6db74">}&lt;/span>:/config &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -v /etc/localtime:/etc/localtime:ro &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --net&lt;span style="color:#f92672">=&lt;/span>host &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> homeassistant/home-assistant
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用-docker-compose-启动">使用 Docker Compose 启动&lt;/h3>
-&lt;ul>
-&lt;li>docker-compose.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>version: &lt;span style="color:#e6db74">&amp;#39;3&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>services:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> homeassistant:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> container_name: homeassistant
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> image: &lt;span style="color:#e6db74">&amp;#34;homeassistant/home-assistant&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> privileged: true
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> network_mode: host
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> restart: always
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> healthcheck:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> test: &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#e6db74">&amp;#34;CMD&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;wget&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;-q&amp;#34;&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;--spider&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;http://localhost:8123&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> interval: 15s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> timeout: 10s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> retries: &lt;span style="color:#ae81ff">3&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> start_period: 90s
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> volumes:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;/etc/localtime:/etc/localtime:ro&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;./config:/config&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动后，通过访问服务器的 8123 接口，使用用户名 &lt;code>admin&lt;/code> 和密码 &lt;code>admin&lt;/code> 访问即可进入 HomeAssistant&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-homeassistant-power-monitor-pannel.png" alt="homelab-homeassistant-power-monitor-pannel.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="硬件"&gt;硬件&lt;/h2&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;硬件&lt;/th&gt;
+ &lt;th&gt;价格&lt;/th&gt;
+ &lt;th&gt;数量&lt;/th&gt;
+ &lt;th&gt;备注&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;peacefair PZEM-004T 100A 主机+开合式CT&lt;/td&gt;
+ &lt;td&gt;42&lt;/td&gt;
+ &lt;td&gt;1&lt;/td&gt;
+ &lt;td&gt;电表，建议使用开合式CT，不需要改动电路&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;220V 转 5V1A 供电模块&lt;/td&gt;
+ &lt;td&gt;8&lt;/td&gt;
+ &lt;td&gt;1&lt;/td&gt;
+ &lt;td&gt;用于为培正电表和 3v 模块供电&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;5V 转 3.3V 供电模块&lt;/td&gt;
+ &lt;td&gt;3.5&lt;/td&gt;
+ &lt;td&gt;1&lt;/td&gt;
+ &lt;td&gt;用于为 ESP-01S 模块供电&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;40P杜邦线母对母&lt;/td&gt;
+ &lt;td&gt;2.6&lt;/td&gt;
+ &lt;td&gt;1&lt;/td&gt;
+ &lt;td&gt;用于连接所有的模块&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;40P杜邦线母对公&lt;/td&gt;
+ &lt;td&gt;2.6&lt;/td&gt;
+ &lt;td&gt;1&lt;/td&gt;
+ &lt;td&gt;用于连接所有的模块&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;##1. ESP-01S 刷入 esphome 固件&lt;/p&gt;
+&lt;h3 id="运行-esphome-容器"&gt;运行 esphome 容器&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;esphome&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 6052:6052 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -e TZ&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Asia/Shanghai &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --hostname&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;esphome&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v ~/esphome/config:/config &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --privileged &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; esphome/esphome
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="刷入固件"&gt;刷入固件&lt;/h3&gt;
+&lt;p&gt;启动后访问 &lt;a href="http://localhost:6052/"&gt;http://localhost:6052/&lt;/a&gt;，选择添加设备，完整配置文件如下：&lt;/p&gt;</description></item><item><title>HomeAssistant 基于容器搭建与使用</title><link>https://blog.hellowood.dev/posts/homeassistant-%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/</link><pubDate>Sun, 13 Nov 2022 21:51:48 +0800</pubDate><guid>https://blog.hellowood.dev/posts/homeassistant-%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid><description>&lt;p&gt;&lt;a href="https://www.home-assistant.io/"&gt;HomeAssistant&lt;/a&gt; 是免费开源的智能家庭自动化控制系统，支持接入多种平台，如 HomeKit，米家，ESPHome 等；国内大部分应用场景是将米家的设备通过 HomeAssistant 接入苹果生态，或者使用第三方组件，监控水电气等&lt;/p&gt;
+&lt;h2 id="基于容器搭建"&gt;基于容器搭建&lt;/h2&gt;
+&lt;p&gt;HomeAssistant 支持多种运行方式，如以OS方式运行，或者使用二进制或容器等方式运行；容器等方式更方便管理&lt;/p&gt;
+&lt;h3 id="使用-docker-直接运行"&gt;使用 Docker 直接运行&lt;/h3&gt;
+&lt;p&gt;在 Linux 服务器使用容器启动 HomeAssistant，HomeAssistant 的所有配置和数据都在 &lt;code&gt;/config&lt;/code&gt; 目录下，为了持久化数据，将当前路径挂载到 HomeAssistant 的 config 目录下；因为 HomeAssistant 需要访问局域网内的其他设备，因此，建议容器的网络模式使用 &lt;code&gt;host&lt;/code&gt;，或者通过 &lt;code&gt;macvlan&lt;/code&gt; 驱动为其单独创建网络&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;home-assistant&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;pwd&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;:/config &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /etc/localtime:/etc/localtime:ro &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --net&lt;span style="color:#f92672"&gt;=&lt;/span&gt;host &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; homeassistant/home-assistant
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="使用-docker-compose-启动"&gt;使用 Docker Compose 启动&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version: &lt;span style="color:#e6db74"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;services:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; homeassistant:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; container_name: homeassistant
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; image: &lt;span style="color:#e6db74"&gt;&amp;#34;homeassistant/home-assistant&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; privileged: true
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; network_mode: host
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; restart: always
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; healthcheck:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; test: &lt;span style="color:#f92672"&gt;[&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;CMD&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;wget&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;-q&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;--spider&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;http://localhost:8123&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; interval: 15s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; timeout: 10s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; retries: &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; start_period: 90s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; volumes:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;/etc/localtime:/etc/localtime:ro&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;./config:/config&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动后，通过访问服务器的 8123 接口，使用用户名 &lt;code&gt;admin&lt;/code&gt; 和密码 &lt;code&gt;admin&lt;/code&gt; 访问即可进入 HomeAssistant&lt;/p&gt;</description></item></channel></rss>

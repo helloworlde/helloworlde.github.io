@@ -1,31 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNS on HelloWood</title><link>https://blog.hellowood.dev/tags/dns/</link><description>Recent content in DNS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</guid><description>&lt;p>&lt;a href="https://pymumu.github.io/smartdns/">SmartDNS&lt;/a> 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p>
-&lt;p>在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;p>SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>opkg update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install smartdns
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-app-smartdns
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>opkg install luci-i18n-smartdns-zh-cn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置-smartdns">配置 SmartDNS&lt;/h2>
-&lt;p>安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code>/etc/config/smartdns&lt;/code> 配置文件）&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNS on HelloWood</title><link>https://blog.hellowood.dev/tags/dns/</link><description>Recent content in DNS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</guid><description>&lt;p&gt;&lt;a href="https://pymumu.github.io/smartdns/"&gt;SmartDNS&lt;/a&gt; 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p&gt;
+&lt;p&gt;在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;p&gt;SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install smartdns
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-smartdns
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-smartdns-zh-cn
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置-smartdns"&gt;配置 SmartDNS&lt;/h2&gt;
+&lt;p&gt;安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code&gt;/etc/config/smartdns&lt;/code&gt; 配置文件）&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png" loading="lazy">
-&lt;/p>
-&lt;p>这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p>
-&lt;h2 id="配置-dnsmasq">配置 Dnsmasq&lt;/h2>
-&lt;p>OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p>
-&lt;p>在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p&gt;
+&lt;h2 id="配置-dnsmasq"&gt;配置 Dnsmasq&lt;/h2&gt;
+&lt;p&gt;OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p&gt;
+&lt;p&gt;在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" loading="lazy">
-&lt;/p></description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p>
-&lt;p>另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供&lt;/p>
-&lt;h2 id="配置-docker-macvlan-网络">配置 Docker macvlan 网络&lt;/h2>
-&lt;p>因为在同一个服务器上提供了多个服务，因此存在端口冲突问题，Pi-hole 和 Smartdns 都需要 53 端口用于提供 DNS，而且 53 端口默认被 Ubuntu Server 使用；而且局域网中的设备需要访问 DHCP 服务，因此为了避免冲突，需要使用 &lt;code>macvlan&lt;/code> 作为 Docker 网络的驱动&lt;/p>
-&lt;p>&lt;code>macvlan&lt;/code> 是一种网卡虚拟化技术，允许在同一个物理网卡上配置多个 MAC 地址，即多个 interface，每个 interface 可以配置自己的 IP&lt;/p>
-&lt;p>通过 &lt;code>macvlan&lt;/code>，可以为每个 Docker 容器提供特定的 IP 地址，用于局域网内的设置直接通过容器的 IP 地址访问&lt;/p>
-&lt;ul>
-&lt;li>开启网卡混杂模式&lt;/li>
-&lt;/ul>
-&lt;p>默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，因此，为了能让 Docker 容器能正常收到其他设备的请求，需要开启网卡混杂模式；需要注意 &lt;code>eth0&lt;/code> 要和实际的网卡名称一致&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p&gt;
+&lt;p&gt;另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供&lt;/p&gt;
+&lt;h2 id="配置-docker-macvlan-网络"&gt;配置 Docker macvlan 网络&lt;/h2&gt;
+&lt;p&gt;因为在同一个服务器上提供了多个服务，因此存在端口冲突问题，Pi-hole 和 Smartdns 都需要 53 端口用于提供 DNS，而且 53 端口默认被 Ubuntu Server 使用；而且局域网中的设备需要访问 DHCP 服务，因此为了避免冲突，需要使用 &lt;code&gt;macvlan&lt;/code&gt; 作为 Docker 网络的驱动&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;macvlan&lt;/code&gt; 是一种网卡虚拟化技术，允许在同一个物理网卡上配置多个 MAC 地址，即多个 interface，每个 interface 可以配置自己的 IP&lt;/p&gt;
+&lt;p&gt;通过 &lt;code&gt;macvlan&lt;/code&gt;，可以为每个 Docker 容器提供特定的 IP 地址，用于局域网内的设置直接通过容器的 IP 地址访问&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开启网卡混杂模式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，因此，为了能让 Docker 容器能正常收到其他设备的请求，需要开启网卡混杂模式；需要注意 &lt;code&gt;eth0&lt;/code&gt; 要和实际的网卡名称一致&lt;/p&gt;</description></item></channel></rss>

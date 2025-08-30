@@ -1,107 +1,107 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Router on HelloWood</title><link>https://blog.hellowood.dev/tags/router/</link><description>Recent content in Router on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/router/index.xml" rel="self" type="application/rss+xml"/><item><title>红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统</title><link>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</link><pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</guid><description>&lt;p>红米 AX6000 是 WiFi6 早期阶段性能极强并且有性价比的路由器，缺点是不支持 2.5G网口；在使用两年后刷为 OpenWrt 用于安装 OpenClash 等软件&lt;/p>
-&lt;h2 id="启用-telnet-并解锁-ssh">启用 telnet 并解锁 SSH&lt;/h2>
-&lt;p>刷机需要登录到路由器操作，因此需要先启用 telnet 并解锁 SSH；解锁过程比较简单，直接访问对应的地址就可以&lt;/p>
-&lt;h3 id="确认固件版本">确认固件版本&lt;/h3>
-&lt;p>登录路由器后台，需要确认固件版本是否是 1.0.48、1.0.60 或者 1.0.67，只有这三个版本支持；如果不是这三个版本，需要下载其中某个版本刷入；最新的固件版本是 1.0.67，并且这款路由器已经没有新版本更新了&lt;/p>
-&lt;p>固件地址可以参考: &lt;a href="https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version">https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version&lt;/a>&lt;/p>
-&lt;h3 id="启用-telnet">启用 telnet&lt;/h3>
-&lt;ul>
-&lt;li>获取 stock&lt;/li>
-&lt;/ul>
-&lt;p>stock 是小米路由器访问的鉴权 token，每次登录后生成新的，登录后可以浏览器的地址栏 URL 中直接获取，比如：066801299c1f7845d1871e50c4a307df&lt;/p>
-&lt;ul>
-&lt;li>开启开发/调试模式&lt;/li>
-&lt;/ul>
-&lt;p>将 &lt;code>{token}&lt;/code> 替换为 URL获取的 stock，浏览器访问 URL:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672">={&lt;/span>token&lt;span style="color:#f92672">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672">=&lt;/span>%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个操作会将 &lt;code>\xa5\x5a\x00\x00&lt;/code> 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;code&amp;#34;&lt;/span>: &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后访问重启路由器&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672">={&lt;/span>token&lt;span style="color:#f92672">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672">=&lt;/span>%20%27%20%3b%20reboot%20%3b%20
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>修改 Bdata, 开启 telnet&lt;/li>
-&lt;/ul>
-&lt;p>再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672">={&lt;/span>token&lt;span style="color:#f92672">}&lt;/span>/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672">=&lt;/span>%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后再次访问 URL 重启路由器&lt;/p></description></item><item><title>小米路由器 4A 千兆版刷入 OpenWrt</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</link><pubDate>Fri, 25 Aug 2023 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</guid><description>&lt;p>因为买了新的路由器，之前的小米 4A 千兆版被淘汰下来了，因此想刷个 OpenWrt 测试一下&lt;/p>
-&lt;h2 id="依赖">依赖&lt;/h2>
-&lt;ul>
-&lt;li>电脑 Win/Mac/Linux，需要支持网线连接，如果是 Mac，需要一个网线转接器&lt;/li>
-&lt;li>小米路由器 4A 千兆版&lt;/li>
-&lt;li>Python3 环境&lt;/li>
-&lt;li>网线&lt;/li>
-&lt;/ul>
-&lt;h2 id="开启路由器-ssh">开启路由器 SSH&lt;/h2>
-&lt;p>需要先开启路由器的 SSH，小米的固件只有开发版支持 SSH，但是现在所有的版本基本都不会放出开发版；所以只能通过破解的方式开启(开启后不支持保修)；&lt;/p>
-&lt;p>因为小米路由器系统存在 &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2019-18370">CVE-2019-18370&lt;/a> 漏洞，所以可以通过该漏洞开启 SSH；需要使用项目 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> 提供的脚本&lt;/p>
-&lt;ul>
-&lt;li>下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion">acecilia/OpenWRTInvasion&lt;/a> ，并安装依赖&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone https://github.com/acecilia/OpenWRTInvasion.git
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd OpenWRTInvasion
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip3 install -r requirements.txt
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>执行脚本&lt;/li>
-&lt;/ul>
-&lt;p>通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code>remote_command_execution_vulnerability.py&lt;/code> 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code>192.168.31.1&lt;/code>，或者访问 &lt;code>miwifi.com&lt;/code>也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>python3 remote_command_execution_vulnerability.py
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>here two options to provide the files needed &lt;span style="color:#66d9ef">for&lt;/span> invasion:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1. Use a local TCP file server runing on random port to provide files in local directory &lt;span style="color:#e6db74">`&lt;/span>script_tools&lt;span style="color:#e6db74">`&lt;/span>.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>2. Download needed files from remote github repository. &lt;span style="color:#f92672">(&lt;/span>choose this option only &lt;span style="color:#66d9ef">if&lt;/span> github is accessable inside router device.&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Which option &lt;span style="color:#66d9ef">do&lt;/span> you prefer? &lt;span style="color:#f92672">(&lt;/span>default: 1&lt;span style="color:#f92672">)&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>router_ip_address: miwifi.com
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>stok: f19c778f7bc6fbe92cc70a6c6bd2bd4f
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>file provider: local file server
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>****************
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start uploading config file...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>start exec command...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>local file server is runing on 0.0.0.0:57165. root&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;script_tools&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>local file server is getting &lt;span style="color:#e6db74">&amp;#39;busybox-mipsel&amp;#39;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> 192.168.31.1.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>local file server is getting &lt;span style="color:#e6db74">&amp;#39;dropbearStaticMipsel.tar.bz2&amp;#39;&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> 192.168.31.1.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">done&lt;/span>! Now you can connect to the router using several options: &lt;span style="color:#f92672">(&lt;/span>user: root, password: root&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* telnet miwifi.com
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ssh -oKexAlgorithms&lt;span style="color:#f92672">=&lt;/span>+diffie-hellman-group1-sha1 -c 3des-cbc -o UserKnownHostsFile&lt;span style="color:#f92672">=&lt;/span>/dev/null root@miwifi.com
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* ftp: using a program like cyberduck
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>SSH 访问路由器&lt;/li>
-&lt;/ul>
-&lt;p>通过指定参数的方式，使用 SSH 访问路由器，用户名密码都是 &lt;code>root&lt;/code>&lt;/p></description></item><item><title>小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</link><pubDate>Sun, 09 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</guid><description>&lt;p>买了小米 Redmi AX3000 路由器后发现是 RA81 型号，这个型号目前无法刷入 OpenWrt；但是因为当前使用的 OpenWrt 作为旁路由的方式并不稳定，所以想更换一个可以刷入 OpenWrt 的路由器&lt;/p>
-&lt;p>一番搜索之后发现 Redmi AX6S 相对更稳定，且已有 OpenWrt 的正式版本固件，因此又购入了一台新的 AX6S，准备刷入 OpenWrt 作为主路由使用&lt;/p>
-&lt;p>AX6S有 RB01 和 RB03 两个版本，硬件完全相同；国内售卖的基本都是 RB03，可以通过刷入开发版固件的方式开启 telnet，RB01 只能拆机后通过 UART 接口写入的方式开启 telnet&lt;/p>
-&lt;h2 id="刷入-openwrt">刷入 OpenWrt&lt;/h2>
-&lt;h3 id="将固件升级为测试版">将固件升级为测试版&lt;/h3>
-&lt;p>将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code>telnet 192.168.31.1&lt;/code> 测试，通常是没有开启的。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>telnet 192.168.31.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Trying 192.168.31.1...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: connect to address 192.168.31.1: Connection refused
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>telnet: Unable to connect to remote host
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
-&lt;li>下载测试版固件并升级&lt;/li>
-&lt;/ol>
-&lt;p>首先下载测试版本固件&lt;a href="https://github.com/YangWang92/AX6S-unlock/raw/master/miwifi_rb03_firmware_stable_1.2.7.bin">miwifi_rb03_firmware_stable_1.2.7 &lt;/a>；在初始化路由器配置后，进入到路由器控制台，选择升级；
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Router on HelloWood</title><link>https://blog.hellowood.dev/tags/router/</link><description>Recent content in Router on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/router/index.xml" rel="self" type="application/rss+xml"/><item><title>红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统</title><link>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</link><pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/</guid><description>&lt;p&gt;红米 AX6000 是 WiFi6 早期阶段性能极强并且有性价比的路由器，缺点是不支持 2.5G网口；在使用两年后刷为 OpenWrt 用于安装 OpenClash 等软件&lt;/p&gt;
+&lt;h2 id="启用-telnet-并解锁-ssh"&gt;启用 telnet 并解锁 SSH&lt;/h2&gt;
+&lt;p&gt;刷机需要登录到路由器操作，因此需要先启用 telnet 并解锁 SSH；解锁过程比较简单，直接访问对应的地址就可以&lt;/p&gt;
+&lt;h3 id="确认固件版本"&gt;确认固件版本&lt;/h3&gt;
+&lt;p&gt;登录路由器后台，需要确认固件版本是否是 1.0.48、1.0.60 或者 1.0.67，只有这三个版本支持；如果不是这三个版本，需要下载其中某个版本刷入；最新的固件版本是 1.0.67，并且这款路由器已经没有新版本更新了&lt;/p&gt;
+&lt;p&gt;固件地址可以参考: &lt;a href="https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version"&gt;https://openwrt.org/toh/xiaomi/redmi_ax6000#install_vulnerable_version&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="启用-telnet"&gt;启用 telnet&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;获取 stock&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;stock 是小米路由器访问的鉴权 token，每次登录后生成新的，登录后可以浏览器的地址栏 URL 中直接获取，比如：066801299c1f7845d1871e50c4a307df&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开启开发/调试模式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 &lt;code&gt;{token}&lt;/code&gt; 替换为 URL获取的 stock，浏览器访问 URL:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672"&gt;={&lt;/span&gt;token&lt;span style="color:#f92672"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672"&gt;=&lt;/span&gt;%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个操作会将 &lt;code&gt;\xa5\x5a\x00\x00&lt;/code&gt; 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;code&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后访问重启路由器&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672"&gt;={&lt;/span&gt;token&lt;span style="color:#f92672"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672"&gt;=&lt;/span&gt;%20%27%20%3b%20reboot%20%3b%20
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;修改 Bdata, 开启 telnet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;stok&lt;span style="color:#f92672"&gt;={&lt;/span&gt;token&lt;span style="color:#f92672"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#f92672"&gt;=&lt;/span&gt;%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后再次访问 URL 重启路由器&lt;/p&gt;</description></item><item><title>小米路由器 4A 千兆版刷入 OpenWrt</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</link><pubDate>Fri, 25 Aug 2023 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3%E8%B7%AF%E7%94%B1%E5%99%A8-4a-%E5%8D%83%E5%85%86%E7%89%88%E5%88%B7%E5%85%A5-openwrt/</guid><description>&lt;p&gt;因为买了新的路由器，之前的小米 4A 千兆版被淘汰下来了，因此想刷个 OpenWrt 测试一下&lt;/p&gt;
+&lt;h2 id="依赖"&gt;依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;电脑 Win/Mac/Linux，需要支持网线连接，如果是 Mac，需要一个网线转接器&lt;/li&gt;
+&lt;li&gt;小米路由器 4A 千兆版&lt;/li&gt;
+&lt;li&gt;Python3 环境&lt;/li&gt;
+&lt;li&gt;网线&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="开启路由器-ssh"&gt;开启路由器 SSH&lt;/h2&gt;
+&lt;p&gt;需要先开启路由器的 SSH，小米的固件只有开发版支持 SSH，但是现在所有的版本基本都不会放出开发版；所以只能通过破解的方式开启(开启后不支持保修)；&lt;/p&gt;
+&lt;p&gt;因为小米路由器系统存在 &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2019-18370"&gt;CVE-2019-18370&lt;/a&gt; 漏洞，所以可以通过该漏洞开启 SSH；需要使用项目 &lt;a href="https://github.com/acecilia/OpenWRTInvasion"&gt;acecilia/OpenWRTInvasion&lt;/a&gt; 提供的脚本&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion"&gt;acecilia/OpenWRTInvasion&lt;/a&gt; ，并安装依赖&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/acecilia/OpenWRTInvasion.git
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd OpenWRTInvasion
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip3 install -r requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;执行脚本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code&gt;remote_command_execution_vulnerability.py&lt;/code&gt; 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code&gt;192.168.31.1&lt;/code&gt;，或者访问 &lt;code&gt;miwifi.com&lt;/code&gt;也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 remote_command_execution_vulnerability.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;here two options to provide the files needed &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; invasion:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1. Use a local TCP file server runing on random port to provide files in local directory &lt;span style="color:#e6db74"&gt;`&lt;/span&gt;script_tools&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2. Download needed files from remote github repository. &lt;span style="color:#f92672"&gt;(&lt;/span&gt;choose this option only &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; github is accessable inside router device.&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Which option &lt;span style="color:#66d9ef"&gt;do&lt;/span&gt; you prefer? &lt;span style="color:#f92672"&gt;(&lt;/span&gt;default: 1&lt;span style="color:#f92672"&gt;)&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;****************
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;router_ip_address: miwifi.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;stok: f19c778f7bc6fbe92cc70a6c6bd2bd4f
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;file provider: local file server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;****************
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;start uploading config file...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;start exec command...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;local file server is runing on 0.0.0.0:57165. root&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;script_tools&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;local file server is getting &lt;span style="color:#e6db74"&gt;&amp;#39;busybox-mipsel&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.168.31.1.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;local file server is getting &lt;span style="color:#e6db74"&gt;&amp;#39;dropbearStaticMipsel.tar.bz2&amp;#39;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; 192.168.31.1.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt;! Now you can connect to the router using several options: &lt;span style="color:#f92672"&gt;(&lt;/span&gt;user: root, password: root&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;* telnet miwifi.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;* ssh -oKexAlgorithms&lt;span style="color:#f92672"&gt;=&lt;/span&gt;+diffie-hellman-group1-sha1 -c 3des-cbc -o UserKnownHostsFile&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/dev/null root@miwifi.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;* ftp: using a program like cyberduck
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;SSH 访问路由器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过指定参数的方式，使用 SSH 访问路由器，用户名密码都是 &lt;code&gt;root&lt;/code&gt;&lt;/p&gt;</description></item><item><title>小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验</title><link>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</link><pubDate>Sun, 09 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%8F%E7%B1%B3-redmi-ax6s-ax3200-%E5%88%B7%E5%85%A5-openwrt-%E5%8F%8A%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C/</guid><description>&lt;p&gt;买了小米 Redmi AX3000 路由器后发现是 RA81 型号，这个型号目前无法刷入 OpenWrt；但是因为当前使用的 OpenWrt 作为旁路由的方式并不稳定，所以想更换一个可以刷入 OpenWrt 的路由器&lt;/p&gt;
+&lt;p&gt;一番搜索之后发现 Redmi AX6S 相对更稳定，且已有 OpenWrt 的正式版本固件，因此又购入了一台新的 AX6S，准备刷入 OpenWrt 作为主路由使用&lt;/p&gt;
+&lt;p&gt;AX6S有 RB01 和 RB03 两个版本，硬件完全相同；国内售卖的基本都是 RB03，可以通过刷入开发版固件的方式开启 telnet，RB01 只能拆机后通过 UART 接口写入的方式开启 telnet&lt;/p&gt;
+&lt;h2 id="刷入-openwrt"&gt;刷入 OpenWrt&lt;/h2&gt;
+&lt;h3 id="将固件升级为测试版"&gt;将固件升级为测试版&lt;/h3&gt;
+&lt;p&gt;将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code&gt;telnet 192.168.31.1&lt;/code&gt; 测试，通常是没有开启的。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet 192.168.31.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Trying 192.168.31.1...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: connect to address 192.168.31.1: Connection refused
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: Unable to connect to remote host
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;下载测试版固件并升级&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;首先下载测试版本固件&lt;a href="https://github.com/YangWang92/AX6S-unlock/raw/master/miwifi_rb03_firmware_stable_1.2.7.bin"&gt;miwifi_rb03_firmware_stable_1.2.7 &lt;/a&gt;；在初始化路由器配置后，进入到路由器控制台，选择升级；
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade.png" alt="homelab-miwifi-ax6s-openwrt-upgrade.png" loading="lazy">
-&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade.png" alt="homelab-miwifi-ax6s-openwrt-upgrade.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" loading="lazy">
-&lt;/p>
-&lt;p>升级完成后路由器会重启，页面有水印提示 &lt;code>Only For Test&lt;/code>；
+ &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-ongoing.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;升级完成后路由器会重启，页面有水印提示 &lt;code&gt;Only For Test&lt;/code&gt;；
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-complted.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-complted.png" loading="lazy">
-&lt;/p>
-&lt;p>此时使用 telnet 测试会发现已经可以登陆了&lt;/p></description></item><item><title>AngularJS配置Router(路由)提示Controller NaNunction/undefined错误</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 12:05:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote>
-&lt;p>在配置Angular 路由的时候，和以往一样使用如下配置：&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>router.js&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>var adminApp = angular.module(&amp;#39;adminApp&amp;#39;, [&amp;#39;oc.lazyLoad&amp;#39;, &amp;#39;ui.router&amp;#39;]);
+ &lt;img src="https://img.hellowood.dev/picture/homelab-miwifi-ax6s-openwrt-upgrade-complted.png" alt="homelab-miwifi-ax6s-openwrt-upgrade-complted.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;此时使用 telnet 测试会发现已经可以登陆了&lt;/p&gt;</description></item><item><title>AngularJS配置Router(路由)提示Controller NaNunction/undefined错误</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 12:05:17 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AErouter-%E8%B7%AF%E7%94%B1-%E6%8F%90%E7%A4%BAcontroller-nanunction-undefined%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;在配置Angular 路由的时候，和以往一样使用如下配置：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;router.js&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;var adminApp = angular.module(&amp;#39;adminApp&amp;#39;, [&amp;#39;oc.lazyLoad&amp;#39;, &amp;#39;ui.router&amp;#39;]);
 angular.element(document).ready(function () {
  angular.bootstrap(document, [&amp;#39;adminApp&amp;#39;]);
 });
@@ -125,15 +125,15 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
  }
  });
 });
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>dashboardController.js&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>angular.module(&amp;#34;adminApp&amp;#34;).controller(&amp;#39;dashboardController&amp;#39;, function ($scope) {
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;dashboardController.js&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;angular.module(&amp;#34;adminApp&amp;#34;).controller(&amp;#39;dashboardController&amp;#39;, function ($scope) {
  console.log(&amp;#34;dashboardController&amp;#34;);
 });
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>但是提示错误：&lt;/p>&lt;/blockquote>
-&lt;pre tabindex="0">&lt;code>angular.min.js:118 Error: [ng:areq] http://errors.angularjs.org/1.5.8/ng/areq?p0=dashboardController&amp;amp;p1=not%20aNaNunction%2C%20got%20undefined
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;但是提示错误：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;angular.min.js:118 Error: [ng:areq] http://errors.angularjs.org/1.5.8/ng/areq?p0=dashboardController&amp;amp;p1=not%20aNaNunction%2C%20got%20undefined
  at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:6:412
  at sb (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:23:18)
  at Pa (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:23:105)
@@ -144,27 +144,27 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
  at p (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:66:341)
  at g (http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:58:481)
  at http://localhost:63342/static/plugin/angular-1.5.8/angular.min.js:58:119
-&lt;/code>&lt;/pre>&lt;hr>
-&lt;blockquote>
-&lt;p>原因是因为直接写controller无法识别，所有需要使用register来注册该controller&lt;/p></description></item><item><title>AngularJS 配置路由</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</link><pubDate>Mon, 01 Jan 2018 12:04:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
-&lt;p>在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示&lt;/p>&lt;/blockquote>
-&lt;p>
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原因是因为直接写controller无法识别，所有需要使用register来注册该controller&lt;/p&gt;</description></item><item><title>AngularJS 配置路由</title><link>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</link><pubDate>Mon, 01 Jan 2018 12:04:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/angularjs%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;在使用AngularJS的时候需要用到路由来控制页面的跳转，从而达到使用一个面板进行控制的目的，面板页面如图所示&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;
 
- &lt;img src="http://img.blog.csdn.net/20170523210031963?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="控制面板" loading="lazy">
-&lt;/p>
-&lt;blockquote>
-&lt;p>该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动&lt;/p>&lt;/blockquote>
-&lt;hr>
-&lt;p>##&lt;a href="http://download.csdn.net/detail/u013360850/9850266">项目下载&lt;/a> | &lt;a href="https://github.com/helloworlde/AngularRouter">GitHub下载&lt;/a> | &lt;a href="http://119.29.99.89/AngularRouter/pages/admin/index.html">演示地址&lt;/a> | &lt;a href="https://helloworlde.github.io/AngularRouter">GitHub演示地址&lt;/a>&lt;/p>
-&lt;hr>
-&lt;h2 id="1引入所需的css和js文件">1.引入所需的CSS和JS文件&lt;/h2>
-&lt;ul>
-&lt;li>将所需要的CSS文件和JS文件引入到项目中index.html&lt;/li>
-&lt;li>angular.min.js&lt;/li>
-&lt;li>ocLazyLoad.js&lt;/li>
-&lt;li>angular-ui-router.js&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>&amp;lt;!DOCTYPE html&amp;gt;
+ &lt;img src="http://img.blog.csdn.net/20170523210031963?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzM2MDg1MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="控制面板" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;该面板分为菜单栏和控制页面两部分，左侧和上方为不变的部分，中间区域随菜单选择变动&lt;/p&gt;&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;##&lt;a href="http://download.csdn.net/detail/u013360850/9850266"&gt;项目下载&lt;/a&gt; | &lt;a href="https://github.com/helloworlde/AngularRouter"&gt;GitHub下载&lt;/a&gt; | &lt;a href="http://119.29.99.89/AngularRouter/pages/admin/index.html"&gt;演示地址&lt;/a&gt; | &lt;a href="https://helloworlde.github.io/AngularRouter"&gt;GitHub演示地址&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="1引入所需的css和js文件"&gt;1.引入所需的CSS和JS文件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;将所需要的CSS文件和JS文件引入到项目中index.html&lt;/li&gt;
+&lt;li&gt;angular.min.js&lt;/li&gt;
+&lt;li&gt;ocLazyLoad.js&lt;/li&gt;
+&lt;li&gt;angular-ui-router.js&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html lang=&amp;#34;en&amp;#34; class=&amp;#34;body&amp;#34;&amp;gt;
 &amp;lt;head&amp;gt;
  &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt;
@@ -180,8 +180,8 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
 &amp;lt;script src=&amp;#34;app.route.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;
 &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
-&lt;/code>&lt;/pre>&lt;h2 id="2-配置dashboard页面">2. 配置dashboard页面&lt;/h2>
-&lt;pre tabindex="0">&lt;code>&amp;lt;div class=&amp;#34;app app-header-fixed&amp;#34; id=&amp;#34;app&amp;#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="2-配置dashboard页面"&gt;2. 配置dashboard页面&lt;/h2&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;&amp;lt;div class=&amp;#34;app app-header-fixed&amp;#34; id=&amp;#34;app&amp;#34;&amp;gt;
  &amp;lt;!-- navbar --&amp;gt;
  &amp;lt;div class=&amp;#34;app-header navbar&amp;#34;&amp;gt;
  &amp;lt;div class=&amp;#34;collapse pos-rlt navbar-collapse box-shadow bg-white-only&amp;#34;&amp;gt;
@@ -244,4 +244,4 @@ adminApp.config(function ($stateProvider, $urlRouterProvider) {
  &amp;lt;/div&amp;gt;
  &amp;lt;!-- /content --&amp;gt;
 &amp;lt;/div&amp;gt;
-&lt;/code>&lt;/pre>&lt;p>##3. 配置路由&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;##3. 配置路由&lt;/p&gt;</description></item></channel></rss>

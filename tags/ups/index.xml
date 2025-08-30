@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UPS on HelloWood</title><link>https://blog.hellowood.dev/tags/ups/</link><description>Recent content in UPS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ups/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p>UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p>
-&lt;p>一般的 UPS 都支持通过 USB 连接到电脑或者 NAS 等设备上，Linux/Mac/Windows 均支持使用 UPS；&lt;/p>
-&lt;p>因为电路不稳定，存在偶尔断电的情况，因此希望通过 UPS 保护树莓派、路由器、光猫、硬盘录像机等设备；将 UPS 通过 USB 接口连接到树莓派，由树莓派控制其他设备在断电时关机&lt;/p>
-&lt;h2 id="安装-nut">安装 NUT&lt;/h2>
-&lt;p>&lt;a href="https://networkupstools.org/">NUT&lt;/a>(Network UPS Tools) 是一种开源软件工具，其主要功能特点是实时监控与管理不间断电源（UPS）设备，支持多种通信协议，自动执行操作以应对电力故障，适用于多平台，并允许集中管理多个UPS设备，以确保与这些设备连接的计算机和设备在电力问题发生时能够继续正常运行或安全关闭&lt;/p>
-&lt;p>NUT中的主要软件组件和功能：&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>Driver（驱动程序）：NUT包括各种不同制造商的UPS设备的驱动程序，使NUT能够与多种型号的UPS设备通信。这些驱动程序负责与UPS设备建立连接，并获取有关电源状态、电池状态和其他参数的信息。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>upsd（UPS守护进程）：upsd是NUT的核心守护进程，负责与UPS设备通信，并将UPS状态信息提供给其他NUT组件和客户端。它可以通过网络协议（如SNMP、HTTP、XML-RPC等）向其他计算机提供UPS状态信息。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>upsmon（UPS监控守护进程）：upsmon监控守护进程用于监视UPS状态，并在检测到电力问题时执行操作。它可以配置为执行自定义脚本、关闭计算机或发送警报通知，以确保系统的连续性和数据完整性。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>upslog（UPS事件记录器）：upslog用于记录UPS事件和状态信息，以便后续分析和故障排除。它可以生成日志文件，其中包含UPS的运行历史和电力事件。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>nutclient（NUT客户端工具）：NUT提供了一些用于监控和管理UPS的命令行工具，例如upsc用于查询UPS状态，upscmd用于发送命令到UPS，以及upsrw用于修改UPS配置。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>安装&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> apt install -y nut
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="通过-usb-连接-ups">通过 USB 连接 UPS&lt;/h2>
-&lt;p>在将 UPS 通过 USB 连接到树莓派后，可以通过查看 USB 设备进行检查&lt;/p>
-&lt;ul>
-&lt;li>检查 USB 连接&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo lsusb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的 Device 003 就是 UPS，说明 USB 连接正常&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">003&lt;/span> Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">002&lt;/span> Device 002: ID 174c:55aa ASMedia Technology Inc. ASM1051E SATA 6Gb/s bridge, ASM1053E SATA 6Gb/s bridge, ASM1153 SATA 3Gb/s bridge, ASM1153E SATA 6Gb/s bridge
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">002&lt;/span> Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">001&lt;/span> Device 003: ID 0463:ffff MGE UPS Systems UPS
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">001&lt;/span> Device 002: ID 2109:3431 VIA Labs, Inc. Hub
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Bus &lt;span style="color:#ae81ff">001&lt;/span> Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>通过 &lt;code>nut-scanner&lt;/code> 检查 UPS 设备&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>nut-scanner -q
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>正确识别到连接的 UPS 设备，驱动为 &lt;code>usbhid-ups&lt;/code>，产品为 &lt;code>SANTAK TG-BOX&lt;/code>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UPS on HelloWood</title><link>https://blog.hellowood.dev/tags/ups/</link><description>Recent content in UPS on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/ups/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 环境下配置不间断电源 UPS</title><link>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</link><pubDate>Wed, 04 Oct 2023 15:22:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E9%97%B4%E6%96%AD%E7%94%B5%E6%BA%90ups/</guid><description>&lt;p&gt;UPS (Uninterruptible Power Supply)，是一种含有储能装置的不间断电源。主要用于给部分对电源稳定性要求较高的设备，提供不间断的电源&lt;/p&gt;
+&lt;p&gt;一般的 UPS 都支持通过 USB 连接到电脑或者 NAS 等设备上，Linux/Mac/Windows 均支持使用 UPS；&lt;/p&gt;
+&lt;p&gt;因为电路不稳定，存在偶尔断电的情况，因此希望通过 UPS 保护树莓派、路由器、光猫、硬盘录像机等设备；将 UPS 通过 USB 接口连接到树莓派，由树莓派控制其他设备在断电时关机&lt;/p&gt;
+&lt;h2 id="安装-nut"&gt;安装 NUT&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://networkupstools.org/"&gt;NUT&lt;/a&gt;(Network UPS Tools) 是一种开源软件工具，其主要功能特点是实时监控与管理不间断电源（UPS）设备，支持多种通信协议，自动执行操作以应对电力故障，适用于多平台，并允许集中管理多个UPS设备，以确保与这些设备连接的计算机和设备在电力问题发生时能够继续正常运行或安全关闭&lt;/p&gt;
+&lt;p&gt;NUT中的主要软件组件和功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Driver（驱动程序）：NUT包括各种不同制造商的UPS设备的驱动程序，使NUT能够与多种型号的UPS设备通信。这些驱动程序负责与UPS设备建立连接，并获取有关电源状态、电池状态和其他参数的信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;upsd（UPS守护进程）：upsd是NUT的核心守护进程，负责与UPS设备通信，并将UPS状态信息提供给其他NUT组件和客户端。它可以通过网络协议（如SNMP、HTTP、XML-RPC等）向其他计算机提供UPS状态信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;upsmon（UPS监控守护进程）：upsmon监控守护进程用于监视UPS状态，并在检测到电力问题时执行操作。它可以配置为执行自定义脚本、关闭计算机或发送警报通知，以确保系统的连续性和数据完整性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;upslog（UPS事件记录器）：upslog用于记录UPS事件和状态信息，以便后续分析和故障排除。它可以生成日志文件，其中包含UPS的运行历史和电力事件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;nutclient（NUT客户端工具）：NUT提供了一些用于监控和管理UPS的命令行工具，例如upsc用于查询UPS状态，upscmd用于发送命令到UPS，以及upsrw用于修改UPS配置。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y nut
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="通过-usb-连接-ups"&gt;通过 USB 连接 UPS&lt;/h2&gt;
+&lt;p&gt;在将 UPS 通过 USB 连接到树莓派后，可以通过查看 USB 设备进行检查&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查 USB 连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo lsusb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中的 Device 003 就是 UPS，说明 USB 连接正常&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;003&lt;/span&gt; Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;002&lt;/span&gt; Device 002: ID 174c:55aa ASMedia Technology Inc. ASM1051E SATA 6Gb/s bridge, ASM1053E SATA 6Gb/s bridge, ASM1153 SATA 3Gb/s bridge, ASM1153E SATA 6Gb/s bridge
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;002&lt;/span&gt; Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;001&lt;/span&gt; Device 003: ID 0463:ffff MGE UPS Systems UPS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;001&lt;/span&gt; Device 002: ID 2109:3431 VIA Labs, Inc. Hub
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#ae81ff"&gt;001&lt;/span&gt; Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;通过 &lt;code&gt;nut-scanner&lt;/code&gt; 检查 UPS 设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nut-scanner -q
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确识别到连接的 UPS 设备，驱动为 &lt;code&gt;usbhid-ups&lt;/code&gt;，产品为 &lt;code&gt;SANTAK TG-BOX&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>

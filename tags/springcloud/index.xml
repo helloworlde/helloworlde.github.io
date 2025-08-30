@@ -1,517 +1,517 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SpringCloud on HelloWood</title><link>https://blog.hellowood.dev/tags/springcloud/</link><description>Recent content in SpringCloud on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/springcloud/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Cloud 使用 Consul 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-consul-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 20 Sep 2020 22:28:50 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-consul-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;h2 id="加载配置">加载配置&lt;/h2>
-&lt;p>加载配置是通过 &lt;code>ConsulPropertySourceLocator&lt;/code> 来实现的，该类是 &lt;code>PropertySourceLocator&lt;/code>接口的实现类&lt;/p>
-&lt;h3 id="bean-初始化">Bean 初始化&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">public&lt;/span> ConsulPropertySourceLocator &lt;span style="color:#a6e22e">consulPropertySourceLocator&lt;/span>(ConsulConfigProperties consulConfigProperties) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ConsulPropertySourceLocator(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">consul&lt;/span>, consulConfigProperties);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="获取配置">获取配置&lt;/h3>
-&lt;p>获取配置是通过 PropertySourceLocator#locate 方法实现的，最终将获取到属性添加到环境中&lt;/p>
-&lt;ul>
-&lt;li>ConsulPropertySourceLocator#locate&lt;/li>
-&lt;/ul>
-&lt;p>获取配置时，根据应用名称，路径，环境及配置类型拼接相应的路径，然后调用 Consul 获取 KV 值的接口，获取相应的配置，根据类型解析后放入环境中&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@Retryable&lt;/span>(interceptor &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;consulRetryInterceptor&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">public&lt;/span> PropertySource&lt;span style="color:#f92672">&amp;lt;?&amp;gt;&lt;/span> locate(Environment environment) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> (environment &lt;span style="color:#66d9ef">instanceof&lt;/span> ConfigurableEnvironment) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			ConfigurableEnvironment env &lt;span style="color:#f92672">=&lt;/span> (ConfigurableEnvironment) environment;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			String appName &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> (appName &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				appName &lt;span style="color:#f92672">=&lt;/span> env.&lt;span style="color:#a6e22e">getProperty&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;spring.application.name&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			List&lt;span style="color:#f92672">&amp;lt;&lt;/span>String&lt;span style="color:#f92672">&amp;gt;&lt;/span> profiles &lt;span style="color:#f92672">=&lt;/span> Arrays.&lt;span style="color:#a6e22e">asList&lt;/span>(env.&lt;span style="color:#a6e22e">getActiveProfiles&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			String prefix &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getPrefix&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			List&lt;span style="color:#f92672">&amp;lt;&lt;/span>String&lt;span style="color:#f92672">&amp;gt;&lt;/span> suffixes &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 不是文件类型的时候，后缀为 /，否则就是配置文件的后缀&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getFormat&lt;/span>() &lt;span style="color:#f92672">!=&lt;/span> FILES) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				suffixes.&lt;span style="color:#a6e22e">add&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				suffixes.&lt;span style="color:#a6e22e">add&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;.yml&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				suffixes.&lt;span style="color:#a6e22e">add&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;.yaml&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				suffixes.&lt;span style="color:#a6e22e">add&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;.properties&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 路径&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			String defaultContext &lt;span style="color:#f92672">=&lt;/span> getContext(prefix, &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getDefaultContext&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">for&lt;/span> (String suffix : suffixes) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>.&lt;span style="color:#a6e22e">add&lt;/span>(defaultContext &lt;span style="color:#f92672">+&lt;/span> suffix);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 追加环境及文件类型&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">for&lt;/span> (String suffix : suffixes) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				addProfiles(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>, defaultContext, profiles, suffix);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			String baseContext &lt;span style="color:#f92672">=&lt;/span> getContext(prefix, appName);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 应用名称前缀&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">for&lt;/span> (String suffix : suffixes) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>.&lt;span style="color:#a6e22e">add&lt;/span>(baseContext &lt;span style="color:#f92672">+&lt;/span> suffix);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">for&lt;/span> (String suffix : suffixes) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				addProfiles(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>, baseContext, profiles, suffix);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			Collections.&lt;span style="color:#a6e22e">reverse&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			CompositePropertySource composite &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> CompositePropertySource(&lt;span style="color:#e6db74">&amp;#34;consul&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">for&lt;/span> (String propertySourceContext : &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contexts&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					ConsulPropertySource propertySource &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getFormat&lt;/span>() &lt;span style="color:#f92672">==&lt;/span> FILES) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						&lt;span style="color:#75715e">// 获取值&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						Response&lt;span style="color:#f92672">&amp;lt;&lt;/span>GetValue&lt;span style="color:#f92672">&amp;gt;&lt;/span> response &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">consul&lt;/span>.&lt;span style="color:#a6e22e">getKVValue&lt;/span>(propertySourceContext, &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">getAclToken&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						&lt;span style="color:#75715e">// 添加当前索引&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						addIndex(propertySourceContext, response.&lt;span style="color:#a6e22e">getConsulIndex&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						&lt;span style="color:#75715e">// 如果值不为空，则更新值并初始化&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						&lt;span style="color:#66d9ef">if&lt;/span> (response.&lt;span style="color:#a6e22e">getValue&lt;/span>() &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>							ConsulFilesPropertySource filesPropertySource &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ConsulFilesPropertySource(propertySourceContext, &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">consul&lt;/span>, &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>							&lt;span style="color:#75715e">// 解析配置内容&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>							filesPropertySource.&lt;span style="color:#a6e22e">init&lt;/span>(response.&lt;span style="color:#a6e22e">getValue&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>							propertySource &lt;span style="color:#f92672">=&lt;/span> filesPropertySource;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						propertySource &lt;span style="color:#f92672">=&lt;/span> create(propertySourceContext, &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">contextIndex&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					&lt;span style="color:#66d9ef">if&lt;/span> (propertySource &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						composite.&lt;span style="color:#a6e22e">addPropertySource&lt;/span>(propertySource);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				} &lt;span style="color:#66d9ef">catch&lt;/span> (Exception e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">isFailFast&lt;/span>()) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						log.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Fail fast is set and there was an error reading configuration from consul.&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						ReflectionUtils.&lt;span style="color:#a6e22e">rethrowRuntimeException&lt;/span>(e);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>						log.&lt;span style="color:#a6e22e">warn&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Unable to load consul config from &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> propertySourceContext, e);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> composite;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="监听配置">监听配置&lt;/h2>
-&lt;p>Consul 监听配置是通过定时任务实现的，&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-1/</link><pubDate>Sun, 20 Sep 2020 22:28:15 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-1/</guid><description>&lt;p>Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 Secret，将配置添加到应用中&lt;/p>
-&lt;h2 id="加载配置">加载配置&lt;/h2>
-&lt;p>加载配置是通过 PropertySourceLocator 来实现的，ConfigMap 使用 &lt;code>ConfigMapPropertySourceLocator&lt;/code> 加载，Secret 使用 &lt;code>SecretsPropertySourceLocator&lt;/code>加载&lt;/p>
-&lt;h3 id="bean-初始化">Bean 初始化&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">@ConditionalOnProperty&lt;/span>(name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;spring.cloud.kubernetes.config.enabled&amp;#34;&lt;/span>, matchIfMissing &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">public&lt;/span> ConfigMapPropertySourceLocator &lt;span style="color:#a6e22e">configMapPropertySourceLocator&lt;/span>(ConfigMapConfigProperties properties) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ConfigMapPropertySourceLocator(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">client&lt;/span>, properties);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a6e22e">@ConditionalOnProperty&lt;/span>(name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;spring.cloud.kubernetes.secrets.enabled&amp;#34;&lt;/span>, matchIfMissing &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">public&lt;/span> SecretsPropertySourceLocator &lt;span style="color:#a6e22e">secretsPropertySourceLocator&lt;/span>(SecretsConfigProperties properties) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> SecretsPropertySourceLocator(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">client&lt;/span>, properties);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="获取配置">获取配置&lt;/h3>
-&lt;p>获取配置是通过 PropertySourceLocator#locate 方法实现的，最终将获取到属性添加到环境中&lt;/p>
-&lt;h4 id="configmap">ConfigMap&lt;/h4>
-&lt;ul>
-&lt;li>ConfigMapPropertySourceLocator#locate&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">public&lt;/span> PropertySource &lt;span style="color:#a6e22e">locate&lt;/span>(Environment environment) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> (environment &lt;span style="color:#66d9ef">instanceof&lt;/span> ConfigurableEnvironment) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			ConfigurableEnvironment env &lt;span style="color:#f92672">=&lt;/span> (ConfigurableEnvironment) environment;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			List&lt;span style="color:#f92672">&amp;lt;&lt;/span>ConfigMapConfigProperties.&lt;span style="color:#a6e22e">NormalizedSource&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span> sources &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">determineSources&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			CompositePropertySource composite &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> CompositePropertySource(&lt;span style="color:#e6db74">&amp;#34;composite-configmap&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">properties&lt;/span>.&lt;span style="color:#a6e22e">isEnableApi&lt;/span>()) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				sources.&lt;span style="color:#a6e22e">forEach&lt;/span>(s &lt;span style="color:#f92672">-&amp;gt;&lt;/span> composite.&lt;span style="color:#a6e22e">addFirstPropertySource&lt;/span>(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>					getMapPropertySourceForSingleConfigMap(env, s)));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 将配置添加的容器环境中&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			addPropertySourcesFromPaths(environment, composite);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> composite;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>真正向 Kubernetes 发起请求的是通过调用 &lt;code>getMapPropertySourceForSingleConfigMap&lt;/code> 方法，创建&lt;code>ConfigMapPropertySource&lt;/code>实例的时候，会根据 &lt;code>getData&lt;/code> 方法，从 ConfigMap 获取属性解析并添加到环境中&lt;/p></description></item><item><title>Spring Cloud Consul 服务注册和发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-consul-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:27:16 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-consul-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</guid><description>&lt;p>Spring Cloud Kubernetes 使用，可以通过引入 &lt;code>org.springframework.cloud:spring-cloud-starter-consul-discovery&lt;/code>，这个 starter 依赖于 &lt;code>org.springframework.cloud:spring-cloud-consul-core&lt;/code> 和 &lt;code>org.springframework.cloud:spring-cloud-consul-discovery&lt;/code>&lt;/p>
-&lt;h2 id="consul-的核心概念">Consul 的核心概念&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>server
-集群的核心节点，用于和 agent 通讯，保存服务的信息&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>agent
-集群节点的守护进程，用于服务注册等行为，但不保存数据&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>catalog
-集群服务通信的接口&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h2 id="初始化-kubernetes-client">初始化 Kubernetes Client&lt;/h2>
-&lt;h3 id="初始化-consul-依赖">初始化 Consul 依赖&lt;/h3>
-&lt;p>相关 Consul 核心依赖的初始化是通过 &lt;code>org.springframework.cloud.consul.ConsulAutoConfiguration&lt;/code>实现的&lt;/p>
-&lt;ul>
-&lt;li>初始化 ConsulClient&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@Bean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@ConditionalOnMissingBean&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">public&lt;/span> ConsulClient &lt;span style="color:#a6e22e">consulClient&lt;/span>(ConsulProperties consulProperties) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> agentPort &lt;span style="color:#f92672">=&lt;/span> consulProperties.&lt;span style="color:#a6e22e">getPort&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">final&lt;/span> String agentHost &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">!&lt;/span>StringUtils.&lt;span style="color:#a6e22e">isEmpty&lt;/span>(consulProperties.&lt;span style="color:#a6e22e">getScheme&lt;/span>())
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#f92672">?&lt;/span> consulProperties.&lt;span style="color:#a6e22e">getScheme&lt;/span>() &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;://&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consulProperties.&lt;span style="color:#a6e22e">getHost&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			: consulProperties.&lt;span style="color:#a6e22e">getHost&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> (consulProperties.&lt;span style="color:#a6e22e">getTls&lt;/span>() &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			ConsulProperties.&lt;span style="color:#a6e22e">TLSConfig&lt;/span> tls &lt;span style="color:#f92672">=&lt;/span> consulProperties.&lt;span style="color:#a6e22e">getTls&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			TLSConfig tlsConfig &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TLSConfig(tls.&lt;span style="color:#a6e22e">getKeyStoreInstanceType&lt;/span>(),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				tls.&lt;span style="color:#a6e22e">getCertificatePath&lt;/span>(), tls.&lt;span style="color:#a6e22e">getCertificatePassword&lt;/span>(),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				tls.&lt;span style="color:#a6e22e">getKeyStorePath&lt;/span>(), tls.&lt;span style="color:#a6e22e">getKeyStorePassword&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ConsulClient(agentHost, agentPort, tlsConfig);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ConsulClient(agentHost, agentPort);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="服务注册">服务注册&lt;/h2>
-&lt;h3 id="初始化-bean">初始化 Bean&lt;/h3>
-&lt;p>相关 Bean 的初始化是在 &lt;code>org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationAutoConfiguration&lt;/code> 中完成的&lt;/p></description></item><item><title>Spring Cloud Kubernetes 服务注册和发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-kubernetes-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:26:03 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-kubernetes-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</guid><description>&lt;p>Spring Cloud Kubernetes 使用，可以通过引入 &lt;code>org.springframework.cloud:spring-cloud-starter-kubernetes&lt;/code>，这个 starter 依赖于 &lt;code>org.springframework.cloud:spring-cloud-kubernetes-core&lt;/code> 和 &lt;code>org.springframework.cloud:spring-cloud-kubernetes-discovery&lt;/code>&lt;/p>
-&lt;h2 id="初始化-kubernetes-client">初始化 Kubernetes Client&lt;/h2>
-&lt;h3 id="初始化环境配置">初始化环境配置&lt;/h3>
-&lt;p>环境初始化是通过 &lt;code>org.springframework.cloud.kubernetes.profile.KubernetesProfileEnvironmentPostProcessor&lt;/code>类实现的，当环境初始化完成时，会检查 Kubernetes 是否开启，如果开启则会判断 Profile 是否注入到容器中，没有时将会注入 Profile 到容器中&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">postProcessEnvironment&lt;/span>(ConfigurableEnvironment environment,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	 SpringApplication application) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// 判断是否启用 kubernetes，默认为 true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> kubernetesEnabled &lt;span style="color:#f92672">=&lt;/span> environment.&lt;span style="color:#a6e22e">getProperty&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;spring.cloud.kubernetes.enabled&amp;#34;&lt;/span>, Boolean.&lt;span style="color:#a6e22e">class&lt;/span>, &lt;span style="color:#66d9ef">true&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>kubernetesEnabled) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">return&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#75715e">// 如果在 Kubernetes 中&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#66d9ef">if&lt;/span> (isInsideKubernetes()) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// 判断是否存在 Kubernetes 环境的配置，如果不存在，则添加到环境变量中&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#66d9ef">if&lt;/span> (hasKubernetesProfile(environment)) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				&lt;span style="color:#75715e">// ...&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>				environment.&lt;span style="color:#a6e22e">addActiveProfile&lt;/span>(KUBERNETES_PROFILE);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>			&lt;span style="color:#75715e">// ...&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="初始化-kubernetes-依赖">初始化 Kubernetes 依赖&lt;/h3>
-&lt;p>相关 Kubernetes 核心依赖的初始化是通过 &lt;code>org.springframework.cloud.kubernetes.KubernetesAutoConfiguration&lt;/code>实现的&lt;/p></description></item><item><title>Spring Cloud Gateway 使用 Kubernetes 作为服务发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/</guid><description>&lt;p>Spring Cloud Gateway 作为网关，通过用于执行一些通用逻辑后做请求转发，后端可能涉及到多个服务，每个服务又有多个实例，调用服务实例就需要动态的更新，可以通过注册中心来实现，如果部署在K8S集群中，可以直接使用K8S实现服务发现&lt;/p>
-&lt;h2 id="应用">应用&lt;/h2>
-&lt;h3 id="gateway">Gateway&lt;/h3>
-&lt;h4 id="添加依赖">添加依赖&lt;/h4>
-&lt;ul>
-&lt;li>build.gradle&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>plugins &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> id &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot&amp;#39;&lt;/span> version &lt;span style="color:#e6db74">&amp;#39;2.2.6.RELEASE&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> id &lt;span style="color:#e6db74">&amp;#39;io.spring.dependency-management&amp;#39;&lt;/span> version &lt;span style="color:#e6db74">&amp;#39;1.0.9.RELEASE&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> id &lt;span style="color:#e6db74">&amp;#39;java&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ext &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> set&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;springCloudVersion&amp;#39;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Hoxton.SR1&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> set&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;springKubernetesVersion&amp;#39;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#e6db74">&amp;#34;1.1.2.RELEASE&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dependencies &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-kubernetes-discovery&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> testImplementation&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exclude group: &lt;span style="color:#e6db74">&amp;#39;org.junit.vintage&amp;#39;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> module: &lt;span style="color:#e6db74">&amp;#39;junit-vintage-engine&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dependencyManagement &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> imports &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mavenBom &lt;span style="color:#e6db74">&amp;#34;org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mavenBom &lt;span style="color:#e6db74">&amp;#34;org.springframework.cloud:spring-cloud-kubernetes-dependencies:${springKubernetesVersion}&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>如果是需要客户端实现负载均衡，依赖是&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-netflix-ribbon&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="添加路由配置">添加路由配置&lt;/h4>
-&lt;ul>
-&lt;li>bootstrap.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spring&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cloud&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">kubernetes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">discovery&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">catalogServicesWatchDelay&lt;/span>: &lt;span style="color:#ae81ff">5000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">client&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">master-url&lt;/span>: &lt;span style="color:#ae81ff">https://kubernetes.docker.internal:6443&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ca-cert-data&lt;/span>: &lt;span style="color:#ae81ff">xxx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">namespace&lt;/span>: &lt;span style="color:#ae81ff">default&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>applicaiton.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spring&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">application.name&lt;/span>: &lt;span style="color:#ae81ff">gateway&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cloud&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">gateway&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">discovery&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">locator&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">enabled&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">url-expression&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;&amp;#39;http://&amp;#39;+serviceId+&amp;#39;:&amp;#39;+port&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">lower-case-service-id&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">management&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">endpoints&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">web&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">exposure&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">include&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;*&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置 &lt;code>url-expression&lt;/code> 目的是为了在转发的时候直接转发到 Kubernetes 中相应的 Service 上去，默认的表达式为 &lt;code>&amp;quot;'lb://'+serviceId&amp;quot;&lt;/code>，这种适用于通过 Consul 或者 Eureka，最终是根据服务的IP和端口访问，&lt;code>spring-cloud-kubernetes&lt;/code>没有实现&lt;code>com.netflix.loadbalancer.AbstractServerList&lt;/code>，所以不会进行IP转换，最终是通过服务名称查找Service 实现调用，所以不需要负载均衡&lt;/p></description></item><item><title>Spring Cloud Gateway 使用 Kubernetes 实现负载均衡</title><link>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link><pubDate>Sun, 20 Sep 2020 22:23:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid><description>&lt;p>在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，&lt;code>spring-cloud-kubernetes-discovery &lt;/code>没有像 &lt;code>spring-cloud-consul-discovery&lt;/code>一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖&lt;/p>
-&lt;h3 id="添加依赖">添加依赖&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-netflix-ribbon&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>spring-cloud-starter-kubernetes-all&lt;/code>包含 Kubernetes 负载均衡的实现&lt;/p>
-&lt;h3 id="添加配置">添加配置&lt;/h3>
-&lt;ul>
-&lt;li>bootstrap.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spring&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cloud&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">kubernetes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">discovery&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">catalogServicesWatchDelay&lt;/span>: &lt;span style="color:#ae81ff">5000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">client&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">master-url&lt;/span>: &lt;span style="color:#ae81ff">https://localhost:60002&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ca-cert-data&lt;/span>: &lt;span style="color:#ae81ff">xxxx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">namespace&lt;/span>: &lt;span style="color:#ae81ff">develop&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>applicaiton.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spring&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">application&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">gateway&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cloud&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">gateway&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">discovery&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">locator&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">enabled&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">lower-case-service-id&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">management&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">endpoints&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">web&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">exposure&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">include&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;*&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</link><pubDate>Sun, 08 Sep 2019 19:18:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p>&lt;/blockquote>
-&lt;h2 id="创建应用">创建应用&lt;/h2>
-&lt;h3 id="添加依赖">添加依赖&lt;/h3>
-&lt;ul>
-&lt;li>build.gradle&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>dependencies &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加配置">添加配置&lt;/h3>
-&lt;h4 id="编码">编码&lt;/h4>
-&lt;p>内容通过 Base64 编码后添加到 Kubernetes 中&lt;/p>
-&lt;ul>
-&lt;li>secrets.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apiVersion: v1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kind: Secret
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>metadata:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> name: secrets-service
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> namespace: default
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>data:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> url: amRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L3NlYXRhP3VzZVVuaWNvZGU9dHJ1ZSZjaGFyYWN0ZXJFbmNvZGluZz11dGY4JmFsbG93TXVsdGlRdWVyaWVzPXRydWUmdXNlU1NMPWZhbHNl
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> username: aGVsbG93b29k
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> password: MTIzNDU2
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将Secrets 添加到 Kubernetes 中&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f secrets.yaml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="applicationproperties">application.properties&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.application.name&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">secrets-service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">server.port&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">8081&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">management.endpoint.restart.enabled&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Secret Config&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.secrets.enabled&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.secrets.name&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">secrets-service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.secrets.namespace&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">default&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.reload.monitoring-secrets&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># DataSource Config&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.datasource.url&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${DB_URL}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.datasource.username&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${DB_USERNAME}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.datasource.password&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${DB_PASSWORD}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>spring.cloud.kubernetes.secrets.enabled&lt;/code>默认是关闭的，所以需要主动开启&lt;/li>
-&lt;li>&lt;code>spring.cloud.kubernetes.secrets.name&lt;/code>默认和&lt;code>spring.application.name&lt;/code>一致&lt;/li>
-&lt;li>&lt;code>spring.cloud.kubernetes.secrets.namespace&lt;/code>指定 Namespace&lt;/li>
-&lt;li>&lt;code>spring.cloud.kubernetes.reload.monitoring-secrets&lt;/code>监听配置更新事件&lt;/li>
-&lt;/ul>
-&lt;h3 id="添加接口">添加接口&lt;/h3>
-&lt;ul>
-&lt;li>ConfigProperties.java&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Data&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Component&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@ConfigurationProperties&lt;/span>(prefix &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;spring.datasource&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ConfigProperties&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> String url;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> String username;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> String password;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>ConfigMapController.java&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@RestController&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Slf4j&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">SecretsController&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Autowired&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> ConfigProperties configProperties;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/db&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">config&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> String.&lt;span style="color:#a6e22e">format&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;url:%s\nusername:%s\npassword:%s&amp;#34;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configProperties.&lt;span style="color:#a6e22e">getUrl&lt;/span>(),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configProperties.&lt;span style="color:#a6e22e">getUsername&lt;/span>(),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configProperties.&lt;span style="color:#a6e22e">getPassword&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="部署应用">部署应用&lt;/h3>
-&lt;ul>
-&lt;li>
-&lt;p>构建并上传镜像&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:15:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p>&lt;/blockquote>
-&lt;h2 id="创建应用">创建应用&lt;/h2>
-&lt;h3 id="添加依赖">添加依赖&lt;/h3>
-&lt;ul>
-&lt;li>build.gradle&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>dependencies &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加配置">添加配置&lt;/h3>
-&lt;h4 id="configmap">ConfigMap&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">kind&lt;/span>: &lt;span style="color:#ae81ff">ConfigMap&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">apiVersion&lt;/span>: &lt;span style="color:#ae81ff">v1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metadata&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">config-map-service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">data&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">application.yaml&lt;/span>: |-&lt;span style="color:#e6db74">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> spring:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> profiles: dev
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> config:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> applicationVersion: dev-0.0.1
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> ---
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> spring:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> profiles: prod
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> config:
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> applicationVersion: prod-0.0.1&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用&lt;code>application.yaml|properties&lt;/code>作为 key，需要注意的是环境配置是&lt;code>spring.profiles&lt;/code>，而不是&lt;code>spring.profiles.active&lt;/code>，否则只会使用最后一行的配置&lt;/p>
-&lt;p>通过以下命令将 ConfigMap 添加到 Kubernetes 中&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f config-map.yaml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="applicationproperties">application.properties&lt;/h4>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.application.name&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">config-map-service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.profiles.active&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${PROFILE:dev}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">management.endpoint.restart.enabled&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Reload Config&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.reload.enabled&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.reload.mode&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">polling&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.reload.period&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">5000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.cloud.kubernetes.reload.strategy&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">refresh&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>
-&lt;p>&lt;code>spring.profiles.active=${PROFILE:dev}&lt;/code>用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p></description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote>
-&lt;p>Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p>&lt;/blockquote>
-&lt;p>创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用&lt;/p>
-&lt;h2 id="provider">Provider&lt;/h2>
-&lt;h3 id="添加依赖">添加依赖&lt;/h3>
-&lt;ul>
-&lt;li>build.gradle&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-groovy" data-lang="groovy">&lt;span style="display:flex;">&lt;span>dependencies &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compile &lt;span style="color:#a6e22e">project&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;:discovery/common&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> implementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> compileOnly &lt;span style="color:#e6db74">&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> annotationProcessor &lt;span style="color:#e6db74">&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> testImplementation &lt;span style="color:#e6db74">&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加配置">添加配置&lt;/h3>
-&lt;ul>
-&lt;li>application.properties&lt;/li>
-&lt;/ul>
-&lt;p>指定服务的名称，用于实现调用&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-properties" data-lang="properties">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">spring.application.name&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">provider-service&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">server.port&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">8082&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>ProviderApplication.java&lt;/li>
-&lt;/ul>
-&lt;p>添加 &lt;code>@EnableDiscoveryClient&lt;/code>启用服务发现&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@SpringBootApplication&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@EnableDiscoveryClient&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ProviderApplication&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(String&lt;span style="color:#f92672">[]&lt;/span> args) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SpringApplication.&lt;span style="color:#a6e22e">run&lt;/span>(ProviderApplication.&lt;span style="color:#a6e22e">class&lt;/span>, args);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加接口">添加接口&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@GetMapping&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;/ping&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@ResponseBody&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">ping&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> InetAddress.&lt;span style="color:#a6e22e">getLocalHost&lt;/span>().&lt;span style="color:#a6e22e">getHostName&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (UnknownHostException e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Pong&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="部署到-kubernetes">部署到 Kubernetes&lt;/h3>
-&lt;ul>
-&lt;li>Dockerfile&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">FROM&lt;/span>&lt;span style="color:#e6db74"> openjdk:8-jdk-alpine&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">VOLUME&lt;/span>&lt;span style="color:#e6db74"> /tmp&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENV&lt;/span> TZ&lt;span style="color:#f92672">=&lt;/span>Asia/Shanghai&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">RUN&lt;/span> ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> echo $TZ &amp;gt; /etc/timezone&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ARG&lt;/span> JAR_FILE&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ADD&lt;/span> discovery/provider/build/libs/provider-0.0.1-SNAPSHOT.jar app.jar&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENTRYPOINT&lt;/span> [&lt;span style="color:#e6db74">&amp;#34;java&amp;#34;&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;-Djava.security.egd=file:/dev/./urandom&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;-Duser.timezone=GMT+08&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;-jar&amp;#34;&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;/app.jar&amp;#34;&lt;/span>]&lt;span style="color:#960050;background-color:#1e0010">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>构建并上传镜像&lt;/p></description></item><item><title>Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:51:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote>
-&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka">本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47">http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a>&lt;/p>&lt;/blockquote>
-&lt;h2 id="配置">配置&lt;/h2>
-&lt;ul>
-&lt;li>修改配置文件，添加以下内容&lt;/li>
-&lt;/ul>
-&lt;pre tabindex="0">&lt;code>spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}
-&lt;/code>&lt;/pre>&lt;hr>
-&lt;h2 id="说明">说明&lt;/h2>
-&lt;ul>
-&lt;li>当没有任何配置的时候，会使用&lt;code>http://bogon:9999/&lt;/code>注册&lt;/li>
-&lt;li>当 Client 加入了&lt;code>spring.boot.admin.client.prefer-ip=true&lt;/code>的时候会以所得到的 IP 注册，此时 IP 为内网 IP，如果部署到服务器上将会无法注册&lt;/li>
-&lt;li>当 Client 配置为&lt;code>spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}&lt;/code>时将会以所配置的地址进行注册&lt;/li>
-&lt;/ul></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SpringCloud on HelloWood</title><link>https://blog.hellowood.dev/tags/springcloud/</link><description>Recent content in SpringCloud on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/springcloud/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring Cloud 使用 Consul 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-consul-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 20 Sep 2020 22:28:50 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-consul-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;h2 id="加载配置"&gt;加载配置&lt;/h2&gt;
+&lt;p&gt;加载配置是通过 &lt;code&gt;ConsulPropertySourceLocator&lt;/code&gt; 来实现的，该类是 &lt;code&gt;PropertySourceLocator&lt;/code&gt;接口的实现类&lt;/p&gt;
+&lt;h3 id="bean-初始化"&gt;Bean 初始化&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#a6e22e"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; ConsulPropertySourceLocator &lt;span style="color:#a6e22e"&gt;consulPropertySourceLocator&lt;/span&gt;(ConsulConfigProperties consulConfigProperties) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ConsulPropertySourceLocator(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;consul&lt;/span&gt;, consulConfigProperties);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="获取配置"&gt;获取配置&lt;/h3&gt;
+&lt;p&gt;获取配置是通过 PropertySourceLocator#locate 方法实现的，最终将获取到属性添加到环境中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ConsulPropertySourceLocator#locate&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;获取配置时，根据应用名称，路径，环境及配置类型拼接相应的路径，然后调用 Consul 获取 KV 值的接口，获取相应的配置，根据类型解析后放入环境中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@Retryable&lt;/span&gt;(interceptor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;consulRetryInterceptor&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; PropertySource&lt;span style="color:#f92672"&gt;&amp;lt;?&amp;gt;&lt;/span&gt; locate(Environment environment) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (environment &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; ConfigurableEnvironment) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			ConfigurableEnvironment env &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (ConfigurableEnvironment) environment;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			String appName &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getName&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (appName &lt;span style="color:#f92672"&gt;==&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				appName &lt;span style="color:#f92672"&gt;=&lt;/span&gt; env.&lt;span style="color:#a6e22e"&gt;getProperty&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;spring.application.name&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;String&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; profiles &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Arrays.&lt;span style="color:#a6e22e"&gt;asList&lt;/span&gt;(env.&lt;span style="color:#a6e22e"&gt;getActiveProfiles&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			String prefix &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getPrefix&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;String&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; suffixes &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ArrayList&lt;span style="color:#f92672"&gt;&amp;lt;&amp;gt;&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 不是文件类型的时候，后缀为 /，否则就是配置文件的后缀&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getFormat&lt;/span&gt;() &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; FILES) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				suffixes.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;/&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			} &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				suffixes.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;.yml&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				suffixes.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;.yaml&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				suffixes.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;.properties&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 路径&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			String defaultContext &lt;span style="color:#f92672"&gt;=&lt;/span&gt; getContext(prefix, &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getDefaultContext&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (String suffix : suffixes) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(defaultContext &lt;span style="color:#f92672"&gt;+&lt;/span&gt; suffix);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 追加环境及文件类型&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (String suffix : suffixes) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				addProfiles(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;, defaultContext, profiles, suffix);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			String baseContext &lt;span style="color:#f92672"&gt;=&lt;/span&gt; getContext(prefix, appName);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 应用名称前缀&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (String suffix : suffixes) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;add&lt;/span&gt;(baseContext &lt;span style="color:#f92672"&gt;+&lt;/span&gt; suffix);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (String suffix : suffixes) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				addProfiles(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;, baseContext, profiles, suffix);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			Collections.&lt;span style="color:#a6e22e"&gt;reverse&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			CompositePropertySource composite &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CompositePropertySource(&lt;span style="color:#e6db74"&gt;&amp;#34;consul&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (String propertySourceContext : &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contexts&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				&lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					ConsulPropertySource propertySource &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getFormat&lt;/span&gt;() &lt;span style="color:#f92672"&gt;==&lt;/span&gt; FILES) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						&lt;span style="color:#75715e"&gt;// 获取值&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						Response&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;GetValue&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; response &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;consul&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getKVValue&lt;/span&gt;(propertySourceContext, &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getAclToken&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						&lt;span style="color:#75715e"&gt;// 添加当前索引&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						addIndex(propertySourceContext, response.&lt;span style="color:#a6e22e"&gt;getConsulIndex&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						&lt;span style="color:#75715e"&gt;// 如果值不为空，则更新值并初始化&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (response.&lt;span style="color:#a6e22e"&gt;getValue&lt;/span&gt;() &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;							ConsulFilesPropertySource filesPropertySource &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ConsulFilesPropertySource(propertySourceContext, &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;consul&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;							&lt;span style="color:#75715e"&gt;// 解析配置内容&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;							filesPropertySource.&lt;span style="color:#a6e22e"&gt;init&lt;/span&gt;(response.&lt;span style="color:#a6e22e"&gt;getValue&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;							propertySource &lt;span style="color:#f92672"&gt;=&lt;/span&gt; filesPropertySource;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					} &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						propertySource &lt;span style="color:#f92672"&gt;=&lt;/span&gt; create(propertySourceContext, &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;contextIndex&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (propertySource &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						composite.&lt;span style="color:#a6e22e"&gt;addPropertySource&lt;/span&gt;(propertySource);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				} &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (Exception e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;isFailFast&lt;/span&gt;()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						log.&lt;span style="color:#a6e22e"&gt;error&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Fail fast is set and there was an error reading configuration from consul.&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						ReflectionUtils.&lt;span style="color:#a6e22e"&gt;rethrowRuntimeException&lt;/span&gt;(e);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					} &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;						log.&lt;span style="color:#a6e22e"&gt;warn&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Unable to load consul config from &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; propertySourceContext, e);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; composite;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="监听配置"&gt;监听配置&lt;/h2&gt;
+&lt;p&gt;Consul 监听配置是通过定时任务实现的，&lt;/p&gt;</description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-1/</link><pubDate>Sun, 20 Sep 2020 22:28:15 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-1/</guid><description>&lt;p&gt;Spring Cloud 支持使用 Kubernetes 作为配置中心，通过 ConfigMap 或 Secret，将配置添加到应用中&lt;/p&gt;
+&lt;h2 id="加载配置"&gt;加载配置&lt;/h2&gt;
+&lt;p&gt;加载配置是通过 PropertySourceLocator 来实现的，ConfigMap 使用 &lt;code&gt;ConfigMapPropertySourceLocator&lt;/code&gt; 加载，Secret 使用 &lt;code&gt;SecretsPropertySourceLocator&lt;/code&gt;加载&lt;/p&gt;
+&lt;h3 id="bean-初始化"&gt;Bean 初始化&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#a6e22e"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#a6e22e"&gt;@ConditionalOnProperty&lt;/span&gt;(name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;spring.cloud.kubernetes.config.enabled&amp;#34;&lt;/span&gt;, matchIfMissing &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; ConfigMapPropertySourceLocator &lt;span style="color:#a6e22e"&gt;configMapPropertySourceLocator&lt;/span&gt;(ConfigMapConfigProperties properties) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ConfigMapPropertySourceLocator(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;client&lt;/span&gt;, properties);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#a6e22e"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#a6e22e"&gt;@ConditionalOnProperty&lt;/span&gt;(name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;spring.cloud.kubernetes.secrets.enabled&amp;#34;&lt;/span&gt;, matchIfMissing &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; SecretsPropertySourceLocator &lt;span style="color:#a6e22e"&gt;secretsPropertySourceLocator&lt;/span&gt;(SecretsConfigProperties properties) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; SecretsPropertySourceLocator(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;client&lt;/span&gt;, properties);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="获取配置"&gt;获取配置&lt;/h3&gt;
+&lt;p&gt;获取配置是通过 PropertySourceLocator#locate 方法实现的，最终将获取到属性添加到环境中&lt;/p&gt;
+&lt;h4 id="configmap"&gt;ConfigMap&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;ConfigMapPropertySourceLocator#locate&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; PropertySource &lt;span style="color:#a6e22e"&gt;locate&lt;/span&gt;(Environment environment) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (environment &lt;span style="color:#66d9ef"&gt;instanceof&lt;/span&gt; ConfigurableEnvironment) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			ConfigurableEnvironment env &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (ConfigurableEnvironment) environment;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;ConfigMapConfigProperties.&lt;span style="color:#a6e22e"&gt;NormalizedSource&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; sources &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;determineSources&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			CompositePropertySource composite &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; CompositePropertySource(&lt;span style="color:#e6db74"&gt;&amp;#34;composite-configmap&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;properties&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;isEnableApi&lt;/span&gt;()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				sources.&lt;span style="color:#a6e22e"&gt;forEach&lt;/span&gt;(s &lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt; composite.&lt;span style="color:#a6e22e"&gt;addFirstPropertySource&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;					getMapPropertySourceForSingleConfigMap(env, s)));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 将配置添加的容器环境中&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			addPropertySourcesFromPaths(environment, composite);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; composite;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真正向 Kubernetes 发起请求的是通过调用 &lt;code&gt;getMapPropertySourceForSingleConfigMap&lt;/code&gt; 方法，创建&lt;code&gt;ConfigMapPropertySource&lt;/code&gt;实例的时候，会根据 &lt;code&gt;getData&lt;/code&gt; 方法，从 ConfigMap 获取属性解析并添加到环境中&lt;/p&gt;</description></item><item><title>Spring Cloud Consul 服务注册和发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-consul-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:27:16 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-consul-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</guid><description>&lt;p&gt;Spring Cloud Kubernetes 使用，可以通过引入 &lt;code&gt;org.springframework.cloud:spring-cloud-starter-consul-discovery&lt;/code&gt;，这个 starter 依赖于 &lt;code&gt;org.springframework.cloud:spring-cloud-consul-core&lt;/code&gt; 和 &lt;code&gt;org.springframework.cloud:spring-cloud-consul-discovery&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="consul-的核心概念"&gt;Consul 的核心概念&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;server
+集群的核心节点，用于和 agent 通讯，保存服务的信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;agent
+集群节点的守护进程，用于服务注册等行为，但不保存数据&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;catalog
+集群服务通信的接口&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="初始化-kubernetes-client"&gt;初始化 Kubernetes Client&lt;/h2&gt;
+&lt;h3 id="初始化-consul-依赖"&gt;初始化 Consul 依赖&lt;/h3&gt;
+&lt;p&gt;相关 Consul 核心依赖的初始化是通过 &lt;code&gt;org.springframework.cloud.consul.ConsulAutoConfiguration&lt;/code&gt;实现的&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化 ConsulClient&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@ConditionalOnMissingBean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; ConsulClient &lt;span style="color:#a6e22e"&gt;consulClient&lt;/span&gt;(ConsulProperties consulProperties) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; agentPort &lt;span style="color:#f92672"&gt;=&lt;/span&gt; consulProperties.&lt;span style="color:#a6e22e"&gt;getPort&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; String agentHost &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;!&lt;/span&gt;StringUtils.&lt;span style="color:#a6e22e"&gt;isEmpty&lt;/span&gt;(consulProperties.&lt;span style="color:#a6e22e"&gt;getScheme&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#f92672"&gt;?&lt;/span&gt; consulProperties.&lt;span style="color:#a6e22e"&gt;getScheme&lt;/span&gt;() &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;://&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; consulProperties.&lt;span style="color:#a6e22e"&gt;getHost&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			: consulProperties.&lt;span style="color:#a6e22e"&gt;getHost&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (consulProperties.&lt;span style="color:#a6e22e"&gt;getTls&lt;/span&gt;() &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			ConsulProperties.&lt;span style="color:#a6e22e"&gt;TLSConfig&lt;/span&gt; tls &lt;span style="color:#f92672"&gt;=&lt;/span&gt; consulProperties.&lt;span style="color:#a6e22e"&gt;getTls&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			TLSConfig tlsConfig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TLSConfig(tls.&lt;span style="color:#a6e22e"&gt;getKeyStoreInstanceType&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				tls.&lt;span style="color:#a6e22e"&gt;getCertificatePath&lt;/span&gt;(), tls.&lt;span style="color:#a6e22e"&gt;getCertificatePassword&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				tls.&lt;span style="color:#a6e22e"&gt;getKeyStorePath&lt;/span&gt;(), tls.&lt;span style="color:#a6e22e"&gt;getKeyStorePassword&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ConsulClient(agentHost, agentPort, tlsConfig);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ConsulClient(agentHost, agentPort);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="服务注册"&gt;服务注册&lt;/h2&gt;
+&lt;h3 id="初始化-bean"&gt;初始化 Bean&lt;/h3&gt;
+&lt;p&gt;相关 Bean 的初始化是在 &lt;code&gt;org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationAutoConfiguration&lt;/code&gt; 中完成的&lt;/p&gt;</description></item><item><title>Spring Cloud Kubernetes 服务注册和发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-kubernetes-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:26:03 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-kubernetes-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/</guid><description>&lt;p&gt;Spring Cloud Kubernetes 使用，可以通过引入 &lt;code&gt;org.springframework.cloud:spring-cloud-starter-kubernetes&lt;/code&gt;，这个 starter 依赖于 &lt;code&gt;org.springframework.cloud:spring-cloud-kubernetes-core&lt;/code&gt; 和 &lt;code&gt;org.springframework.cloud:spring-cloud-kubernetes-discovery&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="初始化-kubernetes-client"&gt;初始化 Kubernetes Client&lt;/h2&gt;
+&lt;h3 id="初始化环境配置"&gt;初始化环境配置&lt;/h3&gt;
+&lt;p&gt;环境初始化是通过 &lt;code&gt;org.springframework.cloud.kubernetes.profile.KubernetesProfileEnvironmentPostProcessor&lt;/code&gt;类实现的，当环境初始化完成时，会检查 Kubernetes 是否开启，如果开启则会判断 Profile 是否注入到容器中，没有时将会注入 Profile 到容器中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;postProcessEnvironment&lt;/span&gt;(ConfigurableEnvironment environment,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	 SpringApplication application) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#75715e"&gt;// 判断是否启用 kubernetes，默认为 true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;boolean&lt;/span&gt; kubernetesEnabled &lt;span style="color:#f92672"&gt;=&lt;/span&gt; environment.&lt;span style="color:#a6e22e"&gt;getProperty&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;spring.cloud.kubernetes.enabled&amp;#34;&lt;/span&gt;, Boolean.&lt;span style="color:#a6e22e"&gt;class&lt;/span&gt;, &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (&lt;span style="color:#f92672"&gt;!&lt;/span&gt;kubernetesEnabled) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#75715e"&gt;// 如果在 Kubernetes 中&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (isInsideKubernetes()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// 判断是否存在 Kubernetes 环境的配置，如果不存在，则添加到环境变量中&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (hasKubernetesProfile(environment)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				&lt;span style="color:#75715e"&gt;// ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			} &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;				environment.&lt;span style="color:#a6e22e"&gt;addActiveProfile&lt;/span&gt;(KUBERNETES_PROFILE);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		} &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;			&lt;span style="color:#75715e"&gt;// ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="初始化-kubernetes-依赖"&gt;初始化 Kubernetes 依赖&lt;/h3&gt;
+&lt;p&gt;相关 Kubernetes 核心依赖的初始化是通过 &lt;code&gt;org.springframework.cloud.kubernetes.KubernetesAutoConfiguration&lt;/code&gt;实现的&lt;/p&gt;</description></item><item><title>Spring Cloud Gateway 使用 Kubernetes 作为服务发现</title><link>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/</link><pubDate>Sun, 20 Sep 2020 22:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/</guid><description>&lt;p&gt;Spring Cloud Gateway 作为网关，通过用于执行一些通用逻辑后做请求转发，后端可能涉及到多个服务，每个服务又有多个实例，调用服务实例就需要动态的更新，可以通过注册中心来实现，如果部署在K8S集群中，可以直接使用K8S实现服务发现&lt;/p&gt;
+&lt;h2 id="应用"&gt;应用&lt;/h2&gt;
+&lt;h3 id="gateway"&gt;Gateway&lt;/h3&gt;
+&lt;h4 id="添加依赖"&gt;添加依赖&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;build.gradle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;plugins &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot&amp;#39;&lt;/span&gt; version &lt;span style="color:#e6db74"&gt;&amp;#39;2.2.6.RELEASE&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#39;io.spring.dependency-management&amp;#39;&lt;/span&gt; version &lt;span style="color:#e6db74"&gt;&amp;#39;1.0.9.RELEASE&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#39;java&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ext &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; set&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;springCloudVersion&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Hoxton.SR1&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; set&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;springKubernetesVersion&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;1.1.2.RELEASE&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-kubernetes-discovery&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; testImplementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exclude group: &lt;span style="color:#e6db74"&gt;&amp;#39;org.junit.vintage&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;,&lt;/span&gt; module: &lt;span style="color:#e6db74"&gt;&amp;#39;junit-vintage-engine&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencyManagement &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; imports &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mavenBom &lt;span style="color:#e6db74"&gt;&amp;#34;org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mavenBom &lt;span style="color:#e6db74"&gt;&amp;#34;org.springframework.cloud:spring-cloud-kubernetes-dependencies:${springKubernetesVersion}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;如果是需要客户端实现负载均衡，依赖是&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-netflix-ribbon&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="添加路由配置"&gt;添加路由配置&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;bootstrap.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spring&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cloud&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;kubernetes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;discovery&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;catalogServicesWatchDelay&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;5000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;client&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;master-url&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;https://kubernetes.docker.internal:6443&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ca-cert-data&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;xxx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;namespace&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;applicaiton.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spring&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;application.name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;gateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cloud&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;gateway&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;discovery&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;locator&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;enabled&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;url-expression&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#39;http://&amp;#39;+serviceId+&amp;#39;:&amp;#39;+port&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;lower-case-service-id&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;management&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;endpoints&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;web&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;exposure&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;include&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置 &lt;code&gt;url-expression&lt;/code&gt; 目的是为了在转发的时候直接转发到 Kubernetes 中相应的 Service 上去，默认的表达式为 &lt;code&gt;&amp;quot;'lb://'+serviceId&amp;quot;&lt;/code&gt;，这种适用于通过 Consul 或者 Eureka，最终是根据服务的IP和端口访问，&lt;code&gt;spring-cloud-kubernetes&lt;/code&gt;没有实现&lt;code&gt;com.netflix.loadbalancer.AbstractServerList&lt;/code&gt;，所以不会进行IP转换，最终是通过服务名称查找Service 实现调用，所以不需要负载均衡&lt;/p&gt;</description></item><item><title>Spring Cloud Gateway 使用 Kubernetes 实现负载均衡</title><link>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link><pubDate>Sun, 20 Sep 2020 22:23:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-gateway-%E4%BD%BF%E7%94%A8-kubernetes-%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid><description>&lt;p&gt;在使用 Spring Cloud Gateway 作为服务服务发现时，可能会遇到 Gateway 并没有部署在服务所在的 Kubernetes 集群中，或者存在网络隔离，无法直接通过 Service Name 访问到相应的服务，这时候就需要通过 Service 的 IP 访问，但是，&lt;code&gt;spring-cloud-kubernetes-discovery &lt;/code&gt;没有像 &lt;code&gt;spring-cloud-consul-discovery&lt;/code&gt;一样实现服务负载均衡的接口，所以默认只会访问某个服务固定的 IP；这样就需要使用负载均衡的依赖&lt;/p&gt;
+&lt;h3 id="添加依赖"&gt;添加依赖&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-gateway&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-netflix-ribbon&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;spring-cloud-starter-kubernetes-all&lt;/code&gt;包含 Kubernetes 负载均衡的实现&lt;/p&gt;
+&lt;h3 id="添加配置"&gt;添加配置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;bootstrap.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spring&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cloud&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;kubernetes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;discovery&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;catalogServicesWatchDelay&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;5000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;client&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;master-url&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;https://localhost:60002&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ca-cert-data&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;xxxx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;namespace&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;develop&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;applicaiton.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;spring&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;application&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;gateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cloud&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;gateway&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;discovery&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;locator&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;enabled&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;lower-case-service-id&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;management&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;endpoints&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;web&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;exposure&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;include&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</link><pubDate>Sun, 08 Sep 2019 19:18:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83-%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E9%85%8D%E7%BD%AE/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="创建应用"&gt;创建应用&lt;/h2&gt;
+&lt;h3 id="添加依赖"&gt;添加依赖&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;build.gradle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加配置"&gt;添加配置&lt;/h3&gt;
+&lt;h4 id="编码"&gt;编码&lt;/h4&gt;
+&lt;p&gt;内容通过 Base64 编码后添加到 Kubernetes 中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;secrets.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apiVersion: v1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kind: Secret
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;metadata:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name: secrets-service
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; namespace: default
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;data:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url: amRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L3NlYXRhP3VzZVVuaWNvZGU9dHJ1ZSZjaGFyYWN0ZXJFbmNvZGluZz11dGY4JmFsbG93TXVsdGlRdWVyaWVzPXRydWUmdXNlU1NMPWZhbHNl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; username: aGVsbG93b29k
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; password: MTIzNDU2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将Secrets 添加到 Kubernetes 中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl apply -f secrets.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="applicationproperties"&gt;application.properties&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.application.name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;secrets-service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;server.port&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;8081&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;management.endpoint.restart.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Secret Config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.secrets.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.secrets.name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;secrets-service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.secrets.namespace&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.reload.monitoring-secrets&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# DataSource Config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.datasource.url&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${DB_URL}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.datasource.username&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${DB_USERNAME}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.datasource.password&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${DB_PASSWORD}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;spring.cloud.kubernetes.secrets.enabled&lt;/code&gt;默认是关闭的，所以需要主动开启&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spring.cloud.kubernetes.secrets.name&lt;/code&gt;默认和&lt;code&gt;spring.application.name&lt;/code&gt;一致&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spring.cloud.kubernetes.secrets.namespace&lt;/code&gt;指定 Namespace&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spring.cloud.kubernetes.reload.monitoring-secrets&lt;/code&gt;监听配置更新事件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="添加接口"&gt;添加接口&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ConfigProperties.java&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@ConfigurationProperties&lt;/span&gt;(prefix &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;spring.datasource&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;ConfigProperties&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String url;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String username;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String password;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;ConfigMapController.java&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@RestController&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Slf4j&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;SecretsController&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; ConfigProperties configProperties;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@GetMapping&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;/db&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; String &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; String.&lt;span style="color:#a6e22e"&gt;format&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;url:%s\nusername:%s\npassword:%s&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; configProperties.&lt;span style="color:#a6e22e"&gt;getUrl&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; configProperties.&lt;span style="color:#a6e22e"&gt;getUsername&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; configProperties.&lt;span style="color:#a6e22e"&gt;getPassword&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="部署应用"&gt;部署应用&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;构建并上传镜像&lt;/p&gt;</description></item><item><title>Spring Cloud 使用 Kubernetes 作为配置中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:15:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;Spring Cloud 可以通过使用 Kubernetes 的 ConfigMap 作为配置中心，实现配置的拉取和刷新&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="创建应用"&gt;创建应用&lt;/h2&gt;
+&lt;h3 id="添加依赖"&gt;添加依赖&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;build.gradle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加配置"&gt;添加配置&lt;/h3&gt;
+&lt;h4 id="configmap"&gt;ConfigMap&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;kind&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ConfigMap&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;apiVersion&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;metadata&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;config-map-service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;data&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;application.yaml&lt;/span&gt;: |-&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; spring:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; profiles: dev
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; config:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; applicationVersion: dev-0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; ---
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; spring:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; profiles: prod
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; config:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; applicationVersion: prod-0.0.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ConfigMap的名称要和应用名称一致，否则需要指定相应的名称；应用的配置信息可以使用&lt;code&gt;application.yaml|properties&lt;/code&gt;作为 key，需要注意的是环境配置是&lt;code&gt;spring.profiles&lt;/code&gt;，而不是&lt;code&gt;spring.profiles.active&lt;/code&gt;，否则只会使用最后一行的配置&lt;/p&gt;
+&lt;p&gt;通过以下命令将 ConfigMap 添加到 Kubernetes 中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl apply -f config-map.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="applicationproperties"&gt;application.properties&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.application.name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;config-map-service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.profiles.active&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${PROFILE:dev}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;management.endpoint.restart.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Reload Config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.reload.enabled&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.reload.mode&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;polling&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.reload.period&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;5000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.cloud.kubernetes.reload.strategy&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;refresh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;spring.profiles.active=${PROFILE:dev}&lt;/code&gt;用于获取 Deployment 传递的参数来决定使用什么配置&lt;/p&gt;</description></item><item><title>Spring Cloud 使用 Kubernetes 作为注册中心</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</link><pubDate>Sun, 08 Sep 2019 19:12:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E4%BD%BF%E7%94%A8-kubernetes-%E4%BD%9C%E4%B8%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;Spring Cloud 可以使用 Kubernetes 作为注册中心，实现服务注册和发现&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;创建两个应用，Consumer 和 Provider，Provider 提供一个 REST 接口供 Consumer 调用&lt;/p&gt;
+&lt;h2 id="provider"&gt;Provider&lt;/h2&gt;
+&lt;h3 id="添加依赖"&gt;添加依赖&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;build.gradle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile &lt;span style="color:#a6e22e"&gt;project&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;:discovery/common&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-kubernetes-all&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compileOnly &lt;span style="color:#e6db74"&gt;&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; annotationProcessor &lt;span style="color:#e6db74"&gt;&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; testImplementation &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加配置"&gt;添加配置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;application.properties&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指定服务的名称，用于实现调用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.application.name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;provider-service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;server.port&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;8082&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;ProviderApplication.java&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;添加 &lt;code&gt;@EnableDiscoveryClient&lt;/code&gt;启用服务发现&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@SpringBootApplication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@EnableDiscoveryClient&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;ProviderApplication&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;(String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; args) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; SpringApplication.&lt;span style="color:#a6e22e"&gt;run&lt;/span&gt;(ProviderApplication.&lt;span style="color:#a6e22e"&gt;class&lt;/span&gt;, args);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加接口"&gt;添加接口&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@GetMapping&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;/ping&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@ResponseBody&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; String &lt;span style="color:#a6e22e"&gt;ping&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; InetAddress.&lt;span style="color:#a6e22e"&gt;getLocalHost&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;getHostName&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (UnknownHostException e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Pong&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="部署到-kubernetes"&gt;部署到 Kubernetes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Dockerfile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;FROM&lt;/span&gt; &lt;span style="color:#e6db74"&gt;openjdk:8-jdk-alpine&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;VOLUME&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/tmp&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;ENV&lt;/span&gt; TZ&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Asia/Shanghai&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;RUN&lt;/span&gt; ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo $TZ &amp;gt; /etc/timezone&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;ARG&lt;/span&gt; JAR_FILE&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;ADD&lt;/span&gt; discovery/provider/build/libs/provider-0.0.1-SNAPSHOT.jar app.jar&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style="color:#e6db74"&gt;&amp;#34;java&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;-Djava.security.egd=file:/dev/./urandom&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;-Duser.timezone=GMT+08&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;-jar&amp;#34;&lt;/span&gt;,&lt;span style="color:#e6db74"&gt;&amp;#34;/app.jar&amp;#34;&lt;/span&gt;]&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;构建并上传镜像&lt;/p&gt;</description></item><item><title>Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法</title><link>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 11:51:23 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-cloud-%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B-ip-url-%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E6%B3%A8%E5%86%8C%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote&gt;
+&lt;h2 id="本项目仅用到了-spring-cloud并没有使用-eureka"&gt;本项目仅用到了 Spring Cloud，并没有使用 Eureka&lt;/h2&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在使用 Spring Cloud 对 Spring Boot 应用通过 Spring Admin 进行监控的时候，当 Admin Server 和被监控的应用都在本地启动的时候没有任何问题，但是当部署到 Server 上之后，Client 在注册到 Admin Server 上时 IP 地址不正确，发现是因为 Server 有内网和外网 IP，但是在应用注册的时候用了内网的 IP，Admin Server 访问该内网 IP 失败，所以应用无法注册&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;因为没有使用 Eureka，所以配置时需要用 Spring Cloud 的配置来处理&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 Eureka 请参考 &lt;a href="http://www.jianshu.com/p/fa1e9c8e4f47"&gt;http://www.jianshu.com/p/fa1e9c8e4f47&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="配置"&gt;配置&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;修改配置文件，添加以下内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h2 id="说明"&gt;说明&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;当没有任何配置的时候，会使用&lt;code&gt;http://bogon:9999/&lt;/code&gt;注册&lt;/li&gt;
+&lt;li&gt;当 Client 加入了&lt;code&gt;spring.boot.admin.client.prefer-ip=true&lt;/code&gt;的时候会以所得到的 IP 注册，此时 IP 为内网 IP，如果部署到服务器上将会无法注册&lt;/li&gt;
+&lt;li&gt;当 Client 配置为&lt;code&gt;spring.boot.admin.client.service-base-url=http://${your_ip}:${your_port}&lt;/code&gt;时将会以所配置的地址进行注册&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

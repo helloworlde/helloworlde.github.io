@@ -1,177 +1,177 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloudflare on HelloWood</title><link>https://blog.hellowood.dev/tags/cloudflare/</link><description>Recent content in Cloudflare on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cloudflare/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p>
-&lt;h2 id="使用-cloudflare-tunnel-将服务转发给-caddy">使用 Cloudflare Tunnel 将服务转发给 Caddy&lt;/h2>
-&lt;p>关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a>&lt;/p>
-&lt;p>关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/">使用 Caddy 作为反向代理访问内网服务&lt;/a>&lt;/p>
-&lt;p>以 traefik/whoami 服务为例&lt;/p>
-&lt;h3 id="部署-whoami-服务">部署 whoami 服务&lt;/h3>
-&lt;p>traefik/whoami 是一个可以返回请求信息的 Go 服务，用 docker-compose 部署&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">whoami&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">traefik/whoami&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">whoami&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">whoami&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">8081&lt;/span>:&lt;span style="color:#ae81ff">80&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动后请求 &lt;code>http://localhost:8081&lt;/code> 会返回请求信息&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl localhost:8081
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Hostname: whoami
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: 127.0.0.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: ::1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IP: 172.20.0.4
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RemoteAddr: 172.20.0.1:59018
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>GET / HTTP/1.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Host: localhost:8081
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>User-Agent: curl/8.9.1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Accept: */*
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="配置-caddy">配置 Caddy&lt;/h3>
-&lt;p>在 Caddyfile 中新增一条路由规则，将 whoami.homelab.dev 转发给 whoami 服务&lt;/p></description></item><item><title>Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权</title><link>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</guid><description>&lt;p>在使用 Cloudflare Tunnel 代理内网服务后，服务直接暴露在公网任何人都可以访问，非常不安全，因此需要为对应的域名通过应用程序和策略来为 Tunnel 代理的服务添加鉴权&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloudflare on HelloWood</title><link>https://blog.hellowood.dev/tags/cloudflare/</link><description>Recent content in Cloudflare on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/cloudflare/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p&gt;HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p&gt;
+&lt;h2 id="使用-cloudflare-tunnel-将服务转发给-caddy"&gt;使用 Cloudflare Tunnel 将服务转发给 Caddy&lt;/h2&gt;
+&lt;p&gt;关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;以 traefik/whoami 服务为例&lt;/p&gt;
+&lt;h3 id="部署-whoami-服务"&gt;部署 whoami 服务&lt;/h3&gt;
+&lt;p&gt;traefik/whoami 是一个可以返回请求信息的 Go 服务，用 docker-compose 部署&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;whoami&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;traefik/whoami&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;whoami&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;whoami&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;8081&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动后请求 &lt;code&gt;http://localhost:8081&lt;/code&gt; 会返回请求信息&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hostname: whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP: 127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP: ::1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP: 172.20.0.4
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;RemoteAddr: 172.20.0.1:59018
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;GET / HTTP/1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Host: localhost:8081
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;User-Agent: curl/8.9.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Accept: */*
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="配置-caddy"&gt;配置 Caddy&lt;/h3&gt;
+&lt;p&gt;在 Caddyfile 中新增一条路由规则，将 whoami.homelab.dev 转发给 whoami 服务&lt;/p&gt;</description></item><item><title>Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权</title><link>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/</guid><description>&lt;p&gt;在使用 Cloudflare Tunnel 代理内网服务后，服务直接暴露在公网任何人都可以访问，非常不安全，因此需要为对应的域名通过应用程序和策略来为 Tunnel 代理的服务添加鉴权&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png" alt="homelab-cloudflare-application-login-page.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="使用-tunnel-代理服务">使用 Tunnel 代理服务&lt;/h2>
-&lt;p>如何配置和使用 Tunnel 可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a> 以及 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/">使用 Cloudflare Tunnels 通过 Web SSH 访问服务器&lt;/a>&lt;/p>
-&lt;h2 id="配置鉴权">配置鉴权&lt;/h2>
-&lt;p>相关的配置在 Zero Trust -&amp;gt; Access 中：&lt;/p>
-&lt;ul>
-&lt;li>规则组用于配置哪些用户、区域、IP、认证方式等可以访问应用程序&lt;/li>
-&lt;li>策略用于配置规则或规则组的匹配条件&lt;/li>
-&lt;li>应用程序用于配置需要鉴权的主机名或路径以及配置访问策略&lt;/li>
-&lt;/ul>
-&lt;h3 id="添加登录方式">添加登录方式&lt;/h3>
-&lt;p>Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，如果想使用第三方登录如 Google/GitHub 等，可以在设置 - 身份验证 - 登录方式选择新增，然后根据说明从对应的网站获取登录方式的配置即可
-
-
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-list.png" alt="homelab-cloudflare-add-login-method-list.png" loading="lazy">
-&lt;/p>
-&lt;p>
-
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-result.png" alt="homelab-cloudflare-add-login-method-result.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="添加规则组">添加规则组&lt;/h3>
-&lt;p>在规则组中新增一个规则组，如超级管理员仅允许特定的几个账户，选择器为 Emails, 然后输入特定邮件地址&lt;/p>
-&lt;p>
-
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-rule-group.png" alt="homelab-cloudflare-add-rule-group.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="添加策略">添加策略&lt;/h3>
-&lt;p>大部分服务只需要添加鉴权和绕过策略即可；鉴权需要登录并认证通过，绕过策略则不需要认证即可对策略指定的用户放行&lt;/p>
-&lt;ul>
-&lt;li>鉴权策略&lt;/li>
-&lt;/ul>
-&lt;p>添加一个策略，操作选择 Allow，规则选择器使用 Rule Group，值选择刚才创建的 Super Admin 规则组；
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png" alt="homelab-cloudflare-application-login-page.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="使用-tunnel-代理服务"&gt;使用 Tunnel 代理服务&lt;/h2&gt;
+&lt;p&gt;如何配置和使用 Tunnel 可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt; 以及 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/"&gt;使用 Cloudflare Tunnels 通过 Web SSH 访问服务器&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="配置鉴权"&gt;配置鉴权&lt;/h2&gt;
+&lt;p&gt;相关的配置在 Zero Trust -&amp;gt; Access 中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;规则组用于配置哪些用户、区域、IP、认证方式等可以访问应用程序&lt;/li&gt;
+&lt;li&gt;策略用于配置规则或规则组的匹配条件&lt;/li&gt;
+&lt;li&gt;应用程序用于配置需要鉴权的主机名或路径以及配置访问策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="添加登录方式"&gt;添加登录方式&lt;/h3&gt;
+&lt;p&gt;Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，如果想使用第三方登录如 Google/GitHub 等，可以在设置 - 身份验证 - 登录方式选择新增，然后根据说明从对应的网站获取登录方式的配置即可
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy.png" alt="homelab-cloudflare-add-access-policy.png" loading="lazy">
-&lt;/p>
-&lt;p>然后使用下面的策略测试器进行检查，除了超级管理员，其他账户都被拒绝；如果允许非管理员账户临时登录，可以在其他设置配置目的正当性，并打开临时身份验证
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-list.png" alt="homelab-cloudflare-add-login-method-list.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-result.png" alt="homelab-cloudflare-add-login-method-result.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="添加规则组"&gt;添加规则组&lt;/h3&gt;
+&lt;p&gt;在规则组中新增一个规则组，如超级管理员仅允许特定的几个账户，选择器为 Emails, 然后输入特定邮件地址&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-rule-group.png" alt="homelab-cloudflare-add-rule-group.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="添加策略"&gt;添加策略&lt;/h3&gt;
+&lt;p&gt;大部分服务只需要添加鉴权和绕过策略即可；鉴权需要登录并认证通过，绕过策略则不需要认证即可对策略指定的用户放行&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;鉴权策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;添加一个策略，操作选择 Allow，规则选择器使用 Rule Group，值选择刚才创建的 Super Admin 规则组；
 
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy-check.png" alt="homelab-cloudflare-add-access-policy-check.png" loading="lazy">
-&lt;/p>
-&lt;ul>
-&lt;li>绕过策略&lt;/li>
-&lt;/ul>
-&lt;p>同样新建一个策略，操作选择 Bypass 即可，规则选择器选择 Everyone，即可对所有用户放行（也可以选择指定的地区、访问方式放行）；&lt;/p>
-&lt;p>注意 Bypass 和 Allow 操作不一样，Bypass 不需要任何登录态，也不会记录请求日志和统计信息；Allow 则需要登录态&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy.png" alt="homelab-cloudflare-add-access-policy.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;然后使用下面的策略测试器进行检查，除了超级管理员，其他账户都被拒绝；如果允许非管理员账户临时登录，可以在其他设置配置目的正当性，并打开临时身份验证
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-Bypass-policy.png" alt="homelab-cloudflare-add-Bypass-policy.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="添加应用程序">添加应用程序&lt;/h3>
-&lt;p>目前 Cloudflare 的应用程序没有直接支持对特定路径配置鉴权或者免鉴权，因此需要配置两个应用程序，一个对所有的路径都配置鉴权，另一个配置特定的路径免鉴权；以 Web 统计工具 &lt;a href="https://umami.is/">umami&lt;/a> 为例&lt;/p></description></item><item><title>使用 Cloudflare Tunnel 作为反向代理访问内网服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 04 Dec 2024 15:48:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p>Cloudflare Tunnel 是一款隧道软件，可以理解为反向代理；可以快速安全地加密应用程序到任何类型基础设施的流量，如 TCP/HTTP/SSH 等，同时能够隐藏 web 服务器 IP 地址，阻止直接攻击，适用于没有公网 IP，但是又需要从公网访问内网部署的服务；详细可以参考官方文档：&lt;a href="https://www.cloudflare.com/zh-cn/products/tunnel/">Cloudflare Tunnel&lt;/a>&lt;/p>
-&lt;p>在 Linux 服务器上安装为例，对外提供 whoami 的 web 程序&lt;/p>
-&lt;h2 id="创建-tunnel">创建 Tunnel&lt;/h2>
-&lt;p>Tunnel 支持在线和本地两种配置方式；在线维护方式添加、修改比较方便，推荐使用在线的方式进行配置；&lt;/p>
-&lt;p>在 Zero Trust =&amp;gt; Network =&amp;gt; Tunnels 中选择创建 Tunnel&lt;/p>
-&lt;p>
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-create-tunnel.png" alt="homelab-cloudflare-tunnel-init-create-tunnel.png" loading="lazy">
-&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy-check.png" alt="homelab-cloudflare-add-access-policy-check.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;绕过策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同样新建一个策略，操作选择 Bypass 即可，规则选择器选择 Everyone，即可对所有用户放行（也可以选择指定的地区、访问方式放行）；&lt;/p&gt;
+&lt;p&gt;注意 Bypass 和 Allow 操作不一样，Bypass 不需要任何登录态，也不会记录请求日志和统计信息；Allow 则需要登录态&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-name-tunnel.png" alt="homelab-cloudflare-tunnel-init-name-tunnel.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="安装配置-cloudflare-tunnel">安装配置 Cloudflare Tunnel&lt;/h2>
-&lt;p>Tunnel 支持二进制包或者 Docker 容器的方式进行安装；选择相应的平台，会生成安装命令，在命令后执行该命令即可&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-add-Bypass-policy.png" alt="homelab-cloudflare-add-Bypass-policy.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="添加应用程序"&gt;添加应用程序&lt;/h3&gt;
+&lt;p&gt;目前 Cloudflare 的应用程序没有直接支持对特定路径配置鉴权或者免鉴权，因此需要配置两个应用程序，一个对所有的路径都配置鉴权，另一个配置特定的路径免鉴权；以 Web 统计工具 &lt;a href="https://umami.is/"&gt;umami&lt;/a&gt; 为例&lt;/p&gt;</description></item><item><title>使用 Cloudflare Tunnel 作为反向代理访问内网服务</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</link><pubDate>Wed, 04 Dec 2024 15:48:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/</guid><description>&lt;p&gt;Cloudflare Tunnel 是一款隧道软件，可以理解为反向代理；可以快速安全地加密应用程序到任何类型基础设施的流量，如 TCP/HTTP/SSH 等，同时能够隐藏 web 服务器 IP 地址，阻止直接攻击，适用于没有公网 IP，但是又需要从公网访问内网部署的服务；详细可以参考官方文档：&lt;a href="https://www.cloudflare.com/zh-cn/products/tunnel/"&gt;Cloudflare Tunnel&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在 Linux 服务器上安装为例，对外提供 whoami 的 web 程序&lt;/p&gt;
+&lt;h2 id="创建-tunnel"&gt;创建 Tunnel&lt;/h2&gt;
+&lt;p&gt;Tunnel 支持在线和本地两种配置方式；在线维护方式添加、修改比较方便，推荐使用在线的方式进行配置；&lt;/p&gt;
+&lt;p&gt;在 Zero Trust =&amp;gt; Network =&amp;gt; Tunnels 中选择创建 Tunnel&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-install.png" alt="homelab-cloudflare-tunnel-init-install.png" loading="lazy">
-&lt;/p>
-&lt;p>如果没有对应的平台，可以在 &lt;a href="https://github.com/cloudflare/cloudflared/releases">GitHub 仓库&lt;/a>下载对应的版本，然后进行安装；以 Ubuntu 22 为例：&lt;/p>
-&lt;ul>
-&lt;li>下载最新的 Cloudflared&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>安装&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dpkg -i cloudflared-linux-amd64.deb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>创建 Cloudflared 服务&lt;/li>
-&lt;/ul>
-&lt;p>这样会创建并自动启动 Cloudflared 服务&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo cloudflared service install &lt;span style="color:#e6db74">${&lt;/span>TOKEN&lt;span style="color:#e6db74">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置路由规则">配置路由规则&lt;/h2>
-&lt;p>路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p></description></item><item><title>使用 Cloudflare Worker 和 R2 代理 OSS 图床</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-worker-%E5%92%8C-r2-%E4%BB%A3%E7%90%86-oss-%E5%9B%BE%E5%BA%8A/</link><pubDate>Sat, 23 Dec 2023 19:14:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-worker-%E5%92%8C-r2-%E4%BB%A3%E7%90%86-oss-%E5%9B%BE%E5%BA%8A/</guid><description>&lt;p>因为笔记可能会在多个平台发布，因此之前使用阿里云的 OSS 作为图片存储，直接将 OSS 的地址暴露到公网进行访问；但是随着流量逐渐增加，每月产生的流量费用也水高船涨，更重要的是 OSS 只支持 Refer 限制，并不能保证安全，在看到有人分享被刷 CDN 产生巨额费用后觉得必须要重视安全问题。&lt;/p>
-&lt;p>赛博菩萨 Cloudflare 提供了 R2 作为存储，提供了 5GB 免费的容量，对于个人完全够用了；同时 Worker 支持 CDN 缓存及就近访问，因此使用 Worker 代理 R2 访问完全能满足我的需求&lt;/p>
-&lt;p>考虑到有多个平台都是用了 OSS 作为链接，需要逐步迁移；因此，使用 Workers 优先从 R2 读取，如果 R2 没有则从 OSS 获取，并存储到 R2 中&lt;/p>
-&lt;h2 id="安装-wrangler">安装 wrangler&lt;/h2>
-&lt;p>在本地使用 wrangler 开发 Worker&lt;/p>
-&lt;ul>
-&lt;li>安装 wrangler&lt;/li>
-&lt;/ul>
-&lt;p>参考 &lt;a href="https://developers.cloudflare.com/workers/wrangler/install-and-update/">Install/Update Wrangler&lt;/a> 进行安装&lt;/p>
-&lt;h2 id="创建-r2">创建 R2&lt;/h2>
-&lt;p>在 Cloudflare 管理平台创建 R2，或者通过 wrangler 进行创建，参考 &lt;a href="https://developers.cloudflare.com/r2/buckets/create-buckets/">Create buckets&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wrangler r2 bucket create picture
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建-worker">创建 Worker&lt;/h2>
-&lt;ul>
-&lt;li>创建项目&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm create cloudflare@latest
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>将 R2 绑定到 Worker&lt;/li>
-&lt;/ul>
-&lt;p>修改 wrangler.toml 配置文件，将 R2 绑定到当前 worker&lt;/p></description></item><item><title>使用 Cloudflare Tunnels 通过 Web SSH 访问服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Fri, 06 Oct 2023 15:25:13 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可以通过 Web SSH 的方式访问服务器；支持多种登陆认证方式，安全性远高于直接暴露公网端口&lt;/p>
-&lt;h2 id="创建-ssh-应用">创建 SSH 应用&lt;/h2>
-&lt;ul>
-&lt;li>创建应用&lt;/li>
-&lt;/ul>
-&lt;p>在 Cloudflare 控制台 &amp;gt; Zero Trust &amp;gt; Access &amp;gt; Applications 选择 Add an application 创建新的应用；应用类型为 Self-hosted&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-create-tunnel.png" alt="homelab-cloudflare-tunnel-init-create-tunnel.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-application-create.png" alt="homelab-cloudflare-ssh-application-create.png" loading="lazy">
-&lt;/p>
-&lt;ul>
-&lt;li>配置应用信息&lt;/li>
-&lt;/ul>
-&lt;p>指定应用名称，并为应用配置域名；session 的过期时间可以按需配置&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-name-tunnel.png" alt="homelab-cloudflare-tunnel-init-name-tunnel.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="安装配置-cloudflare-tunnel"&gt;安装配置 Cloudflare Tunnel&lt;/h2&gt;
+&lt;p&gt;Tunnel 支持二进制包或者 Docker 容器的方式进行安装；选择相应的平台，会生成安装命令，在命令后执行该命令即可&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-application.png" alt="homelab-cloudflare-ssh-configuration-application.png" loading="lazy">
-&lt;/p>
-&lt;ul>
-&lt;li>指定访问策略&lt;/li>
-&lt;/ul>
-&lt;p>需要配置访问策略，只允许特定的邮箱登陆；如果需要使用其他的认证方式，如 GitHub/Google SSO 等，可以在 Cloudflare 控制台 &amp;gt; Zero Trust &amp;gt; Settings &amp;gt; Authentication &amp;gt; Login Methods 中添加&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-tunnel-init-install.png" alt="homelab-cloudflare-tunnel-init-install.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;如果没有对应的平台，可以在 &lt;a href="https://github.com/cloudflare/cloudflared/releases"&gt;GitHub 仓库&lt;/a&gt;下载对应的版本，然后进行安装；以 Ubuntu 22 为例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载最新的 Cloudflared&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dpkg -i cloudflared-linux-amd64.deb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;创建 Cloudflared 服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样会创建并自动启动 Cloudflared 服务&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cloudflared service install &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TOKEN&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置路由规则"&gt;配置路由规则&lt;/h2&gt;
+&lt;p&gt;路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p&gt;</description></item><item><title>使用 Cloudflare Worker 和 R2 代理 OSS 图床</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-worker-%E5%92%8C-r2-%E4%BB%A3%E7%90%86-oss-%E5%9B%BE%E5%BA%8A/</link><pubDate>Sat, 23 Dec 2023 19:14:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-worker-%E5%92%8C-r2-%E4%BB%A3%E7%90%86-oss-%E5%9B%BE%E5%BA%8A/</guid><description>&lt;p&gt;因为笔记可能会在多个平台发布，因此之前使用阿里云的 OSS 作为图片存储，直接将 OSS 的地址暴露到公网进行访问；但是随着流量逐渐增加，每月产生的流量费用也水高船涨，更重要的是 OSS 只支持 Refer 限制，并不能保证安全，在看到有人分享被刷 CDN 产生巨额费用后觉得必须要重视安全问题。&lt;/p&gt;
+&lt;p&gt;赛博菩萨 Cloudflare 提供了 R2 作为存储，提供了 5GB 免费的容量，对于个人完全够用了；同时 Worker 支持 CDN 缓存及就近访问，因此使用 Worker 代理 R2 访问完全能满足我的需求&lt;/p&gt;
+&lt;p&gt;考虑到有多个平台都是用了 OSS 作为链接，需要逐步迁移；因此，使用 Workers 优先从 R2 读取，如果 R2 没有则从 OSS 获取，并存储到 R2 中&lt;/p&gt;
+&lt;h2 id="安装-wrangler"&gt;安装 wrangler&lt;/h2&gt;
+&lt;p&gt;在本地使用 wrangler 开发 Worker&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 wrangler&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;参考 &lt;a href="https://developers.cloudflare.com/workers/wrangler/install-and-update/"&gt;Install/Update Wrangler&lt;/a&gt; 进行安装&lt;/p&gt;
+&lt;h2 id="创建-r2"&gt;创建 R2&lt;/h2&gt;
+&lt;p&gt;在 Cloudflare 管理平台创建 R2，或者通过 wrangler 进行创建，参考 &lt;a href="https://developers.cloudflare.com/r2/buckets/create-buckets/"&gt;Create buckets&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wrangler r2 bucket create picture
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="创建-worker"&gt;创建 Worker&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;创建项目&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm create cloudflare@latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;将 R2 绑定到 Worker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;修改 wrangler.toml 配置文件，将 R2 绑定到当前 worker&lt;/p&gt;</description></item><item><title>使用 Cloudflare Tunnels 通过 Web SSH 访问服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Fri, 06 Oct 2023 15:25:13 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可以通过 Web SSH 的方式访问服务器；支持多种登陆认证方式，安全性远高于直接暴露公网端口&lt;/p&gt;
+&lt;h2 id="创建-ssh-应用"&gt;创建 SSH 应用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;创建应用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 Cloudflare 控制台 &amp;gt; Zero Trust &amp;gt; Access &amp;gt; Applications 选择 Add an application 创建新的应用；应用类型为 Self-hosted&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-policy.png" alt="homelab-cloudflare-ssh-configuration-policy.png" loading="lazy">
-&lt;/p>
-&lt;ul>
-&lt;li>修改应用类型&lt;/li>
-&lt;/ul>
-&lt;p>在 Additional settings 中，将 Browser rendering 的类型改为 SSH；然后选择保存，这样就配置好 SSH 应用了&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-application-create.png" alt="homelab-cloudflare-ssh-application-create.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置应用信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指定应用名称，并为应用配置域名；session 的过期时间可以按需配置&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-set-application-type.png" alt="homelab-cloudflare-ssh-set-application-type.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="配置-tunnels">配置 Tunnels&lt;/h2>
-&lt;p>关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/">使用Cloudflare-Tunnels提供服务公网访问&lt;/a>&lt;/p>
-&lt;ul>
-&lt;li>添加 SSH 服务转发&lt;/li>
-&lt;/ul>
-&lt;p>将 SSH 的路由配置添加到 &lt;code>/etc/cloudflared/config.yml&lt;/code> 文件中&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-application.png" alt="homelab-cloudflare-ssh-configuration-application.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;指定访问策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要配置访问策略，只允许特定的邮箱登陆；如果需要使用其他的认证方式，如 GitHub/Google SSO 等，可以在 Cloudflare 控制台 &amp;gt; Zero Trust &amp;gt; Settings &amp;gt; Authentication &amp;gt; Login Methods 中添加&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-configuration-policy.png" alt="homelab-cloudflare-ssh-configuration-policy.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改应用类型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 Additional settings 中，将 Browser rendering 的类型改为 SSH；然后选择保存，这样就配置好 SSH 应用了&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-ssh-set-application-type.png" alt="homelab-cloudflare-ssh-set-application-type.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="配置-tunnels"&gt;配置 Tunnels&lt;/h2&gt;
+&lt;p&gt;关于 Tunnels 配置安装请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/"&gt;使用Cloudflare-Tunnels提供服务公网访问&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加 SSH 服务转发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 SSH 的路由配置添加到 &lt;code&gt;/etc/cloudflared/config.yml&lt;/code&gt; 文件中&lt;/p&gt;</description></item></channel></rss>

@@ -1,124 +1,124 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RaspberryPi on HelloWood</title><link>https://blog.hellowood.dev/tags/raspberrypi/</link><description>Recent content in RaspberryPi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml"/><item><title>树莓派 4b 使用 CSI 摄像头</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</link><pubDate>Sat, 11 Mar 2023 21:38:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</guid><description>&lt;p>树莓派 4b 支持通过 USB 或者摄像头 CSI 接口连接摄像头，因此可以使用树莓派 4b 作为监控&lt;/p>
-&lt;p>基于安装了 Ubuntu Server 22.04 LTS 的树莓派 4b 进行测试&lt;/p>
-&lt;p>带有红外补光灯的摄像头功率大概5-7w左右，因此使用树莓派 4b 连接时需要有 5V3A 的电源，否则当开启摄像头后树莓派会不断重启&lt;/p>
-&lt;h2 id="接入摄像头">接入摄像头&lt;/h2>
-&lt;h3 id="连接摄像头">连接摄像头&lt;/h3>
-&lt;p>如图所示，通过排线连接摄像头和树莓派（图片来自 &lt;a href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera">Getting started with the Camera Module&lt;/a>）&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RaspberryPi on HelloWood</title><link>https://blog.hellowood.dev/tags/raspberrypi/</link><description>Recent content in RaspberryPi on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml"/><item><title>树莓派 4b 使用 CSI 摄像头</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</link><pubDate>Sat, 11 Mar 2023 21:38:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-csi-%E6%91%84%E5%83%8F%E5%A4%B4/</guid><description>&lt;p&gt;树莓派 4b 支持通过 USB 或者摄像头 CSI 接口连接摄像头，因此可以使用树莓派 4b 作为监控&lt;/p&gt;
+&lt;p&gt;基于安装了 Ubuntu Server 22.04 LTS 的树莓派 4b 进行测试&lt;/p&gt;
+&lt;p&gt;带有红外补光灯的摄像头功率大概5-7w左右，因此使用树莓派 4b 连接时需要有 5V3A 的电源，否则当开启摄像头后树莓派会不断重启&lt;/p&gt;
+&lt;h2 id="接入摄像头"&gt;接入摄像头&lt;/h2&gt;
+&lt;h3 id="连接摄像头"&gt;连接摄像头&lt;/h3&gt;
+&lt;p&gt;如图所示，通过排线连接摄像头和树莓派（图片来自 &lt;a href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera"&gt;Getting started with the Camera Module&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-connect.jpeg" alt="raspberrypi-4b-camara-setup-connect.jpeg" loading="lazy">
-&lt;/p>
-&lt;h3 id="开启摄像头">开启摄像头&lt;/h3>
-&lt;p>开启摄像头需要先安装 &lt;code>raspi-config&lt;/code> 软件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install -y raspi-config
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后运行 &lt;code>raspi-config&lt;/code>，选择用户 &lt;code>pi&lt;/code> 进行配置；&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-connect.jpeg" alt="raspberrypi-4b-camara-setup-connect.jpeg" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="开启摄像头"&gt;开启摄像头&lt;/h3&gt;
+&lt;p&gt;开启摄像头需要先安装 &lt;code&gt;raspi-config&lt;/code&gt; 软件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y raspi-config
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后运行 &lt;code&gt;raspi-config&lt;/code&gt;，选择用户 &lt;code&gt;pi&lt;/code&gt; 进行配置；&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-user-pi-0.png" alt="raspberrypi-4b-camara-setup-enable-user-pi-0.png" loading="lazy">
-&lt;/p>
-&lt;p>接着选择第三个接口配置&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-user-pi-0.png" alt="raspberrypi-4b-camara-setup-enable-user-pi-0.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;接着选择第三个接口配置&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-interface-1.png" alt="raspberrypi-4b-camara-setup-enable-interface-1.png" loading="lazy">
-&lt;/p>
-&lt;p>然后选择第一个，配置摄像头，选择开启即可；开启完成后，需要关闭树莓派，连接摄像头并重新开机&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-interface-1.png" alt="raspberrypi-4b-camara-setup-enable-interface-1.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;然后选择第一个，配置摄像头，选择开启即可；开启完成后，需要关闭树莓派，连接摄像头并重新开机&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-camare-2.png" alt="raspberrypi-4b-camara-setup-enable-camare-2.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="检查摄像头信息">检查摄像头信息&lt;/h3>
-&lt;ul>
-&lt;li>检查连接状态&lt;/li>
-&lt;/ul>
-&lt;p>重启后检查设备连接状态：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vcgencmd get_camera
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>supported&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> detected&lt;span style="color:#f92672">=&lt;/span>1, libcamera interfaces&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>返回信息提示检查到了一个摄像头并且支持该摄像头&lt;/p>
-&lt;ul>
-&lt;li>查看摄像头信息&lt;/li>
-&lt;/ul>
-&lt;p>查看摄像头信息需要使用 &lt;code>v4l-utils&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install -y v4l-utils
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>v4l-utils&lt;/code> 列出设备&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>v4l2-ctl --list-devices
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bcm2835-codec-decode &lt;span style="color:#f92672">(&lt;/span>platform:bcm2835-codec&lt;span style="color:#f92672">)&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video10
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video11
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video12
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video18
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video31
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bcm2835-isp &lt;span style="color:#f92672">(&lt;/span>platform:bcm2835-isp&lt;span style="color:#f92672">)&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video13
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video14
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video15
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video16
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video20
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video21
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video22
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video23
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media0
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/media2
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mmal service 16.1 &lt;span style="color:#f92672">(&lt;/span>platform:bcm2835-v4l2-0&lt;span style="color:#f92672">)&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /dev/video0
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的 &lt;code>/dev/video0&lt;/code> 就是通过排线连接的摄像头&lt;/p></description></item><item><title>树莓派 4b 使用摄像头推送流到 RTMP 服务器</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 11 Mar 2023 21:36:47 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p>使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
-树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 &lt;a href="https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction">SRS&lt;/a> 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）&lt;/p>
-&lt;p>树莓派连接摄像头可以参考 &lt;a href="https://blog.hellowood.dev">树莓派 4b 使用摄像头&lt;/a>&lt;/p>
-&lt;h2 id="安装-ffmpeg">安装 ffmpeg&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get update &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> apt-get install -y ffmpeg
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装-srs">安装 SRS&lt;/h2>
-&lt;p>SRS 使用 Docker Compose 进行部署；用于处理 ffmpeg 推送的视频流&lt;/p>
-&lt;ul>
-&lt;li>docker-compose.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">srs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;registry.cn-hangzhou.aliyuncs.com/ossrs/srs:4&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#ae81ff">unless-stopped&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;srs&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">srs&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;1935:1935&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;1985:1985&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8080:8080&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;./data:/srs&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用-ffmpeg-推送流到-srs">使用 ffmpeg 推送流到 SRS&lt;/h2>
-&lt;p>通过 ffmpeg 将视频内容推送到 SRS&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#ae81ff">30&lt;/span> -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#ae81ff">60&lt;/span> -an -f flv rtmp://192.168.2.5/live/livestream
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其各个参数含义如下：&lt;/p></description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote>
-&lt;p>在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker">SuLingGG/OpenWrt-Docker&lt;/a> 的方案&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>什么是软路由&lt;/li>
-&lt;/ul>
-&lt;p>硬路由以特有的硬设备，包括处理器、电源供应、嵌入式软件，提供设定的路由器功能，如常用的路由器；软路由则是指利用台式机或服务器配合软件形成路由解决方案，主要靠软件的设置，达成路由器的功能；&lt;/p>
-&lt;p>普通路由器因为硬件性能限制，无法支持长时间处理大量流量，当家中有 NAS 等设备时，通常无法跑满带宽；通过软路由，可以让路由器只处理流量的转发，其他的功能由软路由实现&lt;/p>
-&lt;p>通常我们使用软路由用于多线负载、宽带叠加、为局域网内的其他设备过滤广告、自定义 DNS 等扩展功能&lt;/p>
-&lt;h2 id="安装依赖">安装依赖&lt;/h2>
-&lt;ul>
-&lt;li>安装 &lt;a href="https://ubuntu.pkgs.org/21.10/ubuntu-main-arm64/linux-modules-extra-raspi_5.13.0.1008.14_arm64.deb.html">linux-modules-extra-raspi&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>需要保证安装了&lt;code>linux-modules-extra-raspi&lt;/code>，否则会导致在运行容器后出现&lt;code>Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code>错误&lt;/p>
-&lt;p>&lt;code>linux-modules-extra-raspi&lt;/code> 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install linux-modules-extra-raspi
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装之后需要重启树莓派&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo reboot
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="配置网络">配置网络&lt;/h2>
-&lt;ul>
-&lt;li>开启网卡混杂模式&lt;/li>
-&lt;/ul>
-&lt;p>默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p>
-&lt;p>树莓派只有一个有线接口，地址为 &lt;code>eth0&lt;/code>，所以在 &lt;code>eth0&lt;/code> 接口开启混杂模式&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo ip link set eth0 promisc on
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行以下命令检查结果&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig eth0
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>网卡 flag 信息有 &lt;code>PROMISC&lt;/code> 表示开启成功&lt;/p>
-&lt;pre tabindex="0">&lt;code>eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-4b-camara-setup-enable-camare-2.png" alt="raspberrypi-4b-camara-setup-enable-camare-2.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="检查摄像头信息"&gt;检查摄像头信息&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;检查连接状态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;重启后检查设备连接状态：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd get_camera
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;supported&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; detected&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1, libcamera interfaces&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回信息提示检查到了一个摄像头并且支持该摄像头&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查看摄像头信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;查看摄像头信息需要使用 &lt;code&gt;v4l-utils&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y v4l-utils
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 &lt;code&gt;v4l-utils&lt;/code&gt; 列出设备&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;v4l2-ctl --list-devices
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bcm2835-codec-decode &lt;span style="color:#f92672"&gt;(&lt;/span&gt;platform:bcm2835-codec&lt;span style="color:#f92672"&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video10
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video11
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video12
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video18
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video31
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/media1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bcm2835-isp &lt;span style="color:#f92672"&gt;(&lt;/span&gt;platform:bcm2835-isp&lt;span style="color:#f92672"&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video13
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video14
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video15
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video16
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video20
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video21
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video22
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video23
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/media0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/media2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mmal service 16.1 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;platform:bcm2835-v4l2-0&lt;span style="color:#f92672"&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中的 &lt;code&gt;/dev/video0&lt;/code&gt; 就是通过排线连接的摄像头&lt;/p&gt;</description></item><item><title>树莓派 4b 使用摄像头推送流到 RTMP 服务器</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 11 Mar 2023 21:36:47 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A8%E9%80%81%E6%B5%81%E5%88%B0-rtmp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;使用树莓派 4b，基于 Ubuntu 22.04，将摄像头的监控内容推送到 RTMP 服务器，用于其他服务从 RTMP 获取视频，进行视频分析和事件告警ss
+树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 &lt;a href="https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction"&gt;SRS&lt;/a&gt; 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）&lt;/p&gt;
+&lt;p&gt;树莓派连接摄像头可以参考 &lt;a href="https://blog.hellowood.dev"&gt;树莓派 4b 使用摄像头&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="安装-ffmpeg"&gt;安装 ffmpeg&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get update &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y ffmpeg
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="安装-srs"&gt;安装 SRS&lt;/h2&gt;
+&lt;p&gt;SRS 使用 Docker Compose 进行部署；用于处理 ffmpeg 推送的视频流&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;srs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;registry.cn-hangzhou.aliyuncs.com/ossrs/srs:4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;srs&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;srs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;1935:1935&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;1985:1985&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;8080:8080&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;./data:/srs&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="使用-ffmpeg-推送流到-srs"&gt;使用 ffmpeg 推送流到 SRS&lt;/h2&gt;
+&lt;p&gt;通过 ffmpeg 将视频内容推送到 SRS&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#ae81ff"&gt;30&lt;/span&gt; -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#ae81ff"&gt;60&lt;/span&gt; -an -f flv rtmp://192.168.2.5/live/livestream
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其各个参数含义如下：&lt;/p&gt;</description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker"&gt;SuLingGG/OpenWrt-Docker&lt;/a&gt; 的方案&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;什么是软路由&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;硬路由以特有的硬设备，包括处理器、电源供应、嵌入式软件，提供设定的路由器功能，如常用的路由器；软路由则是指利用台式机或服务器配合软件形成路由解决方案，主要靠软件的设置，达成路由器的功能；&lt;/p&gt;
+&lt;p&gt;普通路由器因为硬件性能限制，无法支持长时间处理大量流量，当家中有 NAS 等设备时，通常无法跑满带宽；通过软路由，可以让路由器只处理流量的转发，其他的功能由软路由实现&lt;/p&gt;
+&lt;p&gt;通常我们使用软路由用于多线负载、宽带叠加、为局域网内的其他设备过滤广告、自定义 DNS 等扩展功能&lt;/p&gt;
+&lt;h2 id="安装依赖"&gt;安装依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 &lt;a href="https://ubuntu.pkgs.org/21.10/ubuntu-main-arm64/linux-modules-extra-raspi_5.13.0.1008.14_arm64.deb.html"&gt;linux-modules-extra-raspi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要保证安装了&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt;，否则会导致在运行容器后出现&lt;code&gt;Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code&gt;错误&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt; 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装之后需要重启树莓派&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置网络"&gt;配置网络&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;开启网卡混杂模式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p&gt;
+&lt;p&gt;树莓派只有一个有线接口，地址为 &lt;code&gt;eth0&lt;/code&gt;，所以在 &lt;code&gt;eth0&lt;/code&gt; 接口开启混杂模式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link set eth0 promisc on
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行以下命令检查结果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;网卡 flag 信息有 &lt;code&gt;PROMISC&lt;/code&gt; 表示开启成功&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
 inet 192.168.31.2 netmask 255.255.255.0 broadcast 192.168.31.255
 inet6 2408:8207:24ac:6fc0::50c prefixlen 128 scopeid 0x0&amp;lt;global&amp;gt;
  inet6 fe80::dea6:32ff:fe5f:b43e prefixlen 64 scopeid 0x20&amp;lt;link&amp;gt;
@@ -143,90 +143,90 @@ Docker 创建 `macvlan` 时要确定所在的网段，可以在路由器后台�
 
 ```bash
 docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1 -o parent=eth0 macnet
-&lt;/code>&lt;/pre>&lt;ol start="2">
-&lt;li>创建容器&lt;/li>
-&lt;/ol>
-&lt;p>创建容器时需要指定网络为刚才创建的 &lt;code>macnet&lt;/code>&lt;/p></description></item><item><title>树莓派 4b 安装 Kubernetes</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</link><pubDate>Sat, 24 Apr 2021 22:55:32 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</guid><description>&lt;p>K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等&lt;/p>
-&lt;h2 id="安装">安装&lt;/h2>
-&lt;p>在 Ubuntu Server 21.04 上安装 K3S&lt;/p>
-&lt;h3 id="1-安装-docker">1. 安装 Docker&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt update &amp;amp; apt upgrade &amp;amp; apt install docker.io
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2-安装-k3s">2. 安装 K3S&lt;/h3>
-&lt;p>登录树莓派所在的机器，执行安装脚本&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -sfL https://get.k3s.io | sh -
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，使用 kubectl 查看集群信息&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>k3s kubectl get node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 也可以直接使用 kubectl&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kubectl get node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS ROLES AGE VERSION
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ubuntu Ready control-plane,master 1h v1.20.6+k3s1
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="3-本地访问集群">3. 本地访问集群&lt;/h3>
-&lt;ul>
-&lt;li>获取 Kube Config&lt;/li>
-&lt;/ul>
-&lt;p>默认的 Kubernetes Config 文件是 &lt;code>/etc/rancher/k3s/k3s.yaml&lt;/code>，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可&lt;/p></description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p>
-&lt;h2 id="依赖">依赖&lt;/h2>
-&lt;ul>
-&lt;li>树莓派 4&lt;/li>
-&lt;li>Mac&lt;/li>
-&lt;li>SSD&lt;/li>
-&lt;/ul>
-&lt;h2 id="安装-ubuntu-server">安装 Ubuntu Server&lt;/h2>
-&lt;h3 id="1-安装-raspberry-pi-imager">1. 安装 Raspberry Pi Imager&lt;/h3>
-&lt;p>Raspberry Pi Imager 是官方提供的树莓派镜像写入工具，可以通过 UI 操作，选择树莓派支持的系统，并直接写入到 SSD 或者 SD 卡中&lt;/p>
-&lt;p>直接从 &lt;a href="https://www.raspberrypi.org/software/">https://www.raspberrypi.org/software/&lt;/a> 下载 Raspberry Pi Imager，并在 Mac 上安装&lt;/p>
-&lt;h3 id="2-写入镜像">2. 写入镜像&lt;/h3>
-&lt;p>选择 Ubuntu Server 21.04 64 bit 的镜像，第一次可能需要一些时间下载镜像&lt;/p>
-&lt;p>
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start="2"&gt;
+&lt;li&gt;创建容器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;创建容器时需要指定网络为刚才创建的 &lt;code&gt;macnet&lt;/code&gt;&lt;/p&gt;</description></item><item><title>树莓派 4b 安装 Kubernetes</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</link><pubDate>Sat, 24 Apr 2021 22:55:32 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%89%E8%A3%85-kubernetes/</guid><description>&lt;p&gt;K3S 是 Rancher 提供的用于边缘硬件的简化版本的 Kubernetes，基本能力和 Kubernetes 接近，适用于 IoT 硬件，支持 x86_64, ARMv7, ARM64 等&lt;/p&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;p&gt;在 Ubuntu Server 21.04 上安装 K3S&lt;/p&gt;
+&lt;h3 id="1-安装-docker"&gt;1. 安装 Docker&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &amp;amp; apt upgrade &amp;amp; apt install docker.io
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-安装-k3s"&gt;2. 安装 K3S&lt;/h3&gt;
+&lt;p&gt;登录树莓派所在的机器，执行安装脚本&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -sfL https://get.k3s.io | sh -
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后，使用 kubectl 查看集群信息&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;k3s kubectl get node
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 也可以直接使用 kubectl&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl get node
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;NAME STATUS ROLES AGE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ubuntu Ready control-plane,master 1h v1.20.6+k3s1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-本地访问集群"&gt;3. 本地访问集群&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;获取 Kube Config&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;默认的 Kubernetes Config 文件是 &lt;code&gt;/etc/rancher/k3s/k3s.yaml&lt;/code&gt;，将该文件内容添加到本地，修改 server 的地址为树莓派的 IP 地址即可&lt;/p&gt;</description></item><item><title>树莓派 4b 使用 WiFi 从 SSD Headless 启动</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</link><pubDate>Sat, 24 Apr 2021 21:21:27 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E4%BD%BF%E7%94%A8-wifi-%E4%BB%8E-ssd-headless-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p&gt;树莓派已经默认支持从 SSD 启动，可以根据官方提供的工具初始化树莓派系统并启动；尝试通过安装 Ubuntu Server，不使用网线、显示器、键盘等，从 SSD 直接启动&lt;/p&gt;
+&lt;h2 id="依赖"&gt;依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;树莓派 4&lt;/li&gt;
+&lt;li&gt;Mac&lt;/li&gt;
+&lt;li&gt;SSD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="安装-ubuntu-server"&gt;安装 Ubuntu Server&lt;/h2&gt;
+&lt;h3 id="1-安装-raspberry-pi-imager"&gt;1. 安装 Raspberry Pi Imager&lt;/h3&gt;
+&lt;p&gt;Raspberry Pi Imager 是官方提供的树莓派镜像写入工具，可以通过 UI 操作，选择树莓派支持的系统，并直接写入到 SSD 或者 SD 卡中&lt;/p&gt;
+&lt;p&gt;直接从 &lt;a href="https://www.raspberrypi.org/software/"&gt;https://www.raspberrypi.org/software/&lt;/a&gt; 下载 Raspberry Pi Imager，并在 Mac 上安装&lt;/p&gt;
+&lt;h3 id="2-写入镜像"&gt;2. 写入镜像&lt;/h3&gt;
+&lt;p&gt;选择 Ubuntu Server 21.04 64 bit 的镜像，第一次可能需要一些时间下载镜像&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png" alt="RaspberryPiImagerChooseImage.png" loading="lazy">
-&lt;/p>
-&lt;p>插入硬盘后选择要写入的硬盘，并点击写入&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png" alt="RaspberryPiImagerChooseImage.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;插入硬盘后选择要写入的硬盘，并点击写入&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png" alt="RaspberryPiImagerChooseDisk.png" loading="lazy">
-&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png" alt="RaspberryPiImagerChooseDisk.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImageWriting.png" alt="RaspberryPiImageWriting.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="3-配置">3. 配置&lt;/h3>
-&lt;p>硬盘镜像写入完成后，会挂载一个名为 &lt;code>system-boot&lt;/code>的目录，进入该目录，修改配置&lt;/p>
-&lt;h4 id="挂载文件">挂载文件&lt;/h4>
-&lt;p>如果可以直接在 Mac 上修改文件，可以跳过这一步；如果文件是只读的，无法修改，可以将磁盘弹出，然后手动挂载或挂载到其他的机器上修改&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 查找磁盘&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>fdisk -l
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disk /dev/mmcblk0: 59.63 GiB, &lt;span style="color:#ae81ff">64021856256&lt;/span> bytes, &lt;span style="color:#ae81ff">125042688&lt;/span> sectors
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Units: sectors of &lt;span style="color:#ae81ff">1&lt;/span> * 512 &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Sector size &lt;span style="color:#f92672">(&lt;/span>logical/physical&lt;span style="color:#f92672">)&lt;/span>: &lt;span style="color:#ae81ff">512&lt;/span> bytes / &lt;span style="color:#ae81ff">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>I/O size &lt;span style="color:#f92672">(&lt;/span>minimum/optimal&lt;span style="color:#f92672">)&lt;/span>: &lt;span style="color:#ae81ff">512&lt;/span> bytes / &lt;span style="color:#ae81ff">512&lt;/span> bytes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disklabel type: dos
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Disk identifier: 0x4ec8ea53
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Device Boot Start End Sectors Size Id Type
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p1 * &lt;span style="color:#ae81ff">2048&lt;/span> &lt;span style="color:#ae81ff">526335&lt;/span> &lt;span style="color:#ae81ff">524288&lt;/span> 256M c W95 FAT32 &lt;span style="color:#f92672">(&lt;/span>LBA&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/dev/mmcblk0p2 &lt;span style="color:#ae81ff">526336&lt;/span> &lt;span style="color:#ae81ff">6366175&lt;/span> &lt;span style="color:#ae81ff">5839840&lt;/span> 2.8G &lt;span style="color:#ae81ff">83&lt;/span> Linux
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>要修改的配置就在 &lt;code>/dev/mmcblk0p1&lt;/code> 这个用于 Boot 的目录下&lt;/p></description></item><item><title>Raspberry Pi 4 使用 Grafana 监控</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 20 Sep 2020 22:30:45 +0800</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h2 id="运行-influxdb">运行 Influxdb&lt;/h2>
-&lt;p>Influxdb 和 Prometheus 一样都是时序数据库，不同的是它能够作为一个转发代理接受来自不同程序的消息，这里使用 Telegraf 采集数据，存放到 Influxdb 中&lt;/p>
-&lt;ul>
-&lt;li>启动&lt;/li>
-&lt;/ul>
-&lt;p>挂载的目的是为了将数据保存在宿主机上，方便查询历史数据&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name influxdb -d &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-p 8086:8086 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /root/workspace/docker/influxdb:/var/lib/influxdb &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	influxdb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="运行-telegraf">运行 Telegraf&lt;/h2>
-&lt;p>Telegraf 是一个用 Golang 写的基于插件驱动的数据收集Agent，可以用来收集机器的数据&lt;/p>
-&lt;ul>
-&lt;li>telegraf.conf&lt;/li>
-&lt;/ul>
-&lt;p>在 telegraf 的配置文件末尾追加以下内容
-telegraf 的配置可以先通过&lt;code>docker run telegraf&lt;/code>直接启动一个，然后进入容器，从 &lt;code>/etc/telegraf/&lt;/code>下修改&lt;/p>
-&lt;pre tabindex="0">&lt;code>[[inputs.net]]
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiImageWriting.png" alt="RaspberryPiImageWriting.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="3-配置"&gt;3. 配置&lt;/h3&gt;
+&lt;p&gt;硬盘镜像写入完成后，会挂载一个名为 &lt;code&gt;system-boot&lt;/code&gt;的目录，进入该目录，修改配置&lt;/p&gt;
+&lt;h4 id="挂载文件"&gt;挂载文件&lt;/h4&gt;
+&lt;p&gt;如果可以直接在 Mac 上修改文件，可以跳过这一步；如果文件是只读的，无法修改，可以将磁盘弹出，然后手动挂载或挂载到其他的机器上修改&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 查找磁盘&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk -l
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Disk /dev/mmcblk0: 59.63 GiB, &lt;span style="color:#ae81ff"&gt;64021856256&lt;/span&gt; bytes, &lt;span style="color:#ae81ff"&gt;125042688&lt;/span&gt; sectors
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Units: sectors of &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; * 512 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;512&lt;/span&gt; bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Sector size &lt;span style="color:#f92672"&gt;(&lt;/span&gt;logical/physical&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;512&lt;/span&gt; bytes / &lt;span style="color:#ae81ff"&gt;512&lt;/span&gt; bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;I/O size &lt;span style="color:#f92672"&gt;(&lt;/span&gt;minimum/optimal&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;512&lt;/span&gt; bytes / &lt;span style="color:#ae81ff"&gt;512&lt;/span&gt; bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Disklabel type: dos
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Disk identifier: 0x4ec8ea53
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Device Boot Start End Sectors Size Id Type
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/mmcblk0p1 * &lt;span style="color:#ae81ff"&gt;2048&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;526335&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;524288&lt;/span&gt; 256M c W95 FAT32 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;LBA&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/mmcblk0p2 &lt;span style="color:#ae81ff"&gt;526336&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;6366175&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;5839840&lt;/span&gt; 2.8G &lt;span style="color:#ae81ff"&gt;83&lt;/span&gt; Linux
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;要修改的配置就在 &lt;code&gt;/dev/mmcblk0p1&lt;/code&gt; 这个用于 Boot 的目录下&lt;/p&gt;</description></item><item><title>Raspberry Pi 4 使用 Grafana 监控</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 20 Sep 2020 22:30:45 +0800</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-grafana-%E7%9B%91%E6%8E%A7/</guid><description>&lt;h2 id="运行-influxdb"&gt;运行 Influxdb&lt;/h2&gt;
+&lt;p&gt;Influxdb 和 Prometheus 一样都是时序数据库，不同的是它能够作为一个转发代理接受来自不同程序的消息，这里使用 Telegraf 采集数据，存放到 Influxdb 中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;启动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;挂载的目的是为了将数据保存在宿主机上，方便查询历史数据&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name influxdb -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-p 8086:8086 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /root/workspace/docker/influxdb:/var/lib/influxdb &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	influxdb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="运行-telegraf"&gt;运行 Telegraf&lt;/h2&gt;
+&lt;p&gt;Telegraf 是一个用 Golang 写的基于插件驱动的数据收集Agent，可以用来收集机器的数据&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;telegraf.conf&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 telegraf 的配置文件末尾追加以下内容
+telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直接启动一个，然后进入容器，从 &lt;code&gt;/etc/telegraf/&lt;/code&gt;下修改&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;[[inputs.net]]
 
 [[inputs.netstat]]
 
@@ -235,116 +235,116 @@ telegraf 的配置可以先通过&lt;code>docker run telegraf&lt;/code>直接启
  name_override = &amp;#34;cpu_temperature&amp;#34;
  data_format = &amp;#34;value&amp;#34;
  data_type = &amp;#34;integer&amp;#34;
-&lt;/code>&lt;/pre>&lt;ul>
-&lt;li>启动&lt;/li>
-&lt;/ul>
-&lt;p>Telegraf 依赖于 Influxdb，所以使用同一个网络&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run --name telegraf -d &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	--net&lt;span style="color:#f92672">=&lt;/span>container:influxdb &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /proc:/host/proc:ro &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /opt/:/opt/ &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /usr/lib/:/usr/lib/ &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-v /root/workspace/docker/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	-e HOST_PROC&lt;span style="color:#f92672">=&lt;/span>/host/proc &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span>	telegraf
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="运行-grafana">运行 Grafana&lt;/h2>
-&lt;ul>
-&lt;li>运行&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -d &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> --name&lt;span style="color:#f92672">=&lt;/span>grafana &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> -p 3000:3000 &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> grafana/grafana
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="修改-influxdb-配置">修改 Influxdb 配置&lt;/h2>
-&lt;p>在 Influxdb 中添加一个新的用户，并授予访问 telegraf 数据库的权限，用于 Grafana 拉取数据&lt;/p></description></item><item><title>Raspberry Pi 4 使用 USB 从 SSD 启动</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 20 Sep 2020 22:29:28 +0800</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统&lt;/p>
-&lt;h2 id="安装-raspberry-pi-os">安装 Raspberry Pi OS&lt;/h2>
-&lt;ul>
-&lt;li>下载 Imager&lt;/li>
-&lt;/ul>
-&lt;p>从 &lt;a href="https://www.raspberrypi.org/downloads/">https://www.raspberrypi.org/downloads/&lt;/a> 下载相应 Imager&lt;/p>
-&lt;ul>
-&lt;li>安装 Raspberry Pi OS 到 SD 卡中&lt;/li>
-&lt;/ul>
-&lt;p>选择第一个镜像&lt;/p>
-&lt;p>
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;启动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Telegraf 依赖于 Influxdb，所以使用同一个网络&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name telegraf -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	--net&lt;span style="color:#f92672"&gt;=&lt;/span&gt;container:influxdb &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /proc:/host/proc:ro &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /opt/:/opt/ &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /usr/lib/:/usr/lib/ &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /root/workspace/docker/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-e HOST_PROC&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/host/proc &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	telegraf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="运行-grafana"&gt;运行 Grafana&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;运行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;grafana &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 3000:3000 &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; grafana/grafana
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="修改-influxdb-配置"&gt;修改 Influxdb 配置&lt;/h2&gt;
+&lt;p&gt;在 Influxdb 中添加一个新的用户，并授予访问 telegraf 数据库的权限，用于 Grafana 拉取数据&lt;/p&gt;</description></item><item><title>Raspberry Pi 4 使用 USB 从 SSD 启动</title><link>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 20 Sep 2020 22:29:28 +0800</pubDate><guid>https://blog.hellowood.dev/posts/raspberry-pi-4-%E4%BD%BF%E7%94%A8-usb-%E4%BB%8E-ssd-%E5%90%AF%E5%8A%A8/</guid><description>&lt;p&gt;树莓派 4 的最新固件已经支持从USB 启动，通过外接 U盘或者硬盘，能够摆脱 SD 卡的IO 速度限制，这里通过 USB 从 SSD 硬盘启动系统&lt;/p&gt;
+&lt;h2 id="安装-raspberry-pi-os"&gt;安装 Raspberry Pi OS&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;下载 Imager&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;从 &lt;a href="https://www.raspberrypi.org/downloads/"&gt;https://www.raspberrypi.org/downloads/&lt;/a&gt; 下载相应 Imager&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 Raspberry Pi OS 到 SD 卡中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;选择第一个镜像&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/RaspberryPiOS-install-1.png" alt="RaspberryPiOS-install-1.png" loading="lazy">
-&lt;/p>
-&lt;p>然后选择 SD 卡后写入&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiOS-install-1.png" alt="RaspberryPiOS-install-1.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;然后选择 SD 卡后写入&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/RaspberryPiOS-install-2.png" alt="RaspberryPiOS-install-2.png" loading="lazy">
-&lt;/p>
-&lt;p>待写入完成后，将 SD 卡插入树莓派 4，正常启动&lt;/p>
-&lt;h2 id="更新-eeprom">更新 EEPROM&lt;/h2>
-&lt;ul>
-&lt;li>查看配置&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vcgencmd bootloader_version
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Apr &lt;span style="color:#ae81ff">16&lt;/span> &lt;span style="color:#ae81ff">2020&lt;/span> 18:11:26
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>version a5e1b95f320810c69441557c5f5f0a7f2460dfb8 &lt;span style="color:#f92672">(&lt;/span>release&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>timestamp &lt;span style="color:#ae81ff">1587057086&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果日期是 &lt;code>May 15 2020&lt;/code> 之前的，则需要修改配置以启用新的固件&lt;/p>
-&lt;ul>
-&lt;li>更新&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt full-upgrade
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo reboot now
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>等更新完成后，会安装新的 &lt;code>rpi-eeprom&lt;/code>，更新重启后的版本是 &lt;code>Jun 15 2020&lt;/code>&lt;/p>
-&lt;ul>
-&lt;li>查看配置&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vcgencmd bootloader_config
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">[&lt;/span>all&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>BOOT_UART&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>WAKE_ON_GPIO&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>POWER_OFF_ON_HALT&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DHCP_TIMEOUT&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">45000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DHCP_REQ_TIMEOUT&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">4000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TFTP_FILE_TIMEOUT&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">30000&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ENABLE_SELF_UPDATE&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DISABLE_HDMI&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SD_BOOT_MAX_RETRIES&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>USB_MSD_BOOT_MAX_RETRIES&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>BOOT_ORDER&lt;span style="color:#f92672">=&lt;/span>0xf41
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的 &lt;code>BOOT_ORDER&lt;/code>的值是&lt;code>0xf41&lt;/code>，说明首先从&lt;code>USB mass storage boot&lt;/code>启动，如果失败，则从&lt;code>SD CARD&lt;/code>启动，具体的配置解释可以参考 &lt;a href="https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2711_bootloader_config.md">Pi 4 Bootloader Configuration&lt;/a>&lt;/p></description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote>
-&lt;p>必需设备：&lt;/p>&lt;/blockquote>
-&lt;ul>
-&lt;li>树莓派 4b&lt;/li>
-&lt;li>SD 卡&lt;/li>
-&lt;li>HDMI 线&lt;/li>
-&lt;li>显示器&lt;/li>
-&lt;li>键盘&lt;/li>
-&lt;li>电源及数据线&lt;/li>
-&lt;/ul>
-&lt;h2 id="设置镜像">设置镜像&lt;/h2>
-&lt;p>在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即&lt;a href="https://ubuntu.com/download/raspberry-pi">https://ubuntu.com/download/raspberry-pi&lt;/a>
+ &lt;img src="https://img.hellowood.dev/picture/RaspberryPiOS-install-2.png" alt="RaspberryPiOS-install-2.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;待写入完成后，将 SD 卡插入树莓派 4，正常启动&lt;/p&gt;
+&lt;h2 id="更新-eeprom"&gt;更新 EEPROM&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;查看配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_version
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apr &lt;span style="color:#ae81ff"&gt;16&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2020&lt;/span&gt; 18:11:26
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version a5e1b95f320810c69441557c5f5f0a7f2460dfb8 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;release&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;timestamp &lt;span style="color:#ae81ff"&gt;1587057086&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果日期是 &lt;code&gt;May 15 2020&lt;/code&gt; 之前的，则需要修改配置以启用新的固件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt full-upgrade
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot now
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;等更新完成后，会安装新的 &lt;code&gt;rpi-eeprom&lt;/code&gt;，更新重启后的版本是 &lt;code&gt;Jun 15 2020&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查看配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;all&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BOOT_UART&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;WAKE_ON_GPIO&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;POWER_OFF_ON_HALT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;DHCP_TIMEOUT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;45000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;DHCP_REQ_TIMEOUT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;4000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;TFTP_FILE_TIMEOUT&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;30000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ENABLE_SELF_UPDATE&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;DISABLE_HDMI&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;SD_BOOT_MAX_RETRIES&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;USB_MSD_BOOT_MAX_RETRIES&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;BOOT_ORDER&lt;span style="color:#f92672"&gt;=&lt;/span&gt;0xf41
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中的 &lt;code&gt;BOOT_ORDER&lt;/code&gt;的值是&lt;code&gt;0xf41&lt;/code&gt;，说明首先从&lt;code&gt;USB mass storage boot&lt;/code&gt;启动，如果失败，则从&lt;code&gt;SD CARD&lt;/code&gt;启动，具体的配置解释可以参考 &lt;a href="https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2711_bootloader_config.md"&gt;Pi 4 Bootloader Configuration&lt;/a&gt;&lt;/p&gt;</description></item><item><title>树莓派 4b 无网线安装 Ubuntu 并初始化</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 15 Dec 2019 22:42:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E6%97%A0%E7%BD%91%E7%BA%BF%E5%AE%89%E8%A3%85-ubuntu-%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;必需设备：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;树莓派 4b&lt;/li&gt;
+&lt;li&gt;SD 卡&lt;/li&gt;
+&lt;li&gt;HDMI 线&lt;/li&gt;
+&lt;li&gt;显示器&lt;/li&gt;
+&lt;li&gt;键盘&lt;/li&gt;
+&lt;li&gt;电源及数据线&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="设置镜像"&gt;设置镜像&lt;/h2&gt;
+&lt;p&gt;在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即&lt;a href="https://ubuntu.com/download/raspberry-pi"&gt;https://ubuntu.com/download/raspberry-pi&lt;/a&gt;
 
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu.png" alt="raspberrypi-ubuntu.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="下载镜像">下载镜像&lt;/h3>
-&lt;p>点击下载 64 位镜像，随后会开始下载&lt;a href="http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584">ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a>这个文件&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu.png" alt="raspberrypi-ubuntu.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="下载镜像"&gt;下载镜像&lt;/h3&gt;
+&lt;p&gt;点击下载 64 位镜像，随后会开始下载&lt;a href="http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584"&gt;ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a&gt;这个文件&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png" alt="raspberrypi-ubuntu-download.png" loading="lazy">
-&lt;/p>
-&lt;p>但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 &lt;a href="https://img.hellowood.dev/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz">ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a>&lt;/p>
-&lt;h3 id="刻录镜像">刻录镜像&lt;/h3>
-&lt;h4 id="格式化-sd卡">格式化 SD卡&lt;/h4>
-&lt;p>刻录镜像前，要先将 SD 卡格式化，在 Mac 上，可以使用官方推荐的&lt;a href="https://www.sdcard.org/downloads/formatter/">SD Card Formatter&lt;/a>, 也可以用上传到地址进行下载Mac 版：&lt;a href="https://img.hellowood.dev/picture/SDCardFormatterv5_Mac.zip">SDCardFormatterv5_Mac.zip&lt;/a>&lt;/p>
-&lt;h4 id="刻录镜像-1">刻录镜像&lt;/h4>
-&lt;p>刻录镜像有多种方式，不同平台操作不同，可以参考 &lt;a href="https://ubuntu.com/download/iot/installation-media">https://ubuntu.com/download/iot/installation-media&lt;/a>&lt;/p>
-&lt;p>在 Mac 上，可以用官方推荐的软件&lt;a href="https://www.balena.io/etcher">balenaEtcher&lt;/a>，可以从上传的位置下载&lt;a href="https://img.hellowood.dev/picture/balenaEtcher-1.5.70.dmg">balenaEtcher-1.5.70.dmg&lt;/a>，也可以直接用命令行执行&lt;/p>
-&lt;ul>
-&lt;li>查找 SD 卡挂载名称&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>diskutil list
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code>/dev/disk0 (internal, physical):
+ &lt;img src="https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png" alt="raspberrypi-ubuntu-download.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 &lt;a href="https://img.hellowood.dev/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz"&gt;ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="刻录镜像"&gt;刻录镜像&lt;/h3&gt;
+&lt;h4 id="格式化-sd卡"&gt;格式化 SD卡&lt;/h4&gt;
+&lt;p&gt;刻录镜像前，要先将 SD 卡格式化，在 Mac 上，可以使用官方推荐的&lt;a href="https://www.sdcard.org/downloads/formatter/"&gt;SD Card Formatter&lt;/a&gt;, 也可以用上传到地址进行下载Mac 版：&lt;a href="https://img.hellowood.dev/picture/SDCardFormatterv5_Mac.zip"&gt;SDCardFormatterv5_Mac.zip&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="刻录镜像-1"&gt;刻录镜像&lt;/h4&gt;
+&lt;p&gt;刻录镜像有多种方式，不同平台操作不同，可以参考 &lt;a href="https://ubuntu.com/download/iot/installation-media"&gt;https://ubuntu.com/download/iot/installation-media&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在 Mac 上，可以用官方推荐的软件&lt;a href="https://www.balena.io/etcher"&gt;balenaEtcher&lt;/a&gt;，可以从上传的位置下载&lt;a href="https://img.hellowood.dev/picture/balenaEtcher-1.5.70.dmg"&gt;balenaEtcher-1.5.70.dmg&lt;/a&gt;，也可以直接用命令行执行&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查找 SD 卡挂载名称&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;/dev/disk0 (internal, physical):
  #: TYPE NAME SIZE IDENTIFIER
  0: GUID_partition_scheme *500.3 GB disk0
  1: EFI EFI 314.6 MB disk0s1
@@ -363,4 +363,4 @@ telegraf 的配置可以先通过&lt;code>docker run telegraf&lt;/code>直接启
 #: TYPE NAME SIZE IDENTIFIER
 0: FDisk_partition_scheme *32.0 GB disk3
 1: DOS_FAT_32 SD 32.0 GB disk3s1
-&lt;/code>&lt;/pre>&lt;p>其中的 &lt;code>/dev/disk3&lt;/code>就是 SD卡&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中的 &lt;code&gt;/dev/disk3&lt;/code&gt;就是 SD卡&lt;/p&gt;</description></item></channel></rss>

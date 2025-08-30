@@ -1,40 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>InfluxDB on HelloWood</title><link>https://blog.hellowood.dev/tags/influxdb/</link><description>Recent content in InfluxDB on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/influxdb/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;p>PVE 支持添加 &lt;a href="https://graphiteapp.org/">Graphite&lt;/a> 或者 &lt;a href="https://www.influxdata.com/">InfluxDB&lt;/a> 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p>
-&lt;p>基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：&lt;/p>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>InfluxDB on HelloWood</title><link>https://blog.hellowood.dev/tags/influxdb/</link><description>Recent content in InfluxDB on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/influxdb/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;p&gt;PVE 支持添加 &lt;a href="https://graphiteapp.org/"&gt;Graphite&lt;/a&gt; 或者 &lt;a href="https://www.influxdata.com/"&gt;InfluxDB&lt;/a&gt; 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p&gt;
+&lt;p&gt;基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png" alt="homelab-promoxve-monitor-metrics-dashboard.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="配置-influxdb">配置 InfluxDB&lt;/h2>
-&lt;p>使用的是 InfluxDB 2 版本，使用 Flux 语法进行查询；因此需要启动 InfluxDB 2 的容器，使用 DockerCompose 方便配置&lt;/p>
-&lt;ul>
-&lt;li>docker-compose.yaml&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">services&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">influxdb&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">influxdb&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">influxdb:2.6&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e6db74">&amp;#34;8086:8086&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">volumes&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/influx/data:/var/lib/influxdb2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">./data/influx/config:/etc/influxdb2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">environment&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_MODE&lt;/span>: &lt;span style="color:#ae81ff">setup&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_USERNAME&lt;/span>: &lt;span style="color:#ae81ff">admin&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_PASSWORD&lt;/span>: &lt;span style="color:#ae81ff">qwertyuiop&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_ORG&lt;/span>: &lt;span style="color:#ae81ff">influx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_BUCKET&lt;/span>: &lt;span style="color:#ae81ff">influx&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/span>: &lt;span style="color:#ae81ff">123456&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>DOCKER_INFLUXDB_INIT_MODE&lt;/code>它用于指定容器启动时运行的初始化模式。该变量有两个有效值：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>setup&lt;/code>: 表示在容器首次启动时，将执行InfluxDB初始化脚本并创建管理员用户。&lt;/li>
-&lt;li>&lt;code>skip&lt;/code>：表示跳过初始化脚本的执行，直接启动InfluxDB服务。&lt;/li>
-&lt;/ul>
-&lt;p>&lt;code>DOCKER_INFLUXDB_INIT_PASSWORD&lt;/code> 不能设置的太简单，否则 InfluxDB 启动时会报错
-&lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 用于指定 InfluxDB 的组织
-&lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 用于指定初始化使用的 Bucket
-&lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 用于访问时进行鉴权&lt;/p>
-&lt;h2 id="配置-pve">配置 PVE&lt;/h2>
-&lt;p>在 PVE 的服务器视图下，选择数据中心 - 指标服务器，选择添加 InfluxDB，输入相关的配置；协议选择 HTTP，组织添加 &lt;code>DOCKER_INFLUXDB_INIT_ORG&lt;/code> 配置的值，插槽添加 &lt;code>DOCKER_INFLUXDB_INIT_BUCKET&lt;/code> 配置的 Bucket， 令牌填写 &lt;code>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code> 配置的 token&lt;/p></description></item></channel></rss>
+ &lt;img src="https://img.hellowood.dev/picture/homelab-promoxve-monitor-metrics-dashboard.png" alt="homelab-promoxve-monitor-metrics-dashboard.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="配置-influxdb"&gt;配置 InfluxDB&lt;/h2&gt;
+&lt;p&gt;使用的是 InfluxDB 2 版本，使用 Flux 语法进行查询；因此需要启动 InfluxDB 2 的容器，使用 DockerCompose 方便配置&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yaml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;influxdb&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;influxdb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;influxdb:2.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;8086:8086&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/influx/data:/var/lib/influxdb2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/influx/config:/etc/influxdb2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_MODE&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;setup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_USERNAME&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;admin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;qwertyuiop&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_ORG&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;influx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_BUCKET&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;influx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;123456&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;DOCKER_INFLUXDB_INIT_MODE&lt;/code&gt;它用于指定容器启动时运行的初始化模式。该变量有两个有效值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;setup&lt;/code&gt;: 表示在容器首次启动时，将执行InfluxDB初始化脚本并创建管理员用户。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;skip&lt;/code&gt;：表示跳过初始化脚本的执行，直接启动InfluxDB服务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;DOCKER_INFLUXDB_INIT_PASSWORD&lt;/code&gt; 不能设置的太简单，否则 InfluxDB 启动时会报错
+&lt;code&gt;DOCKER_INFLUXDB_INIT_ORG&lt;/code&gt; 用于指定 InfluxDB 的组织
+&lt;code&gt;DOCKER_INFLUXDB_INIT_BUCKET&lt;/code&gt; 用于指定初始化使用的 Bucket
+&lt;code&gt;DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code&gt; 用于访问时进行鉴权&lt;/p&gt;
+&lt;h2 id="配置-pve"&gt;配置 PVE&lt;/h2&gt;
+&lt;p&gt;在 PVE 的服务器视图下，选择数据中心 - 指标服务器，选择添加 InfluxDB，输入相关的配置；协议选择 HTTP，组织添加 &lt;code&gt;DOCKER_INFLUXDB_INIT_ORG&lt;/code&gt; 配置的值，插槽添加 &lt;code&gt;DOCKER_INFLUXDB_INIT_BUCKET&lt;/code&gt; 配置的 Bucket， 令牌填写 &lt;code&gt;DOCKER_INFLUXDB_INIT_ADMIN_TOKEN&lt;/code&gt; 配置的 token&lt;/p&gt;</description></item></channel></rss>

@@ -1,480 +1,480 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thrift on HelloWood</title><link>https://blog.hellowood.dev/tags/thrift/</link><description>Recent content in Thrift on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/thrift/index.xml" rel="self" type="application/rss+xml"/><item><title>Thrfit 客户端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>使用同步的非阻塞的服务端和客户端的请求处理流程&lt;/p>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;h3 id="idl">IDL&lt;/h3>
-&lt;ul>
-&lt;li>helloworld.thrift&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-thrift" data-lang="thrift">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">namespace&lt;/span> java io.github.helloworlde.thrift
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloMessage&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloResponse&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">service&lt;/span> &lt;span style="color:#a6e22e">HelloService&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloResponse &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>: HelloMessage request);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="客户端实现">客户端实现&lt;/h3>
-&lt;p>使用 &lt;code>TSocket&lt;/code> 作为底层连接，协议使用 &lt;code>TBinaryProtocol&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TTransport transport &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TSocket(&lt;span style="color:#e6db74">&amp;#34;localhost&amp;#34;&lt;/span>, 9090);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> transport.&lt;span style="color:#a6e22e">open&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TProtocol protocol &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TBinaryProtocol(transport);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloService.&lt;span style="color:#a6e22e">Client&lt;/span> client &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloService.&lt;span style="color:#a6e22e">Client&lt;/span>(protocol);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloMessage request &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloMessage();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> request.&lt;span style="color:#a6e22e">setMessage&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Thrift&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloResponse response &lt;span style="color:#f92672">=&lt;/span> client.&lt;span style="color:#a6e22e">sayHello&lt;/span>(request);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> log.&lt;span style="color:#a6e22e">info&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;返回响应: {}&amp;#34;&lt;/span>, response.&lt;span style="color:#a6e22e">getMessage&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} &lt;span style="color:#66d9ef">catch&lt;/span> (TException e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> e.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="请求处理流程">请求处理流程&lt;/h2>
-&lt;h3 id="1-建立连接">1. 建立连接&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>transport.&lt;span style="color:#a6e22e">open&lt;/span>();
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>org.apache.thrift.transport.TSocket#open&lt;/li>
-&lt;/ul>
-&lt;p>初始化 Socket，建立连接&lt;/p></description></item><item><title>Thrfit 服务端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p>使用同步的非阻塞的服务端的请求处理流程&lt;/p>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;h3 id="idl">IDL&lt;/h3>
-&lt;ul>
-&lt;li>helloworld.thrift&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-thrift" data-lang="thrift">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">namespace&lt;/span> java io.github.helloworlde.thrift
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloMessage&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloResponse&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">service&lt;/span> &lt;span style="color:#a6e22e">HelloService&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloResponse &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>: HelloMessage request);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="服务端实现">服务端实现&lt;/h3>
-&lt;p>使用 &lt;code>TThreadedSelectorServer&lt;/code> 作为服务端，支持接收连接，处理 IO 事件，执行请求由不同的线程实现；底层连接使用 &lt;code>ServerSocket&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">NonblockingServer&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@SneakyThrows&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(String&lt;span style="color:#f92672">[]&lt;/span> args) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloServiceImpl helloService &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloServiceImpl();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloService.&lt;span style="color:#a6e22e">Processor&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>HelloService.&lt;span style="color:#a6e22e">Iface&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span> helloServiceProcessor &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloService.&lt;span style="color:#a6e22e">Processor&lt;/span>&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(helloService);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TNonblockingServerTransport transport &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TNonblockingServerSocket(9090);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 配置参数以及处理器&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TThreadedSelectorServer.&lt;span style="color:#a6e22e">Args&lt;/span> serverArgs &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TThreadedSelectorServer.&lt;span style="color:#a6e22e">Args&lt;/span>(transport)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">selectorThreads&lt;/span>(4)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">workerThreads&lt;/span>(10)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">acceptQueueSizePerThread&lt;/span>(20)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">processor&lt;/span>(helloServiceProcessor);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TServer server &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TThreadedSelectorServer(serverArgs);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server.&lt;span style="color:#a6e22e">serve&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="请求处理流程">请求处理流程&lt;/h2>
-&lt;h3 id="1-启动-server">1. 启动 Server&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>TServer server &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TThreadedSelectorServer(serverArgs);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>server.&lt;span style="color:#a6e22e">serve&lt;/span>();
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>org.apache.thrift.server.AbstractNonblockingServer#serve&lt;/li>
-&lt;/ul>
-&lt;p>启动 Server，启动用于连接的线程 &lt;code>AcceptThread&lt;/code> 和用于处理 IO 事件的多个线程 &lt;code>SelectorThread&lt;/code>；然后开始监听 IO 事件，由线程池处理请求&lt;/p></description></item><item><title>Thrift 客户端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现">实现&lt;/h2>
-&lt;h3 id="idl">IDL&lt;/h3>
-&lt;ul>
-&lt;li>helloworld.thrift&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-thrift" data-lang="thrift">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">namespace&lt;/span> java io.github.helloworlde.thrift
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloMessage&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloResponse&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">service&lt;/span> &lt;span style="color:#a6e22e">HelloService&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloResponse &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>: HelloMessage request);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="客户端">客户端&lt;/h3>
-&lt;p>异步客户端调用使用 &lt;code>AsyncClient&lt;/code>，传输层使用 &lt;code>TNonblockingSocket&lt;/code>；需要实现 &lt;code>AsyncMethodCallback&lt;/code>作为回调，用于处理请求结果&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">AsyncClient&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(String&lt;span style="color:#f92672">[]&lt;/span> args) &lt;span style="color:#66d9ef">throws&lt;/span> InterruptedException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 构建异步客户端&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TAsyncClientManager clientManager &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TAsyncClientManager();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TProtocolFactory protocolFactory &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TBinaryProtocol.&lt;span style="color:#a6e22e">Factory&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloService.&lt;span style="color:#a6e22e">AsyncClient&lt;/span>.&lt;span style="color:#a6e22e">Factory&lt;/span> factory &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloService.&lt;span style="color:#a6e22e">AsyncClient&lt;/span>.&lt;span style="color:#a6e22e">Factory&lt;/span>(clientManager, protocolFactory);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TNonblockingTransport nonblockingTransport &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TNonblockingSocket(&lt;span style="color:#e6db74">&amp;#34;localhost&amp;#34;&lt;/span>, 9090);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloService.&lt;span style="color:#a6e22e">AsyncClient&lt;/span> asyncClient &lt;span style="color:#f92672">=&lt;/span> factory.&lt;span style="color:#a6e22e">getAsyncClient&lt;/span>(nonblockingTransport);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 异步回调&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> AsyncMethodCallback&lt;span style="color:#f92672">&amp;lt;&lt;/span>HelloResponse&lt;span style="color:#f92672">&amp;gt;&lt;/span> callback &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> AsyncMethodCallback&lt;span style="color:#f92672">&amp;lt;&lt;/span>HelloResponse&lt;span style="color:#f92672">&amp;gt;&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">onComplete&lt;/span>(HelloResponse response) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> log.&lt;span style="color:#a6e22e">info&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;响应结果: {}&amp;#34;&lt;/span>, response.&lt;span style="color:#a6e22e">getMessage&lt;/span>());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">onError&lt;/span>(Exception exception) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> log.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;请求失败: {}&amp;#34;&lt;/span>, exception.&lt;span style="color:#a6e22e">getMessage&lt;/span>(), exception);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 构建请求&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloMessage request &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloMessage();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> request.&lt;span style="color:#a6e22e">setMessage&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;Async Thrift&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 调用&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> asyncClient.&lt;span style="color:#a6e22e">sayHello&lt;/span>(request, callback);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (TException &lt;span style="color:#f92672">|&lt;/span> IOException e) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> e.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Thread.&lt;span style="color:#a6e22e">sleep&lt;/span>(3_000);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="请求处理流程">请求处理流程&lt;/h2>
-&lt;h3 id="构建-client-和回调">构建 Client 和回调&lt;/h3>
-&lt;h4 id="1-构建-client">1. 构建 Client&lt;/h4>
-&lt;p>异步的客户端由抽象类 &lt;code>TAsyncClient&lt;/code> 定义，实现类继承了 &lt;code>TAsyncClient&lt;/code>，同时实现了 &lt;code>AsyncIface&lt;/code>；
-在构建其 Factory 时需要三个参数，分别是 &lt;code>TAsyncClientManager&lt;/code>，用于管理调用请求的所有流程；和 &lt;code>TProtocolFactory&lt;/code>，用于获取协议；还有 &lt;code>TNonblockingTransport&lt;/code>，用于底层的传输，必须是非阻塞的&lt;/p></description></item><item><title>Thrift 中的 Transport</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</guid><description>&lt;p>Thrift 中有 &lt;code>TTransport&lt;/code> 和 &lt;code>TServerTransport&lt;/code>，封装了底层传输层的数据读写；分别用于客户端和服务端&lt;/p>
-&lt;h2 id="ttransport">TTransport&lt;/h2>
-&lt;p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thrift on HelloWood</title><link>https://blog.hellowood.dev/tags/thrift/</link><description>Recent content in Thrift on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/thrift/index.xml" rel="self" type="application/rss+xml"/><item><title>Thrfit 客户端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端和客户端的请求处理流程&lt;/p&gt;
+&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+&lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;helloworld.thrift&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-thrift" data-lang="thrift"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;namespace&lt;/span&gt; java io.github.helloworlde.thrift
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloMessage&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloResponse&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;service&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloResponse &lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: HelloMessage request);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="客户端实现"&gt;客户端实现&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;TSocket&lt;/code&gt; 作为底层连接，协议使用 &lt;code&gt;TBinaryProtocol&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TTransport transport &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TSocket(&lt;span style="color:#e6db74"&gt;&amp;#34;localhost&amp;#34;&lt;/span&gt;, 9090);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; transport.&lt;span style="color:#a6e22e"&gt;open&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TProtocol protocol &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TBinaryProtocol(transport);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;Client&lt;/span&gt; client &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;Client&lt;/span&gt;(protocol);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloMessage request &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloMessage();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; request.&lt;span style="color:#a6e22e"&gt;setMessage&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Thrift&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloResponse response &lt;span style="color:#f92672"&gt;=&lt;/span&gt; client.&lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;(request);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; log.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;返回响应: {}&amp;#34;&lt;/span&gt;, response.&lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;} &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (TException e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; e.&lt;span style="color:#a6e22e"&gt;printStackTrace&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="请求处理流程"&gt;请求处理流程&lt;/h2&gt;
+&lt;h3 id="1-建立连接"&gt;1. 建立连接&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;transport.&lt;span style="color:#a6e22e"&gt;open&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;org.apache.thrift.transport.TSocket#open&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;初始化 Socket，建立连接&lt;/p&gt;</description></item><item><title>Thrfit 服务端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端的请求处理流程&lt;/p&gt;
+&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+&lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;helloworld.thrift&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-thrift" data-lang="thrift"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;namespace&lt;/span&gt; java io.github.helloworlde.thrift
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloMessage&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloResponse&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;service&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloResponse &lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: HelloMessage request);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="服务端实现"&gt;服务端实现&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;TThreadedSelectorServer&lt;/code&gt; 作为服务端，支持接收连接，处理 IO 事件，执行请求由不同的线程实现；底层连接使用 &lt;code&gt;ServerSocket&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;NonblockingServer&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@SneakyThrows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;(String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; args) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloServiceImpl helloService &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloServiceImpl();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;Processor&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;HelloService.&lt;span style="color:#a6e22e"&gt;Iface&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; helloServiceProcessor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;Processor&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;&amp;gt;&lt;/span&gt;(helloService);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TNonblockingServerTransport transport &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TNonblockingServerSocket(9090);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 配置参数以及处理器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TThreadedSelectorServer.&lt;span style="color:#a6e22e"&gt;Args&lt;/span&gt; serverArgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TThreadedSelectorServer.&lt;span style="color:#a6e22e"&gt;Args&lt;/span&gt;(transport)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;selectorThreads&lt;/span&gt;(4)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;workerThreads&lt;/span&gt;(10)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;acceptQueueSizePerThread&lt;/span&gt;(20)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;processor&lt;/span&gt;(helloServiceProcessor);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TServer server &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TThreadedSelectorServer(serverArgs);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server.&lt;span style="color:#a6e22e"&gt;serve&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="请求处理流程"&gt;请求处理流程&lt;/h2&gt;
+&lt;h3 id="1-启动-server"&gt;1. 启动 Server&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;TServer server &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TThreadedSelectorServer(serverArgs);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;server.&lt;span style="color:#a6e22e"&gt;serve&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;org.apache.thrift.server.AbstractNonblockingServer#serve&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;启动 Server，启动用于连接的线程 &lt;code&gt;AcceptThread&lt;/code&gt; 和用于处理 IO 事件的多个线程 &lt;code&gt;SelectorThread&lt;/code&gt;；然后开始监听 IO 事件，由线程池处理请求&lt;/p&gt;</description></item><item><title>Thrift 客户端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+&lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;helloworld.thrift&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-thrift" data-lang="thrift"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;namespace&lt;/span&gt; java io.github.helloworlde.thrift
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloMessage&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloResponse&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;service&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloResponse &lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: HelloMessage request);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="客户端"&gt;客户端&lt;/h3&gt;
+&lt;p&gt;异步客户端调用使用 &lt;code&gt;AsyncClient&lt;/code&gt;，传输层使用 &lt;code&gt;TNonblockingSocket&lt;/code&gt;；需要实现 &lt;code&gt;AsyncMethodCallback&lt;/code&gt;作为回调，用于处理请求结果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;AsyncClient&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;(String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; args) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; InterruptedException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 构建异步客户端&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TAsyncClientManager clientManager &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TAsyncClientManager();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TProtocolFactory protocolFactory &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TBinaryProtocol.&lt;span style="color:#a6e22e"&gt;Factory&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;AsyncClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Factory&lt;/span&gt; factory &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;AsyncClient&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Factory&lt;/span&gt;(clientManager, protocolFactory);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TNonblockingTransport nonblockingTransport &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TNonblockingSocket(&lt;span style="color:#e6db74"&gt;&amp;#34;localhost&amp;#34;&lt;/span&gt;, 9090);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;AsyncClient&lt;/span&gt; asyncClient &lt;span style="color:#f92672"&gt;=&lt;/span&gt; factory.&lt;span style="color:#a6e22e"&gt;getAsyncClient&lt;/span&gt;(nonblockingTransport);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 异步回调&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; AsyncMethodCallback&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;HelloResponse&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; callback &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; AsyncMethodCallback&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;HelloResponse&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;onComplete&lt;/span&gt;(HelloResponse response) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; log.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;响应结果: {}&amp;#34;&lt;/span&gt;, response.&lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;onError&lt;/span&gt;(Exception exception) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; log.&lt;span style="color:#a6e22e"&gt;error&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;请求失败: {}&amp;#34;&lt;/span&gt;, exception.&lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;(), exception);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 构建请求&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloMessage request &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloMessage();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; request.&lt;span style="color:#a6e22e"&gt;setMessage&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Async Thrift&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 调用&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; asyncClient.&lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;(request, callback);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt; (TException &lt;span style="color:#f92672"&gt;|&lt;/span&gt; IOException e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; e.&lt;span style="color:#a6e22e"&gt;printStackTrace&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Thread.&lt;span style="color:#a6e22e"&gt;sleep&lt;/span&gt;(3_000);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="请求处理流程"&gt;请求处理流程&lt;/h2&gt;
+&lt;h3 id="构建-client-和回调"&gt;构建 Client 和回调&lt;/h3&gt;
+&lt;h4 id="1-构建-client"&gt;1. 构建 Client&lt;/h4&gt;
+&lt;p&gt;异步的客户端由抽象类 &lt;code&gt;TAsyncClient&lt;/code&gt; 定义，实现类继承了 &lt;code&gt;TAsyncClient&lt;/code&gt;，同时实现了 &lt;code&gt;AsyncIface&lt;/code&gt;；
+在构建其 Factory 时需要三个参数，分别是 &lt;code&gt;TAsyncClientManager&lt;/code&gt;，用于管理调用请求的所有流程；和 &lt;code&gt;TProtocolFactory&lt;/code&gt;，用于获取协议；还有 &lt;code&gt;TNonblockingTransport&lt;/code&gt;，用于底层的传输，必须是非阻塞的&lt;/p&gt;</description></item><item><title>Thrift 中的 Transport</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</guid><description>&lt;p&gt;Thrift 中有 &lt;code&gt;TTransport&lt;/code&gt; 和 &lt;code&gt;TServerTransport&lt;/code&gt;，封装了底层传输层的数据读写；分别用于客户端和服务端&lt;/p&gt;
+&lt;h2 id="ttransport"&gt;TTransport&lt;/h2&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="thrift-java-source-class-transport.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="方法">方法&lt;/h3>
-&lt;ul>
-&lt;li>open&lt;/li>
-&lt;/ul>
-&lt;p>用于建立与 Server 端的连接&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">open&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TTransportException;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>close&lt;/li>
-&lt;/ul>
-&lt;p>关闭连接&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">close&lt;/span>();
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>read&lt;/li>
-&lt;/ul>
-&lt;p>用于读取数据&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">read&lt;/span>(&lt;span style="color:#66d9ef">byte&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> buf, &lt;span style="color:#66d9ef">int&lt;/span> off, &lt;span style="color:#66d9ef">int&lt;/span> len) &lt;span style="color:#66d9ef">throws&lt;/span> TTransportException;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>write&lt;/li>
-&lt;/ul>
-&lt;p>用于写入数据&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">write&lt;/span>(&lt;span style="color:#66d9ef">byte&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> buf, &lt;span style="color:#66d9ef">int&lt;/span> off, &lt;span style="color:#66d9ef">int&lt;/span> len) &lt;span style="color:#66d9ef">throws&lt;/span> TTransportException;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>flush&lt;/li>
-&lt;/ul>
-&lt;p>清空缓冲区中的数据，发送给服务端&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">flush&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TTransportException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="实现类">实现类&lt;/h3>
-&lt;h4 id="非封装的-transport">非封装的 Transport&lt;/h4>
-&lt;ul>
-&lt;li>&lt;code>TNonblockingTransport&lt;/code>: 非阻塞的 Transport 的抽象类，底层使用 NIO&lt;/li>
-&lt;li>&lt;code>TNonblockingSocket&lt;/code>: &lt;code>TNonblockingTransport&lt;/code> 的实现类，基于 SocketChannel 的 Transport，是非阻塞的&lt;/li>
-&lt;li>&lt;code>TIOStreamTransport&lt;/code>: 基于 IO 流的 Transport&lt;/li>
-&lt;li>&lt;code>TSocket&lt;/code>: &lt;code>TIOStreamTransport&lt;/code> 的子类，底层使用 &lt;code>Socket&lt;/code>&lt;/li>
-&lt;li>&lt;code>TSimpleFileTransport&lt;/code>：基于文件的 Transport，会将流写入文件或者从文件读取流&lt;/li>
-&lt;li>&lt;code>TFileTransport&lt;/code>: 基于文件的 Transport，会将流写入文件或者从文件读取流&lt;/li>
-&lt;li>&lt;code>THttpClient&lt;/code>：基于 &lt;code>HttpClient&lt;/code> 或 &lt;code>HttpURLConnection&lt;/code>，会通过 HTTP 的方式发送请求，通常用于 &lt;code>TServlet&lt;/code> 的服务端&lt;/li>
-&lt;li>&lt;code>ByteBuffer&lt;/code>: 基于 ByteBuffer 的 Transport&lt;/li>
-&lt;li>&lt;code>TMemoryInputTransport&lt;/code>：基于内存数组的 Transport，会从底层的数组读取，用于测试场景&lt;/li>
-&lt;li>&lt;code>TMemoryBuffer&lt;/code>：使用内存数组作为缓冲区的 Transport，用于测试场景&lt;/li>
-&lt;/ul>
-&lt;h4 id="封装的-transport">封装的 Transport&lt;/h4>
-&lt;ul>
-&lt;li>&lt;code>TZlibTransport&lt;/code>: 压缩的 Transport，会将流压缩后再发送&lt;/li>
-&lt;li>&lt;code>AutoExpandingBufferReadTransport&lt;/code>: 可扩展读缓冲区的 Transport，使用可变数组作为缓冲区&lt;/li>
-&lt;li>&lt;code>AutoExpandingBufferWriteTransport&lt;/code>: 可扩展写缓冲区的 Transport，使用可变数组作为缓冲区&lt;/li>
-&lt;li>&lt;code>TSaslTransport&lt;/code>：支持 SASL(Simple Authentication and Security Layer) 认证的 Transport，有两个实现类，用于客户端的&lt;code>TSaslClientTransport&lt;/code> 和用于服务端的 &lt;code>TSaslServerTransport&lt;/code>&lt;/li>
-&lt;li>&lt;code>TFramedTransport&lt;/code>：缓冲的 Transport，通过在前面带有4字节帧大小的消息来确保每次都完全读取消息&lt;/li>
-&lt;li>&lt;code>TFastFramedTransport&lt;/code>： 复用并扩展了读写缓冲区的 Transport，避免每次都创建新的 byte 数组&lt;/li>
-&lt;/ul>
-&lt;h2 id="tservertransport">TServerTransport&lt;/h2>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="thrift-java-source-class-transport.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="方法"&gt;方法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;open&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;用于建立与 Server 端的连接&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;open&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TTransportException;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;close&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关闭连接&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;close&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;read&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;用于读取数据&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;read&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt;&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; buf, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; off, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; len) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TTransportException;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;write&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;用于写入数据&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;write&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt;&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; buf, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; off, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; len) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TTransportException;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;flush&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;清空缓冲区中的数据，发送给服务端&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;flush&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TTransportException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="实现类"&gt;实现类&lt;/h3&gt;
+&lt;h4 id="非封装的-transport"&gt;非封装的 Transport&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TNonblockingTransport&lt;/code&gt;: 非阻塞的 Transport 的抽象类，底层使用 NIO&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TNonblockingSocket&lt;/code&gt;: &lt;code&gt;TNonblockingTransport&lt;/code&gt; 的实现类，基于 SocketChannel 的 Transport，是非阻塞的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TIOStreamTransport&lt;/code&gt;: 基于 IO 流的 Transport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TSocket&lt;/code&gt;: &lt;code&gt;TIOStreamTransport&lt;/code&gt; 的子类，底层使用 &lt;code&gt;Socket&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TSimpleFileTransport&lt;/code&gt;：基于文件的 Transport，会将流写入文件或者从文件读取流&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TFileTransport&lt;/code&gt;: 基于文件的 Transport，会将流写入文件或者从文件读取流&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;THttpClient&lt;/code&gt;：基于 &lt;code&gt;HttpClient&lt;/code&gt; 或 &lt;code&gt;HttpURLConnection&lt;/code&gt;，会通过 HTTP 的方式发送请求，通常用于 &lt;code&gt;TServlet&lt;/code&gt; 的服务端&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ByteBuffer&lt;/code&gt;: 基于 ByteBuffer 的 Transport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TMemoryInputTransport&lt;/code&gt;：基于内存数组的 Transport，会从底层的数组读取，用于测试场景&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TMemoryBuffer&lt;/code&gt;：使用内存数组作为缓冲区的 Transport，用于测试场景&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="封装的-transport"&gt;封装的 Transport&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TZlibTransport&lt;/code&gt;: 压缩的 Transport，会将流压缩后再发送&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AutoExpandingBufferReadTransport&lt;/code&gt;: 可扩展读缓冲区的 Transport，使用可变数组作为缓冲区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AutoExpandingBufferWriteTransport&lt;/code&gt;: 可扩展写缓冲区的 Transport，使用可变数组作为缓冲区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TSaslTransport&lt;/code&gt;：支持 SASL(Simple Authentication and Security Layer) 认证的 Transport，有两个实现类，用于客户端的&lt;code&gt;TSaslClientTransport&lt;/code&gt; 和用于服务端的 &lt;code&gt;TSaslServerTransport&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TFramedTransport&lt;/code&gt;：缓冲的 Transport，通过在前面带有4字节帧大小的消息来确保每次都完全读取消息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TFastFramedTransport&lt;/code&gt;： 复用并扩展了读写缓冲区的 Transport，避免每次都创建新的 byte 数组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tservertransport"&gt;TServerTransport&lt;/h2&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="thrift-java-source-class-server-transport.png" loading="lazy">
-&lt;/p></description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现">实现&lt;/h2>
-&lt;h3 id="idl">IDL&lt;/h3>
-&lt;ul>
-&lt;li>helloworld.thrift&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-thrift" data-lang="thrift">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">namespace&lt;/span> java io.github.helloworlde.thrift
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloMessage&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">HelloResponse&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ae81ff">1&lt;/span>: &lt;span style="color:#66d9ef">required&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> message,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">service&lt;/span> &lt;span style="color:#a6e22e">HelloService&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloResponse &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>: HelloMessage request);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="服务端">服务端&lt;/h3>
-&lt;ul>
-&lt;li>Server&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Slf4j&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">AsyncServer&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@SneakyThrows&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(String&lt;span style="color:#f92672">[]&lt;/span> args) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloServiceAsyncImpl helloService &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloServiceAsyncImpl();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> HelloService.&lt;span style="color:#a6e22e">AsyncProcessor&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>HelloService.&lt;span style="color:#a6e22e">AsyncIface&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span> helloServiceProcessor &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HelloService.&lt;span style="color:#a6e22e">AsyncProcessor&lt;/span>&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(helloService);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TNonblockingServerTransport transport &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TNonblockingServerSocket(9090);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 配置参数以及处理器&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TThreadedSelectorServer.&lt;span style="color:#a6e22e">Args&lt;/span> serverArgs &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TThreadedSelectorServer.&lt;span style="color:#a6e22e">Args&lt;/span>(transport)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">selectorThreads&lt;/span>(4)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">workerThreads&lt;/span>(10)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">acceptQueueSizePerThread&lt;/span>(20)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">processor&lt;/span>(helloServiceProcessor);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> TServer server &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TThreadedSelectorServer(serverArgs);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server.&lt;span style="color:#a6e22e">serve&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>实现&lt;/li>
-&lt;/ul>
-&lt;p>实现类需要实现 &lt;code>AsyncIface&lt;/code> 接口，方法定义中会有一个 &lt;code>AsyncMethodCallback&lt;/code>，用于处理响应回调&lt;/p></description></item><item><title>Thrift 中的 Protocol</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</link><pubDate>Sun, 31 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</guid><description>&lt;p>&lt;code>TProtocol&lt;/code> 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口&lt;/p>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="thrift-java-source-class-server-transport.png" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+&lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;helloworld.thrift&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-thrift" data-lang="thrift"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;namespace&lt;/span&gt; java io.github.helloworlde.thrift
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloMessage&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloResponse&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;required&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;string&lt;/span&gt; message,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;service&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;HelloService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloResponse &lt;span style="color:#a6e22e"&gt;sayHello&lt;/span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;: HelloMessage request);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="服务端"&gt;服务端&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Slf4j&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;AsyncServer&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@SneakyThrows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;(String&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; args) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloServiceAsyncImpl helloService &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloServiceAsyncImpl();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;AsyncProcessor&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;HelloService.&lt;span style="color:#a6e22e"&gt;AsyncIface&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; helloServiceProcessor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; HelloService.&lt;span style="color:#a6e22e"&gt;AsyncProcessor&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;&amp;gt;&lt;/span&gt;(helloService);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TNonblockingServerTransport transport &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TNonblockingServerSocket(9090);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 配置参数以及处理器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TThreadedSelectorServer.&lt;span style="color:#a6e22e"&gt;Args&lt;/span&gt; serverArgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TThreadedSelectorServer.&lt;span style="color:#a6e22e"&gt;Args&lt;/span&gt;(transport)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;selectorThreads&lt;/span&gt;(4)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;workerThreads&lt;/span&gt;(10)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;acceptQueueSizePerThread&lt;/span&gt;(20)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;processor&lt;/span&gt;(helloServiceProcessor);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TServer server &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TThreadedSelectorServer(serverArgs);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; server.&lt;span style="color:#a6e22e"&gt;serve&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;实现类需要实现 &lt;code&gt;AsyncIface&lt;/code&gt; 接口，方法定义中会有一个 &lt;code&gt;AsyncMethodCallback&lt;/code&gt;，用于处理响应回调&lt;/p&gt;</description></item><item><title>Thrift 中的 Protocol</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</link><pubDate>Sun, 31 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</guid><description>&lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口&lt;/p&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="thrift-java-source-class-protocol.png" loading="lazy">
-&lt;/p>
-&lt;h2 id="属性">属性&lt;/h2>
-&lt;p>&lt;code>TProtocol&lt;/code> 中有 &lt;code>TTransport&lt;/code>类型的属性&lt;code>trans_&lt;/code>，用于与底层的传输层进行数据交互&lt;/p>
-&lt;h2 id="方法">方法&lt;/h2>
-&lt;p>&lt;code>TProtocol&lt;/code> 中的方法可以分为两类，分别用于写入和读取各种类型
-其中 &lt;code>Message&lt;/code>，&lt;code>Struct&lt;/code>, &lt;code>Field&lt;/code>,&lt;code>Map&lt;/code>,&lt;code>List&lt;/code>,&lt;code>Set&lt;/code> 等类型会有开始和结束标志，一些还会写入或读取名称、序号等信息；可以参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md">Thrift Protocol Structure&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 写入
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage message) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeStructBegin&lt;/span>(TStruct struct) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeStructEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeFieldBegin&lt;/span>(TField field) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeFieldEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeFieldStop&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMapBegin&lt;/span>(TMap map) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMapEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeListBegin&lt;/span>(TList list) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeListEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeSetBegin&lt;/span>(TSet set) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeSetEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeBool&lt;/span>(&lt;span style="color:#66d9ef">boolean&lt;/span> b) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeByte&lt;/span>(&lt;span style="color:#66d9ef">byte&lt;/span> b) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeI16&lt;/span>(&lt;span style="color:#66d9ef">short&lt;/span> i16) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeI32&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i32) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeI64&lt;/span>(&lt;span style="color:#66d9ef">long&lt;/span> i64) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeDouble&lt;/span>(&lt;span style="color:#66d9ef">double&lt;/span> dub) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeString&lt;/span>(String str) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeBinary&lt;/span>(ByteBuffer buf) &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 读取
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TMessage &lt;span style="color:#a6e22e">readMessageBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readMessageEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TStruct &lt;span style="color:#a6e22e">readStructBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readStructEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TField &lt;span style="color:#a6e22e">readFieldBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readFieldEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TMap &lt;span style="color:#a6e22e">readMapBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readMapEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TList &lt;span style="color:#a6e22e">readListBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readListEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> TSet &lt;span style="color:#a6e22e">readSetBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">readSetEnd&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">readBool&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">byte&lt;/span> &lt;span style="color:#a6e22e">readByte&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">short&lt;/span> &lt;span style="color:#a6e22e">readI16&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">readI32&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">long&lt;/span> &lt;span style="color:#a6e22e">readI64&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">double&lt;/span> &lt;span style="color:#a6e22e">readDouble&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> String &lt;span style="color:#a6e22e">readString&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> ByteBuffer &lt;span style="color:#a6e22e">readBinary&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="实现类">实现类&lt;/h2>
-&lt;ul>
-&lt;li>&lt;code>TBinaryProtocol&lt;/code>: 二进制协议，根据 Thrift 的类型按 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md">Thrift Protocol Structure&lt;/a> 定义写入数据；参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-binary-protocol.md">Thrift Binary protocol encoding&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage message) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (strictWrite_) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 写入版本&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> version &lt;span style="color:#f92672">=&lt;/span> VERSION_1 &lt;span style="color:#f92672">|&lt;/span> message.&lt;span style="color:#a6e22e">type&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeI32(version);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 被调用方法&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeString(message.&lt;span style="color:#a6e22e">name&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 请求序号&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeI32(message.&lt;span style="color:#a6e22e">seqid&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeString(message.&lt;span style="color:#a6e22e">name&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeByte(message.&lt;span style="color:#a6e22e">type&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeI32(message.&lt;span style="color:#a6e22e">seqid&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TCompactProtocol&lt;/code>：压缩协议，会将请求内容进行压缩后写入，参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-compact-protocol.md">Thrift Compact protocol encoding
-&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage message) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeByteDirect(PROTOCOL_ID);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeByteDirect((VERSION &lt;span style="color:#f92672">&amp;amp;&lt;/span> VERSION_MASK) &lt;span style="color:#f92672">|&lt;/span> ((message.&lt;span style="color:#a6e22e">type&lt;/span> &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> TYPE_SHIFT_AMOUNT) &lt;span style="color:#f92672">&amp;amp;&lt;/span> TYPE_MASK));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeVarint32(message.&lt;span style="color:#a6e22e">seqid&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeString(message.&lt;span style="color:#a6e22e">name&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TTupleProtocol&lt;/code>：继承了 &lt;code>TCompactProtocol&lt;/code> 类，Scheme 使用 &lt;code>TupleScheme&lt;/code>，表示使用写消息体的方式序列化和反序列化，而不是 &lt;code>StandardScheme&lt;/code> 使用消息头和消息体的方式序列化和反序列化&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeBitSet&lt;/span>(BitSet bs, &lt;span style="color:#66d9ef">int&lt;/span> vectorWidth) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">byte&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> bytes &lt;span style="color:#f92672">=&lt;/span> toByteArray(bs, vectorWidth);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">byte&lt;/span> b : bytes) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeByte(b);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TJSONProtocol&lt;/code>：将消息序列化为 JSON，可以用于泛化调用的场景下&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage message) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> resetContext(); &lt;span style="color:#75715e">// THRIFT-3743&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeJSONArrayStart();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeJSONInteger(VERSION);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">byte&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> b &lt;span style="color:#f92672">=&lt;/span> message.&lt;span style="color:#a6e22e">name&lt;/span>.&lt;span style="color:#a6e22e">getBytes&lt;/span>(StandardCharsets.&lt;span style="color:#a6e22e">UTF_8&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeJSONString(b);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeJSONInteger(message.&lt;span style="color:#a6e22e">type&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeJSONInteger(message.&lt;span style="color:#a6e22e">seqid&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TSimpleJSONProtocol&lt;/code>: 将消息以 JSON 格式输出，没有实现读取，用于脚本语言&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage message) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> resetWriteContext(); &lt;span style="color:#75715e">// THRIFT-3743&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> trans_.&lt;span style="color:#a6e22e">write&lt;/span>(LBRACKET);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pushWriteContext(&lt;span style="color:#66d9ef">new&lt;/span> ListContext());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeString(message.&lt;span style="color:#a6e22e">name&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeByte(message.&lt;span style="color:#a6e22e">type&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> writeI32(message.&lt;span style="color:#a6e22e">seqid&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TProtocolDecorator&lt;/code>：抽象实现，会将所有的操作都转发给被代理的类实现&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage tMessage) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> concreteProtocol.&lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(tMessage);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>TMultiplexedProtocol&lt;/code>：&lt;code>TProtocolDecorator&lt;/code> 的实现类，在消息头部写入了服务的名称，会被 Server 端解析；用于有多个服务的 Server；其他的类型写入和读取由被代理的协议实现&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(TMessage tMessage) &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (tMessage.&lt;span style="color:#a6e22e">type&lt;/span> &lt;span style="color:#f92672">==&lt;/span> TMessageType.&lt;span style="color:#a6e22e">CALL&lt;/span> &lt;span style="color:#f92672">||&lt;/span> tMessage.&lt;span style="color:#a6e22e">type&lt;/span> &lt;span style="color:#f92672">==&lt;/span> TMessageType.&lt;span style="color:#a6e22e">ONEWAY&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">super&lt;/span>.&lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(&lt;span style="color:#66d9ef">new&lt;/span> TMessage(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> SERVICE_NAME &lt;span style="color:#f92672">+&lt;/span> SEPARATOR &lt;span style="color:#f92672">+&lt;/span> tMessage.&lt;span style="color:#a6e22e">name&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tMessage.&lt;span style="color:#a6e22e">type&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tMessage.&lt;span style="color:#a6e22e">seqid&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">super&lt;/span>.&lt;span style="color:#a6e22e">writeMessageBegin&lt;/span>(tMessage);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>StoredMessageProtocol&lt;/code>：&lt;code>TProtocolDecorator&lt;/code> 的实现类，代理其他协议，通常用于 Server 端，只获取请求头，具体的读取由被代理的协议实现&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> TMessage &lt;span style="color:#a6e22e">readMessageBegin&lt;/span>() &lt;span style="color:#66d9ef">throws&lt;/span> TException {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> messageBegin;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Thrfit 中的 Server</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</link><pubDate>Mon, 18 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</guid><description>&lt;p>Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式&lt;/p>
-&lt;h2 id="server-定义">Server 定义&lt;/h2>
-&lt;h3 id="属性">属性&lt;/h3>
-&lt;ul>
-&lt;li>&lt;code>processorFactory_&lt;/code> : 处理器工厂&lt;/li>
-&lt;li>&lt;code>serverTransport_&lt;/code>: 服务端 Transport&lt;/li>
-&lt;li>&lt;code>eventHandler_&lt;/code> : 事件监听器，可以监听 Server 所有启动、关闭、处理请求相关的事件&lt;/li>
-&lt;li>&lt;code>inputTransportFactory_&lt;/code> : 输入流工厂&lt;/li>
-&lt;li>&lt;code>outputTransportFactory_&lt;/code> : 输出流工厂&lt;/li>
-&lt;li>&lt;code>inputProtocolFactory_&lt;/code> : 输入流协议工厂&lt;/li>
-&lt;li>&lt;code>outputProtocolFactory_&lt;/code> : 输出流协议工厂&lt;/li>
-&lt;/ul>
-&lt;h3 id="方法">方法&lt;/h3>
-&lt;ul>
-&lt;li>serve&lt;/li>
-&lt;/ul>
-&lt;p>启动 Server，监听端口，对外提供服务&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">abstract&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">serve&lt;/span>();
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>stop&lt;/li>
-&lt;/ul>
-&lt;p>关闭 Server，断开连接，释放并清除资源&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">stop&lt;/span>() {}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="实现类">实现类&lt;/h2>
-&lt;p>
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="thrift-java-source-class-protocol.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="属性"&gt;属性&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 中有 &lt;code&gt;TTransport&lt;/code&gt;类型的属性&lt;code&gt;trans_&lt;/code&gt;，用于与底层的传输层进行数据交互&lt;/p&gt;
+&lt;h2 id="方法"&gt;方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 中的方法可以分为两类，分别用于写入和读取各种类型
+其中 &lt;code&gt;Message&lt;/code&gt;，&lt;code&gt;Struct&lt;/code&gt;, &lt;code&gt;Field&lt;/code&gt;,&lt;code&gt;Map&lt;/code&gt;,&lt;code&gt;List&lt;/code&gt;,&lt;code&gt;Set&lt;/code&gt; 等类型会有开始和结束标志，一些还会写入或读取名称、序号等信息；可以参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md"&gt;Thrift Protocol Structure&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; * 写入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage message) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeStructBegin&lt;/span&gt;(TStruct struct) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeStructEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeFieldBegin&lt;/span&gt;(TField field) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeFieldEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeFieldStop&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMapBegin&lt;/span&gt;(TMap map) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMapEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeListBegin&lt;/span&gt;(TList list) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeListEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeSetBegin&lt;/span&gt;(TSet set) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeSetEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeBool&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;boolean&lt;/span&gt; b) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeByte&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt; b) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeI16&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;short&lt;/span&gt; i16) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeI32&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; i32) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeI64&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;long&lt;/span&gt; i64) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeDouble&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; dub) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeString&lt;/span&gt;(String str) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeBinary&lt;/span&gt;(ByteBuffer buf) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; * 读取
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TMessage &lt;span style="color:#a6e22e"&gt;readMessageBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readMessageEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TStruct &lt;span style="color:#a6e22e"&gt;readStructBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readStructEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TField &lt;span style="color:#a6e22e"&gt;readFieldBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readFieldEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TMap &lt;span style="color:#a6e22e"&gt;readMapBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readMapEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TList &lt;span style="color:#a6e22e"&gt;readListBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readListEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; TSet &lt;span style="color:#a6e22e"&gt;readSetBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readSetEnd&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;boolean&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readBool&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readByte&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;short&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readI16&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readI32&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;long&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readI64&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;readDouble&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; String &lt;span style="color:#a6e22e"&gt;readString&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; ByteBuffer &lt;span style="color:#a6e22e"&gt;readBinary&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="实现类"&gt;实现类&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TBinaryProtocol&lt;/code&gt;: 二进制协议，根据 Thrift 的类型按 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-protocol-spec.md"&gt;Thrift Protocol Structure&lt;/a&gt; 定义写入数据；参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-binary-protocol.md"&gt;Thrift Binary protocol encoding&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage message) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (strictWrite_) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 写入版本&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; version &lt;span style="color:#f92672"&gt;=&lt;/span&gt; VERSION_1 &lt;span style="color:#f92672"&gt;|&lt;/span&gt; message.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeI32(version);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 被调用方法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeString(message.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 请求序号&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeI32(message.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeString(message.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeByte(message.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeI32(message.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TCompactProtocol&lt;/code&gt;：压缩协议，会将请求内容进行压缩后写入，参考 &lt;a href="https://github.com/helloworlde/thrift/blob/master/doc/specs/thrift-compact-protocol.md"&gt;Thrift Compact protocol encoding
+&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage message) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeByteDirect(PROTOCOL_ID);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeByteDirect((VERSION &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; VERSION_MASK) &lt;span style="color:#f92672"&gt;|&lt;/span&gt; ((message.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; TYPE_SHIFT_AMOUNT) &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; TYPE_MASK));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeVarint32(message.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeString(message.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TTupleProtocol&lt;/code&gt;：继承了 &lt;code&gt;TCompactProtocol&lt;/code&gt; 类，Scheme 使用 &lt;code&gt;TupleScheme&lt;/code&gt;，表示使用写消息体的方式序列化和反序列化，而不是 &lt;code&gt;StandardScheme&lt;/code&gt; 使用消息头和消息体的方式序列化和反序列化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeBitSet&lt;/span&gt;(BitSet bs, &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; vectorWidth) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt;&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; bytes &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toByteArray(bs, vectorWidth);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt; b : bytes) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeByte(b);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TJSONProtocol&lt;/code&gt;：将消息序列化为 JSON，可以用于泛化调用的场景下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage message) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; resetContext(); &lt;span style="color:#75715e"&gt;// THRIFT-3743&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeJSONArrayStart();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeJSONInteger(VERSION);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;byte&lt;/span&gt;&lt;span style="color:#f92672"&gt;[]&lt;/span&gt; b &lt;span style="color:#f92672"&gt;=&lt;/span&gt; message.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;getBytes&lt;/span&gt;(StandardCharsets.&lt;span style="color:#a6e22e"&gt;UTF_8&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeJSONString(b);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeJSONInteger(message.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeJSONInteger(message.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TSimpleJSONProtocol&lt;/code&gt;: 将消息以 JSON 格式输出，没有实现读取，用于脚本语言&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage message) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; resetWriteContext(); &lt;span style="color:#75715e"&gt;// THRIFT-3743&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; trans_.&lt;span style="color:#a6e22e"&gt;write&lt;/span&gt;(LBRACKET);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pushWriteContext(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; ListContext());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeString(message.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeByte(message.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; writeI32(message.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TProtocolDecorator&lt;/code&gt;：抽象实现，会将所有的操作都转发给被代理的类实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage tMessage) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; concreteProtocol.&lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(tMessage);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TMultiplexedProtocol&lt;/code&gt;：&lt;code&gt;TProtocolDecorator&lt;/code&gt; 的实现类，在消息头部写入了服务的名称，会被 Server 端解析；用于有多个服务的 Server；其他的类型写入和读取由被代理的协议实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(TMessage tMessage) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; (tMessage.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;==&lt;/span&gt; TMessageType.&lt;span style="color:#a6e22e"&gt;CALL&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; tMessage.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;==&lt;/span&gt; TMessageType.&lt;span style="color:#a6e22e"&gt;ONEWAY&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;super&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; TMessage(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; SERVICE_NAME &lt;span style="color:#f92672"&gt;+&lt;/span&gt; SEPARATOR &lt;span style="color:#f92672"&gt;+&lt;/span&gt; tMessage.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; tMessage.&lt;span style="color:#a6e22e"&gt;type&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; tMessage.&lt;span style="color:#a6e22e"&gt;seqid&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; } &lt;span style="color:#66d9ef"&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;super&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;writeMessageBegin&lt;/span&gt;(tMessage);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;StoredMessageProtocol&lt;/code&gt;：&lt;code&gt;TProtocolDecorator&lt;/code&gt; 的实现类，代理其他协议，通常用于 Server 端，只获取请求头，具体的读取由被代理的协议实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; TMessage &lt;span style="color:#a6e22e"&gt;readMessageBegin&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; TException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; messageBegin;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Thrfit 中的 Server</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</link><pubDate>Mon, 18 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</guid><description>&lt;p&gt;Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式&lt;/p&gt;
+&lt;h2 id="server-定义"&gt;Server 定义&lt;/h2&gt;
+&lt;h3 id="属性"&gt;属性&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;processorFactory_&lt;/code&gt; : 处理器工厂&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;serverTransport_&lt;/code&gt;: 服务端 Transport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;eventHandler_&lt;/code&gt; : 事件监听器，可以监听 Server 所有启动、关闭、处理请求相关的事件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;inputTransportFactory_&lt;/code&gt; : 输入流工厂&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;outputTransportFactory_&lt;/code&gt; : 输出流工厂&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;inputProtocolFactory_&lt;/code&gt; : 输入流协议工厂&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;outputProtocolFactory_&lt;/code&gt; : 输出流协议工厂&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="方法"&gt;方法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;serve&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;启动 Server，监听端口，对外提供服务&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;abstract&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;serve&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;stop&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关闭 Server，断开连接，释放并清除资源&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;stop&lt;/span&gt;() {}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="实现类"&gt;实现类&lt;/h2&gt;
+&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="thrift-source-server-subclass.png" loading="lazy">
-&lt;/p>
-&lt;h3 id="阻塞">阻塞&lt;/h3>
-&lt;ul>
-&lt;li>TSimpleServer&lt;/li>
-&lt;/ul>
-&lt;p>Server 的简单实现，是单线程阻塞的 Server，连接实现取决于 &lt;code>TServerTransport&lt;/code>具体类型；用于测试场景&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">serve&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 监听 Socket&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> serverTransport_.&lt;span style="color:#a6e22e">listen&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 如果有事件处理器，则调用其 preSever 方法&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> eventHandler_.&lt;span style="color:#a6e22e">preServe&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 设置运行状态&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> setServing(&lt;span style="color:#66d9ef">true&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 只要没有关闭，就获取连接&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">while&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>stopped_) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 接受连接&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client &lt;span style="color:#f92672">=&lt;/span> serverTransport_.&lt;span style="color:#a6e22e">accept&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> connectionContext &lt;span style="color:#f92672">=&lt;/span> eventHandler_.&lt;span style="color:#a6e22e">createContext&lt;/span>(inputProtocol, outputProtocol);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">while&lt;/span> (&lt;span style="color:#66d9ef">true&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 处理上下文事件&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> eventHandler_.&lt;span style="color:#a6e22e">processContext&lt;/span>(connectionContext, inputTransport, outputTransport);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 处理请求&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> processor.&lt;span style="color:#a6e22e">process&lt;/span>(inputProtocol, outputProtocol);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 上下文删除事件&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> eventHandler_.&lt;span style="color:#a6e22e">deleteContext&lt;/span>(connectionContext, inputProtocol, outputProtocol);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 关闭 Transport&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> inputTransport.&lt;span style="color:#a6e22e">close&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> outputTransport.&lt;span style="color:#a6e22e">close&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 修改服务状态&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> setServing(&lt;span style="color:#66d9ef">false&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>TThreadPoolServer&lt;/li>
-&lt;/ul>
-&lt;p>在 &lt;code>TSimpleServer&lt;/code> 的基础上优化，使用了线程池处理请求；构建参数中可以指定创建线程池的参数，支持线程池饱和后超时；连接实现取决于 &lt;code>TServerTransport&lt;/code>具体类型&lt;/p></description></item><item><title>Thrfit 中的核心概念</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</guid><description>&lt;h2 id="服务端">服务端&lt;/h2>
-&lt;pre tabindex="0">&lt;code> +-------------------------------------------+
+ &lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="thrift-source-server-subclass.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h3 id="阻塞"&gt;阻塞&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;TSimpleServer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Server 的简单实现，是单线程阻塞的 Server，连接实现取决于 &lt;code&gt;TServerTransport&lt;/code&gt;具体类型；用于测试场景&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;serve&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 监听 Socket&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; serverTransport_.&lt;span style="color:#a6e22e"&gt;listen&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 如果有事件处理器，则调用其 preSever 方法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; eventHandler_.&lt;span style="color:#a6e22e"&gt;preServe&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 设置运行状态&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; setServing(&lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 只要没有关闭，就获取连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;while&lt;/span&gt; (&lt;span style="color:#f92672"&gt;!&lt;/span&gt;stopped_) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 接受连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; client &lt;span style="color:#f92672"&gt;=&lt;/span&gt; serverTransport_.&lt;span style="color:#a6e22e"&gt;accept&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; connectionContext &lt;span style="color:#f92672"&gt;=&lt;/span&gt; eventHandler_.&lt;span style="color:#a6e22e"&gt;createContext&lt;/span&gt;(inputProtocol, outputProtocol);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;while&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 处理上下文事件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; eventHandler_.&lt;span style="color:#a6e22e"&gt;processContext&lt;/span&gt;(connectionContext, inputTransport, outputTransport);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 处理请求&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; processor.&lt;span style="color:#a6e22e"&gt;process&lt;/span&gt;(inputProtocol, outputProtocol);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 上下文删除事件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; eventHandler_.&lt;span style="color:#a6e22e"&gt;deleteContext&lt;/span&gt;(connectionContext, inputProtocol, outputProtocol);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 关闭 Transport&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputTransport.&lt;span style="color:#a6e22e"&gt;close&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outputTransport.&lt;span style="color:#a6e22e"&gt;close&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 修改服务状态&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; setServing(&lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;TThreadPoolServer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 &lt;code&gt;TSimpleServer&lt;/code&gt; 的基础上优化，使用了线程池处理请求；构建参数中可以指定创建线程池的参数，支持线程池饱和后超时；连接实现取决于 &lt;code&gt;TServerTransport&lt;/code&gt;具体类型&lt;/p&gt;</description></item><item><title>Thrfit 中的核心概念</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</guid><description>&lt;h2 id="服务端"&gt;服务端&lt;/h2&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt; +-------------------------------------------+
  | Server |
  | (single-threaded, event-driven etc) |
  +-------------------------------------------+
@@ -487,27 +487,27 @@
  | Transport |
  | (raw TCP, HTTP etc) |
  +-------------------------------------------+
-&lt;/code>&lt;/pre>&lt;p>Thrift Server 设计大致可以分为四层，分别是：&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>Server：负责连接调度、服务的生命周期，定义接口是&lt;code>TServer&lt;/code> - &lt;code>TSimpleServer&lt;/code>：简单的阻塞服务端 - &lt;code>TThreadPoolServer&lt;/code>：使用线程池的处理请求的阻塞服务端 - &lt;code>THsHaServer&lt;/code>：使用线程池处理请求的基于 NIO 的非阻塞服务端 - &lt;code>TThreadedSelectorServer&lt;/code>：使用多种线程池的基于 NIO 的非阻塞服务端&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Processor：处理请求，具体的实现由生成的代码处理，定义接口是 &lt;code>TProcessor&lt;/code>&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>TBaseProcessor&lt;/code>：同步处理的 Processor&lt;/li>
-&lt;li>&lt;code>TBaseAsyncProcessor&lt;/code>：异步处理的 Processor&lt;/li>
-&lt;li>&lt;code>TMultiplexedProcessor&lt;/code>：支持多个服务的同步 Processor&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>Protocol：请求协议，数据的编解码实现，定义接口是 &lt;code>TProtocol&lt;/code>&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>TBinaryProtocol&lt;/code>：二进制协议&lt;/li>
-&lt;li>&lt;code>TCompactProtocol&lt;/code>：压缩协议&lt;/li>
-&lt;li>&lt;code>TJSONProtocol&lt;/code>：JSON 格式协议&lt;/li>
-&lt;li>&lt;code>TMultiplexedProtocol&lt;/code>：支持多个 Processor 的封装协议，依赖于其他协议&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>Transport：底层的连接，提供了读写的抽象实现；服务端定义是 &lt;code>TServerTransport&lt;/code>&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Thrift Server 设计大致可以分为四层，分别是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Server：负责连接调度、服务的生命周期，定义接口是&lt;code&gt;TServer&lt;/code&gt; - &lt;code&gt;TSimpleServer&lt;/code&gt;：简单的阻塞服务端 - &lt;code&gt;TThreadPoolServer&lt;/code&gt;：使用线程池的处理请求的阻塞服务端 - &lt;code&gt;THsHaServer&lt;/code&gt;：使用线程池处理请求的基于 NIO 的非阻塞服务端 - &lt;code&gt;TThreadedSelectorServer&lt;/code&gt;：使用多种线程池的基于 NIO 的非阻塞服务端&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Processor：处理请求，具体的实现由生成的代码处理，定义接口是 &lt;code&gt;TProcessor&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TBaseProcessor&lt;/code&gt;：同步处理的 Processor&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TBaseAsyncProcessor&lt;/code&gt;：异步处理的 Processor&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TMultiplexedProcessor&lt;/code&gt;：支持多个服务的同步 Processor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Protocol：请求协议，数据的编解码实现，定义接口是 &lt;code&gt;TProtocol&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TBinaryProtocol&lt;/code&gt;：二进制协议&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TCompactProtocol&lt;/code&gt;：压缩协议&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TJSONProtocol&lt;/code&gt;：JSON 格式协议&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TMultiplexedProtocol&lt;/code&gt;：支持多个 Processor 的封装协议，依赖于其他协议&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Transport：底层的连接，提供了读写的抽象实现；服务端定义是 &lt;code&gt;TServerTransport&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Intel on HelloWood</title><link>https://blog.hellowood.dev/tags/intel/</link><description>Recent content in Intel on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/intel/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 安装 Intel N100 显卡驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 08:41:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p>最近 N5105 的 HomeLab Server 负载过高，CPU 长期接近100%，因此新购入一台 N100，将视频和图像相关的服务迁移到 N100，但是发现 Ubuntu 22 默认没有显卡驱动，需要手动安装&lt;/p>
-&lt;h2 id="检查驱动状态">检查驱动状态&lt;/h2>
-&lt;p>使用 intel_gpu_top 检查显卡状态，发现提示没有设备，这是因为没有安装驱动导致的&lt;/p>
-&lt;ul>
-&lt;li>安装 intel-gpu-tools&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt install intel-gpu-tools
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>检查状态&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>intel_gpu_top
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>No device filter specified and no discrete/integrated i915 devices found
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="安装驱动">安装驱动&lt;/h2>
-&lt;h3 id="配置软件源">配置软件源&lt;/h3>
-&lt;ul>
-&lt;li>安装依赖工具&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install -y gpg-agent wget
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>添加 Intel 软件源&lt;/li>
-&lt;/ul>
-&lt;p>运行以下命令，将 Intel 软件源添加到 apt 的配置中并更新&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>. /etc/os-release
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> ! &lt;span style="color:#e6db74">&amp;#34; jammy &amp;#34;&lt;/span> &lt;span style="color:#f92672">=&lt;/span>~ &lt;span style="color:#e6db74">&amp;#34; &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> &amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Ubuntu version &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> not supported&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/lts/2350 unified&amp;#34;&lt;/span> | &lt;span style="color:#ae81ff">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#e6db74">${&lt;/span>VERSION_CODENAME&lt;span style="color:#e6db74">}&lt;/span>.list
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo apt update
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装驱动-1">安装驱动&lt;/h3>
-&lt;p>安装依赖的软件和显卡驱动&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Intel on HelloWood</title><link>https://blog.hellowood.dev/tags/intel/</link><description>Recent content in Intel on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/intel/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 22 安装 Intel N100 显卡驱动</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link><pubDate>Mon, 08 Jul 2024 08:41:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E5%AE%89%E8%A3%85-intel-n100-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid><description>&lt;p&gt;最近 N5105 的 HomeLab Server 负载过高，CPU 长期接近100%，因此新购入一台 N100，将视频和图像相关的服务迁移到 N100，但是发现 Ubuntu 22 默认没有显卡驱动，需要手动安装&lt;/p&gt;
+&lt;h2 id="检查驱动状态"&gt;检查驱动状态&lt;/h2&gt;
+&lt;p&gt;使用 intel_gpu_top 检查显卡状态，发现提示没有设备，这是因为没有安装驱动导致的&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 intel-gpu-tools&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install intel-gpu-tools
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;检查状态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;intel_gpu_top
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;No device filter specified and no discrete/integrated i915 devices found
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="安装驱动"&gt;安装驱动&lt;/h2&gt;
+&lt;h3 id="配置软件源"&gt;配置软件源&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;安装依赖工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install -y gpg-agent wget
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;添加 Intel 软件源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行以下命令，将 Intel 软件源添加到 apt 的配置中并更新&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;. /etc/os-release
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[[&lt;/span&gt; ! &lt;span style="color:#e6db74"&gt;&amp;#34; jammy &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt;~ &lt;span style="color:#e6db74"&gt;&amp;#34; &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;VERSION_CODENAME&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;]]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;Ubuntu version &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;VERSION_CODENAME&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; not supported&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;VERSION_CODENAME&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/lts/2350 unified&amp;#34;&lt;/span&gt; | &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;VERSION_CODENAME&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;.list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo apt update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装驱动-1"&gt;安装驱动&lt;/h3&gt;
+&lt;p&gt;安装依赖的软件和显卡驱动&lt;/p&gt;</description></item></channel></rss>
