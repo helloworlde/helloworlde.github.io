@@ -73,7 +73,7 @@ services:
 | 变量                                   | 作用                                                                                                      |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `DOCKER_STEPCA_INIT_NAME`              | CA 名称，写入根证书的 Organization 字段                                                                   |
-| `DOCKER_STEPCA_INIT_DNS_NAMES`         | CA 根证书的有效域名列表                                                                                                                                                                                                                                                                                                           |
+| `DOCKER_STEPCA_INIT_DNS_NAMES`         | CA 根证书的有效域名列表                                                                                   |
 | `DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT` | 是否启用远程管理，允许 step-cli 在容器外通过 admin JWK 对 CA 进行管理操作，如添加 provisioner、管理证书等 |
 | `DOCKER_STEPCA_INIT_ADMIN_SUBJECT`     | 超级管理员账号名，用于执行管理命令的用户                                                                  |
 | `DOCKER_STEPCA_INIT_PASSWORD`          | 超级管理员密码，用于解锁 admin JWK                                                                        |
