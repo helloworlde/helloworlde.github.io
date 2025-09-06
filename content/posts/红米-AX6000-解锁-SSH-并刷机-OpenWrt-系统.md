@@ -2,7 +2,7 @@
 date: 2025-04-20
 # description: ""
 # image: ""
-lastmod: 2025-04-20
+lastmod: 2025-04-29
 showTableOfContents: false
 title: "红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统"
 type: "post"

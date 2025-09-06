@@ -2,7 +2,7 @@
 date: 2024-12-29
 # description: ""
 # image: ""
-lastmod: 2024-12-29
+lastmod: 2024-12-30
 showTableOfContents: false
 tags:
   - Hysteria2
