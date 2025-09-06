@@ -15,7 +15,7 @@ featured: true
 
 Split DNS（分割DNS）是一种DNS配置技术，指对同一个域名在不同网络环境下提供不同的DNS解析结果；例如在内网环境下访问 `example.com` 解析到内网IP地址，而在公网环境下访问 `example.com` 解析到公网IP地址；
 
-![homelab-split-dns-diagram-2.svg](https://img.hellowood.dev/picture/homelab-split-dns-diagram-2.svg)
+![homelab-split-dns-diagram-3.svg](https://img.hellowood.dev/picture/homelab-split-dns-diagram-3.svg)
 
 在 HomeLab 场景下，服务部署在内网，可以直接访问；而外网通常需要使用 Cloudflare Tunnel 等反向代理工具进行转发；之前在内网尝试过使用 `.local`/`.homelab` 等域名访问服务，但是一些强依赖 HTTPS 的服务（如 PocketID）因自签名证书不信任问题无法使用(Java/Python服务、Firefox浏览器等均有自己的校验规则)；同时内网访问和外网访问的域名不一致，需要分别记住内网和外网的访问地址，影响使用体验
 
