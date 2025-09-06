@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 PocketID 作为 HomeLab 的统一登录认证工具</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/</link><pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/</guid><description>&lt;p&gt;&lt;a href="https://pocket-id.org/"&gt;PocketID&lt;/a&gt; 是一个轻量、只支持通行密钥(passkey)的用户管理系统，支持 OIDC 协议，和 GitHub/Google/Microsoft 等一样可以作为身份认证提供者；同时可以给 Tinyauth/Grafana/Memos/Beszel 等 HomeLab 服务提供 OIDC 的身份认证&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/</link><pubDate>Tue, 02 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/</guid><description>&lt;p&gt;Split DNS（分割DNS）是一种DNS配置技术，指对同一个域名在不同网络环境下提供不同的DNS解析结果；例如在内网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到内网IP地址，而在公网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到公网IP地址；&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-split-dns-diagram-2.svg" alt="homelab-split-dns-diagram-2.svg" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;在 HomeLab 场景下，服务部署在内网，可以直接访问；而外网通常需要使用 Cloudflare Tunnel 等反向代理工具进行转发；之前在内网尝试过使用 &lt;code&gt;.local&lt;/code&gt;/&lt;code&gt;.homelab&lt;/code&gt; 等域名访问服务，但是一些强依赖 HTTPS 的服务（如 PocketID）因自签名证书不信任问题无法使用(Java/Python服务、Firefox浏览器等均有自己的校验规则)；同时内网访问和外网访问的域名不一致，需要分别记住内网和外网的访问地址，影响使用体验&lt;/p&gt;
+&lt;p&gt;为了解决上述问题，可以使用 Split DNS，将内网的请求转发到内网的反向代理上，使用 Let&amp;rsquo;s Encrypt 颁发的证书，保证内外网访问地址一致，并且支持 HTTPS 访问&lt;/p&gt;
+&lt;p&gt;公网访问时 DNS 解析到 Cloudflare Tunnel，然后请求由 Tunnel 带着 Host Header 转发到 Caddy 再转发给具体的服务；内网访问时使用 AdGuard 覆盖了内网的 DNS 解析，将请求转发到 Caddy，再转发给具体的服务&lt;/p&gt;
+&lt;h2 id="配置-caddy-路由规则"&gt;配置 Caddy 路由规则&lt;/h2&gt;
+&lt;h3 id="申请证书"&gt;申请证书&lt;/h3&gt;
+&lt;p&gt;证书可以使用免费的 Let&amp;rsquo;s Encrypt 证书，或者 ZeroSSL 等免费证书颁发机构申请，参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-lets-encrypt-%E7%94%B3%E8%AF%B7-https-%E8%AF%81%E4%B9%A6/"&gt;使用 Let’s Encrypt 申请 HTTPS 证书&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;建议直接申请泛域名证书，例如 &lt;code&gt;*.example.com&lt;/code&gt;，这样可以保证后续添加新的服务时不需要重新申请证书，减少维护成本&lt;/p&gt;
+&lt;h3 id="配置路由"&gt;配置路由&lt;/h3&gt;
+&lt;p&gt;在 Caddy 的路由配置中添加路由规则，同时指定刚才申请的证书路径&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Caddyfile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-conf" data-lang="conf"&gt;whoami.example.com {
+ tls /certs/_.example.com.crt /certs/_.example.com.key
+ reverse_proxy 100.0.0.3:8081
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;详细信息可以参考:&lt;/p&gt;</description></item><item><title>使用 PocketID 作为 HomeLab 的统一登录认证工具</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/</link><pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/</guid><description>&lt;p&gt;&lt;a href="https://pocket-id.org/"&gt;PocketID&lt;/a&gt; 是一个轻量、只支持通行密钥(passkey)的用户管理系统，支持 OIDC 协议，和 GitHub/Google/Microsoft 等一样可以作为身份认证提供者；同时可以给 Tinyauth/Grafana/Memos/Beszel 等 HomeLab 服务提供 OIDC 的身份认证&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png" alt="homelab-caddy-auth-pocketid-homepage.png" loading="lazy"&gt;
