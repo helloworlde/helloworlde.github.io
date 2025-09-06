@@ -2,7 +2,7 @@
 title: SpringBoot 使用 ElasticSearch
 type: post
 date: 2018-01-16T00:45:05+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

@@ -2,7 +2,7 @@
 title: 使用WireGuard从外网访问OpenWrt
 type: post
 date: 2023-06-12T16:30:22+08:00
-lastmod: 2025-08-02
+lastmod: 2025-09-06
 tags:
   - HomeLab
   - WireGuard

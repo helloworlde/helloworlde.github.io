@@ -2,7 +2,7 @@
 title: 技嘉 B660M AORUS PRO AX 安装黑苹果
 type: post
 date: 2022-12-30T21:47:06+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Hackintosh
   - MacOS

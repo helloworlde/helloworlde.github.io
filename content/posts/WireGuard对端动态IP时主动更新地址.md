@@ -2,7 +2,7 @@
 title: WireGuard对端动态IP时主动更新地址
 type: post
 date: 2023-09-24T18:37:06+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - HomeLab
   - WireGuard

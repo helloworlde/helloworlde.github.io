@@ -1,7 +1,7 @@
 ---
 title: 微服务网关 Traefik - Docker Swarm 使用
 date: 2019-03-24T21:20:35+08:00
-lastmod: 2024-09-23
+lastmod: 2025-09-06
 tags:
   - HomeLab
   - Network

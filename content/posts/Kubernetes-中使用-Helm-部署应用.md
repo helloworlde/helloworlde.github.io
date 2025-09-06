@@ -2,7 +2,7 @@
 title: Kubernetes 中使用 Helm 部署应用
 type: post
 date: 2019-09-08T19:03:06+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Kubernetes
   - Helm
@@ -262,7 +262,7 @@ Content-Length: 4
 Content-Type: text/plain; charset=utf-8
 type: post
 date: Sun, 14 Jul 2019 10:53:18 GMT
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 
 Pong
 ```

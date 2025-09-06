@@ -2,7 +2,7 @@
 title: SpringBoot 使用 FastJSON 自定义接口返回 JSON 格式
 type: post
 date: 2018-04-10T18:50:34+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

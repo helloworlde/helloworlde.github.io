@@ -2,7 +2,7 @@
 title: "将重新训练的 Yolov8 模型编译为 Hailo 8 和 Hailo 8L 支持的模型"
 type: post
 date: 2024-09-08T21:32:21+08:00
-lastmod: 2024-09-16
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - Hailo

@@ -2,7 +2,7 @@
 title: Spring Boot 中集成 Spring Security
 type: post
 date: 2018-01-01T00:09:27+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

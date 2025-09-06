@@ -2,7 +2,7 @@
 title: Kubenetes 部署 Dashboard
 type: post
 date: 2019-09-08T19:28:25+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Kubernetes
 featured: true
@@ -61,7 +61,7 @@ metadata:
   annotations:
     rbac.authorization.kubernetes.io/autouptype: post
 date: "true"
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 roleRef:
   kind: ClusterRole
   name: cluster-admin

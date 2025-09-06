@@ -2,7 +2,7 @@
 title: SpringMVC应用启动时执行操作
 type: post
 date: 2018-01-01T00:56:03+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringMVC

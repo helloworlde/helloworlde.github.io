@@ -2,7 +2,7 @@
 title: Redis基础知识-数据类型
 type: post
 date: 2018-01-01T12:07:03+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Redis
 featured: true

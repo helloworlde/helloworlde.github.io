@@ -2,7 +2,7 @@
 title: Ubuntu 搭建 ShadowSocks 服务
 type: post
 date: 2018-10-21T22:39:52+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - ShadowSocks
   - Tool

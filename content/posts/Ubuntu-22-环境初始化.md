@@ -2,7 +2,7 @@
 title: Ubuntu 22 环境初始化
 type: post
 date: 2024-01-07T18:03:00+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - HomeLab

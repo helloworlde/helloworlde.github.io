@@ -2,7 +2,7 @@
 title: 使用自定义 Grafana 面板监控 Consul
 type: post
 date: 2020-05-16T14:47:24+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Prometheus
   - Grafana

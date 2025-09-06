@@ -2,7 +2,7 @@
 title: Thrift 中的 Protocol
 type: post
 date: 2021-01-31T22:34:46+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Thrift
 featured: true

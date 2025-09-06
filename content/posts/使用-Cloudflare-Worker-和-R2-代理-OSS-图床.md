@@ -2,7 +2,7 @@
 title: 使用 Cloudflare Worker 和 R2 代理 OSS 图床
 type: post
 date: 2023-12-23T19:14:05+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Cloudflare
   - HomeLab

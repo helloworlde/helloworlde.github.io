@@ -2,7 +2,7 @@
 title: Kubernetes 中使用 Helm 部署使用 Prometheus
 type: post
 date: 2019-12-29T18:57:38+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Kubernetes
   - Helm

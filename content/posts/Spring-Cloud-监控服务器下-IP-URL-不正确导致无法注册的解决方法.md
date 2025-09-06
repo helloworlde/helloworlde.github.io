@@ -2,7 +2,7 @@
 title: Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法
 type: post
 date: 2018-01-01T11:51:23+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

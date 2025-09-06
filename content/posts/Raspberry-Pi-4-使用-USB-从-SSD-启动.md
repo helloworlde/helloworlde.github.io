@@ -2,7 +2,7 @@
 title: Raspberry Pi 4 使用 USB 从 SSD 启动
 type: post
 date: 2020-09-20T22:29:28+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - RaspberryPi
 featured: true

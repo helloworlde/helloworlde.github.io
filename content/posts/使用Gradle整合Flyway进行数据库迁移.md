@@ -2,7 +2,7 @@
 title: 使用Gradle整合Flyway进行数据库迁移
 type: post
 date: 2018-01-01T00:49:34+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - Gradle

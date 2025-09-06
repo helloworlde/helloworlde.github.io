@@ -2,7 +2,7 @@
 title: Ubuntu/Docker 替换软件源
 type: post
 date: 2019-05-27T15:06:43+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Docker
   - Ubuntu

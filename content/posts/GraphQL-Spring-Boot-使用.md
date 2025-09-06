@@ -2,7 +2,7 @@
 title: GraphQL Spring Boot 使用
 type: post
 date: 2019-01-29T19:57:12+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - SpringBoot
   - GraphQL

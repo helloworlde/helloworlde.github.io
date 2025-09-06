@@ -2,7 +2,7 @@
 title: 树莓派 4b 使用 CSI 摄像头
 type: post
 date: 2023-03-11T21:38:25+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - RaspberryPi
   - HomeLab

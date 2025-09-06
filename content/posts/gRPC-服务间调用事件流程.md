@@ -2,7 +2,7 @@
 title: gRPC 服务间调用事件流程
 type: post
 date: 2021-02-20T22:34:46+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - gRPC
 featured: true

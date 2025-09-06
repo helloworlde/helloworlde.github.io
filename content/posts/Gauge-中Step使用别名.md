@@ -2,7 +2,7 @@
 title: Gauge 中Step使用别名
 type: post
 date: 2018-01-01T11:29:48+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - Gauge

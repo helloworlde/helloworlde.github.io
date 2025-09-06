@@ -2,7 +2,7 @@
 title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
 type: post
 date: 2022-07-20T11:32:08+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - OpenWrt
   - RaspberryPi

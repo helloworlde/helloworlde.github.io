@@ -2,7 +2,7 @@
 title: Spring Boot 中使用Spring Cloud Stream
 type: post
 date: 2019-09-08T18:50:09+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

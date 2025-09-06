@@ -2,7 +2,7 @@
 title: AngularJS配置Router(路由)提示Controller NaNunction/undefined错误
 type: post
 date: 2018-01-01T12:05:17+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - AngularJs
   - Router

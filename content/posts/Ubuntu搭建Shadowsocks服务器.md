@@ -2,7 +2,7 @@
 title: Ubuntu搭建Shadowsocks服务器
 type: post
 date: 2018-01-01T00:58:24+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - Shadowsocks

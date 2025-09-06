@@ -2,7 +2,7 @@
 title: Thrift 服务端异步请求
 type: post
 date: 2021-02-01T22:34:46+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Thrift
 featured: true

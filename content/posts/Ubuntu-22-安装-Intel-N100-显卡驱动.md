@@ -2,7 +2,7 @@
 title: "Ubuntu 22 安装 Intel N100 显卡驱动"
 type: post
 date: 2024-07-08T08:41:49+08:00
-lastmod: 2024-09-16
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - Intel

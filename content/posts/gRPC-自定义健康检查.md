@@ -2,7 +2,7 @@
 title: gRPC  自定义健康检查
 type: post
 date: 2020-09-20T22:38:15+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - gRPC
 featured: true

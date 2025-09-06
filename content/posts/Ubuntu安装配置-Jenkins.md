@@ -2,7 +2,7 @@
 title: Ubuntu安装配置 Jenkins
 type: post
 date: 2018-01-01T12:12:32+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Jenkins
   - Ubuntu

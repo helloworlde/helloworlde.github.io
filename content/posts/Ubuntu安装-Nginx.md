@@ -2,7 +2,7 @@
 title: Ubuntu安装 Nginx
 type: post
 date: 2018-01-01T12:10:38+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Nginx
   - Ubuntu

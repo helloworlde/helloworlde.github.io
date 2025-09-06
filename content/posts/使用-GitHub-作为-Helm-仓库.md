@@ -2,7 +2,7 @@
 title: 使用 GitHub 作为 Helm 仓库
 type: post
 date: 2019-12-07T22:16:35+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Kubernetes
   - Helm

@@ -2,7 +2,7 @@
 title: Openwrt-DDNS 配置
 type: post
 date: 2022-08-26T11:32:08+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Esxi
   - OpenWrt

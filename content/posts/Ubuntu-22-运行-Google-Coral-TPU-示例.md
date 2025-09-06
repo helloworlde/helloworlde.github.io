@@ -2,7 +2,7 @@
 title: "Ubuntu 22 运行 Google Coral TPU 示例"
 type: post
 date: 2024-07-09T09:30:21+08:00
-lastmod: 2024-09-16
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - Coral

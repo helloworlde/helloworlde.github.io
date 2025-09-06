@@ -2,7 +2,7 @@
 title: IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误
 type: post
 date: 2018-01-01T01:01:51+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

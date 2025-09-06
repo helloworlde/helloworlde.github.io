@@ -2,7 +2,7 @@
 title: Kubenetes 中使用 Traefik 作为 Ingress 转发流量
 type: post
 date: 2019-09-08T19:06:11+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Kubernetes
   - Helm

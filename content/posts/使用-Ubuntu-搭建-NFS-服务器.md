@@ -2,7 +2,7 @@
 title: 使用 Ubuntu 搭建 NFS 服务器
 type: post
 date: 2024-01-27T11:20:19+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - HomeLab

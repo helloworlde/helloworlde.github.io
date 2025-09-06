@@ -2,7 +2,7 @@
 title: Spring Boot 发送邮件
 type: post
 date: 2017-12-31T23:55:11+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

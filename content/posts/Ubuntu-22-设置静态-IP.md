@@ -2,7 +2,7 @@
 title: Ubuntu 22 设置静态 IP
 type: post
 date: 2022-09-05T11:20:19+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - HomeLab

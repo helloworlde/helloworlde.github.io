@@ -2,7 +2,7 @@
 title: Ubuntu安装 Redis -编译方式安装
 type: post
 date: 2018-01-01T12:09:09+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Ubuntu
   - Reids

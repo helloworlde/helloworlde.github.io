@@ -2,7 +2,7 @@
 title: gRPC 使用自定义的 LoadBalancer
 type: post
 date: 2020-09-29T22:34:46+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - gRPC
 featured: true

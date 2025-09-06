@@ -2,7 +2,7 @@
 title: SpringBoot logback 输出日志到数据库、Logstash
 type: post
 date: 2018-01-19T21:25:42+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

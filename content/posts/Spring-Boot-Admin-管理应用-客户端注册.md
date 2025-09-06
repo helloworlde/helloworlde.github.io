@@ -2,7 +2,7 @@
 title: Spring Boot Admin 管理应用-客户端注册
 type: post
 date: 2018-01-01T12:15:48+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

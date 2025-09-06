@@ -2,7 +2,7 @@
 title: 在IDEA中配置Gauge环境
 type: post
 date: 2018-01-01T11:28:05+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - Gauge

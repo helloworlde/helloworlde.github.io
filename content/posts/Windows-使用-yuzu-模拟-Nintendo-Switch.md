@@ -2,7 +2,7 @@
 title: Windows 使用 Yuzu 模拟 Nintendo Switch
 type: post
 date: 2022-11-20T21:51:48+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Games
 featured: true

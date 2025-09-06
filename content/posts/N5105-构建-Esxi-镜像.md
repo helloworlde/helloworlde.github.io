@@ -2,7 +2,7 @@
 title: N5105 构建 Esxi 镜像
 type: post
 date: 2022-08-11T10:53:05+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Esxi
 featured: true

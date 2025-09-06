@@ -2,7 +2,7 @@
 title: Spring Boot Actuator 添加 Git 和 Build 信息
 type: post
 date: 2018-01-01T11:20:12+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

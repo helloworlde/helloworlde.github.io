@@ -2,7 +2,7 @@
 title: "Google Cloud Run 部署 Knative Serverless 应用 "
 type: post
 date: 2019-05-15T08:23:26+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Serverless
   - Google

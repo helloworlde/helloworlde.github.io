@@ -2,6 +2,7 @@
 title: Docker 中使用 Dockerfile
 type: post
 date: 2018-04-08T15:21:27+08:00
+lastmod: 2024-12-04
 tags:
   - Docker
 featured: true

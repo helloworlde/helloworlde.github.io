@@ -2,7 +2,7 @@
 title: Spring Boot 使用 Flyway
 type: post
 date: 2018-01-07T23:20:53+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SpringBoot

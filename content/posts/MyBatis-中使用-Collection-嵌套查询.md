@@ -2,7 +2,7 @@
 title: MyBatis 中使用 Collection 嵌套查询
 type: post
 date: 2018-01-01T00:47:05+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - MyBatis

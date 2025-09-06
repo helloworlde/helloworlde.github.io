@@ -2,7 +2,7 @@
 title: SpringMVC 生成验证码
 type: post
 date: 2018-01-01T01:04:16+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - Java
   - SrpingMVC

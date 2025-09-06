@@ -2,7 +2,7 @@
 title: MySQL 中关于gap lock / next-key lock 的一个问题
 type: post
 date: 2019-01-07T21:40:58+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - MySQL
 featured: true

@@ -2,7 +2,7 @@
 title: 树莓派 4b 使用摄像头推送流到 RTMP 服务器
 type: post
 date: 2023-03-11T21:36:47+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - RaspberryPi
   - HomeLab

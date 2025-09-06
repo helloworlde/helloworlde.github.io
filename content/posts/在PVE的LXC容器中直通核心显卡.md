@@ -2,7 +2,7 @@
 title: 在PVE的LXC容器中直通核心显卡
 type: post
 date: 2023-09-09T17:53:36+08:00
-lastmod: 2024-12-04
+lastmod: 2025-09-06
 tags:
   - LXC
   - Proxmox
