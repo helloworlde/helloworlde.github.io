@@ -1,6 +1,7 @@
 ---
 title: "Ubuntu 22 安装 AMD 显卡驱动"
 date: 2024-09-19T09:14:35+08:00
+lastmod: 2024-09-22
 tags:
   - Ubuntu
   - AMD

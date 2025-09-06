@@ -2,6 +2,7 @@
 title: "Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA"
 type: post
 date: 2024-07-08T08:58:48+08:00
+lastmod: 2024-09-16
 tags:
   - Ubuntu
   - NVIDIA

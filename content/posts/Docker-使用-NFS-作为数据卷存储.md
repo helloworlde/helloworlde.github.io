@@ -2,6 +2,7 @@
 title: Docker 使用 NFS 作为数据卷存储
 type: post
 date: 2022-09-22T11:20:19+08:00
+lastmod: 2024-12-04
 tags:
   - Docker
   - NFS

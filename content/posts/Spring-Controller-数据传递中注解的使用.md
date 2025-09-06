@@ -2,6 +2,7 @@
 title: Spring Controller 数据传递中注解的使用
 type: post
 date: 2018-01-01T11:54:23+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - SpringBoot

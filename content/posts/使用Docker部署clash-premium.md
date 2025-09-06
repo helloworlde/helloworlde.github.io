@@ -2,6 +2,7 @@
 title: 使用 Docker 部署 Clash Premium
 type: post
 date: 2023-09-09T21:32:33+08:00
+lastmod: 2024-12-04
 tags:
   - Clash
   - Docker

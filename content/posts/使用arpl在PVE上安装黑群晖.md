@@ -2,6 +2,7 @@
 title: 使用arpl在PVE上安装黑群晖
 type: post
 date: 2023-07-01T16:12:02+08:00
+lastmod: 2024-12-04
 tags:
   - HomeLab
   - Synology

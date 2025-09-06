@@ -2,6 +2,7 @@
 title: gRPC 中泛化调用服务接口
 type: post
 date: 2021-01-29T22:34:46+08:00
+lastmod: 2024-12-04
 tags:
   - gRPC
 featured: true

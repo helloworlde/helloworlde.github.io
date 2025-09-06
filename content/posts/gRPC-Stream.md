@@ -2,6 +2,7 @@
 title: gRPC Stream
 type: post
 date: 2020-11-08T22:34:46+08:00
+lastmod: 2024-12-04
 tags:
   - gRPC
 featured: true

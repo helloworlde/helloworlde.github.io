@@ -2,6 +2,7 @@
 title: Ubuntu Server 22 虚拟机空间扩容
 type: post
 date: 2022-09-09T11:20:19+08:00
+lastmod: 2024-12-04
 tags:
   - Ubuntu
   - HomeLab

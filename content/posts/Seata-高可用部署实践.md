@@ -2,6 +2,7 @@
 title: Seata 高可用部署实践
 type: post
 date: 2020-04-10T10:51:17+08:00
+lastmod: 2024-12-04
 tags:
   - Seata
 featured: true

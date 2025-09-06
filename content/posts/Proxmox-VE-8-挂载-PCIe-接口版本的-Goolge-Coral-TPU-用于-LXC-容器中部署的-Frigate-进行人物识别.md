@@ -1,6 +1,7 @@
 ---
 title: "Proxmox VE 8 挂载 PCIe 接口版本的 Goolge Coral TPU 用于 LXC 容器中部署的 Frigate 进行人物识别"
 date: 2024-12-01T20:26:09+08:00
+lastmod: 2024-12-29
 tags:
   - Proxmox VE
   - HomeLab

@@ -2,7 +2,7 @@
 date: 2025-08-30
 # description: ""
 # image: ""
-lastmod: 2025-08-31
+lastmod: 2025-09-06
 showTableOfContents: false
 title: "使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务"
 type: "post"

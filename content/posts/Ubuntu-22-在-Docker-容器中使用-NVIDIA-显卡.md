@@ -2,6 +2,7 @@
 title: "Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡"
 type: post
 date: 2024-08-06T09:15:33+08:00
+lastmod: 2024-09-16
 tags:
   - Ubuntu
   - NVIDIA

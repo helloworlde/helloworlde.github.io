@@ -2,6 +2,7 @@
 title: SpringBoot 中日志使用
 type: post
 date: 2018-01-19T21:23:45+08:00
+lastmod: 2025-08-02
 tags:
   - Java
   - SpringBoot

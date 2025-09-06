@@ -2,6 +2,7 @@
 title: 使用 MacOS 制作 MacOS 的 ISO 镜像
 type: post
 date: 2022-11-20T21:51:48+08:00
+lastmod: 2024-12-04
 tags:
   - MacOS
 featured: true

@@ -2,6 +2,7 @@
 title: AngularJS发送异步Get/Post请求
 type: post
 date: 2018-01-01T11:40:58+08:00
+lastmod: 2024-12-04
 tags:
   - AngularJs
   - Request

@@ -2,6 +2,7 @@
 title: Spring MVC简单实现国际化/多语言
 type: post
 date: 2018-01-01T11:48:46+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - SrpingMVC

@@ -2,6 +2,7 @@
 title: "Ubuntu 22 安装 Google Coral TPU NVME 驱动"
 type: post
 date: 2024-07-08T09:07:20+08:00
+lastmod: 2024-09-16
 tags:
   - Ubuntu
   - Coral

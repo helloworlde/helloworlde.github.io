@@ -2,7 +2,7 @@
 date: 2025-08-31
 # description: ""
 # image: ""
-lastmod: 2025-09-02
+lastmod: 2025-09-06
 showTableOfContents: false
 title: "使用 PocketID 作为 HomeLab 的统一登录认证工具"
 type: "post"

@@ -2,6 +2,7 @@
 title: 使用 Prometheus 和 Grafana 监控 Consul
 type: post
 date: 2020-05-16T14:36:34+08:00
+lastmod: 2024-12-04
 tags:
   - Prometheus
   - Grafana
@@ -170,6 +171,7 @@ curl -v localhost:8500/v1/agent/metrics\?format=prometheus
 < Vary: Accept-Encoding
 < type: post
 date: Thu, 07 May 2020 00:09:23 GMT
+lastmod: 2024-12-04
 < Content-Length: 66
 < Content-Type: text/plain; charset=utf-8
 <

@@ -2,6 +2,7 @@
 title: Proxmox VE 添加监控
 type: post
 date: 2023-04-09T21:29:39+08:00
+lastmod: 2024-12-04
 tags:
   - Proxmox VE
   - InfluxDB

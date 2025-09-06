@@ -2,6 +2,7 @@
 title: Gauge中执行Http请求测试
 type: post
 date: 2018-01-01T11:33:29+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - Gauge

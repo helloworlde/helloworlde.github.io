@@ -2,6 +2,7 @@
 title: gRPC 中的核心概念
 type: post
 date: 2020-09-20T22:40:59+08:00
+lastmod: 2024-12-04
 tags:
   - gRPC
 featured: true

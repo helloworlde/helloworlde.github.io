@@ -2,6 +2,7 @@
 title: Ubuntu安装JDK
 type: post
 date: 2018-01-01T12:11:39+08:00
+lastmod: 2024-12-04
 tags:
   - Ubuntu
   - JDK

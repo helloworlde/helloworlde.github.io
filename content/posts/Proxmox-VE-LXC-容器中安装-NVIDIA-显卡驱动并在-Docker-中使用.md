@@ -1,6 +1,6 @@
 ---
 date: 2025-03-24
-lastmod: 2025-04-29
+lastmod: 2025-09-06
 showTableOfContents: false
 title: "Proxmox VE LXC 容器中安装 NVIDIA 显卡驱动并在 Docker 中使用"
 type: "post"

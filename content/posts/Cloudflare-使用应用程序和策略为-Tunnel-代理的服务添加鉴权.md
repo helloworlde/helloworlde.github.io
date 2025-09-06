@@ -2,7 +2,7 @@
 date: 2025-07-20
 # description: ""
 # image: ""
-lastmod: 2025-07-28
+lastmod: 2025-09-06
 showTableOfContents: false
 title: "Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权"
 type: "post"

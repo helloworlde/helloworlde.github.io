@@ -2,6 +2,7 @@
 title: Proxmox VE 创建自定义的 LXC 容器 CT 模板
 type: post
 date: 2024-01-07T12:00:10+08:00
+lastmod: 2024-12-04
 tags:
   - Proxmox
   - HomeLab

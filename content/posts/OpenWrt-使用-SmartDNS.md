@@ -2,6 +2,7 @@
 title: OpenWrt 使用 SmartDNS
 type: post
 date: 2022-09-27T11:32:08+08:00
+lastmod: 2024-12-04
 tags:
   - SmartDNS
   - DNS

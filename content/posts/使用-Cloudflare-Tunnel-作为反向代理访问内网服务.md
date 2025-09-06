@@ -1,6 +1,7 @@
 ---
 title: "使用 Cloudflare Tunnel 作为反向代理访问内网服务"
 date: 2024-12-04T15:48:56+08:00
+lastmod: 2024-12-04
 tags:
   - HomeLab
   - Cloudflare

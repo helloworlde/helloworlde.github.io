@@ -1,6 +1,7 @@
 ---
 title: "Tailscale 使用 Derp Probe 检测自建的 Derper 服务器状态"
 date: 2024-09-22T21:20:35+08:00
+lastmod: 2024-09-23
 tags:
   - HomeLab
   - Network

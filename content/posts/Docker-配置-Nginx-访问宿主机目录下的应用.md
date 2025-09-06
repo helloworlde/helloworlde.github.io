@@ -2,6 +2,7 @@
 title: Docker 配置 Nginx 访问宿主机目录下的应用
 type: post
 date: 2018-04-10T11:39:09+08:00
+lastmod: 2024-12-04
 tags:
   - Docker
   - Ubuntu

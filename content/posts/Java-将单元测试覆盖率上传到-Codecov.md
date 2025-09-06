@@ -2,6 +2,7 @@
 title: Java 将单元测试覆盖率上传到 Codecov
 type: post
 date: 2018-01-01T00:00:19+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - Gradle

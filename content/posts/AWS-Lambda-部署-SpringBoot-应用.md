@@ -2,6 +2,7 @@
 title: AWS Lambda 部署 SpringBoot 应用
 type: post
 date: 2019-05-06T11:36:14+08:00
+lastmod: 2024-12-04
 tags:
   - Serverless
   - SpringBoot

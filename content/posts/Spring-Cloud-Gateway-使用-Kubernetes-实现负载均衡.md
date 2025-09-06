@@ -2,6 +2,7 @@
 title: Spring Cloud Gateway 使用 Kubernetes 实现负载均衡
 type: post
 date: 2020-09-20T22:23:18+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - SpringCloud

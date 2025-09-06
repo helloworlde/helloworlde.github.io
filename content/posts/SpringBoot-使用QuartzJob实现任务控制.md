@@ -2,6 +2,7 @@
 title: SpringBoot 使用QuartzJob实现任务控制
 type: post
 date: 2018-02-12T18:22:43+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - SpringBoot

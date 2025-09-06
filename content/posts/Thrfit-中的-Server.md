@@ -2,6 +2,7 @@
 title: Thrfit 中的 Server
 type: post
 date: 2021-01-18T22:34:46+08:00
+lastmod: 2024-12-04
 tags:
   - Thrift
 featured: true

@@ -2,6 +2,7 @@
 title: 使用WireGuard连接异地局域网
 type: post
 date: 2023-09-24T17:56:49+08:00
+lastmod: 2024-12-04
 tags:
   - HomeLab
   - WireGuard

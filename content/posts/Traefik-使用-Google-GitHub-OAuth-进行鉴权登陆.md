@@ -2,6 +2,7 @@
 title: Traefik 使用 Google GitHub OAuth 进行鉴权登陆
 type: post
 date: 2023-02-15T21:42:38+08:00
+lastmod: 2024-12-04
 tags:
   - Traefik
   - HomeLab

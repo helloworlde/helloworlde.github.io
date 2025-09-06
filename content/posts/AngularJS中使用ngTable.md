@@ -2,6 +2,7 @@
 title: AngularJS中使用ngTable
 type: post
 date: 2018-01-01T11:42:21+08:00
+lastmod: 2024-12-04
 tags:
   - AngularJs
   - ngTable

@@ -2,7 +2,7 @@
 date: 2025-05-11
 # description: ""
 # image: ""
-lastmod: 2025-08-02
+lastmod: 2025-09-06
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki"

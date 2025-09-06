@@ -2,6 +2,7 @@
 title: Esxi 挂载物理磁盘到虚拟机
 type: post
 date: 2022-09-12T11:32:08+08:00
+lastmod: 2024-12-04
 tags:
   - Esxi
   - HomeLab

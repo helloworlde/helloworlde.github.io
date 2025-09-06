@@ -2,6 +2,7 @@
 title: Ubuntu搭建Redis服务器
 type: post
 date: 2018-01-01T12:08:07+08:00
+lastmod: 2024-12-04
 tags:
   - Ubuntu
   - Reids

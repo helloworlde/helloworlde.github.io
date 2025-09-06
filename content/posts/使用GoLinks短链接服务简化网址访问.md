@@ -2,6 +2,7 @@
 title: 使用 GoLinks 短链接服务简化网址访问
 type: post
 date: 2023-11-27T11:40:53+08:00
+lastmod: 2024-12-04
 tags:
   - Tools
 featured: true
@@ -159,6 +160,7 @@ HTTP/1.1 302 Found
 Location: https://www.google.com/
 type: post
 date: Mon, 27 Nov 2023 03:22:19 GMT
+lastmod: 2024-12-04
 Content-Length: 0
 ```
 
@@ -171,5 +173,6 @@ HTTP/1.1 302 Found
 Location: https://www.google.com/search?q=%E4%BB%80%E4%B9%88%E6%98%AFgolinks
 type: post
 date: Mon, 27 Nov 2023 03:34:36 GMT
+lastmod: 2024-12-04
 Content-Length: 0
 ```

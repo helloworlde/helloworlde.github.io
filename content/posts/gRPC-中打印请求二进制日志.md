@@ -2,6 +2,7 @@
 title: gRPC 中打印请求二进制日志
 type: post
 date: 2021-01-04T22:34:46+08:00
+lastmod: 2024-12-04
 tags:
   - gRPC
 featured: true

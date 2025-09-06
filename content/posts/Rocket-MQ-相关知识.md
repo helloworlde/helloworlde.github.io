@@ -2,6 +2,7 @@
 title: Rocket MQ 相关知识
 type: post
 date: 2018-01-01T12:54:02+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - Rocket MQ

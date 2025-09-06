@@ -2,6 +2,7 @@
 title: Spring Cloud Kubernetes 服务注册和发现
 type: post
 date: 2020-09-20T22:26:03+08:00
+lastmod: 2024-12-04
 tags:
   - Java
   - SpringCloud

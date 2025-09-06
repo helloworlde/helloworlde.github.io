@@ -2,6 +2,7 @@
 title: 使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像
 type: post
 date: 2023-02-07T21:45:26+08:00
+lastmod: 2024-12-04
 tags:
   - Esxi
   - HomeLab

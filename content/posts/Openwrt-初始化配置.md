@@ -2,6 +2,7 @@
 title: Openwrt-初始化配置
 type: post
 date: 2022-08-08T11:44:37+08:00
+lastmod: 2024-12-04
 tags:
   - Esxi
   - OpenWrt

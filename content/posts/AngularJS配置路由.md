@@ -2,6 +2,7 @@
 title: AngularJS 配置路由
 type: post
 date: 2018-01-01T12:04:04+08:00
+lastmod: 2024-12-04
 tags:
   - AngularJs
   - Router

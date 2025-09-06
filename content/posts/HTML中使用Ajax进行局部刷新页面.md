@@ -2,6 +2,7 @@
 title: HTML中使用Ajax进行局部刷新页面
 type: post
 date: 2018-01-01T11:38:52+08:00
+lastmod: 2024-12-04
 tags:
   - HTML
   - Jquery
