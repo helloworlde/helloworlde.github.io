@@ -2,7 +2,7 @@
 date: 2025-09-24
 # description: ""
 # image: ""
-lastmod: 2025-09-24
+lastmod: 2025-10-01
 showTableOfContents: false
 tags:
   - Tesla
@@ -45,7 +45,7 @@ Fleet Telemetry 能获取到的数据和 Owner API 是一样的，仅在格式�
 
 ## 三、申请 TLS 证书
 
-以 Cloudflare 托管域名为例，使用 Certbot 申请 TLS 证书，其他的工具也可以申请，但是需要手动解析出 CA 等信息比较麻烦，还是推荐使用 Certbot；使用 docker-compose 部署并启动 Certbot；详细可以参考 [DNS Plugins](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins)
+以 Cloudflare 托管域名为例，使用 Certbot 申请 TLS 证书，其他的工具也可以申请，但是需要手动解析出 CA 等信息比较麻烦，还是推荐使用 Certbot；使用 docker-compose 部署并启动 Certbot；详细可以参考 [DNS Plugins](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins)
 
 - 创建 Cloudflare API Token
 
