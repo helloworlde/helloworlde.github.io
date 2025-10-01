@@ -108,7 +108,7 @@ fleet.example.com {
 
 当公钥托管成功之后，就可以访问 `https://www.tesla.com/_ak/fleet.example.com`，将虚拟密钥添加到车辆，用于后续访问车辆信息、通信等；访问该链接后，通过页面打开 Tesla App，然后选择对应的车辆，添加虚拟钥匙；添加成功后，车辆的钥匙中会出现 `fleet.example.com` 虚拟钥匙
 
-![homelab-tesla-fleet-telemetry-add-virtual-key.webp](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-add-virtual-key.webp)
+![homelab-tesla-fleet-telemetry-add-virtual-key.svg](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-add-virtual-key.svg)
 
 ## 参考文档
 
