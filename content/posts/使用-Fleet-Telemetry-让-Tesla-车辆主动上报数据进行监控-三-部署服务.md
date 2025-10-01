@@ -192,6 +192,13 @@ fleet-telemetry  | {"activity":true,"context":"fleet-telemetry","level":"info","
 fleet-telemetry  | {"activity":true,"context":"fleet-telemetry","level":"info","msg":"profiler_started","port":4269,"time":"2025-09-27T06:15:02Z"}
 ```
 
+访问 status 端口检查状态，返回 ok 说明服务正确启动
+
+```bash
+curl localhost:12346/status
+ok#
+```
+
 ### 2.3 验证配置
 
 检查时需要通过 `config.json` 配置文件声明要检查的域名、CA 等信息
