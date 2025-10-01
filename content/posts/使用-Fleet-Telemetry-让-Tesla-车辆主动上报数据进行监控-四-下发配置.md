@@ -13,7 +13,7 @@ type: "post"
 
 ## 一、配置车辆
 
-配置车辆时需要使用鉴权，因此需要先获取 access_token
+配置车辆时需要使用鉴权，因此需要先获取 access_token；或者。access_token 可以参考下面的方式手动获取，也可以使用 [https://github.com/helloworlde/tesla-access-token](https://github.com/helloworlde/tesla-access-token) 项目在 Cloudflare 部署 Worker 进行获取(注意：这个 Worker 绝对不能公开访问，使用前务必通过 Cloudflare Access 配置鉴权策略，保证仅自己可见)
 
 ### 1.1 获取 access_token
 
