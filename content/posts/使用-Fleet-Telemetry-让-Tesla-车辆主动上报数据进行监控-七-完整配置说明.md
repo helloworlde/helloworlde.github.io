@@ -14,267 +14,230 @@ type: "post"
 以下是 Tesla 车辆支持的属性和解释，由 AI 整理，并不完全准确，可以根据需要选择需要上报的数据
 
 - Filed 配置属性
-
-| ID  | Field                                     | Description                       |
-| --- | ----------------------------------------- | --------------------------------- |
-| 0   | Unknown                                   | 未知或未定义字段                  |
-| 1   | DriveRail                                 | 驱动总线状态                      |
-| 2   | ChargeState                               | 充电状态（充电/未充电/完成等）    |
-| 3   | BmsFullchargecomplete                     | 电池管理系统是否充满              |
-| 4   | VehicleSpeed                              | 车辆速度（km/h 或 mph）           |
-| 5   | Odometer                                  | 总里程（公里或英里）              |
-| 6   | PackVoltage                               | 电池组电压（V）                   |
-| 7   | PackCurrent                               | 电池组电流（A）                   |
-| 8   | Soc                                       | 电池荷电状态（SOC，%）            |
-| 9   | DCDCEnable                                | DC-DC 转换器是否启用              |
-| 10  | Gear                                      | 当前档位（P/N/D/R）               |
-| 11  | IsolationResistance                       | 电池绝缘电阻                      |
-| 12  | PedalPosition                             | 油门踏板位置（%）                 |
-| 13  | BrakePedal                                | 刹车踏板状态                      |
-| 14  | DiStateR                                  | 后电机状态                        |
-| 15  | DiHeatsinkTR                              | 后电机散热片温度                  |
-| 16  | DiAxleSpeedR                              | 后轴速度                          |
-| 17  | DiTorquemotor                             | 电机扭矩                          |
-| 18  | DiStatorTempR                             | 后电机定子温度                    |
-| 19  | DiVBatR                                   | 后电机电池电压                    |
-| 20  | DiMotorCurrentR                           | 后电机电流                        |
-| 21  | Location                                  | GPS 位置（经纬度）                |
-| 22  | GpsState                                  | GPS 状态（是否可用）              |
-| 23  | GpsHeading                                | GPS 航向（角度）                  |
-| 24  | NumBrickVoltageMax                        | 电池模块最大电压个数              |
-| 25  | BrickVoltageMax                           | 最大电压值                        |
-| 26  | NumBrickVoltageMin                        | 电池模块最小电压个数              |
-| 27  | BrickVoltageMin                           | 最小电压值                        |
-| 28  | NumModuleTempMax                          | 模块最高温度个数                  |
-| 29  | ModuleTempMax                             | 模块最高温度值（℃）               |
-| 30  | NumModuleTempMin                          | 模块最低温度个数                  |
-| 31  | ModuleTempMin                             | 模块最低温度值（℃）               |
-| 32  | RatedRange                                | 额定续航里程（km 或 mi）          |
-| 33  | Hvil                                      | 高压互锁状态                      |
-| 34  | DCChargingEnergyIn                        | DC 充电输入能量（kWh）            |
-| 35  | DCChargingPower                           | DC 充电功率（kW）                 |
-| 36  | ACChargingEnergyIn                        | AC 充电输入能量（kWh）            |
-| 37  | ACChargingPower                           | AC 充电功率（kW）                 |
-| 38  | ChargeLimitSoc                            | 设定充电上限 SOC（%）             |
-| 39  | FastChargerPresent                        | 快充桩是否连接                    |
-| 40  | EstBatteryRange                           | 估计剩余续航（km 或 mi）          |
-| 41  | IdealBatteryRange                         | 理想续航（km 或 mi）              |
-| 42  | BatteryLevel                              | 电池电量百分比                    |
-| 43  | TimeToFullCharge                          | 充满电剩余时间（min）             |
-| 44  | ScheduledChargingStartTime                | 计划充电开始时间                  |
-| 45  | ScheduledChargingPending                  | 是否有待处理的计划充电            |
-| 46  | ScheduledDepartureTime                    | 计划出发时间                      |
-| 47  | PreconditioningEnabled                    | 预调温功能是否启用                |
-| 48  | ScheduledChargingMode                     | 计划充电模式                      |
-| 49  | ChargeAmps                                | 当前充电电流（A）                 |
-| 50  | ChargeEnableRequest                       | 充电请求状态                      |
-| 51  | ChargerPhases                             | 充电相数                          |
-| 52  | ChargePortColdWeatherMode                 | 充电口防寒模式                    |
-| 53  | ChargeCurrentRequest                      | 请求充电电流（A）                 |
-| 54  | ChargeCurrentRequestMax                   | 最大请求充电电流（A）             |
-| 55  | BatteryHeaterOn                           | 电池加热器状态                    |
-| 56  | NotEnoughPowerToHeat                      | 电量不足无法加热                  |
-| 57  | SuperchargerSessionTripPlanner            | 超级充电会话信息（路线规划）      |
-| 58  | DoorState                                 | 车门状态（开/关）                 |
-| 59  | Locked                                    | 车锁状态                          |
-| 60  | FdWindow                                  | 前左窗状态                        |
-| 61  | FpWindow                                  | 前右窗状态                        |
-| 62  | RdWindow                                  | 后左窗状态                        |
-| 63  | RpWindow                                  | 后右窗状态                        |
-| 64  | VehicleName                               | 车辆名称                          |
-| 65  | SentryMode                                | 哨兵模式状态                      |
-| 66  | SpeedLimitMode                            | 限速模式状态                      |
-| 67  | CurrentLimitMph                           | 当前限速值（mph）                 |
-| 68  | Version                                   | 软件版本号                        |
-| 69  | TpmsPressureFl                            | 前左轮胎压力                      |
-| 70  | TpmsPressureFr                            | 前右轮胎压力                      |
-| 71  | TpmsPressureRl                            | 后左轮胎压力                      |
-| 72  | TpmsPressureRr                            | 后右轮胎压力                      |
-| 73  | SemitruckTpmsPressureRe1L0                | Semi-truck 专2用轮胎压力          |
-| 74  | SemitruckTpmsPressureRe1L1                | Semi-truck 专用轮胎压力           |
-| 75  | SemitruckTpmsPressureRe1R0                | Semi-truck 专用轮胎压力           |
-| 76  | SemitruckTpmsPressureRe1R1                | Semi-truck 专用轮胎压力           |
-| 77  | SemitruckTpmsPressureRe2L0                | Semi-truck 专用轮胎压力           |
-| 78  | SemitruckTpmsPressureRe2L1                | Semi-truck 专用轮胎压力           |
-| 79  | SemitruckTpmsPressureRe2R0                | Semi-truck 专用轮胎压力           |
-| 80  | SemitruckTpmsPressureRe2R1                | Semi-truck 专用轮胎压力           |
-| 81  | TpmsLastSeenPressureTimeFl                | 前左轮胎最后读取时间              |
-| 82  | TpmsLastSeenPressureTimeFr                | 前右轮胎最后读取时间              |
-| 83  | TpmsLastSeenPressureTimeRl                | 后左轮胎最后读取时间              |
-| 84  | TpmsLastSeenPressureTimeRr                | 后右轮胎最后读取时间              |
-| 85  | InsideTemp                                | 车内温度（℃）                     |
-| 86  | OutsideTemp                               | 车外温度（℃）                     |
-| 87  | SeatHeaterLeft                            | 左前座加热状态                    |
-| 88  | SeatHeaterRight                           | 右前座加热状态                    |
-| 89  | SeatHeaterRearLeft                        | 左后座加热状态                    |
-| 90  | SeatHeaterRearRight                       | 右后座加热状态                    |
-| 91  | SeatHeaterRearCenter                      | 中后座加热状态                    |
-| 92  | AutoSeatClimateLeft                       | 左前座自动温控状态                |
-| 93  | AutoSeatClimateRight                      | 右前座自动温控状态                |
-| 94  | DriverSeatBelt                            | 驾驶员安全带状态                  |
-| 95  | PassengerSeatBelt                         | 副驾驶安全带状态                  |
-| 96  | DriverSeatOccupied                        | 驾驶员是否在座                    |
-| 97  | SemitruckPassengerSeatFoldPosition        | Semi-truck 专用乘客座椅折叠位置   |
-| 98  | LateralAcceleration                       | 横向加速度（m/s²）                |
-| 99  | LongitudinalAcceleration                  | 纵向加速度（m/s²）                |
-| 100 | Deprecated_2                              | 已废弃字段                        |
-| 101 | CruiseSetSpeed                            | 定速巡航速度                      |
-| 102 | LifetimeEnergyUsed                        | 累计消耗电能（kWh）               |
-| 103 | LifetimeEnergyUsedDrive                   | Semi-truck 专用累计驱动能量       |
-| 104 | SemitruckTractorParkBrakeStatus           | Semi-truck 拖车驻车制动状态       |
-| 105 | SemitruckTrailerParkBrakeStatus           | Semi-truck 拖挂车驻车制动状态     |
-| 106 | BrakePedalPos                             | 刹车踏板位置（%）                 |
-| 107 | RouteLastUpdated                          | 路线最后更新时间（固件 2024.26+） |
-| 108 | RouteLine                                 | 当前路线（固件 2024.26+）         |
-| 109 | MilesToArrival                            | 距到达里程（固件 2024.26+）       |
-| 110 | MinutesToArrival                          | 距到达时间（固件 2024.26+）       |
-| 111 | OriginLocation                            | 起点位置（固件 2024.26+）         |
-| 112 | DestinationLocation                       | 终点位置（固件 2024.26+）         |
-| 113 | CarType                                   | 车型                              |
-| 114 | Trim                                      | 车型配置                          |
-| 115 | ExteriorColor                             | 车身颜色                          |
-| 116 | RoofColor                                 | 车顶颜色                          |
-| 117 | ChargePort                                | 充电口状态                        |
-| 118 | ChargePortLatch                           | 充电口锁状态                      |
-| 119 | Experimental_1                            | 实验性字段                        |
-| 120 | Experimental_2                            | 实验性字段                        |
-| 121 | Experimental_3                            | 实验性字段                        |
-| 122 | Experimental_4                            | 实验性字段                        |
-| 123 | GuestModeEnabled                          | 客人模式是否启用                  |
-| 124 | PinToDriveEnabled                         | 驾驶 PIN 是否启用                 |
-| 125 | PairedPhoneKeyAndKeyFobQty                | 配对钥匙数量                      |
-| 126 | CruiseFollowDistance                      | 巡航跟车距离                      |
-| 127 | AutomaticBlindSpotCamera                  | 自动盲点摄像头状态                |
-| 128 | BlindSpotCollisionWarningChime            | 盲点碰撞提示声                    |
-| 129 | SpeedLimitWarning                         | 超速提醒                          |
-| 130 | ForwardCollisionWarning                   | 前向碰撞警告                      |
-| 131 | LaneDepartureAvoidance                    | 车道偏离辅助                      |
-| 132 | EmergencyLaneDepartureAvoidance           | 紧急车道偏离辅助                  |
-| 133 | AutomaticEmergencyBrakingOff              | 自动紧急制动关闭状态              |
-| 134 | LifetimeEnergyGainedRegen                 | 累计回收能量（kWh）               |
-| 135 | DiStateF                                  | 前电机状态                        |
-| 136 | DiStateREL                                | 左后电机状态                      |
-| 137 | DiStateRER                                | 右后电机状态                      |
-| 138 | DiHeatsinkTF                              | 前电机散热片温度                  |
-| 139 | DiHeatsinkTREL                            | 左后电机散热片温度                |
-| 140 | DiHeatsinkTRER                            | 右后电机散热片温度                |
-| 141 | DiAxleSpeedF                              | 前轴速度                          |
-| 142 | DiAxleSpeedREL                            | 左后轴速度                        |
-| 143 | DiAxleSpeedRER                            | 右后轴速度                        |
-| 144 | DiSlaveTorqueCmd                          | 电机扭矩指令                      |
-| 145 | DiTorqueActualR                           | 后电机实际扭矩                    |
-| 146 | DiTorqueActualF                           | 前电机实际扭矩                    |
-| 147 | DiTorqueActualREL                         | 左后电机实际扭矩                  |
-| 148 | DiTorqueActualRER                         | 右后电机实际扭矩                  |
-| 149 | DiStatorTempF                             | 前电机定子温度                    |
-| 150 | DiStatorTempREL                           | 左后电机定子温度                  |
-| 151 | DiStatorTempRER                           | 右后电机定子温度                  |
-| 152 | DiVBatF                                   | 前电机电池电压                    |
-| 153 | DiVBatREL                                 | 左后电机电池电压                  |
-| 154 | DiVBatRER                                 | 右后电机电池电压                  |
-| 155 | DiMotorCurrentF                           | 前电机电流                        |
-| 156 | DiMotorCurrentREL                         | 左后电机电流                      |
-| 157 | DiMotorCurrentRER                         | 右后电机电流                      |
-| 158 | EnergyRemaining                           | 剩余电量（kWh）                   |
-| 159 | ServiceMode                               | 维修模式状态                      |
-| 160 | BMSState                                  | 电池管理系统状态                  |
-| 161 | GuestModeMobileAccessState                | 客人模式移动端访问状态            |
-| 162 | Deprecated_1                              | 已废弃字段                        |
-| 163 | DestinationName                           | 目的地名称（固件 2024.26+）       |
-| 164 | DiInverterTR                              | 后电机逆变器状态                  |
-| 165 | DiInverterTF                              | 前电机逆变器状态                  |
-| 166 | DiInverterTREL                            | 左后电机逆变器状态                |
-| 167 | DiInverterTRER                            | 右后电机逆变器状态                |
-| 168 | Experimental_5                            | 实验性字段                        |
-| 169 | Experimental_6                            | 实验性字段                        |
-| 170 | Experimental_7                            | 实验性字段                        |
-| 171 | Experimental_8                            | 实验性字段                        |
-| 172 | Experimental_9                            | 实验性字段                        |
-| 173 | Experimental_10                           | 实验性字段                        |
-| 174 | Experimental_11                           | 实验性字段                        |
-| 175 | Experimental_12                           | 实验性字段                        |
-| 176 | Experimental_13                           | 实验性字段                        |
-| 177 | Experimental_14                           | 实验性字段                        |
-| 178 | Experimental_15                           | 实验性字段                        |
-| 179 | DetailedChargeState                       | 详细充电状态                      |
-| 180 | CabinOverheatProtectionMode               | 驾驶舱过热保护模式                |
-| 181 | CabinOverheatProtectionTemperatureLimit   | 驾驶舱过热保护温度限制            |
-| 182 | CenterDisplay                             | 中控显示状态                      |
-| 183 | ChargePortDoorOpen                        | 充电口门状态                      |
-| 184 | ChargerVoltage                            | 充电器电压                        |
-| 185 | ChargingCableType                         | 充电线类型                        |
-| 186 | ClimateKeeperMode                         | 空调保持模式                      |
-| 187 | DefrostForPreconditioning                 | 预调温化霜状态                    |
-| 188 | DefrostMode                               | 化霜模式                          |
-| 189 | EfficiencyPackage                         | 高效套件状态                      |
-| 190 | EstimatedHoursToChargeTermination         | 预计充电结束时间（小时）          |
-| 191 | EuropeVehicle                             | 欧洲车辆标识                      |
-| 192 | ExpectedEnergyPercentAtTripArrival        | 预计到达剩余电量百分比            |
-| 193 | FastChargerType                           | 快充桩类型                        |
-| 194 | HomelinkDeviceCount                       | Homelink 设备数量                 |
-| 195 | HomelinkNearby                            | Homelink 设备附近状态             |
-| 196 | HvacACEnabled                             | 空调开启状态                      |
-| 197 | HvacAutoMode                              | 空调自动模式                      |
-| 198 | HvacFanSpeed                              | 风扇速度                          |
-| 199 | HvacFanStatus                             | 风扇状态                          |
-| 200 | HvacLeftTemperatureRequest                | 左侧温度设定                      |
-| 201 | HvacPower                                 | 空调电源状态                      |
-| 202 | HvacRightTemperatureRequest               | 右侧温度设定                      |
-| 203 | HvacSteeringWheelHeatAuto                 | 方向盘加热自动模式                |
-| 204 | HvacSteeringWheelHeatLevel                | 方向盘加热等级                    |
-| 205 | OffroadLightbarPresent                    | 越野灯条存在状态                  |
-| 206 | PowershareHoursLeft                       | 能量共享剩余小时数                |
-| 207 | PowershareInstantaneousPowerKW            | 能量共享瞬时功率（kW）            |
-| 208 | PowershareStatus                          | 能量共享状态                      |
-| 209 | PowershareStopReason                      | 能量共享停止原因                  |
-| 210 | PowershareType                            | 能量共享类型                      |
-| 211 | RearDisplayHvacEnabled                    | 后排显示空调状态                  |
-| 212 | RearSeatHeaters                           | 后排座椅加热状态                  |
-| 213 | RemoteStartEnabled                        | 远程启动是否启用                  |
-| 214 | RightHandDrive                            | 是否右舵车辆                      |
-| 215 | RouteTrafficMinutesDelay                  | 路线交通延迟时间（分钟）          |
-| 216 | SoftwareUpdateDownloadPercentComplete     | 软件更新下载完成百分比            |
-| 217 | SoftwareUpdateExpectedDurationMinutes     | 软件更新预计持续时间（分钟）      |
-| 218 | SoftwareUpdateInstallationPercentComplete | 软件更新安装完成百分比            |
-| 219 | SoftwareUpdateScheduledStartTime          | 软件更新计划开始时间              |
-| 220 | SoftwareUpdateVersion                     | 软件更新版本                      |
-| 221 | TonneauOpenPercent                        | 货厢盖打开百分比                  |
-| 222 | TonneauPosition                           | 货厢盖位置                        |
-| 223 | TonneauTentMode                           | 货厢盖帐篷模式                    |
-| 224 | TpmsHardWarnings                          | 胎压监测硬警告                    |
-| 225 | TpmsSoftWarnings                          | 胎压监测软警告                    |
-| 226 | ValetModeEnabled                          | 代客模式启用状态                  |
-| 227 | WheelType                                 | 轮毂类型                          |
-| 228 | WiperHeatEnabled                          | 雨刷加热状态                      |
-| 229 | LocatedAtHome                             | 车辆位于“家”                      |
-| 230 | LocatedAtWork                             | 车辆位于“工作”                    |
-| 231 | LocatedAtFavorite                         | 车辆位于“收藏地点”                |
-| 232 | SettingDistanceUnit                       | 距离单位设置（km/mi）             |
-| 233 | SettingTemperatureUnit                    | 温度单位设置（℃/℉）               |
-| 234 | Setting24HourTime                         | 24小时制设置                      |
-| 235 | SettingTirePressureUnit                   | 胎压单位设置（psi/bar）           |
-| 236 | SettingChargeUnit                         | 充电单位设置（kWh/mi）            |
-| 237 | ClimateSeatCoolingFrontLeft               | 左前座座椅通风状态                |
-| 238 | ClimateSeatCoolingFrontRight              | 右前座座椅通风状态                |
-| 239 | LightsHazardsActive                       | 危险灯状态                        |
-| 240 | LightsTurnSignal                          | 转向灯状态                        |
-| 241 | LightsHighBeams                           | 远光灯状态                        |
-| 242 | MediaPlaybackStatus                       | 媒体播放状态                      |
-| 243 | MediaPlaybackSource                       | 媒体播放来源                      |
-| 244 | MediaAudioVolume                          | 媒体音量                          |
-| 245 | MediaNowPlayingDuration                   | 当前播放总时长（秒）              |
-| 246 | MediaNowPlayingElapsed                    | 当前播放已过时间（秒）            |
-| 247 | MediaNowPlayingArtist                     | 当前播放艺术家                    |
-| 248 | MediaNowPlayingTitle                      | 当前播放曲目                      |
-| 249 | MediaNowPlayingAlbum                      | 当前播放专辑                      |
-| 250 | MediaNowPlayingStation                    | 当前播放电台                      |
-| 251 | MediaAudioVolumeIncrement                 | 音量增量                          |
-| 252 | MediaAudioVolumeMax                       | 音量最大值                        |
-| 253 | SunroofInstalled                          | 天窗安装状态                      |
-| 254 | SeatVentEnabled                           | 座椅通风状态                      |
-| 255 | RearDefrostEnabled                        | 后窗除霜状态                      |
-| 256 | ChargeRateMilePerHour                     | 充电速度（mi/h）                  |
-| 257 | Deprecated_3                              | 已废弃字段                        |
+  | Field | Description | interval_seconds | minimum_delta | resend_interval_seconds |
+  | ----------------------------------------- | ----------------------------------- | ---------------- | ------------- | ----------------------- |
+  | VehicleSpeed | 车辆速度 (km/h 或 mph) | 1 | 0.01 | - |
+  | PedalPosition | 加速踏板位置百分比 (%) | 1 | 0.1 | - |
+  | Gear | 当前档位 (P/N/D/R) | 2 | - | - |
+  | BrakePedal | 刹车踏板按下状态 | 2 | - | - |
+  | BrakePedalPos | 刹车踏板位置百分比 (%) | 2 | 0.001 | - |
+  | DiTorquemotor | 电机扭矩输出 (Nm) | 2 | 1 | - |
+  | Location | GPS当前位置 (经纬度) | 5 | 0.00002 | 60 |
+  | GpsHeading | GPS航向角度 (度) | 5 | 0.0001 | - |
+  | Locked | 车辆锁闭状态 | 5 | - | - |
+  | DoorState | 车门打开/关闭状态 | 5 | - | - |
+  | LightsTurnSignal | 转向灯信号状态 | 10 | - | - |
+  | LightsHighBeams | 远光灯开启状态 | 10 | - | - |
+  | LightsHazardsActive | 危险警示灯激活状态 | 10 | - | - |
+  | ChargeState | 充电状态 (充电中/未充电/完成等) | 10 | - | - |
+  | DCChargingPower | DC充电功率 (kW) | 5 | 0.1 | - |
+  | ACChargingPower | AC充电功率 (kW) | 5 | 1 | - |
+  | ChargeAmps | 当前充电电流 (A) | 10 | 1 | - |
+  | ChargeRateMilePerHour | 充电速率 (mi/h) | 10 | 0.1 | - |
+  | ChargerVoltage | 充电器电压 (V) | 10 | 0.2 | - |
+  | ChargerPhases | 充电相数 | 30 | - | - |
+  | FastChargerPresent | 快速充电器连接状态 | 30 | - | - |
+  | FastChargerType | 快速充电器类型 | 60 | - | - |
+  | ChargingCableType | 充电电缆类型 | 300 | - | - |
+  | ChargePort | 充电端口状态 | 60 | - | - |
+  | ChargePortDoorOpen | 充电端口门打开状态 | 60 | - | - |
+  | ChargePortLatch | 充电端口锁扣状态 | 60 | - | - |
+  | DetailedChargeState | 详细充电状态信息 | 60 | - | - |
+  | ChargeEnableRequest | 充电启用请求状态 | 60 | - | - |
+  | ChargeCurrentRequest | 请求充电电流 (A) | 60 | - | - |
+  | ChargeCurrentRequestMax | 最大请求充电电流 (A) | 60 | - | - |
+  | ChargeLimitSoc | 充电上限SOC百分比 (%) | 300 | 1 | - |
+  | TimeToFullCharge | 充满电预计剩余时间 (min) | 60 | 0.01 | - |
+  | EstimatedHoursToChargeTermination | 预计充电完成剩余小时数 | 60 | 0.01 | - |
+  | Soc | 电池荷电状态 (SOC，%) | 30 | 0.1 | - |
+  | BatteryLevel | 电池电量百分比 (%) | 30 | 0.1 | - |
+  | EnergyRemaining | 剩余电池能量 (kWh) | 30 | 0.1 | - |
+  | PackVoltage | 电池组电压 (V) | 30 | 0.5 | - |
+  | PackCurrent | 电池组电流 (A) | 30 | 0.1 | - |
+  | BMSState | 电池管理系统当前状态 | 60 | - | - |
+  | BmsFullchargecomplete | 电池管理系统充满电完成状态 | 300 | - | - |
+  | DCDCEnable | DC-DC转换器启用状态 | 300 | - | - |
+  | BatteryHeaterOn | 电池加热器启用状态 | 60 | - | - |
+  | NotEnoughPowerToHeat | 电量不足以加热警告状态 | 300 | - | - |
+  | IsolationResistance | 电池隔离电阻 (Ω) | 300 | 1 | 3600 |
+  | BrickVoltageMax | 电池砖块最大电压值 (V) | 300 | 0.01 | - |
+  | BrickVoltageMin | 电池砖块最小电压值 (V) | 300 | 0.01 | - |
+  | NumBrickVoltageMax | 达到最大电压的电池砖块数量 | 300 | 1 | - |
+  | NumBrickVoltageMin | 达到最小电压的电池砖块数量 | 300 | 1 | - |
+  | ModuleTempMax | 电池模块最高温度 (℃) | 60 | 1 | - |
+  | ModuleTempMin | 电池模块最低温度 (℃) | 60 | 1 | - |
+  | NumModuleTempMax | 达到最高温度的电池模块数量 | 300 | 1 | - |
+  | NumModuleTempMin | 达到最低温度的电池模块数量 | 300 | 1 | - |
+  | DiStateF | 前电机运行状态 | 60 | - | - |
+  | DiStateR | 后电机运行状态 | 60 | - | - |
+  | DiStateREL | 左后电机运行状态 | 60 | - | - |
+  | DiStateRER | 右后电机运行状态 | 60 | - | - |
+  | DiAxleSpeedF | 前轴转速 (RPM) | 10 | 0.01 | - |
+  | DiAxleSpeedR | 后轴转速 (RPM) | 10 | 0.01 | - |
+  | DiAxleSpeedREL | 左后轴转速 (RPM) | 60 | 0.01 | - |
+  | DiAxleSpeedRER | 右后轴转速 (RPM) | 60 | 0.01 | - |
+  | DiTorqueActualF | 前电机实际扭矩 (Nm) | 5 | 1 | - |
+  | DiTorqueActualR | 后电机实际扭矩 (Nm) | 5 | 1 | - |
+  | DiTorqueActualREL | 左后电机实际扭矩 (Nm) | 5 | 1 | - |
+  | DiTorqueActualRER | 右后电机实际扭矩 (Nm) | 5 | 1 | - |
+  | DiSlaveTorqueCmd | 从电机扭矩指令 (Nm) | 5 | 1 | - |
+  | DiMotorCurrentF | 前电机电流 (A) | 30 | 1 | - |
+  | DiMotorCurrentR | 后电机电流 (A) | 30 | 1 | - |
+  | DiMotorCurrentREL | 左后电机电流 (A) | 30 | 1 | - |
+  | DiMotorCurrentRER | 右后电机电流 (A) | 30 | 1 | - |
+  | DiVBatF | 前电机电池电压 (V) | 30 | 0.1 | - |
+  | DiVBatR | 后电机电池电压 (V) | 30 | 1 | - |
+  | DiVBatREL | 左后电机电池电压 (V) | 30 | 0.1 | - |
+  | DiVBatRER | 右后电机电池电压 (V) | 30 | 0.1 | - |
+  | DiStatorTempF | 前电机定子温度 (℃) | 60 | 1 | - |
+  | DiStatorTempR | 后电机定子温度 (℃) | 60 | 1 | - |
+  | DiStatorTempREL | 左后电机定子温度 (℃) | 60 | 1 | - |
+  | DiStatorTempRER | 右后电机定子温度 (℃) | 60 | 1 | - |
+  | DiHeatsinkTF | 前电机散热片温度 (℃) | 60 | 1 | - |
+  | DiHeatsinkTR | 后电机散热片温度 (℃) | 60 | 1 | - |
+  | DiHeatsinkTREL | 左后电机散热片温度 (℃) | 60 | 1 | - |
+  | DiHeatsinkTRER | 右后电机散热片温度 (℃) | 60 | 1 | - |
+  | DiInverterTF | 前电机逆变器温度 (℃) | 60 | 1 | - |
+  | DiInverterTR | 后电机逆变器温度 (℃) | 60 | 1 | - |
+  | DiInverterTREL | 左后电机逆变器温度 (℃) | 60 | 1 | - |
+  | DiInverterTRER | 右后电机逆变器温度 (℃) | 60 | 1 | - |
+  | DriveRail | 驱动总线系统状态 | 300 | - | - |
+  | Odometer | 车辆总里程 (km/mi) | 300 | 0.1 | - |
+  | RatedRange | 额定续航里程 (km/mi) | 300 | 0.1 | - |
+  | EstBatteryRange | 估计电池续航里程 (km/mi) | 300 | 0.1 | - |
+  | IdealBatteryRange | 理想电池续航里程 (km/mi) | 300 | 0.1 | - |
+  | DCChargingEnergyIn | DC充电输入能量 (kWh) | 60 | 0.1 | - |
+  | ACChargingEnergyIn | AC充电输入能量 (kWh) | 60 | 0.1 | - |
+  | LifetimeEnergyUsed | 累计能量消耗 (kWh) | 300 | 0.1 | - |
+  | LifetimeEnergyGainedRegen | 累计再生制动能量回收 (kWh) | 3600 | 0.1 | - |
+  | InsideTemp | 车内温度 (℃) | 60 | 0.5 | - |
+  | OutsideTemp | 车外温度 (℃) | 60 | 0.5 | - |
+  | HvacACEnabled | 空调压缩机启用状态 | 60 | - | - |
+  | HvacAutoMode | HVAC自动模式状态 | 60 | - | - |
+  | HvacFanSpeed | HVAC风扇速度设置 | 60 | - | - |
+  | HvacFanStatus | HVAC风扇运行状态 | 60 | - | - |
+  | HvacLeftTemperatureRequest | 左侧HVAC温度设定 (℃) | 60 | 0.5 | - |
+  | HvacRightTemperatureRequest | 右侧HVAC温度设定 (℃) | 60 | 0.5 | - |
+  | HvacPower | HVAC电源消耗状态 | 60 | - | - |
+  | HvacSteeringWheelHeatAuto | 方向盘加热自动模式 | 60 | - | - |
+  | HvacSteeringWheelHeatLevel | 方向盘加热等级 | 60 | 1 | - |
+  | SeatHeaterLeft | 左前座椅加热等级 | 60 | 1 | - |
+  | SeatHeaterRight | 右前座椅加热等级 | 60 | 1 | - |
+  | SeatHeaterRearLeft | 左后座椅加热等级 | 60 | 1 | - |
+  | SeatHeaterRearRight | 右后座椅加热等级 | 60 | 1 | - |
+  | SeatHeaterRearCenter | 中后座椅加热等级 | 60 | 1 | - |
+  | AutoSeatClimateLeft | 左前座自动气候控制状态 | 60 | - | - |
+  | AutoSeatClimateRight | 右前座自动气候控制状态 | 60 | - | - |
+  | ClimateSeatCoolingFrontLeft | 左前座椅冷却状态 | 120 | - | - |
+  | ClimateSeatCoolingFrontRight | 右前座椅冷却状态 | 120 | - | - |
+  | RearSeatHeaters | 后排座椅加热状态 | 300 | - | - |
+  | RearDisplayHvacEnabled | 后排显示屏HVAC控制启用状态 | 300 | - | - |
+  | DefrostMode | 除霜模式状态 | 300 | - | - |
+  | DefrostForPreconditioning | 预调节化霜状态 | 300 | - | - |
+  | RearDefrostEnabled | 后窗除霜启用状态 | 300 | - | - |
+  | ClimateKeeperMode | 气候保持模式 | 300 | - | - |
+  | CabinOverheatProtectionMode | 驾驶舱过热保护模式 | 300 | - | - |
+  | CabinOverheatProtectionTemperatureLimit | 驾驶舱过热保护温度上限 (℃) | 300 | 1 | - |
+  | EfficiencyPackage | 高效驾驶套件启用状态 | 300 | - | - |
+  | WiperHeatEnabled | 雨刷加热启用状态 | 300 | - | - |
+  | DriverSeatBelt | 驾驶员安全带扣紧状态 | 60 | - | - |
+  | PassengerSeatBelt | 副驾驶安全带扣紧状态 | 60 | - | - |
+  | DriverSeatOccupied | 驾驶员座位占用状态 | 60 | - | - |
+  | LateralAcceleration | 横向加速度 (m/s²) | 60 | 0.01 | - |
+  | LongitudinalAcceleration | 纵向加速度 (m/s²) | 60 | 0.01 | - |
+  | CruiseSetSpeed | 定速巡航设定速度 (km/h) | 30 | 1 | - |
+  | CruiseFollowDistance | 自适应巡航跟车距离设置 | 3600 | - | - |
+  | SpeedLimitMode | 限速模式启用状态 | 3600 | - | - |
+  | CurrentLimitMph | 当前限速值 (mph) | 60 | 1 | - |
+  | SpeedLimitWarning | 超速警告设置 | 3600 | - | - |
+  | ForwardCollisionWarning | 前向碰撞警告系统状态 | 3600 | - | - |
+  | AutomaticEmergencyBrakingOff | 自动紧急制动关闭状态 | 3600 | - | - |
+  | LaneDepartureAvoidance | 车道偏离避免系统状态 | 3600 | - | - |
+  | EmergencyLaneDepartureAvoidance | 紧急车道偏离避免系统状态 | 3600 | - | - |
+  | BlindSpotCollisionWarningChime | 盲点碰撞警告蜂鸣器状态 | 3600 | - | - |
+  | AutomaticBlindSpotCamera | 自动盲点摄像头启用状态 | 3600 | - | - |
+  | GpsState | GPS信号可用状态 | 3600 | - | - |
+  | TpmsPressureFl | 前左轮胎气压 (psi/bar) | 300 | 0.01 | - |
+  | TpmsPressureFr | 前右轮胎气压 (psi/bar) | 300 | 0.01 | - |
+  | TpmsPressureRl | 后左轮胎气压 (psi/bar) | 300 | 0.01 | - |
+  | TpmsPressureRr | 后右轮胎气压 (psi/bar) | 300 | 0.01 | - |
+  | TpmsHardWarnings | 胎压监测硬警告信息 | 300 | - | - |
+  | TpmsSoftWarnings | 胎压监测软警告信息 | 300 | - | - |
+  | TpmsLastSeenPressureTimeFl | 前左胎压最后读取时间 | 300 | - | - |
+  | TpmsLastSeenPressureTimeFr | 前右胎压最后读取时间 | 300 | - | - |
+  | TpmsLastSeenPressureTimeRl | 后左胎压最后读取时间 | 300 | - | - |
+  | TpmsLastSeenPressureTimeRr | 后右胎压最后读取时间 | 300 | - | - |
+  | FdWindow | 前左车窗位置状态 | 60 | - | - |
+  | FpWindow | 前右车窗位置状态 | 60 | - | - |
+  | RdWindow | 后左车窗位置状态 | 60 | - | - |
+  | RpWindow | 后右车窗位置状态 | 60 | - | - |
+  | SunroofInstalled | 天窗安装状态 | 300 | - | - |
+  | TonneauPosition | 货厢盖位置状态 | 300 | - | - |
+  | TonneauOpenPercent | 货厢盖打开百分比 (%) | 300 | 1 | - |
+  | TonneauTentMode | 货厢盖帐篷模式状态 | 300 | - | - |
+  | OffroadLightbarPresent | 越野灯条安装状态 | 3600 | - | - |
+  | CenterDisplay | 中控显示屏状态 | 60 | - | - |
+  | MediaPlaybackStatus | 媒体播放状态 | 120 | - | - |
+  | MediaPlaybackSource | 媒体播放来源 | 120 | - | - |
+  | MediaNowPlayingTitle | 当前播放曲目标题 | 300 | - | - |
+  | MediaNowPlayingArtist | 当前播放艺术家名称 | 300 | - | - |
+  | MediaNowPlayingAlbum | 当前播放专辑名称 | 300 | - | - |
+  | MediaNowPlayingStation | 当前播放电台名称 | 300 | - | - |
+  | MediaNowPlayingDuration | 当前播放总时长 (秒) | 300 | - | - |
+  | MediaNowPlayingElapsed | 当前播放已过时间 (秒) | 300 | - | - |
+  | MediaAudioVolume | 媒体音频音量水平 | 300 | 1 | - |
+  | MediaAudioVolumeMax | 媒体音频最大音量 | 300 | - | - |
+  | MediaAudioVolumeIncrement | 媒体音频音量增量步长 | 300 | - | - |
+  | SeatVentEnabled | 座椅通风启用状态 | 300 | - | - |
+  | RemoteStartEnabled | 远程启动功能启用状态 | 300 | - | - |
+  | ServiceMode | 服务/维修模式状态 | 3600 | - | - |
+  | SentryMode | 哨兵模式启用状态 | 300 | - | - |
+  | ValetModeEnabled | 代客泊车模式启用状态 | 300 | - | - |
+  | GuestModeEnabled | 访客模式启用状态 | 300 | - | - |
+  | GuestModeMobileAccessState | 访客模式移动访问权限状态 | 60 | - | - |
+  | PinToDriveEnabled | PIN to Drive安全功能启用状态 | 300 | - | - |
+  | PairedPhoneKeyAndKeyFobQty | 配对手机钥匙和钥匙扣数量 | 3600 | - | - |
+  | HomelinkDeviceCount | HomeLink设备配对数量 | 3600 | - | - |
+  | HomelinkNearby | 附近HomeLink设备检测状态 | 3600 | - | - |
+  | PowershareStatus | PowerShare功能状态 | 300 | - | - |
+  | PowershareType | PowerShare类型 | 300 | - | - |
+  | PowershareHoursLeft | PowerShare剩余可用小时数 | 300 | - | - |
+  | PowershareInstantaneousPowerKW | PowerShare瞬时功率 (kW) | 300 | 0.1 | - |
+  | PowershareStopReason | PowerShare停止原因 | 300 | - | - |
+  | SettingDistanceUnit | 距离单位设置 (km/mi) | 3600 | - | - |
+  | SettingTemperatureUnit | 温度单位设置 (℃/℉) | 3600 | - | - |
+  | Setting24HourTime | 24小时制时间显示设置 | 3600 | - | - |
+  | SettingTirePressureUnit | 胎压单位设置 (psi/bar) | 3600 | - | - |
+  | SettingChargeUnit | 充电单位设置 (kWh/mi) | 3600 | - | - |
+  | RightHandDrive | 右舵驾驶车辆标识 | 3600 | - | - |
+  | EuropeVehicle | 欧洲规格车辆标识 | 3600 | - | - |
+  | WheelType | 轮毂类型 | 3600 | - | - |
+  | CarType | 车辆车型类型 | 3600 | - | - |
+  | Trim | 车辆配置等级 | 3600 | - | - |
+  | ExteriorColor | 车身外部颜色 | 3600 | - | - |
+  | RoofColor | 车顶颜色 | 3600 | - | - |
+  | VehicleName | 车辆自定义名称 | 3600 | - | - |
+  | Version | 软件版本号 | 3600 | - | - |
+  | SoftwareUpdateVersion | 软件更新版本号 | 300 | - | - |
+  | SoftwareUpdateDownloadPercentComplete | 软件更新下载完成百分比 (%) | 300 | 1 | - |
+  | SoftwareUpdateInstallationPercentComplete | 软件更新安装完成百分比 (%) | 300 | 1 | - |
+  | SoftwareUpdateExpectedDurationMinutes | 软件更新预计持续时间 (分钟) | 300 | - | - |
+  | SoftwareUpdateScheduledStartTime | 软件更新计划开始时间 | 300 | - | - |
+  | SuperchargerSessionTripPlanner | 超级充电会话行程规划信息 | 3600 | - | - |
+  | RouteLastUpdated | 导航路线最后更新时间 (固件2024.26+) | 300 | - | - |
+  | RouteLine | 当前导航路线数据 (固件2024.26+) | 300 | - | - |
+  | MilesToArrival | 导航剩余里程 (mi，固件2024.26+) | 300 | 0.1 | - |
+  | MinutesToArrival | 导航剩余时间 (min，固件2024.26+) | 300 | 1 | - |
+  | ExpectedEnergyPercentAtTripArrival | 预计行程结束时剩余电量百分比 (%) | 300 | 1 | - |
+  | RouteTrafficMinutesDelay | 导航路线交通延迟 (分钟) | 300 | 1 | - |
+  | OriginLocation | 导航起点位置 (经纬度，固件2024.26+) | 300 | 0.00001 | - |
+  | DestinationLocation | 导航终点位置 (经纬度，固件2024.26+) | 300 | 0.00001 | - |
+  | DestinationName | 导航目的地名称 (固件2024.26+) | 60 | - | - |
+  | LocatedAtHome | 车辆位于家位置状态 | 300 | - | - |
+  | LocatedAtWork | 车辆位于工作位置状态 | 300 | - | - |
+  | LocatedAtFavorite | 车辆位于收藏位置状态 | 300 | - | - |
+  | Deprecated_2 | 已废弃字段 (请忽略) | 3600 | - | - |
+  | Deprecated_3 | 已废弃字段 (请忽略) | 3600 | - | - |
 
 - 下发的配置 JSON
 
@@ -287,739 +250,997 @@ type: "post"
     "prefer_typed": true,
     "port": 12345,
     "alert_types": ["service", "customer", "service-fix"],
+    "ca": "{{ca}}",
+    "hostname": "{{hostname}}",
+    "vins": ["{{vin}}"],
     "fields": {
-      "DriveRail": {
-        "interval_seconds": 600
-      },
-      "ChargeState": {
-        "interval_seconds": 600
-      },
-      "BmsFullchargecomplete": {
-        "interval_seconds": 600
-      },
       "VehicleSpeed": {
-        "interval_seconds": 5,
-        "minimum_delta": 0.01
-      },
-      "Odometer": {
-        "interval_seconds": 600,
-        "minimum_delta": 0.1
-      },
-      "PackVoltage": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.5
-      },
-      "PackCurrent": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "Soc": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "DCDCEnable": {
-        "interval_seconds": 600
-      },
-      "Gear": {
-        "interval_seconds": 5
-      },
-      "IsolationResistance": {
-        "interval_seconds": 600,
-        "minimum_delta": 1,
-        "resend_interval_seconds": 3600
+        "interval_seconds": 1,
+        "minimum_delta": 0.01,
+        "description": "车辆速度 (km/h 或 mph)"
       },
       "PedalPosition": {
-        "interval_seconds": 5,
-        "minimum_delta": 0.1
+        "interval_seconds": 1,
+        "minimum_delta": 0.1,
+        "description": "加速踏板位置百分比 (%)"
+      },
+      "Gear": {
+        "interval_seconds": 2,
+        "description": "当前档位 (P/N/D/R)"
       },
       "BrakePedal": {
-        "interval_seconds": 5
+        "interval_seconds": 2,
+        "description": "刹车踏板按下状态"
       },
-      "DiStateR": {
-        "interval_seconds": 60
-      },
-      "DiAxleSpeedR": {
-        "interval_seconds": 10,
-        "minimum_delta": 0.01
+      "BrakePedalPos": {
+        "interval_seconds": 2,
+        "minimum_delta": 0.001,
+        "description": "刹车踏板位置百分比 (%)"
       },
       "DiTorquemotor": {
-        "interval_seconds": 5,
-        "minimum_delta": 1
-      },
-      "DiStatorTempR": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiVBatR": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiMotorCurrentR": {
-        "interval_seconds": 300,
-        "minimum_delta": 1
+        "interval_seconds": 2,
+        "minimum_delta": 1,
+        "description": "电机扭矩输出 (Nm)"
       },
       "Location": {
-        "interval_seconds": 10,
+        "interval_seconds": 5,
         "minimum_delta": 0.00002,
-        "resend_interval_seconds": 300
-      },
-      "GpsState": {
-        "interval_seconds": 3600
+        "resend_interval_seconds": 60,
+        "description": "GPS当前位置 (经纬度)"
       },
       "GpsHeading": {
+        "interval_seconds": 5,
+        "minimum_delta": 0.0001,
+        "description": "GPS航向角度 (度)"
+      },
+      "Locked": {
+        "interval_seconds": 5,
+        "description": "车辆锁闭状态"
+      },
+      "DoorState": {
+        "interval_seconds": 5,
+        "description": "车门打开/关闭状态"
+      },
+      "LightsTurnSignal": {
         "interval_seconds": 10,
-        "minimum_delta": 0.0001
+        "description": "转向灯信号状态"
       },
-      "NumBrickVoltageMax": {
-        "interval_seconds": 3600
+      "LightsHighBeams": {
+        "interval_seconds": 10,
+        "description": "远光灯开启状态"
       },
-      "BrickVoltageMax": {
-        "interval_seconds": 3600,
-        "minimum_delta": 0.01
+      "LightsHazardsActive": {
+        "interval_seconds": 10,
+        "description": "危险警示灯激活状态"
       },
-      "NumBrickVoltageMin": {
-        "interval_seconds": 300,
-        "minimum_delta": 1
-      },
-      "BrickVoltageMin": {
-        "interval_seconds": 3600,
-        "minimum_delta": 0.01
-      },
-      "NumModuleTempMax": {
-        "interval_seconds": 3600,
-        "minimum_delta": 1
-      },
-      "ModuleTempMax": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "NumModuleTempMin": {
-        "interval_seconds": 300,
-        "minimum_delta": 1
-      },
-      "ModuleTempMin": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "RatedRange": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "DCChargingEnergyIn": {
-        "interval_seconds": 60
+      "ChargeState": {
+        "interval_seconds": 10,
+        "description": "充电状态 (充电中/未充电/完成等)"
       },
       "DCChargingPower": {
         "interval_seconds": 5,
-        "minimum_delta": 0.1
-      },
-      "ACChargingEnergyIn": {
-        "interval_seconds": 5,
-        "minimum_delta": 0.1
+        "minimum_delta": 0.1,
+        "description": "DC充电功率 (kW)"
       },
       "ACChargingPower": {
         "interval_seconds": 5,
-        "minimum_delta": 1
-      },
-      "ChargeLimitSoc": {
-        "interval_seconds": 3600,
-        "minimum_delta": 1
-      },
-      "FastChargerPresent": {
-        "interval_seconds": 60
-      },
-      "EstBatteryRange": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "IdealBatteryRange": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "BatteryLevel": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "TimeToFullCharge": {
-        "interval_seconds": 60,
-        "minimum_delta": 0.01
+        "minimum_delta": 1,
+        "description": "AC充电功率 (kW)"
       },
       "ChargeAmps": {
         "interval_seconds": 10,
-        "minimum_delta": 1
-      },
-      "ChargeEnableRequest": {
-        "interval_seconds": 300
-      },
-      "ChargerPhases": {
-        "interval_seconds": 300
-      },
-      "ChargeCurrentRequest": {
-        "interval_seconds": 300
-      },
-      "ChargeCurrentRequestMax": {
-        "interval_seconds": 300
-      },
-      "BatteryHeaterOn": {
-        "interval_seconds": 60
-      },
-      "NotEnoughPowerToHeat": {
-        "interval_seconds": 3600
-      },
-      "SuperchargerSessionTripPlanner": {
-        "interval_seconds": 3600
-      },
-      "DoorState": {
-        "interval_seconds": 10
-      },
-      "Locked": {
-        "interval_seconds": 10
-      },
-      "FdWindow": {
-        "interval_seconds": 60
-      },
-      "FpWindow": {
-        "interval_seconds": 60
-      },
-      "RdWindow": {
-        "interval_seconds": 60
-      },
-      "RpWindow": {
-        "interval_seconds": 60
-      },
-      "VehicleName": {
-        "interval_seconds": 3600
-      },
-      "SentryMode": {
-        "interval_seconds": 300
-      },
-      "SpeedLimitMode": {
-        "interval_seconds": 3600
-      },
-      "CurrentLimitMph": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "Version": {
-        "interval_seconds": 3600
-      },
-      "TpmsPressureFl": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.01
-      },
-      "TpmsPressureFr": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.01
-      },
-      "TpmsPressureRl": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.01
-      },
-      "TpmsPressureRr": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.01
-      },
-      "TpmsLastSeenPressureTimeFl": {
-        "interval_seconds": 300
-      },
-      "TpmsLastSeenPressureTimeFr": {
-        "interval_seconds": 300
-      },
-      "TpmsLastSeenPressureTimeRl": {
-        "interval_seconds": 300
-      },
-      "TpmsLastSeenPressureTimeRr": {
-        "interval_seconds": 300
-      },
-      "InsideTemp": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.5
-      },
-      "OutsideTemp": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.5
-      },
-      "SeatHeaterLeft": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "SeatHeaterRight": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "SeatHeaterRearLeft": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "SeatHeaterRearRight": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "SeatHeaterRearCenter": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "AutoSeatClimateLeft": {
-        "interval_seconds": 60
-      },
-      "AutoSeatClimateRight": {
-        "interval_seconds": 60
-      },
-      "DriverSeatBelt": {
-        "interval_seconds": 60
-      },
-      "PassengerSeatBelt": {
-        "interval_seconds": 60
-      },
-      "DriverSeatOccupied": {
-        "interval_seconds": 60
-      },
-      "LateralAcceleration": {
-        "interval_seconds": 60,
-        "minimum_delta": 0.01
-      },
-      "LongitudinalAcceleration": {
-        "interval_seconds": 60,
-        "minimum_delta": 0.01
-      },
-      "Deprecated_2": {
-        "interval_seconds": 60
-      },
-      "CruiseSetSpeed": {
-        "interval_seconds": 30,
-        "minimum_delta": 1
-      },
-      "LifetimeEnergyUsed": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.1
-      },
-      "BrakePedalPos": {
-        "interval_seconds": 5,
-        "minimum_delta": 0.001
-      },
-      "RouteLastUpdated": {
-        "interval_seconds": 300
-      },
-      "RouteLine": {
-        "interval_seconds": 300
-      },
-      "MilesToArrival": {
-        "interval_seconds": 300
-      },
-      "MinutesToArrival": {
-        "interval_seconds": 300
-      },
-      "OriginLocation": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.00001
-      },
-      "DestinationLocation": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.00001
-      },
-      "CarType": {
-        "interval_seconds": 3600
-      },
-      "Trim": {
-        "interval_seconds": 3600
-      },
-      "ExteriorColor": {
-        "interval_seconds": 3600
-      },
-      "RoofColor": {
-        "interval_seconds": 3600
-      },
-      "ChargePort": {
-        "interval_seconds": 3600
-      },
-      "ChargePortLatch": {
-        "interval_seconds": 60
-      },
-      "GuestModeEnabled": {
-        "interval_seconds": 300
-      },
-      "PinToDriveEnabled": {
-        "interval_seconds": 300
-      },
-      "PairedPhoneKeyAndKeyFobQty": {
-        "interval_seconds": 3600
-      },
-      "CruiseFollowDistance": {
-        "interval_seconds": 3600
-      },
-      "AutomaticBlindSpotCamera": {
-        "interval_seconds": 3600
-      },
-      "BlindSpotCollisionWarningChime": {
-        "interval_seconds": 3600
-      },
-      "SpeedLimitWarning": {
-        "interval_seconds": 3600
-      },
-      "ForwardCollisionWarning": {
-        "interval_seconds": 3600
-      },
-      "LaneDepartureAvoidance": {
-        "interval_seconds": 3600
-      },
-      "EmergencyLaneDepartureAvoidance": {
-        "interval_seconds": 3600
-      },
-      "AutomaticEmergencyBrakingOff": {
-        "interval_seconds": 3600
-      },
-      "LifetimeEnergyGainedRegen": {
-        "interval_seconds": 3600
-      },
-      "DiStateF": {
-        "interval_seconds": 300
-      },
-      "DiStateREL": {
-        "interval_seconds": 300
-      },
-      "DiStateRER": {
-        "interval_seconds": 300
-      },
-      "DiHeatsinkTF": {
-        "interval_seconds": 300
-      },
-      "DiHeatsinkTREL": {
-        "interval_seconds": 300
-      },
-      "DiHeatsinkTRER": {
-        "interval_seconds": 300
-      },
-      "DiAxleSpeedF": {
-        "interval_seconds": 300
-      },
-      "DiAxleSpeedREL": {
-        "interval_seconds": 300
-      },
-      "DiAxleSpeedRER": {
-        "interval_seconds": 300
-      },
-      "DiSlaveTorqueCmd": {
-        "interval_seconds": 300
-      },
-      "DiTorqueActualR": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiTorqueActualF": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiTorqueActualREL": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiTorqueActualRER": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiStatorTempF": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiStatorTempREL": {
-        "interval_seconds": 60
-      },
-      "DiStatorTempRER": {
-        "interval_seconds": 60
-      },
-      "DiVBatF": {
-        "interval_seconds": 60
-      },
-      "DiVBatREL": {
-        "interval_seconds": 60
-      },
-      "DiVBatRER": {
-        "interval_seconds": 60
-      },
-      "DiMotorCurrentF": {
-        "interval_seconds": 60
-      },
-      "DiMotorCurrentREL": {
-        "interval_seconds": 60
-      },
-      "DiMotorCurrentRER": {
-        "interval_seconds": 60
-      },
-      "EnergyRemaining": {
-        "interval_seconds": 60,
-        "minimum_delta": 0.1
-      },
-      "ServiceMode": {
-        "interval_seconds": 3600
-      },
-      "BMSState": {
-        "interval_seconds": 60
-      },
-      "GuestModeMobileAccessState": {
-        "interval_seconds": 60
-      },
-      "DestinationName": {
-        "interval_seconds": 60
-      },
-      "DiInverterTR": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiInverterTF": {
-        "interval_seconds": 60,
-        "minimum_delta": 1
-      },
-      "DiInverterTREL": {
-        "interval_seconds": 60
-      },
-      "DiInverterTRER": {
-        "interval_seconds": 60
-      },
-      "DetailedChargeState": {
-        "interval_seconds": 60
-      },
-      "CabinOverheatProtectionMode": {
-        "interval_seconds": 300
-      },
-      "CabinOverheatProtectionTemperatureLimit": {
-        "interval_seconds": 300
-      },
-      "CenterDisplay": {
-        "interval_seconds": 60
-      },
-      "ChargePortDoorOpen": {
-        "interval_seconds": 60
-      },
-      "ChargerVoltage": {
-        "interval_seconds": 300,
-        "minimum_delta": 0.2
-      },
-      "ChargingCableType": {
-        "interval_seconds": 3600
-      },
-      "ClimateKeeperMode": {
-        "interval_seconds": 300
-      },
-      "DefrostForPreconditioning": {
-        "interval_seconds": 300
-      },
-      "DefrostMode": {
-        "interval_seconds": 300
-      },
-      "EfficiencyPackage": {
-        "interval_seconds": 300
-      },
-      "EstimatedHoursToChargeTermination": {
-        "interval_seconds": 60,
-        "minimum_delta": 0.01
-      },
-      "EuropeVehicle": {
-        "interval_seconds": 3600
-      },
-      "ExpectedEnergyPercentAtTripArrival": {
-        "interval_seconds": 300,
-        "minimum_delta": 1
-      },
-      "FastChargerType": {
-        "interval_seconds": 300
-      },
-      "HomelinkDeviceCount": {
-        "interval_seconds": 3600
-      },
-      "HomelinkNearby": {
-        "interval_seconds": 3600
-      },
-      "HvacACEnabled": {
-        "interval_seconds": 60
-      },
-      "HvacAutoMode": {
-        "interval_seconds": 60
-      },
-      "HvacFanSpeed": {
-        "interval_seconds": 60
-      },
-      "HvacFanStatus": {
-        "interval_seconds": 60
-      },
-      "HvacLeftTemperatureRequest": {
-        "interval_seconds": 60
-      },
-      "HvacPower": {
-        "interval_seconds": 60
-      },
-      "HvacRightTemperatureRequest": {
-        "interval_seconds": 60
-      },
-      "HvacSteeringWheelHeatAuto": {
-        "interval_seconds": 60
-      },
-      "HvacSteeringWheelHeatLevel": {
-        "interval_seconds": 60
-      },
-      "OffroadLightbarPresent": {
-        "interval_seconds": 3600
-      },
-      "PowershareHoursLeft": {
-        "interval_seconds": 300
-      },
-      "PowershareInstantaneousPowerKW": {
-        "interval_seconds": 300
-      },
-      "PowershareStatus": {
-        "interval_seconds": 300
-      },
-      "PowershareStopReason": {
-        "interval_seconds": 300
-      },
-      "PowershareType": {
-        "interval_seconds": 300
-      },
-      "RearDisplayHvacEnabled": {
-        "interval_seconds": 300
-      },
-      "RearSeatHeaters": {
-        "interval_seconds": 300
-      },
-      "RemoteStartEnabled": {
-        "interval_seconds": 300
-      },
-      "RightHandDrive": {
-        "interval_seconds": 3600
-      },
-      "RouteTrafficMinutesDelay": {
-        "interval_seconds": 300
-      },
-      "SoftwareUpdateDownloadPercentComplete": {
-        "interval_seconds": 300
-      },
-      "SoftwareUpdateExpectedDurationMinutes": {
-        "interval_seconds": 300
-      },
-      "SoftwareUpdateInstallationPercentComplete": {
-        "interval_seconds": 300
-      },
-      "SoftwareUpdateScheduledStartTime": {
-        "interval_seconds": 300
-      },
-      "SoftwareUpdateVersion": {
-        "interval_seconds": 300
-      },
-      "TonneauOpenPercent": {
-        "interval_seconds": 300
-      },
-      "TonneauPosition": {
-        "interval_seconds": 300
-      },
-      "TonneauTentMode": {
-        "interval_seconds": 300
-      },
-      "TpmsHardWarnings": {
-        "interval_seconds": 300
-      },
-      "TpmsSoftWarnings": {
-        "interval_seconds": 300
-      },
-      "ValetModeEnabled": {
-        "interval_seconds": 300
-      },
-      "WheelType": {
-        "interval_seconds": 3600
-      },
-      "WiperHeatEnabled": {
-        "interval_seconds": 300
-      },
-      "LocatedAtHome": {
-        "interval_seconds": 300
-      },
-      "LocatedAtWork": {
-        "interval_seconds": 300
-      },
-      "LocatedAtFavorite": {
-        "interval_seconds": 300
-      },
-      "SettingDistanceUnit": {
-        "interval_seconds": 3600
-      },
-      "SettingTemperatureUnit": {
-        "interval_seconds": 3600
-      },
-      "Setting24HourTime": {
-        "interval_seconds": 3600
-      },
-      "SettingTirePressureUnit": {
-        "interval_seconds": 3600
-      },
-      "SettingChargeUnit": {
-        "interval_seconds": 3600
-      },
-      "ClimateSeatCoolingFrontLeft": {
-        "interval_seconds": 120
-      },
-      "ClimateSeatCoolingFrontRight": {
-        "interval_seconds": 120
-      },
-      "LightsHazardsActive": {
-        "interval_seconds": 120
-      },
-      "LightsTurnSignal": {
-        "interval_seconds": 60
-      },
-      "LightsHighBeams": {
-        "interval_seconds": 60
-      },
-      "MediaPlaybackStatus": {
-        "interval_seconds": 120
-      },
-      "MediaPlaybackSource": {
-        "interval_seconds": 120
-      },
-      "MediaAudioVolume": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingDuration": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingElapsed": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingArtist": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingTitle": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingAlbum": {
-        "interval_seconds": 300
-      },
-      "MediaNowPlayingStation": {
-        "interval_seconds": 300
-      },
-      "MediaAudioVolumeIncrement": {
-        "interval_seconds": 300
-      },
-      "MediaAudioVolumeMax": {
-        "interval_seconds": 300
-      },
-      "SunroofInstalled": {
-        "interval_seconds": 300
-      },
-      "SeatVentEnabled": {
-        "interval_seconds": 300
-      },
-      "RearDefrostEnabled": {
-        "interval_seconds": 300
+        "minimum_delta": 1,
+        "description": "当前充电电流 (A)"
       },
       "ChargeRateMilePerHour": {
         "interval_seconds": 10,
-        "minimum_delta": 0.1
+        "minimum_delta": 0.1,
+        "description": "充电速率 (mi/h)"
+      },
+      "ChargerVoltage": {
+        "interval_seconds": 10,
+        "minimum_delta": 0.2,
+        "description": "充电器电压 (V)"
+      },
+      "ChargerPhases": {
+        "interval_seconds": 30,
+        "description": "充电相数"
+      },
+      "FastChargerPresent": {
+        "interval_seconds": 30,
+        "description": "快速充电器连接状态"
+      },
+      "FastChargerType": {
+        "interval_seconds": 60,
+        "description": "快速充电器类型"
+      },
+      "ChargingCableType": {
+        "interval_seconds": 300,
+        "description": "充电电缆类型"
+      },
+      "ChargePort": {
+        "interval_seconds": 60,
+        "description": "充电端口状态"
+      },
+      "ChargePortDoorOpen": {
+        "interval_seconds": 60,
+        "description": "充电端口门打开状态"
+      },
+      "ChargePortLatch": {
+        "interval_seconds": 60,
+        "description": "充电端口锁扣状态"
+      },
+      "DetailedChargeState": {
+        "interval_seconds": 60,
+        "description": "详细充电状态信息"
+      },
+      "ChargeEnableRequest": {
+        "interval_seconds": 60,
+        "description": "充电启用请求状态"
+      },
+      "ChargeCurrentRequest": {
+        "interval_seconds": 60,
+        "description": "请求充电电流 (A)"
+      },
+      "ChargeCurrentRequestMax": {
+        "interval_seconds": 60,
+        "description": "最大请求充电电流 (A)"
+      },
+      "ChargeLimitSoc": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "充电上限SOC百分比 (%)"
+      },
+      "TimeToFullCharge": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "充满电预计剩余时间 (min)"
+      },
+      "EstimatedHoursToChargeTermination": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "预计充电完成剩余小时数"
+      },
+      "Soc": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "电池荷电状态 (SOC，%)"
+      },
+      "BatteryLevel": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "电池电量百分比 (%)"
+      },
+      "EnergyRemaining": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "剩余电池能量 (kWh)"
+      },
+      "PackVoltage": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.5,
+        "description": "电池组电压 (V)"
+      },
+      "PackCurrent": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "电池组电流 (A)"
+      },
+      "BMSState": {
+        "interval_seconds": 60,
+        "description": "电池管理系统当前状态"
+      },
+      "BmsFullchargecomplete": {
+        "interval_seconds": 300,
+        "description": "电池管理系统充满电完成状态"
+      },
+      "DCDCEnable": {
+        "interval_seconds": 300,
+        "description": "DC-DC转换器启用状态"
+      },
+      "BatteryHeaterOn": {
+        "interval_seconds": 60,
+        "description": "电池加热器启用状态"
+      },
+      "NotEnoughPowerToHeat": {
+        "interval_seconds": 300,
+        "description": "电量不足以加热警告状态"
+      },
+      "IsolationResistance": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "resend_interval_seconds": 3600,
+        "description": "电池隔离电阻 (Ω)"
+      },
+      "BrickVoltageMax": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "电池砖块最大电压值 (V)"
+      },
+      "BrickVoltageMin": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "电池砖块最小电压值 (V)"
+      },
+      "NumBrickVoltageMax": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "达到最大电压的电池砖块数量"
+      },
+      "NumBrickVoltageMin": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "达到最小电压的电池砖块数量"
+      },
+      "ModuleTempMax": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "电池模块最高温度 (℃)"
+      },
+      "ModuleTempMin": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "电池模块最低温度 (℃)"
+      },
+      "NumModuleTempMax": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "达到最高温度的电池模块数量"
+      },
+      "NumModuleTempMin": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "达到最低温度的电池模块数量"
+      },
+      "DiStateF": {
+        "interval_seconds": 60,
+        "description": "前电机运行状态"
+      },
+      "DiStateR": {
+        "interval_seconds": 60,
+        "description": "后电机运行状态"
+      },
+      "DiStateREL": {
+        "interval_seconds": 60,
+        "description": "左后电机运行状态"
+      },
+      "DiStateRER": {
+        "interval_seconds": 60,
+        "description": "右后电机运行状态"
+      },
+      "DiAxleSpeedF": {
+        "interval_seconds": 10,
+        "minimum_delta": 0.01,
+        "description": "前轴转速 (RPM)"
+      },
+      "DiAxleSpeedR": {
+        "interval_seconds": 10,
+        "minimum_delta": 0.01,
+        "description": "后轴转速 (RPM)"
+      },
+      "DiAxleSpeedREL": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "左后轴转速 (RPM)"
+      },
+      "DiAxleSpeedRER": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "右后轴转速 (RPM)"
+      },
+      "DiTorqueActualF": {
+        "interval_seconds": 5,
+        "minimum_delta": 1,
+        "description": "前电机实际扭矩 (Nm)"
+      },
+      "DiTorqueActualR": {
+        "interval_seconds": 5,
+        "minimum_delta": 1,
+        "description": "后电机实际扭矩 (Nm)"
+      },
+      "DiTorqueActualREL": {
+        "interval_seconds": 5,
+        "minimum_delta": 1,
+        "description": "左后电机实际扭矩 (Nm)"
+      },
+      "DiTorqueActualRER": {
+        "interval_seconds": 5,
+        "minimum_delta": 1,
+        "description": "右后电机实际扭矩 (Nm)"
+      },
+      "DiSlaveTorqueCmd": {
+        "interval_seconds": 5,
+        "minimum_delta": 1,
+        "description": "从电机扭矩指令 (Nm)"
+      },
+      "DiMotorCurrentF": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "前电机电流 (A)"
+      },
+      "DiMotorCurrentR": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "后电机电流 (A)"
+      },
+      "DiMotorCurrentREL": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "左后电机电流 (A)"
+      },
+      "DiMotorCurrentRER": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "右后电机电流 (A)"
+      },
+      "DiVBatF": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "前电机电池电压 (V)"
+      },
+      "DiVBatR": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "后电机电池电压 (V)"
+      },
+      "DiVBatREL": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "左后电机电池电压 (V)"
+      },
+      "DiVBatRER": {
+        "interval_seconds": 30,
+        "minimum_delta": 0.1,
+        "description": "右后电机电池电压 (V)"
+      },
+      "DiStatorTempF": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "前电机定子温度 (℃)"
+      },
+      "DiStatorTempR": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "后电机定子温度 (℃)"
+      },
+      "DiStatorTempREL": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "左后电机定子温度 (℃)"
+      },
+      "DiStatorTempRER": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "右后电机定子温度 (℃)"
+      },
+      "DiHeatsinkTF": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "前电机散热片温度 (℃)"
+      },
+      "DiHeatsinkTR": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "后电机散热片温度 (℃)"
+      },
+      "DiHeatsinkTREL": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "左后电机散热片温度 (℃)"
+      },
+      "DiHeatsinkTRER": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "右后电机散热片温度 (℃)"
+      },
+      "DiInverterTF": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "前电机逆变器温度 (℃)"
+      },
+      "DiInverterTR": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "后电机逆变器温度 (℃)"
+      },
+      "DiInverterTREL": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "左后电机逆变器温度 (℃)"
+      },
+      "DiInverterTRER": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "右后电机逆变器温度 (℃)"
+      },
+      "DriveRail": {
+        "interval_seconds": 300,
+        "description": "驱动总线系统状态"
+      },
+      "Odometer": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "车辆总里程 (km/mi)"
+      },
+      "RatedRange": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "额定续航里程 (km/mi)"
+      },
+      "EstBatteryRange": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "估计电池续航里程 (km/mi)"
+      },
+      "IdealBatteryRange": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "理想电池续航里程 (km/mi)"
+      },
+      "DCChargingEnergyIn": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.1,
+        "description": "DC充电输入能量 (kWh)"
+      },
+      "ACChargingEnergyIn": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.1,
+        "description": "AC充电输入能量 (kWh)"
+      },
+      "LifetimeEnergyUsed": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "累计能量消耗 (kWh)"
+      },
+      "LifetimeEnergyGainedRegen": {
+        "interval_seconds": 3600,
+        "minimum_delta": 0.1,
+        "description": "累计再生制动能量回收 (kWh)"
+      },
+      "InsideTemp": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.5,
+        "description": "车内温度 (℃)"
+      },
+      "OutsideTemp": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.5,
+        "description": "车外温度 (℃)"
+      },
+      "HvacACEnabled": {
+        "interval_seconds": 60,
+        "description": "空调压缩机启用状态"
+      },
+      "HvacAutoMode": {
+        "interval_seconds": 60,
+        "description": "HVAC自动模式状态"
+      },
+      "HvacFanSpeed": {
+        "interval_seconds": 60,
+        "description": "HVAC风扇速度设置"
+      },
+      "HvacFanStatus": {
+        "interval_seconds": 60,
+        "description": "HVAC风扇运行状态"
+      },
+      "HvacLeftTemperatureRequest": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.5,
+        "description": "左侧HVAC温度设定 (℃)"
+      },
+      "HvacRightTemperatureRequest": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.5,
+        "description": "右侧HVAC温度设定 (℃)"
+      },
+      "HvacPower": {
+        "interval_seconds": 60,
+        "description": "HVAC电源消耗状态"
+      },
+      "HvacSteeringWheelHeatAuto": {
+        "interval_seconds": 60,
+        "description": "方向盘加热自动模式"
+      },
+      "HvacSteeringWheelHeatLevel": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "方向盘加热等级"
+      },
+      "SeatHeaterLeft": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "左前座椅加热等级"
+      },
+      "SeatHeaterRight": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "右前座椅加热等级"
+      },
+      "SeatHeaterRearLeft": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "左后座椅加热等级"
+      },
+      "SeatHeaterRearRight": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "右后座椅加热等级"
+      },
+      "SeatHeaterRearCenter": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "中后座椅加热等级"
+      },
+      "AutoSeatClimateLeft": {
+        "interval_seconds": 60,
+        "description": "左前座自动气候控制状态"
+      },
+      "AutoSeatClimateRight": {
+        "interval_seconds": 60,
+        "description": "右前座自动气候控制状态"
+      },
+      "ClimateSeatCoolingFrontLeft": {
+        "interval_seconds": 120,
+        "description": "左前座椅冷却状态"
+      },
+      "ClimateSeatCoolingFrontRight": {
+        "interval_seconds": 120,
+        "description": "右前座椅冷却状态"
+      },
+      "RearSeatHeaters": {
+        "interval_seconds": 300,
+        "description": "后排座椅加热状态"
+      },
+      "RearDisplayHvacEnabled": {
+        "interval_seconds": 300,
+        "description": "后排显示屏HVAC控制启用状态"
+      },
+      "DefrostMode": {
+        "interval_seconds": 300,
+        "description": "除霜模式状态"
+      },
+      "DefrostForPreconditioning": {
+        "interval_seconds": 300,
+        "description": "预调节化霜状态"
+      },
+      "RearDefrostEnabled": {
+        "interval_seconds": 300,
+        "description": "后窗除霜启用状态"
+      },
+      "ClimateKeeperMode": {
+        "interval_seconds": 300,
+        "description": "气候保持模式"
+      },
+      "CabinOverheatProtectionMode": {
+        "interval_seconds": 300,
+        "description": "驾驶舱过热保护模式"
+      },
+      "CabinOverheatProtectionTemperatureLimit": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "驾驶舱过热保护温度上限 (℃)"
+      },
+      "EfficiencyPackage": {
+        "interval_seconds": 300,
+        "description": "高效驾驶套件启用状态"
+      },
+      "WiperHeatEnabled": {
+        "interval_seconds": 300,
+        "description": "雨刷加热启用状态"
+      },
+      "DriverSeatBelt": {
+        "interval_seconds": 60,
+        "description": "驾驶员安全带扣紧状态"
+      },
+      "PassengerSeatBelt": {
+        "interval_seconds": 60,
+        "description": "副驾驶安全带扣紧状态"
+      },
+      "DriverSeatOccupied": {
+        "interval_seconds": 60,
+        "description": "驾驶员座位占用状态"
+      },
+      "LateralAcceleration": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "横向加速度 (m/s²)"
+      },
+      "LongitudinalAcceleration": {
+        "interval_seconds": 60,
+        "minimum_delta": 0.01,
+        "description": "纵向加速度 (m/s²)"
+      },
+      "CruiseSetSpeed": {
+        "interval_seconds": 30,
+        "minimum_delta": 1,
+        "description": "定速巡航设定速度 (km/h)"
+      },
+      "CruiseFollowDistance": {
+        "interval_seconds": 3600,
+        "description": "自适应巡航跟车距离设置"
+      },
+      "SpeedLimitMode": {
+        "interval_seconds": 3600,
+        "description": "限速模式启用状态"
+      },
+      "CurrentLimitMph": {
+        "interval_seconds": 60,
+        "minimum_delta": 1,
+        "description": "当前限速值 (mph)"
+      },
+      "SpeedLimitWarning": {
+        "interval_seconds": 3600,
+        "description": "超速警告设置"
+      },
+      "ForwardCollisionWarning": {
+        "interval_seconds": 3600,
+        "description": "前向碰撞警告系统状态"
+      },
+      "AutomaticEmergencyBrakingOff": {
+        "interval_seconds": 3600,
+        "description": "自动紧急制动关闭状态"
+      },
+      "LaneDepartureAvoidance": {
+        "interval_seconds": 3600,
+        "description": "车道偏离避免系统状态"
+      },
+      "EmergencyLaneDepartureAvoidance": {
+        "interval_seconds": 3600,
+        "description": "紧急车道偏离避免系统状态"
+      },
+      "BlindSpotCollisionWarningChime": {
+        "interval_seconds": 3600,
+        "description": "盲点碰撞警告蜂鸣器状态"
+      },
+      "AutomaticBlindSpotCamera": {
+        "interval_seconds": 3600,
+        "description": "自动盲点摄像头启用状态"
+      },
+      "GpsState": {
+        "interval_seconds": 3600,
+        "description": "GPS信号可用状态"
+      },
+      "TpmsPressureFl": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "前左轮胎气压 (psi/bar)"
+      },
+      "TpmsPressureFr": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "前右轮胎气压 (psi/bar)"
+      },
+      "TpmsPressureRl": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "后左轮胎气压 (psi/bar)"
+      },
+      "TpmsPressureRr": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.01,
+        "description": "后右轮胎气压 (psi/bar)"
+      },
+      "TpmsHardWarnings": {
+        "interval_seconds": 300,
+        "description": "胎压监测硬警告信息"
+      },
+      "TpmsSoftWarnings": {
+        "interval_seconds": 300,
+        "description": "胎压监测软警告信息"
+      },
+      "TpmsLastSeenPressureTimeFl": {
+        "interval_seconds": 300,
+        "description": "前左胎压最后读取时间"
+      },
+      "TpmsLastSeenPressureTimeFr": {
+        "interval_seconds": 300,
+        "description": "前右胎压最后读取时间"
+      },
+      "TpmsLastSeenPressureTimeRl": {
+        "interval_seconds": 300,
+        "description": "后左胎压最后读取时间"
+      },
+      "TpmsLastSeenPressureTimeRr": {
+        "interval_seconds": 300,
+        "description": "后右胎压最后读取时间"
+      },
+      "FdWindow": {
+        "interval_seconds": 60,
+        "description": "前左车窗位置状态"
+      },
+      "FpWindow": {
+        "interval_seconds": 60,
+        "description": "前右车窗位置状态"
+      },
+      "RdWindow": {
+        "interval_seconds": 60,
+        "description": "后左车窗位置状态"
+      },
+      "RpWindow": {
+        "interval_seconds": 60,
+        "description": "后右车窗位置状态"
+      },
+      "SunroofInstalled": {
+        "interval_seconds": 300,
+        "description": "天窗安装状态"
+      },
+      "TonneauPosition": {
+        "interval_seconds": 300,
+        "description": "货厢盖位置状态"
+      },
+      "TonneauOpenPercent": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "货厢盖打开百分比 (%)"
+      },
+      "TonneauTentMode": {
+        "interval_seconds": 300,
+        "description": "货厢盖帐篷模式状态"
+      },
+      "OffroadLightbarPresent": {
+        "interval_seconds": 3600,
+        "description": "越野灯条安装状态"
+      },
+      "CenterDisplay": {
+        "interval_seconds": 60,
+        "description": "中控显示屏状态"
+      },
+      "MediaPlaybackStatus": {
+        "interval_seconds": 120,
+        "description": "媒体播放状态"
+      },
+      "MediaPlaybackSource": {
+        "interval_seconds": 120,
+        "description": "媒体播放来源"
+      },
+      "MediaNowPlayingTitle": {
+        "interval_seconds": 300,
+        "description": "当前播放曲目标题"
+      },
+      "MediaNowPlayingArtist": {
+        "interval_seconds": 300,
+        "description": "当前播放艺术家名称"
+      },
+      "MediaNowPlayingAlbum": {
+        "interval_seconds": 300,
+        "description": "当前播放专辑名称"
+      },
+      "MediaNowPlayingStation": {
+        "interval_seconds": 300,
+        "description": "当前播放电台名称"
+      },
+      "MediaNowPlayingDuration": {
+        "interval_seconds": 300,
+        "description": "当前播放总时长 (秒)"
+      },
+      "MediaNowPlayingElapsed": {
+        "interval_seconds": 300,
+        "description": "当前播放已过时间 (秒)"
+      },
+      "MediaAudioVolume": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "媒体音频音量水平"
+      },
+      "MediaAudioVolumeMax": {
+        "interval_seconds": 300,
+        "description": "媒体音频最大音量"
+      },
+      "MediaAudioVolumeIncrement": {
+        "interval_seconds": 300,
+        "description": "媒体音频音量增量步长"
+      },
+      "SeatVentEnabled": {
+        "interval_seconds": 300,
+        "description": "座椅通风启用状态"
+      },
+      "RemoteStartEnabled": {
+        "interval_seconds": 300,
+        "description": "远程启动功能启用状态"
+      },
+      "ServiceMode": {
+        "interval_seconds": 3600,
+        "description": "服务/维修模式状态"
+      },
+      "SentryMode": {
+        "interval_seconds": 300,
+        "description": "哨兵模式启用状态"
+      },
+      "ValetModeEnabled": {
+        "interval_seconds": 300,
+        "description": "代客泊车模式启用状态"
+      },
+      "GuestModeEnabled": {
+        "interval_seconds": 300,
+        "description": "访客模式启用状态"
+      },
+      "GuestModeMobileAccessState": {
+        "interval_seconds": 60,
+        "description": "访客模式移动访问权限状态"
+      },
+      "PinToDriveEnabled": {
+        "interval_seconds": 300,
+        "description": "PIN to Drive安全功能启用状态"
+      },
+      "PairedPhoneKeyAndKeyFobQty": {
+        "interval_seconds": 3600,
+        "description": "配对手机钥匙和钥匙扣数量"
+      },
+      "HomelinkDeviceCount": {
+        "interval_seconds": 3600,
+        "description": "HomeLink设备配对数量"
+      },
+      "HomelinkNearby": {
+        "interval_seconds": 3600,
+        "description": "附近HomeLink设备检测状态"
+      },
+      "PowershareStatus": {
+        "interval_seconds": 300,
+        "description": "PowerShare功能状态"
+      },
+      "PowershareType": {
+        "interval_seconds": 300,
+        "description": "PowerShare类型"
+      },
+      "PowershareHoursLeft": {
+        "interval_seconds": 300,
+        "description": "PowerShare剩余可用小时数"
+      },
+      "PowershareInstantaneousPowerKW": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "PowerShare瞬时功率 (kW)"
+      },
+      "PowershareStopReason": {
+        "interval_seconds": 300,
+        "description": "PowerShare停止原因"
+      },
+      "SettingDistanceUnit": {
+        "interval_seconds": 3600,
+        "description": "距离单位设置 (km/mi)"
+      },
+      "SettingTemperatureUnit": {
+        "interval_seconds": 3600,
+        "description": "温度单位设置 (℃/℉)"
+      },
+      "Setting24HourTime": {
+        "interval_seconds": 3600,
+        "description": "24小时制时间显示设置"
+      },
+      "SettingTirePressureUnit": {
+        "interval_seconds": 3600,
+        "description": "胎压单位设置 (psi/bar)"
+      },
+      "SettingChargeUnit": {
+        "interval_seconds": 3600,
+        "description": "充电单位设置 (kWh/mi)"
+      },
+      "RightHandDrive": {
+        "interval_seconds": 3600,
+        "description": "右舵驾驶车辆标识"
+      },
+      "EuropeVehicle": {
+        "interval_seconds": 3600,
+        "description": "欧洲规格车辆标识"
+      },
+      "WheelType": {
+        "interval_seconds": 3600,
+        "description": "轮毂类型"
+      },
+      "CarType": {
+        "interval_seconds": 3600,
+        "description": "车辆车型类型"
+      },
+      "Trim": {
+        "interval_seconds": 3600,
+        "description": "车辆配置等级"
+      },
+      "ExteriorColor": {
+        "interval_seconds": 3600,
+        "description": "车身外部颜色"
+      },
+      "RoofColor": {
+        "interval_seconds": 3600,
+        "description": "车顶颜色"
+      },
+      "VehicleName": {
+        "interval_seconds": 3600,
+        "description": "车辆自定义名称"
+      },
+      "Version": {
+        "interval_seconds": 3600,
+        "description": "软件版本号"
+      },
+      "SoftwareUpdateVersion": {
+        "interval_seconds": 300,
+        "description": "软件更新版本号"
+      },
+      "SoftwareUpdateDownloadPercentComplete": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "软件更新下载完成百分比 (%)"
+      },
+      "SoftwareUpdateInstallationPercentComplete": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "软件更新安装完成百分比 (%)"
+      },
+      "SoftwareUpdateExpectedDurationMinutes": {
+        "interval_seconds": 300,
+        "description": "软件更新预计持续时间 (分钟)"
+      },
+      "SoftwareUpdateScheduledStartTime": {
+        "interval_seconds": 300,
+        "description": "软件更新计划开始时间"
+      },
+      "SuperchargerSessionTripPlanner": {
+        "interval_seconds": 3600,
+        "description": "超级充电会话行程规划信息"
+      },
+      "RouteLastUpdated": {
+        "interval_seconds": 300,
+        "description": "导航路线最后更新时间 (固件2024.26+)"
+      },
+      "RouteLine": {
+        "interval_seconds": 300,
+        "description": "当前导航路线数据 (固件2024.26+)"
+      },
+      "MilesToArrival": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.1,
+        "description": "导航剩余里程 (mi，固件2024.26+)"
+      },
+      "MinutesToArrival": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "导航剩余时间 (min，固件2024.26+)"
+      },
+      "ExpectedEnergyPercentAtTripArrival": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "预计行程结束时剩余电量百分比 (%)"
+      },
+      "RouteTrafficMinutesDelay": {
+        "interval_seconds": 300,
+        "minimum_delta": 1,
+        "description": "导航路线交通延迟 (分钟)"
+      },
+      "OriginLocation": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.00001,
+        "description": "导航起点位置 (经纬度，固件2024.26+)"
+      },
+      "DestinationLocation": {
+        "interval_seconds": 300,
+        "minimum_delta": 0.00001,
+        "description": "导航终点位置 (经纬度，固件2024.26+)"
+      },
+      "DestinationName": {
+        "interval_seconds": 60,
+        "description": "导航目的地名称 (固件2024.26+)"
+      },
+      "LocatedAtHome": {
+        "interval_seconds": 300,
+        "description": "车辆位于家位置状态"
+      },
+      "LocatedAtWork": {
+        "interval_seconds": 300,
+        "description": "车辆位于工作位置状态"
+      },
+      "LocatedAtFavorite": {
+        "interval_seconds": 300,
+        "description": "车辆位于收藏位置状态"
+      },
+      "Deprecated_2": {
+        "interval_seconds": 3600,
+        "description": "已废弃字段 (请忽略)"
       },
       "Deprecated_3": {
-        "interval_seconds": 300
+        "interval_seconds": 3600,
+        "description": "已废弃字段 (请忽略)"
       }
-    },
-    "ca": "{{ca}}",
-    "hostname": "{{hostname}}"
-  },
-  "vins": ["{{vin}}"]
+    }
+  }
 }
 ```
 
