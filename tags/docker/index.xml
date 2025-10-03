@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Thu, 02 Oct 2025 13:54:58 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Docker容器开启IPv6</title><link>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</link><pubDate>Sun, 21 Apr 2024 21:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</guid><description>&lt;p&gt;局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Fri, 03 Oct 2025 23:10:17 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Docker容器开启IPv6</title><link>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</link><pubDate>Sun, 21 Apr 2024 21:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</guid><description>&lt;p&gt;局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持&lt;/p&gt;
 &lt;p&gt;Docker 支持只给特定的网络开启 IPv6，也支持给 bridge 网络开启 IPv6&lt;/p&gt;
 &lt;h2 id="只给特定的网络开启-ipv6"&gt;只给特定的网络开启 IPv6&lt;/h2&gt;
 &lt;p&gt;这种方式不会修改默认的网络配置，指定特定的网络生效&lt;/p&gt;
@@ -6,30 +6,30 @@
 &lt;li&gt;修改配置
 修改 &lt;code&gt;/etc/docker/daemon.json&lt;/code&gt; 文件，开启 IPv6 网络&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;experimental&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;ip6tables&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;experimental&amp;#34;&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;ip6tables&amp;#34;&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;重启 docker&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl restart docker
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 IPv6 网络&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;创建名为 &lt;code&gt;homelab-v6&lt;/code&gt; 的 IPv6 网络，并指定子网范围&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create --ipv6 --subnet 2001:0DB8::/112 homelab-v6
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create --ipv6 --subnet 2001:0DB8::/112 homelab-v6
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;测试验证&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;启动一个 busybox 容器，ping 阿里巴巴的 IPv6 DNS 地址 &lt;code&gt;2400:3200::1&lt;/code&gt;，发现可以正常访问，说明已经成功开启 IPv6&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --network&lt;span style="color:#f92672"&gt;=&lt;/span&gt;homelab-v6 --rm -it busybox ping -6 -c1 2400:3200::1
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PING 2400:3200::1 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;2400:3200::1&lt;span style="color:#f92672"&gt;)&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;56&lt;/span&gt; data bytes
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;64&lt;/span&gt; bytes from 2400:3200::1: seq&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; ttl&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;117&lt;/span&gt; time&lt;span style="color:#f92672"&gt;=&lt;/span&gt;2040.345 ms
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --network&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;homelab-v6 --rm -it busybox ping -6 -c1 2400:3200::1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PING 2400:3200::1 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;2400:3200::1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;56&lt;/span&gt; data bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d19a66"&gt;64&lt;/span&gt; bytes from 2400:3200::1: &lt;span style="color:#dcaeea"&gt;seq&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;ttl&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;117&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;time&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;2040.345 ms
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--- 2400:3200::1 ping statistics ---
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; packets transmitted, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; packets received, 0% packet loss
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;round-trip min/avg/max &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 2040.345/2040.345/2040.345 ms
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d19a66"&gt;1&lt;/span&gt; packets transmitted, &lt;span style="color:#d19a66"&gt;1&lt;/span&gt; packets received, 0% packet loss
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;round-trip min/avg/max &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; 2040.345/2040.345/2040.345 ms
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="给-bridge-开启-ipv6"&gt;给 bridge 开启 IPv6&lt;/h2&gt;
 &lt;p&gt;给 bridge 开启 IPv6 相当于默认给所有没有指定网络的容器都开启了 IPv6；此时需要在配置文件中指定 IPv6 子网范围&lt;/p&gt;</description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/</guid><description>&lt;p&gt;Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p&gt;
 &lt;h2 id="订阅格式转换"&gt;订阅格式转换&lt;/h2&gt;
@@ -40,28 +40,28 @@
 &lt;ul&gt;
 &lt;li&gt;config.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7890&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;socks-port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7891&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;redir-port&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;7892&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;allow-lan&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;mode&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;rule&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;log-level&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;info&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 控制端口&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;external-controller&lt;/span&gt;: :&lt;span style="color:#ae81ff"&gt;9090&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 访问密码，建议设置&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;secret&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;123456&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7890&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;socks-port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7891&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;redir-port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7892&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;allow-lan&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;mode&lt;/span&gt;: &lt;span style="color:#98c379"&gt;rule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;log-level&lt;/span&gt;: &lt;span style="color:#98c379"&gt;info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 控制端口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;external-controller&lt;/span&gt;: :&lt;span style="color:#d19a66"&gt;9090&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 访问密码，建议设置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;secret&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;123456&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;tun&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;enable&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;stack&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;system&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-route&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-redir&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;auto-detect-interface&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# TUN 模式，用于代理 TCP、UDP、ICMP 流量&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;tun&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;enable&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;stack&lt;/span&gt;: &lt;span style="color:#98c379"&gt;system&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;auto-route&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;auto-redir&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;auto-detect-interface&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 用于性能分析&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;profile&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;tracing&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 用于性能分析&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;profile&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;tracing&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="配置策略组"&gt;配置策略组&lt;/h3&gt;
 &lt;p&gt;代理提供方 &lt;code&gt;proxy-providers&lt;/code&gt; 用于为策略组 &lt;code&gt;proxy-groups&lt;/code&gt; 提供代理节点；这部分用于取代 Clash 中的 &lt;code&gt;proxies&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Docker 开启外部 HTTP 访问</title><link>https://blog.hellowood.dev/posts/docker-%E5%BC%80%E5%90%AF%E5%A4%96%E9%83%A8-http-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 05 Mar 2023 21:39:29 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%BC%80%E5%90%AF%E5%A4%96%E9%83%A8-http-%E8%AE%BF%E9%97%AE/</guid><description>&lt;p&gt;在监控容器时，通常需要从 Docker 中获取容器的信息，如果监控服务和其他的服务在同一台宿主机上，通常可以直接通过挂载 socket 的方式进行获取；但是为了监控的准确性，通常会将监控服务和其他服务分开部署，因此需要从外部获取 Docker 容器信息；&lt;/p&gt;
 &lt;p&gt;Docker 除了支持 socket 方式之外，还支持通过 HTTP 的方式获取容器的信息&lt;/p&gt;
@@ -69,20 +69,20 @@
 &lt;p&gt;HTTP 访问是通过在启动 Docker 服务的时候添加参数的方式开启的；需要在 docker service 的启动命令中添加 &lt;code&gt;-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock&lt;/code&gt;，即允许通过 HTTP 方式和 socket 方式访问&lt;/p&gt;
 &lt;h3 id="配置启动参数"&gt;配置启动参数&lt;/h3&gt;
 &lt;p&gt;该文件是 docker 服务的定义文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi /usr/lib/systemd/system/docker.service
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi /usr/lib/systemd/system/docker.service
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 Service 的 &lt;code&gt;ExecStart&lt;/code&gt; 命令中添加 &lt;code&gt;-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Service&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;notify
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# the default is not to use systemd for cgroups because the delegate issues still&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# exists and systemd currently does not support the cgroup feature set required&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# for containers run by docker&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ExecStart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/usr/bin/dockerd -H fd:// --containerd&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/run/containerd/containerd.sock -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ExecReload&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/bin/kill -s HUP $MAINPID
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;TimeoutStartSec&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;RestartSec&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Restart&lt;span style="color:#f92672"&gt;=&lt;/span&gt;always
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;Service&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;Type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;notify
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# the default is not to use systemd for cgroups because the delegate issues still&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# exists and systemd currently does not support the cgroup feature set required&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# for containers run by docker&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;ExecStart&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;/usr/bin/dockerd -H fd:// --containerd&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;/run/containerd/containerd.sock -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;ExecReload&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;/bin/kill -s HUP &lt;span style="color:#dcaeea"&gt;$MAINPID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;TimeoutStartSec&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;RestartSec&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;Restart&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;always
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="重启-docker-服务"&gt;重启 Docker 服务&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl daemon-reload
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl daemon-reload
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl restart docker
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="检查端口"&gt;检查端口&lt;/h3&gt;
 &lt;p&gt;通过 telnet 命令检查 2375 端口，可以访问说明端口正常&lt;/p&gt;</description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/</guid><description>&lt;p&gt;使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/"&gt;使用 Docker 部署 Clash Premium&lt;/a&gt;&lt;/p&gt;
@@ -93,28 +93,28 @@
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;subweb&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;careywong/subweb&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subweb&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subweb&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;18080&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;TZ=Asia/Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;subweb&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;careywong/subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;hostname&lt;/span&gt;: &lt;span style="color:#98c379"&gt;subweb&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;restart&lt;/span&gt;: &lt;span style="color:#98c379"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#d19a66"&gt;18080&lt;/span&gt;:&lt;span style="color:#d19a66"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TZ=Asia/Shanghai&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;subconverter&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tindy2013/subconverter&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subconverter&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;hostname&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;subconverter&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;restart&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;unless-stopped&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;25500&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;25500&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;TZ=Asia/Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;subconverter&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;tindy2013/subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;hostname&lt;/span&gt;: &lt;span style="color:#98c379"&gt;subconverter&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;restart&lt;/span&gt;: &lt;span style="color:#98c379"&gt;unless-stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#d19a66"&gt;25500&lt;/span&gt;:&lt;span style="color:#d19a66"&gt;25500&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TZ=Asia/Shanghai&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;部署完成后，选择进阶模式，填写后端地址为 subconverter 容器的地址；选择远程配置（推荐 Ytoo/NyanCAT，配置更全面），然后填入订阅链接生成即可得到新的订阅链接&lt;/p&gt;
 &lt;p&gt;
 
@@ -128,29 +128,29 @@
 &lt;p&gt;Docker 支持 Samba/NFS 等协议的远程存储&lt;/p&gt;
 &lt;h2 id="创建-docker-nfs-数据卷"&gt;创建 Docker NFS 数据卷&lt;/h2&gt;
 &lt;p&gt;通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code&gt;local&lt;/code&gt;，类型是 &lt;code&gt;nfs&lt;/code&gt;，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code&gt;nginx-volume&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver local &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;--opt type&lt;span style="color:#f92672"&gt;=&lt;/span&gt;nfs &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;--opt o&lt;span style="color:#f92672"&gt;=&lt;/span&gt;addr&lt;span style="color:#f92672"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#f92672"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;--opt device&lt;span style="color:#f92672"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;nginx-volume
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;nginx-volume&lt;/code&gt; 信息&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2022-09-22T14:48:26+08:00&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/var/lib/docker/volumes/nginx-volume/_data&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;nfs-volume&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;device&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;:/workspaces/data/docker/nginx&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;o&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;addr=192.168.2.10,nolock,vers=4,soft,rw&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;nfs&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;2022-09-22T14:48:26+08:00&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style="color:#c7bf54"&gt;{}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;/var/lib/docker/volumes/nginx-volume/_data&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;nfs-volume&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;device&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;:/workspaces/data/docker/nginx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;o&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;addr=192.168.2.10,nolock,vers=4,soft,rw&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;nfs&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="容器中使用-nfs-数据卷"&gt;容器中使用 NFS 数据卷&lt;/h2&gt;
 &lt;h3 id="在容器中挂载"&gt;在容器中挂载&lt;/h3&gt;
 &lt;p&gt;以 Nginx 为例，挂载 &lt;code&gt;nginx-volume&lt;/code&gt; 到容器中；也可以使用 &lt;code&gt;-v nginx-volume:/data&lt;/code&gt;的方式挂载，这两个命令的区别在于如果挂载的数据卷不存在，&lt;code&gt;-v&lt;/code&gt; 会创建一个，而 &lt;code&gt;--mount&lt;/code&gt;会报错&lt;/p&gt;</description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p&gt;
@@ -183,17 +183,17 @@
 &lt;li&gt;更新 SpringBoot 版本为 2.3.2.RELEASE&lt;/li&gt;
 &lt;li&gt;启用分层&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bootJar &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; layered&lt;span style="color:#f92672"&gt;()&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;bootJar&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;layered&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="3"&gt;
 &lt;li&gt;执行构建&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;会根据应用名称构建出一个镜像&lt;/p&gt;</description></item><item><title>Ubuntu/Docker 替换软件源</title><link>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</link><pubDate>Mon, 27 May 2019 15:06:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-docker-%E6%9B%BF%E6%8D%A2%E8%BD%AF%E4%BB%B6%E6%BA%90/</guid><description>&lt;h2 id="ubuntu"&gt;Ubuntu&lt;/h2&gt;
 &lt;h3 id="使用-sed-命令"&gt;使用 sed 命令&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apt/sources.list/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo sed -i &lt;span style="color:#98c379"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apt/sources.list/
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="手动修改"&gt;手动修改&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd /etc/apt/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; /etc/apt/
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mv sources.list sources.list.bak
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -215,24 +215,24 @@ deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted univer
 
 deb http://archive.canonical.com/ubuntu/ xenial partner
 deb http://extras.ubuntu.com/ubuntu/ xenial main
-&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get upgrade
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="docker-alpine-镜像替换软件源"&gt;Docker alpine 镜像替换软件源&lt;/h2&gt;
 &lt;h3 id="在-dockerfile-中添加"&gt;在 Dockerfile 中添加&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;RUN&lt;/span&gt; sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apk/repositories&lt;span style="color:#960050;background-color:#1e0010"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="修改容器中软件源"&gt;修改容器中软件源&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;RUN&lt;/span&gt; sed -i &lt;span style="color:#98c379"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apk/repositories
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="修改容器中软件源"&gt;修改容器中软件源&lt;/h3&gt;
 &lt;h4 id="使用-sed-命令-1"&gt;使用 sed 命令&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#e6db74"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apk/repositories
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sed -i &lt;span style="color:#98c379"&gt;&amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39;&lt;/span&gt; /etc/apk/repositories
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="手动修改-1"&gt;手动修改&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi etc/apk/repositories
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi etc/apk/repositories
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入以下内容&lt;/p&gt;</description></item><item><title>Docker 容器中运行 Docker 命令</title><link>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</link><pubDate>Wed, 08 Aug 2018 16:04:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%BF%90%E8%A1%8C-docker-%E5%91%BD%E4%BB%A4/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;在使用 GitLab/Jenkins 等 CI 软件的时候需要使用 Docker 命令来构建镜像，需要在容器中使用 Docker 命令；通过将宿主机的 Docker 共享给容器即可&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;在启动容器时添加以下命令：&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--privileged &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;-v &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;r:/bin/docker &lt;span style="color:#ae81ff"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--privileged &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;-v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;r:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--privileged&lt;/code&gt; 表示该容器真正启用 root 权限&lt;/li&gt;
@@ -242,18 +242,18 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;ul&gt;
 &lt;li&gt;Demo: 启动 GitLab&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name gitlab-ee &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d -p 443:443 -p 80:80 -p 22:22 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --privileged &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --restart always &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --hostname 10.0.0.24 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/logs:/var/log/gitlab &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/data:/var/opt/gitlab &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /Users/hellowood/.m2:/root/.m2 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /Users/hellowood/.gradle:/root/.gradle &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;:/bin/docker &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; gitlab/gitlab-ee:latest
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name gitlab-ee &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d -p 443:443 -p 80:80 -p 22:22 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --privileged &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --restart always &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --hostname 10.0.0.24 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/logs:/var/log/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/data:/var/opt/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/.m2:/root/.m2 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/.gradle:/root/.gradle &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; gitlab/gitlab-ee:latest
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;&lt;a href="https://github.com/GoogleContainerTools/jib"&gt;Jib&lt;/a&gt; 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
@@ -263,21 +263,21 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;ul&gt;
 &lt;li&gt;Gradle&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;buildscript &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; repositories &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; maven &lt;span style="color:#f92672"&gt;{&lt;/span&gt; url &lt;span style="color:#e6db74"&gt;&amp;#39;https://plugins.gradle.org/m2/&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; classpath &lt;span style="color:#e6db74"&gt;&amp;#34;gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:0.9.6&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;buildscript&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;repositories&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;maven&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt; &lt;span style="color:#c1abea"&gt;url&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;https://plugins.gradle.org/m2/&amp;#39;&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;classpath&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:0.9.6&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apply plugin: &lt;span style="color:#e6db74"&gt;&amp;#34;com.google.cloud.tools.jib&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;apply&lt;/span&gt; &lt;span style="color:#f5a40d"&gt;plugin:&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;com.google.cloud.tools.jib&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;plugins &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id &lt;span style="color:#e6db74"&gt;&amp;#39;com.google.cloud.tools.jib&amp;#39;&lt;/span&gt; version &lt;span style="color:#e6db74"&gt;&amp;#39;0.9.6&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;plugins&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;com.google.cloud.tools.jib&amp;#39;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;version&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;0.9.6&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="构建镜像"&gt;构建镜像&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;以下方式都需要终端能够访问 &lt;code&gt;gcr.io&lt;/code&gt;或 &lt;code&gt;hub.docker.com&lt;/code&gt;等 Docker Hub 才能成功&lt;/p&gt;&lt;/blockquote&gt;
@@ -285,11 +285,13 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;li&gt;直接构建并推送到 &lt;a href="https://cloud.google.com/container-registry/"&gt;GCR&lt;/a&gt;
 通过这种方式构建的镜像会以&lt;code&gt;gcr.io/distroless/java&lt;/code&gt;为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gradle jib
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;gradle&lt;/span&gt; &lt;span style="color:#c1abea"&gt;jib&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;指定推送的容器镜像仓库&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href="https://cloud.google.com/container-registry/"&gt;Google Container Center&lt;/a&gt;, &lt;a href="https://aws.amazon.com/ecr/"&gt;Amazon Elastic Container Registry&lt;/a&gt;, &lt;a href="https://hub.docker.com/"&gt;Docker Hub Registry&lt;/a&gt;之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p&gt;</description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://cloud.google.com/container-registry/"&gt;Google Container Center&lt;/a&gt;, &lt;a href="https://aws.amazon.com/ecr/"&gt;Amazon Elastic Container Registry&lt;/a&gt;, &lt;a href="https://hub.docker.com/"&gt;Docker Hub Registry&lt;/a&gt;之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;gradle&lt;/span&gt; &lt;span style="color:#c1abea"&gt;jib&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;--&lt;/span&gt;&lt;span style="color:#c1abea"&gt;image&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;hub&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;docker&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;com&lt;/span&gt;&lt;span style="color:#98c379"&gt;/helloworld/&lt;/span&gt;&lt;span style="color:#f5a40d"&gt;java:&lt;/span&gt;&lt;span style="color:#c1abea"&gt;jib&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者在&lt;code&gt;build.gradle&lt;/code&gt;中以下添加之后执行 &lt;code&gt;gradle jib&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id="配置并启动-tomcat"&gt;配置并启动 Tomcat&lt;/h2&gt;
 &lt;h2 id="安装-docker"&gt;安装 Docker&lt;/h2&gt;

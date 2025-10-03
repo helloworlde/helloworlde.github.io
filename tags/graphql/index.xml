@@ -5,170 +5,170 @@
 &lt;ul&gt;
 &lt;li&gt;添加依赖&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dependencies &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-data-mongodb&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;implementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;implementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-data-mongodb&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compileOnly&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; testImplementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compileOnly&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.projectlombok:lombok&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;testImplementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加基础接口"&gt;添加基础接口&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;添加 Model&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Data&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Builder&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Document&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@AllArgsConstructor&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@NoArgsConstructor&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt; {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Builder&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Document&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@AllArgsConstructor&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@NoArgsConstructor&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Id&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String title;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;title&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; String content;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;content&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@CreatedDate&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; Date createDate;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@CreatedDate&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Date&lt;/span&gt; &lt;span style="color:#c1abea"&gt;createDate&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加 Repository&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;interface&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;PostRepository&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;extends&lt;/span&gt; MongoRepository&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Post, String&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;interface&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PostRepository&lt;/span&gt; &lt;span style="color:#c678dd"&gt;extends&lt;/span&gt; &lt;span style="color:#c1abea"&gt;MongoRepository&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;String&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;gt;&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# MongoDB Config&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.data.mongodb.host&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;localhost&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.data.mongodb.port&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;27017&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#spring.data.mongodb.username=&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#spring.data.mongodb.password=&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;spring.data.mongodb.database&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;graphql&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# MongoDB Config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#b3d23c"&gt;spring.data.mongodb.host&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;localhost&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#b3d23c"&gt;spring.data.mongodb.port&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;27017&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;#spring.data.mongodb.username=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;#spring.data.mongodb.password=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#b3d23c"&gt;spring.data.mongodb.database&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;graphql&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加数据初始化&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Slf4j&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;DataInitializer&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;implements&lt;/span&gt; ApplicationRunner {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Slf4j&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;DataInitializer&lt;/span&gt; &lt;span style="color:#c678dd"&gt;implements&lt;/span&gt; &lt;span style="color:#c1abea"&gt;ApplicationRunner&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; PostRepository postRepository;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;PostRepository&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Override&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;run&lt;/span&gt;(ApplicationArguments args) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; Exception {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Post&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; posts &lt;span style="color:#f92672"&gt;=&lt;/span&gt; initPost();
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; posts.&lt;span style="color:#a6e22e"&gt;forEach&lt;/span&gt;(post &lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt; log.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Post: {}&amp;#34;&lt;/span&gt;, post));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;run&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ApplicationArguments&lt;/span&gt; &lt;span style="color:#c1abea"&gt;args&lt;/span&gt;) &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Exception&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;List&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;posts&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;initPost&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;posts&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;forEach&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;-&amp;gt;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;log&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;Post: {}&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;post&lt;/span&gt;));
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Post&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;initPost&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;deleteAll&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;List&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;initPost&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;deleteAll&lt;/span&gt;();
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; Stream.&lt;span style="color:#a6e22e"&gt;of&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Post one&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Post two&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;map&lt;/span&gt;(title &lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Post post &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Post.&lt;span style="color:#a6e22e"&gt;builder&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;title&lt;/span&gt;(title)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;content&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;Content of &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; title)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;build&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;save&lt;/span&gt;(post);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Stream&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;of&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;Post one&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;Post two&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;map&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;title&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;-&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#c1abea"&gt;post&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;builder&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;title&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;title&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;content&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;Content of &amp;#34;&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;+&lt;/span&gt; &lt;span style="color:#c1abea"&gt;title&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;build&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;save&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;collect&lt;/span&gt;(Collectors.&lt;span style="color:#a6e22e"&gt;toList&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;collect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;Collectors&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;toList&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加-graphql-配置"&gt;添加 GraphQL 配置&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;添加 GraphQL 依赖&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; implementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 提供 UI
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; implementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;com.graphql-java:graphiql-spring-boot-starter:5.0.2&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 用于 Resolver
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; implementation&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;com.graphql-java:graphql-java-tools:5.2.4&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;implementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;// 提供 UI
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;implementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;com.graphql-java:graphiql-spring-boot-starter:5.0.2&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;// 用于 Resolver
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;implementation&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;com.graphql-java:graphql-java-tools:5.2.4&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加接口定义脚本&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-graphql" data-lang="graphql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# io.github.helloworlde.graphql.model.Post 对应的Model&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; id: &lt;span style="color:#a6e22e"&gt;ID&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; title: &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; content: &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; createtype: &lt;span style="color:#a6e22e"&gt;post&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; date: &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-graphql" data-lang="graphql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# io.github.helloworlde.graphql.model.Post 对应的Model&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;type&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;id&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;ID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;title&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;content&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;createtype&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;post&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;date&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# io.github.helloworlde.graphql.resolver.PostMutation.updatePost 的入参 post&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;input&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;PostInput&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; title: &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;!
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; content: &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# io.github.helloworlde.graphql.resolver.PostMutation.updatePost 的入参 post&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;input&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PostInput&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;title&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;content&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;!
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 查询 io.github.helloworlde.graphql.resolver.PostQuery&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Query&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; posts: [&lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; post(id: &lt;span style="color:#a6e22e"&gt;ID&lt;/span&gt;!): &lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 查询 io.github.helloworlde.graphql.resolver.PostQuery&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;type&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;Query&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;posts&lt;/span&gt;: [&lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;post&lt;/span&gt;(&lt;span style="color:#cebc3a"&gt;id&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;ID&lt;/span&gt;!): &lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 修改 io.github.helloworlde.graphql.resolver.PostMutation&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;type&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Mutation&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; createPost(post: &lt;span style="color:#a6e22e"&gt;PostInput&lt;/span&gt;): &lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt;!
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; updatePost(id: &lt;span style="color:#a6e22e"&gt;ID&lt;/span&gt;!, post: &lt;span style="color:#a6e22e"&gt;PostInput&lt;/span&gt;): &lt;span style="color:#a6e22e"&gt;Post&lt;/span&gt;!
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; deletePost(id: &lt;span style="color:#a6e22e"&gt;ID&lt;/span&gt;!): &lt;span style="color:#a6e22e"&gt;String&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 修改 io.github.helloworlde.graphql.resolver.PostMutation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;type&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;Mutation&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;createPost&lt;/span&gt;(&lt;span style="color:#cebc3a"&gt;post&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;PostInput&lt;/span&gt;): &lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;updatePost&lt;/span&gt;(&lt;span style="color:#cebc3a"&gt;id&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;ID&lt;/span&gt;!, &lt;span style="color:#cebc3a"&gt;post&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;PostInput&lt;/span&gt;): &lt;span style="color:#76a9f9"&gt;Post&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#cebc3a"&gt;deletePost&lt;/span&gt;(&lt;span style="color:#cebc3a"&gt;id&lt;/span&gt;: &lt;span style="color:#76a9f9"&gt;ID&lt;/span&gt;!): &lt;span style="color:#76a9f9"&gt;String&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="添加接口-resolver"&gt;添加接口 Resolver&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;查询 Resolver&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;PostQuery&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;implements&lt;/span&gt; GraphQLQueryResolver {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PostQuery&lt;/span&gt; &lt;span style="color:#c678dd"&gt;implements&lt;/span&gt; &lt;span style="color:#c1abea"&gt;GraphQLQueryResolver&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; PostRepository postRepository;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;PostRepository&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; List&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Post&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;posts&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;findAll&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;List&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;posts&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;findAll&lt;/span&gt;();
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; Optional&lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt;Post&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;post&lt;/span&gt;(String id) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;findById&lt;/span&gt;(id);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Optional&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;post&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;findById&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;id&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改 Resolver&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;PostMutation&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;implements&lt;/span&gt; GraphQLMutationResolver {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PostMutation&lt;/span&gt; &lt;span style="color:#c678dd"&gt;implements&lt;/span&gt; &lt;span style="color:#c1abea"&gt;GraphQLMutationResolver&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Autowired&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; PostRepository postRepository;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Autowired&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c1abea"&gt;PostRepository&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; Post &lt;span style="color:#a6e22e"&gt;createPost&lt;/span&gt;(Post post) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Post newPost &lt;span style="color:#f92672"&gt;=&lt;/span&gt; Post.&lt;span style="color:#a6e22e"&gt;builder&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;title&lt;/span&gt;(post.&lt;span style="color:#a6e22e"&gt;getTitle&lt;/span&gt;())
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;content&lt;/span&gt;(post.&lt;span style="color:#a6e22e"&gt;getContent&lt;/span&gt;())
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;build&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;createPost&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#c1abea"&gt;post&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#c1abea"&gt;newPost&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;builder&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;title&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getTitle&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;content&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getContent&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;build&lt;/span&gt;();
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;save&lt;/span&gt;(newPost);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;save&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;newPost&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; Post &lt;span style="color:#a6e22e"&gt;updatePost&lt;/span&gt;(String id, Post post) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; Exception {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Post currentPost &lt;span style="color:#f92672"&gt;=&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;findById&lt;/span&gt;(id)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;orElseThrow&lt;/span&gt;(() &lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; IllegalArgumentException(&lt;span style="color:#e6db74"&gt;&amp;#34;Post &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; id &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; Not Exist&amp;#34;&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;updatePost&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#c1abea"&gt;post&lt;/span&gt;) &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Exception&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;Post&lt;/span&gt; &lt;span style="color:#c1abea"&gt;currentPost&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;findById&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;id&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;orElseThrow&lt;/span&gt;(() &lt;span style="color:#c7bf54"&gt;-&amp;gt;&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;IllegalArgumentException&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;Post &amp;#34;&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;+&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;+&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34; Not Exist&amp;#34;&lt;/span&gt;));
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; currentPost.&lt;span style="color:#a6e22e"&gt;setTitle&lt;/span&gt;(post.&lt;span style="color:#a6e22e"&gt;getTitle&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; currentPost.&lt;span style="color:#a6e22e"&gt;setContent&lt;/span&gt;(post.&lt;span style="color:#a6e22e"&gt;getContent&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;currentPost&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;setTitle&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getTitle&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;currentPost&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;setContent&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;post&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getContent&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;save&lt;/span&gt;(currentPost);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;save&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;currentPost&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; String &lt;span style="color:#a6e22e"&gt;deletePost&lt;/span&gt;(String id) &lt;span style="color:#66d9ef"&gt;throws&lt;/span&gt; Exception {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;findById&lt;/span&gt;(id)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;orElseThrow&lt;/span&gt;(() &lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; IllegalArgumentException(&lt;span style="color:#e6db74"&gt;&amp;#34;Post &amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; id &lt;span style="color:#f92672"&gt;+&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34; Not Exist&amp;#34;&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;deletePost&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt;) &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Exception&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;findById&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;id&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#b3d23c"&gt;orElseThrow&lt;/span&gt;(() &lt;span style="color:#c7bf54"&gt;-&amp;gt;&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;IllegalArgumentException&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;Post &amp;#34;&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;+&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;+&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34; Not Exist&amp;#34;&lt;/span&gt;));
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; postRepository.&lt;span style="color:#a6e22e"&gt;deleteById&lt;/span&gt;(id);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;postRepository&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;deleteById&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;id&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="测试"&gt;测试&lt;/h2&gt;

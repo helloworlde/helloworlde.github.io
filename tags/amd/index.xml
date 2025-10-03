@@ -4,23 +4,23 @@
 &lt;ul&gt;
 &lt;li&gt;添加 gpg 密钥&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir --parents --mode&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0755&lt;/span&gt; /etc/apt/keyrings
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir --parents --mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0755&lt;/span&gt; /etc/apt/keyrings
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加源&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;分别添加 AMDGPU 驱动程序的软件源和 ROCm 软件源，并设置软件源的优先级，确保在有多个版本可用时，系统会优先安装来自 AMD 官方仓库的软件包&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.4/ubuntu jammy main&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/amdgpu.list
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 noble main&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; | sudo tee --append /etc/apt/sources.list.d/rocm.list
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo -e &lt;span style="color:#e6db74"&gt;&amp;#39;Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600&amp;#39;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; | sudo tee /etc/apt/preferences.d/rocm-pin-600
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.4/ubuntu jammy main&amp;#34;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/amdgpu.list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 noble main&amp;#34;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee --append /etc/apt/sources.list.d/rocm.list
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; -e &lt;span style="color:#98c379"&gt;&amp;#39;Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600&amp;#39;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee /etc/apt/preferences.d/rocm-pin-600
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;更新软件包&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装-rocm-1"&gt;安装 ROCm&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;安装 ROCm&lt;/li&gt;
@@ -30,7 +30,7 @@
 &lt;li&gt;下载 amdgpu-install&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;访问 &lt;a href="https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro"&gt;Linux® Drivers for AMD Radeon™ and Radeon PRO™ Graphics&lt;/a&gt;，找到 Ubuntu 对应的驱动安装软件；右击 Download 按钮复制下载地址，即可得到下载链接；然后使用 curl 或者 wget 在 Ubuntu 下载，如：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png" alt="homelab-ubuntu-22-install-amd-graphics-driver.png" loading="lazy"&gt;
@@ -39,12 +39,12 @@
 &lt;li&gt;安装下载软件&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用 apt 安装刚才下载的软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install ./amdgpu-install_6.1.60103-1_all.deb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install ./amdgpu-install_6.1.60103-1_all.deb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="3"&gt;
 &lt;li&gt;安装显卡驱动&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用 amdgpu-install 安装显卡驱动&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;amdgpu-install -y --usecase&lt;span style="color:#f92672"&gt;=&lt;/span&gt;graphics
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;amdgpu-install -y --usecase&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;graphics
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="参考文档"&gt;参考文档&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://amdgpu-install.readthedocs.io/en/latest/index.html"&gt;Radeon™ Software for Linux® Installation&lt;/a&gt;&lt;/li&gt;

@@ -3,42 +3,42 @@
 &lt;blockquote&gt;
 &lt;p&gt;在 SpringBoot 中通过 &lt;code&gt;@Schedule&lt;/code&gt;注解就可以简单的实现定时任务，但是这种方式够灵活，如果想要修改执行状态就必须修改代码；另外一种实现方式是通过 &lt;a href="http://www.quartz-scheduler.org/"&gt;&lt;code&gt;Quartz&lt;/code&gt;&lt;/a&gt; 实现任务调度&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id="通过-springboot-实现简单任务"&gt;通过 SpringBoot 实现简单任务&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.slf4j.Logger;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.slf4j.LoggerFactory;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; org.springframework.scheduling.annotation.Scheduled;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.slf4j.Logger&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.slf4j.LoggerFactory&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.scheduling.annotation.Scheduled&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import static&lt;/span&gt; cn.com.hellowood.scheduledjob.utils.ApplicationUtils.currentDateTime;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import static&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.scheduledjob.utils.ApplicationUtils.currentDateTime&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;@Component&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;StaticJob&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;StaticJob&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; Logger logger &lt;span style="color:#f92672"&gt;=&lt;/span&gt; LoggerFactory.&lt;span style="color:#a6e22e"&gt;getLogger&lt;/span&gt;(getClass());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c678dd"&gt;final&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Logger&lt;/span&gt; &lt;span style="color:#c1abea"&gt;logger&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;LoggerFactory&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getLogger&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;getClass&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;private&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;static&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;long&lt;/span&gt; SECOND &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 1000;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c678dd"&gt;final&lt;/span&gt; &lt;span style="color:#c678dd"&gt;static&lt;/span&gt; &lt;span style="color:#ef8383"&gt;long&lt;/span&gt; &lt;span style="color:#c1abea"&gt;SECOND&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;1000&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;/**
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; * fixedDelay: 固定延迟时间执行
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Scheduled&lt;/span&gt;(fixedDelay &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 10 &lt;span style="color:#f92672"&gt;*&lt;/span&gt; SECOND)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;fixedDelayJob&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;{}\tfixedDelay&amp;#34;&lt;/span&gt;, currentDateTime());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; * fixedDelay: 固定延迟时间执行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Scheduled&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;fixedDelay&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;10&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt; &lt;span style="color:#c1abea"&gt;SECOND&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;fixedDelayJob&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;logger&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;{}\tfixedDelay&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;currentDateTime&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;/**
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; * fixedRate: 固定间隔时间执行
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Scheduled&lt;/span&gt;(fixedRate &lt;span style="color:#f92672"&gt;=&lt;/span&gt; 10 &lt;span style="color:#f92672"&gt;*&lt;/span&gt; SECOND)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;fixedRate&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;{}\tfixedRate&amp;#34;&lt;/span&gt;, currentDateTime());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; * fixedRate: 固定间隔时间执行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Scheduled&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;fixedRate&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;10&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt; &lt;span style="color:#c1abea"&gt;SECOND&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;fixedRate&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;logger&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;{}\tfixedRate&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;currentDateTime&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;/**
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; * cron: 通过 Cron 表达式控制执行
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;@Scheduled&lt;/span&gt;(cron &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;*/10 * * * * *&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;cron&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logger.&lt;span style="color:#a6e22e"&gt;info&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;{}\tcron&amp;#34;&lt;/span&gt;, currentDateTime());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; * cron: 通过 Cron 表达式控制执行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Scheduled&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;cron&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;*/10 * * * * *&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;cron&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;logger&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;{}\tcron&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;currentDateTime&lt;/span&gt;());
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;

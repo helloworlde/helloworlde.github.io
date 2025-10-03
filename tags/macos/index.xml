@@ -168,11 +168,11 @@
 &lt;p&gt;安装完成后，可以通过命令行制作 ISO 镜像&lt;/p&gt;
 &lt;h3 id="1-创建-dmg-镜像文件"&gt;1 创建 dmg 镜像文件&lt;/h3&gt;
 &lt;p&gt;通过 &lt;code&gt;hdiutil&lt;/code&gt; 在 &lt;code&gt;/tmp&lt;/code&gt; 目录下创建一个临时的 Monterey dmg 文件，文件大小要大于等于安装器的大小，并指定挂载的数据卷名称为 &lt;code&gt;Monterey&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil create -o /tmp/Monterey -size 14500m -volname Monterey -layout SPUD -fs HFS+J
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil create -o /tmp/Monterey -size 14500m -volname Monterey -layout SPUD -fs HFS+J
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会提示创建 dmg 文件成功 ：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;created: /tmp/Monterey.dmg
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;created: /tmp/Monterey.dmg
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-将-dmg-挂载为数据卷"&gt;2 将 dmg 挂载为数据卷&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil attach /tmp/Monterey.dmg -noverify -mountpoint /Volumes/Monterey
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil attach /tmp/Monterey.dmg -noverify -mountpoint /Volumes/Monterey
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;挂载到 disk2&lt;/p&gt;</description></item><item><title>MacOS Monterey 制作 Windows 启动盘</title><link>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</link><pubDate>Thu, 30 Jun 2022 11:37:22 +0800</pubDate><guid>https://blog.hellowood.dev/posts/macos-monterey-%E5%88%B6%E4%BD%9C-windows-%E5%90%AF%E5%8A%A8%E7%9B%98/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;需要在新的电脑安装 Windows 系统，但是手里只有 Mac，所以需要通过 Mac 制作 Windows 启动盘&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
@@ -183,17 +183,17 @@
 &lt;li&gt;挂载 Windows 镜像到 Mac&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用 &lt;code&gt;hdiutil&lt;/code&gt; 挂载 iso 镜像文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil mount ~/Downloads/Win10_21H2_Chinese&lt;span style="color:#ae81ff"&gt;\(&lt;/span&gt;Simplified&lt;span style="color:#ae81ff"&gt;\)&lt;/span&gt;_x64.iso
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil mount ~/Downloads/Win10_21H2_Chinese&lt;span style="color:#d26464;font-weight:bold"&gt;\(&lt;/span&gt;Simplified&lt;span style="color:#d26464;font-weight:bold"&gt;\)&lt;/span&gt;_x64.iso
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回以下结果， 挂载的路径&lt;code&gt;/Volumes/CCCOMA_X64FRE_ZH-CN_DV9&lt;/code&gt;在复制文件时还需要用到&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 /Volumes/CCCOMA_X64FRE_ZH-CN_DV9
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 /Volumes/CCCOMA_X64FRE_ZH-CN_DV9
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="格式化-u-盘"&gt;格式化 U 盘&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;查找 U 盘路径
 使用 &lt;code&gt;diskutil&lt;/code&gt;查看所有挂载的硬盘，可以通过名称及容量查找；如果已经执行上面的命令挂载了 ISO 镜像，且没有其他硬盘，那么路径一般为 &lt;code&gt;/dev/disk3&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list | grep external
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list | grep external
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回的 &lt;code&gt;dev/disk3&lt;/code&gt; 即为挂载的路径：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 &lt;span style="color:#f92672"&gt;(&lt;/span&gt;external, physical&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;external, physical&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;格式化 U 盘&lt;/li&gt;
 &lt;/ol&gt;

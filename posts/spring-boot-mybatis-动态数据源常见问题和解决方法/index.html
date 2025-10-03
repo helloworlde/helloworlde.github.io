@@ -8,57 +8,57 @@
 | Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/mybatis>MyBatis</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/dynamicdatasource>DynamicDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/multipledatasource>MultipleDataSource</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/druid>Druid</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/issue>Issue</a></li></ul></div><div class=post-content><blockquote><p>相关项目地址:<a href=https://github.com/helloworlde/SpringBoot-DynamicDataSource>https://github.com/helloworlde/SpringBoot-DynamicDataSource</a></p></blockquote><h2 id=1-orgapacheibatisbindingbindingexception-invalid-bound-statement-not-found>1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)</h2><blockquote><p>在使用了动态数据源后遇到了该问题，从错误信息来看是因为没有找到 <code>*.xml</code> 文件而导致的，但是在配置文件中
 确实添加了相关的配置，这种错误的原因是因为设置数据源后没有设置<code>SqlSessionFactoryBean</code>的 <code>typeAliasesPackage</code>
 和<code>mapperLocations</code>属性或属性无效导致的；</p></blockquote><ul><li>解决方法：</li></ul><blockquote><p>如果在应用的入口类中添加了 <code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)</code>,
-在<code>DataSourceConfigure</code>类的中设置相关属性：</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mybatis&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> SqlSessionFactoryBean <span style=color:#a6e22e>sqlSessionFactoryBean</span>() {
-</span></span><span style=display:flex><span>        SqlSessionFactoryBean sqlSessionFactoryBean <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SqlSessionFactoryBean();
-</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setDataSource</span>(dynamicDataSource());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> sqlSessionFactoryBean;
+在<code>DataSourceConfigure</code>类的中设置相关属性：</p></blockquote><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;mybatis&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#00b1f7>sqlSessionFactoryBean</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#c1abea>sqlSessionFactoryBean</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>SqlSessionFactoryBean</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setDataSource</span>(<span style=color:#c1abea>dynamicDataSource</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>sqlSessionFactoryBean</span>;
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><p>或者直接配置(不推荐该方式)：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> SqlSessionFactoryBean <span style=color:#a6e22e>sqlSessionFactoryBean</span>() {
-</span></span><span style=display:flex><span>        SqlSessionFactoryBean sqlSessionFactoryBean <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SqlSessionFactoryBean();
-</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setTypeAliasesPackage</span>(<span style=color:#e6db74>&#34;typeAliasesPackage&#34;</span>);
-</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setMapperLocations</span>(<span style=color:#66d9ef>new</span> PathMatchingResourcePatternResolver().<span style=color:#a6e22e>getResources</span>(<span style=color:#e6db74>&#34;mapperLocations&#34;</span>));
-</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setDataSource</span>(dynamicDataSource());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> sqlSessionFactoryBean;
+</span></span></code></pre></div><p>或者直接配置(不推荐该方式)：</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#00b1f7>sqlSessionFactoryBean</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#c1abea>sqlSessionFactoryBean</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>SqlSessionFactoryBean</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setTypeAliasesPackage</span>(<span style=color:#98c379>&#34;typeAliasesPackage&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setMapperLocations</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>PathMatchingResourcePatternResolver</span>().<span style=color:#b3d23c>getResources</span>(<span style=color:#98c379>&#34;mapperLocations&#34;</span>));
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setDataSource</span>(<span style=color:#c1abea>dynamicDataSource</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>sqlSessionFactoryBean</span>;
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><h2 id=2-consider-marking-one-of-the-beans-as-primary-updating-the-consumer-to-accept-multiple-beans-or-using-qualifier-to-identify-the-bean-that-should-be-consumed>2. Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed</h2><blockquote><p>该异常在错误信息中已经说的很清楚了，是因为有多个 <code>DataSource</code> 的实例，所以无法确定该引用那个实例</p></blockquote><ul><li>解决方法：</li></ul><blockquote><p>为数据源的某个 <code>Bean</code> 添加 <code>@Primary</code> 注解，该 <code>Bean</code> 应当是通过 <code>DataSourceBuilder.create().build()</code>
 得到的 <code>Bean</code>，而不是通过 <code>new AbstractRoutingDataSource</code> 的子类实现的 <code>Bean</code>，在本项目中可以是 <code>master()</code>
-或 <code>slave()</code> 得到的 <code>DataSource</code>，不能是 <code>dynamicDataSource()</code> 得到的 <code>DataSource</code></p></blockquote><h2 id=3-通过注解方式动态切换数据源无效>3. 通过注解方式动态切换数据源无效</h2><ul><li>请确认注解没有放到 DAO 层方法上, 因为会在 Service 层开启事务，所以当注解在 DAO 层时不会生效</li><li>请确认以下 <code>Bean</code> 正确配置：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;dynamicDataSource&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>dynamicDataSource</span>() {
-</span></span><span style=display:flex><span>        DynamicRoutingDataSource dynamicRoutingDataSource <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DynamicRoutingDataSource();
-</span></span><span style=display:flex><span>        Map<span style=color:#f92672>&lt;</span>Object, Object<span style=color:#f92672>&gt;</span> dataSourceMap <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>(2);
-</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(<span style=color:#e6db74>&#34;master&#34;</span>, master());
-</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(<span style=color:#e6db74>&#34;slave&#34;</span>, slave());
+或 <code>slave()</code> 得到的 <code>DataSource</code>，不能是 <code>dynamicDataSource()</code> 得到的 <code>DataSource</code></p></blockquote><h2 id=3-通过注解方式动态切换数据源无效>3. 通过注解方式动态切换数据源无效</h2><ul><li>请确认注解没有放到 DAO 层方法上, 因为会在 Service 层开启事务，所以当注解在 DAO 层时不会生效</li><li>请确认以下 <code>Bean</code> 正确配置：</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;dynamicDataSource&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>dynamicDataSource</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicRoutingDataSource</span> <span style=color:#c1abea>dynamicRoutingDataSource</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DynamicRoutingDataSource</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span>, <span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>dataSourceMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>HashMap</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>2</span>);
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#98c379>&#34;master&#34;</span>, <span style=color:#c1abea>master</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#98c379>&#34;slave&#34;</span>, <span style=color:#c1abea>slave</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Set master datasource as default</span>
-</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setDefaultTargetDataSource</span>(master());
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Set master and slave datasource as target datasource</span>
-</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setTargetDataSources</span>(dataSourceMap);
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Set master datasource as default</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setDefaultTargetDataSource</span>(<span style=color:#c1abea>master</span>());
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Set master and slave datasource as target datasource</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setTargetDataSources</span>(<span style=color:#c1abea>dataSourceMap</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// To put datasource keys into DataSourceContextHolder to judge if the datasource is exist</span>
-</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>dataSourceKeys</span>.<span style=color:#a6e22e>addAll</span>(dataSourceMap.<span style=color:#a6e22e>keySet</span>());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dynamicRoutingDataSource;
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// To put datasource keys into DataSourceContextHolder to judge if the datasource is exist</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>dataSourceKeys</span>.<span style=color:#b3d23c>addAll</span>(<span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>keySet</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>dynamicRoutingDataSource</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mybatis&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> SqlSessionFactoryBean <span style=color:#a6e22e>sqlSessionFactoryBean</span>() {
-</span></span><span style=display:flex><span>        SqlSessionFactoryBean sqlSessionFactoryBean <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SqlSessionFactoryBean();
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Here is very important, if don&#39;t config this, will can&#39;t switch datasource</span>
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// put all datasource into SqlSessionFactoryBean, then will autoconfig SqlSessionFactory</span>
-</span></span><span style=display:flex><span>        sqlSessionFactoryBean.<span style=color:#a6e22e>setDataSource</span>(dynamicDataSource());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> sqlSessionFactoryBean;
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;mybatis&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#00b1f7>sqlSessionFactoryBean</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>SqlSessionFactoryBean</span> <span style=color:#c1abea>sqlSessionFactoryBean</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>SqlSessionFactoryBean</span>();
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Here is very important, if don&#39;t config this, will can&#39;t switch datasource</span>
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// put all datasource into SqlSessionFactoryBean, then will autoconfig SqlSessionFactory</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>sqlSessionFactoryBean</span>.<span style=color:#b3d23c>setDataSource</span>(<span style=color:#c1abea>dynamicDataSource</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>sqlSessionFactoryBean</span>;
 </span></span><span style=display:flex><span>    }
-</span></span></code></pre></div><h2 id=4-transactional-注解无效发生异常不回滚>4. <code>@Transactional</code> 注解无效，发生异常不回滚</h2><ul><li>请确认该 <code>Bean</code> 得到正确配置，并且<code>@Transactional</code> 的 <code>rollbackFor</code> 配置正确</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> PlatformTransactionManager <span style=color:#a6e22e>transactionManager</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> DataSourceTransactionManager(dynamicDataSource());
+</span></span></code></pre></div><h2 id=4-transactional-注解无效发生异常不回滚>4. <code>@Transactional</code> 注解无效，发生异常不回滚</h2><ul><li>请确认该 <code>Bean</code> 得到正确配置，并且<code>@Transactional</code> 的 <code>rollbackFor</code> 配置正确</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>PlatformTransactionManager</span> <span style=color:#00b1f7>transactionManager</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DataSourceTransactionManager</span>(<span style=color:#c1abea>dynamicDataSource</span>());
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><h2 id=5-通过-aop-判断-dao-层方法名时切换数据源无效>5. 通过 AOP 判断 DAO 层方法名时切换数据源无效</h2><blockquote><p>当切面指向了 DAO 层后无论如何设置切面的顺序，都无法在执行查询之前切换数据源，但是切面改为 Service 层后可以正常工作</p></blockquote><ul><li><p>解决方法: 请确认 <code>@Transactional</code> 注解是加在方法上而不是 Service 类上，添加了 <code>@Transactional</code> 的方法因为在 Service 层开启了事务，
-会在事务结束之后才会切换数据源</p></li><li><p>检出 <code>DataSourceTransactionManager</code> Bean 注入正确</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> PlatformTransactionManager <span style=color:#a6e22e>transactionManager</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> DataSourceTransactionManager(dynamicDataSource());
+会在事务结束之后才会切换数据源</p></li><li><p>检出 <code>DataSourceTransactionManager</code> Bean 注入正确</p></li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>PlatformTransactionManager</span> <span style=color:#00b1f7>transactionManager</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DataSourceTransactionManager</span>(<span style=color:#c1abea>dynamicDataSource</span>());
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div><h2 id=6-the-dependencies-of-some-of-the-beans-in-the-application-context-form-a-cycle>6. The dependencies of some of the beans in the application context form a cycle</h2><ul><li>错误信息：</li></ul><pre tabindex=0><code>The dependencies of some of the beans in the application context form a cycle:
 
@@ -77,43 +77,43 @@
 |  dataSourceInitializer
 └─────┘
 </code></pre><blockquote><p>这是因为在注入 <code>DataSource</code> 的实例的时候产生了循环调用，第一个注入的 Bean 依赖于其他的 Bean， 而被依赖的 Bean 产生依赖传递，依赖第一个
-注入的 Bean, 陷入了循环，无法启动项目</p></blockquote><ul><li>解决方法：将 <code>@Primary</code> 注解指向没有依赖的 Bean，如：</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * master DataSource
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有三个 DataSource Bean，该注解可用于 master
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @return data source
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;master&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Primary</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;application.server.db.master&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>master</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
+注入的 Bean, 陷入了循环，无法启动项目</p></blockquote><ul><li>解决方法：将 <code>@Primary</code> 注解指向没有依赖的 Bean，如：</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * master DataSource
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @Primary 注解用于标识默认使用的 DataSource Bean，因为有三个 DataSource Bean，该注解可用于 master
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * 或 slave DataSource Bean, 但不能用于 dynamicDataSource Bean, 否则会产生循环调用
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @ConfigurationProperties 注解用于从 application.properties 文件中读取配置，为 Bean 设置属性
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @return data source
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;master&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Primary</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;application.server.db.master&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>master</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;slave&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;application.server.db.slave&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>slave</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> DataSourceBuilder.<span style=color:#a6e22e>create</span>().<span style=color:#a6e22e>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;slave&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;application.server.db.slave&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>slave</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>DataSourceBuilder</span>.<span style=color:#b3d23c>create</span>().<span style=color:#b3d23c>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>(<span style=color:#e6db74>&#34;dynamicDataSource&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> DataSource <span style=color:#a6e22e>dynamicDataSource</span>() {
-</span></span><span style=display:flex><span>        DynamicRoutingDataSource dynamicRoutingDataSource <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DynamicRoutingDataSource();
-</span></span><span style=display:flex><span>        Map<span style=color:#f92672>&lt;</span>Object, Object<span style=color:#f92672>&gt;</span> dataSourceMap <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>(2);
-</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(<span style=color:#e6db74>&#34;master&#34;</span>, master());
-</span></span><span style=display:flex><span>        dataSourceMap.<span style=color:#a6e22e>put</span>(<span style=color:#e6db74>&#34;slave&#34;</span>, slave());
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>(<span style=color:#98c379>&#34;dynamicDataSource&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>DataSource</span> <span style=color:#00b1f7>dynamicDataSource</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicRoutingDataSource</span> <span style=color:#c1abea>dynamicRoutingDataSource</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>DynamicRoutingDataSource</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Object</span>, <span style=color:#c1abea>Object</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>dataSourceMap</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>HashMap</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>2</span>);
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#98c379>&#34;master&#34;</span>, <span style=color:#c1abea>master</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>put</span>(<span style=color:#98c379>&#34;slave&#34;</span>, <span style=color:#c1abea>slave</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Set master datasource as default</span>
-</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setDefaultTargetDataSource</span>(master());
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Set master and slave datasource as target datasource</span>
-</span></span><span style=display:flex><span>        dynamicRoutingDataSource.<span style=color:#a6e22e>setTargetDataSources</span>(dataSourceMap);
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Set master datasource as default</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setDefaultTargetDataSource</span>(<span style=color:#c1abea>master</span>());
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// Set master and slave datasource as target datasource</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>dynamicRoutingDataSource</span>.<span style=color:#b3d23c>setTargetDataSources</span>(<span style=color:#c1abea>dataSourceMap</span>);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// To put datasource keys into DataSourceContextHolder to judge if the datasource is exist</span>
-</span></span><span style=display:flex><span>        DynamicDataSourceContextHolder.<span style=color:#a6e22e>dataSourceKeys</span>.<span style=color:#a6e22e>addAll</span>(dataSourceMap.<span style=color:#a6e22e>keySet</span>());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dynamicRoutingDataSource;
+</span></span><span style=display:flex><span>        <span style=color:#8a93a5;font-style:italic>// To put datasource keys into DataSourceContextHolder to judge if the datasource is exist</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>DynamicDataSourceContextHolder</span>.<span style=color:#b3d23c>dataSourceKeys</span>.<span style=color:#b3d23c>addAll</span>(<span style=color:#c1abea>dataSourceMap</span>.<span style=color:#b3d23c>keySet</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>dynamicRoutingDataSource</span>;
 </span></span><span style=display:flex><span>    }
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2017-2025 hellowood.dev</span>

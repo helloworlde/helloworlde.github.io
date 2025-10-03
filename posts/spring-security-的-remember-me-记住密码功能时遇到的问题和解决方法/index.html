@@ -110,50 +110,50 @@ java.lang.IllegalStateException: UserDetailsService is required.
     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_141]
     at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.5.23.jar:8.5.23]
     at java.lang.Thread.run(Thread.java:748) [na:1.8.0_141]
-</code></pre><p>###解决方法：实现 <code>UserDetailsService</code></p><ul><li>UserDetailsService.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#f92672>import</span> cn.com.hellowood.springsecurity.mapper.UserMapper;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> cn.com.hellowood.springsecurity.model.UserModel;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.slf4j.Logger;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.slf4j.LoggerFactory;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.beans.factory.annotation.Autowired;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.authentication.AccountExpiredException;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.authentication.BadCredentialsException;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.AuthenticationException;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.GrantedAuthority;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.userdetails.User;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.userdetails.UserDetails;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.userdetails.UserDetailsService;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.security.core.userdetails.UsernameNotFoundException;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> org.springframework.stereotype.Service;
+</code></pre><p>###解决方法：实现 <code>UserDetailsService</code></p><ul><li>UserDetailsService.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.springsecurity.mapper.UserMapper</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>cn.com.hellowood.springsecurity.model.UserModel</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.Logger</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.slf4j.LoggerFactory</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.beans.factory.annotation.Autowired</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.authentication.AccountExpiredException</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.authentication.BadCredentialsException</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.AuthenticationException</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.GrantedAuthority</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.userdetails.User</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.userdetails.UserDetails</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.userdetails.UserDetailsService</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.security.core.userdetails.UsernameNotFoundException</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.stereotype.Service</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> javax.servlet.http.HttpSession;
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> java.util.ArrayList;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>javax.servlet.http.HttpSession</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.ArrayList</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>import static</span> cn.com.hellowood.springsecurity.common.constant.CommonConstant.USER;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>import static</span> <span style=color:#76a9f9>cn.com.hellowood.springsecurity.common.constant.CommonConstant.USER</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>/**
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * The type Custom user details service.
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     *
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     * @author HelloWood
-</span></span></span><span style=display:flex><span><span style=color:#75715e>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Service</span>(<span style=color:#e6db74>&#34;userDetailsService&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CustomUserDetailsService</span> <span style=color:#66d9ef>implements</span> UserDetailsService {
+</span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>/**
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * The type Custom user details service.
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     *
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     * @author HelloWood
+</span></span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Service</span>(<span style=color:#98c379>&#34;userDetailsService&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>CustomUserDetailsService</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>UserDetailsService</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>private</span> Logger logger <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(getClass());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>Logger</span> <span style=color:#c1abea>logger</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>LoggerFactory</span>.<span style=color:#b3d23c>getLogger</span>(<span style=color:#c1abea>getClass</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>private</span> UserMapper userMapper;
+</span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>UserMapper</span> <span style=color:#c1abea>userMapper</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>private</span> HttpSession session;
+</span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>private</span> <span style=color:#c1abea>HttpSession</span> <span style=color:#c1abea>session</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>@Override</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>public</span> UserDetails <span style=color:#a6e22e>loadUserByUsername</span>(String username) <span style=color:#66d9ef>throws</span> UsernameNotFoundException {
-</span></span><span style=display:flex><span>            logger.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;user {} is login by remember me cookie&#34;</span>, username);
-</span></span><span style=display:flex><span>            UserModel user <span style=color:#f92672>=</span> userMapper.<span style=color:#a6e22e>getUserByUsername</span>(username);
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (user <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>){
-</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> User(user.<span style=color:#a6e22e>getUsername</span>(), user.<span style=color:#a6e22e>getPassword</span>(), <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;</span>GrantedAuthority<span style=color:#f92672>&gt;</span>());
-</span></span><span style=display:flex><span>            }<span style=color:#66d9ef>else</span>{
-</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>null</span>;
+</span></span><span style=display:flex><span>        <span style=color:#e5c07b>@Override</span>
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>public</span> <span style=color:#c1abea>UserDetails</span> <span style=color:#00b1f7>loadUserByUsername</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>username</span>) <span style=color:#c678dd>throws</span> <span style=color:#c1abea>UsernameNotFoundException</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>logger</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;user {} is login by remember me cookie&#34;</span>, <span style=color:#c1abea>username</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>UserModel</span> <span style=color:#c1abea>user</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>userMapper</span>.<span style=color:#b3d23c>getUserByUsername</span>(<span style=color:#c1abea>username</span>);
+</span></span><span style=display:flex><span>            <span style=color:#c678dd>if</span> (<span style=color:#c1abea>user</span> <span style=color:#c7bf54>!=</span> <span style=color:#b756ff;font-weight:700>null</span>){
+</span></span><span style=display:flex><span>                <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>User</span>(<span style=color:#c1abea>user</span>.<span style=color:#b3d23c>getUsername</span>(), <span style=color:#c1abea>user</span>.<span style=color:#b3d23c>getPassword</span>(), <span style=color:#c678dd>new</span> <span style=color:#c1abea>ArrayList</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>GrantedAuthority</span><span style=color:#c7bf54>&gt;</span>());
+</span></span><span style=display:flex><span>            }<span style=color:#c678dd>else</span>{
+</span></span><span style=display:flex><span>                <span style=color:#c678dd>return</span> <span style=color:#b756ff;font-weight:700>null</span>;
 </span></span><span style=display:flex><span>            }
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>}

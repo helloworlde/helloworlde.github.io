@@ -16,19 +16,19 @@
 &lt;p&gt;对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="创建用户"&gt;创建用户&lt;/h3&gt;
 &lt;p&gt;Tinyauth 支持多种登录方式，如 GitHub/Google 账户，或者单独创建用户&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -i -t --rm ghcr.io/steveiliop56/tinyauth:v3 user create --interactive
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -i -t --rm ghcr.io/steveiliop56/tinyauth:v3 user create --interactive
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会显示交互界面，输入用户名和密码，并选择使用 Docker 的格式化输出：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Username
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Username
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;gt; admin
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Password
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;gt; &lt;span style="color:#ae81ff"&gt;123456&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;gt; &lt;span style="color:#d19a66"&gt;123456&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ Format the output &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; docker?
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ Format the output &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; docker?
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ &amp;gt; Yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ No
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将得到用户名和密码，这个信息后面会作为 Tinyauth 的环境变量使用；如果有多个用户，可以重复执行上面的命令创建&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF Creating user docker&lt;span style="color:#f92672"&gt;=&lt;/span&gt;true password&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;123456&lt;/span&gt; username&lt;span style="color:#f92672"&gt;=&lt;/span&gt;admin
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF User created user&lt;span style="color:#f92672"&gt;=&lt;/span&gt;admin:$$2a$$10$$XjPRGRi5clgDD16LRaeEvetazg8roIUpS0dUOrqgFL51uD25ZCkl6
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF Creating user &lt;span style="color:#dcaeea"&gt;docker&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;password&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;123456&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;username&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;admin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF User created &lt;span style="color:#dcaeea"&gt;user&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;admin:&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;2a&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;10&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;XjPRGRi5clgDD16LRaeEvetazg8roIUpS0dUOrqgFL51uD25ZCkl6
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="生成-secret"&gt;生成 SECRET&lt;/h3&gt;
 &lt;p&gt;Tinyauth 需要一个 SECRET 用于加密 Cookie，可以使用下面的命令生成一个 32 位的随机字符串&lt;/p&gt;</description></item></channel></rss>

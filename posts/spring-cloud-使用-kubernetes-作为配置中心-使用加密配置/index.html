@@ -5,10 +5,10 @@
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置</h1><small role=doc-subtitle></small><p class=post-date>2019-09-08
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springcloud>SpringCloud</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li></ul></div><div class=post-content><blockquote><p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置</p></blockquote><h2 id=创建应用>创建应用</h2><h3 id=添加依赖>添加依赖</h3><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>	implementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div><h3 id=添加配置>添加配置</h3><h4 id=编码>编码</h4><p>内容通过 Base64 编码后添加到 Kubernetes 中</p><ul><li>secrets.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>apiVersion: v1
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springcloud>SpringCloud</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li></ul></div><div class=post-content><blockquote><p>Spring Cloud 可以通过使用 Kubernetes 的 Secrets 作为加密配置</p></blockquote><h2 id=创建应用>创建应用</h2><h3 id=添加依赖>添加依赖</h3><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>	<span style=color:#c1abea>implementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-starter-kubernetes-config&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
+</span></span></code></pre></div><h3 id=添加配置>添加配置</h3><h4 id=编码>编码</h4><p>内容通过 Base64 编码后添加到 Kubernetes 中</p><ul><li>secrets.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>apiVersion: v1
 </span></span><span style=display:flex><span>kind: Secret
 </span></span><span style=display:flex><span>metadata:
 </span></span><span style=display:flex><span>  name: secrets-service
@@ -17,102 +17,102 @@
 </span></span><span style=display:flex><span>  url: amRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L3NlYXRhP3VzZVVuaWNvZGU9dHJ1ZSZjaGFyYWN0ZXJFbmNvZGluZz11dGY4JmFsbG93TXVsdGlRdWVyaWVzPXRydWUmdXNlU1NMPWZhbHNl
 </span></span><span style=display:flex><span>  username: aGVsbG93b29k
 </span></span><span style=display:flex><span>  password: MTIzNDU2
-</span></span></code></pre></div><p>将Secrets 添加到 Kubernetes 中</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f secrets.yaml
-</span></span></code></pre></div><h4 id=applicationproperties>application.properties</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>spring.application.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>secrets-service</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>server.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>8081</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>management.endpoint.restart.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Secret Config</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.secrets.enabled</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.secrets.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>secrets-service</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.secrets.namespace</span><span style=color:#f92672>=</span><span style=color:#e6db74>default</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.cloud.kubernetes.reload.monitoring-secrets</span><span style=color:#f92672>=</span><span style=color:#e6db74>true</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># DataSource Config</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.url</span><span style=color:#f92672>=</span><span style=color:#e6db74>${DB_URL}</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>${DB_USERNAME}</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.datasource.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>${DB_PASSWORD}</span>
-</span></span></code></pre></div><ul><li><code>spring.cloud.kubernetes.secrets.enabled</code>默认是关闭的，所以需要主动开启</li><li><code>spring.cloud.kubernetes.secrets.name</code>默认和<code>spring.application.name</code>一致</li><li><code>spring.cloud.kubernetes.secrets.namespace</code>指定 Namespace</li><li><code>spring.cloud.kubernetes.reload.monitoring-secrets</code>监听配置更新事件</li></ul><h3 id=添加接口>添加接口</h3><ul><li>ConfigProperties.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Data</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@ConfigurationProperties</span>(prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spring.datasource&#34;</span>)
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ConfigProperties</span> {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String url;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String username;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> String password;
+</span></span></code></pre></div><p>将Secrets 添加到 Kubernetes 中</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f secrets.yaml
+</span></span></code></pre></div><h4 id=applicationproperties>application.properties</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#b3d23c>spring.application.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>server.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>8081</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>management.endpoint.restart.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
+</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># Secret Config</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.secrets.enabled</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.secrets.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.secrets.namespace</span><span style=color:#c7bf54>=</span><span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.cloud.kubernetes.reload.monitoring-secrets</span><span style=color:#c7bf54>=</span><span style=color:#98c379>true</span>
+</span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># DataSource Config</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.url</span><span style=color:#c7bf54>=</span><span style=color:#98c379>${DB_URL}</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>${DB_USERNAME}</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.datasource.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>${DB_PASSWORD}</span>
+</span></span></code></pre></div><ul><li><code>spring.cloud.kubernetes.secrets.enabled</code>默认是关闭的，所以需要主动开启</li><li><code>spring.cloud.kubernetes.secrets.name</code>默认和<code>spring.application.name</code>一致</li><li><code>spring.cloud.kubernetes.secrets.namespace</code>指定 Namespace</li><li><code>spring.cloud.kubernetes.reload.monitoring-secrets</code>监听配置更新事件</li></ul><h3 id=添加接口>添加接口</h3><ul><li>ConfigProperties.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Data</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@ConfigurationProperties</span>(<span style=color:#c1abea>prefix</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;spring.datasource&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>ConfigProperties</span> {
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>url</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>username</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>String</span> <span style=color:#c1abea>password</span>;
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>ConfigMapController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SecretsController</span> {
+</span></span></code></pre></div><ul><li>ConfigMapController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>SecretsController</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> ConfigProperties configProperties;
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>ConfigProperties</span> <span style=color:#c1abea>configProperties</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>(<span style=color:#e6db74>&#34;/db&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>config</span>() {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> String.<span style=color:#a6e22e>format</span>(<span style=color:#e6db74>&#34;url:%s\nusername:%s\npassword:%s&#34;</span>,
-</span></span><span style=display:flex><span>                configProperties.<span style=color:#a6e22e>getUrl</span>(),
-</span></span><span style=display:flex><span>                configProperties.<span style=color:#a6e22e>getUsername</span>(),
-</span></span><span style=display:flex><span>                configProperties.<span style=color:#a6e22e>getPassword</span>());
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>(<span style=color:#98c379>&#34;/db&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>String</span> <span style=color:#00b1f7>config</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>String</span>.<span style=color:#b3d23c>format</span>(<span style=color:#98c379>&#34;url:%s\nusername:%s\npassword:%s&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#c1abea>configProperties</span>.<span style=color:#b3d23c>getUrl</span>(),
+</span></span><span style=display:flex><span>                <span style=color:#c1abea>configProperties</span>.<span style=color:#b3d23c>getUsername</span>(),
+</span></span><span style=display:flex><span>                <span style=color:#c1abea>configProperties</span>.<span style=color:#b3d23c>getPassword</span>());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=部署应用>部署应用</h3><ul><li><p>构建并上传镜像</p></li><li><p>secrets-service.yaml</p></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>    - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8081</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>nodePort</span>: <span style=color:#ae81ff>30082</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>secrets-service</span>
+</span></span></code></pre></div><h3 id=部署应用>部署应用</h3><ul><li><p>构建并上传镜像</p></li><li><p>secrets-service.yaml</p></li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8081</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>nodePort</span>: <span style=color:#d19a66>30082</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>secrets-service</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#e6db74>&#34;hellowoodes/spring-cloud-k8s-secrets:1.3&#34;</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>DB_URL</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>secretKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>url</span>
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>DB_USERNAME</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>secretKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>username</span>
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>DB_PASSWORD</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>secretKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>secrets-service</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>password</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8081</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span></code></pre></div><p>其中Deployment 的<code>spec.template.spec.env</code>的参数从 secrets 中获取</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f secrets-service.yaml
-</span></span></code></pre></div><h3 id=测试>测试</h3><p>待应用启动后， 访问相应的 URL，查看此时的配置</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30082/db
-</span></span><span style=display:flex><span>url:jdbc:mysql://localhost:3306/seata?useUnicode<span style=color:#f92672>=</span>true&amp;characterEncoding<span style=color:#f92672>=</span>utf8&amp;allowMultiQueries<span style=color:#f92672>=</span>true&amp;useSSL<span style=color:#f92672>=</span>false
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#63c381>&#34;hellowoodes/spring-cloud-k8s-secrets:1.3&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>DB_URL</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>secretKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>url</span>
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>DB_USERNAME</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>secretKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>username</span>
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>DB_PASSWORD</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>secretKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>secrets-service</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>password</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8081</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span></code></pre></div><p>其中Deployment 的<code>spec.template.spec.env</code>的参数从 secrets 中获取</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f secrets-service.yaml
+</span></span></code></pre></div><h3 id=测试>测试</h3><p>待应用启动后， 访问相应的 URL，查看此时的配置</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl 192.168.0.110:30082/db
+</span></span><span style=display:flex><span>url:jdbc:mysql://localhost:3306/seata?useUnicode<span style=color:#c7bf54>=</span>true&amp;<span style=color:#dcaeea>characterEncoding</span><span style=color:#c7bf54>=</span>utf8&amp;<span style=color:#dcaeea>allowMultiQueries</span><span style=color:#c7bf54>=</span>true&amp;<span style=color:#dcaeea>useSSL</span><span style=color:#c7bf54>=</span><span style=color:#ef8383>false</span>
 </span></span><span style=display:flex><span>username:root
 </span></span><span style=display:flex><span>password:123456%
 </span></span></code></pre></div></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>

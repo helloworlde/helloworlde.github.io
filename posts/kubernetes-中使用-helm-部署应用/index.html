@@ -5,47 +5,47 @@ go.mod module github.com/helloworlde/rest go 1.12 main.go package main import ( 
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Kubernetes 中使用 Helm 部署应用</h1><small role=doc-subtitle></small><p class=post-date>2019-09-08
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/helm>Helm</a></li></ul></div><div class=post-content><h2 id=创建应用>创建应用</h2><p>创建一个简单的应用，提供一个 REST 接口；使用 Golang 编写，然后将镜像 push 到 Docker Hub</p><ul><li>go.mod</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#a6e22e>module</span> <span style=color:#a6e22e>github</span>.<span style=color:#a6e22e>com</span><span style=color:#f92672>/</span><span style=color:#a6e22e>helloworlde</span><span style=color:#f92672>/</span><span style=color:#a6e22e>rest</span>
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/kubernetes>Kubernetes</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/helm>Helm</a></li></ul></div><div class=post-content><h2 id=创建应用>创建应用</h2><p>创建一个简单的应用，提供一个 REST 接口；使用 Golang 编写，然后将镜像 push 到 Docker Hub</p><ul><li>go.mod</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#c1abea>module</span> <span style=color:#c1abea>github</span>.<span style=color:#c1abea>com</span><span style=color:#c7bf54>/</span><span style=color:#c1abea>helloworlde</span><span style=color:#c7bf54>/</span><span style=color:#c1abea>rest</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>go</span> <span style=color:#ae81ff>1.12</span>
-</span></span></code></pre></div><ul><li>main.go</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>go</span> <span style=color:#d19a66>1.12</span>
+</span></span></code></pre></div><ul><li>main.go</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#c1abea>main</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> (
-</span></span><span style=display:flex><span>	<span style=color:#e6db74>&#34;fmt&#34;</span>
-</span></span><span style=display:flex><span>	<span style=color:#e6db74>&#34;log&#34;</span>
-</span></span><span style=display:flex><span>	<span style=color:#e6db74>&#34;net/http&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> (
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;fmt&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;log&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;net/http&#34;</span>
 </span></span><span style=display:flex><span>)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
-</span></span><span style=display:flex><span>	<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>HandleFunc</span>(<span style=color:#e6db74>&#34;/ping&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>writer</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>request</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) {
-</span></span><span style=display:flex><span>		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Pong&#34;</span>)
-</span></span><span style=display:flex><span>		<span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>_</span> = <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Fprint</span>(<span style=color:#a6e22e>writer</span>, <span style=color:#e6db74>&#34;Pong&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#c678dd>func</span> <span style=color:#00b1f7>main</span>() {
+</span></span><span style=display:flex><span>	<span style=color:#c1abea>http</span>.<span style=color:#00b1f7>HandleFunc</span>(<span style=color:#98c379>&#34;/ping&#34;</span>, <span style=color:#c678dd>func</span>(<span style=color:#c1abea>writer</span> <span style=color:#c1abea>http</span>.<span style=color:#c1abea>ResponseWriter</span>, <span style=color:#c1abea>request</span> <span style=color:#c7bf54>*</span><span style=color:#c1abea>http</span>.<span style=color:#c1abea>Request</span>) {
+</span></span><span style=display:flex><span>		<span style=color:#c1abea>fmt</span>.<span style=color:#00b1f7>Println</span>(<span style=color:#98c379>&#34;Pong&#34;</span>)
+</span></span><span style=display:flex><span>		<span style=color:#c1abea>_</span>, <span style=color:#c1abea>_</span> = <span style=color:#c1abea>fmt</span>.<span style=color:#00b1f7>Fprint</span>(<span style=color:#c1abea>writer</span>, <span style=color:#98c379>&#34;Pong&#34;</span>)
 </span></span><span style=display:flex><span>	})
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Server Started&#34;</span>)
-</span></span><span style=display:flex><span>	<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Fatal</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ListenAndServe</span>(<span style=color:#e6db74>&#34;:8080&#34;</span>, <span style=color:#66d9ef>nil</span>))
+</span></span><span style=display:flex><span>	<span style=color:#c1abea>fmt</span>.<span style=color:#00b1f7>Println</span>(<span style=color:#98c379>&#34;Server Started&#34;</span>)
+</span></span><span style=display:flex><span>	<span style=color:#c1abea>log</span>.<span style=color:#00b1f7>Fatal</span>(<span style=color:#c1abea>http</span>.<span style=color:#00b1f7>ListenAndServe</span>(<span style=color:#98c379>&#34;:8080&#34;</span>, <span style=color:#b756ff;font-weight:700>nil</span>))
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>Dockerfile</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dockerfile data-lang=dockerfile><span style=display:flex><span><span style=color:#66d9ef>FROM</span> <span style=color:#e6db74>golang</span> <span style=color:#66d9ef>AS</span> <span style=color:#e6db74>build-env</span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>WORKDIR</span> <span style=color:#e6db74>/go/src/github.com/hellowrolde/rest</span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>COPY</span> . .<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENV</span> GO111MODULE on<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENV</span> GOPROXY<span style=color:#f92672>=</span>https://gocenter.io<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENV</span> GOOS linux<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENV</span> GOARCH <span style=color:#ae81ff>386</span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>RUN</span> go mod download<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>RUN</span> go build -v -o /go/src/github.com/hellowrolde/rest/app<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>FROM</span> <span style=color:#e6db74>alpine</span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>COPY</span> --from<span style=color:#f92672>=</span>build-env  /go/src/github.com/hellowrolde/rest/app /usr/local/bin/app<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>RUN</span> ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime<span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>EXPOSE</span> <span style=color:#e6db74>8080</span><span style=color:#960050;background-color:#1e0010>
-</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>CMD</span> [<span style=color:#e6db74>&#34;app&#34;</span>]<span style=color:#960050;background-color:#1e0010>
-</span></span></span></code></pre></div><ul><li>构建并 push 镜像</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker build -t hellowooeds/rest .
+</span></span></code></pre></div><ul><li>Dockerfile</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dockerfile data-lang=dockerfile><span style=display:flex><span><span style=color:#c678dd>FROM</span> <span style=color:#98c379>golang</span> <span style=color:#c678dd>AS</span> <span style=color:#98c379>build-env</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>WORKDIR</span> <span style=color:#98c379>/go/src/github.com/hellowrolde/rest</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>COPY</span> . .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>ENV</span> GO111MODULE on
+</span></span><span style=display:flex><span><span style=color:#c678dd>ENV</span> <span style=color:#dcaeea>GOPROXY</span><span style=color:#c7bf54>=</span>https://gocenter.io
+</span></span><span style=display:flex><span><span style=color:#c678dd>ENV</span> GOOS linux
+</span></span><span style=display:flex><span><span style=color:#c678dd>ENV</span> GOARCH <span style=color:#d19a66>386</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>RUN</span> go mod download
+</span></span><span style=display:flex><span><span style=color:#c678dd>RUN</span> go build -v -o /go/src/github.com/hellowrolde/rest/app
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>FROM</span> <span style=color:#98c379>alpine</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>COPY</span> --from<span style=color:#c7bf54>=</span>build-env  /go/src/github.com/hellowrolde/rest/app /usr/local/bin/app
+</span></span><span style=display:flex><span><span style=color:#c678dd>RUN</span> ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+</span></span><span style=display:flex><span><span style=color:#c678dd>EXPOSE</span> <span style=color:#98c379>8080</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>CMD</span> [<span style=color:#63c381>&#34;app&#34;</span>]
+</span></span></code></pre></div><ul><li>构建并 push 镜像</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker build -t hellowooeds/rest .
 </span></span><span style=display:flex><span>docker push hellowooeds/rest
-</span></span></code></pre></div><h2 id=使用-helm>使用 Helm</h2><h3 id=添加-helm>添加 Helm</h3><h4 id=初始化>初始化</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm create rest
-</span></span></code></pre></div><p>然后会在项目目录下创建一个 rest 的文件夹，里面包含所需要的 Helm 配置文件</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>.
+</span></span></code></pre></div><h2 id=使用-helm>使用 Helm</h2><h3 id=添加-helm>添加 Helm</h3><h4 id=初始化>初始化</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm create rest
+</span></span></code></pre></div><p>然后会在项目目录下创建一个 rest 的文件夹，里面包含所需要的 Helm 配置文件</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>.
 </span></span><span style=display:flex><span>├── Chart.yaml
 </span></span><span style=display:flex><span>├── charts
 </span></span><span style=display:flex><span>├── templates
@@ -58,153 +58,153 @@ go.mod module github.com/helloworlde/rest go 1.12 main.go package main import ( 
 </span></span><span style=display:flex><span>│       └── test-connection.yaml
 </span></span><span style=display:flex><span>└── values.yaml
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#ae81ff>3</span> directories, <span style=color:#ae81ff>8</span> files
-</span></span></code></pre></div><ul><li>Chart.yaml: 用于描述 Chart 的属性</li><li>values.yaml: 存放项目的配置项，如镜像名称或者 tag 等，用于和模板组装</li><li>charts: 用于存放依赖的 chart 的，当有依赖需要管理时，可以添加 requirements.yaml 文件，可用于管理项目内或者外部的依赖</li><li>templates: 用于存放需要的配置模板</li></ul><h4 id=修改配置文件>修改配置文件</h4><ul><li>Chart.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>appVersion</span>: <span style=color:#e6db74>&#34;1.0&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>description</span>: <span style=color:#ae81ff>Rest application with Helm</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>rest</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#ae81ff>0.1.0</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>maintainers</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>HelloWood</span>
-</span></span></code></pre></div><ul><li>修改 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>backend</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>image</span>: <span style=color:#ae81ff>hellowoodes/rest</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>tag</span>: <span style=color:#e6db74>&#34;latest&#34;</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>pullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#d19a66>3</span> directories, <span style=color:#d19a66>8</span> files
+</span></span></code></pre></div><ul><li>Chart.yaml: 用于描述 Chart 的属性</li><li>values.yaml: 存放项目的配置项，如镜像名称或者 tag 等，用于和模板组装</li><li>charts: 用于存放依赖的 chart 的，当有依赖需要管理时，可以添加 requirements.yaml 文件，可用于管理项目内或者外部的依赖</li><li>templates: 用于存放需要的配置模板</li></ul><h4 id=修改配置文件>修改配置文件</h4><ul><li>Chart.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>appVersion</span>: <span style=color:#63c381>&#34;1.0&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>description</span>: <span style=color:#98c379>Rest application with Helm</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>name</span>: <span style=color:#98c379>rest</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>version</span>: <span style=color:#d19a66>0.1.0</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>maintainers</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: <span style=color:#98c379>HelloWood</span>
+</span></span></code></pre></div><ul><li>修改 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>backend</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>image</span>: <span style=color:#98c379>hellowoodes/rest</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>tag</span>: <span style=color:#63c381>&#34;latest&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>pullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>rest</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>namespace</span>: <span style=color:#98c379>rest</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>service</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
-</span></span></code></pre></div><ul><li>backend-service.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: { { <span style=color:#ae81ff>.Values.namespace } }</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>    - <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8080</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>8080</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: { { <span style=color:#ae81ff>.Values.service.type } }</span>
-</span></span></code></pre></div><ul><li>backend-deployment.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>extensions/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: {{ <span style=color:#ae81ff>.Values.namespace }}</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: {{ <span style=color:#ae81ff>.Values.backend.image }}:{{ .Values.backend.tag }}</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8080</span>
-</span></span></code></pre></div><h3 id=安装应用>安装应用</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm install ./rest --name rest
-</span></span></code></pre></div><p>如果不指定名称，会随机生成一个</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME:   rest
-</span></span><span style=display:flex><span>LAST DEPLOYED: Sun Jul <span style=color:#ae81ff>14</span> 18:50:16 <span style=color:#ae81ff>2019</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>service</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort</span>
+</span></span></code></pre></div><ul><li>backend-service.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: { { <span style=color:#98c379>.Values.namespace } }</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8080</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>targetPort</span>: <span style=color:#d19a66>8080</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: { { <span style=color:#98c379>.Values.service.type } }</span>
+</span></span></code></pre></div><ul><li>backend-deployment.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>extensions/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: {{ <span style=color:#98c379>.Values.namespace }}</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>app</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>app</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>backend</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: {{ <span style=color:#98c379>.Values.backend.image }}:{{ .Values.backend.tag }}</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8080</span>
+</span></span></code></pre></div><h3 id=安装应用>安装应用</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm install ./rest --name rest
+</span></span></code></pre></div><p>如果不指定名称，会随机生成一个</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME:   rest
+</span></span><span style=display:flex><span>LAST DEPLOYED: Sun Jul <span style=color:#d19a66>14</span> 18:50:16 <span style=color:#d19a66>2019</span>
 </span></span><span style=display:flex><span>NAMESPACE: default
 </span></span><span style=display:flex><span>STATUS: DEPLOYED
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>RESOURCES:
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1/Pod<span style=color:#f92672>(</span>related<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1/Pod<span style=color:#c7bf54>(</span>related<span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>NAME                      READY  STATUS             RESTARTS  AGE
-</span></span><span style=display:flex><span>backend-5bc9d6cb99-pfwn5  0/1    ContainerCreating  <span style=color:#ae81ff>0</span>         0s
+</span></span><span style=display:flex><span>backend-5bc9d6cb99-pfwn5  0/1    ContainerCreating  <span style=color:#d19a66>0</span>         <span style=color:#dcaeea>0s</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1/Service
-</span></span><span style=display:flex><span>NAME     TYPE      CLUSTER-IP     EXTERNAL-IP  PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>         AGE
-</span></span><span style=display:flex><span>backend  NodePort  10.105.41.183  &lt;none&gt;       8080:31381/TCP  0s
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1/Service
+</span></span><span style=display:flex><span>NAME     TYPE      CLUSTER-IP     EXTERNAL-IP  PORT<span style=color:#c7bf54>(</span>S<span style=color:#c7bf54>)</span>         AGE
+</span></span><span style=display:flex><span>backend  NodePort  10.105.41.183  &lt;none&gt;       8080:31381/TCP  <span style=color:#dcaeea>0s</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1beta1/Deployment
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1beta1/Deployment
 </span></span><span style=display:flex><span>NAME     READY  UP-TO-DATE  AVAILABLE  AGE
-</span></span><span style=display:flex><span>backend  0/1    <span style=color:#ae81ff>1</span>           <span style=color:#ae81ff>0</span>          0s
+</span></span><span style=display:flex><span>backend  0/1    <span style=color:#d19a66>1</span>           <span style=color:#d19a66>0</span>          0s
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>NOTES:
 </span></span><span style=display:flex><span>1. Get the application URL by running these commands:
-</span></span><span style=display:flex><span>  export NODE_PORT<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>kubectl get service -l app<span style=color:#f92672>=</span>backend --namespace default  -o jsonpath<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{.items[0].spec.ports[0].nodePort}&#34;</span><span style=color:#66d9ef>)</span>
-</span></span><span style=display:flex><span>  export NODE_IP<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>kubectl get nodes --namespace default -o jsonpath<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{.items[0].status.addresses[0].address}&#34;</span><span style=color:#66d9ef>)</span>
-</span></span><span style=display:flex><span>  echo http://$NODE_IP:$NODE_PORT
-</span></span></code></pre></div><h4 id=查看>查看</h4><ul><li>查看 Helm 信息</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm list
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME	REVISION	UPDATED                 	STATUS  	CHART     	APP VERSION	NAMESPACE
-</span></span><span style=display:flex><span>rest	<span style=color:#ae81ff>1</span>       	Sun Jul <span style=color:#ae81ff>14</span> 18:55:25 2019	DEPLOYED	rest-0.1.0	1.0        	default
-</span></span></code></pre></div><ul><li>查看 Deployment、Service、Pod</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get all -l app<span style=color:#f92672>=</span>backend
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME                           READY   STATUS    RESTARTS   AGE
-</span></span><span style=display:flex><span>pod/backend-5bc9d6cb99-kmpvx   1/1     Running   <span style=color:#ae81ff>0</span>          7m15s
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>export</span> <span style=color:#dcaeea>NODE_PORT</span><span style=color:#c7bf54>=</span><span style=color:#c678dd>$(</span>kubectl get service -l <span style=color:#dcaeea>app</span><span style=color:#c7bf54>=</span>backend --namespace default  -o <span style=color:#dcaeea>jsonpath</span><span style=color:#c7bf54>=</span><span style=color:#63c381>&#34;{.items[0].spec.ports[0].nodePort}&#34;</span><span style=color:#c678dd>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>export</span> <span style=color:#dcaeea>NODE_IP</span><span style=color:#c7bf54>=</span><span style=color:#c678dd>$(</span>kubectl get nodes --namespace default -o <span style=color:#dcaeea>jsonpath</span><span style=color:#c7bf54>=</span><span style=color:#63c381>&#34;{.items[0].status.addresses[0].address}&#34;</span><span style=color:#c678dd>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>echo</span> http://<span style=color:#dcaeea>$NODE_IP</span>:<span style=color:#dcaeea>$NODE_PORT</span>
+</span></span></code></pre></div><h4 id=查看>查看</h4><ul><li>查看 Helm 信息</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm list
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME	REVISION	UPDATED                 	STATUS  	CHART     	APP VERSION	NAMESPACE
+</span></span><span style=display:flex><span>rest	<span style=color:#d19a66>1</span>       	Sun Jul <span style=color:#d19a66>14</span> 18:55:25 2019	DEPLOYED	rest-0.1.0	1.0        	default
+</span></span></code></pre></div><ul><li>查看 Deployment、Service、Pod</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get all -l <span style=color:#dcaeea>app</span><span style=color:#c7bf54>=</span>backend
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME                           READY   STATUS    RESTARTS   AGE
+</span></span><span style=display:flex><span>pod/backend-5bc9d6cb99-kmpvx   1/1     Running   <span style=color:#d19a66>0</span>          7m15s
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>          AGE
+</span></span><span style=display:flex><span>NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style=color:#c7bf54>(</span>S<span style=color:#c7bf54>)</span>          AGE
 </span></span><span style=display:flex><span>service/backend      NodePort    10.104.248.37   &lt;none&gt;        8080:31064/TCP   7m15s
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
-</span></span><span style=display:flex><span>deployment.apps/backend   1/1     <span style=color:#ae81ff>1</span>            <span style=color:#ae81ff>1</span>           7m15s
+</span></span><span style=display:flex><span>deployment.apps/backend   1/1     <span style=color:#d19a66>1</span>            <span style=color:#d19a66>1</span>           7m15s
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>NAME                                 DESIRED   CURRENT   READY   AGE
-</span></span><span style=display:flex><span>replicaset.apps/backend-5bc9d6cb99   <span style=color:#ae81ff>1</span>         <span style=color:#ae81ff>1</span>         <span style=color:#ae81ff>1</span>       7m15s
-</span></span></code></pre></div><h4 id=测试>测试</h4><p>访问通过 NOTES 获取到的 IP 和端口</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>http get http://192.168.0.110:31381/ping
-</span></span><span style=display:flex><span>HTTP/1.1 <span style=color:#ae81ff>200</span> OK
-</span></span><span style=display:flex><span>Content-Length: <span style=color:#ae81ff>4</span>
-</span></span><span style=display:flex><span>Content-Type: text/plain; charset<span style=color:#f92672>=</span>utf-8
+</span></span><span style=display:flex><span>replicaset.apps/backend-5bc9d6cb99   <span style=color:#d19a66>1</span>         <span style=color:#d19a66>1</span>         <span style=color:#d19a66>1</span>       7m15s
+</span></span></code></pre></div><h4 id=测试>测试</h4><p>访问通过 NOTES 获取到的 IP 和端口</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>http get http://192.168.0.110:31381/ping
+</span></span><span style=display:flex><span>HTTP/1.1 <span style=color:#d19a66>200</span> OK
+</span></span><span style=display:flex><span>Content-Length: <span style=color:#d19a66>4</span>
+</span></span><span style=display:flex><span>Content-Type: text/plain; <span style=color:#dcaeea>charset</span><span style=color:#c7bf54>=</span>utf-8
 </span></span><span style=display:flex><span>type: post
-</span></span><span style=display:flex><span>date: Sun, <span style=color:#ae81ff>14</span> Jul <span style=color:#ae81ff>2019</span> 10:53:18 GMT
+</span></span><span style=display:flex><span>date: Sun, <span style=color:#d19a66>14</span> Jul <span style=color:#d19a66>2019</span> 10:53:18 GMT
 </span></span><span style=display:flex><span>lastmod: 2025-09-06
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>Pong
-</span></span></code></pre></div><h3 id=打包>打包</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm package ./rest
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Successfully packaged chart and saved it to: /path/to/project/rest-0.1.0.tgz
-</span></span></code></pre></div><h3 id=更新>更新</h3><p>当应用发生了更新之后，需要升级部署，这时候可以通过修改 Helm 的配置来实现；如镜像版本从1.0 更新到 1.1</p><ul><li>修改 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>backend</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>image</span>: <span style=color:#ae81ff>hellowoodes/rest</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>tag</span>: <span style=color:#e6db74>&#34;1.1&#34;</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>pullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><h3 id=打包>打包</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm package ./rest
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Successfully packaged chart and saved it to: /path/to/project/rest-0.1.0.tgz
+</span></span></code></pre></div><h3 id=更新>更新</h3><p>当应用发生了更新之后，需要升级部署，这时候可以通过修改 Helm 的配置来实现；如镜像版本从1.0 更新到 1.1</p><ul><li>修改 values.yaml</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>backend</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>image</span>: <span style=color:#98c379>hellowoodes/rest</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>tag</span>: <span style=color:#63c381>&#34;1.1&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>pullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>service</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
-</span></span></code></pre></div><ul><li>执行更新</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span> helm upgrade rest ./rest --repo local
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Release <span style=color:#e6db74>&#34;rest&#34;</span> has been upgraded. Happy Helming!
-</span></span><span style=display:flex><span>LAST DEPLOYED: Sun Jul <span style=color:#ae81ff>14</span> 21:03:57 <span style=color:#ae81ff>2019</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>service</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort</span>
+</span></span></code></pre></div><ul><li>执行更新</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span> helm upgrade rest ./rest --repo <span style=color:#ef8383>local</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Release <span style=color:#63c381>&#34;rest&#34;</span> has been upgraded. Happy Helming!
+</span></span><span style=display:flex><span>LAST DEPLOYED: Sun Jul <span style=color:#d19a66>14</span> 21:03:57 <span style=color:#d19a66>2019</span>
 </span></span><span style=display:flex><span>NAMESPACE: default
 </span></span><span style=display:flex><span>STATUS: DEPLOYED
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>RESOURCES:
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1/Pod<span style=color:#f92672>(</span>related<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1/Pod<span style=color:#c7bf54>(</span>related<span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>NAME                     READY  STATUS   RESTARTS  AGE
-</span></span><span style=display:flex><span>backend-56876f876-vvbzz  1/1    Running  <span style=color:#ae81ff>0</span>         85s
+</span></span><span style=display:flex><span>backend-56876f876-vvbzz  1/1    Running  <span style=color:#d19a66>0</span>         <span style=color:#dcaeea>85s</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1/Service
-</span></span><span style=display:flex><span>NAME     TYPE      CLUSTER-IP   EXTERNAL-IP  PORT<span style=color:#f92672>(</span>S<span style=color:#f92672>)</span>         AGE
-</span></span><span style=display:flex><span>backend  NodePort  10.97.22.28  &lt;none&gt;       8080:31496/TCP  7m10s
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1/Service
+</span></span><span style=display:flex><span>NAME     TYPE      CLUSTER-IP   EXTERNAL-IP  PORT<span style=color:#c7bf54>(</span>S<span style=color:#c7bf54>)</span>         AGE
+</span></span><span style=display:flex><span>backend  NodePort  10.97.22.28  &lt;none&gt;       8080:31496/TCP  <span style=color:#dcaeea>7m10s</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>==</span>&gt; v1beta1/Deployment
+</span></span><span style=display:flex><span><span style=color:#c7bf54>==</span>&gt; v1beta1/Deployment
 </span></span><span style=display:flex><span>NAME     READY  UP-TO-DATE  AVAILABLE  AGE
-</span></span><span style=display:flex><span>backend  1/1    <span style=color:#ae81ff>1</span>           <span style=color:#ae81ff>1</span>          7m10s
+</span></span><span style=display:flex><span>backend  1/1    <span style=color:#d19a66>1</span>           <span style=color:#d19a66>1</span>          7m10s
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>NOTES:
 </span></span><span style=display:flex><span>1. Get the application URL by running these commands:
-</span></span><span style=display:flex><span>  export NODE_PORT<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>kubectl get service -l app<span style=color:#f92672>=</span>backend --namespace default -o jsonpath<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{.items[0].spec.ports[0].nodePort}&#34;</span><span style=color:#66d9ef>)</span>
-</span></span><span style=display:flex><span>  export NODE_IP<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>kubectl get nodes --namespace default -o jsonpath<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{.items[0].status.addresses[0].address}&#34;</span><span style=color:#66d9ef>)</span>
-</span></span><span style=display:flex><span>  echo http://$NODE_IP:$NODE_PORT
-</span></span></code></pre></div><p>等待更新完成后，查看 Pod 的描述信息</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl describe pod backend-56876f876-vvbzz
-</span></span></code></pre></div><p>可以看到 pod 的镜像已经从 1.0 更新到了 1.1</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Normal  Pulled     29s   kubelet, ubuntu-server  Container image <span style=color:#e6db74>&#34;hellowoodes/rest:1.1&#34;</span> already present on machine
-</span></span></code></pre></div><h3></h3><h3 id=删除应用>删除应用</h3><p>删除 Helm 应用后，所有相关的 Service，Deployment，Pod 等都会被删除</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm delete --purge rest
-</span></span></code></pre></div><h3 id=查看-repo-应用>查看 Repo 应用</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm serve
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Regenerating index. This may take a moment.
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>export</span> <span style=color:#dcaeea>NODE_PORT</span><span style=color:#c7bf54>=</span><span style=color:#c678dd>$(</span>kubectl get service -l <span style=color:#dcaeea>app</span><span style=color:#c7bf54>=</span>backend --namespace default -o <span style=color:#dcaeea>jsonpath</span><span style=color:#c7bf54>=</span><span style=color:#63c381>&#34;{.items[0].spec.ports[0].nodePort}&#34;</span><span style=color:#c678dd>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>export</span> <span style=color:#dcaeea>NODE_IP</span><span style=color:#c7bf54>=</span><span style=color:#c678dd>$(</span>kubectl get nodes --namespace default -o <span style=color:#dcaeea>jsonpath</span><span style=color:#c7bf54>=</span><span style=color:#63c381>&#34;{.items[0].status.addresses[0].address}&#34;</span><span style=color:#c678dd>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#ef8383>echo</span> http://<span style=color:#dcaeea>$NODE_IP</span>:<span style=color:#dcaeea>$NODE_PORT</span>
+</span></span></code></pre></div><p>等待更新完成后，查看 Pod 的描述信息</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl describe pod backend-56876f876-vvbzz
+</span></span></code></pre></div><p>可以看到 pod 的镜像已经从 1.0 更新到了 1.1</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Normal  Pulled     29s   kubelet, ubuntu-server  Container image <span style=color:#63c381>&#34;hellowoodes/rest:1.1&#34;</span> already present on machine
+</span></span></code></pre></div><h3></h3><h3 id=删除应用>删除应用</h3><p>删除 Helm 应用后，所有相关的 Service，Deployment，Pod 等都会被删除</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm delete --purge rest
+</span></span></code></pre></div><h3 id=查看-repo-应用>查看 Repo 应用</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>helm serve
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Regenerating index. This may take a moment.
 </span></span><span style=display:flex><span>Now serving you on 127.0.0.1:8879
 </span></span></code></pre></div><p><img src=https://img.hellowood.dev/picture/helm-app-list.png alt=helm-app-list.png loading=lazy></p><hr><h3 id=项目地址>项目地址</h3><p><a href=https://github.com/helloworlde/helm-app-rest>https://github.com/helloworlde/helm-app-rest</a></p></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2019-2025 hellowood.dev</span>

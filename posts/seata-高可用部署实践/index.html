@@ -5,8 +5,8 @@
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Seata 高可用部署实践</h1><small role=doc-subtitle></small><p class=post-date>2020-04-10
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/seata>Seata</a></li></ul></div><div class=post-content><p>使用配置中心和数据库来实现 Seata 的高可用，以 Nacos 和 MySQL 为例，将<a href=https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/>cloud-seata-nacos</a>应用部署到 Kubernetes 集群中</p><p>该应用使用 Nacos 作为配置和注册中心，总共有三个服务: order-service, pay-service, storage-service, 其中 order-service 对外提供下单接口，当余额和库存充足时，下单成功，会提交事务，当不足时会抛出异常，下单失败，回滚事务</p><h2 id=准备工作>准备工作</h2><p>需要准备可用的注册中心、配置中心 Nacos 和 MySQL，通常情况下，注册中心、配置中心和数据库都是已有的，不需要特别配置，在这个实践中，为了简单，只部署单机的注册中心、配置中心和数据库，假设他们是可靠的</p><ul><li>部署 Nacos</li></ul><p>在服务器部署 Nacos，开放 8848 端口，用于 seata-server 注册，服务器地址为 <code>192.168.199.2</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run --name nacos -p 8848:8848 -e MODE<span style=color:#f92672>=</span>standalone nacos/nacos-server
-</span></span></code></pre></div><ul><li>部署 MySQL</li></ul><p>部署一台MySQL 数据库，用于保存事务数据，服务器地址为 <code>192.168.199.2</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run --name mysql -p 30060:3306-e MYSQL_ROOT_PASSWORD<span style=color:#f92672>=</span><span style=color:#ae81ff>123456</span> -d mysql:5.7.17
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/seata>Seata</a></li></ul></div><div class=post-content><p>使用配置中心和数据库来实现 Seata 的高可用，以 Nacos 和 MySQL 为例，将<a href=https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/>cloud-seata-nacos</a>应用部署到 Kubernetes 集群中</p><p>该应用使用 Nacos 作为配置和注册中心，总共有三个服务: order-service, pay-service, storage-service, 其中 order-service 对外提供下单接口，当余额和库存充足时，下单成功，会提交事务，当不足时会抛出异常，下单失败，回滚事务</p><h2 id=准备工作>准备工作</h2><p>需要准备可用的注册中心、配置中心 Nacos 和 MySQL，通常情况下，注册中心、配置中心和数据库都是已有的，不需要特别配置，在这个实践中，为了简单，只部署单机的注册中心、配置中心和数据库，假设他们是可靠的</p><ul><li>部署 Nacos</li></ul><p>在服务器部署 Nacos，开放 8848 端口，用于 seata-server 注册，服务器地址为 <code>192.168.199.2</code></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run --name nacos -p 8848:8848 -e <span style=color:#dcaeea>MODE</span><span style=color:#c7bf54>=</span>standalone nacos/nacos-server
+</span></span></code></pre></div><ul><li>部署 MySQL</li></ul><p>部署一台MySQL 数据库，用于保存事务数据，服务器地址为 <code>192.168.199.2</code></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run --name mysql -p 30060:3306-e <span style=color:#dcaeea>MYSQL_ROOT_PASSWORD</span><span style=color:#c7bf54>=</span><span style=color:#d19a66>123456</span> -d mysql:5.7.17
 </span></span></code></pre></div><h2 id=部署-seata-server>部署 seata-server</h2><ul><li>创建seata-server需要的表</li></ul><p>具体的 SQL 参考 <a href=https://github.com/seata/seata/tree/develop/script/server/db>script/server/db</a>，这里使用的是 MySQL 的脚本，数据库名称为 <code>seata</code></p><p>同时，也需要创建 undo_log 表， 可以参考 <a href=https://github.com/seata/seata/blob/develop/script/client/at/db/>script/client/at/db/</a></p><ul><li>修改seata-server配置</li></ul><p>将以下配置添加到 Nacos 配置中心，具体添加方法可以参考 <a href=https://github.com/seata/seata/tree/develop/script/config-center>script/config-center</a></p><pre tabindex=0><code>service.vgroupMapping.my_test_tx_group=default
 store.mode=db
 store.db.datasource=druid
@@ -15,93 +15,93 @@ store.db.driverClassName=com.mysql.jdbc.Driver
 store.db.url=jdbc:mysql://192.168.199.2:30060/seata?useUnicode=true
 store.db.user=root
 store.db.password=123456
-</code></pre><h3 id=部署-seata-server-到-kubernetes>部署 seata-server 到 Kubernetes</h3><ul><li>seata-server.yaml</li></ul><p>需要将 ConfigMap 的注册中心和配置中心地址改成相应的地址</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>    - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8091</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-server</span>
+</code></pre><h3 id=部署-seata-server-到-kubernetes>部署 seata-server 到 Kubernetes</h3><ul><li>seata-server.yaml</li></ul><p>需要将 ConfigMap 的注册中心和配置中心地址改成相应的地址</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>ClusterIP</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8091</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-server</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>StatefulSet</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>serviceName</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>3</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-server</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#ae81ff>docker.io/seataio/seata-server:latest</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>SEATA_CONFIG_NAME</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>value</span>: <span style=color:#ae81ff>file:/root/seata-config/registry</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8091</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>volumeMounts</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-config</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>mountPath</span>: <span style=color:#ae81ff>/root/seata-config</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>volumes</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-config</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>configMap</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-server-config</span>
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>StatefulSet</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>serviceName</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>3</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-server</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#98c379>docker.io/seataio/seata-server:latest</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>SEATA_CONFIG_NAME</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>value</span>: <span style=color:#98c379>file:/root/seata-config/registry</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8091</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>volumeMounts</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-config</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>mountPath</span>: <span style=color:#98c379>/root/seata-config</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>volumes</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-config</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>configMap</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-server-config</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ConfigMap</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-server-config</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>data</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>registry.conf</span>: |<span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    registry {
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        type = &#34;nacos&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        nacos {
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          application = &#34;seata-server&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>          serverAddr = &#34;192.168.199.2&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        }
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    config {
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      type = &#34;nacos&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      nacos {
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        serverAddr = &#34;192.168.199.2&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        group = &#34;SEATA_GROUP&#34;
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      }
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }</span>
-</span></span></code></pre></div><ul><li>部署</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f seata-server.yaml
-</span></span></code></pre></div><p>部署完成后，会有三个 pod</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get pod | grep seata-ha-server
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ConfigMap</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-server-config</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>data</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>registry.conf</span>: |<span style=color:#7e97c3>
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    registry {
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        type = &#34;nacos&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        nacos {
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>          application = &#34;seata-server&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>          serverAddr = &#34;192.168.199.2&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        }
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    }
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    config {
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>      type = &#34;nacos&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>      nacos {
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        serverAddr = &#34;192.168.199.2&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>        group = &#34;SEATA_GROUP&#34;
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>      }
+</span></span></span><span style=display:flex><span><span style=color:#7e97c3>    }</span>
+</span></span></code></pre></div><ul><li>部署</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f seata-server.yaml
+</span></span></code></pre></div><p>部署完成后，会有三个 pod</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get pod | grep seata-ha-server
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-9qh5j    1/1     Running   <span style=color:#ae81ff>0</span>          3m14s
-</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-pzczs    1/1     Running   <span style=color:#ae81ff>0</span>          3m14s
-</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-wkpw8    1/1     Running   <span style=color:#ae81ff>0</span>          3m14s
-</span></span></code></pre></div><p>待启动完成后，可以在 Nacos 的服务列表中发现三个 seata-server 的实例，至此，已经完成 seata-server 的高可用部署</p><ul><li>查看服务日志</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubelet logs -f seata-ha-server-645844b8b6-9qh5j
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>[</span>0.<span style=color:#a6e22e>012s</span><span style=color:#f92672>][</span>info   <span style=color:#f92672>][</span>gc<span style=color:#f92672>]</span> Using Serial
-</span></span><span style=display:flex><span>2020<span style=color:#f92672>-</span>04<span style=color:#f92672>-</span>15 00:55:09.<span style=color:#a6e22e>880</span> INFO <span style=color:#f92672>[</span>main<span style=color:#f92672>]</span>io.<span style=color:#a6e22e>seata</span>.<span style=color:#a6e22e>server</span>.<span style=color:#a6e22e>ParameterParser</span>.<span style=color:#a6e22e>init</span>:90 <span style=color:#f92672>-</span>The server is running in container.
-</span></span><span style=display:flex><span>2020<span style=color:#f92672>-</span>04<span style=color:#f92672>-</span>15 00:55:10.<span style=color:#a6e22e>013</span> INFO <span style=color:#f92672>[</span>main<span style=color:#f92672>]</span>io.<span style=color:#a6e22e>seata</span>.<span style=color:#a6e22e>config</span>.<span style=color:#a6e22e>FileConfiguration</span>.<span style=color:#f92672>&lt;</span>init<span style=color:#f92672>&gt;</span>:110 <span style=color:#f92672>-</span>The configuration file used is file:<span style=color:#f92672>/</span>root<span style=color:#f92672>/</span>seata<span style=color:#f92672>-</span>config<span style=color:#f92672>/</span>registry.<span style=color:#a6e22e>conf</span>
-</span></span><span style=display:flex><span>2020<span style=color:#f92672>-</span>04<span style=color:#f92672>-</span>15 00:55:12.<span style=color:#a6e22e>426</span> INFO <span style=color:#f92672>[</span>main<span style=color:#f92672>]</span>com.<span style=color:#a6e22e>alibaba</span>.<span style=color:#a6e22e>druid</span>.<span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>DruidDataSource</span>.<span style=color:#a6e22e>init</span>:947 <span style=color:#f92672>-</span>{dataSource<span style=color:#f92672>-</span>1} inited
-</span></span><span style=display:flex><span>2020<span style=color:#f92672>-</span>04<span style=color:#f92672>-</span>15 00:55:13.<span style=color:#a6e22e>127</span> INFO <span style=color:#f92672>[</span>main<span style=color:#f92672>]</span>io.<span style=color:#a6e22e>seata</span>.<span style=color:#a6e22e>core</span>.<span style=color:#a6e22e>rpc</span>.<span style=color:#a6e22e>netty</span>.<span style=color:#a6e22e>RpcServerBootstrap</span>.<span style=color:#a6e22e>start</span>:155 <span style=color:#f92672>-</span>Server started
+</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-9qh5j    1/1     Running   <span style=color:#d19a66>0</span>          3m14s
+</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-pzczs    1/1     Running   <span style=color:#d19a66>0</span>          3m14s
+</span></span><span style=display:flex><span>seata-ha-server-645844b8b6-wkpw8    1/1     Running   <span style=color:#d19a66>0</span>          3m14s
+</span></span></code></pre></div><p>待启动完成后，可以在 Nacos 的服务列表中发现三个 seata-server 的实例，至此，已经完成 seata-server 的高可用部署</p><ul><li>查看服务日志</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubelet logs -f seata-ha-server-645844b8b6-9qh5j
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c7bf54>[</span><span style=color:#c1abea>0</span>.<span style=color:#b3d23c>012s</span><span style=color:#c7bf54>][</span><span style=color:#c1abea>info</span>   <span style=color:#c7bf54>][</span><span style=color:#c1abea>gc</span><span style=color:#c7bf54>]</span> <span style=color:#c1abea>Using</span> <span style=color:#c1abea>Serial</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>2020</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>04</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>15</span> <span style=color:#c1abea>00</span>:<span style=color:#c1abea>55</span>:<span style=color:#c1abea>09</span>.<span style=color:#b3d23c>880</span> <span style=color:#c1abea>INFO</span> <span style=color:#c7bf54>[</span><span style=color:#c1abea>main</span><span style=color:#c7bf54>]</span><span style=color:#c1abea>io</span>.<span style=color:#b3d23c>seata</span>.<span style=color:#b3d23c>server</span>.<span style=color:#b3d23c>ParameterParser</span>.<span style=color:#b3d23c>init</span>:<span style=color:#c1abea>90</span> <span style=color:#c7bf54>-</span><span style=color:#c1abea>The</span> <span style=color:#c1abea>server</span> <span style=color:#c1abea>is</span> <span style=color:#c1abea>running</span> <span style=color:#c1abea>in</span> <span style=color:#c1abea>container</span>.
+</span></span><span style=display:flex><span><span style=color:#c1abea>2020</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>04</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>15</span> <span style=color:#c1abea>00</span>:<span style=color:#c1abea>55</span>:<span style=color:#c1abea>10</span>.<span style=color:#b3d23c>013</span> <span style=color:#c1abea>INFO</span> <span style=color:#c7bf54>[</span><span style=color:#c1abea>main</span><span style=color:#c7bf54>]</span><span style=color:#c1abea>io</span>.<span style=color:#b3d23c>seata</span>.<span style=color:#b3d23c>config</span>.<span style=color:#b3d23c>FileConfiguration</span>.<span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>init</span><span style=color:#c7bf54>&gt;</span>:<span style=color:#c1abea>110</span> <span style=color:#c7bf54>-</span><span style=color:#c1abea>The</span> <span style=color:#c1abea>configuration</span> <span style=color:#c1abea>file</span> <span style=color:#c1abea>used</span> <span style=color:#c1abea>is</span> <span style=color:#c1abea>file</span>:<span style=color:#c7bf54>/</span><span style=color:#c1abea>root</span><span style=color:#c7bf54>/</span><span style=color:#c1abea>seata</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>config</span><span style=color:#c7bf54>/</span><span style=color:#c1abea>registry</span>.<span style=color:#b3d23c>conf</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>2020</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>04</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>15</span> <span style=color:#c1abea>00</span>:<span style=color:#c1abea>55</span>:<span style=color:#c1abea>12</span>.<span style=color:#b3d23c>426</span> <span style=color:#c1abea>INFO</span> <span style=color:#c7bf54>[</span><span style=color:#c1abea>main</span><span style=color:#c7bf54>]</span><span style=color:#c1abea>com</span>.<span style=color:#b3d23c>alibaba</span>.<span style=color:#b3d23c>druid</span>.<span style=color:#b3d23c>pool</span>.<span style=color:#b3d23c>DruidDataSource</span>.<span style=color:#b3d23c>init</span>:<span style=color:#c1abea>947</span> <span style=color:#c7bf54>-</span>{<span style=color:#c1abea>dataSource</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>1</span>} <span style=color:#c1abea>inited</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>2020</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>04</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>15</span> <span style=color:#c1abea>00</span>:<span style=color:#c1abea>55</span>:<span style=color:#c1abea>13</span>.<span style=color:#b3d23c>127</span> <span style=color:#c1abea>INFO</span> <span style=color:#c7bf54>[</span><span style=color:#c1abea>main</span><span style=color:#c7bf54>]</span><span style=color:#c1abea>io</span>.<span style=color:#b3d23c>seata</span>.<span style=color:#b3d23c>core</span>.<span style=color:#b3d23c>rpc</span>.<span style=color:#b3d23c>netty</span>.<span style=color:#b3d23c>RpcServerBootstrap</span>.<span style=color:#b3d23c>start</span>:<span style=color:#c1abea>155</span> <span style=color:#c7bf54>-</span><span style=color:#c1abea>Server</span> <span style=color:#c1abea>started</span>
 </span></span></code></pre></div><p>其中<code>{dataSource-1} </code>说明使用了数据库，并正常初始化完成</p><ul><li>查看注册中心，此时seata-serve 这个服务会有三个实例</li></ul><p><img src=https://img.hellowood.dev/picture/seata-ha-nacos-list.png alt=seata-ha-nacos-list.png loading=lazy></p><h2 id=部署业务服务>部署业务服务</h2><ul><li>创建业务表并初始化数据</li></ul><p>具体的业务表可以参考 <a href=https://github.com/helloworlde/spring-cloud-alibaba-component/blob/master/cloud-seata-nacos/README.md>cloud-seata-nacos/README.md</a></p><ul><li>添加 Nacos 配置</li></ul><p>在 public 的命名空间下，分别创建 data-id 为 <code>order-service.properties</code>, <code>pay-service.properties</code>, <code>storage-service.properties</code> 的配置，内容相同，需要修改数据库的地址、用户名和密码</p><pre tabindex=0><code># MySQL
 spring.datasource.url=jdbc:mysql://192.168.199.2:30060/seata?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;useSSL=false
 spring.datasource.username=root
@@ -109,135 +109,135 @@ spring.datasource.password=123456
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 # Seata
 spring.cloud.alibaba.seata.tx-service-group=my_test_tx_group
-</code></pre><ul><li>部署服务</li></ul><p>通过 application.yaml 配置文件部署服务，需要注意的是修改 ConfigMap 的 <code>NACOS_ADDR</code>为自己的 Nacos 地址</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>NodePort</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>    - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8081</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>nodePort</span>: <span style=color:#ae81ff>30081</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-service</span>
+</code></pre><ul><li>部署服务</li></ul><p>通过 application.yaml 配置文件部署服务，需要注意的是修改 ConfigMap 的 <code>NACOS_ADDR</code>为自己的 Nacos 地址</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>type</span>: <span style=color:#98c379>NodePort</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>    - <span style=color:#e06c75>port</span>: <span style=color:#d19a66>8081</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>nodePort</span>: <span style=color:#d19a66>30081</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-service</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ConfigMap</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service-config</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>data</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>NACOS_ADDR</span>: <span style=color:#ae81ff>192.168.199.2</span>:<span style=color:#ae81ff>8848</span>
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ConfigMap</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service-config</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>data</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>NACOS_ADDR</span>: <span style=color:#d19a66>192.168.199.2</span>:<span style=color:#d19a66>8848</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-account</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ServiceAccount</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-account</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io/v1beta1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRoleBinding</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-account</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>roleRef</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>apiGroup</span>: <span style=color:#ae81ff>rbac.authorization.k8s.io</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterRole</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>cluster-admin</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>subjects</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ServiceAccount</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-account</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>rbac.authorization.k8s.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>ClusterRoleBinding</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-account</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>roleRef</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>apiGroup</span>: <span style=color:#98c379>rbac.authorization.k8s.io</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>kind</span>: <span style=color:#98c379>ClusterRole</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>cluster-admin</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>subjects</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>kind</span>: <span style=color:#98c379>ServiceAccount</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-account</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>app.kubernetes.io/name</span>: <span style=color:#ae81ff>seata-ha-service</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>serviceAccountName</span>: <span style=color:#ae81ff>seata-ha-account</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-order-service</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#e6db74>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-order-service:1.1&#34;</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>configMapKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service-config</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8081</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-pay-service</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#e6db74>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-pay-service:1.1&#34;</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>configMapKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service-config</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8082</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-storage-service</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>image</span>: <span style=color:#e6db74>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-storage-service:1.1&#34;</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>env</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>valueFrom</span>:
-</span></span><span style=display:flex><span>                <span style=color:#f92672>configMapKeyRef</span>:
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>key</span>: <span style=color:#ae81ff>NACOS_ADDR</span>
-</span></span><span style=display:flex><span>                  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>seata-ha-service-config</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>            - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>8083</span>
-</span></span><span style=display:flex><span>              <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
-</span></span></code></pre></div><p>通过以下命令，将应用部署到集群中</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f application.yaml
-</span></span></code></pre></div><p>然后查看创建的 pod，seata-ha-service 这个服务下有三个 pod</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get pod | grep seata-ha-service
+</span></span><span style=display:flex><span><span style=color:#76a9f9>---</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>apiVersion</span>: <span style=color:#98c379>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>kind</span>: <span style=color:#98c379>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>namespace</span>: <span style=color:#98c379>default</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>replicas</span>: <span style=color:#d19a66>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>app.kubernetes.io/name</span>: <span style=color:#98c379>seata-ha-service</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>serviceAccountName</span>: <span style=color:#98c379>seata-ha-account</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>containers</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-order-service</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#63c381>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-order-service:1.1&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>configMapKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service-config</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8081</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-pay-service</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#63c381>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-pay-service:1.1&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>configMapKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service-config</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8082</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-storage-service</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>image</span>: <span style=color:#63c381>&#34;registry.cn-qingdao.aliyuncs.com/hellowoodes/seata-ha-storage-service:1.1&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>imagePullPolicy</span>: <span style=color:#98c379>IfNotPresent</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>env</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>valueFrom</span>:
+</span></span><span style=display:flex><span>                <span style=color:#e06c75>configMapKeyRef</span>:
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>key</span>: <span style=color:#98c379>NACOS_ADDR</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e06c75>name</span>: <span style=color:#98c379>seata-ha-service-config</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>ports</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#e06c75>name</span>: <span style=color:#98c379>http</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>containerPort</span>: <span style=color:#d19a66>8083</span>
+</span></span><span style=display:flex><span>              <span style=color:#e06c75>protocol</span>: <span style=color:#98c379>TCP</span>
+</span></span></code></pre></div><p>通过以下命令，将应用部署到集群中</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f application.yaml
+</span></span></code></pre></div><p>然后查看创建的 pod，seata-ha-service 这个服务下有三个 pod</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get pod | grep seata-ha-service
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>seata-ha-service-7dbdc6894b-5r8q4      3/3     Running   <span style=color:#ae81ff>0</span>          12m
-</span></span></code></pre></div><p>待应用启动后，在 Nacos 的服务列表中，会有相应的服务</p><p><img src=https://img.hellowood.dev/picture/seata-ha-service-list.png alt=seata-ha-service-list.png loading=lazy></p><p>此时查看服务的日志，会看到服务向每一个 TC 都注册了</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl logs -f seata-ha-service-7dbdc6894b-5r8q4 seata-ha-order-service
-</span></span></code></pre></div><p><img src=https://img.hellowood.dev/picture/seata-ha-service-register.png alt=seata-ha-service-register.png loading=lazy></p><p>查看任意的 TC 日志，会发现每一个服务都向 TC 注册了</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubelet logs -f seata-ha-server-645844b8b6-9qh5j
-</span></span></code></pre></div><p><img src=https://img.hellowood.dev/picture/seata-ha-tc-register.png alt=seata-ha-tc-register.png loading=lazy></p><h2 id=测试>测试</h2><h3 id=测试成功场景>测试成功场景</h3><p>调用下单接口，将 price 设置为 1，因为初始化的余额为 10，可以下单成功</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  http://192.168.199.2:30081/order/placeOrder <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -H <span style=color:#e6db74>&#39;Content-Type: application/json&#39;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -d <span style=color:#e6db74>&#39;{
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;userId&#34;: 1,
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;productId&#34;: 1,
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;price&#34;: 1
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>}&#39;</span>
-</span></span></code></pre></div><p>此时返回结果为：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{ <span style=color:#f92672>&#34;success&#34;</span>: <span style=color:#66d9ef>true</span>, <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#66d9ef>null</span>, <span style=color:#f92672>&#34;data&#34;</span>: <span style=color:#66d9ef>null</span> }
+</span></span><span style=display:flex><span>seata-ha-service-7dbdc6894b-5r8q4      3/3     Running   <span style=color:#d19a66>0</span>          12m
+</span></span></code></pre></div><p>待应用启动后，在 Nacos 的服务列表中，会有相应的服务</p><p><img src=https://img.hellowood.dev/picture/seata-ha-service-list.png alt=seata-ha-service-list.png loading=lazy></p><p>此时查看服务的日志，会看到服务向每一个 TC 都注册了</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl logs -f seata-ha-service-7dbdc6894b-5r8q4 seata-ha-order-service
+</span></span></code></pre></div><p><img src=https://img.hellowood.dev/picture/seata-ha-service-register.png alt=seata-ha-service-register.png loading=lazy></p><p>查看任意的 TC 日志，会发现每一个服务都向 TC 注册了</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubelet logs -f seata-ha-server-645844b8b6-9qh5j
+</span></span></code></pre></div><p><img src=https://img.hellowood.dev/picture/seata-ha-tc-register.png alt=seata-ha-tc-register.png loading=lazy></p><h2 id=测试>测试</h2><h3 id=测试成功场景>测试成功场景</h3><p>调用下单接口，将 price 设置为 1，因为初始化的余额为 10，可以下单成功</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  http://192.168.199.2:30081/order/placeOrder <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  -H <span style=color:#98c379>&#39;Content-Type: application/json&#39;</span> <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  -d <span style=color:#98c379>&#39;{
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;userId&#34;: 1,
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;productId&#34;: 1,
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;price&#34;: 1
+</span></span></span><span style=display:flex><span><span style=color:#98c379>}&#39;</span>
+</span></span></code></pre></div><p>此时返回结果为：</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{ <span style=color:#e06c75>&#34;success&#34;</span>: <span style=color:#b756ff;font-weight:700>true</span>, <span style=color:#e06c75>&#34;message&#34;</span>: <span style=color:#b756ff;font-weight:700>null</span>, <span style=color:#e06c75>&#34;data&#34;</span>: <span style=color:#b756ff;font-weight:700>null</span> }
 </span></span></code></pre></div><p>查看TC 的日志，事务成功提交：</p><p><img src=https://img.hellowood.dev/picture/seata-ha-commit-tc-success.png alt=seata-ha-commit-tc-success.png loading=lazy></p><p>查看 order-service 服务日志
-<img src=https://img.hellowood.dev/picture/seata-ha-commit-success.png alt=seata-ha-commit-success.png loading=lazy></p><h3 id=测试失败场景>测试失败场景</h3><p>设置 price 为 100，此时余额不足，会下单失败抛出异常，事务会回滚</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  http://192.168.199.2:30081/order/placeOrder <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -H <span style=color:#e6db74>&#39;Content-Type: application/json&#39;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -d <span style=color:#e6db74>&#39;{
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;userId&#34;: 1,
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;productId&#34;: 1,
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;price&#34;: 100
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>}&#39;</span>
+<img src=https://img.hellowood.dev/picture/seata-ha-commit-success.png alt=seata-ha-commit-success.png loading=lazy></p><h3 id=测试失败场景>测试失败场景</h3><p>设置 price 为 100，此时余额不足，会下单失败抛出异常，事务会回滚</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  http://192.168.199.2:30081/order/placeOrder <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  -H <span style=color:#98c379>&#39;Content-Type: application/json&#39;</span> <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>  -d <span style=color:#98c379>&#39;{
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;userId&#34;: 1,
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;productId&#34;: 1,
+</span></span></span><span style=display:flex><span><span style=color:#98c379>    &#34;price&#34;: 100
+</span></span></span><span style=display:flex><span><span style=color:#98c379>}&#39;</span>
 </span></span></code></pre></div><p>查看 TC 的日志：
 <img src=https://img.hellowood.dev/picture/seata-ha-commit-tc-rollback.png alt=seata-ha-commit-tc-rollback.png loading=lazy></p><p>查看服务的日志 ：
 <img src=https://img.hellowood.dev/picture/seata-ha-commit-service-rollback.png alt=seata-ha-commit-service-rollback.png loading=lazy></p><p>多次调用查看服务日志，发现会随机的向其中某台TC发起事务注册，当扩容或缩容后，有相应的 TC 参与或退出，证明高可用部署生效</p></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>

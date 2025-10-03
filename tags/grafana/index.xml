@@ -5,37 +5,37 @@
 &lt;h2 id="启动服务并添加数据"&gt;启动服务并添加数据&lt;/h2&gt;
 &lt;h3 id="启动-clickhouse-和-grafana"&gt;启动 ClickHouse 和 Grafana&lt;/h3&gt;
 &lt;p&gt;使用 Docker Compose 启动&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;version&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;3.7&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;grafana&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;grafana/grafana&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;3000:3000&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/grafana:/var/lib/grafana&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/plugins/:/var/lib/grafana/plugins&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/provisioning:/etc/grafana/provisioning&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;networks&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;grafana&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3.7&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;grafana&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;grafana/grafana&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;3000:3000&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/grafana:/var/lib/grafana&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/plugins/:/var/lib/grafana/plugins&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/provisioning:/etc/grafana/provisioning&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;grafana&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;clickhouse&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;clickhouse/clickhouse-server&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;container_name&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;grafana-clickhouse-server&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;8123:8123&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e6db74"&gt;&amp;#34;9000:9000&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;volumes&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/data:/var/lib/clickhouse&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/temp:/temp&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;./data/log:/var/log/clickhouse-server&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;environment&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CLICKHOUSE_SERVER_USER&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;default&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CLICKHOUSE_SERVER_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;123456&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;networks&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;grafana&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;clickhouse&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;clickhouse/clickhouse-server&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;grafana-clickhouse-server&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;8123:8123&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;9000:9000&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/data:/var/lib/clickhouse&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/temp:/temp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data/log:/var/log/clickhouse-server&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;CLICKHOUSE_SERVER_USER&lt;/span&gt;: &lt;span style="color:#98c379"&gt;default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;CLICKHOUSE_SERVER_PASSWORD&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;123456&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;grafana&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;networks&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;grafana&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;grafana&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="添加数据"&gt;添加数据&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;登陆数据库&lt;/li&gt;
@@ -46,10 +46,10 @@
 &lt;li&gt;启动&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;挂载的目的是为了将数据保存在宿主机上，方便查询历史数据&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name influxdb -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-p 8086:8086 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /root/workspace/docker/influxdb:/var/lib/influxdb &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	influxdb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name influxdb -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-p 8086:8086 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /root/workspace/docker/influxdb:/var/lib/influxdb &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	influxdb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="运行-telegraf"&gt;运行 Telegraf&lt;/h2&gt;
 &lt;p&gt;Telegraf 是一个用 Golang 写的基于插件驱动的数据收集Agent，可以用来收集机器的数据&lt;/p&gt;
 &lt;ul&gt;
@@ -70,77 +70,77 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;li&gt;启动&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Telegraf 依赖于 Influxdb，所以使用同一个网络&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name telegraf -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	--net&lt;span style="color:#f92672"&gt;=&lt;/span&gt;container:influxdb &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /proc:/host/proc:ro &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /opt/:/opt/ &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /usr/lib/:/usr/lib/ &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-v /root/workspace/docker/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	-e HOST_PROC&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/host/proc &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt;	telegraf
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name telegraf -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	--net&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;container:influxdb &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /proc:/host/proc:ro &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /opt/:/opt/ &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /usr/lib/:/usr/lib/ &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-v /root/workspace/docker/telegraf/config/telegraf.conf:/etc/telegraf/telegraf.conf &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	-e &lt;span style="color:#dcaeea"&gt;HOST_PROC&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;/host/proc &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;	telegraf
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="运行-grafana"&gt;运行 Grafana&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;运行&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;grafana &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 3000:3000 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; grafana/grafana
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --name&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;grafana &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -p 3000:3000 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; grafana/grafana
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="修改-influxdb-配置"&gt;修改 Influxdb 配置&lt;/h2&gt;
 &lt;p&gt;在 Influxdb 中添加一个新的用户，并授予访问 telegraf 数据库的权限，用于 Grafana 拉取数据&lt;/p&gt;</description></item><item><title>Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据</title><link>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</link><pubDate>Sat, 16 May 2020 14:49:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</guid><description>&lt;p&gt;使用 Prometheus监控 SpringBoot 应用，当应用很多，且上下线频繁时，需要不断的更改 Prometheus 的配置文件，不能灵活的使用，可以通过为 Prometheus配置注册中心，从注册中心拉取应用数据获取监控数据&lt;/p&gt;
 &lt;h2 id="启动-prometheus"&gt;启动 Prometheus&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;添加配置文件 prometheus.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/prometheus/config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/prometheus/config
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi ~/docker/prometheus/config/prometheus.yml
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;global&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;15s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;10s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;evaluation_interval&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;15s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;alerting&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;alertmanagers&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;static_configs&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;targets&lt;/span&gt;: []
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scheme&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;http&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;timeout&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;10s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;api_version&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;v1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;scrape_configs&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;job_name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;prometheus&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;honor_timestamps&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;15s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;10s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;metrics_path&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;/metrics&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scheme&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;http&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;static_configs&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;targets&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;localhost:9090&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;global&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;15s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#98c379"&gt;10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;evaluation_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;15s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;alerting&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;alertmanagers&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;static_configs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;targets&lt;/span&gt;: []
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scheme&lt;/span&gt;: &lt;span style="color:#98c379"&gt;http&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;timeout&lt;/span&gt;: &lt;span style="color:#98c379"&gt;10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;api_version&lt;/span&gt;: &lt;span style="color:#98c379"&gt;v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;scrape_configs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;prometheus&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;honor_timestamps&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;15s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#98c379"&gt;10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;metrics_path&lt;/span&gt;: &lt;span style="color:#98c379"&gt;/metrics&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scheme&lt;/span&gt;: &lt;span style="color:#98c379"&gt;http&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;static_configs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;targets&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;localhost:9090&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;启动容器&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name prometheus &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 9090:9090 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v ~/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; prom/prometheus
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --name prometheus &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -p 9090:9090 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v ~/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; prom/prometheus
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="启动-consul"&gt;启动 Consul&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name consul &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 8500:8500 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; consul
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --name consul &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -p 8500:8500 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; consul
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="启动-spring-boot-应用"&gt;启动 Spring Boot 应用&lt;/h2&gt;
 &lt;h3 id="添加监控"&gt;添加监控&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;添加依赖 build.gradle&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-consul-discovery&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile &lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile &lt;span style="color:#e6db74"&gt;&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile &lt;span style="color:#e6db74"&gt;&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.cloud:spring-cloud-starter-consul-discovery&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改应用配置 applicaiton.properties&lt;/li&gt;
 &lt;/ul&gt;
@@ -161,11 +161,11 @@ management.metrics.tags.application=${spring.application.name}
 &lt;ul&gt;
 &lt;li&gt;通过 Docker 启动&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name exporter -d -p 9107:9107 prom/consul-exporter --consul.server&lt;span style="color:#f92672"&gt;=&lt;/span&gt;host.docker.internal:8500
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name exporter -d -p 9107:9107 prom/consul-exporter --consul.server&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;host.docker.internal:8500
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;检查数据&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:9107/metrics
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:9107/metrics
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会返回相应的监控数据，这样就可以将 Consul中未提供的数据添加到 Prometheus中了&lt;/p&gt;
 &lt;h2 id="自定义监控数据"&gt;自定义监控数据&lt;/h2&gt;
 &lt;p&gt;如果数据仍然不满足，可以基于&lt;a href="https://github.com/prometheus/consul_exporter"&gt;consul_exporter&lt;/a&gt; 这个项目进行扩展，添加自定义的统计数据；如现在需要统计集群的响应时间，可以通过统计请求consul的耗时来实现：&lt;/p&gt;
@@ -173,45 +173,45 @@ management.metrics.tags.application=${spring.application.name}
 &lt;li&gt;添加自定义的统计项&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;在常量中添加一个新的统计项&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;responseTime&lt;/span&gt; = &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;NewDesc&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;BuildFQName&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;namespace&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;response_time&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Time spend for a request &amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; []&lt;span style="color:#66d9ef"&gt;string&lt;/span&gt;{&lt;span style="color:#e6db74"&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;server_ip&amp;#34;&lt;/span&gt;}, &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt;,
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;responseTime&lt;/span&gt; = &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;NewDesc&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;BuildFQName&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;namespace&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;response_time&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;Time spend for a request &amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; []&lt;span style="color:#ef8383"&gt;string&lt;/span&gt;{&lt;span style="color:#98c379"&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;server_ip&amp;#34;&lt;/span&gt;}, &lt;span style="color:#b756ff;font-weight:bold"&gt;nil&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;实现统计方法&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;e&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#a6e22e"&gt;collectResponseTime&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;chan&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Metric&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;bool&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;start&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;time&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Now&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;Nanosecond&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;serverIp&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;e&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;client&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Status&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;Leader&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;_&lt;/span&gt; = &lt;span style="color:#a6e22e"&gt;level&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Error&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;e&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;logger&lt;/span&gt;).&lt;span style="color:#a6e22e"&gt;Log&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;msg&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Failed to query leader data&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;err&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;func&lt;/span&gt; (&lt;span style="color:#c1abea"&gt;e&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#00b1f7"&gt;collectResponseTime&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c678dd"&gt;chan&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;Metric&lt;/span&gt;) &lt;span style="color:#ef8383"&gt;bool&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;start&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;:=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;time&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;Now&lt;/span&gt;().&lt;span style="color:#00b1f7"&gt;Nanosecond&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;serverIp&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;err&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;:=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;e&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;client&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;Status&lt;/span&gt;().&lt;span style="color:#00b1f7"&gt;Leader&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;if&lt;/span&gt; &lt;span style="color:#c1abea"&gt;err&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;!=&lt;/span&gt; &lt;span style="color:#b756ff;font-weight:bold"&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;_&lt;/span&gt; = &lt;span style="color:#c1abea"&gt;level&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;Error&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;e&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;logger&lt;/span&gt;).&lt;span style="color:#00b1f7"&gt;Log&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;msg&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;Failed to query leader data&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;err&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#b756ff;font-weight:bold"&gt;false&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;costTime&lt;/span&gt; &lt;span style="color:#f92672"&gt;:=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;time&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Now&lt;/span&gt;().&lt;span style="color:#a6e22e"&gt;Nanosecond&lt;/span&gt;() &lt;span style="color:#f92672"&gt;-&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;start&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;costTime&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;:=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;time&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;Now&lt;/span&gt;().&lt;span style="color:#00b1f7"&gt;Nanosecond&lt;/span&gt;() &lt;span style="color:#c7bf54"&gt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;start&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;MustNewConstMetric&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;responseTime&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GaugeValue&lt;/span&gt;, float64(&lt;span style="color:#a6e22e"&gt;costTime&lt;/span&gt;), &lt;span style="color:#e6db74"&gt;&amp;#34;leader&amp;#34;&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;serverIp&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;MustNewConstMetric&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;responseTime&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;GaugeValue&lt;/span&gt;, &lt;span style="color:#ef8383"&gt;float64&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;costTime&lt;/span&gt;), &lt;span style="color:#98c379"&gt;&amp;#34;leader&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;serverIp&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="3"&gt;
 &lt;li&gt;将统计项添加到 &lt;code&gt;Collect&lt;/code&gt; 和 &lt;code&gt;Describe&lt;/code&gt;中&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;e&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#a6e22e"&gt;Describe&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;chan&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Desc&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;responseTime&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;func&lt;/span&gt; (&lt;span style="color:#c1abea"&gt;e&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#00b1f7"&gt;Describe&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c678dd"&gt;chan&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt;&lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;Desc&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;responseTime&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;func&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;e&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#a6e22e"&gt;Collect&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;chan&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;Metric&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ok&lt;/span&gt; = &lt;span style="color:#a6e22e"&gt;e&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;collectResponseTime&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;ch&lt;/span&gt;) &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;ok&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;func&lt;/span&gt; (&lt;span style="color:#c1abea"&gt;e&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#00b1f7"&gt;Collect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c678dd"&gt;chan&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;Metric&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;ok&lt;/span&gt; = &lt;span style="color:#c1abea"&gt;e&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;collectResponseTime&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt;) &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;ok&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，就会在启动后获取相应的数据，之后在 Prometheus 和 Grafana 中可以看到相应的数据&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Sat, 16 May 2020 14:43:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;p&gt;监控 Spring Boot 应用的状态，以及一些自定义的业务数据&lt;/p&gt;
 &lt;h2 id="监控-spring-boot-应用"&gt;监控 Spring Boot 应用&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;添加依赖 build.gradle&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; compile&lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span&gt;&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-actuator&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;io.micrometer:micrometer-core:1.5.1&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;io.micrometer:micrometer-registry-prometheus:1.5.1&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改配置 application.properties&lt;/li&gt;
 &lt;/ul&gt;
@@ -223,12 +223,12 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;添加 Prometheus 监控&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;job_name&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;spring-prometheus&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;metrics_path&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;/actuator/prometheus&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;5s&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;static_configs&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;targets&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;host.docker.internal:8081&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;spring-prometheus&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;metrics_path&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;/actuator/prometheus&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;5s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;static_configs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;targets&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;host.docker.internal:8081&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;配置 Grafana&lt;/li&gt;
 &lt;/ul&gt;
@@ -249,39 +249,93 @@ management.metrics.tags.application=${spring.application.name}
  &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="springboot-grafana-dashboard.png" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h2 id="监控方法执行时间和数量"&gt;监控方法执行时间和数量&lt;/h2&gt;
-&lt;p&gt;Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code&gt;@Counted&lt;/code&gt;和&lt;code&gt;@Timed&lt;/code&gt;来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation"&gt;The @Timed annotation&lt;/a&gt;&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p&gt;使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p&gt;
+&lt;p&gt;Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code&gt;@Counted&lt;/code&gt;和&lt;code&gt;@Timed&lt;/code&gt;来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation"&gt;The @Timed annotation&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注入切面的Bean&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@EnableAspectJAutoProxy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Configuration&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PrometheusAspectConfig&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TimedAspect&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;timedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;MeterRegistry&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TimedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Bean&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;CountedAspect&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;countedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;MeterRegistry&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;CountedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="监控定时任务"&gt;监控定时任务&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;监控定时任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Slf4j&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;CustomScheduleTask&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c678dd"&gt;static&lt;/span&gt; &lt;span style="color:#c678dd"&gt;final&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Random&lt;/span&gt; &lt;span style="color:#c1abea"&gt;random&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Random&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Scheduled&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;fixedDelay&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;5000&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Timed&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;value&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;custom_task_time&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;extraTags&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; {&lt;span style="color:#98c379"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;自定义定时任务&amp;#34;&lt;/span&gt;}, &lt;span style="color:#c1abea"&gt;description&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;自定义定时任务监控&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;customSchedule&lt;/span&gt;() &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;InterruptedException&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;Thread&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;sleep&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;random&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;nextInt&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;5000&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;log&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;定时任务执行完成&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;查看监控数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081/actuator/prometheus | grep custom_task
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="监控接口"&gt;监控接口&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;controller&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Timed&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Counted&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@GetMapping&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;/timed&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Object&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;timed&lt;/span&gt;() &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;InterruptedException&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;customService&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;timed&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;UUID&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;randomUUID&lt;/span&gt;().&lt;span style="color:#b3d23c"&gt;toString&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;监控数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081/actuator/prometheus | grep method_time
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="自定义监控指标"&gt;自定义监控指标&lt;/h2&gt;
+&lt;p&gt;通过自定义监控指标监控业务相关数据&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p&gt;使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p&gt;
 &lt;h2 id="启动-consul"&gt;启动 Consul&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;创建配置文件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/consul/config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/consul/config
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi ~/docker/consul/config/config.json
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;添加以下内容，目的是为了启用 Consul 的 Prometheus，否则会在调用相关端口时提示 &lt;code&gt;415 Unsupport Media Type&lt;/code&gt; 和 &lt;code&gt;Prometheus is not enabled since its retention time is not positive&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;telemetry&amp;#34;&lt;/span&gt;: {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;prometheus_retention_time&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;480h&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;disable_hostname&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;telemetry&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;prometheus_retention_time&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;480h&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;disable_hostname&amp;#34;&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;启动容器&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将当前目录挂载到容器的config目录下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -d &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; --name consul &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -v ~/docker/consul/config:/consul/config &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -p 8500:8500 &lt;span style="color:#ae81ff"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; consul
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --name consul &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v ~/docker/consul/config:/consul/config &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -p 8500:8500 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; consul
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;检查是否正常&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;如果正常的话会返回相应的 Prometheus 数据&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl http://127.0.0.1:8500/v1/agent/metrics&lt;span style="color:#ae81ff"&gt;\?&lt;/span&gt;format&lt;span style="color:#ae81ff"&gt;\=&lt;/span&gt;prometheus
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl http://127.0.0.1:8500/v1/agent/metrics&lt;span style="color:#d26464;font-weight:bold"&gt;\?&lt;/span&gt;format&lt;span style="color:#d26464;font-weight:bold"&gt;\=&lt;/span&gt;prometheus
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="启动-prometheus"&gt;启动 Prometheus&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;创建配置文件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/prometheus/config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/prometheus/config
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi ~/docker/prometheus/config/prometheus.yml
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;添加以下内容:&lt;/p&gt;</description></item></channel></rss>

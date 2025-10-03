@@ -5,27 +5,27 @@
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>AWS Lambda 部署 SpringBoot 应用</h1><small role=doc-subtitle></small><p class=post-date>2019-05-06
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/serverless>Serverless</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/lambda>Lambda</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/aws>AWS</a></li></ul></div><div class=post-content><h2 id=配置-aws-cli-和-severless>配置 AWS CLI 和 Severless</h2><p>AWS CLI 和 Serverless 都可以用于部署 Serverless 应用</p><h3 id=获取密钥>获取密钥</h3><ol><li>登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless1.png alt=Serverless1 loading=lazy></p><ol start=2><li>输入用户名，选择编程访问</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png alt=Serverless2-add-user loading=lazy></p><ol start=3><li>选择权限-直接附加现有策略，搜索<code>AdministratorAccess</code>并选中(有最高权限)</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png alt=Serverless3-add-permission loading=lazy></p><ol start=4><li>选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png alt=Serverless3-save-secret loading=lazy></p><h3 id=安装配置-aws-cli>安装配置 AWS CLI</h3><h4 id=安装>安装</h4><p>参考 <a href=https://aws.amazon.com/cn/cli/>AWS 命令行界面</a> 安装</p><ul><li>Win 下载 <a href=https://s3.amazonaws.com/aws-cli/AWSCLI64.msi>https://s3.amazonaws.com/aws-cli/AWSCLI64.msi</a> 安装</li><li>Mac/Linux 执行 <code>pip install awscli</code></li></ul><h4 id=配置-aws-cli>配置 AWS CLI</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws configure
-</span></span></code></pre></div><p>然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如<code>us-east-1</code></p><h3 id=安装配置-severless>安装配置 Severless</h3><h4 id=安装-1>安装</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm install -g serverless
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/serverless>Serverless</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/lambda>Lambda</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/aws>AWS</a></li></ul></div><div class=post-content><h2 id=配置-aws-cli-和-severless>配置 AWS CLI 和 Severless</h2><p>AWS CLI 和 Serverless 都可以用于部署 Serverless 应用</p><h3 id=获取密钥>获取密钥</h3><ol><li>登录 AWS， 在服务中搜索并选择 IAM，之后选择用户，添加用户</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless1.png alt=Serverless1 loading=lazy></p><ol start=2><li>输入用户名，选择编程访问</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless2-add-user.png alt=Serverless2-add-user loading=lazy></p><ol start=3><li>选择权限-直接附加现有策略，搜索<code>AdministratorAccess</code>并选中(有最高权限)</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless3-add-permission.png alt=Serverless3-add-permission loading=lazy></p><ol start=4><li>选择下一步直到完成，然后保存好密钥(只会出现这一次，否则就只能重新创建)</li></ol><p><img src=https://img.hellowood.dev/blog/serverless/Serverless4-save-secret.png alt=Serverless3-save-secret loading=lazy></p><h3 id=安装配置-aws-cli>安装配置 AWS CLI</h3><h4 id=安装>安装</h4><p>参考 <a href=https://aws.amazon.com/cn/cli/>AWS 命令行界面</a> 安装</p><ul><li>Win 下载 <a href=https://s3.amazonaws.com/aws-cli/AWSCLI64.msi>https://s3.amazonaws.com/aws-cli/AWSCLI64.msi</a> 安装</li><li>Mac/Linux 执行 <code>pip install awscli</code></li></ul><h4 id=配置-aws-cli>配置 AWS CLI</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws configure
+</span></span></code></pre></div><p>然后输入刚才的密钥的 Key 和 Secret，Region 可以选择常用的 region，如<code>us-east-1</code></p><h3 id=安装配置-severless>安装配置 Severless</h3><h4 id=安装-1>安装</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm install -g serverless
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>或
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>yarn global add serverless
-</span></span></code></pre></div><h4 id=配置>配置</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>
+</span></span></code></pre></div><h4 id=配置>配置</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>
 </span></span><span style=display:flex><span>serverless config credentials --provider aws --key YOUR_KEY --secret YOUR_SECRET
-</span></span></code></pre></div><h3 id=安装配置-aws-sam-local>安装配置 AWS SAM Local</h3><p>aws-sam-local 是用于本地调试 Serverless 应用的工具</p><h4 id=安装-2>安装</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm install -g aws-sam-local
+</span></span></code></pre></div><h3 id=安装配置-aws-sam-local>安装配置 AWS SAM Local</h3><p>aws-sam-local 是用于本地调试 Serverless 应用的工具</p><h4 id=安装-2>安装</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm install -g aws-sam-local
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>或
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>yarn global add aws-sam-local
-</span></span></code></pre></div><h2 id=创建-spring-boot-应用>创建 Spring Boot 应用</h2><h3 id=通过-maven-插件快速生成>通过 Maven 插件快速生成</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn archetype:generate <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -DgroupId<span style=color:#f92672>=</span>io.github.helloworlde <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -DartifactId<span style=color:#f92672>=</span>serverless-spring-boot <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -Dversion<span style=color:#f92672>=</span>1.0-SNAPSHOT <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -DarchetypeGroupId<span style=color:#f92672>=</span>com.amazonaws.serverless.archetypes <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -DarchetypeArtifactId<span style=color:#f92672>=</span>aws-serverless-springboot2-archetype <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>        -DarchetypeVersion<span style=color:#f92672>=</span>1.3.1
-</span></span></code></pre></div><ul><li>项目文件</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>.
+</span></span></code></pre></div><h2 id=创建-spring-boot-应用>创建 Spring Boot 应用</h2><h3 id=通过-maven-插件快速生成>通过 Maven 插件快速生成</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mvn archetype:generate <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -DgroupId<span style=color:#c7bf54>=</span>io.github.helloworlde <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -DartifactId<span style=color:#c7bf54>=</span>serverless-spring-boot <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -Dversion<span style=color:#c7bf54>=</span>1.0-SNAPSHOT <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -DarchetypeGroupId<span style=color:#c7bf54>=</span>com.amazonaws.serverless.archetypes <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -DarchetypeArtifactId<span style=color:#c7bf54>=</span>aws-serverless-springboot2-archetype <span style=color:#d26464;font-weight:700>\
+</span></span></span><span style=display:flex><span><span style=color:#d26464;font-weight:700></span>        -DarchetypeVersion<span style=color:#c7bf54>=</span>1.3.1
+</span></span></code></pre></div><ul><li>项目文件</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>.
 </span></span><span style=display:flex><span>├── README.md
 </span></span><span style=display:flex><span>├── build.gradle
 </span></span><span style=display:flex><span>├── pom.xml
@@ -44,175 +44,175 @@
 </span></span><span style=display:flex><span>    │   │                   └── PingController.java
 </span></span><span style=display:flex><span>    │   └── resources
 </span></span><span style=display:flex><span>    │       └── application.properties
-</span></span><span style=display:flex><span>    └── test
+</span></span><span style=display:flex><span>    └── <span style=color:#ef8383>test</span>
 </span></span><span style=display:flex><span>        └── java
 </span></span><span style=display:flex><span>            └── io
 </span></span><span style=display:flex><span>                └── github
 </span></span><span style=display:flex><span>                    └── helloworlde
 </span></span><span style=display:flex><span>                        └── StreamLambdaHandlerTest.java
-</span></span></code></pre></div><h3 id=手动创建>手动创建</h3><ol><li>创建 SpringBoot 应用</li><li>修改 build.gradle</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>buildscript <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    ext <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>        springBootVersion <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;2.1.1.RELEASE&#39;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span>    repositories <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>        mavenCentral<span style=color:#f92672>()</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span>    dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>        classpath<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&#34;</span><span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h3 id=手动创建>手动创建</h3><ol><li>创建 SpringBoot 应用</li><li>修改 build.gradle</li></ol><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>buildscript</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>ext</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>springBootVersion</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#39;2.1.1.RELEASE&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c7bf54>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>repositories</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>mavenCentral</span><span style=color:#c7bf54>()</span>
+</span></span><span style=display:flex><span>    <span style=color:#c7bf54>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>classpath</span><span style=color:#c7bf54>(</span><span style=color:#63c381>&#34;org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}&#34;</span><span style=color:#c7bf54>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#c7bf54>}</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>apply plugin: <span style=color:#e6db74>&#39;java&#39;</span>
-</span></span><span style=display:flex><span>apply plugin: <span style=color:#e6db74>&#39;org.springframework.boot&#39;</span>
-</span></span><span style=display:flex><span>apply plugin: <span style=color:#e6db74>&#39;io.spring.dependency-management&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>apply</span> <span style=color:#f5a40d>plugin:</span> <span style=color:#98c379>&#39;java&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>apply</span> <span style=color:#f5a40d>plugin:</span> <span style=color:#98c379>&#39;org.springframework.boot&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>apply</span> <span style=color:#f5a40d>plugin:</span> <span style=color:#98c379>&#39;io.spring.dependency-management&#39;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>archivesBaseName <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;serverless-spring-boot&#39;</span>
-</span></span><span style=display:flex><span>group <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;io.github.helloworlde&#39;</span>
-</span></span><span style=display:flex><span>version <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;0.0.1-SNAPSHOT&#39;</span>
-</span></span><span style=display:flex><span>sourceCompatibility <span style=color:#f92672>=</span> <span style=color:#ae81ff>1.8</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>archivesBaseName</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#39;serverless-spring-boot&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>group</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#39;io.github.helloworlde&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>version</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#39;0.0.1-SNAPSHOT&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>sourceCompatibility</span> <span style=color:#c7bf54>=</span> <span style=color:#d19a66>1.8</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>repositories <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    jcenter<span style=color:#f92672>()</span>
-</span></span><span style=display:flex><span>    mavenLocal<span style=color:#f92672>()</span>
-</span></span><span style=display:flex><span>    mavenCentral<span style=color:#f92672>()</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>repositories</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>jcenter</span><span style=color:#c7bf54>()</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>mavenLocal</span><span style=color:#c7bf54>()</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>mavenCentral</span><span style=color:#c7bf54>()</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    compile<span style=color:#f92672>(</span>
-</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#f92672>,</span>
-</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;com.amazonaws.serverless:aws-serverless-java-container-spring:[1.0,)&#39;</span><span style=color:#f92672>,</span>
-</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;io.symphonia:lambda-logging:1.0.1&#39;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>compile</span><span style=color:#c7bf54>(</span>
+</span></span><span style=display:flex><span>            <span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#c7bf54>,</span>
+</span></span><span style=display:flex><span>            <span style=color:#98c379>&#39;com.amazonaws.serverless:aws-serverless-java-container-spring:[1.0,)&#39;</span><span style=color:#c7bf54>,</span>
+</span></span><span style=display:flex><span>            <span style=color:#98c379>&#39;io.symphonia:lambda-logging:1.0.1&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    testCompile<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;junit:junit:4.12&#34;</span><span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>testCompile</span><span style=color:#c7bf54>(</span><span style=color:#63c381>&#34;junit:junit:4.12&#34;</span><span style=color:#c7bf54>)</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>task <span style=color:#a6e22e>buildZip</span><span style=color:#f92672>(</span>type: Zip<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    from compileJava
-</span></span><span style=display:flex><span>    from processResources
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>into</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#39;lib&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>        from<span style=color:#f92672>(</span>configurations<span style=color:#f92672>.</span><span style=color:#a6e22e>compileClasspath</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>            exclude <span style=color:#e6db74>&#39;tomcat-embed-*&#39;</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#c1abea>task</span> <span style=color:#00b1f7>buildZip</span><span style=color:#c7bf54>(</span><span style=color:#f5a40d>type:</span> <span style=color:#c1abea>Zip</span><span style=color:#c7bf54>)</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>from</span> <span style=color:#c1abea>compileJava</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>from</span> <span style=color:#c1abea>processResources</span>
+</span></span><span style=display:flex><span>    <span style=color:#00b1f7>into</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;lib&#39;</span><span style=color:#c7bf54>)</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>from</span><span style=color:#c7bf54>(</span><span style=color:#c1abea>configurations</span><span style=color:#c7bf54>.</span><span style=color:#b3d23c>compileClasspath</span><span style=color:#c7bf54>)</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>exclude</span> <span style=color:#98c379>&#39;tomcat-embed-*&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#c7bf54>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#c7bf54>}</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>build<span style=color:#f92672>.</span><span style=color:#a6e22e>dependsOn</span> buildZip
-</span></span></code></pre></div><ul><li>添加 PingController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> io.github.helloworlde.controller;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.web.bind.annotation.*;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> org.springframework.web.servlet.config.annotation.EnableWebMvc;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.HashMap;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.util.Map;
+</span></span><span style=display:flex><span><span style=color:#c1abea>build</span><span style=color:#c7bf54>.</span><span style=color:#b3d23c>dependsOn</span> <span style=color:#c1abea>buildZip</span>
+</span></span></code></pre></div><ul><li>添加 PingController.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>io.github.helloworlde.controller</span>;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@EnableWebMvc</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PingController</span> {
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@RequestMapping</span>(path <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/ping&#34;</span>, method <span style=color:#f92672>=</span> RequestMethod.<span style=color:#a6e22e>GET</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Map<span style=color:#f92672>&lt;</span>String, String<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>ping</span>() {
-</span></span><span style=display:flex><span>        Map<span style=color:#f92672>&lt;</span>String, String<span style=color:#f92672>&gt;</span> pong <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>();
-</span></span><span style=display:flex><span>        pong.<span style=color:#a6e22e>put</span>(<span style=color:#e6db74>&#34;pong&#34;</span>, <span style=color:#e6db74>&#34;Hello, World!&#34;</span>);
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> pong;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.web.bind.annotation.*</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>org.springframework.web.servlet.config.annotation.EnableWebMvc</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.HashMap</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.util.Map</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@EnableWebMvc</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>PingController</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@RequestMapping</span>(<span style=color:#c1abea>path</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;/ping&#34;</span>, <span style=color:#c1abea>method</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>RequestMethod</span>.<span style=color:#b3d23c>GET</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>String</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>ping</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>Map</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>String</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>pong</span> <span style=color:#c7bf54>=</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>HashMap</span><span style=color:#c7bf54>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>pong</span>.<span style=color:#b3d23c>put</span>(<span style=color:#98c379>&#34;pong&#34;</span>, <span style=color:#98c379>&#34;Hello, World!&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>pong</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>添加 StreamLamdbaHandler.java</li></ul><p>StreamLamdbaHandler 相当于一个代理层，将访问 Lambda 的流量转发给 SpringBoot应用；handleRequest方法每次请求都会被调用</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>package</span> io.github.helloworlde;
+</span></span></code></pre></div><ul><li>添加 StreamLamdbaHandler.java</li></ul><p>StreamLamdbaHandler 相当于一个代理层，将访问 Lambda 的流量转发给 SpringBoot应用；handleRequest方法每次请求都会被调用</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#76a9f9>io.github.helloworlde</span>;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.serverless.exceptions.ContainerInitializationException;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.serverless.proxy.model.AwsProxyRequest;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.serverless.proxy.model.AwsProxyResponse;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.serverless.proxy.spring.SpringBootLambdaContainerHandler;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.services.lambda.runtime.Context;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.serverless.exceptions.ContainerInitializationException</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.serverless.proxy.model.AwsProxyRequest</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.serverless.proxy.model.AwsProxyResponse</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.serverless.proxy.spring.SpringBootLambdaContainerHandler</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.services.lambda.runtime.Context</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>com.amazonaws.services.lambda.runtime.RequestStreamHandler</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.io.IOException;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.io.InputStream;
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> java.io.OutputStream;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.io.IOException</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.io.InputStream</span>;
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> <span style=color:#76a9f9>java.io.OutputStream</span>;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>StreamLambdaHandler</span> <span style=color:#66d9ef>implements</span> RequestStreamHandler {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> SpringBootLambdaContainerHandler<span style=color:#f92672>&lt;</span>AwsProxyRequest, AwsProxyResponse<span style=color:#f92672>&gt;</span> handler;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>static</span> {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            handler <span style=color:#f92672>=</span> SpringBootLambdaContainerHandler.<span style=color:#a6e22e>getAwsProxyHandler</span>(Application.<span style=color:#a6e22e>class</span>);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (ContainerInitializationException e) {
-</span></span><span style=display:flex><span>            <span style=color:#75715e>// if we fail here. We re-throw the exception to force another cold start</span>
-</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException(<span style=color:#e6db74>&#34;Could not initialize Spring Boot application&#34;</span>, e);
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>StreamLambdaHandler</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>RequestStreamHandler</span> {
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c678dd>static</span> <span style=color:#c1abea>SpringBootLambdaContainerHandler</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>AwsProxyRequest</span>, <span style=color:#c1abea>AwsProxyResponse</span><span style=color:#c7bf54>&gt;</span> <span style=color:#c1abea>handler</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>static</span> {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>handler</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>SpringBootLambdaContainerHandler</span>.<span style=color:#b3d23c>getAwsProxyHandler</span>(<span style=color:#c1abea>Application</span>.<span style=color:#b3d23c>class</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>ContainerInitializationException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#8a93a5;font-style:italic>// if we fail here. We re-throw the exception to force another cold start</span>
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>e</span>.<span style=color:#b3d23c>printStackTrace</span>();
+</span></span><span style=display:flex><span>            <span style=color:#c678dd>throw</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>RuntimeException</span>(<span style=color:#98c379>&#34;Could not initialize Spring Boot application&#34;</span>, <span style=color:#c1abea>e</span>);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleRequest</span>(InputStream inputStream, OutputStream outputStream, Context context)
-</span></span><span style=display:flex><span>            <span style=color:#66d9ef>throws</span> IOException {
-</span></span><span style=display:flex><span>        handler.<span style=color:#a6e22e>proxyStream</span>(inputStream, outputStream, context);
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>handleRequest</span>(<span style=color:#c1abea>InputStream</span> <span style=color:#c1abea>inputStream</span>, <span style=color:#c1abea>OutputStream</span> <span style=color:#c1abea>outputStream</span>, <span style=color:#c1abea>Context</span> <span style=color:#c1abea>context</span>)
+</span></span><span style=display:flex><span>            <span style=color:#c678dd>throws</span> <span style=color:#c1abea>IOException</span> {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>handler</span>.<span style=color:#b3d23c>proxyStream</span>(<span style=color:#c1abea>inputStream</span>, <span style=color:#c1abea>outputStream</span>, <span style=color:#c1abea>context</span>);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>添加 sam.yaml</li></ul><p>sam 用于本地测试Serverless 应用，依赖于 Python 和 Docker</p><p>需要注意的是，<code>Resources.ServerlessSpringBootFunction.Properties.CodeUri</code>这个路径需要根据使用 Gradle 或 Maven 进行修改</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>AWSTemplateFormatVersion</span>: <span style=color:#e6db74>&#34;2010-09-09&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>Transform</span>: <span style=color:#ae81ff>AWS::Serverless-2016-10-31</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>Description</span>: <span style=color:#ae81ff>AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>Globals</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>Api</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>EndpointConfiguration</span>: <span style=color:#ae81ff>REGIONAL</span>
+</span></span></code></pre></div><ul><li>添加 sam.yaml</li></ul><p>sam 用于本地测试Serverless 应用，依赖于 Python 和 Docker</p><p>需要注意的是，<code>Resources.ServerlessSpringBootFunction.Properties.CodeUri</code>这个路径需要根据使用 Gradle 或 Maven 进行修改</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>AWSTemplateFormatVersion</span>: <span style=color:#63c381>&#34;2010-09-09&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Transform</span>: <span style=color:#98c379>AWS::Serverless-2016-10-31</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Description</span>: <span style=color:#98c379>AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Globals</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>Api</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>EndpointConfiguration</span>: <span style=color:#98c379>REGIONAL</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>Resources</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ServerlessSpringBootFunction</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Type</span>: <span style=color:#ae81ff>AWS::Serverless::Function</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Properties</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Handler</span>: <span style=color:#ae81ff>io.github.helloworlde.StreamLambdaHandler::handleRequest</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Runtime</span>: <span style=color:#ae81ff>java8</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>CodeUri</span>: <span style=color:#ae81ff>build/distributions/serverless-spring-boot.zip</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>MemorySize</span>: <span style=color:#ae81ff>512</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Policies</span>: <span style=color:#ae81ff>AWSLambdaBasicExecutionRole</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Timeout</span>: <span style=color:#ae81ff>30</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Events</span>:
-</span></span><span style=display:flex><span>        <span style=color:#f92672>GetResource</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>Type</span>: <span style=color:#ae81ff>Api</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>Properties</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>Path</span>: <span style=color:#ae81ff>/{proxy+}</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>Method</span>: <span style=color:#ae81ff>any</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Resources</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ServerlessSpringBootFunction</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>AWS::Serverless::Function</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Handler</span>: <span style=color:#98c379>io.github.helloworlde.StreamLambdaHandler::handleRequest</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Runtime</span>: <span style=color:#98c379>java8</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CodeUri</span>: <span style=color:#98c379>build/distributions/serverless-spring-boot.zip</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>MemorySize</span>: <span style=color:#d19a66>512</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Policies</span>: <span style=color:#98c379>AWSLambdaBasicExecutionRole</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Timeout</span>: <span style=color:#d19a66>30</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Events</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>GetResource</span>:
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Type</span>: <span style=color:#98c379>Api</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>Path</span>: <span style=color:#98c379>/{proxy+}</span>
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>Method</span>: <span style=color:#98c379>any</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>Outputs</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ServerlessSpringBootApi</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Description</span>: <span style=color:#ae81ff>URL for application</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Value</span>: !<span style=color:#ae81ff>Sub &#34;https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Export</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>Name</span>: <span style=color:#ae81ff>ServerlessSpringBootApi</span>
-</span></span></code></pre></div><h2 id=测试>测试</h2><h3 id=编译生成-zip>编译生成 zip</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gradle clean build
-</span></span></code></pre></div><h3 id=测试应用接口>测试应用接口</h3><ol><li>启动应用</li><li>访问 <code>http://localhost:8080/ping</code>，应当返回结果：</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;pong&#34;</span>: <span style=color:#e6db74>&#34;Hello, World!&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Outputs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>ServerlessSpringBootApi</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Description</span>: <span style=color:#98c379>URL for application</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !<span style=color:#98c379>Sub &#34;https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: <span style=color:#98c379>ServerlessSpringBootApi</span>
+</span></span></code></pre></div><h2 id=测试>测试</h2><h3 id=编译生成-zip>编译生成 zip</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gradle clean build
+</span></span></code></pre></div><h3 id=测试应用接口>测试应用接口</h3><ol><li>启动应用</li><li>访问 <code>http://localhost:8080/ping</code>，应当返回结果：</li></ol><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;pong&#34;</span>: <span style=color:#63c381>&#34;Hello, World!&#34;</span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=使用-sam-测试>使用 SAM 测试</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>sam local start<span style=color:#f92672>-</span>api <span style=color:#f92672>--</span>template sam.<span style=color:#a6e22e>yaml</span>
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -s http://127.0.0.1:3000/ping
-</span></span></code></pre></div><p>将会看到输出结果：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{<span style=color:#f92672>&#34;pong&#34;</span>:<span style=color:#e6db74>&#34;Hello, World!&#34;</span>}<span style=color:#960050;background-color:#1e0010>%</span>
-</span></span></code></pre></div><h2 id=部署>部署</h2><h3 id=serverless-部署>Serverless 部署</h3><ul><li>在项目根路径中添加 serverless.yml 配置</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>service</span>: <span style=color:#ae81ff>spring-boot-serverless</span>
+</span></span></code></pre></div><h3 id=使用-sam-测试>使用 SAM 测试</h3><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c1abea>sam</span> <span style=color:#c1abea>local</span> <span style=color:#c1abea>start</span><span style=color:#c7bf54>-</span><span style=color:#c1abea>api</span> <span style=color:#c7bf54>--</span><span style=color:#c1abea>template</span> <span style=color:#c1abea>sam</span>.<span style=color:#b3d23c>yaml</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -s http://127.0.0.1:3000/ping
+</span></span></code></pre></div><p>将会看到输出结果：</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{<span style=color:#e06c75>&#34;pong&#34;</span>:<span style=color:#63c381>&#34;Hello, World!&#34;</span>}%
+</span></span></code></pre></div><h2 id=部署>部署</h2><h3 id=serverless-部署>Serverless 部署</h3><ul><li>在项目根路径中添加 serverless.yml 配置</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>service</span>: <span style=color:#98c379>spring-boot-serverless</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>provider</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>aws</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>runtime</span>: <span style=color:#ae81ff>java8</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>provider</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>name</span>: <span style=color:#98c379>aws</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>runtime</span>: <span style=color:#98c379>java8</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>package</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>artifact</span>: <span style=color:#ae81ff>build/distributions/serverless-spring-boot.zip</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>package</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>artifact</span>: <span style=color:#98c379>build/distributions/serverless-spring-boot.zip</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>functions</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>springBootServerless</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>handler</span>: <span style=color:#ae81ff>io.github.helloworlde.StreamLambdaHandler::handleRequest</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>events</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>http</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>path</span>: <span style=color:#ae81ff>/ping</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>method</span>: <span style=color:#ae81ff>get</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>timeout</span>: <span style=color:#ae81ff>30</span>
-</span></span></code></pre></div><ul><li>发布</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sls deploy
-</span></span></code></pre></div><p>日志：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sls deploy
+</span></span><span style=display:flex><span><span style=color:#e06c75>functions</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>springBootServerless</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>handler</span>: <span style=color:#98c379>io.github.helloworlde.StreamLambdaHandler::handleRequest</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>events</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>http</span>:
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>path</span>: <span style=color:#98c379>/ping</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>method</span>: <span style=color:#98c379>get</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>timeout</span>: <span style=color:#d19a66>30</span>
+</span></span></code></pre></div><ul><li>发布</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sls deploy
+</span></span></code></pre></div><p>日志：</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sls deploy
 </span></span><span style=display:flex><span>Serverless: Packaging service...
 </span></span><span style=display:flex><span>Serverless: Uploading CloudFormation file to S3...
 </span></span><span style=display:flex><span>Serverless: Uploading artifacts...
-</span></span><span style=display:flex><span>Serverless: Uploading service serverless-spring-boot.zip file to S3 <span style=color:#f92672>(</span>12.73 MB<span style=color:#f92672>)</span>...
+</span></span><span style=display:flex><span>Serverless: Uploading service serverless-spring-boot.zip file to S3 <span style=color:#c7bf54>(</span>12.73 MB<span style=color:#c7bf54>)</span>...
 </span></span><span style=display:flex><span>Serverless: Validating template...
 </span></span><span style=display:flex><span>Serverless: Updating Stack...
 </span></span><span style=display:flex><span>Serverless: Checking Stack update progress...
@@ -223,7 +223,7 @@
 </span></span><span style=display:flex><span>stage: dev
 </span></span><span style=display:flex><span>region: us-east-1
 </span></span><span style=display:flex><span>stack: spring-boot-serverless-dev
-</span></span><span style=display:flex><span>resources: <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>resources: <span style=color:#d19a66>10</span>
 </span></span><span style=display:flex><span>api keys:
 </span></span><span style=display:flex><span>  None
 </span></span><span style=display:flex><span>endpoints:
@@ -232,49 +232,49 @@
 </span></span><span style=display:flex><span>  springBootServerless: spring-boot-serverless-dev-springBootServerless
 </span></span><span style=display:flex><span>layers:
 </span></span><span style=display:flex><span>  None
-</span></span></code></pre></div><ul><li>访问</li></ul><p>访问 <a href=https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping>https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;pong&#34;</span>: <span style=color:#e6db74>&#34;Hello, World!&#34;</span>
+</span></span></code></pre></div><ul><li>访问</li></ul><p>访问 <a href=https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping>https://cmu9z3fmd1.execute-api.us-east-1.amazonaws.com/dev/ping</a></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;pong&#34;</span>: <span style=color:#63c381>&#34;Hello, World!&#34;</span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=使用-aws-cli-发布>使用 AWS CLI 发布</h3><h4 id=上传到-s3>上传到 S3</h4><p>上传到 S3 时需要有一个 Bucket 存在，可以在 AWS 服务-S3 中创建</p><ul><li>创建 Bucket</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws s3 mb s3://spring-boot-serverless --region us-east-1
-</span></span></code></pre></div><ul><li>上传应用</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket spring-boot-serverless
-</span></span></code></pre></div><p>这个命令执行之后会在项目根目录下生成一个 <code>output-sam.yaml</code></p><p>输出</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Uploading to e793ef8960075db672fce0a8ac65f03b  <span style=color:#ae81ff>13353411</span> / 13353411.0  <span style=color:#f92672>(</span>100.00%<span style=color:#f92672>)</span>
+</span></span></code></pre></div><h3 id=使用-aws-cli-发布>使用 AWS CLI 发布</h3><h4 id=上传到-s3>上传到 S3</h4><p>上传到 S3 时需要有一个 Bucket 存在，可以在 AWS 服务-S3 中创建</p><ul><li>创建 Bucket</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws s3 mb s3://spring-boot-serverless --region us-east-1
+</span></span></code></pre></div><ul><li>上传应用</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket spring-boot-serverless
+</span></span></code></pre></div><p>这个命令执行之后会在项目根目录下生成一个 <code>output-sam.yaml</code></p><p>输出</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Uploading to e793ef8960075db672fce0a8ac65f03b  <span style=color:#d19a66>13353411</span> / 13353411.0  <span style=color:#c7bf54>(</span>100.00%<span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>Successfully packaged artifacts and wrote output template to file output-sam.yaml.
-</span></span><span style=display:flex><span>Execute the following command to deploy the packaged template
+</span></span><span style=display:flex><span>Execute the following <span style=color:#ef8383>command</span> to deploy the packaged template
 </span></span><span style=display:flex><span>aws cloudformation deploy --template-file /Users/HelloWood/Dev/Projects/Serverless/serverless-spring-boot/output-sam.yaml --stack-name spring-boot-serverless
-</span></span></code></pre></div><h4 id=部署-1>部署</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation deploy --template-file /Users/HelloWood/Dev/Projects/Serverless/serverless-spring-boot/output-sam.yaml --stack-name spring-boot-serverless-demo --capabilities CAPABILITY_IAM
-</span></span></code></pre></div><p>需要注意的是 <code>--capabilities CAPABILITY_IAM</code>会创建一个新的角色，会使用 <code>AWSLambdaBasicExecutionRole</code>，该策略仅允许该角色访问 Lambda 相关的资源，也可以使用 <code>CAPABILITY_AUTO_EXPAND</code>或<code>CAPABILITY_NAMED_IAM</code>使用已有的角色；创建后的角色可以在 AWS IAM 的角色下面管理</p><h4 id=测试-1>测试</h4><ul><li>获取应用信息</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation describe-stacks --stack-name spring-boot-serverless-demo
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Stacks&#34;</span>: [
+</span></span></code></pre></div><h4 id=部署-1>部署</h4><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation deploy --template-file /Users/HelloWood/Dev/Projects/Serverless/serverless-spring-boot/output-sam.yaml --stack-name spring-boot-serverless-demo --capabilities CAPABILITY_IAM
+</span></span></code></pre></div><p>需要注意的是 <code>--capabilities CAPABILITY_IAM</code>会创建一个新的角色，会使用 <code>AWSLambdaBasicExecutionRole</code>，该策略仅允许该角色访问 Lambda 相关的资源，也可以使用 <code>CAPABILITY_AUTO_EXPAND</code>或<code>CAPABILITY_NAMED_IAM</code>使用已有的角色；创建后的角色可以在 AWS IAM 的角色下面管理</p><h4 id=测试-1>测试</h4><ul><li>获取应用信息</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudformation describe-stacks --stack-name spring-boot-serverless-demo
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;Stacks&#34;</span>: [
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;StackId&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:cloudformation:us-east-1:266545579784:stack/spring-boot-serverless-demo/1074b6a0-6f97-11e9-835b-0e348661d726&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;StackName&#34;</span>: <span style=color:#e6db74>&#34;spring-boot-serverless-demo&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;ChangeSetId&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:cloudformation:us-east-1:266545579784:changeSet/awscli-cloudformation-package-deploy-1557103210/fe06fc3b-a353-4d42-814a-4e4f736a2026&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Description&#34;</span>: <span style=color:#e6db74>&#34;AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;CreationTime&#34;</span>: <span style=color:#e6db74>&#34;2019-05-06T00:37:01.857Z&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;LastUpdatedTime&#34;</span>: <span style=color:#e6db74>&#34;2019-05-06T00:40:17.502Z&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;RollbackConfiguration&#34;</span>: {},
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;StackStatus&#34;</span>: <span style=color:#e6db74>&#34;CREATE_COMPLETE&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;DisableRollback&#34;</span>: <span style=color:#66d9ef>false</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;NotificationARNs&#34;</span>: [],
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Capabilities&#34;</span>: [<span style=color:#e6db74>&#34;CAPABILITY_IAM&#34;</span>],
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Outputs&#34;</span>: [
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;StackId&#34;</span>: <span style=color:#63c381>&#34;arn:aws:cloudformation:us-east-1:266545579784:stack/spring-boot-serverless-demo/1074b6a0-6f97-11e9-835b-0e348661d726&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;StackName&#34;</span>: <span style=color:#63c381>&#34;spring-boot-serverless-demo&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;ChangeSetId&#34;</span>: <span style=color:#63c381>&#34;arn:aws:cloudformation:us-east-1:266545579784:changeSet/awscli-cloudformation-package-deploy-1557103210/fe06fc3b-a353-4d42-814a-4e4f736a2026&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;Description&#34;</span>: <span style=color:#63c381>&#34;AWS Serverless Spring Boot 2 API - io.github.helloworlde::serverless-spring-boot&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;CreationTime&#34;</span>: <span style=color:#63c381>&#34;2019-05-06T00:37:01.857Z&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;LastUpdatedTime&#34;</span>: <span style=color:#63c381>&#34;2019-05-06T00:40:17.502Z&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;RollbackConfiguration&#34;</span>: {},
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;StackStatus&#34;</span>: <span style=color:#63c381>&#34;CREATE_COMPLETE&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;DisableRollback&#34;</span>: <span style=color:#b756ff;font-weight:700>false</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;NotificationARNs&#34;</span>: [],
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;Capabilities&#34;</span>: [<span style=color:#63c381>&#34;CAPABILITY_IAM&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;Outputs&#34;</span>: [
 </span></span><span style=display:flex><span>        {
-</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;OutputKey&#34;</span>: <span style=color:#e6db74>&#34;ServerlessSpringBootApi&#34;</span>,
-</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;OutputValue&#34;</span>: <span style=color:#e6db74>&#34;https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping&#34;</span>,
-</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;Description&#34;</span>: <span style=color:#e6db74>&#34;URL for application&#34;</span>,
-</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;ExportName&#34;</span>: <span style=color:#e6db74>&#34;ServerlessSpringBootApi&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>&#34;OutputKey&#34;</span>: <span style=color:#63c381>&#34;ServerlessSpringBootApi&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>&#34;OutputValue&#34;</span>: <span style=color:#63c381>&#34;https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>&#34;Description&#34;</span>: <span style=color:#63c381>&#34;URL for application&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>&#34;ExportName&#34;</span>: <span style=color:#63c381>&#34;ServerlessSpringBootApi&#34;</span>
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>      ],
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Tags&#34;</span>: [],
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;EnableTerminationProtection&#34;</span>: <span style=color:#66d9ef>false</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;DriftInformation&#34;</span>: {
-</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;StackDriftStatus&#34;</span>: <span style=color:#e6db74>&#34;NOT_CHECKED&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;Tags&#34;</span>: [],
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;EnableTerminationProtection&#34;</span>: <span style=color:#b756ff;font-weight:700>false</span>,
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;DriftInformation&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>&#34;StackDriftStatus&#34;</span>: <span style=color:#63c381>&#34;NOT_CHECKED&#34;</span>
 </span></span><span style=display:flex><span>      }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  ]
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>访问 OutputValue 的 URL</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;pong&#34;</span>:<span style=color:#e6db74>&#34;Hello, World!&#34;</span><span style=color:#f92672>}</span>%
+</span></span></code></pre></div><ul><li>访问 OutputValue 的 URL</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl https://gf2c9fhhql.execute-api.us-east-1.amazonaws.com/Prod/ping
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#c7bf54>{</span><span style=color:#63c381>&#34;pong&#34;</span>:<span style=color:#63c381>&#34;Hello, World!&#34;</span><span style=color:#c7bf54>}</span>%
 </span></span></code></pre></div><h3 id=页面手动部署>页面手动部署</h3><h4 id=创建函数>创建函数</h4><ul><li>选择服务 - Lambda - 函数 - 创建函数 - 从头开始创作</li></ul><p>权限可以选择现有的角色或者新建角色
 <img src=https://img.hellowood.dev/blog/serverless/Serverless7-create-on-panel.png alt=Serverless7-create-on-panel loading=lazy></p><ul><li>添加触发器，选择 API-Gateway 作为触发器，然后保存</li></ul><p><img src=https://img.hellowood.dev/blog/serverless/Serverless8-gateway-trigger.png alt=Serverless8-gateway-trigger loading=lazy></p><ul><li>点击Layers 的 Spring 应用，上传 zip，在 <code>build/</code>或<code>target/</code>下；运行语言选择 Java8，处理程序为<code>io.github.helloworlde.StreamLambdaHandler::handleRequest</code>，点击保存</li></ul><p><img src=https://img.hellowood.dev/blog/serverless/Serverless9-upload-app.png alt=Serverless9-upload-app loading=lazy></p><h4 id=测试-2>测试</h4><ul><li>选择配置测试事件 - 创建新测试事件 - 选择 <code>AWS API Gateway AWS Proxy</code>，修改相关的path和httpMethod</li></ul><p><img src=https://img.hellowood.dev/blog/serverless/Serverless10-api-gateway-test.png alt=Serverless10-api-gateway-test loading=lazy></p><p><img src=https://img.hellowood.dev/blog/serverless/Serverless11-test-result.png alt=Serverless11-test-result loading=lazy></p><ul><li>Gateway 的 URL 可以点击 API Gateway查看</li></ul><hr><h3 id=项目地址>项目地址</h3><p><a href=https://github.com/helloworlde/serverless-spring-boot>https://github.com/helloworlde/serverless-spring-boot</a></p><h3 id=参考文章>参考文章</h3><ul><li><a href=https://skryvets.com/blog/2018/06/02/spring-boot-aws-lambda-guide/>A complete guide for running Spring Boot MVC in the cloud using AWS Lambda</a></li><li><a href=https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/java-programming-model.html>使用 Java 构建 Lambda 函数</a></li><li><a href=https://docs.aws.amazon.com/zh_cn/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html>Installing the AWS SAM CLI on macOS</a></li><li><a href=https://docs.aws.amazon.com/zh_cn/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html>Installing the AWS SAM CLI</a></li><li><a href=https://docs.aws.amazon.com/zh_cn/toolkit-for-jetbrains/latest/userguide/key-tasks.html#key-tasks-install>Key Tasks for the AWS Toolkit for JetBrains</a></li><li><a href=https://www.zhihu.com/question/29490143>如何看待 AWS Lambda</a></li><li><a href=https://github.com/awslabs/aws-serverless-java-container>aws-serverless-java-container</a></li><li><a href=https://github.com/awslabs/aws-serverless-java-container>Quick start Spring Boot</a></li></ul></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
 <script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2019-2025 hellowood.dev</span>

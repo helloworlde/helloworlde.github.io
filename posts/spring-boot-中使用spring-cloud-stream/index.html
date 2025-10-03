@@ -5,173 +5,173 @@ Binder: 负责提供与外部消息系统集成的组件 Binding: 提供外部�
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Boot 中使用Spring Cloud Stream</h1><small role=doc-subtitle></small><p class=post-date>2019-09-08
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/stream>Stream</a></li></ul></div><div class=post-content><blockquote><p><a href=https://spring.io/projects/spring-cloud-stream>Spring Cloud Stream</a> 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架</p></blockquote><ul><li>Binder: 负责提供与外部消息系统集成的组件</li><li>Binding: 提供外部消息系统与应用之间桥接的生产者和消费者</li><li>Message: 生产者和消费者与外部消息系统之间通信的数据结构</li></ul><h2 id=构建应用>构建应用</h2><p>假设一个点咖啡场景：调用下单接口后，需要通知店员制作咖啡，待制作完成后，需要更新订单状态为完成，并通知客户；假设有两个服务，一个是订单服务(Order Service)，一个是店员服务(Waiter Service)</p><p>使用 RabbitMQ 作为MQ 服务</p><h3 id=order-service>Order Service</h3><h5 id=添加依赖>添加依赖</h5><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    implementation <span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span>
-</span></span><span style=display:flex><span>    implementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-stream-binder-rabbit&#39;</span>
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/stream>Stream</a></li></ul></div><div class=post-content><blockquote><p><a href=https://spring.io/projects/spring-cloud-stream>Spring Cloud Stream</a> 用于构建高可扩展的使用消息系统连接的事件驱动服务的框架</p></blockquote><ul><li>Binder: 负责提供与外部消息系统集成的组件</li><li>Binding: 提供外部消息系统与应用之间桥接的生产者和消费者</li><li>Message: 生产者和消费者与外部消息系统之间通信的数据结构</li></ul><h2 id=构建应用>构建应用</h2><p>假设一个点咖啡场景：调用下单接口后，需要通知店员制作咖啡，待制作完成后，需要更新订单状态为完成，并通知客户；假设有两个服务，一个是订单服务(Order Service)，一个是店员服务(Waiter Service)</p><p>使用 RabbitMQ 作为MQ 服务</p><h3 id=order-service>Order Service</h3><h5 id=添加依赖>添加依赖</h5><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span> <span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-stream-binder-rabbit&#39;</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    compileOnly <span style=color:#e6db74>&#39;org.projectlombok:lombok&#39;</span>
-</span></span><span style=display:flex><span>    annotationProcessor <span style=color:#e6db74>&#39;org.projectlombok:lombok&#39;</span>
-</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span>
-</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-stream-test-support&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div><h5 id=添加配置>添加配置</h5><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>spring.application.name</span><span style=color:#f92672>=</span><span style=color:#e6db74>producer</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>server.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>8082</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.host</span><span style=color:#f92672>=</span><span style=color:#e6db74>localhost</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>5672</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>guest</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>guest</span>
-</span></span></code></pre></div><h5 id=binding>Binding</h5><ul><li>OrderBinding</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>OrderBinding</span> {
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>compileOnly</span> <span style=color:#98c379>&#39;org.projectlombok:lombok&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>annotationProcessor</span> <span style=color:#98c379>&#39;org.projectlombok:lombok&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>testImplementation</span> <span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>testImplementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-stream-test-support&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
+</span></span></code></pre></div><h5 id=添加配置>添加配置</h5><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#b3d23c>spring.application.name</span><span style=color:#c7bf54>=</span><span style=color:#98c379>producer</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>server.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>8082</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.host</span><span style=color:#c7bf54>=</span><span style=color:#98c379>localhost</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>5672</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>guest</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>guest</span>
+</span></span></code></pre></div><h5 id=binding>Binding</h5><ul><li>OrderBinding</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>OrderBinding</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    String NEW_ORDERS <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;newOrders&#34;</span>;
-</span></span><span style=display:flex><span>    String FINISHED_ORDERS <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;finishedOrders&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>String</span> <span style=color:#c1abea>NEW_ORDERS</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;newOrders&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>String</span> <span style=color:#c1abea>FINISHED_ORDERS</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;finishedOrders&#34;</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Input</span>
-</span></span><span style=display:flex><span>    SubscribableChannel <span style=color:#a6e22e>finishedOrders</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Input</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>SubscribableChannel</span> <span style=color:#00b1f7>finishedOrders</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Output</span>
-</span></span><span style=display:flex><span>    MessageChannel <span style=color:#a6e22e>newOrders</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Output</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>MessageChannel</span> <span style=color:#00b1f7>newOrders</span>();
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p><code>@Input</code>用于指定订阅消息Topic，当有该 Topic 的消息时会调用监听该消息的处理器
-<code>@Output</code>用于指定发送消息Topic，可以通过该MessageChannel发送消息</p><h5 id=发送消息>发送消息</h5><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RestController</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>OrderController</span> {
+<code>@Output</code>用于指定发送消息Topic，可以通过该MessageChannel发送消息</p><h5 id=发送消息>发送消息</h5><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@RestController</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>OrderController</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> OrderBinding orderBinding;
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>OrderBinding</span> <span style=color:#c1abea>orderBinding</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@GetMapping</span>(<span style=color:#e6db74>&#34;/newOrder&#34;</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Object <span style=color:#a6e22e>sendMessage</span>(Long orderId, Long userId) {
-</span></span><span style=display:flex><span>        OrderVO orderVO <span style=color:#f92672>=</span> OrderVO.<span style=color:#a6e22e>builder</span>()
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>orderId</span>(orderId)
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>userId</span>(userId)
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@GetMapping</span>(<span style=color:#98c379>&#34;/newOrder&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Object</span> <span style=color:#00b1f7>sendMessage</span>(<span style=color:#c1abea>Long</span> <span style=color:#c1abea>orderId</span>, <span style=color:#c1abea>Long</span> <span style=color:#c1abea>userId</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>OrderVO</span> <span style=color:#c1abea>orderVO</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>OrderVO</span>.<span style=color:#b3d23c>builder</span>()
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>orderId</span>(<span style=color:#c1abea>orderId</span>)
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>userId</span>(<span style=color:#c1abea>userId</span>)
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>build</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>boolean</span> result <span style=color:#f92672>=</span> orderBinding.<span style=color:#a6e22e>newOrders</span>().<span style=color:#a6e22e>send</span>(MessageBuilder.<span style=color:#a6e22e>withPayload</span>(orderVO).<span style=color:#a6e22e>build</span>());
+</span></span><span style=display:flex><span>        <span style=color:#ef8383>boolean</span> <span style=color:#c1abea>result</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>orderBinding</span>.<span style=color:#b3d23c>newOrders</span>().<span style=color:#b3d23c>send</span>(<span style=color:#c1abea>MessageBuilder</span>.<span style=color:#b3d23c>withPayload</span>(<span style=color:#c1abea>orderVO</span>).<span style=color:#b3d23c>build</span>());
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;</span>String, String<span style=color:#f92672>&gt;</span>() {{
-</span></span><span style=display:flex><span>            put(<span style=color:#e6db74>&#34;message&#34;</span>, result <span style=color:#f92672>?</span> <span style=color:#e6db74>&#34;下单成功&#34;</span> : <span style=color:#e6db74>&#34;下单失败&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>HashMap</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>String</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>&gt;</span>() {{
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>put</span>(<span style=color:#98c379>&#34;message&#34;</span>, <span style=color:#c1abea>result</span> <span style=color:#c7bf54>?</span> <span style=color:#98c379>&#34;下单成功&#34;</span> : <span style=color:#98c379>&#34;下单失败&#34;</span>);
 </span></span><span style=display:flex><span>        }};
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>发送消息可以通过注入 Binding 对象，或者注入 <code>MessageChannel</code>对象时指定 Bean 来实现</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> OrderBinding orderBinding;
+</span></span></code></pre></div><p>发送消息可以通过注入 Binding 对象，或者注入 <code>MessageChannel</code>对象时指定 Bean 来实现</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>OrderBinding</span> <span style=color:#c1abea>orderBinding</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#75715e>// 或者</span>
+</span></span><span style=display:flex><span>	<span style=color:#8a93a5;font-style:italic>// 或者</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Autowired</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Qualifier</span>(OrderBinding.<span style=color:#a6e22e>FINISHED_ORDERS</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> MessageChannel messageChannel;
-</span></span></code></pre></div><ul><li>OrderServiceApplication.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@SpringBootApplication</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@EnableBinding</span>({OrderBinding.<span style=color:#a6e22e>class</span>})
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>OrderServiceApplication</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Qualifier</span>(<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>FINISHED_ORDERS</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>MessageChannel</span> <span style=color:#c1abea>messageChannel</span>;
+</span></span></code></pre></div><ul><li>OrderServiceApplication.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@SpringBootApplication</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@EnableBinding</span>({<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>class</span>})
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>OrderServiceApplication</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span>(String<span style=color:#f92672>[]</span> args) {
-</span></span><span style=display:flex><span>        SpringApplication.<span style=color:#a6e22e>run</span>(OrderServiceApplication.<span style=color:#a6e22e>class</span>, args);
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>main</span>(<span style=color:#c1abea>String</span><span style=color:#c7bf54>[]</span> <span style=color:#c1abea>args</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>SpringApplication</span>.<span style=color:#b3d23c>run</span>(<span style=color:#c1abea>OrderServiceApplication</span>.<span style=color:#b3d23c>class</span>, <span style=color:#c1abea>args</span>);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=waiter-service>Waiter Service</h3><h5 id=添加依赖-1>添加依赖</h5><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span>dependencies <span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>    implementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-stream-binder-rabbit&#39;</span>
+</span></span></code></pre></div><h3 id=waiter-service>Waiter Service</h3><h5 id=添加依赖-1>添加依赖</h5><ul><li>build.gradle</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gradle data-lang=gradle><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-stream-binder-rabbit&#39;</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    compileOnly <span style=color:#e6db74>&#39;org.projectlombok:lombok&#39;</span>
-</span></span><span style=display:flex><span>    annotationProcessor <span style=color:#e6db74>&#39;org.projectlombok:lombok&#39;</span>
-</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span>
-</span></span><span style=display:flex><span>    testImplementation <span style=color:#e6db74>&#39;org.springframework.cloud:spring-cloud-stream-test-support&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div><h5 id=添加配置-1>添加配置</h5><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.host</span><span style=color:#f92672>=</span><span style=color:#e6db74>localhost</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.port</span><span style=color:#f92672>=</span><span style=color:#e6db74>5672</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.username</span><span style=color:#f92672>=</span><span style=color:#e6db74>guest</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>spring.rabbitmq.password</span><span style=color:#f92672>=</span><span style=color:#e6db74>guest</span>
-</span></span></code></pre></div><h5 id=监听消息>监听消息</h5><ul><li>OrderBinding</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>OrderBinding</span> {
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>compileOnly</span> <span style=color:#98c379>&#39;org.projectlombok:lombok&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>annotationProcessor</span> <span style=color:#98c379>&#39;org.projectlombok:lombok&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>testImplementation</span> <span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>testImplementation</span> <span style=color:#98c379>&#39;org.springframework.cloud:spring-cloud-stream-test-support&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
+</span></span></code></pre></div><h5 id=添加配置-1>添加配置</h5><ul><li>application.properties</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.host</span><span style=color:#c7bf54>=</span><span style=color:#98c379>localhost</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>5672</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.username</span><span style=color:#c7bf54>=</span><span style=color:#98c379>guest</span>
+</span></span><span style=display:flex><span><span style=color:#b3d23c>spring.rabbitmq.password</span><span style=color:#c7bf54>=</span><span style=color:#98c379>guest</span>
+</span></span></code></pre></div><h5 id=监听消息>监听消息</h5><ul><li>OrderBinding</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>OrderBinding</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    String NEW_ORDERS <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;newOrders&#34;</span>;
-</span></span><span style=display:flex><span>    String FINISHED_ORDERS <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;finishedOrders&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>String</span> <span style=color:#c1abea>NEW_ORDERS</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;newOrders&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>String</span> <span style=color:#c1abea>FINISHED_ORDERS</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;finishedOrders&#34;</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Input</span>
-</span></span><span style=display:flex><span>    SubscribableChannel <span style=color:#a6e22e>newOrders</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Input</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>SubscribableChannel</span> <span style=color:#00b1f7>newOrders</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Output</span>
-</span></span><span style=display:flex><span>    MessageChannel <span style=color:#a6e22e>finishedOrders</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Output</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>MessageChannel</span> <span style=color:#00b1f7>finishedOrders</span>();
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>WaiterListener</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>WaiterListener</span> {
+</span></span></code></pre></div><ul><li>WaiterListener</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>WaiterListener</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@StreamListener</span>(OrderBinding.<span style=color:#a6e22e>NEW_ORDERS</span>)
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@SendTo</span>(OrderBinding.<span style=color:#a6e22e>FINISHED_ORDERS</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> OrderVO <span style=color:#a6e22e>newOrders</span>(OrderVO orderVO) {
-</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;收到用户:{} 的新订单:{}&#34;</span>, orderVO.<span style=color:#a6e22e>getUserId</span>(), orderVO.<span style=color:#a6e22e>getOrderId</span>());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>            Thread.<span style=color:#a6e22e>sleep</span>(10000);
-</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (InterruptedException e) {
-</span></span><span style=display:flex><span>            log.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;制作失败&#34;</span>, e);
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@StreamListener</span>(<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>NEW_ORDERS</span>)
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@SendTo</span>(<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>FINISHED_ORDERS</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>OrderVO</span> <span style=color:#00b1f7>newOrders</span>(<span style=color:#c1abea>OrderVO</span> <span style=color:#c1abea>orderVO</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;收到用户:{} 的新订单:{}&#34;</span>, <span style=color:#c1abea>orderVO</span>.<span style=color:#b3d23c>getUserId</span>(), <span style=color:#c1abea>orderVO</span>.<span style=color:#b3d23c>getOrderId</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>Thread</span>.<span style=color:#b3d23c>sleep</span>(<span style=color:#c1abea>10000</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#c678dd>catch</span> (<span style=color:#c1abea>InterruptedException</span> <span style=color:#c1abea>e</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>error</span>(<span style=color:#98c379>&#34;制作失败&#34;</span>, <span style=color:#c1abea>e</span>);
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> orderVO;
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>orderVO</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p>这里在收到消息后等待制作完成，发送订单完成的消息给 Order Service，执行后续动作</p><p><code>@StreamListener</code>用于监听指定 Topic 并处理
-<code>@SendTo</code>用于指定处理的结果要发送的下一个 Topic</p><ul><li>WaiterServiceApplication.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@SpringBootApplication</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@EnableBinding</span>({OrderBinding.<span style=color:#a6e22e>class</span>})
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>WaiterServiceApplication</span> {
+<code>@SendTo</code>用于指定处理的结果要发送的下一个 Topic</p><ul><li>WaiterServiceApplication.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@SpringBootApplication</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@EnableBinding</span>({<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>class</span>})
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>WaiterServiceApplication</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span>(String<span style=color:#f92672>[]</span> args) {
-</span></span><span style=display:flex><span>        SpringApplication.<span style=color:#a6e22e>run</span>(WaiterServiceApplication.<span style=color:#a6e22e>class</span>, args);
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c678dd>static</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>main</span>(<span style=color:#c1abea>String</span><span style=color:#c7bf54>[]</span> <span style=color:#c1abea>args</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>SpringApplication</span>.<span style=color:#b3d23c>run</span>(<span style=color:#c1abea>WaiterServiceApplication</span>.<span style=color:#b3d23c>class</span>, <span style=color:#c1abea>args</span>);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=order-service-处理后续消息>Order Service 处理后续消息</h3><h5 id=订单完成消息>订单完成消息</h5><p>收到订单完成的消息后发送通知消息</p><ul><li>NotifyBinding.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>NotifyBinding</span> {
+</span></span></code></pre></div><h3 id=order-service-处理后续消息>Order Service 处理后续消息</h3><h5 id=订单完成消息>订单完成消息</h5><p>收到订单完成的消息后发送通知消息</p><ul><li>NotifyBinding.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>NotifyBinding</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    String SEND_NOTIFY <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;sendNotify&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>String</span> <span style=color:#c1abea>SEND_NOTIFY</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;sendNotify&#34;</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Output</span>
-</span></span><span style=display:flex><span>    MessageChannel <span style=color:#a6e22e>sendNotify</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Output</span>
+</span></span><span style=display:flex><span>    <span style=color:#c1abea>MessageChannel</span> <span style=color:#00b1f7>sendNotify</span>();
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>OrderListener.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>OrderListener</span> {
+</span></span></code></pre></div><ul><li>OrderListener.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>OrderListener</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@StreamListener</span>(OrderBinding.<span style=color:#a6e22e>FINISHED_ORDERS</span>)
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@SendTo</span>(NotifyBinding.<span style=color:#a6e22e>SEND_NOTIFY</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> NotifyMessage <span style=color:#a6e22e>finishedOrdersHandler</span>(OrderVO orderVO) {
-</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;用户:{} 的订单:{} 已完成&#34;</span>, orderVO.<span style=color:#a6e22e>getUserId</span>(), orderVO.<span style=color:#a6e22e>getOrderId</span>());
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> NotifyMessage.<span style=color:#a6e22e>builder</span>()
-</span></span><span style=display:flex><span>                            .<span style=color:#a6e22e>title</span>(<span style=color:#e6db74>&#34;订单已完成&#34;</span>)
-</span></span><span style=display:flex><span>                            .<span style=color:#a6e22e>userId</span>(orderVO.<span style=color:#a6e22e>getUserId</span>())
-</span></span><span style=display:flex><span>                            .<span style=color:#a6e22e>sendTime</span>(LocalDateTime.<span style=color:#a6e22e>now</span>())
-</span></span><span style=display:flex><span>                            .<span style=color:#a6e22e>build</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@StreamListener</span>(<span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>FINISHED_ORDERS</span>)
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@SendTo</span>(<span style=color:#c1abea>NotifyBinding</span>.<span style=color:#b3d23c>SEND_NOTIFY</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>NotifyMessage</span> <span style=color:#00b1f7>finishedOrdersHandler</span>(<span style=color:#c1abea>OrderVO</span> <span style=color:#c1abea>orderVO</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;用户:{} 的订单:{} 已完成&#34;</span>, <span style=color:#c1abea>orderVO</span>.<span style=color:#b3d23c>getUserId</span>(), <span style=color:#c1abea>orderVO</span>.<span style=color:#b3d23c>getOrderId</span>());
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>NotifyMessage</span>.<span style=color:#b3d23c>builder</span>()
+</span></span><span style=display:flex><span>                            .<span style=color:#b3d23c>title</span>(<span style=color:#98c379>&#34;订单已完成&#34;</span>)
+</span></span><span style=display:flex><span>                            .<span style=color:#b3d23c>userId</span>(<span style=color:#c1abea>orderVO</span>.<span style=color:#b3d23c>getUserId</span>())
+</span></span><span style=display:flex><span>                            .<span style=color:#b3d23c>sendTime</span>(<span style=color:#c1abea>LocalDateTime</span>.<span style=color:#b3d23c>now</span>())
+</span></span><span style=display:flex><span>                            .<span style=color:#b3d23c>build</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h5 id=处理通知消息>处理通知消息</h5><ul><li>NotifyListener.java</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>NotifyListener</span> {
+</span></span></code></pre></div><h5 id=处理通知消息>处理通知消息</h5><ul><li>NotifyListener.java</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>NotifyListener</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@StreamListener</span>(NotifyBinding.<span style=color:#a6e22e>SEND_NOTIFY</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendNotifyHandler</span>(NotifyMessage notifyMessage) {
-</span></span><span style=display:flex><span>        log.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;发送标题为:{} 的消息给用户:{}&#34;</span>, notifyMessage.<span style=color:#a6e22e>getTitle</span>(), notifyMessage.<span style=color:#a6e22e>getUserId</span>());
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@StreamListener</span>(<span style=color:#c1abea>NotifyBinding</span>.<span style=color:#b3d23c>SEND_NOTIFY</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>sendNotifyHandler</span>(<span style=color:#c1abea>NotifyMessage</span> <span style=color:#c1abea>notifyMessage</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>log</span>.<span style=color:#b3d23c>info</span>(<span style=color:#98c379>&#34;发送标题为:{} 的消息给用户:{}&#34;</span>, <span style=color:#c1abea>notifyMessage</span>.<span style=color:#b3d23c>getTitle</span>(), <span style=color:#c1abea>notifyMessage</span>.<span style=color:#b3d23c>getUserId</span>());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=测试>测试</h3><ul><li>启动RabbitMQ</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -d --name rabbit -p 4369:4369 -p 5672:5672 -p 15671:15671 -p 15672:15672 -p 25672:25672 --hostname localhost -e RABBITMQ_DEFAULT_USER<span style=color:#f92672>=</span>guest -e RABBITMQ_DEFAULT_PASS<span style=color:#f92672>=</span>guest rabbitmq:3-management
-</span></span></code></pre></div><ul><li>启动 WaiterService 和 OrderService</li><li>发送下单请求</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl <span style=color:#e6db74>&#39;localhost:8082/newOrder?orderId=1&amp;userId=2&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>{</span><span style=color:#e6db74>&#34;message&#34;</span>:<span style=color:#e6db74>&#34;下单成功&#34;</span><span style=color:#f92672>}</span>%
-</span></span></code></pre></div><ul><li>然后会看到 WaiterService 和 OrderService 的相应的监听器都接收到了消息并打印日志</li></ul><hr><h2 id=其他类型消息>其他类型消息</h2><ul><li>Transform</li></ul><p>如果一个消息需要处理加工后继续发给下一个，可以直接使用<code>@Transformer</code>注解来代替<code>@StreamListener</code>和<code>@SendTo</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TransformerListener</span> {
+</span></span></code></pre></div><h3 id=测试>测试</h3><ul><li>启动RabbitMQ</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -d --name rabbit -p 4369:4369 -p 5672:5672 -p 15671:15671 -p 15672:15672 -p 25672:25672 --hostname localhost -e <span style=color:#dcaeea>RABBITMQ_DEFAULT_USER</span><span style=color:#c7bf54>=</span>guest -e <span style=color:#dcaeea>RABBITMQ_DEFAULT_PASS</span><span style=color:#c7bf54>=</span>guest rabbitmq:3-management
+</span></span></code></pre></div><ul><li>启动 WaiterService 和 OrderService</li><li>发送下单请求</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl <span style=color:#98c379>&#39;localhost:8082/newOrder?orderId=1&amp;userId=2&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#c7bf54>{</span><span style=color:#63c381>&#34;message&#34;</span>:<span style=color:#63c381>&#34;下单成功&#34;</span><span style=color:#c7bf54>}</span>%
+</span></span></code></pre></div><ul><li>然后会看到 WaiterService 和 OrderService 的相应的监听器都接收到了消息并打印日志</li></ul><hr><h2 id=其他类型消息>其他类型消息</h2><ul><li>Transform</li></ul><p>如果一个消息需要处理加工后继续发给下一个，可以直接使用<code>@Transformer</code>注解来代替<code>@StreamListener</code>和<code>@SendTo</code></p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>TransformerListener</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Transformer</span>(inputChannel <span style=color:#f92672>=</span> TransoformBinding.<span style=color:#a6e22e>INPUT</span>, outputChannel <span style=color:#f92672>=</span> TransoformBinding.<span style=color:#a6e22e>OUTPUT</span>)
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> Object <span style=color:#a6e22e>transform</span>(String message) {
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> message.<span style=color:#a6e22e>toUpperCase</span>();
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Transformer</span>(<span style=color:#c1abea>inputChannel</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>TransoformBinding</span>.<span style=color:#b3d23c>INPUT</span>, <span style=color:#c1abea>outputChannel</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>TransoformBinding</span>.<span style=color:#b3d23c>OUTPUT</span>)
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>Object</span> <span style=color:#00b1f7>transform</span>(<span style=color:#c1abea>String</span> <span style=color:#c1abea>message</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>message</span>.<span style=color:#b3d23c>toUpperCase</span>();
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>定时消息</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TimerAdapter</span> {
+</span></span></code></pre></div><ul><li>定时消息</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>TimerAdapter</span> {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@InboundChannelAdapter</span>(value <span style=color:#f92672>=</span> OrderBinding.<span style=color:#a6e22e>NEW_ORDERS</span>, poller <span style=color:#f92672>=</span> <span style=color:#a6e22e>@Poller</span>(fixedDelay <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;10&#34;</span>, maxMessagesPerPoll <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;1&#34;</span>))
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> MessageSource<span style=color:#f92672>&lt;</span>OrderVO<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>timerMessageSource</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@InboundChannelAdapter</span>(<span style=color:#c1abea>value</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>OrderBinding</span>.<span style=color:#b3d23c>NEW_ORDERS</span>, <span style=color:#c1abea>poller</span> <span style=color:#c7bf54>=</span> <span style=color:#e5c07b>@Poller</span>(<span style=color:#c1abea>fixedDelay</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;10&#34;</span>, <span style=color:#c1abea>maxMessagesPerPoll</span> <span style=color:#c7bf54>=</span> <span style=color:#98c379>&#34;1&#34;</span>))
+</span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#c1abea>MessageSource</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>OrderVO</span><span style=color:#c7bf54>&gt;</span> <span style=color:#00b1f7>timerMessageSource</span>() {
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        OrderVO orderVO <span style=color:#f92672>=</span> OrderVO.<span style=color:#a6e22e>builder</span>()
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>userId</span>(1L)
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>orderId</span>(1L)
-</span></span><span style=display:flex><span>                                 .<span style=color:#a6e22e>build</span>();
+</span></span><span style=display:flex><span>        <span style=color:#c1abea>OrderVO</span> <span style=color:#c1abea>orderVO</span> <span style=color:#c7bf54>=</span> <span style=color:#c1abea>OrderVO</span>.<span style=color:#b3d23c>builder</span>()
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>userId</span>(<span style=color:#c1abea>1L</span>)
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>orderId</span>(<span style=color:#c1abea>1L</span>)
+</span></span><span style=display:flex><span>                                 .<span style=color:#b3d23c>build</span>();
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> () <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>new</span> GenericMessage<span style=color:#f92672>&lt;&gt;</span>(orderVO);
+</span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> () <span style=color:#c7bf54>-&gt;</span> <span style=color:#c678dd>new</span> <span style=color:#c1abea>GenericMessage</span><span style=color:#c7bf54>&lt;&gt;</span>(<span style=color:#c1abea>orderVO</span>);
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><h3 id=项目地址>项目地址</h3><p><a href=https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Stream>https://github.com/helloworlde/SpringBootCollection/tree/master/SpringBoot-Stream</a></p></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
