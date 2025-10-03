@@ -11,11 +11,13 @@ title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(�
 type: "post"
 ---
 
-Tesla Fleet Telemetry 是特斯拉官方的开源项目，主要面向车队管理的场景，可以让 Tesla 车辆主动上报数据到自定义的服务器；在官方不断收紧 Owner API，并且 Fleet API 收费的情况下，使用 Fleet Telemetry 作为数据上报的方式，可以作为替代方案
+Tesla [Fleet Telemetry](https://github.com/teslamotors/fleet-telemetry) 是特斯拉官方的开源项目，主要面向车队管理的场景，可以让 Tesla 车辆主动上报数据到自定义的服务器；在官方不断收紧 Owner API，并且 Fleet API 收费的情况下，使用 Fleet Telemetry 作为数据上报的方式，可以作为替代方案
+
+![homelab-tesla-fleet-telemetry-grafana-page-1.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-grafana-page-1.png)
 
 Fleet Telemetry 的功能比较简单，车辆通过 mTLS 连接将数据上报到 Fleet Telemetry 服务器，然后通过 MQTT/Kafka/PubSub 等消息组件将数据分发给下游进行处理；Fleet Telemetry 本身不存储数据，也不提供数据的可视化功能
 
-Fleet Telemetry 能获取到的数据和 Owner API 是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具
+Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具
 
 因为部署 Fleet Telemetry 依赖较多，因此分为多个部分说明：
 
@@ -33,7 +35,7 @@ Fleet Telemetry 能获取到的数据和 Owner API 是一样的，仅在格式�
 
 - Certbot: 用于申请 TLS 证书
 - Caddy: 作为反向代理，提供公钥托管，用于特斯拉访问
-- tesla-http-proxy: 用于向车辆发送配置指令
+- tesla-http-proxy: 用于向车辆发送配置指令 (可以用 [https://github.com/helloworlde/fleet-telemetry-proxy](https://github.com/helloworlde/fleet-telemetry-proxy) 在 Cloudflare Worker 部署替代)
 - Fleet Telemetry: 车辆数据上报服务
 - MQTT: 用于接收并转发车辆上报的数据
 
