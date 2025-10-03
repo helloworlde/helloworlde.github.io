@@ -2,7 +2,7 @@
 date: 2025-09-24
 # description: ""
 # image: ""
-lastmod: 2025-10-01
+lastmod: 2025-10-03
 showTableOfContents: false
 tags:
   - Tesla
@@ -17,7 +17,7 @@ Tesla [Fleet Telemetry](https://github.com/teslamotors/fleet-telemetry) 是特�
 
 Fleet Telemetry 的功能比较简单，车辆通过 mTLS 连接将数据上报到 Fleet Telemetry 服务器，然后通过 MQTT/Kafka/PubSub 等消息组件将数据分发给下游进行处理；Fleet Telemetry 本身不存储数据，也不提供数据的可视化功能
 
-Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具
+Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具；详细的数据和警报可以参考 [可用数据](https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data) 和 [车辆警报](https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E8%AD%A6%E6%8A%A5)
 
 因为部署 Fleet Telemetry 依赖较多，因此分为多个部分说明：
 
