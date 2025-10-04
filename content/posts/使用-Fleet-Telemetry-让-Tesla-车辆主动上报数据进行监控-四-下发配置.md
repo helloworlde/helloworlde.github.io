@@ -13,11 +13,13 @@ type: "post"
 
 ## 一、配置车辆
 
-配置车辆时需要使用鉴权，因此需要先获取 access_token；或者。access_token 可以参考下面的方式手动获取，也可以使用 [https://github.com/helloworlde/tesla-access-token](https://github.com/helloworlde/tesla-access-token) 项目在 Cloudflare 部署 Worker 进行获取(注意：这个 Worker 绝对不能公开访问，使用前务必通过 Cloudflare Access 配置鉴权策略，保证仅自己可见)
+配置车辆时需要使用鉴权，因此需要先获取 access_token
 
 ### 1.1 获取 access_token
 
-需要用户授权的 OAuth Token，用于调用 tesla-http-proxy 向车辆下发配置；这里的 access_token 类型是 '第三方令牌'，详细参考 [第三方令牌](https://developer.tesla.cn/docs/fleet-api/authentication/third-party-tokens)
+> access_token 可以参考下面的方式手动获取，也可以使用 [https://github.com/helloworlde/tesla-access-token](https://github.com/helloworlde/tesla-access-token) 项目在 Cloudflare 部署 Worker 进行获取(注意：这个 Worker 绝对不能公开访问，使用前务必通过 Cloudflare Access 配置鉴权策略，保证仅自己可见)
+
+需要用户授权的 access_token ，用于调用 tesla-http-proxy 向车辆下发配置；这里的 access_token 类型是 '第三方令牌'，详细参考 [第三方令牌](https://developer.tesla.cn/docs/fleet-api/authentication/third-party-tokens)
 
 - 用户授权
 
@@ -89,7 +91,7 @@ awk '{printf "%s\\n",$0}' chain.pem
 
 下发的配置中需要指定车辆的 VIN 码、监听的端口、上报的数据和频率等信息，该接口的解释说明参考 [fleet_telemetry_config create](https://developer.tesla.cn/docs/fleet-api/endpoints/vehicle-endpoints#fleet-telemetry-config-create)
 
-其中的 fields 字段指定需要上报的数据和上报的频率等信息，详细可以参考 [protos/vehicle_data.proto](https://github.com/teslamotors/fleet-telemetry/blob/main/protos/vehicle_data.proto#L9)，完整的字段配置和说明可以参考文档末尾的部分
+其中的 fields 字段指定需要上报的数据和上报的频率等信息，详细可以参考 [protos/vehicle_data.proto](https://github.com/teslamotors/fleet-telemetry/blob/main/protos/vehicle_data.proto#L9)，完整的字段配置和说明可以参考 [使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-fleet-telemetry-%E8%AE%A9-tesla-%E8%BD%A6%E8%BE%86%E4%B8%BB%E5%8A%A8%E4%B8%8A%E6%8A%A5%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E7%9B%91%E6%8E%A7-%E4%B8%83-%E5%AE%8C%E6%95%B4%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/) 以及 [可用数据](https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E6%95%B0%E6%8D%AE)
 
 这里仅配置速度、里程、电量和档位等字段，其他的字段可以根据需要添加；`interval_seconds` 指定上报的时间间隔，`minimum_delta` 指定数据变化的最小值，只有变化超过该值才会上报数据(仅限于数值类型，并且 `prefer_typed` 设置为 true 才会生效)
 
@@ -148,7 +150,7 @@ curl --location 'https://fleet.example.com:4443/api/1/vehicles/fleet_telemetry_c
 可以通过下面的接口获取当前车辆的配置，参考 [fleet_telemetry_config get](https://developer.tesla.cn/docs/fleet-api/endpoints/vehicle-endpoints#fleet-telemetry-config-get)
 
 ```bash
-curl --location 'https://tesla-proxy.hellowood.dev/api/1/vehicles/${VIN}/fleet_telemetry_config' \
+curl --location 'https://fleet.example.com:4443/api/1/vehicles/${VIN}/fleet_telemetry_config' \
 --header 'Authorization: Bearer ${ACCESS_TOKEN}'
 ```
 

@@ -15,6 +15,8 @@ type: "post"
 
 ### 1.1 部署 tesla-http-proxy
 
+> tesla-http-proxy 可以使用 [https://github.com/helloworlde/fleet-telemetry-proxy](https://github.com/helloworlde/fleet-telemetry-proxy) 在 Cloudflare Worker 部署替代
+
 [vehicle-command](https://github.com/teslamotors/vehicle-command) 是一个用于向车辆发送命令的工具，需要使用其中的 [tesla-http-proxy](https://github.com/teslamotors/vehicle-command?tab=readme-ov-file#using-the-http-proxy) 向车辆发送配置指令；
 
 用 docker 部署 tesla-http-proxy，需要挂载前面生成的私钥证书和 Certbot 申请的 TLS 证书

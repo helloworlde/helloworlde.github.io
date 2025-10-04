@@ -31,7 +31,7 @@ fleet-telemetry  | {"activity":true,"context":"fleet-telemetry","data":{"Created
 
 - 使用 MQTT 客户端订阅
 
-以连接状态为例, topic 为 `telemetry/{VIN}/v/connectivity`，可以使用 [MQTTX(https://mqttx.app/zh/docs) 等工具查看
+以连接状态为例, topic 为 `telemetry/{VIN}/v/connectivity`，可以使用 [MQTTX](https://mqttx.app/zh/docs) 等工具查看
 
 ```bash
 {
