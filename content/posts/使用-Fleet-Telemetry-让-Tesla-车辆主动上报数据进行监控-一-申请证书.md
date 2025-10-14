@@ -13,9 +13,15 @@ type: "post"
 
 Tesla [Fleet Telemetry](https://github.com/teslamotors/fleet-telemetry) 是特斯拉官方的开源项目，主要面向车队管理的场景，可以让 Tesla 车辆主动上报数据到自定义的服务器；在官方不断收紧 Owner API，并且 Fleet API 收费的情况下，使用 Fleet Telemetry 作为数据上报的方式，可以作为替代方案
 
-![homelab-tesla-fleet-telemetry-grafana-page-1.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-grafana-page-1.png)
+服务 [Tessie](https://tessie.com/) 就是基于 Fleet Telemetry 的数据构建的看板和分析统计工具：
 
-Fleet Telemetry 的功能比较简单，车辆通过 mTLS 连接将数据上报到 Fleet Telemetry 服务器，然后通过 MQTT/Kafka/PubSub 等消息组件将数据分发给下游进行处理；Fleet Telemetry 本身不存储数据，也不提供数据的可视化功能
+![homelab-tesla-fleet-telemetry-demo-tessie-dashboard.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-demo-tessie-dashboard.png)
+
+![homelab-tesla-fleet-telemetry-demo-tessie-trip-list.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-demo-tessie-trip-list.png)
+
+Fleet Telemetry 的功能比较简单，车辆通过 mTLS 连接将数据上报到 Fleet Telemetry 服务器，然后通过 MQTT/Kafka/PubSub 等消息组件将数据分发给下游进行处理；Fleet Telemetry 本身不存储数据，也不提供数据的可视化功能，可以自行处理数据：
+
+![homelab-tesla-fleet-telemetry-grafana-page-1.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-grafana-page-1.png)
 
 Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具；详细的数据和警报可以参考 [可用数据](https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data) 和 [车辆警报](https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E8%AD%A6%E6%8A%A5)
 
