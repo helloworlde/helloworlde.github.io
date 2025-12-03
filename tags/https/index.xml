@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Https on HelloWood</title><link>https://blog.hellowood.dev/tags/https/</link><description>Recent content in Https on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 06 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/https/index.xml" rel="self" type="application/rss+xml"/><item><title>Tomcat9 配置HTTPS连接</title><link>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</link><pubDate>Mon, 01 Jan 2018 12:01:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;Tomcat中配置HTTPS连接可以分为两步：1. 生成证书&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Tomcat中配置HTTPS连接可以分为两步：1. 生成证书&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;pre&gt;&lt;code&gt; 2. 配置Tomcat
 &lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
-&lt;p&gt;准备工作&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;准备工作&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;JDK&lt;/li&gt;
 &lt;li&gt;Tomcat&lt;/li&gt;
@@ -11,7 +13,8 @@
 &lt;hr&gt;
 &lt;h1 id="1-生成证书"&gt;1. 生成证书&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;证书可以使用Java来生成&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;证书可以使用Java来生成&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;直接使用命令生成证书&lt;/li&gt;
 &lt;/ul&gt;
@@ -22,7 +25,8 @@
 &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这样就会在&lt;code&gt;F:\&lt;/code&gt;下生成一个&lt;code&gt;tomcat.keystore&lt;/code&gt; 文件
-密码在配置tomcat的时候会用到&lt;/p&gt;&lt;/blockquote&gt;
+密码在配置tomcat的时候会用到&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id="2-配置tomcat"&gt;2. 配置Tomcat&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;修改&lt;code&gt;TOMCAT_HOME\conf\server.xml&lt;/code&gt;文件，将以下内容粘贴到Tomcat配置文件中&lt;/li&gt;
@@ -45,18 +49,22 @@
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;需要注意在配置文件有三种不同的实现方式&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;需要注意在配置文件有三种不同的实现方式&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt; - JSSE （作为Java运行部分）
  - JSSE （使用OpenSSL）
  - APR （使用OpenSSL）
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;这三种方式对应的配置文件并不一样，需要特别注意&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这三种方式对应的配置文件并不一样，需要特别注意&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;另外&lt;code&gt;protocol&lt;/code&gt;如果写成&lt;code&gt;HTTP/1.1&lt;/code&gt;也会报错，应当使用以下三个中的一个，当使用APR的时候需要从&lt;a href="http://tomcat.apache.org/tomcat-7.0-doc/apr.html"&gt;下载&lt;code&gt;tcnative-1.dll&lt;/code&gt;&lt;/a&gt;放到Tomcat的bin目录下，否则会报错&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;另外&lt;code&gt;protocol&lt;/code&gt;如果写成&lt;code&gt;HTTP/1.1&lt;/code&gt;也会报错，应当使用以下三个中的一个，当使用APR的时候需要从&lt;a href="http://tomcat.apache.org/tomcat-7.0-doc/apr.html"&gt;下载&lt;code&gt;tcnative-1.dll&lt;/code&gt;&lt;/a&gt;放到Tomcat的bin目录下，否则会报错&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;org.apache.coyote.http11.Http11NioProtocol
 org.apache.coyote.http11.Http11Nio2Protocol
 org.apache.coyote.http11.Http11AprProtocol
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;这里的配置是第一种方式，也是最简单的方式&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这里的配置是第一种方式，也是最简单的方式&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;详细配置请看官方文档 &lt;a href="http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html"&gt;http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

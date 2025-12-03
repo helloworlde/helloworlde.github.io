@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring Security on HelloWood</title><link>https://blog.hellowood.dev/tags/spring-security/</link><description>Recent content in Spring Security on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 06 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/spring-security/index.xml" rel="self" type="application/rss+xml"/><item><title>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-security-%E7%9A%84-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 00:37:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-%E7%9A%84-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id="javalangillegalstateexception-userdetailsservice-is-required"&gt;java.lang.IllegalStateException: UserDetailsService is required.&lt;/h2&gt;
 &lt;ul&gt;
@@ -46,10 +47,12 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
 &lt;p&gt;错误信息如下，发生该错误的原因是因为没有提供 UserDetailsService 的实例而出错，虽然调用了 &lt;code&gt;userDetailsService()&lt;/code&gt; 方法，
 但实际上并没有起作用，所以需要提供自定义的 &lt;code&gt;UserDetailsService&lt;/code&gt; 实例注入&lt;/p&gt;</description></item><item><title>Spring Security 中实现 Remember Me 记住密码功能</title><link>https://blog.hellowood.dev/posts/spring-security-%E4%B8%AD%E5%AE%9E%E7%8E%B0-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD/</link><pubDate>Mon, 01 Jan 2018 00:35:56 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-%E4%B8%AD%E5%AE%9E%E7%8E%B0-remember-me-%E8%AE%B0%E4%BD%8F%E5%AF%86%E7%A0%81%E5%8A%9F%E8%83%BD/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;在 Spring Boot 应用中使用 Spring Security 并实现 Remember Me 记住密码功能，实现自动登录&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在 Spring Boot 应用中使用 Spring Security 并实现 Remember Me 记住密码功能，实现自动登录&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;前置条件：在 Spring Boot 应用中已正确配置 Spring Security&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;前置条件：在 Spring Boot 应用中已正确配置 Spring Security&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;##在页面添加记住密码的复选框&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt; &amp;lt;input type=&amp;#34;checkbox&amp;#34; name=&amp;#34;remember-me&amp;#34;/&amp;gt; Remember me
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;##在 Security Config 配置文件中启用记住密码功能(验证信息存放在内存中)&lt;/p&gt;
@@ -111,7 +114,8 @@
  }
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
 &lt;p&gt;这样就可以使用记住密码了，选择记住密码登录后会在本地保存 Cookie，下次登录的时候通过 Cookie 校验用户信息；用户登录的信息保存在内存中，当内存断电或被清除之后该 Cookie 即使在有效期内也无法登录。&lt;/p&gt;</description></item><item><title>Spring Boot 中集成 Spring Security</title><link>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E9%9B%86%E6%88%90-spring-security/</link><pubDate>Mon, 01 Jan 2018 00:09:27 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-%E4%B8%AD%E9%9B%86%E6%88%90-spring-security/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Spring Boot 集成 Spring Security的简单应用，从数据库读取数据校验用户，页面使用Thymeleaf模板&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h3 id="项目地址-httpsgithubcomhelloworldespringsecurity"&gt;项目地址 &lt;a href="https://github.com/helloworlde/SpringSecurity"&gt;https://github.com/helloworlde/SpringSecurity&lt;/a&gt;&lt;/h3&gt;
 &lt;h3 id="演示-httpprojecthellowoodcomcnsecurity"&gt;演示 &lt;a href="http://project.hellowood.com.cn/Security/"&gt;http://project.hellowood.com.cn/Security/&lt;/a&gt;&lt;/h3&gt;

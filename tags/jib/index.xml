@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jib on HelloWood</title><link>https://blog.hellowood.dev/tags/jib/</link><description>Recent content in Jib on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 06 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/jib/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href="https://github.com/GoogleContainerTools/jib"&gt;Jib&lt;/a&gt; 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/GoogleContainerTools/jib"&gt;Jib&lt;/a&gt; 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/"&gt;&lt;code&gt;com.palantir.docker&lt;/code&gt;&lt;/a&gt;等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;有一些其他的插件也可以通过 Docker 实现生成镜像，如&lt;a href="https://helloworlde.github.io/2018/04/08/Docker-%E6%9E%84%E5%BB%BA-SpringBoot-%E5%BA%94%E7%94%A8/"&gt;&lt;code&gt;com.palantir.docker&lt;/code&gt;&lt;/a&gt;等，但是都需要额外配置 Dockerfile, 如果应用仅需要通过 Dockerfile 构建镜像，建议使用 Jib 来提升构建和上传速度&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id="使用"&gt;使用&lt;/h2&gt;
 &lt;h3 id="添加依赖"&gt;&lt;a href="https://plugins.gradle.org/plugin/com.google.cloud.tools.jib"&gt;添加依赖&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
@@ -24,7 +26,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="构建镜像"&gt;构建镜像&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;以下方式都需要终端能够访问 &lt;code&gt;gcr.io&lt;/code&gt;或 &lt;code&gt;hub.docker.com&lt;/code&gt;等 Docker Hub 才能成功&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;以下方式都需要终端能够访问 &lt;code&gt;gcr.io&lt;/code&gt;或 &lt;code&gt;hub.docker.com&lt;/code&gt;等 Docker Hub 才能成功&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;直接构建并推送到 &lt;a href="https://cloud.google.com/container-registry/"&gt;GCR&lt;/a&gt;
 通过这种方式构建的镜像会以&lt;code&gt;gcr.io/distroless/java&lt;/code&gt;为底层镜像，编译之后生成镜像，并推送到 Google 容器镜像仓库中：&lt;/li&gt;
@@ -35,4 +38,51 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="https://cloud.google.com/container-registry/"&gt;Google Container Center&lt;/a&gt;, &lt;a href="https://aws.amazon.com/ecr/"&gt;Amazon Elastic Container Registry&lt;/a&gt;, &lt;a href="https://hub.docker.com/"&gt;Docker Hub Registry&lt;/a&gt;之外的 Hub可能会失败，需要先登录到对应的 Docker Hub才可以&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;gradle&lt;/span&gt; &lt;span style="color:#c1abea"&gt;jib&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;--&lt;/span&gt;&lt;span style="color:#c1abea"&gt;image&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;hub&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;docker&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;.&lt;/span&gt;&lt;span style="color:#b3d23c"&gt;com&lt;/span&gt;&lt;span style="color:#98c379"&gt;/helloworld/&lt;/span&gt;&lt;span style="color:#f5a40d"&gt;java:&lt;/span&gt;&lt;span style="color:#c1abea"&gt;jib&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者在&lt;code&gt;build.gradle&lt;/code&gt;中以下添加之后执行 &lt;code&gt;gradle jib&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者在&lt;code&gt;build.gradle&lt;/code&gt;中以下添加之后执行 &lt;code&gt;gradle jib&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;jib.to.image = &amp;#39;registry.hub.docker.com/helloworld/java:jib&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;保存在本地
+需要本地 Docker 应用已经启动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;gradle jibDockerBuild
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#extended-usage"&gt;自定义基础镜像和参数(build.gradle)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;jib&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;from&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;image&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;registry.hub.docker.com/openjdk:8-jdk-alpine&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;auth&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;username&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;password&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;password&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;to&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;image&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;registry.hub.docker.com/helloword/java:jib&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;auth&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;username&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;password&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;password&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;credHelper&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;osxkeychain&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;container&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;jvmFlags&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;-Djava.security.egd=file:/dev/./urandom&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;,&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;-Duser.timezone=GMT+08&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;mainClass&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#39;example.jib.MainClass&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;args&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;test]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; ports = [&amp;#39;&lt;/span&gt;&lt;span style="color:#d19a66"&gt;8080&lt;/span&gt;&amp;#39;&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;from&lt;/code&gt;：拉取的镜像的配置，默认为&lt;code&gt;gcr.io/distroless/java&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;to&lt;/code&gt;:要生成的镜像的配置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image&lt;/code&gt;：拉取或生成的镜像名称&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;auth&lt;/code&gt;: 认证信息，分别为用户名和密码&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods"&gt;&lt;code&gt;credHelper&lt;/code&gt;&lt;/a&gt;：鉴权信息的存放方式，Google 使用 &lt;code&gt;gcr&lt;/code&gt;, AWS使用 &lt;code&gt;ecr-login&lt;/code&gt;, DockerHub 根据平台使用 &lt;code&gt;osxkeychain&lt;/code&gt;, &lt;code&gt;wincred&lt;/code&gt;,&lt;code&gt;secretservice&lt;/code&gt;,&lt;code&gt;pass&lt;/code&gt;中的一种，可以参考 &lt;a href="https://github.com/docker/docker-credential-helpers"&gt;docker-credential-helpers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;container&lt;/code&gt;: 容器的属性&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;jvmFlgs&lt;/code&gt;: JVM 容器的参数，和 Dockerfile 的 &lt;code&gt;ENTRYPOINT&lt;/code&gt;作用相同&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mainClass&lt;/code&gt;: 启动类限定名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;args&lt;/code&gt;: &lt;code&gt;main&lt;/code&gt; 方法的传入参数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ports&lt;/code&gt;: 容器暴露的端口，和 Dockerfile 的&lt;code&gt;EXPOSE&lt;/code&gt;作用相同&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;推荐&lt;code&gt;from&lt;/code&gt; 改为 &lt;code&gt;registry.hub.docker.com/openjdk:8-jdk-alpine&lt;/code&gt;, &lt;code&gt;to&lt;/code&gt;改为 &lt;code&gt;registry.cn-qingdao.aliyuncs.com&lt;/code&gt; 等国内的仓库，同时将 Docker 的镜像源改为&lt;a href="https://registry.docker-cn.com"&gt;https://registry.docker-cn.com&lt;/a&gt; 或 &lt;a href="https://docker.mirrors.ustc.edu.cn"&gt;https://docker.mirrors.ustc.edu.cn&lt;/a&gt;以减少构建时间&lt;/p&gt;</description></item></channel></rss>

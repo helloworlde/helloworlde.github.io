@@ -41,7 +41,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;lt;/if&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;lt;/select&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;经过debug，发现 MyBatis 3.3之前和3.3之后的判断逻辑不一样&lt;/p&gt;</description></item><item><title>SpringBoot-使用 MyBatis 通用 Mapper</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</link><pubDate>Sun, 08 Apr 2018 15:11:45 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-%E9%80%9A%E7%94%A8-mapper/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href="https://github.com/abel533/Mapper"&gt;通用 Mapper&lt;/a&gt; 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 &lt;a href="https://github.com/pagehelper/Mybatis-PageHelper"&gt;PageHelper&lt;/a&gt; 一起使用；通用 Mapper 插件虽然没有 &lt;a href="https://github.com/baomidou/mybatis-plus"&gt;MyBatis Plus&lt;/a&gt; 强大，但是满足正常项目开发；&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/abel533/Mapper"&gt;通用 Mapper&lt;/a&gt; 是一个开源的 MyBatis 插件，该插件可以使用通用的 MyBatis方法，减少简单的 CRUD，提高开发效率；推荐搭配分页插件 &lt;a href="https://github.com/pagehelper/Mybatis-PageHelper"&gt;PageHelper&lt;/a&gt; 一起使用；通用 Mapper 插件虽然没有 &lt;a href="https://github.com/baomidou/mybatis-plus"&gt;MyBatis Plus&lt;/a&gt; 强大，但是满足正常项目开发；&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id="添加依赖"&gt;添加依赖&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;build.gradle&lt;/li&gt;
@@ -276,7 +277,8 @@ spring.profiles.active=dev
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="使用"&gt;使用&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;直接调用 Service 的方法就可以实现正常的单表 CRUD，但是对于多表的操作依然需要写在 XML 里&lt;/p&gt;</description></item><item><title>SpringBoot 使用 MyBatis PageHelper 分页插件</title><link>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</link><pubDate>Sat, 03 Feb 2018 11:56:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-%E4%BD%BF%E7%94%A8-mybatis-pagehelper-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href="https://github.com/pagehelper/Mybatis-PageHelper"&gt;MyBatis PageHelper&lt;/a&gt; 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/pagehelper/Mybatis-PageHelper"&gt;MyBatis PageHelper&lt;/a&gt; 是一个 MyBatis 分页插件，能够比较方便的实现 MyBatis 的分页&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id="添加依赖"&gt;添加依赖&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;build.gradle&lt;/li&gt;
@@ -370,12 +372,14 @@ pagehelper.page-size-zero=true
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; FROM product
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;&amp;lt;/select&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误</title><link>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</link><pubDate>Mon, 01 Jan 2018 01:01:51 +0800</pubDate><guid>https://blog.hellowood.dev/posts/idea%E4%B8%ADspring-boot%E9%A1%B9%E7%9B%AEmybaits%E6%8F%90%E7%A4%BAinvalid-bound-statement-not-found-%E9%94%99%E8%AF%AF/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code&gt;org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code&gt;错误&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;一个SpringBoot项目在STS中是正常的，没有任何问题，但是导入到IDEA中之后启动就提示&lt;code&gt;org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/code&gt;错误&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;2017-05-01 20:29:30.089 ERROR 8580 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet] : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): hellowood.lntu.oe.wmp.dao.FeedbackDetailMapper.insertSelective] with root cause
 
 org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): ...........
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;该错误提示没有找到相对应的XML文件，找了很长时间发现在编译后的classes路径下并没有相应的XML文件，这是因为IDEA在编译的时候忽略掉了XML文件，一个解决方法是将所有的XML文件移动到Resource文件夹下，这样在编译的时候就会将XML文件一起&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;移动文件夹后修改配置文件中的MyBat的扫描路径&lt;/li&gt;
 &lt;/ul&gt;
@@ -397,7 +401,8 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 &lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>MyBatis 中使用 Association 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:48:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-association-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
-以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询&lt;/p&gt;&lt;/blockquote&gt;
+以下以用户登录时的用户、角色和菜单直接的关系为例使用嵌套查询&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id="javabean"&gt;JavaBean&lt;/h2&gt;
 &lt;ul&gt;
@@ -524,7 +529,8 @@ INSERT INTO user_role_xref (user_id, role_id, last_update_time) VALUES (2, 2, CU
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
 &lt;p&gt;此时，调用 &lt;code&gt;getAllUsers()&lt;/code&gt; 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p&gt;</description></item><item><title>MyBatis 中使用 Collection 嵌套查询</title><link>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</link><pubDate>Mon, 01 Jan 2018 00:47:05 +0800</pubDate><guid>https://blog.hellowood.dev/posts/mybatis-%E4%B8%AD%E4%BD%BF%E7%94%A8-collection-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;当使用 MyBatis 进行查询的时候如果一个 JavaBean 中包含另一个 JavaBean 或者 Collection 时，可以通过 MyBatis 的嵌套查询来获取需要的结果;
-以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询&lt;/p&gt;&lt;/blockquote&gt;
+以下以用户登录时的角色和菜单直接的关系为例使用嵌套查询&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id="javabean"&gt;JavaBean&lt;/h2&gt;
 &lt;ul&gt;
@@ -674,18 +680,21 @@ VALUES (2, 4, current_timestamp);
  &amp;lt;/select&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
 &lt;p&gt;此时，调用 &lt;code&gt;getRoles()&lt;/code&gt; 方法就可以通过嵌套查询同时查找 Role 属性了&lt;/p&gt;</description></item><item><title>Spring Boot MyBatis 动态数据源常见问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Sun, 31 Dec 2017 23:45:52 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-boot-mybatis-%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource"&gt;https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;相关项目地址:&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource"&gt;https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id="1-orgapacheibatisbindingbindingexception-invalid-bound-statement-not-found"&gt;1. org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在使用了动态数据源后遇到了该问题，从错误信息来看是因为没有找到 &lt;code&gt;*.xml&lt;/code&gt; 文件而导致的，但是在配置文件中
 确实添加了相关的配置，这种错误的原因是因为设置数据源后没有设置&lt;code&gt;SqlSessionFactoryBean&lt;/code&gt;的 &lt;code&gt;typeAliasesPackage&lt;/code&gt;
-和&lt;code&gt;mapperLocations&lt;/code&gt;属性或属性无效导致的；&lt;/p&gt;&lt;/blockquote&gt;
+和&lt;code&gt;mapperLocations&lt;/code&gt;属性或属性无效导致的；&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;解决方法：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果在应用的入口类中添加了 &lt;code&gt;@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)&lt;/code&gt;,
-在&lt;code&gt;DataSourceConfigure&lt;/code&gt;类的中设置相关属性：&lt;/p&gt;&lt;/blockquote&gt;
+在&lt;code&gt;DataSourceConfigure&lt;/code&gt;类的中设置相关属性：&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Bean&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@ConfigurationProperties&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;prefix&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;mybatis&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;SqlSessionFactoryBean&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;sqlSessionFactoryBean&lt;/span&gt;() {
@@ -708,7 +717,8 @@ VALUES (2, 4, current_timestamp);
 &lt;li&gt;项目地址：&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource"&gt;https://github.com/helloworlde/SpringBoot-DynamicDataSource&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;本项目使用 Spring Boot 和 MyBatis 实现多数据源，动态数据源的切换；有多种不同的实现方式，在学习的过程中发现没有文章将这些方式和常见的问题集中处理，所以将常用的方式和常见的问题都写在了在本项目的不同分支上：&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource"&gt;master&lt;/a&gt;: 使用了多数据源的 RESTful API 接口，使用 Druid 实现了 DAO 层数据源动态切换和只读数据源负载均衡&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/dev"&gt;dev&lt;/a&gt;: 最简单的切面和注解方式实现的动态数据源切换&lt;/li&gt;
@@ -717,12 +727,15 @@ VALUES (2, 4, current_timestamp);
 &lt;li&gt;&lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/tree/roundrobin"&gt;roundrobin&lt;/a&gt;: 通过切面使用轮询方式实现的只读数据源负载均衡&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;以上分支都是基于 dev 分支修改或扩充而来，基本涵盖了常用的多数据源动态切换的方式，基本的原理都一样，都是通过切面根据不同的条件在执行数据库操作前切换数据源&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id="在使用的过程中基本踩遍了所有动态数据源切换的坑将常见的一些坑和解决方法写在了-issues-里面"&gt;在使用的过程中基本踩遍了所有动态数据源切换的坑，将常见的一些坑和解决方法写在了 &lt;a href="https://github.com/helloworlde/SpringBoot-DynamicDataSource/blob/master/Issues.md"&gt;Issues&lt;/a&gt; 里面&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code&gt;@Transactional&lt;/code&gt; 注解以保证使用主数据源&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;该项目使用了一个可写数据源和多个只读数据源，为了减少数据库压力，使用轮循的方式选择只读数据源；考虑到在一个 Service 中同时会有读和写的操作，所以本应用使用 AOP 切面通过 DAO 层的方法名切换只读数据源；但这种方式要求数据源主从一致，并且应当避免在同一个 Service 方法中写入后立即查询，如果必须在执行写入操作后立即读取，应当在 Service 方法上添加 &lt;code&gt;@Transactional&lt;/code&gt; 注解以保证使用主数据源&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code&gt;@Transactional&lt;/code&gt; 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;需要注意的是，使用 DAO 层切面后不应该在 Service 类层面上加 &lt;code&gt;@Transactional&lt;/code&gt; 注解，而应该添加在方法上，这也是 Spring 推荐的做法&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;动态切换数据源依赖 &lt;code&gt;configuration&lt;/code&gt; 包下的4个类来实现，分别是：&lt;/p&gt;
 &lt;ul&gt;
@@ -730,7 +743,8 @@ VALUES (2, 4, current_timestamp);
 &lt;li&gt;DataSourceConfigurer.java&lt;/li&gt;
 &lt;li&gt;DynamicDataSourceContextHolder.java&lt;/li&gt;
 &lt;li&gt;DynamicDataSourceAspect.java&lt;/li&gt;
-&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id="添加依赖"&gt;添加依赖&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
