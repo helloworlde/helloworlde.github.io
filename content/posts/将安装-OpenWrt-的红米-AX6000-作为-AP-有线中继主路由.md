@@ -2,11 +2,14 @@
 date: 2025-11-02
 # description: ""
 # image: ""
-lastmod: 2025-11-02
+lastmod: 2025-12-03
 showTableOfContents: false
-# tags: ["",]
+tags:
+  - OpenWrt
+  - HomeLab
 title: "将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由"
 type: "post"
+featured: true
 ---
 
 在将[红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统](https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/) 使用半年后，一些问题逐渐显现：

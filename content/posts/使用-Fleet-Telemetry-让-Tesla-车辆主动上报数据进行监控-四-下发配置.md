@@ -2,7 +2,7 @@
 date: 2025-09-27
 # description: ""
 # image: ""
-lastmod: 2025-10-14
+lastmod: 2025-12-03
 showTableOfContents: false
 tags:
   - Tesla
