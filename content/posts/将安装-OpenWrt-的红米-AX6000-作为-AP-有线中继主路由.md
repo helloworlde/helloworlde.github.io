@@ -2,7 +2,7 @@
 date: 2025-11-02
 # description: ""
 # image: ""
-lastmod: 2025-12-03
+lastmod: 2025-12-09
 showTableOfContents: false
 tags:
   - OpenWrt
@@ -13,6 +13,7 @@ featured: true
 ---
 
 在将[红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统](https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/) 使用半年后，一些问题逐渐显现：
+
 1. 信号变差：5G Wi-Fi 在 OpenWrt 下开启 160Mhz 后信号很差，隔着不到5米的洗手间墙壁就基本没信号了
 2. 出现卡顿：尤其是刷短视频、玩游戏时，经常出现网络波动、延迟高、掉线等问题
 
@@ -39,7 +40,7 @@ featured: true
 
 - 禁用 IPv6
 
-编辑 LAN 接口，将 RA/DHCPv6/NDP 服务器禁用，关闭 IPv6 
+编辑 LAN 接口，将 RA/DHCPv6/NDP 服务器禁用，关闭 IPv6
 
 ![homelab-openwrt-as-ap-disable-ipv6-relay.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-disable-ipv6-relay.png)
 
@@ -58,5 +59,3 @@ featured: true
 完成以上配置后，保存应用配置，等待配置生效后正常配置 Wi-Fi，即可通过有线方式将红米 AX6000 作为 AP 中继主路由使用
 
 ![homelab-openwrt-as-ap-complete-config.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-complete-config.png)
-
-
