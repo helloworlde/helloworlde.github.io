@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Wed, 03 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</link><pubDate>Sun, 02 Nov 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</guid><description>&lt;p&gt;在将&lt;a href="https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/"&gt;红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统&lt;/a&gt; 使用半年后，一些问题逐渐显现：&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 09 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</link><pubDate>Sun, 02 Nov 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</guid><description>&lt;p&gt;在将&lt;a href="https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/"&gt;红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统&lt;/a&gt; 使用半年后，一些问题逐渐显现：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;信号变差：5G Wi-Fi 在 OpenWrt 下开启 160Mhz 后信号很差，隔着不到5米的洗手间墙壁就基本没信号了&lt;/li&gt;
 &lt;li&gt;出现卡顿：尤其是刷短视频、玩游戏时，经常出现网络波动、延迟高、掉线等问题&lt;/li&gt;
@@ -206,27 +206,27 @@
 &lt;/table&gt;
 &lt;p&gt;格式：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 全局配置
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# DNS 配置
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;dns&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;dns&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 订阅地址
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;subscription&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;subscription&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 节点
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;node&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 节点分组
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;group&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;group&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 路由配置
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt;&lt;span style="color:#c678dd"&gt;routing&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;routing&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="二配置"&gt;二、配置&lt;/h2&gt;
 &lt;h3 id="21-global"&gt;2.1 global&lt;/h3&gt;
@@ -235,14 +235,14 @@
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Log level: error, warn, info, debug, trace.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#c678dd"&gt;log_level:&lt;/span&gt; &lt;span style="color:#98c379"&gt;info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;log_level:&lt;/span&gt; &lt;span style="color:#98c379"&gt;info&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理流量的 LAN 接口
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#98c379"&gt;lan_interface:&lt;/span&gt; &lt;span style="color:#98c379"&gt;eth0,enp2s0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#98c379"&gt;lan_interface:&lt;/span&gt; &lt;span style="color:#98c379"&gt;eth0,enp2s0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理 WAN 接口，代理本机流量
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#98c379"&gt;wan_interface:&lt;/span&gt; &lt;span style="color:#98c379"&gt;auto&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#98c379"&gt;wan_interface:&lt;/span&gt; &lt;span style="color:#98c379"&gt;auto&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理模式：ip/domain/domain+/domain++
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;&lt;/span&gt; &lt;span style="color:#98c379"&gt;dial_mode:&lt;/span&gt; &lt;span style="color:#98c379"&gt;domain++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#98c379"&gt;dial_mode:&lt;/span&gt; &lt;span style="color:#98c379"&gt;domain++&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;配置说明&lt;/li&gt;
@@ -514,7 +514,7 @@
 &lt;h2 id="配置-openwrt"&gt;配置 OpenWrt&lt;/h2&gt;
 &lt;h3 id="安装-wireguard"&gt;安装 WireGuard&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p&gt;</description></item><item><title>OpenWrt 桥接充当交换机</title><link>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link><pubDate>Tue, 21 Mar 2023 21:33:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid><description>&lt;h2 id="需求背景"&gt;需求背景&lt;/h2&gt;
 &lt;p&gt;使用的路由器只有 3 个 LAN 口，在购入 NAS 后网口捉襟见肘，并且 NAS 不支持 Wi-Fi，因此需要更多的网口支持设备连接&lt;/p&gt;
 &lt;p&gt;路由器是小米的 Redmi AX6000， 支持WiFi 6E，协商速度能达到2400Mbps，但却只有千兆的网口；因为家里的两台电脑和 NAS 都是 2.5G 的网口和 WiFi6E 的无线网卡，想要 NAS 高速读写就需要 2.5G 以上的交换机；但是 2.5G 的交换机价格都在 400+，性价比不高&lt;/p&gt;
@@ -688,9 +688,9 @@
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install prometheus-node-exporter-lua &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;prometheus-node-exporter-lua-netstat &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;prometheus-node-exporter-lua-openwrt
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-netstat &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-openwrt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果 OpenWrt 有无线网络，可以安装无线网络数据 的抓取&lt;/p&gt;</description></item><item><title>Openwrt-DDNS 配置</title><link>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</link><pubDate>Fri, 26 Aug 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-ddns-%E9%85%8D%E7%BD%AE/</guid><description>&lt;p&gt;DDNS(Dynamic DNS) 一般用于从外部访问家庭网络内的设备，因为家庭宽带没有固定的 IP 地址，所以通过域名访问时需要动态的更新域名的记录为当前的 IP 地址；实现的原理也比较简单，就是通过定时脚本，调用域名解析商的接口，修改域名的记录&lt;/p&gt;
 &lt;p&gt;和大部分路由器一样，OpenWrt 也支持 DDNS，通过 DDNS 的脚本执行动态更新&lt;/p&gt;
 &lt;h2 id="申请公网-ip"&gt;申请公网 IP&lt;/h2&gt;

@@ -1,4 +1,44 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 09 Dec 2025 09:22:10 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Docker容器开启IPv6</title><link>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</link><pubDate>Sun, 21 Apr 2024 21:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</guid><description>&lt;p&gt;局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on HelloWood</title><link>https://blog.hellowood.dev/tags/docker/</link><description>Recent content in Docker on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Thu, 25 Dec 2025 09:26:45 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>在服务器部署 Docker 镜像代理服务 Distribution Registry</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</guid><description>&lt;p&gt;使用 Docker 部署服务的时候，Docker 官方镜像时常拉取失败，第三方的镜像仓库同样不稳定，在多次遇到问题后最终选择在海外的 VPS 上自己搭建 Docker 镜像代理服务，提升拉取镜像的成功率和速度&lt;/p&gt;
+&lt;p&gt;镜像代理使用 CNCF 的 &lt;a href="https://distribution.github.io/distribution/about/"&gt;Distribution Registry&lt;/a&gt; 项目搭建，使用 Docker Compose 进行部署&lt;/p&gt;
+&lt;h2 id="部署-distribution-registry"&gt;部署 Distribution Registry&lt;/h2&gt;
+&lt;p&gt;一个 Distribution Registry 只能代理一个上游镜像仓库，这里以代理 Docker 官方镜像仓库为例，如果要代理其他仓库，则需要在配置中指定对应的上游后启动多个实例&lt;/p&gt;
+&lt;h3 id="配置"&gt;配置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;config.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;storage&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;cache&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;blobdescriptor&lt;/span&gt;: &lt;span style="color:#98c379"&gt;inmemory&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# blob 描述信息缓存到内存&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;filesystem&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;rootdirectory&lt;/span&gt;: &lt;span style="color:#98c379"&gt;/var/lib/registry&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# layer/manifest 等数据存储路径&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;http&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;addr&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0.0.0.0&lt;/span&gt;:&lt;span style="color:#d19a66"&gt;5000&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 监听地址和端口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;proxy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;remoteurl&lt;/span&gt;: &lt;span style="color:#98c379"&gt;https://registry-1.docker.io&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理的上游镜像仓库地址&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;username&lt;/span&gt;: &lt;span style="color:#98c379"&gt;username&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 如果上游仓库需要认证，可以在这里配置用户名和密码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;password&lt;/span&gt;: &lt;span style="color:#98c379"&gt;password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="部署"&gt;部署&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;docker-compose.yml&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要将 config.yml 挂载到容器的 &lt;code&gt;/etc/docker/registry/config.yml&lt;/code&gt; 路径下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;docker-registry&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;registry:2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;docker-registry&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;restart&lt;/span&gt;: &lt;span style="color:#98c379"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;volumes&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;/etc/localtime:/etc/localtime&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;./data:/var/lib/registry&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;./config.yml:/etc/docker/registry/config.yml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;5000:5000&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;REGISTRY_LOG_LEVEL=warn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;OTEL_TRACES_EXPORTER=none&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="验证镜像仓库"&gt;验证镜像仓库&lt;/h3&gt;
+&lt;p&gt;启动服务后，通过 Traefix/Nginx/Caddy 等反向代理将 5000 端口映射到域名或 IP 地址上，然后拉取镜像进行验证，如域名是 &lt;code&gt;docker.example.com&lt;/code&gt;，则执行如下命令（docker 的一些公共镜像需要添加 &lt;code&gt;library&lt;/code&gt; 名称）&lt;/p&gt;</description></item><item><title>Linux Docker容器开启IPv6</title><link>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</link><pubDate>Sun, 21 Apr 2024 21:25:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/linux-docker%E5%AE%B9%E5%99%A8%E5%BC%80%E5%90%AFipv6/</guid><description>&lt;p&gt;局域网开启了 IPv6 后，发现 Docker 因为没有开启 IPv6 无法访问了，因此需要为 Docker 开启 IPv6，根据官方文档提示，IPv6 仅在运行于 Linux 主机上的 Docker 守护进程上受支持&lt;/p&gt;
 &lt;p&gt;Docker 支持只给特定的网络开启 IPv6，也支持给 bridge 网络开启 IPv6&lt;/p&gt;
 &lt;h2 id="只给特定的网络开启-ipv6"&gt;只给特定的网络开启 IPv6&lt;/h2&gt;
 &lt;p&gt;这种方式不会修改默认的网络配置，指定特定的网络生效&lt;/p&gt;
@@ -129,10 +169,10 @@
 &lt;h2 id="创建-docker-nfs-数据卷"&gt;创建 Docker NFS 数据卷&lt;/h2&gt;
 &lt;p&gt;通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code&gt;local&lt;/code&gt;，类型是 &lt;code&gt;nfs&lt;/code&gt;，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code&gt;nginx-volume&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;nginx-volume
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;nginx-volume&lt;/code&gt; 信息&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -232,8 +272,8 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;li&gt;在启动容器时添加以下命令：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--privileged &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;-v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;r:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;r:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--privileged&lt;/code&gt; 表示该容器真正启用 root 权限&lt;/li&gt;
@@ -245,17 +285,17 @@ deb http://extras.ubuntu.com/ubuntu/ xenial main
 &lt;li&gt;Demo: 启动 GitLab&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name gitlab-ee &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -d -p 443:443 -p 80:80 -p 22:22 &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --privileged &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --restart always &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; --hostname 10.0.0.24 &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/logs:/var/log/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/gitlab/data:/var/opt/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/.m2:/root/.m2 &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /Users/hellowood/.gradle:/root/.gradle &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; -v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; gitlab/gitlab-ee:latest
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -d -p 443:443 -p 80:80 -p 22:22 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --privileged &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --restart always &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --hostname 10.0.0.24 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /Users/hellowood/gitlab/logs:/var/log/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /Users/hellowood/gitlab/data:/var/opt/gitlab &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /Users/hellowood/.m2:/root/.m2 &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /Users/hellowood/.gradle:/root/.gradle &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v &lt;span style="color:#c678dd"&gt;$(&lt;/span&gt;which docker&lt;span style="color:#c678dd"&gt;)&lt;/span&gt;:/bin/docker &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gitlab/gitlab-ee:latest
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>使用 Jib 生成 Java Docker 镜像</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</link><pubDate>Mon, 16 Jul 2018 00:17:43 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-jib-%E7%94%9F%E6%88%90-java-docker-%E9%95%9C%E5%83%8F/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;&lt;a href="https://github.com/GoogleContainerTools/jib"&gt;Jib&lt;/a&gt; 是谷歌最新开源的 Java 应用的 Docker 镜像生成工具，可以通过 Gradle 或 Maven 直接生成镜像并上传到仓库而不需要 Dockerfile 文件或者其他插件；Jib 支持将资源文件和类分层打包，可以大幅度提升生成镜像的速度&lt;/p&gt;
 &lt;/blockquote&gt;

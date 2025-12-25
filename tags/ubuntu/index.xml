@@ -6,17 +6,17 @@
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo mkdir --parents --mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0755&lt;/span&gt; /etc/apt/keyrings
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg &amp;gt; /dev/nul
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;添加源&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;分别添加 AMDGPU 驱动程序的软件源和 ROCm 软件源，并设置软件源的优先级，确保在有多个版本可用时，系统会优先安装来自 AMD 官方仓库的软件包&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.4/ubuntu jammy main&amp;#34;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee /etc/apt/sources.list.d/amdgpu.list
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | sudo tee /etc/apt/sources.list.d/amdgpu.list
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.4 noble main&amp;#34;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee --append /etc/apt/sources.list.d/rocm.list
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | sudo tee --append /etc/apt/sources.list.d/rocm.list
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; -e &lt;span style="color:#98c379"&gt;&amp;#39;Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600&amp;#39;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; | sudo tee /etc/apt/preferences.d/rocm-pin-600
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | sudo tee /etc/apt/preferences.d/rocm-pin-600
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;更新软件包&lt;/li&gt;
 &lt;/ul&gt;
@@ -112,9 +112,9 @@
 &lt;/ul&gt;
 &lt;p&gt;需要添加 NVIDIA 容器工具包的软件源和 gpg 签名&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; sed &lt;span style="color:#98c379"&gt;&amp;#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&amp;#39;&lt;/span&gt; | &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sed &lt;span style="color:#98c379"&gt;&amp;#39;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&amp;#39;&lt;/span&gt; | &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;更新软件并安装 NVIDIA 容器工具包&lt;/li&gt;
 &lt;/ul&gt;
@@ -252,9 +252,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Ubuntu version &lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;VERSION_CODENAME&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&lt;span style="color:#63c381"&gt; not supported&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;else&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ef8383"&gt;echo&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu &lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;VERSION_CODENAME&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&lt;span style="color:#63c381"&gt;/lts/2350 unified&amp;#34;&lt;/span&gt; | &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt; sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;VERSION_CODENAME&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;.list
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo tee /etc/apt/sources.list.d/intel-gpu-&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;VERSION_CODENAME&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;.list
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sudo apt update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;fi&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装驱动-1"&gt;安装驱动&lt;/h3&gt;
@@ -315,10 +315,10 @@
 &lt;h2 id="创建-docker-nfs-数据卷"&gt;创建 Docker NFS 数据卷&lt;/h2&gt;
 &lt;p&gt;通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code&gt;local&lt;/code&gt;，类型是 &lt;code&gt;nfs&lt;/code&gt;，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code&gt;nginx-volume&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d26464;font-weight:bold"&gt;&lt;/span&gt;nginx-volume
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;nginx-volume&lt;/code&gt; 信息&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
