@@ -2,7 +2,7 @@
 date: 2025-11-02
 # description: ""
 # image: ""
-lastmod: 2025-12-09
+lastmod: 2025-12-25
 showTableOfContents: false
 tags:
   - OpenWrt
