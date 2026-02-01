@@ -10,7 +10,7 @@
 &lt;/p&gt;
 &lt;h3 id="开启摄像头"&gt;开启摄像头&lt;/h3&gt;
 &lt;p&gt;开启摄像头需要先安装 &lt;code&gt;raspi-config&lt;/code&gt; 软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y raspi-config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y raspi-config
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后运行 &lt;code&gt;raspi-config&lt;/code&gt;，选择用户 &lt;code&gt;pi&lt;/code&gt; 进行配置；&lt;/p&gt;
 &lt;p&gt;
 
@@ -31,7 +31,7 @@
 &lt;li&gt;检查连接状态&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;重启后检查设备连接状态：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd get_camera
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd get_camera
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;supported&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;1&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;detected&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;1, libcamera &lt;span style="color:#dcaeea"&gt;interfaces&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回信息提示检查到了一个摄像头并且支持该摄像头&lt;/p&gt;
@@ -39,9 +39,9 @@
 &lt;li&gt;查看摄像头信息&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;查看摄像头信息需要使用 &lt;code&gt;v4l-utils&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y v4l-utils
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y v4l-utils
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 &lt;code&gt;v4l-utils&lt;/code&gt; 列出设备&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;v4l2-ctl --list-devices
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;v4l2-ctl --list-devices
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bcm2835-codec-decode &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;platform:bcm2835-codec&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video10
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video11
@@ -68,13 +68,13 @@
 树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 &lt;a href="https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction"&gt;SRS&lt;/a&gt; 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）&lt;/p&gt;
 &lt;p&gt;树莓派连接摄像头可以参考 &lt;a href="https://blog.hellowood.dev"&gt;树莓派 4b 使用摄像头&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="安装-ffmpeg"&gt;安装 ffmpeg&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y ffmpeg
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y ffmpeg
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="安装-srs"&gt;安装 SRS&lt;/h2&gt;
 &lt;p&gt;SRS 使用 Docker Compose 进行部署；用于处理 ffmpeg 推送的视频流&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;srs&lt;/span&gt;:
@@ -90,7 +90,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;./data:/srs&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="使用-ffmpeg-推送流到-srs"&gt;使用 ffmpeg 推送流到 SRS&lt;/h2&gt;
 &lt;p&gt;通过 ffmpeg 将视频内容推送到 SRS&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66"&gt;30&lt;/span&gt; -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66"&gt;60&lt;/span&gt; -an -f flv rtmp://192.168.2.5/live/livestream
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66"&gt;30&lt;/span&gt; -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66"&gt;60&lt;/span&gt; -an -f flv rtmp://192.168.2.5/live/livestream
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其各个参数含义如下：&lt;/p&gt;</description></item><item><title>树莓派 4B 容器方式安装 OpenWrt 作为软路由</title><link>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</link><pubDate>Wed, 20 Jul 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-4b-%E5%AE%B9%E5%99%A8%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85-openwrt-%E4%BD%9C%E4%B8%BA%E8%BD%AF%E8%B7%AF%E7%94%B1/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;在树莓派 4B，基于 Ubuntu 22.04，使用 Docker 容器的方式运行 Openwrt 作为软路由，基于 &lt;a href="https://github.com/SuLingGG/OpenWrt-Docker"&gt;SuLingGG/OpenWrt-Docker&lt;/a&gt; 的方案&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -106,18 +106,18 @@
 &lt;/ul&gt;
 &lt;p&gt;需要保证安装了&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt;，否则会导致在运行容器后出现&lt;code&gt;Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code&gt;错误&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt; 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装之后需要重启树莓派&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置网络"&gt;配置网络&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;开启网卡混杂模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p&gt;
 &lt;p&gt;树莓派只有一个有线接口，地址为 &lt;code&gt;eth0&lt;/code&gt;，所以在 &lt;code&gt;eth0&lt;/code&gt; 接口开启混杂模式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行以下命令检查结果&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;网卡 flag 信息有 &lt;code&gt;PROMISC&lt;/code&gt; 表示开启成功&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
 inet 192.168.31.2 netmask 255.255.255.0 broadcast 192.168.31.255
@@ -151,12 +151,12 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;h2 id="安装"&gt;安装&lt;/h2&gt;
 &lt;p&gt;在 Ubuntu Server 21.04 上安装 K3S&lt;/p&gt;
 &lt;h3 id="1-安装-docker"&gt;1. 安装 Docker&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &amp;amp; apt upgrade &amp;amp; apt install docker.io
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &amp;amp; apt upgrade &amp;amp; apt install docker.io
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-安装-k3s"&gt;2. 安装 K3S&lt;/h3&gt;
 &lt;p&gt;登录树莓派所在的机器，执行安装脚本&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -sfL https://get.k3s.io | sh -
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -sfL https://get.k3s.io | sh -
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后，使用 kubectl 查看集群信息&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;k3s kubectl get node
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;k3s kubectl get node
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 也可以直接使用 kubectl&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl get node
@@ -197,7 +197,7 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;p&gt;硬盘镜像写入完成后，会挂载一个名为 &lt;code&gt;system-boot&lt;/code&gt;的目录，进入该目录，修改配置&lt;/p&gt;
 &lt;h4 id="挂载文件"&gt;挂载文件&lt;/h4&gt;
 &lt;p&gt;如果可以直接在 Mac 上修改文件，可以跳过这一步；如果文件是只读的，无法修改，可以将磁盘弹出，然后手动挂载或挂载到其他的机器上修改&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 查找磁盘&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 查找磁盘&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Disk /dev/mmcblk0: 59.63 GiB, &lt;span style="color:#d19a66"&gt;64021856256&lt;/span&gt; bytes, &lt;span style="color:#d19a66"&gt;125042688&lt;/span&gt; sectors
@@ -216,7 +216,7 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;li&gt;启动&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;挂载的目的是为了将数据保存在宿主机上，方便查询历史数据&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name influxdb -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name influxdb -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	-p 8086:8086 &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	-v /root/workspace/docker/influxdb:/var/lib/influxdb &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	influxdb
@@ -240,7 +240,7 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;li&gt;启动&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Telegraf 依赖于 Influxdb，所以使用同一个网络&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name telegraf -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --name telegraf -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	--net&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;container:influxdb &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	-v /var/run/docker.sock:/var/run/docker.sock &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	-v /proc:/host/proc:ro &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -253,7 +253,7 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;ul&gt;
 &lt;li&gt;运行&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;grafana &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p 3000:3000 &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -283,7 +283,7 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;ul&gt;
 &lt;li&gt;查看配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_version
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_version
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Apr &lt;span style="color:#d19a66"&gt;16&lt;/span&gt; &lt;span style="color:#d19a66"&gt;2020&lt;/span&gt; 18:11:26
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version a5e1b95f320810c69441557c5f5f0a7f2460dfb8 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;release&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;timestamp &lt;span style="color:#d19a66"&gt;1587057086&lt;/span&gt;
@@ -291,14 +291,14 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;ul&gt;
 &lt;li&gt;更新&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt full-upgrade
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot now
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;等更新完成后，会安装新的 &lt;code&gt;rpi-eeprom&lt;/code&gt;，更新重启后的版本是 &lt;code&gt;Jun 15 2020&lt;/code&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;查看配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd bootloader_config
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;all&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;BOOT_UART&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
@@ -345,7 +345,7 @@ telegraf 的配置可以先通过&lt;code&gt;docker run telegraf&lt;/code&gt;直
 &lt;ul&gt;
 &lt;li&gt;查找 SD 卡挂载名称&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex="0"&gt;&lt;code&gt;/dev/disk0 (internal, physical):
  #: TYPE NAME SIZE IDENTIFIER
  0: GUID_partition_scheme *500.3 GB disk0

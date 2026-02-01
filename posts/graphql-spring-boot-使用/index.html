@@ -8,14 +8,14 @@
 <a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
 <a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>GraphQL Spring Boot 使用</h1><small role=doc-subtitle></small><p class=post-date>2019-01-29
-| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/graphql>GraphQL</a></li></ul></div><div class=post-content><p>项目地址 <a href=https://github.com/helloworlde/spring-boot-graphql-demo>https://github.com/helloworlde/spring-boot-graphql-demo</a></p><blockquote><p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据</p></blockquote><h2 id=创建应用>创建应用</h2><ul><li>添加依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
+| Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/graphql>GraphQL</a></li></ul></div><div class=post-content><p>项目地址 <a href=https://github.com/helloworlde/spring-boot-graphql-demo>https://github.com/helloworlde/spring-boot-graphql-demo</a></p><blockquote><p>使用 SpringBoot 和 GraphQL 创建一个最简单的增删改查接口应用，使用 MongoDB 存储数据</p></blockquote><h2 id=创建应用>创建应用</h2><ul><li>添加依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>dependencies</span> <span style=color:#c7bf54>{</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-web&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-data-mongodb&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>compileOnly</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.projectlombok:lombok&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>testImplementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;org.springframework.boot:spring-boot-starter-test&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span><span style=color:#c7bf54>}</span>
-</span></span></code></pre></div><h3 id=添加基础接口>添加基础接口</h3><ul><li>添加 Model</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Data</span>
+</span></span></code></pre></div><h3 id=添加基础接口>添加基础接口</h3><ul><li>添加 Model</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Data</span>
 </span></span><span style=display:flex><span><span style=color:#e5c07b>@Builder</span>
 </span></span><span style=display:flex><span><span style=color:#e5c07b>@Document</span>
 </span></span><span style=display:flex><span><span style=color:#e5c07b>@AllArgsConstructor</span>
@@ -32,15 +32,15 @@
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@CreatedDate</span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>private</span> <span style=color:#c1abea>Date</span> <span style=color:#c1abea>createDate</span>;
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>添加 Repository</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>PostRepository</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>MongoRepository</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Post</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>&gt;</span> {
+</span></span></code></pre></div><ul><li>添加 Repository</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>interface</span> <span style=color:#76a9f9>PostRepository</span> <span style=color:#c678dd>extends</span> <span style=color:#c1abea>MongoRepository</span><span style=color:#c7bf54>&lt;</span><span style=color:#c1abea>Post</span>, <span style=color:#c1abea>String</span><span style=color:#c7bf54>&gt;</span> {
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>添加配置</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># MongoDB Config</span>
+</span></span></code></pre></div><ul><li>添加配置</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-properties data-lang=properties><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># MongoDB Config</span>
 </span></span><span style=display:flex><span><span style=color:#b3d23c>spring.data.mongodb.host</span><span style=color:#c7bf54>=</span><span style=color:#98c379>localhost</span>
 </span></span><span style=display:flex><span><span style=color:#b3d23c>spring.data.mongodb.port</span><span style=color:#c7bf54>=</span><span style=color:#98c379>27017</span>
 </span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.data.mongodb.username=</span>
 </span></span><span style=display:flex><span><span style=color:#8a93a5;font-style:italic>#spring.data.mongodb.password=</span>
 </span></span><span style=display:flex><span><span style=color:#b3d23c>spring.data.mongodb.database</span><span style=color:#c7bf54>=</span><span style=color:#98c379>graphql</span>
-</span></span></code></pre></div><ul><li>添加数据初始化</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span></code></pre></div><ul><li>添加数据初始化</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
 </span></span><span style=display:flex><span><span style=color:#e5c07b>@Slf4j</span>
 </span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>DataInitializer</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>ApplicationRunner</span> {
 </span></span><span style=display:flex><span>
@@ -67,12 +67,12 @@
 </span></span><span style=display:flex><span>                .<span style=color:#b3d23c>collect</span>(<span style=color:#c1abea>Collectors</span>.<span style=color:#b3d23c>toList</span>());
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=添加-graphql-配置>添加 GraphQL 配置</h3><ul><li>添加 GraphQL 依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&#39;</span><span style=color:#c7bf54>)</span>
+</span></span></code></pre></div><h3 id=添加-graphql-配置>添加 GraphQL 配置</h3><ul><li>添加 GraphQL 依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-groovy data-lang=groovy><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;com.graphql-java:graphql-spring-boot-starter:5.0.2&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 提供 UI
 </span></span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;com.graphql-java:graphiql-spring-boot-starter:5.0.2&#39;</span><span style=color:#c7bf54>)</span>
 </span></span><span style=display:flex><span>    <span style=color:#8a93a5;font-style:italic>// 用于 Resolver
 </span></span></span><span style=display:flex><span>    <span style=color:#c1abea>implementation</span><span style=color:#c7bf54>(</span><span style=color:#98c379>&#39;com.graphql-java:graphql-java-tools:5.2.4&#39;</span><span style=color:#c7bf54>)</span>
-</span></span></code></pre></div><ul><li>添加接口定义脚本</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># io.github.helloworlde.graphql.model.Post 对应的Model</span>
+</span></span></code></pre></div><ul><li>添加接口定义脚本</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#8a93a5;font-style:italic># io.github.helloworlde.graphql.model.Post 对应的Model</span>
 </span></span><span style=display:flex><span><span style=color:#c678dd>type</span> <span style=color:#76a9f9>Post</span> {
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>id</span>: <span style=color:#76a9f9>ID</span>
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>title</span>: <span style=color:#76a9f9>String</span>
@@ -99,7 +99,7 @@
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>updatePost</span>(<span style=color:#cebc3a>id</span>: <span style=color:#76a9f9>ID</span>!, <span style=color:#cebc3a>post</span>: <span style=color:#76a9f9>PostInput</span>): <span style=color:#76a9f9>Post</span>!
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>deletePost</span>(<span style=color:#cebc3a>id</span>: <span style=color:#76a9f9>ID</span>!): <span style=color:#76a9f9>String</span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h4 id=添加接口-resolver>添加接口 Resolver</h4><ul><li>查询 Resolver</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span></code></pre></div><h4 id=添加接口-resolver>添加接口 Resolver</h4><ul><li>查询 Resolver</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
 </span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>PostQuery</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>GraphQLQueryResolver</span> {
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
@@ -114,7 +114,7 @@
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>修改 Resolver</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
+</span></span></code></pre></div><ul><li>修改 Resolver</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#e5c07b>@Component</span>
 </span></span><span style=display:flex><span><span style=color:#c678dd>public</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>PostMutation</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>GraphQLMutationResolver</span> {
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Autowired</span>
@@ -147,7 +147,7 @@
 </span></span><span style=display:flex><span>        <span style=color:#c678dd>return</span> <span style=color:#c1abea>id</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=测试>测试</h2><ul><li><p>启动应用</p></li><li><p>访问 <a href=http://localhost:8080/graphiql>http://localhost:8080/graphiql</a></p></li></ul><h4 id=查询>查询</h4><ul><li>查询列表</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span>{
+</span></span></code></pre></div><h2 id=测试>测试</h2><ul><li><p>启动应用</p></li><li><p>访问 <a href=http://localhost:8080/graphiql>http://localhost:8080/graphiql</a></p></li></ul><h4 id=查询>查询</h4><ul><li>查询列表</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>posts</span> {
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>id</span>
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>title</span>
@@ -155,7 +155,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>createDate</span>
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;data&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;posts&#34;</span>: [
 </span></span><span style=display:flex><span>      {
@@ -173,7 +173,7 @@
 </span></span><span style=display:flex><span>    ]
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>查询指定 id</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span>{
+</span></span></code></pre></div><ul><li>查询指定 id</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#cebc3a>post</span>(<span style=color:#cebc3a>id</span>: <span style=color:#98c379>&#34;5c50245b7ed65eacb3372aba&#34;</span>) {
 </span></span><span style=display:flex><span>    <span style=color:#76a9f9>id</span>
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>title</span>
@@ -181,7 +181,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>createDate</span>
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;data&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;post&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;id&#34;</span>: <span style=color:#63c381>&#34;5c50245b7ed65eacb3372aba&#34;</span>,
@@ -191,7 +191,7 @@
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h4 id=修改>修改</h4><ul><li>新增</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
+</span></span></code></pre></div><h4 id=修改>修改</h4><ul><li>新增</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
 </span></span><span style=display:flex><span>  <span style=color:#76a9f9>createPost</span>(<span style=color:#cebc3a>post</span>: { <span style=color:#76a9f9>title</span>: <span style=color:#98c379>&#34;New Posts&#34;</span>, <span style=color:#76a9f9>content</span>: <span style=color:#98c379>&#34;New Post Content&#34;</span> }) {
 </span></span><span style=display:flex><span>    <span style=color:#76a9f9>id</span>
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>title</span>
@@ -199,7 +199,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>createDate</span>
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;data&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;createPost&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;id&#34;</span>: <span style=color:#63c381>&#34;5c5027197ed65eaf47a0854d&#34;</span>,
@@ -209,7 +209,7 @@
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>修改</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
+</span></span></code></pre></div><ul><li>修改</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
 </span></span><span style=display:flex><span>  <span style=color:#76a9f9>updatePost</span>(
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>id</span>: <span style=color:#98c379>&#34;5c5027197ed65eaf47a0854d&#34;</span>
 </span></span><span style=display:flex><span>    <span style=color:#76a9f9>post</span>: { <span style=color:#76a9f9>title</span>: <span style=color:#98c379>&#34;Update Posts&#34;</span>, <span style=color:#76a9f9>content</span>: <span style=color:#98c379>&#34;Update Post Content&#34;</span> }
@@ -220,7 +220,7 @@
 </span></span><span style=display:flex><span>    <span style=color:#cebc3a>createDate</span>
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;data&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;updatePost&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;id&#34;</span>: <span style=color:#63c381>&#34;5c5027197ed65eaf47a0854d&#34;</span>,
@@ -230,10 +230,10 @@
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>删除</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
+</span></span></code></pre></div><ul><li>删除</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-graphql data-lang=graphql><span style=display:flex><span><span style=color:#c678dd>mutation</span> {
 </span></span><span style=display:flex><span>  <span style=color:#76a9f9>deletePost</span>(<span style=color:#cebc3a>id</span>: <span style=color:#98c379>&#34;5c5027197ed65eaf47a0854d&#34;</span>)
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;data&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;deletePost&#34;</span>: <span style=color:#63c381>&#34;5c5027197ed65eaf47a0854d&#34;</span>
 </span></span><span style=display:flex><span>  }

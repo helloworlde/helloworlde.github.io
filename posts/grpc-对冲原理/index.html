@@ -57,7 +57,7 @@
     // 消耗缓冲的请求
     drain(substream);
   }
-</code></pre><ul><li>io.grpc.internal.RetriableStream.HedgingRunnable</li></ul><p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>  <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>HedgingRunnable</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>Runnable</span> {
+</code></pre><ul><li>io.grpc.internal.RetriableStream.HedgingRunnable</li></ul><p>对冲任务，在执行的时候发起请求，并根据当前的提交的请求数量、状态等判断是否需要取消，如果不取消则再次提交一个延时任务</p><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span>  <span style=color:#c678dd>private</span> <span style=color:#c678dd>final</span> <span style=color:#c678dd>class</span> <span style=color:#76a9f9>HedgingRunnable</span> <span style=color:#c678dd>implements</span> <span style=color:#c1abea>Runnable</span> {
 </span></span><span style=display:flex><span>    <span style=color:#e5c07b>@Override</span>
 </span></span><span style=display:flex><span>    <span style=color:#c678dd>public</span> <span style=color:#ef8383>void</span> <span style=color:#00b1f7>run</span>() {
 </span></span><span style=display:flex><span>      <span style=color:#c1abea>callExecutor</span>.<span style=color:#b3d23c>execute</span>(<span style=color:#c678dd>new</span> <span style=color:#c1abea>Runnable</span>() {

@@ -151,7 +151,7 @@ CREATE TABLE logging_event_exception
 &lt;p&gt;使用 SpringBoot 和 ElasticSearch 集成，实现最简单的增删改查功能&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id="添加依赖"&gt;添加依赖&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-groovy" data-lang="groovy"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-data-elasticsearch&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;net.java.dev.jna:jna&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
@@ -159,11 +159,11 @@ CREATE TABLE logging_event_exception
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不添加 &lt;code&gt;'net.java.dev.jna:jna'&lt;/code&gt; 依赖会提示 &lt;code&gt;java.lang.ClassNotFoundException: com.sun.jna.Native&lt;/code&gt; 错误&lt;/p&gt;
 &lt;h2 id="添加配置"&gt;添加配置&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#b3d23c"&gt;spring.data.elasticsearch.repositories.enabled&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-properties" data-lang="properties"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#b3d23c"&gt;spring.data.elasticsearch.repositories.enabled&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;#spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;spring.data.elasticsearch.cluster-nodes=localhost:9300&lt;/code&gt; 只有当使用外部集群时配置，只使用本机时会提示错误&lt;/p&gt;
 &lt;h2 id="modal"&gt;Modal&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.modal&lt;/span&gt;;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.modal&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.data.annotation.Id&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.data.elasticsearch.annotations.Document&lt;/span&gt;;
@@ -185,7 +185,7 @@ CREATE TABLE logging_event_exception
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;// ...&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="实现-repository-接口"&gt;实现 Repository 接口&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.repository&lt;/span&gt;;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.repository&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.modal.Product&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.data.domain.Page&lt;/span&gt;;
@@ -214,7 +214,7 @@ CREATE TABLE logging_event_exception
 &lt;ul&gt;
 &lt;li&gt;ProductController.java&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.controller&lt;/span&gt;;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.controller&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.modal.Product&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.service.ProductService&lt;/span&gt;;
@@ -267,7 +267,7 @@ CREATE TABLE logging_event_exception
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;ProductServiceImpl.java&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.service.impl&lt;/span&gt;;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;package&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.service.impl&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.modal.Product&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;cn.com.hellowood.elasticsearch.repository.ProductRepository&lt;/span&gt;;

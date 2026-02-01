@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 09 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</link><pubDate>Sun, 02 Nov 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</guid><description>&lt;p&gt;在将&lt;a href="https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/"&gt;红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统&lt;/a&gt; 使用半年后，一些问题逐渐显现：&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>OpenWrt on HelloWood</title><link>https://blog.hellowood.dev/tags/openwrt/</link><description>Recent content in OpenWrt on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/openwrt/index.xml" rel="self" type="application/rss+xml"/><item><title>将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由</title><link>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</link><pubDate>Sun, 02 Nov 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%B0%86%E5%AE%89%E8%A3%85-openwrt-%E7%9A%84%E7%BA%A2%E7%B1%B3-ax6000-%E4%BD%9C%E4%B8%BA-ap-%E6%9C%89%E7%BA%BF%E4%B8%AD%E7%BB%A7%E4%B8%BB%E8%B7%AF%E7%94%B1/</guid><description>&lt;p&gt;在将&lt;a href="https://blog.hellowood.dev/posts/%E7%BA%A2%E7%B1%B3-ax6000-%E8%A7%A3%E9%94%81-ssh-%E5%B9%B6%E5%88%B7%E6%9C%BA-openwrt-%E7%B3%BB%E7%BB%9F/"&gt;红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统&lt;/a&gt; 使用半年后，一些问题逐渐显现：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;信号变差：5G Wi-Fi 在 OpenWrt 下开启 160Mhz 后信号很差，隔着不到5米的洗手间墙壁就基本没信号了&lt;/li&gt;
 &lt;li&gt;出现卡顿：尤其是刷短视频、玩游戏时，经常出现网络波动、延迟高、掉线等问题&lt;/li&gt;
@@ -57,7 +57,7 @@
 &lt;p&gt;但是这种方式只能匹配到具体的设备，如果想给特定的 MAC 前缀的设备使用相同的规则，可以使用 mac 前缀的方式来实现；如我在 PVE 中配置所有的 LXC 容器的 MAC 地址前缀都是 &lt;code&gt;AA:BB:CC&lt;/code&gt;，可以通过这个前缀来给所有的 LXC 容器指定旁路网关和 DNS 地址&lt;/p&gt;
 &lt;h2 id="添加匹配规则"&gt;添加匹配规则&lt;/h2&gt;
 &lt;p&gt;登录到 OpenWrt 的命令行，执行以下命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;mac&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;mac&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab.mac&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;AA:BB:CC:*:*:*&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci add_list dhcp.homelab.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;3,10.0.0.2&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci add_list dhcp.homelab.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;6,10.0.0.2,1.1.1.1&amp;#34;&lt;/span&gt;
@@ -84,7 +84,7 @@
 &lt;/p&gt;
 &lt;h2 id="tag-单独配置网关地址和-dns"&gt;tag 单独配置网关地址和 DNS&lt;/h2&gt;
 &lt;p&gt;OpenWrt 的页面没有直接配置 tag 的网关和 DNS 的选项，需要通过命令行来配置；通过 SSH 登录到 OpenWrt 的命令行界面，执行以下命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;tag&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;tag&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;3,10.0.0.2 6,10.0.0.2,1.1.1.1&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci commit dhcp
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的 &lt;code&gt;proxynode&lt;/code&gt; 是之前添加的 tag 名称，tag 名称不能包含空格和特殊字符，类型是 &lt;code&gt;tag&lt;/code&gt;，&lt;code&gt;dhcp_option&lt;/code&gt; 中的 &lt;code&gt;3&lt;/code&gt; 是网关地址，&lt;code&gt;6&lt;/code&gt; 是 DNS 地址，多个 DNS 地址用逗号分隔；不同的 &lt;code&gt;dhcp_option&lt;/code&gt; 使用空格分隔；通过 &lt;code&gt;uci commit dhcp&lt;/code&gt; 命令将配置保存到 OpenWrt 的配置文件中&lt;/p&gt;</description></item><item><title>OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openclash-%E7%9A%84%E5%B9%B3%E6%9B%BF%E8%BD%AF%E4%BB%B6-openwrt-nikki/</guid><description>&lt;p&gt;&lt;a href="https://github.com/nikkinikki-org/OpenWrt-nikki"&gt;OpenWrt-nikki&lt;/a&gt; 是基于 Clash 最新版本的内核 &lt;a href="https://wiki.metacubex.one/"&gt;mihome&lt;/a&gt; 的 OpenWrt 客户端代理软件；和 &lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 相比更加简单，支持 OpenWrt 23.05 及以上的版本&lt;/p&gt;
@@ -97,16 +97,16 @@
 &lt;p&gt;OpenWrt-nikki 提供了软件源，添加软件源后可以通过 opkg/apt 安装&lt;/p&gt;
 &lt;h4 id="通过脚本添加软件源"&gt;通过脚本添加软件源&lt;/h4&gt;
 &lt;p&gt;登录 OpenWrt 执行以下命令&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行后会将以下内容添加到 &lt;code&gt;/etc/opkg/customfeeds.conf&lt;/code&gt; 文件中：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="安装-1"&gt;安装&lt;/h4&gt;
 &lt;p&gt;通过 opkg 安装即可(如果用的是 apt，则将 opkg 替换为 opkg 即可)&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;更新&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.sig
@@ -142,10 +142,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install nikki
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-nikki-zh-cn
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install nikki
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing nikki &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;2025.05.13~266fb038-r1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; to root...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/nikki_2025.05.13~266fb038-r1_x86_64.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing kmod-nf-socket &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;6.6.69-r1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; to root...
@@ -205,7 +205,7 @@
  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;格式：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 全局配置
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 全局配置
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -233,7 +233,7 @@
 &lt;ul&gt;
 &lt;li&gt;示例配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Log level: error, warn, info, debug, trace.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;log_level:&lt;/span&gt; &lt;span style="color:#98c379"&gt;info&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理流量的 LAN 接口
@@ -357,7 +357,7 @@
 &lt;h3 id="使用-immortalwrt-构建镜像"&gt;使用 ImmortalWRT 构建镜像&lt;/h3&gt;
 &lt;p&gt;访问 &lt;a href="https://firmware-selector.immortalwrt.org/"&gt;https://firmware-selector.immortalwrt.org/&lt;/a&gt;，我是在 x86 机器的 PVE 中使用虚拟机的方式运行 OpenWrt，因此选择 &lt;code&gt;Generic x86/64&lt;/code&gt;，其他平台如 arm 等选择对应的平台即可&lt;/p&gt;
 &lt;p&gt;在 Installed Packages 后面追加 eBPF 和 Dae 相关的包：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;软件包的作用如下：&lt;/p&gt;
 &lt;table&gt;
  &lt;thead&gt;
@@ -416,25 +416,25 @@
 &lt;li&gt;开启开发/调试模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将 &lt;code&gt;{token}&lt;/code&gt; 替换为 URL获取的 stock，浏览器访问 URL:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个操作会将 &lt;code&gt;\xa5\x5a\x00\x00&lt;/code&gt; 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;code&amp;#34;&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后访问重启路由器&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3b%20reboot%20%3b%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3b%20reboot%20%3b%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改 Bdata, 开启 telnet&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后再次访问 URL 重启路由器&lt;/p&gt;</description></item><item><title>PVE 将 OpenWrt 虚拟机迁移至其他实例</title><link>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</link><pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</guid><description>&lt;p&gt;因为需要下线维护当前的 PVE 实例，所以新建了一台 PVE 实例，需要把之前的虚拟机迁移到新的 PVE 实例上，但是通过组建集群复制的方式会从当前的 PVE 中删除该实例，并且新的实例是临时性的，组建集群会带来额外的维护成本，因此通过命令行迁移&lt;/p&gt;
 &lt;h2 id="备份虚拟机"&gt;备份虚拟机&lt;/h2&gt;
 &lt;p&gt;将虚拟机备份到 &lt;code&gt;~/workspace&lt;/code&gt; 目录下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir ~/workspace
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir ~/workspace
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以快照方式备份虚拟机&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir ~/workspace --mode snapshot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: starting new backup job: vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir /root/workspace/ --mode snapshot
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir ~/workspace --mode snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: starting new backup job: vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir /root/workspace/ --mode snapshot
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: Starting Backup of VM &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;qemu&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: Backup started at 2025-04-18 09:27:15
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: &lt;span style="color:#dcaeea"&gt;status&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; running
@@ -466,16 +466,16 @@
 &lt;ul&gt;
 &lt;li&gt;下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion"&gt;acecilia/OpenWRTInvasion&lt;/a&gt; ，并安装依赖&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/acecilia/OpenWRTInvasion.git
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/acecilia/OpenWRTInvasion.git
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; OpenWRTInvasion
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip3 install -r requirements.txt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;执行脚本&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code&gt;remote_command_execution_vulnerability.py&lt;/code&gt; 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code&gt;192.168.31.1&lt;/code&gt;，或者访问 &lt;code&gt;miwifi.com&lt;/code&gt;也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 remote_command_execution_vulnerability.py
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 remote_command_execution_vulnerability.py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;here two options to provide the files needed &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; invasion:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;here two options to provide the files needed &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; invasion:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1. Use a &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; TCP file server runing on random port to provide files in &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; directory &lt;span style="color:#98c379"&gt;`&lt;/span&gt;script_tools&lt;span style="color:#98c379"&gt;`&lt;/span&gt;.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2. Download needed files from remote github repository. &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;choose this option only &lt;span style="color:#c678dd"&gt;if&lt;/span&gt; github is accessable inside router device.&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Which option &lt;span style="color:#c678dd"&gt;do&lt;/span&gt; you prefer? &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;default: 1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;&lt;span style="color:#d19a66"&gt;1&lt;/span&gt;
@@ -513,7 +513,7 @@
 &lt;/ul&gt;
 &lt;h2 id="配置-openwrt"&gt;配置 OpenWrt&lt;/h2&gt;
 &lt;h3 id="安装-wireguard"&gt;安装 WireGuard&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p&gt;</description></item><item><title>OpenWrt 桥接充当交换机</title><link>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link><pubDate>Tue, 21 Mar 2023 21:33:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E6%A1%A5%E6%8E%A5%E5%85%85%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid><description>&lt;h2 id="需求背景"&gt;需求背景&lt;/h2&gt;
 &lt;p&gt;使用的路由器只有 3 个 LAN 口，在购入 NAS 后网口捉襟见肘，并且 NAS 不支持 Wi-Fi，因此需要更多的网口支持设备连接&lt;/p&gt;
@@ -538,7 +538,7 @@
 &lt;li&gt;解压&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;使用 &lt;code&gt;gunzip&lt;/code&gt; 命令解压 &lt;code&gt;gz&lt;/code&gt; 压缩文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将下载的镜像解压后得到 &lt;code&gt;img&lt;/code&gt;格式的文件&lt;/p&gt;
 &lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
 &lt;h3 id="创建虚拟机"&gt;创建虚拟机&lt;/h3&gt;
@@ -570,7 +570,7 @@
 &lt;li&gt;将 img 镜像导入为虚拟磁盘&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;106&lt;/span&gt; /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;106&lt;/span&gt; /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png" alt="homelab-openwrt-pve-init-convert-img-to-disk.png" loading="lazy"&gt;
@@ -582,13 +582,13 @@
 &lt;p&gt;配置 HTTPS 访问需要使用到公网 IP 和域名，需要确认已经可以通过公网访问，并且可以修改域名的解析&lt;/p&gt;
 &lt;h2 id="安装-uhttpd"&gt;安装 uHTTPd&lt;/h2&gt;
 &lt;p&gt;uHTTPd 用于 OpenWrt 配置 Web 服务，如端口，证书等&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后即可在服务-uHTTPd 页面查看端口和证书配置&lt;/p&gt;
 &lt;h2 id="安装配置-acme"&gt;安装配置 ACME&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://letsencrypt.org/zh-cn/docs/client-options/"&gt;ACME&lt;/a&gt; 是 Let&amp;rsquo;s Encrypt 官方支持的客户端；OpenWrt 支持使用 ACME 申请证书，在 ACME 应用中添加证书相关配置即可&lt;/p&gt;
 &lt;h3 id="安装-acme"&gt;安装 ACME&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后可以在服务-ACME 证书中进行配置&lt;/p&gt;
 &lt;h3 id="配置-acme"&gt;配置 ACME&lt;/h3&gt;
@@ -608,7 +608,7 @@
 &lt;h2 id="刷入-openwrt"&gt;刷入 OpenWrt&lt;/h2&gt;
 &lt;h3 id="将固件升级为测试版"&gt;将固件升级为测试版&lt;/h3&gt;
 &lt;p&gt;将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code&gt;telnet 192.168.31.1&lt;/code&gt; 测试，通常是没有开启的。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet 192.168.31.1
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet 192.168.31.1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Trying 192.168.31.1...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: connect to address 192.168.31.1: Connection refused
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: Unable to connect to remote host
@@ -633,7 +633,7 @@
 &lt;p&gt;在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p&gt;
 &lt;h2 id="安装"&gt;安装&lt;/h2&gt;
 &lt;p&gt;SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install smartdns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-smartdns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-smartdns-zh-cn
@@ -656,7 +656,7 @@
 &lt;ul&gt;
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install netdata
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p&gt;
 &lt;p&gt;
@@ -668,7 +668,7 @@
 &lt;/ul&gt;
 &lt;p&gt;Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是&lt;code&gt;/api/v1/allmetrics?format=prometheus_all_hosts&lt;/code&gt;；如 &lt;a href="http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts"&gt;http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Prometheus 任务配置：需要注意，要添加参数 &lt;code&gt;format=prometheus_all_hosts&lt;/code&gt; 才可以抓取到 Prometheus 格式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;openwrt-netdata&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;openwrt-netdata&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;honor_timestamps&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;15s&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#98c379"&gt;5s&lt;/span&gt;
@@ -685,7 +685,7 @@
 &lt;li&gt;安装软件&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;安装需要的 Prometheus 数据导出软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install prometheus-node-exporter-lua &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -699,13 +699,13 @@
 &lt;h2 id="配置-ddns"&gt;配置 DDNS&lt;/h2&gt;
 &lt;h3 id="安装-luci-app-ddns"&gt;安装 luci-app-ddns&lt;/h3&gt;
 &lt;p&gt;需要安装 luci-app-ddns，用于从 OpenWrt 控制界面修改配置；通过 &lt;code&gt;opkg&lt;/code&gt;命令或者 OpenWrt 控制界面的软件都可以安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-ddns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-ddns-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装-ddns-scripts-xxx"&gt;安装 ddns-scripts-xxx&lt;/h3&gt;
 &lt;p&gt;DDNS 的更新由脚本执行，因此需要安装对应域名服务商的更新脚本；如 godaddy 的脚本是 ddns-scripts-godaddy；官方提供的域名服务商脚本可以从 &lt;a href="https://openwrt.org/packages/index/network---ip-addresses-and-names"&gt;Packagesindexnetwork&amp;mdash;ip-addresses-and-names&lt;/a&gt; 查看&lt;/p&gt;
 &lt;p&gt;其他域名服务商可以在 GitHub 或恩山无线论坛中查找对应的软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ddns-scripts-godaddy
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ddns-scripts-godaddy
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="配置-ddns-1"&gt;配置 DDNS&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;添加 DDNS 配置&lt;/li&gt;
@@ -734,14 +734,14 @@
 &lt;ol&gt;
 &lt;li&gt;安装依赖软件&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;下载并安装 OpenClash&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;可以在 &lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases"&gt;Release&lt;/a&gt; 页面选择对应的版本进行下载&lt;/p&gt;</description></item><item><title>Openwrt-初始化配置</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</link><pubDate>Mon, 08 Aug 2022 11:44:37 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</guid><description>&lt;h2 id="语言配置"&gt;语言配置&lt;/h2&gt;
 &lt;p&gt;Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 &lt;code&gt;opkg&lt;/code&gt; 安装；随后登录控制台即可看到语言已经变为中文；如果没有改变，可以在System-System-Language 中选择简体中文&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-base-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
@@ -756,7 +756,7 @@
 &lt;h2 id="主题配置"&gt;主题配置&lt;/h2&gt;
 &lt;p&gt;Openwrt 默认的主题为 Bootstrap，菜单在上边栏，使用不习惯，可以安装 &lt;a href="https://github.com/jerrykuku/luci-theme-argon"&gt;Argon&lt;/a&gt; 主题&lt;/p&gt;
 &lt;p&gt;可以在 GitHub &lt;a href="https://github.com/jerrykuku/luci-theme-argon"&gt;Argon&lt;/a&gt; 仓库的 &lt;a href="https://github.com/jerrykuku/luci-theme-argon/releases"&gt;Release&lt;/a&gt; 页面选择对应的版本进行下载&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install argon.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
@@ -784,7 +784,7 @@
 &lt;li&gt;安装 &lt;code&gt;cfdisk&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;需要使用 &lt;code&gt;cfdisk&lt;/code&gt; 创建新的分区，所以需要安装 &lt;code&gt;cfdisk&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install cfdisk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;使用 &lt;code&gt;cfdisk&lt;/code&gt;创建分区&lt;/li&gt;
@@ -808,13 +808,13 @@
 &lt;li&gt;格式化分区&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;格式化新增的 &lt;code&gt;/dev/sda3&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/sda3
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/sda3
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="挂载扩容的空间"&gt;挂载扩容的空间&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;安装 &lt;code&gt;block-mount&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;挂载新建的分区，需要使用 &lt;code&gt;block-mount&lt;/code&gt;挂载点软件，安装完成后重启 Openwrt&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install block-mount
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重启完成后访问 Web 页面的 &lt;code&gt;系统&lt;/code&gt;-&lt;code&gt;挂载点&lt;/code&gt;&lt;/p&gt;
@@ -834,11 +834,11 @@
 &lt;ul&gt;
 &lt;li&gt;使用 homebrew 安装 QEMU&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install qemu
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install qemu
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;将 &lt;code&gt;img&lt;/code&gt;格式转为&lt;code&gt;vmdk&lt;/code&gt;格式&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;创建虚拟机，选择 Linux 64 位&lt;/li&gt;
@@ -873,7 +873,7 @@
 &lt;li&gt;然后通过 &lt;code&gt;vmkfstools&lt;/code&gt; 复制一个新的文件，不复制无法扩容&lt;/li&gt;
 &lt;li&gt;通过 &lt;code&gt;vmkfstools&lt;/code&gt; 将容量修改 1G&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; /vmfs/volumes/datastore1/OpenWrt/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; /vmfs/volumes/datastore1/OpenWrt/
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vmkfstools -i openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk openwrt.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vmkfstools -X 1G openwrt.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="5"&gt;
@@ -895,18 +895,18 @@
 &lt;/ul&gt;
 &lt;p&gt;需要保证安装了&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt;，否则会导致在运行容器后出现&lt;code&gt;Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code&gt;错误&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt; 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装之后需要重启树莓派&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置网络"&gt;配置网络&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;开启网卡混杂模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p&gt;
 &lt;p&gt;树莓派只有一个有线接口，地址为 &lt;code&gt;eth0&lt;/code&gt;，所以在 &lt;code&gt;eth0&lt;/code&gt; 接口开启混杂模式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行以下命令检查结果&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;网卡 flag 信息有 &lt;code&gt;PROMISC&lt;/code&gt; 表示开启成功&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
 inet 192.168.31.2 netmask 255.255.255.0 broadcast 192.168.31.255

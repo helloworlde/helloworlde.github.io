@@ -3,7 +3,7 @@
 &lt;h2 id="配置-tailscale-的防火墙"&gt;配置 Tailscale 的防火墙&lt;/h2&gt;
 &lt;p&gt;在启动时将自动防火墙配置程度设置为 &lt;code&gt;nodivert&lt;/code&gt;，这样 Tailscale 就不会自动配置防火墙规则，而是使用阿里云的防火墙规则；同时启用接受来自控制台的 DNS 配置，用于解析 Tailscale 节点的 IP 地址；这样就可以解决阿里云和 Tailscale 的 100 网段冲突的问题；&lt;/p&gt;
 &lt;p&gt;不过需要注意的是改为 &lt;code&gt;nodivert&lt;/code&gt; 可能会影响子网路由(advertise-routes) 和出口节点(exit node)功能&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;--netfilter-mode=nodivert&lt;/code&gt; 这个参数是用于控制 Tailscale 自动配置防火墙（iptables/netfilter）规则的程度：&lt;/p&gt;
 &lt;table&gt;
  &lt;thead&gt;
@@ -39,12 +39,12 @@
 &lt;li&gt;创建网络&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;为了方便能通过 Docker 自动发现服务路由，创建一个容器共用的网络，用于 Traefik 路由到对应服务&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要在 docker-compose 指定网络，并挂载 &lt;code&gt;/var/run/docker.sock&lt;/code&gt;，用于自动获取路由规则&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;traefik&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;external&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -84,12 +84,12 @@
 &lt;ul&gt;
 &lt;li&gt;下载项目&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 Dockerfile&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;进入项目下，并在根目录创建 Dockerfile.derpprobe 文件，内容如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;WORKDIR&lt;/span&gt; &lt;span style="color:#98c379"&gt;/go/src/tailscale&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -131,13 +131,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;构建镜像&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
 &lt;p&gt;通过 docker compose 部署&lt;/p&gt;</description></item><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p&gt;PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p&gt;
 &lt;h2 id="修改容器配置"&gt;修改容器配置&lt;/h2&gt;
 &lt;p&gt;需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code&gt;/etc/pve/lxc/xxx.conf&lt;/code&gt;，xxx 是容器的编号，以 113 这个容器为例：&lt;/p&gt;
 &lt;p&gt;使用 nano 编辑 113.conf 配置文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nano /etc/pve/lxc/113.conf
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nano /etc/pve/lxc/113.conf
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;113.conf&lt;/li&gt;
 &lt;/ul&gt;

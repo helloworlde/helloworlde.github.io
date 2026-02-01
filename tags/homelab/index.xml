@@ -1,4 +1,89 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Tue, 09 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>在服务器部署 Docker 镜像代理服务 Distribution Registry</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</guid><description>&lt;p&gt;使用 Docker 部署服务的时候，Docker 官方镜像时常拉取失败，第三方的镜像仓库同样不稳定，在多次遇到问题后最终选择在海外的 VPS 上自己搭建 Docker 镜像代理服务，提升拉取镜像的成功率和速度&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HomeLab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in HomeLab on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 24 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>部署轻量跳板机 Warpgate 通过 SSH 访问机器</title><link>https://blog.hellowood.dev/posts/%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-ssh-%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%99%A8/</link><pubDate>Sat, 24 Jan 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-ssh-%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%99%A8/</guid><description>&lt;p&gt;HomeLab 中经常有需要远程登录到宿主机、VPS、虚拟机进行配置和维护的使用场景，当机器比较多的时候管理会非常麻烦；另外，在公司时偶尔需要维护一下服务，但是公司不允许使用 VPN，无法直接连接到 HomeLab，需要通过 Web 端访问，因此需要一个跳板机来统一管理和访问 HomeLab 中的各类机器&lt;/p&gt;
+&lt;p&gt;传统的跳板机如 JumpServer 等堡垒机，功能强大但配置复杂，对于 HomeLab 环境有点头重脚轻了，因此选择使用 &lt;a href="https://warpgate.null.page/"&gt;Warpgate&lt;/a&gt; 作为轻量级跳板机的解决方案&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-jumper-warpgate-homepage.png" alt="homelab-jumper-warpgate-homepage.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;h2 id="warpgate-简介"&gt;Warpgate 简介&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://warpgate.null.page/"&gt;Warpgate&lt;/a&gt; 是一个开源的轻量级跳板机，支持代理 SSH/HTTPS/MySQL/Postgres 等多种协议，并且支持 SSO 和 RBAC 认证方式，刚好满足 HomeLab 的需求&lt;/p&gt;
+&lt;h2 id="部署-warpgate"&gt;部署 Warpgate&lt;/h2&gt;
+&lt;h3 id="初始化配置"&gt;初始化配置&lt;/h3&gt;
+&lt;p&gt;使用 Docker Compose 部署 Warpgate，方便管理和维护&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 data 目录，用于存放 Warpgate 的配置和数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;data 目录权限设置为 755，避免容器无修改权限，实际使用中可以根据需要调整&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ./data
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;chmod -R &lt;span style="color:#d19a66"&gt;755&lt;/span&gt; ./data
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;初始化 Warpgate 配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过 setup 命令初始化配置文件，会在 data 目录下生成证书、配置文件等&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --rm -it -v ./data:/data ghcr.io/warp-tech/warpgate setup
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会输出配置文件内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:34 INFO Welcome to Warpgate v0.20.0-modified
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:34 INFO Let&lt;span style="color:#98c379"&gt;&amp;#39;s do some basic setup first.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;03:52:34 INFO The new config will be written in /data/warpgate.yaml.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;✔ Do you want to record user sessions? · yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;✔ Set a password for the Warpgate admin user · ********
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;03:52:44 INFO Generated configuration:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;sso_providers: []
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;recordings:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; enable: true
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; path: /data/recordings
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;external_host: null
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;database_url: sqlite:/data/db
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;ssh:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; enable: true
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; listen: &amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;::&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;:2222&lt;span style="color:#98c379"&gt;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; external_port: null
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; keys: /data/ssh-keys
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; host_key_verification: prompt
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; inactivity_timeout: 5m
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; keepalive_interval: null
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;http:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; listen: &amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;::&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;:8888&lt;span style="color:#98c379"&gt;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; external_port: null
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; certificate: /data/tls.certificate.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; key: /data/tls.key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; trust_x_forwarded_headers: false
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; session_max_age: 30m
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; cookie_max_age: 1day
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; sni_certificates: []
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;mysql:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; enable: true
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; listen: &amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;::&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;:33306&lt;span style="color:#98c379"&gt;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; external_port: null
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; certificate: /data/tls.certificate.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; key: /data/tls.key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;postgres:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; enable: true
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt; listen: &amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;::&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt;:55432&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; external_port: null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; certificate: /data/tls.certificate.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; key: /data/tls.key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;log:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; retention: 7days
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; send_to: null
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; format: text
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Saved into /data/warpgate.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Using config: &lt;span style="color:#63c381"&gt;&amp;#34;/data/warpgate.yaml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Generating host key &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Ed25519&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Generating host key &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Rsa &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt; hash: Some&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Sha512&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Generating client key &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Ed25519&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:44 INFO Generating client key &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Rsa &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt; hash: Some&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;Sha512&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO Using config: &lt;span style="color:#63c381"&gt;&amp;#34;/data/warpgate.yaml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO Generating a TLS certificate
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO Admin user credentials:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO * Username: admin
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO * Password: &amp;lt;your password&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO You can now start Warpgate with:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;03:52:45 INFO docker run -p 8888:8888 -p 2222:2222 -it -v &amp;lt;your data dir&amp;gt;:/data ghcr.io/warp-tech/warpgate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="创建数据库"&gt;创建数据库&lt;/h3&gt;
+&lt;p&gt;Warpgate 默认使用 SQLite 数据库，同时也支持 Postgres 数据库，为了方便备份和迁移，数据存放到 Postgres 数据库中&lt;/p&gt;</description></item><item><title>在服务器部署 Docker 镜像代理服务 Distribution Registry</title><link>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2-docker-%E9%95%9C%E5%83%8F%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1-distribution-registry/</guid><description>&lt;p&gt;使用 Docker 部署服务的时候，Docker 官方镜像时常拉取失败，第三方的镜像仓库同样不稳定，在多次遇到问题后最终选择在海外的 VPS 上自己搭建 Docker 镜像代理服务，提升拉取镜像的成功率和速度&lt;/p&gt;
 &lt;p&gt;镜像代理使用 CNCF 的 &lt;a href="https://distribution.github.io/distribution/about/"&gt;Distribution Registry&lt;/a&gt; 项目搭建，使用 Docker Compose 进行部署&lt;/p&gt;
 &lt;h2 id="部署-distribution-registry"&gt;部署 Distribution Registry&lt;/h2&gt;
 &lt;p&gt;一个 Distribution Registry 只能代理一个上游镜像仓库，这里以代理 Docker 官方镜像仓库为例，如果要代理其他仓库，则需要在配置中指定对应的上游后启动多个实例&lt;/p&gt;
@@ -6,7 +91,7 @@
 &lt;ul&gt;
 &lt;li&gt;config.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0.1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0.1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;storage&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;cache&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;blobdescriptor&lt;/span&gt;: &lt;span style="color:#98c379"&gt;inmemory&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# blob 描述信息缓存到内存&lt;/span&gt;
@@ -23,7 +108,7 @@
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要将 config.yml 挂载到容器的 &lt;code&gt;/etc/docker/registry/config.yml&lt;/code&gt; 路径下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;docker-registry&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;registry:2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;docker-registry&lt;/span&gt;
@@ -132,9 +217,9 @@
 &lt;p&gt;对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="创建用户"&gt;创建用户&lt;/h3&gt;
 &lt;p&gt;Tinyauth 支持多种登录方式，如 GitHub/Google 账户，或者单独创建用户&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -i -t --rm ghcr.io/steveiliop56/tinyauth:v3 user create --interactive
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -i -t --rm ghcr.io/steveiliop56/tinyauth:v3 user create --interactive
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会显示交互界面，输入用户名和密码，并选择使用 Docker 的格式化输出：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Username
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Username
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;gt; admin
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Password
@@ -144,7 +229,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ &amp;gt; Yes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┃ No
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将得到用户名和密码，这个信息后面会作为 Tinyauth 的环境变量使用；如果有多个用户，可以重复执行上面的命令创建&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF Creating user &lt;span style="color:#dcaeea"&gt;docker&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;password&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;123456&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;username&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;admin
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF Creating user &lt;span style="color:#dcaeea"&gt;docker&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;password&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;123456&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;username&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;admin
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2025-08-31T14:48:50Z INF User created &lt;span style="color:#dcaeea"&gt;user&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;admin:&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;2a&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;10&lt;span style="color:#dcaeea"&gt;$$&lt;/span&gt;XjPRGRi5clgDD16LRaeEvetazg8roIUpS0dUOrqgFL51uD25ZCkl6
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="生成-secret"&gt;生成 SECRET&lt;/h3&gt;
 &lt;p&gt;Tinyauth 需要一个 SECRET 用于加密 Cookie，可以使用下面的命令生成一个 32 位的随机字符串&lt;/p&gt;</description></item><item><title>使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-step-ca-%E4%BD%9C%E4%B8%BA%E5%86%85%E7%BD%91%E7%9A%84-acme-server-%E4%B8%BA-caddy-%E9%A2%81%E5%8F%91%E5%8F%AF%E4%BF%A1%E7%9A%84-https-%E8%AF%81%E4%B9%A6/</guid><description>&lt;p&gt;有一些服务如用于登录的 PocketId 等需要使用 HTTPS 进行访问，但是 Caddy 生成的证书是自签名的，访问时会提示不受信任；因此需要使用一个可信的 CA 来颁发证书；这里使用 &lt;a href="https://smallstep.com/docs/platform/"&gt;Step CA&lt;/a&gt; 作为 ACME Server，为 Caddy 颁发可信的 HTTPS 证书&lt;/p&gt;
@@ -154,16 +239,16 @@
 &lt;li&gt;创建挂载目录&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要注意的是，CA 证书的根证书和中间证书一旦生成就不能更改，否则会影响到所有使用该 CA 颁发的证书，因此一定要挂载到一个持久化的目录下安全保存&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p data/config data/certs data/secrets data/db
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p data/config data/certs data/secrets data/db
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改目录权限&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Step CA 默认使用 UID 1000 的用户运行，因此需要将挂载目录的权限修改为 1000:1000，避免 Step CA 因权限问题无法写入证书和配置文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo chown -R 1000:1000 data/config data/certs data/secrets data/db
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;step-ca&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;smallstep/step-ca:latest&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;step-ca&lt;/span&gt;
@@ -187,7 +272,7 @@
 &lt;p&gt;但是这种方式只能匹配到具体的设备，如果想给特定的 MAC 前缀的设备使用相同的规则，可以使用 mac 前缀的方式来实现；如我在 PVE 中配置所有的 LXC 容器的 MAC 地址前缀都是 &lt;code&gt;AA:BB:CC&lt;/code&gt;，可以通过这个前缀来给所有的 LXC 容器指定旁路网关和 DNS 地址&lt;/p&gt;
 &lt;h2 id="添加匹配规则"&gt;添加匹配规则&lt;/h2&gt;
 &lt;p&gt;登录到 OpenWrt 的命令行，执行以下命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;mac&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;mac&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.homelab.mac&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;AA:BB:CC:*:*:*&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci add_list dhcp.homelab.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;3,10.0.0.2&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci add_list dhcp.homelab.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;6,10.0.0.2,1.1.1.1&amp;#34;&lt;/span&gt;
@@ -214,7 +299,7 @@
 &lt;/p&gt;
 &lt;h2 id="tag-单独配置网关地址和-dns"&gt;tag 单独配置网关地址和 DNS&lt;/h2&gt;
 &lt;p&gt;OpenWrt 的页面没有直接配置 tag 的网关和 DNS 的选项，需要通过命令行来配置；通过 SSH 登录到 OpenWrt 的命令行界面，执行以下命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;tag&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;tag&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; dhcp.proxynode.dhcp_option&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;3,10.0.0.2 6,10.0.0.2,1.1.1.1&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uci commit dhcp
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的 &lt;code&gt;proxynode&lt;/code&gt; 是之前添加的 tag 名称，tag 名称不能包含空格和特殊字符，类型是 &lt;code&gt;tag&lt;/code&gt;，&lt;code&gt;dhcp_option&lt;/code&gt; 中的 &lt;code&gt;3&lt;/code&gt; 是网关地址，&lt;code&gt;6&lt;/code&gt; 是 DNS 地址，多个 DNS 地址用逗号分隔；不同的 &lt;code&gt;dhcp_option&lt;/code&gt; 使用空格分隔；通过 &lt;code&gt;uci commit dhcp&lt;/code&gt; 命令将配置保存到 OpenWrt 的配置文件中&lt;/p&gt;</description></item><item><title>使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BB%A3%E7%90%86-blocky-%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B-doh-%E4%BD%9C%E4%B8%BA-dns-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询&lt;/p&gt;
@@ -224,13 +309,13 @@
  &lt;img src="https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" alt="homelab-dns-server-doh-caddy-with-blocky-adguard-result.png" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;p&gt;可选择的 DoH 服务有 AdGuard、Blocky、Kind、CordDNS 等，因为需要过滤广告，支持 HTTP 查询，并且需要可观测，所以选择 Blocky 作为 DoH 服务；整体的请求链路是：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;客户端 -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;https&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; Caddy -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;http&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; Blocky -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;udp&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; 阿里云内网 DNS
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;客户端 -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;https&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; Caddy -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;http&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; Blocky -&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;udp&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;-&amp;gt; 阿里云内网 DNS
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;，HTTPS 证书使用 ZeroSSL 提供的 IP 证书，可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/"&gt;阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="部署-blocky"&gt;部署 Blocky&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;查找服务器使用的 DNS&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;resolvectl status
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;resolvectl status
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;resolvectl&lt;/code&gt; 查看系统的 DNS 信息，&lt;code&gt;100.100.2.136&lt;/code&gt; 和 &lt;code&gt;100.100.2.138&lt;/code&gt; 就是默认的 DNS 服务器地址，这个地址需要作为 blocky 的上游&lt;/p&gt;</description></item><item><title>使用公网 IP 免域名部署自建的 Tailscale DERP Server</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/</link><pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/</guid><description>&lt;p&gt;之前&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/"&gt;使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点&lt;/a&gt;，但是部分服务器不支持 IPv6；另外 IPv6 开启后如果 DNS 或者 MSS 钳制配置不当会导致部分流量无法正常路由，可能会影响其他设备使用，因此作为补充，使用阿里云的服务器部署 DERP 服务器，用于提供 IPv4 的流量转发&lt;/p&gt;
 &lt;p&gt;Tailscale 从 &lt;a href="https://tailscale.com/changelog#2025-03-26"&gt;1.82.0&lt;/a&gt; 版本开始支持使用自签的 IP 证书部署 DERP Server，而不再强制使用域名，因此可以使用 ZeroSSL 的 IP 证书和阿里云的公网 IP 自建免域名的 DERP Server&lt;/p&gt;
 &lt;h2 id="申请-zerossl-ip-证书"&gt;申请 ZeroSSL IP 证书&lt;/h2&gt;
@@ -238,7 +323,7 @@
 &lt;h2 id="部署-derp-server"&gt;部署 DERP Server&lt;/h2&gt;
 &lt;p&gt;使用 docker-compose 部署 DERP Server，docker 镜像可以使用 &lt;code&gt;ghcr.io/helloworlde/derper&lt;/code&gt;，这是基于 Tailscale 源码构建的镜像；代码参考 &lt;a href="https://github.com/helloworlde/derper"&gt;ghcr.io/helloworlde/derper&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;将 ZeroSSL 申请的证书添加到 cert 目录下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── cert
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── 10.0.0.2.crt
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── 10.0.0.2.key
@@ -247,7 +332,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;derper&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;ghcr.io/helloworlde/derper&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;derper&lt;/span&gt;
@@ -275,7 +360,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;启动 DERP Server&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docekr compose up -d
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docekr compose up -d
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动后访问 &lt;code&gt; https://10.0.0.2:20443/&lt;/code&gt; 验证，可以正确访问说明部署成功：&lt;/p&gt;</description></item><item><title>阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS</title><link>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/</guid><description>&lt;p&gt;国内购买的服务器在没有域名备案的情况下通过域名请求会被拦截，只能通过 IP 访问，但是一些服务如 DoH 等必须通过可信的 HTTPS 访问，刚好 ZeroSSL 支持为 IP 申请证书，这样就可以直接使用 IP 安全访问云主机里部署服务&lt;/p&gt;
 &lt;p&gt;为了方便管理和访问，使用 Caddy 作为反向代理，将所有请求都通过 Caddy 处理，这样只需要在 Caddy 配置一次可信的 HTTPS 证书即可；关于 Caddy 的使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;假设公网 IPv4 地址为 &lt;code&gt;100.0.0.1&lt;/code&gt;，使用这个 IP 申请证书和配置 Caddy；申请证书时需要通过 80 端口进行验证，所以需要 80 和 443 端口在公网可以访问&lt;/p&gt;
@@ -285,7 +370,7 @@
 &lt;li&gt;认证文件&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将 xxx.txt 放到 &lt;code&gt;static&lt;/code&gt; 目录下，为了方便直接将 &lt;code&gt;static&lt;/code&gt; 目录映射到 Caddy 容器的 &lt;code&gt;/var/www/html/.well-known/pki-validation&lt;/code&gt;，文件目录如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Caddyfile
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Caddyfile
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── docker-compose.yaml
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── static
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; └── xxx.txt
@@ -311,7 +396,7 @@ https://100.0.0.1:443 {
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;caddy&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;caddy&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;caddy&lt;/span&gt;
@@ -330,7 +415,7 @@ https://100.0.0.1:443 {
 &lt;p&gt;以 traefik/whoami 服务为例&lt;/p&gt;
 &lt;h3 id="部署-whoami-服务"&gt;部署 whoami 服务&lt;/h3&gt;
 &lt;p&gt;traefik/whoami 是一个可以返回请求信息的 Go 服务，用 docker-compose 部署&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;whoami&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;traefik/whoami&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;restart&lt;/span&gt;: &lt;span style="color:#98c379"&gt;unless-stopped&lt;/span&gt;
@@ -339,7 +424,7 @@ https://100.0.0.1:443 {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#d19a66"&gt;8081&lt;/span&gt;:&lt;span style="color:#d19a66"&gt;80&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动后请求 &lt;code&gt;http://localhost:8081&lt;/code&gt; 会返回请求信息&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hostname: whoami
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;IP: 127.0.0.1
@@ -440,7 +525,7 @@ https://localhost:443 {
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;caddy&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;caddy&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;caddy&lt;/span&gt;
@@ -459,7 +544,7 @@ https://localhost:443 {
 &lt;h2 id="配置-tailscale-的防火墙"&gt;配置 Tailscale 的防火墙&lt;/h2&gt;
 &lt;p&gt;在启动时将自动防火墙配置程度设置为 &lt;code&gt;nodivert&lt;/code&gt;，这样 Tailscale 就不会自动配置防火墙规则，而是使用阿里云的防火墙规则；同时启用接受来自控制台的 DNS 配置，用于解析 Tailscale 节点的 IP 地址；这样就可以解决阿里云和 Tailscale 的 100 网段冲突的问题；&lt;/p&gt;
 &lt;p&gt;不过需要注意的是改为 &lt;code&gt;nodivert&lt;/code&gt; 可能会影响子网路由(advertise-routes) 和出口节点(exit node)功能&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;--netfilter-mode=nodivert&lt;/code&gt; 这个参数是用于控制 Tailscale 自动配置防火墙（iptables/netfilter）规则的程度：&lt;/p&gt;
 &lt;table&gt;
  &lt;thead&gt;
@@ -489,7 +574,7 @@ https://localhost:443 {
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;easytier&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;easytier/easytier:latest&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;hostname&lt;/span&gt;: &lt;span style="color:#98c379"&gt;${HOSTNAME}&lt;/span&gt;
@@ -507,7 +592,7 @@ https://localhost:443 {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data:/root&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;/etc/machine-id:/etc/machine-id:ro&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过启动日志查看启动状态&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | Starting easytier with config:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | Starting easytier with config:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#8a93a5;font-style:italic"&gt;############### TOML ###############&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier |
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;easytier | &lt;span style="color:#dcaeea"&gt;instance_name&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;
@@ -554,7 +639,7 @@ https://localhost:443 {
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;wg-easy&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;ghcr.io/wg-easy/wg-easy:15&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;wg-easy&lt;/span&gt;
@@ -593,16 +678,16 @@ https://localhost:443 {
 &lt;p&gt;OpenWrt-nikki 提供了软件源，添加软件源后可以通过 opkg/apt 安装&lt;/p&gt;
 &lt;h4 id="通过脚本添加软件源"&gt;通过脚本添加软件源&lt;/h4&gt;
 &lt;p&gt;登录 OpenWrt 执行以下命令&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s -L https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行后会将以下内容添加到 &lt;code&gt;/etc/opkg/customfeeds.conf&lt;/code&gt; 文件中：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;src/gz nikki https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="安装-1"&gt;安装&lt;/h4&gt;
 &lt;p&gt;通过 opkg 安装即可(如果用的是 apt，则将 opkg 替换为 opkg 即可)&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;更新&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.gz
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Updated list of available packages in /var/opkg-lists/nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/Packages.sig
@@ -638,10 +723,10 @@ https://localhost:443 {
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install nikki
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-nikki-zh-cn
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install nikki
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;root@OpenWrt:/etc/opkg# opkg install nikki
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing nikki &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;2025.05.13~266fb038-r1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; to root...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Downloading https://nikkinikki.pages.dev/openwrt-24.10/x86_64/nikki/nikki_2025.05.13~266fb038-r1_x86_64.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Installing kmod-nf-socket &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;6.6.69-r1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; to root...
@@ -701,7 +786,7 @@ https://localhost:443 {
  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;格式：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 全局配置
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 全局配置
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -729,7 +814,7 @@ https://localhost:443 {
 &lt;ul&gt;
 &lt;li&gt;示例配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-nginx" data-lang="nginx"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;global&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Log level: error, warn, info, debug, trace.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;log_level:&lt;/span&gt; &lt;span style="color:#98c379"&gt;info&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 代理流量的 LAN 接口
@@ -853,7 +938,7 @@ https://localhost:443 {
 &lt;h3 id="使用-immortalwrt-构建镜像"&gt;使用 ImmortalWRT 构建镜像&lt;/h3&gt;
 &lt;p&gt;访问 &lt;a href="https://firmware-selector.immortalwrt.org/"&gt;https://firmware-selector.immortalwrt.org/&lt;/a&gt;，我是在 x86 机器的 PVE 中使用虚拟机的方式运行 OpenWrt，因此选择 &lt;code&gt;Generic x86/64&lt;/code&gt;，其他平台如 arm 等选择对应的平台即可&lt;/p&gt;
 &lt;p&gt;在 Installed Packages 后面追加 eBPF 和 Dae 相关的包：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;软件包的作用如下：&lt;/p&gt;
 &lt;table&gt;
  &lt;thead&gt;
@@ -912,25 +997,25 @@ https://localhost:443 {
 &lt;li&gt;开启开发/调试模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将 &lt;code&gt;{token}&lt;/code&gt; 替换为 URL获取的 stock，浏览器访问 URL:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20echo%20pVoAAA%3D%3D%20%7C%20base64%20-d%20%7C%20mtd%20write%20-%20crash%20%3B%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个操作会将 &lt;code&gt;\xa5\x5a\x00\x00&lt;/code&gt; 写入分区，用于开启开发/调试模式，返回 code 0 表示操作成功&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;code&amp;#34;&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后访问重启路由器&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3b%20reboot%20%3b%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3b%20reboot%20%3b%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;修改 Bdata, 开启 telnet&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;再次获取 stock, 访问以下 URL 开启 telnet/ssh/uart 访问，返回 0 表示成功&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;http://192.168.31.1/cgi-bin/luci/;&lt;span style="color:#dcaeea"&gt;stok&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;={&lt;/span&gt;token&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;/api/misystem/set_sys_time?timezone&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;%20%27%20%3B%20bdata%20set%20telnet_en%3D1%20%3B%20bdata%20set%20ssh_en%3D1%20%3B%20bdata%20commit%20%3B%20
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后再次访问 URL 重启路由器&lt;/p&gt;</description></item><item><title>PVE 将 OpenWrt 虚拟机迁移至其他实例</title><link>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</link><pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/pve-%E5%B0%86-openwrt-%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E8%87%B3%E5%85%B6%E4%BB%96%E5%AE%9E%E4%BE%8B/</guid><description>&lt;p&gt;因为需要下线维护当前的 PVE 实例，所以新建了一台 PVE 实例，需要把之前的虚拟机迁移到新的 PVE 实例上，但是通过组建集群复制的方式会从当前的 PVE 中删除该实例，并且新的实例是临时性的，组建集群会带来额外的维护成本，因此通过命令行迁移&lt;/p&gt;
 &lt;h2 id="备份虚拟机"&gt;备份虚拟机&lt;/h2&gt;
 &lt;p&gt;将虚拟机备份到 &lt;code&gt;~/workspace&lt;/code&gt; 目录下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir ~/workspace
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir ~/workspace
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以快照方式备份虚拟机&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir ~/workspace --mode snapshot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: starting new backup job: vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir /root/workspace/ --mode snapshot
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir ~/workspace --mode snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: starting new backup job: vzdump &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; --dumpdir /root/workspace/ --mode snapshot
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: Starting Backup of VM &lt;span style="color:#d19a66"&gt;122&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;qemu&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: Backup started at 2025-04-18 09:27:15
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;INFO: &lt;span style="color:#dcaeea"&gt;status&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; running
@@ -954,20 +1039,20 @@ https://localhost:443 {
 &lt;ul&gt;
 &lt;li&gt;修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; 文件，添加 pve-no-subscription 源；完整的配置如下:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm main contrib non-free non-free-firmware
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deb http://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates main contrib non-free non-free-firmware
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;更新&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="12-安装-nvidia-驱动"&gt;1.2 安装 NVIDIA 驱动&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;安装内核头文件&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;pve-headers 允许 DKMS 机制在内核更新时自动重新编译需要编译和安装动态内核模块，即 NVIDIA 驱动&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install pve-headers
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install pve-headers
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;下载驱动&lt;/li&gt;
 &lt;/ul&gt;
@@ -988,7 +1073,7 @@ https://localhost:443 {
 &lt;li&gt;&lt;code&gt;config/hysteria.yaml&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;服务端配置文件位于 &lt;code&gt;config/&lt;/code&gt; 路径下，关于配置细节可以参考 &lt;a href="https://v2.hysteria.network/zh/docs/advanced/Full-Server-Config/"&gt;完整服务端配置&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;listen&lt;/span&gt;: :&lt;span style="color:#d19a66"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;listen&lt;/span&gt;: :&lt;span style="color:#d19a66"&gt;443&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 伪装为 bing&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;masquerade&lt;/span&gt;:
@@ -1080,16 +1165,16 @@ https://localhost:443 {
 &lt;ul&gt;
 &lt;li&gt;下载最新的 Cloudflared&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dpkg -i cloudflared-linux-amd64.deb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;dpkg -i cloudflared-linux-amd64.deb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 Cloudflared 服务&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这样会创建并自动启动 Cloudflared 服务&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cloudflared service install &lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;TOKEN&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cloudflared service install &lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;TOKEN&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置路由规则"&gt;配置路由规则&lt;/h2&gt;
 &lt;p&gt;路由规则支持在本地或者 Cloudflare 平台配置两种方式，建议在 Cloudflare 平台配置，更加灵活&lt;/p&gt;</description></item><item><title>Proxmox VE 8 挂载 PCIe 接口版本的 Goolge Coral TPU 用于 LXC 容器中部署的 Frigate 进行人物识别</title><link>https://blog.hellowood.dev/posts/proxmox-ve-8-%E6%8C%82%E8%BD%BD-pcie-%E6%8E%A5%E5%8F%A3%E7%89%88%E6%9C%AC%E7%9A%84-goolge-coral-tpu-%E7%94%A8%E4%BA%8E-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2%E7%9A%84-frigate-%E8%BF%9B%E8%A1%8C%E4%BA%BA%E7%89%A9%E8%AF%86%E5%88%AB/</link><pubDate>Sun, 01 Dec 2024 20:26:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-8-%E6%8C%82%E8%BD%BD-pcie-%E6%8E%A5%E5%8F%A3%E7%89%88%E6%9C%AC%E7%9A%84-goolge-coral-tpu-%E7%94%A8%E4%BA%8E-lxc-%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2%E7%9A%84-frigate-%E8%BF%9B%E8%A1%8C%E4%BA%BA%E7%89%A9%E8%AF%86%E5%88%AB/</guid><description>&lt;p&gt;在 PVE 的 LXC 容器中运行的 Frigate Docker 容器中使用 PCIe 接口版本的 Google Coral TPU 进行人物识别&lt;/p&gt;
 &lt;p&gt;之前使用的是 USB Accelerator 版本，将设备挂载到容器中就可以工作了；但是新入手的 &lt;a href="https://coral.ai/products/m2-accelerator-dual-edgetpu"&gt;M.2 Accelerator with Dual Edge TPU&lt;/a&gt; 是通过 PCIe 挂载的，配置有所区别；&lt;/p&gt;
@@ -1131,12 +1216,12 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;li&gt;创建网络&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;为了方便能通过 Docker 自动发现服务路由，创建一个容器共用的网络，用于 Traefik 路由到对应服务&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要在 docker-compose 指定网络，并挂载 &lt;code&gt;/var/run/docker.sock&lt;/code&gt;，用于自动获取路由规则&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;traefik&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;external&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -1176,12 +1261,12 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;ul&gt;
 &lt;li&gt;下载项目&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 Dockerfile&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;进入项目下，并在根目录创建 Dockerfile.derpprobe 文件，内容如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;WORKDIR&lt;/span&gt; &lt;span style="color:#98c379"&gt;/go/src/tailscale&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -1223,13 +1308,13 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;构建镜像&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
 &lt;p&gt;通过 docker compose 部署&lt;/p&gt;</description></item><item><title>Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</link><pubDate>Tue, 17 Sep 2024 10:57:59 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/</guid><description>&lt;p&gt;PVE 的 LXC/CT 的容器如果想要使用 Wireguard 或者 Tailscale，需要访问 tun 设备，但是非特权容器并不提供，需要手动挂载&lt;/p&gt;
 &lt;h2 id="修改容器配置"&gt;修改容器配置&lt;/h2&gt;
 &lt;p&gt;需要登录到 PVE 宿主机，修改 LXC/CT 容器对应的配置文件；路径是 &lt;code&gt;/etc/pve/lxc/xxx.conf&lt;/code&gt;，xxx 是容器的编号，以 113 这个容器为例：&lt;/p&gt;
 &lt;p&gt;使用 nano 编辑 113.conf 配置文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nano /etc/pve/lxc/113.conf
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nano /etc/pve/lxc/113.conf
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;113.conf&lt;/li&gt;
 &lt;/ul&gt;
@@ -1341,7 +1426,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;mqtt&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;emqx/emqx&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;mqtt&lt;/span&gt;
@@ -1359,7 +1444,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/blockquote&gt;
 &lt;h2 id="现状"&gt;现状&lt;/h2&gt;
 &lt;p&gt;检测 tailscale 的网络节点，延迟最低的是东京的节点，延迟在 70 ms 左右&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale netcheck
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale netcheck
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Report:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	* UDP: &lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
@@ -1389,24 +1474,24 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;修改配置
 修改 &lt;code&gt;/etc/docker/daemon.json&lt;/code&gt; 文件，开启 IPv6 网络&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;experimental&amp;#34;&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;&amp;#34;ip6tables&amp;#34;&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;重启 docker&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo systemctl restart docker
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 IPv6 网络&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;创建名为 &lt;code&gt;homelab-v6&lt;/code&gt; 的 IPv6 网络，并指定子网范围&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create --ipv6 --subnet 2001:0DB8::/112 homelab-v6
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create --ipv6 --subnet 2001:0DB8::/112 homelab-v6
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;测试验证&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;启动一个 busybox 容器，ping 阿里巴巴的 IPv6 DNS 地址 &lt;code&gt;2400:3200::1&lt;/code&gt;，发现可以正常访问，说明已经成功开启 IPv6&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --network&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;homelab-v6 --rm -it busybox ping -6 -c1 2400:3200::1
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --network&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;homelab-v6 --rm -it busybox ping -6 -c1 2400:3200::1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;PING 2400:3200::1 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;2400:3200::1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;56&lt;/span&gt; data bytes
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#d19a66"&gt;64&lt;/span&gt; bytes from 2400:3200::1: &lt;span style="color:#dcaeea"&gt;seq&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;ttl&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;117&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;time&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;2040.345 ms
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -1418,11 +1503,11 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="搭建-server-端"&gt;搭建 Server 端&lt;/h2&gt;
 &lt;h3 id="安装-nfs-kernel-server"&gt;安装 nfs-kernel-server&lt;/h3&gt;
 &lt;p&gt;NFS 的 Server 端由 &lt;code&gt;nfs-kernel-server&lt;/code&gt; 提供，使用 apt 进行安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install -y nfs-kernel-server
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后，使用 &lt;code&gt;systemctl&lt;/code&gt; 查看状态&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl status nfs-mountd.service
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;● nfs-mountd.service - NFS Mount Daemon
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl status nfs-mountd.service
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;● nfs-mountd.service - NFS Mount Daemon
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Loaded: loaded &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;/lib/systemd/system/nfs-mountd.service; static&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Active: active &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;running&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt; since Thu 2022-09-22 18:43:43 CST; 1h 5min ago
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Main PID: &lt;span style="color:#d19a66"&gt;128914&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;rpc.mountd&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
@@ -1442,19 +1527,19 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;首先，创建需要分享的目录，如 &lt;code&gt;/data/nfs&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Ubuntu 22 环境初始化</title><link>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Sun, 07 Jan 2024 18:03:00 +0800</pubDate><guid>https://blog.hellowood.dev/posts/ubuntu-22-%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;p&gt;在搭建 HomeLab 测试使用过程中，可能会经常创建新的 Ubuntu 虚拟机，或初始化树莓派，记录一些常用的初始化配置&lt;/p&gt;
 &lt;h2 id="修改主机名"&gt;修改主机名&lt;/h2&gt;
 &lt;p&gt;将主机名改为 &lt;code&gt;homelab&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hostnamectl hostname homelab
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hostnamectl hostname homelab
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="引入-ssh-公钥"&gt;引入 SSH 公钥&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;从本地导入&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;在本地执行，将公钥复制到要登录的机器上&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@192.168.2.5
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="修改-apt-源"&gt;修改 APT 源&lt;/h2&gt;
 &lt;p&gt;将默认的 APT 源替换为&lt;a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"&gt;清华&lt;/a&gt;的源&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;修改镜像源&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mv /etc/apt/sources.list /etc/apt/sources.list.backup
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mv /etc/apt/sources.list /etc/apt/sources.list.backup
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo bash -c &lt;span style="color:#63c381"&gt;&amp;#34;cat &amp;lt;&amp;lt; EOF &amp;gt; /etc/apt/sources.list &amp;amp;&amp;amp; apt update
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#63c381"&gt;deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
@@ -1482,16 +1567,16 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;清除无效软件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt autoremove
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt autoremove
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;清除 DNS 和主机名配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rm /etc/resolv.conf
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rm /etc/resolv.conf
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rm /etc/hostname
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;清除操作命令&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;history&lt;/span&gt; -c
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;history&lt;/span&gt; -c
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="备份-lxc-容器"&gt;备份 LXC 容器&lt;/h3&gt;
 &lt;p&gt;清理完成后，回到 PVE 的控制页面，选择刚才创建的 CT 容器进行备份&lt;/p&gt;
 &lt;p&gt;
@@ -1511,7 +1596,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;code&gt;/var/log/proxmox-backup&lt;/code&gt;: 用于存储日志信息
 &lt;code&gt;/var/lib/proxmox-backup&lt;/code&gt;：用于存储数据
 &lt;code&gt;/backups&lt;/code&gt;：存储容器、虚拟机的备份数据&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;2.1&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;2.1&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;pve-backup-server&lt;/span&gt;:
@@ -1537,12 +1622,12 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;参考 &lt;a href="https://developers.cloudflare.com/workers/wrangler/install-and-update/"&gt;Install/Update Wrangler&lt;/a&gt; 进行安装&lt;/p&gt;
 &lt;h2 id="创建-r2"&gt;创建 R2&lt;/h2&gt;
 &lt;p&gt;在 Cloudflare 管理平台创建 R2，或者通过 wrangler 进行创建，参考 &lt;a href="https://developers.cloudflare.com/r2/buckets/create-buckets/"&gt;Create buckets&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wrangler r2 bucket create picture
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wrangler r2 bucket create picture
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="创建-worker"&gt;创建 Worker&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;创建项目&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm create cloudflare@latest
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm create cloudflare@latest
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;将 R2 绑定到 Worker&lt;/li&gt;
 &lt;/ul&gt;
@@ -1664,15 +1749,15 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;安装&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y nut
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y nut
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="通过-usb-连接-ups"&gt;通过 USB 连接 UPS&lt;/h2&gt;
 &lt;p&gt;在将 UPS 通过 USB 连接到树莓派后，可以通过查看 USB 设备进行检查&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;检查 USB 连接&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo lsusb
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo lsusb
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中的 Device 003 就是 UPS，说明 USB 连接正常&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#d19a66"&gt;003&lt;/span&gt; Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#d19a66"&gt;003&lt;/span&gt; Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#d19a66"&gt;002&lt;/span&gt; Device 002: ID 174c:55aa ASMedia Technology Inc. ASM1051E SATA 6Gb/s bridge, ASM1053E SATA 6Gb/s bridge, ASM1153 SATA 3Gb/s bridge, ASM1153E SATA 6Gb/s bridge
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#d19a66"&gt;002&lt;/span&gt; Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Bus &lt;span style="color:#d19a66"&gt;001&lt;/span&gt; Device 003: ID 0463:ffff MGE UPS Systems UPS
@@ -1681,17 +1766,17 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;通过 &lt;code&gt;nut-scanner&lt;/code&gt; 检查 UPS 设备&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nut-scanner -q
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nut-scanner -q
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确识别到连接的 UPS 设备，驱动为 &lt;code&gt;usbhid-ups&lt;/code&gt;，产品为 &lt;code&gt;SANTAK TG-BOX&lt;/code&gt;&lt;/p&gt;</description></item><item><title>WireGuard对端动态IP时主动更新地址</title><link>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</link><pubDate>Sun, 24 Sep 2023 18:37:06 +0800</pubDate><guid>https://blog.hellowood.dev/posts/wireguard%E5%AF%B9%E7%AB%AF%E5%8A%A8%E6%80%81ip%E6%97%B6%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E5%9C%B0%E5%9D%80/</guid><description>&lt;p&gt;如果 WireGuard 对端的 &lt;code&gt;Endpoint&lt;/code&gt; 是一个域名，这个域名只会在启动的时候解析一次，后续不会更新；当这个域名发生变化时，WireGuard 连接就会断开&lt;/p&gt;
 &lt;p&gt;wireguard-tools 的仓库中提供了检测 IP 变化并更新 &lt;code&gt;Endpoint&lt;/code&gt; 的脚本 &lt;a href="https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh"&gt;https://git.zx2c4.com/wireguard-tools/tree/contrib/reresolve-dns/reresolve-dns.sh&lt;/a&gt;，因此可以使用该脚本，通过定时任务的方式可以实现域名 IP 变化后更新 WireGuard&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;下载仓库&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://git.zx2c4.com/wireguard-tools /usr/share/wireguard-tools
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://git.zx2c4.com/wireguard-tools /usr/share/wireguard-tools
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;配置更新服务&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#98c379"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.service
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#98c379"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.service
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;[Unit]
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;Description=Update DNS of all WireGuard endpoints
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;Wants=network.target
@@ -1704,7 +1789,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;配置定时任务服务&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#98c379"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.timer
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo cat &lt;span style="color:#98c379"&gt;&amp;lt;&amp;lt;EOL &amp;gt; /etc/systemd/system/wireguard-update-dns.timer
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;[Unit]
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;Description=Update DNS of all WireGuard endpoints
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;
@@ -1717,7 +1802,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;启动服务&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl &lt;span style="color:#ef8383"&gt;enable&lt;/span&gt; wireguard-update-dns.service wireguard-update-dns.timer --now
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl &lt;span style="color:#ef8383"&gt;enable&lt;/span&gt; wireguard-update-dns.service wireguard-update-dns.timer --now
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，就会每隔 30s 检测并更新一次 Endpoint 的地址了&lt;/p&gt;</description></item><item><title>使用WireGuard连接异地局域网</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</link><pubDate>Sun, 24 Sep 2023 17:56:49 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8wireguard%E8%BF%9E%E6%8E%A5%E5%BC%82%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91/</guid><description>&lt;p&gt;最近使用 Frigate 做家庭监控，因为 Frigate 部署在自己的 HomeLab 服务器里，有几个监控在老家，需要跨地域访问；有以下几种方案：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;使用公网映射：将老家的监控映射到公网，但是在公网开放监控并不安全，另外还需要申请公网IP&lt;/li&gt;
@@ -1737,13 +1822,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="安装配置-wireguard"&gt;安装配置 WireGuard&lt;/h2&gt;
 &lt;h3 id="安装-wireguard"&gt;安装 wireguard&lt;/h3&gt;
 &lt;p&gt;因为 LXC 容器和树莓派都使用的是 Ubuntu 22.04 的系统，因此直接使用 apt 安装即可&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y wireguard-tools
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt install -y wireguard-tools
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="生成密钥对"&gt;生成密钥对&lt;/h3&gt;
 &lt;p&gt;详细操作参考 &lt;a href="https://www.wireguard.com/quickstart/#key-generation"&gt;Key Generation&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;创建文件夹并修改权限&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir wireguard &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; wireguard
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir wireguard &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; wireguard
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;umask&lt;/span&gt; &lt;span style="color:#d19a66"&gt;077&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;umask 077&lt;/code&gt; 的作用是设置系统默认文件和文件夹的权限为只有创建用户拥有全部权限（读、写和执行）&lt;/p&gt;
 &lt;ul&gt;
@@ -1758,7 +1843,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;config.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7890&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7890&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;socks-port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7891&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;redir-port&lt;/span&gt;: &lt;span style="color:#d19a66"&gt;7892&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;allow-lan&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
@@ -1787,13 +1872,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;查看设备&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;如果能够看到 PCI 设备中包含核心显卡，说明设备识别正常&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lspci | grep VGA
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lspci | grep VGA
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;00:02.0 VGA compatible controller: Intel Corporation JasperLake &lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;UHD Graphics&lt;span style="color:#c7bf54"&gt;]&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;rev 01&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;查看驱动&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;可以看到 card0 和 renderD128 都存在，说明驱动正常&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls /dev/dri/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls /dev/dri/
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;by-path card0	renderD128
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通常不需要安装驱动，如果设备没有正确识别，可以参考 &lt;a href="https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps"&gt;https://dgpu-docs.intel.com/driver/installation.html#ubuntu-install-steps&lt;/a&gt; 进行安装&lt;/p&gt;
 &lt;h2 id="创建-lxc-容器"&gt;创建 LXC 容器&lt;/h2&gt;
@@ -1822,16 +1907,16 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;下载 &lt;a href="https://github.com/acecilia/OpenWRTInvasion"&gt;acecilia/OpenWRTInvasion&lt;/a&gt; ，并安装依赖&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/acecilia/OpenWRTInvasion.git
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/acecilia/OpenWRTInvasion.git
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; OpenWRTInvasion
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip3 install -r requirements.txt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;执行脚本&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通过 WiFi 或有线的方式连接到路由器，然后进入命令行，执行以下命令，运行 &lt;code&gt;remote_command_execution_vulnerability.py&lt;/code&gt; 脚本；执行脚本时需要输入路由器的地址和后台访问密码；地址如果没有改动默认就是 &lt;code&gt;192.168.31.1&lt;/code&gt;，或者访问 &lt;code&gt;miwifi.com&lt;/code&gt;也可以直接访问到；如果选择了离线模式，会在本地启动一个 ftp server&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 remote_command_execution_vulnerability.py
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;python3 remote_command_execution_vulnerability.py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在执行结束后，会输出提示信息，用于通过 SSH 访问路由器&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;here two options to provide the files needed &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; invasion:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;here two options to provide the files needed &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; invasion:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1. Use a &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; TCP file server runing on random port to provide files in &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; directory &lt;span style="color:#98c379"&gt;`&lt;/span&gt;script_tools&lt;span style="color:#98c379"&gt;`&lt;/span&gt;.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2. Download needed files from remote github repository. &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;choose this option only &lt;span style="color:#c678dd"&gt;if&lt;/span&gt; github is accessable inside router device.&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Which option &lt;span style="color:#c678dd"&gt;do&lt;/span&gt; you prefer? &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;default: 1&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;&lt;span style="color:#d19a66"&gt;1&lt;/span&gt;
@@ -1876,7 +1961,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h3 id="23-配置磁盘"&gt;2.3 配置磁盘&lt;/h3&gt;
 &lt;h4 id="231-将-arpl-作为磁盘导入虚拟机"&gt;2.3.1 将 arpl 作为磁盘导入虚拟机&lt;/h4&gt;
 &lt;p&gt;使用 PVE 的命令行，使用以下命令将 arpl.img 作为虚拟机的磁盘导入，虚拟机 ID 为 101&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;101&lt;/span&gt; /var/lib/vz/template/iso/arpl.img local-lvm
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;101&lt;/span&gt; /var/lib/vz/template/iso/arpl.img local-lvm
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后在控制台修改磁盘 &amp;lsquo;总线/设备&amp;rsquo; 为 SATA 并添加&lt;/p&gt;
 &lt;p&gt;
 
@@ -1934,7 +2019,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul&gt;
 &lt;h2 id="配置-openwrt"&gt;配置 OpenWrt&lt;/h2&gt;
 &lt;h3 id="安装-wireguard"&gt;安装 WireGuard&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; opkg install wireguard-tools luci-app-wireguard luci-i18n-wireguard-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此命令会自动安装 WireGuard 的依赖，也可以在管理界面进行安装；安装完成后打开 OpenWrt 管理界面-状态，就可以看到 WireGuard 的控制界面了；此时提示未配置 WireGuard 端口，需要在网络-接口中进行配置&lt;/p&gt;</description></item><item><title>Proxmox VE 添加监控</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</link><pubDate>Sun, 09 Apr 2023 21:29:39 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E6%B7%BB%E5%8A%A0%E7%9B%91%E6%8E%A7/</guid><description>&lt;p&gt;PVE 支持添加 &lt;a href="https://graphiteapp.org/"&gt;Graphite&lt;/a&gt; 或者 &lt;a href="https://www.influxdata.com/"&gt;InfluxDB&lt;/a&gt; 作为指标数据的存储；在添加配置后，PVE 会主动将配置信息发送到对应的存储中，用于记录和监控 PVE 的状态&lt;/p&gt;
 &lt;p&gt;基于 Docker 容器，使用 InfluxDB 和 Grafana 对 PVE 进行监控，效果如图：&lt;/p&gt;
@@ -1947,7 +2032,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;influxdb&lt;/span&gt;:
@@ -2017,7 +2102,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;解压&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;使用 &lt;code&gt;gunzip&lt;/code&gt; 命令解压 &lt;code&gt;gz&lt;/code&gt; 压缩文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;gunzip openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img.gz
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将下载的镜像解压后得到 &lt;code&gt;img&lt;/code&gt;格式的文件&lt;/p&gt;
 &lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
 &lt;h3 id="创建虚拟机"&gt;创建虚拟机&lt;/h3&gt;
@@ -2049,7 +2134,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;将 img 镜像导入为虚拟磁盘&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;打开 PVE 的 shell，执行导入命令，将 img 作为虚拟磁盘，导入到 106 虚拟机（即刚才创建的虚拟机的 vmid）&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;106&lt;/span&gt; /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qm importdisk &lt;span style="color:#d19a66"&gt;106&lt;/span&gt; /var/lib/vz/template/iso/openwrt-22.03.3-x86-64-generic-ext4-combined-efi.img local-lvm
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-pve-init-convert-img-to-disk.png" alt="homelab-openwrt-pve-init-convert-img-to-disk.png" loading="lazy"&gt;
@@ -2069,7 +2154,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/p&gt;
 &lt;h3 id="开启摄像头"&gt;开启摄像头&lt;/h3&gt;
 &lt;p&gt;开启摄像头需要先安装 &lt;code&gt;raspi-config&lt;/code&gt; 软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y raspi-config
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y raspi-config
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后运行 &lt;code&gt;raspi-config&lt;/code&gt;，选择用户 &lt;code&gt;pi&lt;/code&gt; 进行配置；&lt;/p&gt;
 &lt;p&gt;
 
@@ -2090,7 +2175,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;检查连接状态&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;重启后检查设备连接状态：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd get_camera
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vcgencmd get_camera
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#dcaeea"&gt;supported&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;1&lt;/span&gt; &lt;span style="color:#dcaeea"&gt;detected&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;1, libcamera &lt;span style="color:#dcaeea"&gt;interfaces&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#d19a66"&gt;0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回信息提示检查到了一个摄像头并且支持该摄像头&lt;/p&gt;
@@ -2098,9 +2183,9 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;查看摄像头信息&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;查看摄像头信息需要使用 &lt;code&gt;v4l-utils&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y v4l-utils
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get install -y v4l-utils
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 &lt;code&gt;v4l-utils&lt;/code&gt; 列出设备&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;v4l2-ctl --list-devices
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;v4l2-ctl --list-devices
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bcm2835-codec-decode &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;platform:bcm2835-codec&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video10
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; /dev/video11
@@ -2127,13 +2212,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 树莓派摄像头使用排线进行连接，通过 ffmpeg 将视频流推送到 &lt;a href="https://ossrs.io/lts/zh-cn/docs/v4/doc/introduction"&gt;SRS&lt;/a&gt; 服务器（SRS是一个简单高效的实时视频服务器，支持RTMP/WebRTC/HLS/HTTP-FLV/SRT/GB28181）&lt;/p&gt;
 &lt;p&gt;树莓派连接摄像头可以参考 &lt;a href="https://blog.hellowood.dev"&gt;树莓派 4b 使用摄像头&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="安装-ffmpeg"&gt;安装 ffmpeg&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y ffmpeg
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt-get update &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y ffmpeg
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="安装-srs"&gt;安装 SRS&lt;/h2&gt;
 &lt;p&gt;SRS 使用 Docker Compose 进行部署；用于处理 ffmpeg 推送的视频流&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;srs&lt;/span&gt;:
@@ -2149,7 +2234,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;./data:/srs&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="使用-ffmpeg-推送流到-srs"&gt;使用 ffmpeg 推送流到 SRS&lt;/h2&gt;
 &lt;p&gt;通过 ffmpeg 将视频内容推送到 SRS&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66"&gt;30&lt;/span&gt; -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66"&gt;60&lt;/span&gt; -an -f flv rtmp://192.168.2.5/live/livestream
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ffmpeg -f v4l2 -input_format mjpeg -video_size 1280x720 -framerate &lt;span style="color:#d19a66"&gt;30&lt;/span&gt; -i /dev/video0 -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 2M -maxrate 2M -bufsize 1M -g &lt;span style="color:#d19a66"&gt;60&lt;/span&gt; -an -f flv rtmp://192.168.2.5/live/livestream
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其各个参数含义如下：&lt;/p&gt;</description></item><item><title>Proxmox VE 安装初始化</title><link>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</link><pubDate>Mon, 27 Feb 2023 21:41:04 +0800</pubDate><guid>https://blog.hellowood.dev/posts/proxmox-ve-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;Proxmox VE，是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API - 维基百科&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -2272,7 +2357,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/table&gt;
 &lt;p&gt;##1. ESP-01S 刷入 esphome 固件&lt;/p&gt;
 &lt;h3 id="运行-esphome-容器"&gt;运行 esphome 容器&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;esphome&amp;#34;&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p 6052:6052 &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -e &lt;span style="color:#dcaeea"&gt;TZ&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;Asia/Shanghai &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -2292,7 +2377,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;HomeAssistant 支持多种运行方式，如以OS方式运行，或者使用二进制或容器等方式运行；容器等方式更方便管理&lt;/p&gt;
 &lt;h3 id="使用-docker-直接运行"&gt;使用 Docker 直接运行&lt;/h3&gt;
 &lt;p&gt;在 Linux 服务器使用容器启动 HomeAssistant，HomeAssistant 的所有配置和数据都在 &lt;code&gt;/config&lt;/code&gt; 目录下，为了持久化数据，将当前路径挂载到 HomeAssistant 的 config 目录下；因为 HomeAssistant 需要访问局域网内的其他设备，因此，建议容器的网络模式使用 &lt;code&gt;host&lt;/code&gt;，或者通过 &lt;code&gt;macvlan&lt;/code&gt; 驱动为其单独创建网络&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -d &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --name&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;home-assistant&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v &lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;pwd&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;:/config &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v /etc/localtime:/etc/localtime:ro &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -2302,7 +2387,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version: &lt;span style="color:#98c379"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version: &lt;span style="color:#98c379"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;services:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; homeassistant:
@@ -2324,13 +2409,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;配置 HTTPS 访问需要使用到公网 IP 和域名，需要确认已经可以通过公网访问，并且可以修改域名的解析&lt;/p&gt;
 &lt;h2 id="安装-uhttpd"&gt;安装 uHTTPd&lt;/h2&gt;
 &lt;p&gt;uHTTPd 用于 OpenWrt 配置 Web 服务，如端口，证书等&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-uhttpd luci-i18n-uhttpd-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后即可在服务-uHTTPd 页面查看端口和证书配置&lt;/p&gt;
 &lt;h2 id="安装配置-acme"&gt;安装配置 ACME&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://letsencrypt.org/zh-cn/docs/client-options/"&gt;ACME&lt;/a&gt; 是 Let&amp;rsquo;s Encrypt 官方支持的客户端；OpenWrt 支持使用 ACME 申请证书，在 ACME 应用中添加证书相关配置即可&lt;/p&gt;
 &lt;h3 id="安装-acme"&gt;安装 ACME&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后可以在服务-ACME 证书中进行配置&lt;/p&gt;
 &lt;h3 id="配置-acme"&gt;配置 ACME&lt;/h3&gt;
@@ -2352,7 +2437,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;subweb&lt;/span&gt;:
@@ -2389,7 +2474,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="刷入-openwrt"&gt;刷入 OpenWrt&lt;/h2&gt;
 &lt;h3 id="将固件升级为测试版"&gt;将固件升级为测试版&lt;/h3&gt;
 &lt;p&gt;将固件升级为测试版是为了开启 telnet，方便输入 OpenWrt 的固件；可以通过 &lt;code&gt;telnet 192.168.31.1&lt;/code&gt; 测试，通常是没有开启的。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet 192.168.31.1
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet 192.168.31.1
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Trying 192.168.31.1...
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: connect to address 192.168.31.1: Connection refused
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;telnet: Unable to connect to remote host
@@ -2414,7 +2499,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p&gt;
 &lt;h2 id="安装"&gt;安装&lt;/h2&gt;
 &lt;p&gt;SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install smartdns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-smartdns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-smartdns-zh-cn
@@ -2437,7 +2522,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install netdata
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p&gt;
 &lt;p&gt;
@@ -2449,7 +2534,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul&gt;
 &lt;p&gt;Netdata 默认只能查看实时数据，如果想查询历史数据或者只关心特定指标，可以通过 Prometheus 抓取，使用 Grafana 查看；Netdata 支持 Prometheus 格式的数据抓取，路径是&lt;code&gt;/api/v1/allmetrics?format=prometheus_all_hosts&lt;/code&gt;；如 &lt;a href="http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts"&gt;http://192.168.2.2:19999/api/v1/allmetrics?format=prometheus_all_hosts&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Prometheus 任务配置：需要注意，要添加参数 &lt;code&gt;format=prometheus_all_hosts&lt;/code&gt; 才可以抓取到 Prometheus 格式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;openwrt-netdata&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;openwrt-netdata&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;honor_timestamps&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;scrape_interval&lt;/span&gt;: &lt;span style="color:#98c379"&gt;15s&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;scrape_timeout&lt;/span&gt;: &lt;span style="color:#98c379"&gt;5s&lt;/span&gt;
@@ -2466,7 +2551,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;安装软件&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;安装需要的 Prometheus 数据导出软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install prometheus-node-exporter-lua &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold"&gt;\
@@ -2476,13 +2561,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;p&gt;Docker 支持 Samba/NFS 等协议的远程存储&lt;/p&gt;
 &lt;h2 id="创建-docker-nfs-数据卷"&gt;创建 Docker NFS 数据卷&lt;/h2&gt;
 &lt;p&gt;通过 docker 命令创建 NFS 的数据卷，在创建时，指定驱动为 &lt;code&gt;local&lt;/code&gt;，类型是 &lt;code&gt;nfs&lt;/code&gt;，同时指定地址和协议版本，以及服务端的挂载路径，名称为 &lt;code&gt;nginx-volume&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume create --driver &lt;span style="color:#ef8383"&gt;local&lt;/span&gt; &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nfs &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;o&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;addr&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;192.168.2.10,nolock,vers&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4,soft,rw &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--opt &lt;span style="color:#dcaeea"&gt;device&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;:/workspaces/data/docker/nginx &lt;span style="color:#d26464;font-weight:bold"&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;nginx-volume&lt;/code&gt; 信息&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker volume inspect nginx-volume
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;[&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
@@ -2516,7 +2601,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;查看磁盘名称&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通常磁盘名称以 &lt;code&gt;t10.&lt;/code&gt;开头，如这里需要的机械硬盘名称为 &lt;code&gt;ATA_____Hitachi_HTS545050A7E380_______________________TE85113RHUAM6R&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls -alh /vmfs/devices/disks/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ls -alh /vmfs/devices/disks/
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;total &lt;span style="color:#d19a66"&gt;1976983165&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#d19a66"&gt;2&lt;/span&gt; root root &lt;span style="color:#d19a66"&gt;512&lt;/span&gt; Sep &lt;span style="color:#d19a66"&gt;12&lt;/span&gt; 16:39 .
@@ -2528,7 +2613,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;创建挂载目录&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;将需要挂载的磁盘挂载到特定的路径下，如 &lt;code&gt;datastore1/hdd&lt;/code&gt; 目录，首先需要创建 &lt;code&gt;hdd&lt;/code&gt;这个目录&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p /vmfs/volumes/datastore1/hdd
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p /vmfs/volumes/datastore1/hdd
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;挂载为虚拟磁盘&lt;/li&gt;
 &lt;/ul&gt;
@@ -2541,9 +2626,9 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;使用 &lt;code&gt;fdisk&lt;/code&gt; 查看&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;使用 &lt;code&gt;fdisk&lt;/code&gt; 命令查看 &lt;code&gt;/dev/sda&lt;/code&gt;设备情况&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk /dev/sda
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fdisk /dev/sda
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入 &lt;code&gt;F&lt;/code&gt; 显示未分区的空间大小&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;m &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; &lt;span style="color:#ef8383"&gt;help&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;: F
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Command &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;m &lt;span style="color:#c678dd"&gt;for&lt;/span&gt; &lt;span style="color:#ef8383"&gt;help&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;: F
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Unpartitioned space /dev/sda: &lt;span style="color:#d19a66"&gt;20971520&lt;/span&gt; B, &lt;span style="color:#d19a66"&gt;167772160&lt;/span&gt; bytes, &lt;span style="color:#d19a66"&gt;0&lt;/span&gt; sectors
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Units: sectors of &lt;span style="color:#d19a66"&gt;1&lt;/span&gt; * &lt;span style="color:#dcaeea"&gt;512&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#d19a66"&gt;512&lt;/span&gt; bytes
@@ -2554,9 +2639,9 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;查找根目录挂载的设备&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;通过 &lt;code&gt;df&lt;/code&gt; 命令查看空间，发现挂载到根&lt;code&gt;/&lt;/code&gt;目录的设备是 &lt;code&gt;/dev/mapper/ubuntu--vg-ubuntu--lv&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;df -h
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;df -h
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Filesystem Size Used Avail Use% Mounted on
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Filesystem Size Used Avail Use% Mounted on
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tmpfs 796M 1.5M 794M 1% /run
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/mapper/ubuntu--vg-ubuntu--lv 19G 16G 1.6G 92% /
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tmpfs 3.9G &lt;span style="color:#d19a66"&gt;0&lt;/span&gt; 3.9G 0% /dev/shm
@@ -2579,7 +2664,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h3 id="1-查找网卡"&gt;1 查找网卡&lt;/h3&gt;
 &lt;p&gt;通常情况下，有线网卡名称通常为 &lt;code&gt;eth0&lt;/code&gt;，无线网卡名称通常为 &lt;code&gt;wlan0&lt;/code&gt;；&lt;/p&gt;
 &lt;p&gt;通过 &lt;code&gt;ifconfig&lt;/code&gt; 命令查看网卡信息，返回的 &lt;code&gt;ens160&lt;/code&gt; 就是有线网卡&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker0: &lt;span style="color:#dcaeea"&gt;flags&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;4099&amp;lt;UP,BROADCAST,MULTICAST&amp;gt; mtu &lt;span style="color:#d19a66"&gt;1500&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;inet 172.17.0.1 netmask 255.255.0.0 broadcast 172.17.255.255
@@ -2613,13 +2698,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="配置-ddns"&gt;配置 DDNS&lt;/h2&gt;
 &lt;h3 id="安装-luci-app-ddns"&gt;安装 luci-app-ddns&lt;/h3&gt;
 &lt;p&gt;需要安装 luci-app-ddns，用于从 OpenWrt 控制界面修改配置；通过 &lt;code&gt;opkg&lt;/code&gt;命令或者 OpenWrt 控制界面的软件都可以安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-app-ddns
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-ddns-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="安装-ddns-scripts-xxx"&gt;安装 ddns-scripts-xxx&lt;/h3&gt;
 &lt;p&gt;DDNS 的更新由脚本执行，因此需要安装对应域名服务商的更新脚本；如 godaddy 的脚本是 ddns-scripts-godaddy；官方提供的域名服务商脚本可以从 &lt;a href="https://openwrt.org/packages/index/network---ip-addresses-and-names"&gt;Packagesindexnetwork&amp;mdash;ip-addresses-and-names&lt;/a&gt; 查看&lt;/p&gt;
 &lt;p&gt;其他域名服务商可以在 GitHub 或恩山无线论坛中查找对应的软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ddns-scripts-godaddy
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ddns-scripts-godaddy
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="配置-ddns-1"&gt;配置 DDNS&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;添加 DDNS 配置&lt;/li&gt;
@@ -2648,14 +2733,14 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ol&gt;
 &lt;li&gt;安装依赖软件&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install bash iptables dnsmasq-full curl ca-bundle ipset ip-full iptables-mod-tproxy iptables-mod-extra ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;下载并安装 OpenClash&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;可以在 &lt;a href="https://github.com/vernesong/OpenClash"&gt;OpenClash&lt;/a&gt; 仓库的 &lt;a href="https://github.com/vernesong/OpenClash/releases"&gt;Release&lt;/a&gt; 页面选择对应的版本进行下载&lt;/p&gt;</description></item><item><title>Openwrt-初始化配置</title><link>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</link><pubDate>Mon, 08 Aug 2022 11:44:37 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</guid><description>&lt;h2 id="语言配置"&gt;语言配置&lt;/h2&gt;
 &lt;p&gt;Openwrt 默认语言为英文，如果需要安装中文，可以直接通过 &lt;code&gt;opkg&lt;/code&gt; 安装；随后登录控制台即可看到语言已经变为中文；如果没有改变，可以在System-System-Language 中选择简体中文&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install luci-i18n-base-zh-cn
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
@@ -2670,7 +2755,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;h2 id="主题配置"&gt;主题配置&lt;/h2&gt;
 &lt;p&gt;Openwrt 默认的主题为 Bootstrap，菜单在上边栏，使用不习惯，可以安装 &lt;a href="https://github.com/jerrykuku/luci-theme-argon"&gt;Argon&lt;/a&gt; 主题&lt;/p&gt;
 &lt;p&gt;可以在 GitHub &lt;a href="https://github.com/jerrykuku/luci-theme-argon"&gt;Argon&lt;/a&gt; 仓库的 &lt;a href="https://github.com/jerrykuku/luci-theme-argon/releases"&gt;Release&lt;/a&gt; 页面选择对应的版本进行下载&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wget https://github.com/jerrykuku/luci-theme-argon/releases/download/v2.2.9.4/luci-theme-argon-master_2.2.9.4_all.ipk -O argon.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install argon.ipk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
 
@@ -2691,7 +2776,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;traefik.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要向 Traefik 的配置文件中添加 &lt;code&gt;certificatesResolvers&lt;/code&gt; 的配置&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;certificatesResolvers&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;certificatesResolvers&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;default&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;acme&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;email&lt;/span&gt;: &lt;span style="color:#98c379"&gt;yourname@mail.com&lt;/span&gt;
@@ -2703,7 +2788,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因为使用的是 DNS Provider 是阿里云，所以需要将阿里云的鉴权方式通过环境变量的方式添加到容器中&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;reverse-proxy&lt;/span&gt;:
@@ -2733,7 +2818,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;安装&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;直接使用 Go 命令进行安装，因为本地的 Go 版本是 1.19，所以需要指定版本号使用&lt;code&gt;install&lt;/code&gt;命令安装；如果是低版本的 Go，可以使用 &lt;code&gt;get&lt;/code&gt;的方式安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;go install github.com/go-acme/lego/v4/cmd/lego@latest
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;go install github.com/go-acme/lego/v4/cmd/lego@latest
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;#低版本 Go 使用 get 方式安装&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;go get -u github.com/go-acme/lego/v4/cmd/lego
@@ -2756,7 +2841,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;安装 &lt;code&gt;cfdisk&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;需要使用 &lt;code&gt;cfdisk&lt;/code&gt; 创建新的分区，所以需要安装 &lt;code&gt;cfdisk&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install cfdisk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;使用 &lt;code&gt;cfdisk&lt;/code&gt;创建分区&lt;/li&gt;
@@ -2780,13 +2865,13 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;格式化分区&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;格式化新增的 &lt;code&gt;/dev/sda3&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/sda3
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkfs.ext4 /dev/sda3
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="挂载扩容的空间"&gt;挂载扩容的空间&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;安装 &lt;code&gt;block-mount&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;挂载新建的分区，需要使用 &lt;code&gt;block-mount&lt;/code&gt;挂载点软件，安装完成后重启 Openwrt&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install block-mount
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重启完成后访问 Web 页面的 &lt;code&gt;系统&lt;/code&gt;-&lt;code&gt;挂载点&lt;/code&gt;&lt;/p&gt;
@@ -2806,11 +2891,11 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;ul&gt;
 &lt;li&gt;使用 homebrew 安装 QEMU&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install qemu
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install qemu
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;将 &lt;code&gt;img&lt;/code&gt;格式转为&lt;code&gt;vmdk&lt;/code&gt;格式&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi.img openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;创建虚拟机，选择 Linux 64 位&lt;/li&gt;
@@ -2845,7 +2930,7 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;li&gt;然后通过 &lt;code&gt;vmkfstools&lt;/code&gt; 复制一个新的文件，不复制无法扩容&lt;/li&gt;
 &lt;li&gt;通过 &lt;code&gt;vmkfstools&lt;/code&gt; 将容量修改 1G&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; /vmfs/volumes/datastore1/OpenWrt/
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ef8383"&gt;cd&lt;/span&gt; /vmfs/volumes/datastore1/OpenWrt/
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vmkfstools -i openwrt-21.02.3-x86-64-generic-ext4-combined-efi.vmdk openwrt.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vmkfstools -X 1G openwrt.vmdk
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="5"&gt;
@@ -2867,18 +2952,18 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 &lt;/ul&gt;
 &lt;p&gt;需要保证安装了&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt;，否则会导致在运行容器后出现&lt;code&gt;Error response from daemon: failed to create the macvlan port: operation not supported&lt;/code&gt;错误&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;linux-modules-extra-raspi&lt;/code&gt; 是树莓派 Ubuntu Arm 的不常用扩展，Ubuntu 最新的包管理中默认不包含扩展；因此需要单独安装&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt install linux-modules-extra-raspi
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装之后需要重启树莓派&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="配置网络"&gt;配置网络&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;开启网卡混杂模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;默认情况下网卡只会将发送给本机的包传递到上层服务，其他的包一律丢弃；开启混杂模式后机器的网卡能够接收所有流经过它的数据流，而无论其目的地址是否是它，一般用于网络分析和路由节点；&lt;/p&gt;
 &lt;p&gt;树莓派只有一个有线接口，地址为 &lt;code&gt;eth0&lt;/code&gt;，所以在 &lt;code&gt;eth0&lt;/code&gt; 接口开启混杂模式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo ip link &lt;span style="color:#ef8383"&gt;set&lt;/span&gt; eth0 promisc on
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行以下命令检查结果&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;ifconfig eth0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;网卡 flag 信息有 &lt;code&gt;PROMISC&lt;/code&gt; 表示开启成功&lt;/p&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;eth0: flags=4419&amp;lt;UP,BROADCAST,RUNNING,PROMISC,MULTICAST&amp;gt; mtu 1500
 inet 192.168.31.2 netmask 255.255.255.0 broadcast 192.168.31.255
@@ -2920,17 +3005,17 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;li&gt;挂载 Windows 镜像到 Mac&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用 &lt;code&gt;hdiutil&lt;/code&gt; 挂载 iso 镜像文件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil mount ~/Downloads/Win10_21H2_Chinese&lt;span style="color:#d26464;font-weight:bold"&gt;\(&lt;/span&gt;Simplified&lt;span style="color:#d26464;font-weight:bold"&gt;\)&lt;/span&gt;_x64.iso
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hdiutil mount ~/Downloads/Win10_21H2_Chinese&lt;span style="color:#d26464;font-weight:bold"&gt;\(&lt;/span&gt;Simplified&lt;span style="color:#d26464;font-weight:bold"&gt;\)&lt;/span&gt;_x64.iso
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回以下结果， 挂载的路径&lt;code&gt;/Volumes/CCCOMA_X64FRE_ZH-CN_DV9&lt;/code&gt;在复制文件时还需要用到&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 /Volumes/CCCOMA_X64FRE_ZH-CN_DV9
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 /Volumes/CCCOMA_X64FRE_ZH-CN_DV9
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="格式化-u-盘"&gt;格式化 U 盘&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;查找 U 盘路径
 使用 &lt;code&gt;diskutil&lt;/code&gt;查看所有挂载的硬盘，可以通过名称及容量查找；如果已经执行上面的命令挂载了 ISO 镜像，且没有其他硬盘，那么路径一般为 &lt;code&gt;/dev/disk3&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list | grep external
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diskutil list | grep external
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;返回的 &lt;code&gt;dev/disk3&lt;/code&gt; 即为挂载的路径：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;external, physical&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;/dev/disk3 &lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;external, physical&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start="2"&gt;
 &lt;li&gt;格式化 U 盘&lt;/li&gt;
 &lt;/ol&gt;
@@ -2940,7 +3025,7 @@ docker network create -d macvlan --subnet=192.168.31.0/24 --gateway=192.168.31.1
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;reverse-proxy&lt;/span&gt;:

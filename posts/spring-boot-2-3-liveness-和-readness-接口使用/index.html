@@ -7,7 +7,7 @@ liveness 用于检查应用是否存活，当应用组件因故障不健康时�
 <a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Spring Boot 2.3+ Liveness 和 Readness 接口使用</h1><small role=doc-subtitle></small><p class=post-date>2020-09-20
 | Updated 2025-09-06</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li></ul></div><div class=post-content><p>在 Spring Boot 2.3+ 中，提供了单独的 liveness 和 readness，用于为 Kubernetes 提供相应检查接口</p><ul><li>liveness
 用于检查应用是否存活，当应用组件因故障不健康时，可以通过这个接口的结果，配置相应策略，重启应用或重新调度 Pod</li><li>readness
-用于检查应用是否就绪，是否可以提供服务，如当流量太大超过应用的承载范围时，可以将这个接口的状态改为不健康，这样可以停止接收流量，当处理完后再次检查时变为健康，继续处理请求</li></ul><h2 id=配置>配置</h2><ul><li>build.gradle 添加依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>plugins</span> <span style=color:#c7bf54>{</span>
+用于检查应用是否就绪，是否可以提供服务，如当流量太大超过应用的承载范围时，可以将这个接口的状态改为不健康，这样可以停止接收流量，当处理完后再次检查时变为健康，继续处理请求</li></ul><h2 id=配置>配置</h2><ul><li>build.gradle 添加依赖</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-groovy data-lang=groovy><span style=display:flex><span><span style=color:#c1abea>plugins</span> <span style=color:#c7bf54>{</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>id</span> <span style=color:#98c379>&#39;org.springframework.boot&#39;</span> <span style=color:#c1abea>version</span> <span style=color:#98c379>&#39;2.3.2.RELEASE&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>id</span> <span style=color:#98c379>&#39;io.spring.dependency-management&#39;</span> <span style=color:#c1abea>version</span> <span style=color:#98c379>&#39;1.0.9.RELEASE&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#c1abea>id</span> <span style=color:#98c379>&#39;java&#39;</span>
@@ -20,8 +20,8 @@ liveness 用于检查应用是否存活，当应用组件因故障不健康时�
 management.endpoint.health.group.readiness.include=ping
 management.endpoint.health.group.liveness.include=*
 management.endpoint.health.group.liveness.exclude=${management.endpoint.health.group.readiness.include}
-</code></pre><h2 id=测试>测试</h2><ul><li>启动应用</li></ul><h3 id=请求相应的接口>请求相应的接口</h3><ul><li>health</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</code></pre><h2 id=测试>测试</h2><ul><li>启动应用</li></ul><h3 id=请求相应的接口>请求相应的接口</h3><ul><li>health</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;status&#34;</span>: <span style=color:#63c381>&#34;UP&#34;</span>,
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;components&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;diskSpace&#34;</span>: {
@@ -45,8 +45,8 @@ management.endpoint.health.group.liveness.exclude=${management.endpoint.health.g
 </span></span><span style=display:flex><span>  },
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;groups&#34;</span>: [<span style=color:#63c381>&#34;liveness&#34;</span>, <span style=color:#63c381>&#34;readiness&#34;</span>]
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>readiness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/readiness
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><ul><li>readiness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/readiness
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;components&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;ping&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;status&#34;</span>: <span style=color:#63c381>&#34;UP&#34;</span>
@@ -54,8 +54,8 @@ management.endpoint.health.group.liveness.exclude=${management.endpoint.health.g
 </span></span><span style=display:flex><span>  },
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;status&#34;</span>: <span style=color:#63c381>&#34;UP&#34;</span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><ul><li>liveness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/liveness
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><ul><li>liveness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/liveness
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;components&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;custom&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;details&#34;</span>: {
@@ -93,8 +93,8 @@ public class CustomHealthIndicator implements HealthIndicator {
     }
 }
 </code></pre><ul><li>applicaiton.properties</li></ul><pre tabindex=0><code>management.endpoint.health.group.readiness.include=ping,custom
-</code></pre><h3 id=测试-1>测试</h3><ul><li>readiness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/readiness
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</code></pre><h3 id=测试-1>测试</h3><ul><li>readiness</li></ul><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl http://localhost:8080/actuator/health/readiness
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#e06c75>&#34;components&#34;</span>: {
 </span></span><span style=display:flex><span>    <span style=color:#e06c75>&#34;custom&#34;</span>: {
 </span></span><span style=display:flex><span>      <span style=color:#e06c75>&#34;details&#34;</span>: {

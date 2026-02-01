@@ -5,7 +5,7 @@
 &lt;h2 id="部署-derp-server"&gt;部署 DERP Server&lt;/h2&gt;
 &lt;p&gt;使用 docker-compose 部署 DERP Server，docker 镜像可以使用 &lt;code&gt;ghcr.io/helloworlde/derper&lt;/code&gt;，这是基于 Tailscale 源码构建的镜像；代码参考 &lt;a href="https://github.com/helloworlde/derper"&gt;ghcr.io/helloworlde/derper&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;将 ZeroSSL 申请的证书添加到 cert 目录下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── cert
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── 10.0.0.2.crt
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── 10.0.0.2.key
@@ -14,7 +14,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;derper&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;ghcr.io/helloworlde/derper&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;derper&lt;/span&gt;
@@ -42,13 +42,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;启动 DERP Server&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docekr compose up -d
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docekr compose up -d
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动后访问 &lt;code&gt; https://10.0.0.2:20443/&lt;/code&gt; 验证，可以正确访问说明部署成功：&lt;/p&gt;</description></item><item><title>解决阿里云和 Tailscale 的 100 网段冲突的问题</title><link>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E8%A7%A3%E5%86%B3%E9%98%BF%E9%87%8C%E4%BA%91%E5%92%8C-tailscale-%E7%9A%84-100-%E7%BD%91%E6%AE%B5%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>&lt;p&gt;Tailscale 使用的 &lt;code&gt;100.64.0.0/10&lt;/code&gt; 是一个运营商级网络地址转换(CGNAT)网段，这个网段是一个私有 IP 范围，不用于公共互联网，因此一些云服务商如阿里云等也使用这个网段作为内网网段，这样在阿里云服务器使用 Tailscale 的时候就会出现冲突，表现为启用 Tailscale 开启后阿里云的 DNS、软件源等 100 网段的服务都无法使用&lt;/p&gt;
 &lt;p&gt;这个问题可以通过配置 Tailscale 的防火墙策略解决&lt;/p&gt;
 &lt;h2 id="配置-tailscale-的防火墙"&gt;配置 Tailscale 的防火墙&lt;/h2&gt;
 &lt;p&gt;在启动时将自动防火墙配置程度设置为 &lt;code&gt;nodivert&lt;/code&gt;，这样 Tailscale 就不会自动配置防火墙规则，而是使用阿里云的防火墙规则；同时启用接受来自控制台的 DNS 配置，用于解析 Tailscale 节点的 IP 地址；这样就可以解决阿里云和 Tailscale 的 100 网段冲突的问题；&lt;/p&gt;
 &lt;p&gt;不过需要注意的是改为 &lt;code&gt;nodivert&lt;/code&gt; 可能会影响子网路由(advertise-routes) 和出口节点(exit node)功能&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale up --netfilter-mode&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;nodivert --accept-dns&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;--netfilter-mode=nodivert&lt;/code&gt; 这个参数是用于控制 Tailscale 自动配置防火墙（iptables/netfilter）规则的程度：&lt;/p&gt;
 &lt;table&gt;
  &lt;thead&gt;
@@ -85,7 +85,7 @@
 &lt;li&gt;&lt;code&gt;config/hysteria.yaml&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;服务端配置文件位于 &lt;code&gt;config/&lt;/code&gt; 路径下，关于配置细节可以参考 &lt;a href="https://v2.hysteria.network/zh/docs/advanced/Full-Server-Config/"&gt;完整服务端配置&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;listen&lt;/span&gt;: :&lt;span style="color:#d19a66"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;listen&lt;/span&gt;: :&lt;span style="color:#d19a66"&gt;443&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8a93a5;font-style:italic"&gt;# 伪装为 bing&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;masquerade&lt;/span&gt;:
@@ -166,12 +166,12 @@
 &lt;li&gt;创建网络&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;为了方便能通过 Docker 自动发现服务路由，创建一个容器共用的网络，用于 Traefik 路由到对应服务&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker network create traefik
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;需要在 docker-compose 指定网络，并挂载 &lt;code&gt;/var/run/docker.sock&lt;/code&gt;，用于自动获取路由规则&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;networks&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;traefik&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;external&lt;/span&gt;: &lt;span style="color:#b756ff;font-weight:bold"&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -211,12 +211,12 @@
 &lt;ul&gt;
 &lt;li&gt;下载项目&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/tailscale/tailscale.git
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;创建 Dockerfile&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;进入项目下，并在根目录创建 Dockerfile.derpprobe 文件，内容如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-Dockerfile" data-lang="Dockerfile"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;FROM&lt;/span&gt; &lt;span style="color:#98c379"&gt;golang:1.23-alpine&lt;/span&gt; &lt;span style="color:#c678dd"&gt;AS&lt;/span&gt; &lt;span style="color:#98c379"&gt;build-env&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;WORKDIR&lt;/span&gt; &lt;span style="color:#98c379"&gt;/go/src/tailscale&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
@@ -258,7 +258,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;构建镜像&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker build -t derpprobe -f Dockerfile.derpprobe .
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
 &lt;p&gt;通过 docker compose 部署&lt;/p&gt;</description></item><item><title>使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/</link><pubDate>Tue, 11 Jun 2024 21:33:44 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/</guid><description>&lt;p&gt;日常使用 Tailscale 连接异地的设备，但是因为经常出现无法直接连接，需要通过香港或东京的 DERP 服务器进行转发，导致延迟很高，影响网络质量；因此计划使用自建的 DERP 解决无法直连的问题；如果部署在国内的服务器上绑定域名需要备案，但是活动购买的服务器限制性能限制带宽限制流量还要单独购买公网 IP，并不合适；国外的延迟高可能还不如 Tailscale 官方的 DERP；&lt;/p&gt;
 &lt;p&gt;另外自建的 DERP 服务器要求节点能够直接通过公网访问，不能在 NAT 或者负载均衡后面，因此基于家庭宽带的公网 IPV6 自建 DERP 服务器最合适&lt;/p&gt;
@@ -267,7 +267,7 @@
 &lt;/blockquote&gt;
 &lt;h2 id="现状"&gt;现状&lt;/h2&gt;
 &lt;p&gt;检测 tailscale 的网络节点，延迟最低的是东京的节点，延迟在 70 ms 左右&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale netcheck
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tailscale netcheck
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Report:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	* UDP: &lt;span style="color:#ef8383"&gt;true&lt;/span&gt;
@@ -376,7 +376,7 @@
 &lt;ul&gt;
 &lt;li&gt;docker-compose.yml&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;version&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;reverse-proxy&lt;/span&gt;:
