@@ -2,7 +2,7 @@
 date: 2026-02-01
 # description: ""
 # image: ""
-lastmod: 2026-02-01
+lastmod: 2026-02-02
 showTableOfContents: false
 # tags: ["",]
 title: "轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录"
