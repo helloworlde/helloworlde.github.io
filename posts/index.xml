@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Mon, 02 Feb 2026 09:14:14 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录</title><link>https://blog.hellowood.dev/posts/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-pocketid-%E5%AE%9E%E7%8E%B0-sso-%E7%99%BB%E5%BD%95/</link><pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-pocketid-%E5%AE%9E%E7%8E%B0-sso-%E7%99%BB%E5%BD%95/</guid><description>&lt;p&gt;在&lt;a href="https://blog.hellowood.dev/posts/%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-ssh-%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%99%A8/"&gt;部署轻量跳板机 Warpgate 通过 SSH 访问机器&lt;/a&gt;后还需要对 Warpgate 的登录方式进行配置，以实现和其他的服务一样通过 OAuth2 进行 SSO 登录，让用户管理和认证都通过统一的身份提供商来完成；官方文档介绍可以参考 &lt;a href="https://warpgate.null.page/sso/"&gt;Single sign-on&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on HelloWood</title><link>https://blog.hellowood.dev/posts/</link><description>Recent content in Posts on HelloWood</description><generator>Hugo</generator><language>cn</language><lastBuildDate>Sat, 07 Feb 2026 18:43:33 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>群晖 NAS 使用 OIDC 工具 PocketID 进行 SSO 登录</title><link>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</link><pubDate>Sat, 07 Feb 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</guid><description>&lt;p&gt;群晖 NAS 每次登录都需要输入用户名密码，比较麻烦；群晖 NAS 支持 OIDC/LDAP 等方式进行 SSO 登录认证，因此可以使用 PocketID 来实现统一的身份认证服务&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png" alt="homelab-nas-sso-pocket-login-page.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;关于 PocketID 的介绍和部署可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/"&gt;使用 PocketID 搭建个人身份认证服务&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="配置-pocketid"&gt;配置 PocketID&lt;/h2&gt;
+&lt;p&gt;在 PocketID 中创建一个新的 OIDC 客户端，名称为 &lt;code&gt;Synology NAS&lt;/code&gt;，回调 URL 为 NAS 的访问地址，如 &lt;code&gt;https://nas.example.com&lt;/code&gt;（将 &lt;code&gt;nas.example.com&lt;/code&gt; 替换为实际的群晖 NAS 访问地址）&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-sso-pocket-create-new-application.png" alt="homelab-nas-sso-pocket-create-new-application.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;p&gt;创建完成后需要使用 &lt;code&gt;客户端 ID&lt;/code&gt;，&lt;code&gt;客户端密钥&lt;/code&gt; 以及 &lt;code&gt;OIDC发现网址&lt;/code&gt; 来配置群晖 NAS 的 OIDC 登录&lt;/p&gt;
+&lt;h2 id="配置群晖-nas"&gt;配置群晖 nas&lt;/h2&gt;
+&lt;p&gt;登录群晖 NAS 后进入 &lt;code&gt;控制面板&lt;/code&gt; -&amp;gt; &lt;code&gt;域/LDAP&lt;/code&gt; -&amp;gt; &lt;code&gt;SSO 客户端&lt;/code&gt;，选择 &lt;code&gt;启用 OpenID Connect SSO 服务&lt;/code&gt; 选项，然后进行配置：&lt;/p&gt;
+&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-nas-sso-pocket-nas-add-sso-config.png" alt="homelab-nas-sso-pocket-nas-add-sso-config.png" loading="lazy"&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置文件中选择 &lt;code&gt;OIDC&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;账户类型选择 &lt;code&gt;域/LDAP/本地&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;名称可以随意填写，如 &lt;code&gt;PocketID&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Well-known URL&lt;/code&gt; 是 OIDC发现网址，如 &lt;code&gt;https://pocket.example.com/.well-known/openid-configuration&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;应用程序ID和应用程序密钥填写之前在 PocketID 创建的客户端ID、客户端密钥&lt;/li&gt;
+&lt;li&gt;重定向 URI 填写 NAS 的访问地址，如 &lt;code&gt;https://nas.example.com&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;授权范围需要按需填写，不同的 ODIC 服务端不一样，PocketID 可以填写 &lt;code&gt;openid email profile&lt;/code&gt;，实际群晖只会用到 &lt;code&gt;profile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;用户名声明是群晖用于从 OIDC 用户信息中获取用户名的字段，PocketID 中是 &lt;code&gt;preferred_username&lt;/code&gt;；也可以是其他字段，如 &lt;code&gt;username&lt;/code&gt; 等，但是这个字段必须和 NAS 登录的用户名一致，否则登录会失败&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="测试登录"&gt;测试登录&lt;/h2&gt;
+&lt;p&gt;配置完成后打开新的浏览器窗口访问 NAS 地址，可以看到多了一个 &lt;code&gt;PocketID&lt;/code&gt; 的登录选项，点击后会跳转到 PocketID 的登录页面，登录成功后会跳转回 NAS 并完成登录&lt;/p&gt;</description></item><item><title>轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录</title><link>https://blog.hellowood.dev/posts/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-pocketid-%E5%AE%9E%E7%8E%B0-sso-%E7%99%BB%E5%BD%95/</link><pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E8%BD%BB%E9%87%8F%E7%BA%A7%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-pocketid-%E5%AE%9E%E7%8E%B0-sso-%E7%99%BB%E5%BD%95/</guid><description>&lt;p&gt;在&lt;a href="https://blog.hellowood.dev/posts/%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-ssh-%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%99%A8/"&gt;部署轻量跳板机 Warpgate 通过 SSH 访问机器&lt;/a&gt;后还需要对 Warpgate 的登录方式进行配置，以实现和其他的服务一样通过 OAuth2 进行 SSO 登录，让用户管理和认证都通过统一的身份提供商来完成；官方文档介绍可以参考 &lt;a href="https://warpgate.null.page/sso/"&gt;Single sign-on&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Warpgate 支持通过 Google/Apple/GitLab/Azure/Okta 等 OIDC 提供商进行认证；这里通过 &lt;a href="https://pocket-id.org/"&gt;PocketID&lt;/a&gt; 来实现 Warpgate 的 SSO 登录；关于 PocketID 的介绍和部署可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/"&gt;使用 PocketID 搭建个人身份认证服务&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;
 
