@@ -1,64 +1,93 @@
+import os
+import sys
 import requests
 import xml.etree.ElementTree as ET
 
-# 目标 sitemap URL
-sitemap_url = 'https://blog.hellowood.dev/sitemap.xml'
+SITEMAP_URL = 'https://blog.hellowood.dev/sitemap.xml'
+HOST = 'blog.hellowood.dev'
 
-# IndexNow API的 key 和 keyLocation（请替换为你的实际值）
-api_key = '78e11abb43484f688a1312d4a229c25b'  # 请替换为你的 API 密钥
-key_location = 'https://blog.hellowood.dev/78e11abb43484f688a1312d4a229c25b.txt'  # 请替换为你的 key 文件位置
-
-# 要提交的搜索引擎API列表
-apis = {
+SEARCH_ENGINES = {
     "IndexNow": "https://api.indexnow.org/indexnow",
     "Microsoft Bing": "https://www.bing.com/indexnow",
     "Naver": "https://searchadvisor.naver.com/indexnow",
     "Seznam.cz": "https://search.seznam.cz/indexnow",
     "Yandex": "https://yandex.com/indexnow",
-    "Yep": "https://indexnow.yep.com/indexnow"
+    "Yep": "https://indexnow.yep.com/indexnow",
 }
 
-# 1. 获取并解析 sitemap
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.9',
-}
 
-response = requests.get(sitemap_url, headers=headers)
-
-if response.status_code == 200:
-    # 解析 XML 数据，指定命名空间
-    xml_data = response.content
-    namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
-    root = ET.fromstring(xml_data)
-
-    # 提取所有 <loc> 标签中的URL
-    urls = [url.text for url in root.findall('.//ns:loc', namespaces=namespace)]
-
-    # 打印所有提取到的URL
-    print(f"Found {len(urls)} URLs in the sitemap.")
-
-    # 2. 准备POST请求的payload
-    payload = {
-        'host': 'blog.hellowood.dev',
-        'key': api_key,
-        'keyLocation': key_location,
-        'urlList': urls
+def get_sitemap_urls(sitemap_url):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (compatible; SEO-Submit-Bot/1.0)',
+        'Accept': 'application/xml,text/xml',
     }
 
-    # 3. 遍历搜索引擎并发送POST请求
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    for engine, api_url in apis.items():
-        try:
-            # 发送POST请求
-            response = requests.post(api_url, json=payload, headers=headers)
+    try:
+        response = requests.get(sitemap_url, headers=headers)
+        response.raise_for_status()
 
-            if response.status_code == 200:
-                print(f"Successfully submitted URLs to {engine}.")
+        root = ET.fromstring(response.content)
+        namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+
+        urls = [
+            url.text for url in root.findall('.//ns:loc', namespace)
+            if url.text and '/tags/' not in url.text
+        ]
+        return urls
+
+    except requests.RequestException as e:
+        print(f"获取 sitemap 失败: {e}")
+        return []
+    except ET.ParseError as e:
+        print(f"解析 sitemap XML 失败: {e}")
+        return []
+
+
+def submit_to_indexnow(urls, api_key):
+    key_location = f"https://{HOST}/{api_key}.txt"
+
+    payload = {
+        'host': HOST,
+        'key': api_key,
+        'keyLocation': key_location,
+        'urlList': urls,
+    }
+
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+
+    has_failure = False
+    for engine, api_url in SEARCH_ENGINES.items():
+        try:
+            response = requests.post(api_url, json=payload, headers=headers)
+            if response.status_code in (200, 202):
+                print(f"成功提交 {len(urls)} 个 URL 到 {engine}")
             else:
-                print(f"Failed to submit URLs to {engine}: {response.status_code}, {response.text}")
-        except Exception as e:
-            print(f"Error submitting URLs to {engine}: {e}")
-else:
-    print(f"Failed to retrieve sitemap: {response.status_code}")
+                print(f"提交到 {engine} 失败: {response.status_code}, {response.text}")
+                has_failure = True
+        except requests.RequestException as e:
+            print(f"提交到 {engine} 异常: {e}")
+            has_failure = True
+
+    return not has_failure
+
+
+def main():
+    api_key = os.environ.get('INDEXNOW_API_KEY')
+    if not api_key:
+        print("错误: 未设置 INDEXNOW_API_KEY 环境变量")
+        sys.exit(1)
+
+    urls = get_sitemap_urls(SITEMAP_URL)
+    if not urls:
+        print("未获取到有效 URL，跳过提交")
+        return
+
+    print(f"获取到 {len(urls)} 个有效 URL")
+
+    success = submit_to_indexnow(urls, api_key)
+    if not success:
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
