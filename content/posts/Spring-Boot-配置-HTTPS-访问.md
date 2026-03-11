@@ -3,7 +3,7 @@ description: "Spring Boot 配置 HTTPS 访问完整指南，涵盖生成 PKCS12 
 title: Spring Boot 配置 HTTPS 访问
 type: post
 date: 2018-12-31T22:42:17+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-11
 tags:
   - Java
   - SpringBoot
@@ -181,7 +181,7 @@ curl -v http://localhost:8080
 < Content-Length: 0
 < type: post
 date: Mon, 31 Dec 2018 14:31:44 GMT
-lastmod: 2025-09-06
+lastmod: 2026-03-11
 <
 * Connection #0 to host localhost left intact
 ```
