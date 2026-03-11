@@ -1,4 +1,5 @@
 ---
+description: "Kubenetes 部署 Dashboard 完整指南：NodePort 访问配置、ServiceAccount 创建及 Token 获取教程"
 title: Kubenetes 部署 Dashboard
 type: post
 date: 2019-09-08T19:28:25+08:00

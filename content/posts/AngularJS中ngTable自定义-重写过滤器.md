@@ -1,4 +1,5 @@
 ---
+description: "解决 AngularJS ngTable 缺失时间过滤问题，详解自定义与重写过滤器原理、HTML 模板配置及 JS 逻辑实现代码。"
 title: AngularJS 中ngTable自定义/重写过滤器
 type: post
 date: 2018-01-01T11:56:49+08:00

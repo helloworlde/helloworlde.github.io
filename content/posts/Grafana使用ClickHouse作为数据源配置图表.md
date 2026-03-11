@@ -1,4 +1,5 @@
 ---
+description: "Grafana 集成 ClickHouse 秒级监控实战：Docker Compose 部署、MergeTree 表结构设计与 SQL 查询配置指南"
 title: "Grafana 使用 ClickHouse 作为数据源配置图表"
 type: post
 date: 2023-11-27T15:20:30+08:00
