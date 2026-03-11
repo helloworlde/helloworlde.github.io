@@ -1,10 +1,14 @@
+# Usage:
+#   AI_API_URL="http://192.168.2.121:11434/v1/chat/completions" \
+#   AI_API_KEY="ollama" \
+#   AI_MODEL="qwen3.5:4b" \
+#   python script/generate_description.py
+
 import os
 import sys
 import re
 import time
-import json
-import urllib.request
-import urllib.error
+import requests
 
 AI_API_URL = os.environ.get('AI_API_URL', 'https://api.openai.com/v1/chat/completions')
 AI_API_KEY = os.environ.get('AI_API_KEY', '')
@@ -72,38 +76,34 @@ def call_ai_api(title, content):
 
 def _call_ollama(prompt):
     url = _ollama_base_url() + '/api/chat'
-    payload = json.dumps({
+    payload = {
         "model": AI_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "stream": False,
         "think": False,
         "options": {"temperature": 0.3},
-    }).encode('utf-8')
+    }
 
-    req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"}, method='POST')
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        data = json.loads(resp.read().decode('utf-8'))
-
-    return _clean_desc(data['message']['content'])
+    resp = requests.post(url, json=payload, timeout=120)
+    resp.raise_for_status()
+    return _clean_desc(resp.json()['message']['content'])
 
 
 def _call_openai(prompt):
-    payload = json.dumps({
+    payload = {
         "model": AI_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.3,
         "max_tokens": 500,
-    }).encode('utf-8')
+    }
 
-    headers = {"Content-Type": "application/json"}
+    headers = {}
     if AI_API_KEY:
         headers["Authorization"] = f"Bearer {AI_API_KEY}"
 
-    req = urllib.request.Request(AI_API_URL, data=payload, headers=headers, method='POST')
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        data = json.loads(resp.read().decode('utf-8'))
-
-    return _clean_desc(data['choices'][0]['message']['content'])
+    resp = requests.post(AI_API_URL, json=payload, headers=headers, timeout=120)
+    resp.raise_for_status()
+    return _clean_desc(resp.json()['choices'][0]['message']['content'])
 
 
 def _clean_desc(text):
