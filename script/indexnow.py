@@ -13,7 +13,6 @@ SEARCH_ENGINES = {
     "IndexNow": "https://api.indexnow.org/indexnow",
     "Microsoft Bing": "https://www.bing.com/indexnow",
     "Naver": "https://searchadvisor.naver.com/indexnow",
-    "Seznam.cz": "https://search.seznam.cz/indexnow",
     "Yandex": "https://yandex.com/indexnow",
     "Yep": "https://indexnow.yep.com/indexnow",
 }
@@ -110,9 +109,7 @@ def main():
 
     print(f"获取到 {len(urls)} 个有效 URL")
 
-    success = submit_to_indexnow(session, urls, api_key)
-    if not success:
-        sys.exit(1)
+    submit_to_indexnow(session, urls, api_key)
 
 
 if __name__ == '__main__':

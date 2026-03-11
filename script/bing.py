@@ -76,7 +76,6 @@ def submit_urls_to_bing(session, site_url, urls, api_key):
         print(response.json())
     except requests.RequestException as e:
         print(f"提交 URL 到 Bing 失败: {e}")
-        sys.exit(1)
 
 
 def main():
