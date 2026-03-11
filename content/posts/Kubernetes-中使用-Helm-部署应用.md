@@ -113,7 +113,7 @@ helm create rest
 ```yaml
 apiVersion: v1
 appVersion: "1.0"
-description: Rest application with Helm
+description: "掌握 Kubernetes 与 Helm 部署流程，从 Go 应用构建 Docker 镜像到编写 Chart 模板及安装命令，实现容器化服务自动化运维。"
 name: rest
 version: 0.1.0
 maintainers:

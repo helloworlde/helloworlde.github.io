@@ -6,8 +6,8 @@ import json
 import time
 import random
 
-SITEMAP_URL = 'https://blog.hellowood.dev/sitemap.xml'
 SITE_URL = 'https://blog.hellowood.dev'
+SITEMAP_FILE = 'public/sitemap.xml'
 MAX_SUBMIT_URLS = 500
 
 BROWSER_HEADERS = {
@@ -34,12 +34,14 @@ def create_session():
     return session
 
 
-def get_sitemap_urls(session, sitemap_url):
-    try:
-        response = session.get(sitemap_url, timeout=30)
-        response.raise_for_status()
+def get_sitemap_urls(sitemap_file):
+    if not os.path.isfile(sitemap_file):
+        print(f"sitemap 文件不存在: {sitemap_file}")
+        return []
 
-        root = ET.fromstring(response.content)
+    try:
+        tree = ET.parse(sitemap_file)
+        root = tree.getroot()
         namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
 
         urls = [
@@ -47,10 +49,6 @@ def get_sitemap_urls(session, sitemap_url):
             if url.text and '/tags/' not in url.text
         ]
         return urls
-
-    except requests.RequestException as e:
-        print(f"获取 sitemap 失败: {e}")
-        return []
     except ET.ParseError as e:
         print(f"解析 sitemap XML 失败: {e}")
         return []
@@ -89,7 +87,7 @@ def main():
 
     session = create_session()
 
-    urls = get_sitemap_urls(session, SITEMAP_URL)
+    urls = get_sitemap_urls(SITEMAP_FILE)
     if not urls:
         print("未获取到有效 URL，跳过提交")
         return

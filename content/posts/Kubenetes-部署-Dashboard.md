@@ -3,7 +3,7 @@ description: "Kubenetes 部署 Dashboard 完整指南：NodePort 访问配置、
 title: Kubenetes 部署 Dashboard
 type: post
 date: 2019-09-08T19:28:25+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-11
 tags:
   - Kubernetes
 featured: true
@@ -62,7 +62,7 @@ metadata:
   annotations:
     rbac.authorization.kubernetes.io/autouptype: post
 date: "true"
-lastmod: 2025-09-06
+lastmod: 2026-03-11
 roleRef:
   kind: ClusterRole
   name: cluster-admin

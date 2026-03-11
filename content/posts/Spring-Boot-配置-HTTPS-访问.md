@@ -1,4 +1,5 @@
 ---
+description: "Spring Boot 配置 HTTPS 访问完整指南，涵盖生成 PKCS12 证书、Tomcat SSL 配置及 HTTP 重定向实现，助力开发者快速部署安全服务。"
 title: Spring Boot 配置 HTTPS 访问
 type: post
 date: 2018-12-31T22:42:17+08:00
