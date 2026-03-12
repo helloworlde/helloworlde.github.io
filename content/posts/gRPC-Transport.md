@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC ClientTransport 与 ServerTransport 架构，涵盖 Netty、OkHttp 实现及连接生命周期管理。"
 title: gRPC Transport
 type: post
 date: 2020-10-22T22:34:46+08:00

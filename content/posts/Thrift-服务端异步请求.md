@@ -1,4 +1,5 @@
 ---
+description: "详解 Apache Thrift 服务端异步请求实现，涵盖 IDL 定义、非阻塞服务器配置及回调处理机制，提升高并发性能。"
 title: Thrift 服务端异步请求
 type: post
 date: 2021-02-01T22:34:46+08:00

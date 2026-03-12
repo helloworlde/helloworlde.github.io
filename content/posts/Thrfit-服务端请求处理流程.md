@@ -1,4 +1,5 @@
 ---
+description: "解析 Thrift 服务端同步非阻塞请求流程，详解 TThreadedSelectorServer 实现与 IO 事件处理机制。"
 title: Thrfit 服务端请求处理流程
 type: post
 date: 2021-02-20T22:34:46+08:00

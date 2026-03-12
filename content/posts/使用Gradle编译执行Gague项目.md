@@ -1,4 +1,5 @@
 ---
+description: "使用 Gradle 构建 Gauge 项目详解：配置 build.gradle 添加 Gauge 与 Selenium 依赖，通过 gradle init、build 及 gauge task 实现自动化测试。"
 title: 使用Gradle编译执行Gague项目
 type: post
 date: 2018-01-01T11:32:34+08:00

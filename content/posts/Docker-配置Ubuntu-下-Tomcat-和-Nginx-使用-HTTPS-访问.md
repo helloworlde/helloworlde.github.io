@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu Docker 部署 Tomcat Nginx HTTPS 全攻略：含镜像源配置、容器启动命令及 SSL 证书反向代理设置教程。"
 title: Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问
 type: post
 date: 2018-04-08T15:38:01+08:00

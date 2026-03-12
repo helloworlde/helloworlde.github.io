@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC ClientStream 与 ServerStream 架构，详解 Netty 与 OkHttp 实现机制及流式通信核心 API。"
 title: gRPC Stream
 type: post
 date: 2020-11-08T22:34:46+08:00

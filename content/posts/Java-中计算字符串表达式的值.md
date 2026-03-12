@@ -1,4 +1,5 @@
 ---
+description: "Java 使用 javax.script.ScriptEngine 和 Nashorn 引擎计算字符串数值表达式，支持复杂数学运算与异常处理。"
 title: Java 中计算字符串表达式的值
 type: post
 date: 2018-08-25T10:55:46+08:00

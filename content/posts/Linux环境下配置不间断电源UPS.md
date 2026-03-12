@@ -1,4 +1,5 @@
 ---
+description: "Linux 下 NUT 不间断电源配置指南：树莓派 USB 连接、驱动安装、守护进程设置及自动关机策略详解。"
 title: "Linux 环境下配置不间断电源 UPS"
 type: post
 date: 2023-10-04T15:22:56+08:00

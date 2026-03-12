@@ -1,4 +1,5 @@
 ---
+description: "Proxmox VE 创建自定义 LXC CT 模板教程：从零初始化 Ubuntu 容器，清理配置并备份生成标准镜像，优化特权模式与 AppArmor 设置。"
 title: Proxmox VE 创建自定义的 LXC 容器 CT 模板
 type: post
 date: 2024-01-07T12:00:10+08:00

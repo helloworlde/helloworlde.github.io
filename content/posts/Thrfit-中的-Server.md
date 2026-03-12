@@ -1,4 +1,5 @@
 ---
+description: "Thrift Server 实现详解：TSimpleServer、TThreadPoolServer 及 AbstractNonblockingServer 核心源码分析"
 title: Thrfit 中的 Server
 type: post
 date: 2021-01-18T22:34:46+08:00

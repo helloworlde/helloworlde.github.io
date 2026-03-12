@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 下 Jenkins 安装配置指南：JDK 环境检查、apt-get 源码包安装、8080 端口修改及 init.d 服务启动与访问日志排查。"
 title: Ubuntu安装配置 Jenkins
 type: post
 date: 2018-01-01T12:12:32+08:00

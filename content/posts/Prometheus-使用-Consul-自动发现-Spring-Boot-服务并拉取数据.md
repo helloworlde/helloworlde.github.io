@@ -1,4 +1,5 @@
 ---
+description: "利用 Consul 服务发现机制自动拉取 Spring Boot 应用监控数据，解决 Prometheus 静态配置维护困难问题，实现动态服务发现与指标采集。"
 title: Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据
 type: post
 date: 2020-05-16T14:49:38+08:00

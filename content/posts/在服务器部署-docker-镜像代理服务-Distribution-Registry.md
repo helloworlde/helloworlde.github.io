@@ -1,6 +1,6 @@
 ---
 date: 2025-12-09
-# description: ""
+description: "解决 Docker 镜像拉取失败，基于 CNCF Distribution Registry 搭建本地镜像代理服务，使用 Docker Compose 部署配置，提升国内服务器镜像下载速度与稳定性。"
 # image: ""
 lastmod: 2026-03-10
 showTableOfContents: false

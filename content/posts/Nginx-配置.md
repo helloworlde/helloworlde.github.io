@@ -1,4 +1,5 @@
 ---
+description: "掌握 Nginx 反向代理配置，实现多域名与路径转发，优化服务器性能与高可用性。"
 title: Nginx 配置
 type: post
 date: 2018-01-01T12:03:12+08:00

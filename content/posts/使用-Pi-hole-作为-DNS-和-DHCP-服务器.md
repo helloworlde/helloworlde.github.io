@@ -1,4 +1,5 @@
 ---
+description: "OpenWrt 下利用 Docker macvlan 部署 Pi-hole 与 Smartdns 实现广告拦截及静态 IP 分配，解决端口冲突并优化国内 DNS 解析性能。"
 title: 使用 Pi-hole 作为 DNS 和 DHCP 服务器
 type: post
 date: 2022-09-05T11:32:08+08:00

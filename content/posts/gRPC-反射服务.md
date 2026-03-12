@@ -1,4 +1,5 @@
 ---
+description: "gRPC 反射服务 ServerReflection 详解：获取服务定义、方法属性，实现泛化调用与调试工具集成，包含双向流协议规范及 Java 服务端客户端完整示例代码。"
 title: gRPC 反射服务
 type: post
 date: 2021-01-17T22:34:46+08:00

@@ -1,4 +1,5 @@
 ---
+description: "深入解析 MySQL InnoDB 索引锁机制，剖析 gap lock 与 next-key lock 在等值查询下的锁定范围及自增主键对插入阻塞的影响。"
 title: MySQL 中关于gap lock / next-key lock 的一个问题
 type: post
 date: 2019-01-07T21:40:58+08:00

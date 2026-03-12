@@ -1,4 +1,5 @@
 ---
+description: "掌握 Spring Boot 自定义异常处理，通过 HandlerExceptionResolver 与 ControllerAdvice 实现统一 JSON 响应，优化用户体验。"
 title: Spring Boot 中自定义异常处理
 type: post
 date: 2019-09-08T18:47:12+08:00

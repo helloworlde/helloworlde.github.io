@@ -1,4 +1,5 @@
 ---
+description: "SpringMVC实现国际化多语言配置教程，详解web.xml、spring配置文件及properties资源文件设置方法。"
 title: Spring MVC简单实现国际化/多语言
 type: post
 date: 2018-01-01T11:48:46+08:00

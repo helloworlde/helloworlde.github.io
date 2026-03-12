@@ -1,4 +1,5 @@
 ---
+description: "Proxmox VE 安装初始化指南：基于 Debian 的开源虚拟化解决方案，涵盖 ISO 下载、启动盘制作、网络配置及 Web 控制台登录全流程。"
 title: Proxmox VE 安装初始化
 type: post
 date: 2023-02-27T21:41:04+08:00

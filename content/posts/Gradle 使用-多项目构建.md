@@ -1,4 +1,5 @@
 ---
+description: "详解 Gradle 多模块项目配置，涵盖子模块通用设置、SpringBoot 插件应用及跨项目依赖引用方法。"
 title: Gradle 添加多项，依赖其他项目
 type: post
 date: 2018-01-01T00:05:06+08:00

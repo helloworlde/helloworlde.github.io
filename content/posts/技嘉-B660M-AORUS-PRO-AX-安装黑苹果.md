@@ -1,4 +1,5 @@
 ---
+description: "技嘉 B660M AORUS PRO AX 黑苹果安装教程，详解 i9-12900K、RX 6600 显卡及 Wi-Fi 驱动配置与系统兼容性测试。"
 title: 技嘉 B660M AORUS PRO AX 安装黑苹果
 type: post
 date: 2022-12-30T21:47:06+08:00

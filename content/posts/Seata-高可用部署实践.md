@@ -1,4 +1,5 @@
 ---
+description: "Seata 高可用部署实践：基于 Nacos 配置中心与 MySQL 数据库实现事务管理，结合 Kubernetes StatefulSet 完成 seata-server 集群化，适用于分布式微服务容灾架构。"
 title: Seata 高可用部署实践
 type: post
 date: 2020-04-10T10:51:17+08:00

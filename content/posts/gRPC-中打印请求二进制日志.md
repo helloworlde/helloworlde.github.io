@@ -1,4 +1,5 @@
 ---
+description: "gRPC 二进制日志打印指南：通过 BinaryLogSink 实现请求 Header 与 MessageLite 二进制输出，辅助问题排查及日志格式自定义配置。"
 title: gRPC 中打印请求二进制日志
 type: post
 date: 2021-01-04T22:34:46+08:00

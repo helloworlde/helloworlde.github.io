@@ -1,6 +1,6 @@
 ---
 date: 2025-08-30
-# description: ""
+description: "轻量级 Tinyauth 鉴权工具部署指南，支持 OIDC 与 HomeLab 集成，实现 Caddy 反向代理安全认证配置。"
 # image: ""
 lastmod: 2025-09-06
 showTableOfContents: false

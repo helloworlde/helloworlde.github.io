@@ -1,4 +1,5 @@
 ---
+description: "树莓派 4B Ubuntu Docker OpenWrt 软路由安装教程，含 linux-modules-extra-raspi 依赖配置、macvlan 网络设置及容器启动指南。"
 title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
 type: post
 date: 2022-07-20T11:32:08+08:00

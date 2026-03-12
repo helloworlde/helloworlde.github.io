@@ -1,4 +1,5 @@
 ---
+description: "Gauge 自动化测试实战：Java 实现 HTTP GET/POST 请求验证，集成 FastJSON 解析 JSON 数据，提升接口测试效率与代码可维护性。"
 title: Gauge中执行Http请求测试
 type: post
 date: 2018-01-01T11:33:29+08:00

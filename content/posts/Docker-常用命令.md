@@ -1,4 +1,5 @@
 ---
+description: "掌握 Docker run stop restart attach exec save load export import rm prune 核心命令，快速管理启动停止重启及镜像容器快照操作。"
 title: Docker 常用命令
 type: post
 date: 2018-04-08T15:20:02+08:00

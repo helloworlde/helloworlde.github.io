@@ -1,4 +1,5 @@
 ---
+description: "Go 命令行工具 OSS 文件上传实战，基于 Cobra 框架实现，涵盖项目初始化、依赖管理、命令配置及 goreleaser 自动化发布全流程。"
 title: Go 开发命令行工具-OSS文件上传
 type: post
 date: 2019-09-08T18:53:25+08:00

@@ -1,4 +1,5 @@
 ---
+description: "JRebel 安装激活指南：适用于 Eclipse、MyEclipse、IDEA 和 NetBeans 的 Java 代码热更新工具部署与免费激活教程。"
 title: JRebel 安装激活
 type: post
 date: 2018-05-30T01:27:34+08:00

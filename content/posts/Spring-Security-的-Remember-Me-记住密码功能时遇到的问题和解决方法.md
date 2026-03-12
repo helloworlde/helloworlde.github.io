@@ -1,4 +1,5 @@
 ---
+description: "解决 Spring Security Remember Me 报错 IllegalStateException UserDetailsService is required 问题，通过注入自定义 UserDetailsService 实现持久化令牌自动登录功能。"
 title: 在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法
 type: post
 date: 2018-01-01T00:37:35+08:00

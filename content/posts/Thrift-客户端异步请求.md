@@ -1,4 +1,5 @@
 ---
+description: "详解 Apache Thrift Java 异步客户端实现，涵盖 IDL 定义、AsyncClient 构建、TNonblockingSocket 传输及 AsyncMethodCallback 回调机制。"
 title: Thrift 客户端异步请求
 type: post
 date: 2021-02-20T22:34:46+08:00

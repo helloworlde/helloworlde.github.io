@@ -1,4 +1,5 @@
 ---
+description: "GraphQL Spring Boot 集成 MongoDB 实现 CRUD 接口，包含依赖配置、Schema 定义及 Resolver 编写指南。"
 title: GraphQL Spring Boot 使用
 type: post
 date: 2019-01-29T19:57:12+08:00

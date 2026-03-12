@@ -1,6 +1,6 @@
 ---
 date: 2025-08-02
-# description: ""
+description: "Tailscale 1.82+ 支持自签 IP 证书，本文详解使用 ZeroSSL 公网 IP 免域名部署 DERP Server 的完整流程，含 Docker Compose 配置与 Tailscale 控制台添加步骤。"
 # image: ""
 lastmod: 2025-08-02
 showTableOfContents: false

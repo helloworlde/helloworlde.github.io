@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot 2.3+ 使用 Buildpacks 插件构建 Docker 镜像，支持分层构建与 JVM 参数自动计算，优化镜像体积并降低存储成本。"
 title: SpringBoot 框架自带插件构建 Docker 镜像
 type: post
 date: 2020-09-20T22:31:43+08:00

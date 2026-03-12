@@ -1,6 +1,6 @@
 ---
 date: 2025-04-15
-# description: ""
+description: "PVE 虚拟机迁移指南：使用 vzdump 命令行备份、rsync 传输及 qmrestore 还原 OpenWrt 实例的完整实操教程。"
 # image: ""
 lastmod: 2025-09-06
 showTableOfContents: false

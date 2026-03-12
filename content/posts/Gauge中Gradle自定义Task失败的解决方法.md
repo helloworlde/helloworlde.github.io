@@ -1,4 +1,5 @@
 ---
+description: "解决Gauge中Gradle自定义Task失败问题，通过导入com.thoughtworks.gauge.gradle.GaugeTask限定类名修复Could not find property错误。"
 title: Gauge中Gradle自定义Task失败的解决方法
 type: post
 date: 2018-01-01T11:26:41+08:00

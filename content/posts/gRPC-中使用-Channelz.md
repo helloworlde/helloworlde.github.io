@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC Channelz 服务定义与实现，掌握服务端与客户端监控调试核心 API 及 Java 依赖配置方法。"
 title: gRPC 中使用 Channelz
 type: post
 date: 2021-01-04T22:34:46+08:00

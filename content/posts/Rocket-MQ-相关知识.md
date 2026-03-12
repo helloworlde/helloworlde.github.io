@@ -1,4 +1,5 @@
 ---
+description: "深入解析 Rocket MQ 核心概念、同步异步单向发送机制及定时延时消息代码实战。"
 title: Rocket MQ 相关知识
 type: post
 date: 2018-01-01T12:54:02+08:00

@@ -1,4 +1,5 @@
 ---
+description: "Docker 配置 Nginx 转发宿主机 Tomcat 应用，包含镜像拉取、端口映射及反向代理头设置完整指南。"
 title: Docker 配置 Nginx 访问宿主机目录下的应用
 type: post
 date: 2018-04-10T11:39:09+08:00

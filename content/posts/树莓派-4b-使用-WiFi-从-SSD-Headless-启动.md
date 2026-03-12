@@ -1,4 +1,5 @@
 ---
+description: "树莓派 4b 无网头启动：利用 Raspberry Pi Imager 写入 Ubuntu Server 至 SSD，配置 WiFi 网络参数实现无线初始化与 SSH 远程访问。"
 title: 树莓派 4b 使用 WiFi 从 SSD Headless 启动
 type: post
 date: 2021-04-24T21:21:27+08:00

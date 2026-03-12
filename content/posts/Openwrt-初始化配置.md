@@ -1,4 +1,5 @@
 ---
+description: "OpenWrt 初始化配置指南：通过 opkg 安装中文语言包、设置时区、部署 Argon 主题及配置 root 密码与 SSH 密钥，快速搭建家庭实验室。"
 title: Openwrt-初始化配置
 type: post
 date: 2022-08-08T11:44:37+08:00

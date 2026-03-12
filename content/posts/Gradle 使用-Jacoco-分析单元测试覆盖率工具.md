@@ -1,4 +1,5 @@
 ---
+description: "在 Gradle 项目中集成 Jacoco 插件以生成 Java 单元测试覆盖率报告，包含构建脚本配置、HTML/XML 输出设置及执行依赖检查的完整指南。"
 title: Gradle 使用-添加 Jacoco 分析单元测试覆盖率工具
 type: post
 date: 2018-01-01T00:03:40+08:00

@@ -1,4 +1,5 @@
 ---
+description: "树莓派 4b 安装 K3S Kubernetes 集群教程，含 Docker 部署、kubectl 访问及 Rancher 管理指南，适用于 ARM64 边缘计算。"
 title: 树莓派 4b 安装 Kubernetes
 type: post
 date: 2021-04-24T22:55:32+08:00

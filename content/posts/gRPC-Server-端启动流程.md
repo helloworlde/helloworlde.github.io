@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC Server 启动流程，涵盖 Netty 底层实现、ServerBuilder 配置、拦截器注册及端口绑定机制，助力开发者掌握高并发 RPC 服务架构核心原理。"
 title: gRPC Server 端启动流程
 type: post
 date: 2020-12-05T22:34:46+08:00

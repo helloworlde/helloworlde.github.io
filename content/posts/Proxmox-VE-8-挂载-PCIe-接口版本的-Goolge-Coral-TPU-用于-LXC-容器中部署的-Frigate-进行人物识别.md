@@ -1,4 +1,5 @@
 ---
+description: "Proxmox VE 8 挂载 PCIe Google Coral TPU 至 LXC 运行 Frigate 人物识别，含驱动编译、udev 规则及硬件直通配置详解。"
 title: "Proxmox VE 8 挂载 PCIe 接口版本的 Goolge Coral TPU 用于 LXC 容器中部署的 Frigate 进行人物识别"
 date: 2024-12-01T20:26:09+08:00
 lastmod: 2025-09-06

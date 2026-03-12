@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 22.04 HomeLab 初始化配置：主机名、清华源、SSH 密钥、时区、Docker 及 zsh 环境快速部署指南"
 title: Ubuntu 22 环境初始化
 type: post
 date: 2024-01-07T18:03:00+08:00

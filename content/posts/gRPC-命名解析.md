@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC 命名解析机制，详解 NameResolver、Provider 及 Registry 架构与源码实现原理。"
 title: gRPC 命名解析
 type: post
 date: 2020-09-20T22:35:22+08:00

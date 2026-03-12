@@ -1,6 +1,6 @@
 ---
 date: 2025-09-02
-# description: ""
+description: "利用 Split DNS 与 Caddy 实现 HomeLab 内网公网一致访问，通过 Cloudflare Tunnel 和 Let's Encrypt 证书解决 HTTPS 信任问题。"
 # image: ""
 lastmod: 2025-09-06
 showTableOfContents: false

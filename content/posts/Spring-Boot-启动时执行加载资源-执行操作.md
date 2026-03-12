@@ -1,4 +1,5 @@
 ---
+description: "Spring Boot 启动初始化指南：详解实现 CommandLineRunner 与 ApplicationListener 接口，掌握启动顺序控制及资源加载最佳实践。"
 title: Spring Boot 启动时执行加载资源/执行操作
 type: post
 date: 2018-01-01T00:54:49+08:00

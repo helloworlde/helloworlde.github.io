@@ -1,4 +1,5 @@
 ---
+description: "Spring Cloud Gateway 集成 Kubernetes 服务发现，利用 K8S Service 实现动态路由与负载均衡，通过 spring-cloud-kubernetes-discovery 替代注册中心，优化微服务架构部署。"
 title: Spring Cloud Gateway 使用 Kubernetes 作为服务发现
 type: post
 date: 2020-09-20T22:25:04+08:00

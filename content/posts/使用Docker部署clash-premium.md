@@ -1,4 +1,5 @@
 ---
+description: "Clash Premium Docker 部署指南：配置订阅转换、TUN 模式、代理组与规则集，实现高性能网络代理。"
 title: 使用 Docker 部署 Clash Premium
 type: post
 date: 2023-09-09T21:32:33+08:00

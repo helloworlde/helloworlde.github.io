@@ -1,4 +1,5 @@
 ---
+description: "解决 GitHub 下载慢问题：修改 hosts 文件将 github-cloud.s3.amazonaws.com 指向国内 IP，优化 S3 访问速度。"
 title: 解决从GitHub上下载文件慢的问题
 type: post
 date: 2018-01-01T11:34:48+08:00

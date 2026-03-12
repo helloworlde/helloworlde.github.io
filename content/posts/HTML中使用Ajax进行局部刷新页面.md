@@ -1,4 +1,5 @@
 ---
+description: "详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。"
 title: HTML中使用Ajax进行局部刷新页面
 type: post
 date: 2018-01-01T11:38:52+08:00

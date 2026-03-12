@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 安装 Nginx 完整指南：包管理器与源码编译步骤、目录结构解析及启动配置详解，助力 Linux 服务器高效部署 Web 服务。"
 title: Ubuntu安装 Nginx
 type: post
 date: 2018-01-01T12:10:38+08:00

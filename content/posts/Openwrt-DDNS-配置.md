@@ -1,4 +1,5 @@
 ---
+description: "OpenWrt DDNS 配置教程：获取公网 IP、安装 luci-app-ddns 与脚本、设置动态更新及防火墙策略，实现域名访问家庭网络设备。"
 title: Openwrt-DDNS 配置
 type: post
 date: 2022-08-26T11:32:08+08:00

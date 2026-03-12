@@ -1,4 +1,5 @@
 ---
+description: "解析 gRPC Java 重试机制：基于 RpcProgress 状态判断策略，深入剖析 ClientCalls 与 RetriableStream 核心代码流程。"
 title: gRPC 重试流程
 type: post
 date: 2020-09-20T22:40:07+08:00

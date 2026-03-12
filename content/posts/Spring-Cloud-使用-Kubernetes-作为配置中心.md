@@ -1,4 +1,5 @@
 ---
+description: "Spring Cloud 集成 Kubernetes ConfigMap 实现动态配置中心，支持 polling 与 event 模式热更新，详解依赖配置、属性绑定及部署策略。"
 title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
 date: 2019-09-08T19:15:46+08:00

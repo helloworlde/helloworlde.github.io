@@ -1,4 +1,5 @@
 ---
+description: "探索 Frigate 与 Double Take、DeepStack 结合实现人脸识别方案，详解 MQTT 消息监听、OpenVINO GPU 加速及 Docker 部署配置。"
 title: "基于 Frigate 使用 Double Take 和 DeepStack 对视频监控进行人脸识别"
 type: post
 date: 2024-08-16T09:29:49+08:00

@@ -1,4 +1,5 @@
 ---
+description: "WireGuard 跨地域局域网组网方案，解决 Frigate 监控延迟高问题。基于 Ubuntu 22.04 部署树莓派与 LXC 容器，配置密钥对、预共享密钥及 wg0.conf 文件，实现低延迟安全互通。"
 title: 使用WireGuard连接异地局域网
 type: post
 date: 2023-09-24T17:56:49+08:00

@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 系统安装 JDK 完整教程：下载、解压、配置环境变量及验证 Java 版本，适用于 Linux 开发环境部署。"
 title: Ubuntu安装JDK
 type: post
 date: 2018-01-01T12:11:39+08:00

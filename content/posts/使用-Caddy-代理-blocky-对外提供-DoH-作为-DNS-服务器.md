@@ -1,6 +1,6 @@
 ---
 date: 2025-08-02
-# description: ""
+description: "利用阿里云低延迟内网 DNS，通过 Caddy 与 Blocky 构建高可用 DoH 服务，实现广告过滤、HTTPS 加密及 Prometheus 监控，解决国内 DNS 限速问题。"
 # image: ""
 lastmod: 2025-08-02
 showTableOfContents: false

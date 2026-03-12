@@ -1,4 +1,5 @@
 ---
+description: "Spring Cloud Kubernetes 服务注册与发现实现指南，详解环境配置、Kubernetes Client 初始化及自动注册流程。"
 title: Spring Cloud Kubernetes 服务注册和发现
 type: post
 date: 2020-09-20T22:26:03+08:00

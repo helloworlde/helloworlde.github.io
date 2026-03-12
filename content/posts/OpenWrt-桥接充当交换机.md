@@ -1,4 +1,5 @@
 ---
+description: "OpenWrt 桥接充当交换机教程：基于 PVE 直通 PCI 网卡安装 Intel I225V 驱动配置 br-lan 实现 2.5G 高速交换扩展网口方案"
 title: OpenWrt 桥接充当交换机
 type: post
 date: 2023-03-21T21:33:24+08:00

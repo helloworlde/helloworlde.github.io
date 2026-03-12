@@ -1,4 +1,5 @@
 ---
+description: "基于 Consul_exporter 扩展 Prometheus 监控数据，自定义 Grafana Dashboard 实现服务注册、响应时间及健康状态可视化。"
 title: 使用自定义 Grafana 面板监控 Consul
 type: post
 date: 2020-05-16T14:47:24+08:00

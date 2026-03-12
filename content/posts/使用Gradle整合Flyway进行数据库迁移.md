@@ -1,4 +1,5 @@
 ---
+description: "Gradle 整合 Flyway 数据库迁移插件配置指南，详解 build.gradle 集成、迁移命令及校验修复操作，提升开发效率。"
 title: 使用Gradle整合Flyway进行数据库迁移
 type: post
 date: 2018-01-01T00:49:34+08:00

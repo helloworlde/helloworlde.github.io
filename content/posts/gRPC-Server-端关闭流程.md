@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC Server 端关闭流程，详解 shutdown 与 shutdownNow 方法源码实现及资源释放机制。"
 title: gRPC Server 端关闭流程
 type: post
 date: 2020-12-05T22:34:46+08:00

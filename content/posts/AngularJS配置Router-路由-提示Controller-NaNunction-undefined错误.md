@@ -1,4 +1,5 @@
 ---
+description: "解决 AngularJS 配置路由时 Controller NaNunction 错误，通过引入 $controllerProvider 正确注册控制器实现依赖注入。"
 title: AngularJS配置Router(路由)提示Controller NaNunction/undefined错误
 type: post
 date: 2018-01-01T12:05:17+08:00

@@ -1,4 +1,5 @@
 ---
+description: "深入解析 Thrift 中 TTransport 与 TServerTransport 核心机制，涵盖读写方法、NIO 实现及压缩认证等关键技术。"
 title: Thrift 中的 Transport
 type: post
 date: 2021-02-01T22:34:46+08:00

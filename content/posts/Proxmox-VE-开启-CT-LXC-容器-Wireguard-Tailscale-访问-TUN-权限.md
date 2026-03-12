@@ -1,4 +1,5 @@
 ---
+description: "PVE 容器 Wireguard Tailscale 访问 TUN 权限配置教程，详解 LXC CT 挂载/dev/net/tun 设备步骤与核心参数设置。"
 title: Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限
 date: 2024-09-17T10:57:59+08:00
 lastmod: 2025-09-06

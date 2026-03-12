@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot生成War包教程：Gradle配置build.gradle添加插件与依赖，修改Application继承ServletInitializer实现Tomcat部署"
 title: SpringBoot项目生成War包
 type: post
 date: 2018-01-01T00:50:49+08:00

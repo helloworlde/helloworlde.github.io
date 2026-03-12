@@ -1,4 +1,5 @@
 ---
+description: "树莓派 4b 无网线安装 Ubuntu 20.04 LTS 完整教程，含 SD 卡格式化、balenaEtcher 刻录镜像及命令行部署指南。"
 title: 树莓派 4b 无网线安装 Ubuntu 并初始化
 type: post
 date: 2019-12-15T22:42:04+08:00

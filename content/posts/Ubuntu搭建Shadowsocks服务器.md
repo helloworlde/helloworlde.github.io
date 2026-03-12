@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 搭建 Shadowsocks 服务器：安装 pip、配置 json 加密方法、启动 ssserver 及设置开机自启与多用户权限详解。"
 title: Ubuntu搭建Shadowsocks服务器
 type: post
 date: 2018-01-01T00:58:24+08:00

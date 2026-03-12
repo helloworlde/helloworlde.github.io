@@ -1,4 +1,5 @@
 ---
+description: "解决 Ubuntu 22 无 Intel N100 驱动问题，详解安装 intel-gpu-tools、配置 Intel 软件源及 i915 驱动步骤。"
 title: "Ubuntu 22 安装 Intel N100 显卡驱动"
 type: post
 date: 2024-07-08T08:41:49+08:00

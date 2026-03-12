@@ -1,4 +1,5 @@
 ---
+description: "Jib 是谷歌开源的 Java Docker 镜像生成工具，通过 Gradle/Maven 直接构建无需 Dockerfile，支持分层打包与多仓库推送，大幅提升构建速度。"
 title: 使用 Jib 生成 Java Docker 镜像
 type: post
 date: 2018-07-16T00:17:43+08:00

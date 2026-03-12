@@ -1,6 +1,6 @@
 ---
 date: 2025-09-24
-# description: ""
+description: "特斯拉 Fleet Telemetry 主动上报数据监控方案，基于 mTLS 证书申请与部署指南，替代 Owner API 实现车队管理。"
 # image: ""
 lastmod: 2026-03-10
 showTableOfContents: false

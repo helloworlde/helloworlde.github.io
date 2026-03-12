@@ -1,4 +1,5 @@
 ---
+description: "SpringMVC 集成 Google Kaptcha 生成图片验证码，含 Maven 依赖配置、Bean 设置及关键属性详解，提升项目安全性。"
 title: SpringMVC 生成验证码
 type: post
 date: 2018-01-01T01:04:16+08:00

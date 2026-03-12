@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot 自定义接口 JSON 格式，重写 WebMvcConfigurerAdapter configureMessageConverters 方法配置 FastJSON 日期序列化、空值处理及字段映射。"
 title: SpringBoot 使用 FastJSON 自定义接口返回 JSON 格式
 type: post
 date: 2018-04-10T18:50:34+08:00

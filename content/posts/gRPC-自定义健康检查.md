@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC 健康检查机制，详解 health.proto 定义与 Java 实现，掌握 Check 和 Watch 方法逻辑，支持 Redis、MySQL 等组件自定义状态监控。"
 title: gRPC  自定义健康检查
 type: post
 date: 2020-09-20T22:38:15+08:00

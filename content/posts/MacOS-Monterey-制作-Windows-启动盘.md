@@ -1,4 +1,5 @@
 ---
+description: "MacOS Monterey 制作 Windows 启动盘：使用 hdiutil、diskutil 和 wimlib 命令行工具解决 FAT32 限制，实现无额外软件安装 Windows。"
 title: MacOS Monterey 制作 Windows 启动盘
 type: post
 date: 2022-06-30T11:37:22+08:00

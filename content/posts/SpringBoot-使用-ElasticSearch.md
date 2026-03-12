@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot 集成 ElasticSearch 实现分布式搜索，包含依赖配置、Repository 接口编写及 CRUD 操作完整示例。"
 title: SpringBoot 使用 ElasticSearch
 type: post
 date: 2018-01-16T00:45:05+08:00

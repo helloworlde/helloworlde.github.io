@@ -1,4 +1,5 @@
 ---
+description: "Spring Boot Actuator 集成 Git 与编译信息，通过 Gradle 插件配置获取项目版本、构建时间及源码细节，优化运维监控能力。"
 title: Spring Boot Actuator 添加 Git 和 Build 信息
 type: post
 date: 2018-01-01T11:20:12+08:00

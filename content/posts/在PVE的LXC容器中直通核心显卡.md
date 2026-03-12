@@ -1,4 +1,5 @@
 ---
+description: "PVE LXC 容器直通 Intel 核显驱动安装与配置指南，实现 Docker 容器 GPU 加速。"
 title: 在PVE的LXC容器中直通核心显卡
 type: post
 date: 2023-09-09T17:53:36+08:00

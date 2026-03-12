@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC 对冲请求取消机制，涵盖客户端 RetriableStream、CancelClientStreamCommand 及 Netty 层 RST_STREAM 处理流程。"
 title: gRPC 对冲请求取消流程
 type: post
 date: 2021-02-20T22:34:46+08:00

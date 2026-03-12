@@ -1,4 +1,5 @@
 ---
+description: "详解使用 Docker 构建 SpringBoot 应用：配置 Gradle 插件、编写 Dockerfile 镜像及运行命令，实现容器化部署。"
 title: Docker 构建 SpringBoot 应用
 type: post
 date: 2018-04-08T15:42:39+08:00

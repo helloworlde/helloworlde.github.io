@@ -1,4 +1,5 @@
 ---
+description: "基于 PVE 虚拟机使用开源 arpl 自动装载程序一键安装黑群晖系统，包含下载、配置及初始化完整教程。"
 title: 使用arpl在PVE上安装黑群晖
 type: post
 date: 2023-07-01T16:12:02+08:00

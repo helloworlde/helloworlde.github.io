@@ -1,4 +1,5 @@
 ---
+description: "在 Ubuntu 22 将自行训练的 YOLOv8 模型导出为 ONNX 并编译为 Hailo 8/Hailo8L 支持的 HEF 格式，实现高效对象检测。"
 title: "将重新训练的 Yolov8 模型编译为 Hailo 8 和 Hailo 8L 支持的模型"
 type: post
 date: 2024-09-08T21:32:21+08:00

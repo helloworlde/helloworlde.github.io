@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 安装 Redis 服务器教程，包含 apt-get 安装、启动命令、端口检查及配置密码与 IP 绑定等关键步骤。"
 title: Ubuntu搭建Redis服务器
 type: post
 date: 2018-01-01T12:08:07+08:00

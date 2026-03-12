@@ -1,4 +1,5 @@
 ---
+description: "MyBatis 嵌套查询实战：通过关联表高效获取 JavaBean 集合数据，解决角色与菜单层级查询问题。"
 title: MyBatis 中使用 Collection 嵌套查询
 type: post
 date: 2018-01-01T00:47:05+08:00

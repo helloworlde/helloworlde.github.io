@@ -1,6 +1,6 @@
 ---
 date: 2025-09-30
-# description: ""
+description: "Tesla Fleet Telemetry 完整配置指南：详解 ACChargingEnergyIn、BMSState、BatteryLevel 等关键属性与车辆监控数据上报方法。"
 # image: ""
 lastmod: 2025-10-04
 showTableOfContents: false

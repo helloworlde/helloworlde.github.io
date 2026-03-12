@@ -1,4 +1,5 @@
 ---
+description: "KEDA 基于事件驱动实现 Kubernetes 自定义指标自动扩缩容，支持 Prometheus、MySQL 等多数据源，含安装部署与配置指南。"
 title: HPA 使用自定义的指标自动扩缩容
 type: post
 date: 2020-09-20T22:36:15+08:00

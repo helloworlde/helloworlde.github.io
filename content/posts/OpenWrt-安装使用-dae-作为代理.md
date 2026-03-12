@@ -1,6 +1,6 @@
 ---
 date: 2025-04-28
-# description: ""
+description: "OpenWrt 安装 Dae eBPF 代理：ImmortalWRT 编译内核支持、eBPF 流量分流、HTTPS/VMess/VLESS 协议及 PVE 虚拟机部署指南。"
 # image: ""
 lastmod: 2025-05-06
 showTableOfContents: false

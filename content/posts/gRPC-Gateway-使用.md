@@ -1,4 +1,5 @@
 ---
+description: "gRPC Gateway 代理 HTTP 与 gRPC 互转，支持多服务路由与命名解析。本文详解 buf 配置、代码生成及 Go 服务端实现步骤。"
 title: gRPC Gateway 使用
 type: post
 date: 2021-01-06T22:34:46+08:00

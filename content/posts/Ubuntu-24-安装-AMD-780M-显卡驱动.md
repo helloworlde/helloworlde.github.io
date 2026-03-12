@@ -1,6 +1,6 @@
 ---
 date: 2025-04-20
-# description: ""
+description: "Ubuntu 24 安装 AMD 780M 驱动与 ROCm：添加官方源、apt 部署及 rocminfo/clinfo/rocm-smi 工具验证。"
 # image: ""
 lastmod: 2025-09-06
 showTableOfContents: false

@@ -1,4 +1,5 @@
 ---
+description: "深入解析 Docker 镜像、容器与仓库核心概念，掌握 Ubuntu 和 Mac 环境下的安装配置及常用命令操作指南。"
 title: Docker
 type: post
 date: 2018-04-08T15:18:49+08:00

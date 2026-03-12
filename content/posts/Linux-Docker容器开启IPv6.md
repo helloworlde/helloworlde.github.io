@@ -1,4 +1,5 @@
 ---
+description: "Linux Docker 开启 IPv6 完整教程，详解 daemon.json 配置、bridge 与 macvlan 网络 IPv6 设置及 ping 验证方法。"
 title: Linux Docker容器开启IPv6
 type: post
 date: 2024-04-21T21:25:04+08:00

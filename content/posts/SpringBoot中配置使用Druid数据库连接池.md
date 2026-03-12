@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot 集成 Druid 数据库连接池完整配置指南，涵盖 Gradle/Maven 依赖、JDBC 参数设置及 WebStatFilter 监控功能详解。"
 title: SpringBoot中配置使用Druid数据库连接池
 type: post
 date: 2018-01-01T00:52:18+08:00

@@ -1,4 +1,5 @@
 ---
+description: "Ubuntu 搭建 NFS 服务器：安装 nfs-kernel-server，配置 exports 共享目录，实现网络文件挂载与开机自动挂载。"
 title: 使用 Ubuntu 搭建 NFS 服务器
 type: post
 date: 2024-01-27T11:20:19+08:00

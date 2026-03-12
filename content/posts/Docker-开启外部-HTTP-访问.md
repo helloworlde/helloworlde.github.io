@@ -1,4 +1,5 @@
 ---
+description: "Docker 开启外部 HTTP 访问：通过 systemd 配置 docker.service 启动参数，启用 tcp://0.0.0.0:2375 端口并设置防火墙规则，实现远程容器监控。"
 title: Docker 开启外部 HTTP 访问
 type: post
 date: 2023-03-05T21:39:29+08:00

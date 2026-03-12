@@ -1,4 +1,5 @@
 ---
+description: "解决 Mac Dropbox 客户端无法连接问题，提供 ShadowSocks SOCKS5 代理手动配置步骤，实现网络穿透与稳定访问。"
 title: Mac 客户端访问 Dropbox
 type: post
 date: 2018-10-13T12:54:07+08:00

@@ -1,4 +1,5 @@
 ---
+description: "Spring Cloud 集成 Kubernetes 配置中心，利用 ConfigMap 和 Secret 实现动态配置管理，通过 PropertySourceLocator 机制自动加载环境属性。"
 title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
 date: 2020-09-20T22:28:15+08:00

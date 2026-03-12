@@ -1,4 +1,5 @@
 ---
+description: "深入解析 Spring Cloud 集成 Consul 配置中心源码，详解 ConsulPropertySourceLocator 实现机制与动态加载流程。"
 title: Spring Cloud 使用 Consul 作为配置中心
 type: post
 date: 2020-09-20T22:28:50+08:00

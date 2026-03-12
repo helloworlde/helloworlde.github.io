@@ -1,4 +1,5 @@
 ---
+description: "小米路由器 4A 千兆版利用 CVE-2019-18370 漏洞开启 SSH，通过 OpenWRTInvasion 脚本获取 root 权限，使用 Breed Bootloader 实现安全刷机与功能扩展。"
 title: 小米路由器 4A 千兆版刷入 OpenWrt
 type: post
 date: 2023-08-25T11:20:19+08:00

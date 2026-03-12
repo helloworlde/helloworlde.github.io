@@ -1,4 +1,5 @@
 ---
+description: "Intel NUC 9 黑苹果安装教程：解决 Mac 卡顿，利用 OpenCore 与 AMD 显卡打造可升级内存的高性能 Hackintosh 电脑。"
 title: Intel NUC 9 安装黑苹果
 type: post
 date: 2022-12-08T21:51:48+08:00

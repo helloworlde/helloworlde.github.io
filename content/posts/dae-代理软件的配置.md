@@ -1,6 +1,6 @@
 ---
 date: 2025-04-29
-# description: ""
+description: "Dae 代理软件配置指南：详解 .dae 文件结构、全局设置、DNS 分流及路由规则，提供 NGINX 风格语法示例与关键参数说明。"
 # image: ""
 lastmod: 2025-05-06
 showTableOfContents: false

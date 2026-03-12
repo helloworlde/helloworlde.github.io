@@ -1,4 +1,5 @@
 ---
+description: "OpenWrt 状态监控指南：部署 Netdata 实时查看 CPU 内存网络，集成 Prometheus 抓取历史数据，结合 Grafana 可视化面板实现全方位系统运维。"
 title: OpenWrt-监控
 type: post
 date: 2022-09-26T11:32:08+08:00

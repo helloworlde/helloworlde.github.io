@@ -1,4 +1,5 @@
 ---
+description: "HomeAssistant 容器化部署指南：详解 Docker 与 Docker Compose 配置、网络模式设置及 HACS 插件安装方法，助力智能家庭自动化系统高效运行。"
 title: HomeAssistant 基于容器搭建与使用
 type: post
 date: 2022-11-13T21:51:48+08:00

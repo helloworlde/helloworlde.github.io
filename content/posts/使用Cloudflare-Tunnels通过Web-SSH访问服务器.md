@@ -1,4 +1,5 @@
 ---
+description: "Cloudflare Zero Trust Web SSH 远程访问服务器教程，包含 Tunnels 配置、应用创建及安全认证设置指南。"
 title: "使用 Cloudflare Tunnels 通过 Web SSH 访问服务器"
 type: post
 date: 2023-10-06T15:25:13+08:00

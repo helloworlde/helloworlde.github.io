@@ -1,4 +1,5 @@
 ---
+description: "Spring Boot WebSocket 长连接实现指南：集成 SockJS、配置消息代理与广播模板，掌握双向通信核心代码。"
 title: Spring Boot 中使用 WebSocket
 type: post
 date: 2019-09-08T18:48:25+08:00

@@ -1,4 +1,5 @@
 ---
+description: "学习 ESXi 将物理磁盘挂载为虚拟磁盘，通过 SSH 与 vmkfstools 命令实现 NAS 硬盘直通虚拟机存储扩展。"
 title: Esxi 挂载物理磁盘到虚拟机
 type: post
 date: 2022-09-12T11:32:08+08:00

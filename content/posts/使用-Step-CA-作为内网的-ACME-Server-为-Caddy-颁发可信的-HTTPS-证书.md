@@ -1,6 +1,6 @@
 ---
 date: 2025-08-16
-# description: ""
+description: "利用 Step CA 作为 ACME Server 为 Caddy 颁发可信 HTTPS 证书，解决自签名证书信任问题。通过 Docker 部署 Step CA、配置持久化存储及环境变量，实现内网安全证书自动签发与管理。"
 # image: ""
 lastmod: 2025-09-06
 showTableOfContents: false

@@ -1,4 +1,5 @@
 ---
+description: "解决 Gradle 编译时 Maven 远程仓库下载超时问题，通过配置阿里云或 OSChina 国内镜像加速构建，包含 build.gradle 修改与 init.gradle 全局设置方法。"
 title: Gradle 使用-编译时下载依赖失败解决方法
 type: post
 date: 2018-01-01T01:00:20+08:00

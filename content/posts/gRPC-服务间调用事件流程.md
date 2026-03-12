@@ -1,4 +1,5 @@
 ---
+description: "深入解析 gRPC 服务间调用事件流程，涵盖 ClientCall、ServerTransportFilter 及各类监听器与追踪器核心机制。"
 title: gRPC 服务间调用事件流程
 type: post
 date: 2021-02-20T22:34:46+08:00

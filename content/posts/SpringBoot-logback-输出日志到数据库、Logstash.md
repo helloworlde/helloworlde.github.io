@@ -1,4 +1,5 @@
 ---
+description: "SpringBoot 日志输出实战：详解 Logback 配置将日志异步写入 MySQL 数据库及转发至 Logstash 的完整实现方案与代码示例。"
 title: SpringBoot logback 输出日志到数据库、Logstash
 type: post
 date: 2018-01-19T21:25:42+08:00

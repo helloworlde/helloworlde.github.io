@@ -1,4 +1,5 @@
 ---
+description: "学习使用 GitHub 托管 Helm 仓库，涵盖创建 Chart、打包发布、配置索引及客户端安装升级等完整流程。"
 title: 使用 GitHub 作为 Helm 仓库
 type: post
 date: 2019-12-07T22:16:35+08:00

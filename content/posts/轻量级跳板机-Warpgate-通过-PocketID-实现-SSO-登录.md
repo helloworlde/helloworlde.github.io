@@ -1,6 +1,6 @@
 ---
 date: 2026-02-01
-# description: ""
+description: "轻量级跳板机 Warpgate 配置指南：通过 PocketID 实现 OIDC SSO 单点登录，支持 Google/Apple/Azure 等身份提供商统一认证。"
 # image: ""
 lastmod: 2026-03-10
 showTableOfContents: false
