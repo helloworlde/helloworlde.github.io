@@ -3,7 +3,7 @@ description: "Intel NUC 9 黑苹果安装教程：解决 Mac 卡顿，利用 Ope
 title: Intel NUC 9 安装黑苹果
 type: post
 date: 2022-12-08T21:51:48+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Hackintosh
   - NUC

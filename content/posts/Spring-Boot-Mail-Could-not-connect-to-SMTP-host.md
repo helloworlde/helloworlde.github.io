@@ -3,7 +3,7 @@ description: "解决 Spring Boot 邮件发送失败连接阿里云 SMTP 465 端�
 title: Spring Boot Mail Could not connect to SMTP host
 type: post
 date: 2017-12-31T23:57:39+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

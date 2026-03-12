@@ -2,7 +2,7 @@
 date: 2025-07-20
 description: "HomeLab 内网服务反向代理方案：基于 Docker Compose 部署 Go 语言 Caddy 服务器，实现自动 HTTPS 证书、域名路由及动态配置管理。"
 # image: ""
-lastmod: 2025-08-02
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Caddy

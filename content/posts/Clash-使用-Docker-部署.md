@@ -3,7 +3,7 @@ description: "Clash Docker 部署指南：包含订阅格式转换、subconverte
 title: Clash 使用 Docker 部署
 type: post
 date: 2022-10-26T11:20:19+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Clash
   - Docker

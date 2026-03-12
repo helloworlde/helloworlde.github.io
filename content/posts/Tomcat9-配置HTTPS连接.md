@@ -3,7 +3,7 @@ description: "Tomcat 9 配置 HTTPS 连接完整教程，涵盖 Java keytool 生
 title: Tomcat9 配置HTTPS连接
 type: post
 date: 2018-01-01T12:01:18+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Tomcat
   - Https

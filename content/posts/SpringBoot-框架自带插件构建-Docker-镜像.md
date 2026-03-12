@@ -3,7 +3,7 @@ description: "SpringBoot 2.3+ 使用 Buildpacks 插件构建 Docker 镜像，支
 title: SpringBoot 框架自带插件构建 Docker 镜像
 type: post
 date: 2020-09-20T22:31:43+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - SpringBoot
   - Docker

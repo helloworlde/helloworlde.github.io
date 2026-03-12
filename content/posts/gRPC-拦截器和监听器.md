@@ -3,7 +3,7 @@ description: "深入解析 gRPC 拦截器与监听器机制，涵盖 ClientInter
 title: gRPC 拦截器和监听器
 type: post
 date: 2021-01-03T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

@@ -3,7 +3,7 @@ description: "Ubuntu 与 Docker alpine 镜像替换阿里云软件源教程，�
 title: Ubuntu/Docker 替换软件源
 type: post
 date: 2019-05-27T15:06:43+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Docker
   - Ubuntu

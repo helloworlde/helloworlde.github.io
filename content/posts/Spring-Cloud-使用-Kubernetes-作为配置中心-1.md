@@ -3,7 +3,7 @@ description: "Spring Cloud 集成 Kubernetes 配置中心，利用 ConfigMap 和
 title: Spring Cloud 使用 Kubernetes 作为配置中心
 type: post
 date: 2020-09-20T22:28:15+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringCloud

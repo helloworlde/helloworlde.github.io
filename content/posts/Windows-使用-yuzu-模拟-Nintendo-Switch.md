@@ -3,7 +3,7 @@ description: "Windows 平台安装 Yuzu Switch 模拟器教程，含密钥配置
 title: Windows 使用 Yuzu 模拟 Nintendo Switch
 type: post
 date: 2022-11-20T21:51:48+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Games
 featured: true

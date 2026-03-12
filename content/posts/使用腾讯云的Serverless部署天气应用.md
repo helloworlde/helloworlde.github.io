@@ -3,7 +3,7 @@ description: "腾讯云 Serverless Go 部署天气提醒应用，集成高德地
 title: 使用腾讯云的Serverless部署天气应用
 type: post
 date: 2019-10-13T18:56:40+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Serverless
   - Go

@@ -2,7 +2,7 @@
 date: 2025-07-20
 description: "解决阿里云与 Tailscale 100.64.0.0/10 CGNAT 网段冲突，通过配置 tailscale up --netfilter-mode=nodivert 启用 nodivert 模式并开启 accept-dns 参数规避 DNS 解析失效问题。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 title: "解决阿里云和 Tailscale 的 100 网段冲突的问题"
 tags:

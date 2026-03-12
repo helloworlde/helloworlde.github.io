@@ -3,7 +3,7 @@ description: "Kubernetes 中通过 YAML 配置部署 SpringBoot 应用，包含 
 title: "Kubernetes 中部署 SpringBoot 应用 "
 type: post
 date: 2018-10-22T18:30:37+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Kubernetes
   - SpringBoot

@@ -2,7 +2,7 @@
 date: 2025-08-31
 description: "PocketID 轻量通行密钥用户管理系统教程，支持 OIDC 协议为 HomeLab 服务提供统一认证，含 PostgreSQL 部署与 Caddy/Tinyauth 集成指南。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 title: "使用 PocketID 作为 HomeLab 的统一登录认证工具"
 type: "post"

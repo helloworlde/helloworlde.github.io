@@ -3,7 +3,7 @@ description: "详解 Spring Cloud Consul 服务注册与发现机制，涵盖核
 title: Spring Cloud Consul 服务注册和发现
 type: post
 date: 2020-09-20T22:27:16+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringCloud

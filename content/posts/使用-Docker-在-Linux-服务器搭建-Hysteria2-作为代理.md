@@ -2,7 +2,7 @@
 date: 2024-12-29
 description: "Docker Linux 部署 Hysteria2 代理服务器，配置 QUIC 伪装、TLS 证书及 ShellCrash 客户端实现高延迟网络稳定连接。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Hysteria2

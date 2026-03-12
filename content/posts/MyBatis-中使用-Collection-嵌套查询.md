@@ -3,7 +3,7 @@ description: "MyBatis 嵌套查询实战：通过关联表高效获取 JavaBean 
 title: MyBatis 中使用 Collection 嵌套查询
 type: post
 date: 2018-01-01T00:47:05+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - MyBatis

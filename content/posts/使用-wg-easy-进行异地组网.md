@@ -2,7 +2,7 @@
 date: 2025-06-08
 description: "基于 Docker 部署 wg-easy 实现 WireGuard 远程组网，提供 Web 界面快速生成配置、管理节点及监控流量，适用于家庭实验室与私有云环境。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - HomeLab

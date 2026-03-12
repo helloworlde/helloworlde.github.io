@@ -3,7 +3,7 @@ description: "SpringBoot 集成 ELK 日志收集系统完整指南，涵盖 Elas
 title: SpringBoot 使用 ELK 日志收集系统安装配置
 type: post
 date: 2018-01-21T21:16:10+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

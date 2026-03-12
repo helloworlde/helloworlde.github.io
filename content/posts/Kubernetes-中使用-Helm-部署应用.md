@@ -1,4 +1,5 @@
 ---
+description: "Helm 部署 Kubernetes 应用指南：从 Go 应用构建 Docker 镜像到编写 Chart 模板及安装命令，实现容器化服务自动化运维"
 title: Kubernetes 中使用 Helm 部署应用
 type: post
 date: 2019-09-08T19:03:06+08:00

@@ -3,7 +3,7 @@ description: "深入解析 gRPC ClientTransport 与 ServerTransport 架构，涵
 title: gRPC Transport
 type: post
 date: 2020-10-22T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

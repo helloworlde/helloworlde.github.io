@@ -3,7 +3,7 @@ description: "AngularJS 中 ngModal 模态框完整教程，包含 ui.bootstrap 
 title: AngularJS中使用ngModal模态框
 type: post
 date: 2018-01-01T11:57:50+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - AngularJs
   - ngModal

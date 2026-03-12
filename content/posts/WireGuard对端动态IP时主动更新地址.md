@@ -3,7 +3,7 @@ description: "解决 WireGuard 域名 IP 变化导致连接断开问题，使用
 title: WireGuard对端动态IP时主动更新地址
 type: post
 date: 2023-09-24T18:37:06+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - WireGuard

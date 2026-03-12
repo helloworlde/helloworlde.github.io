@@ -3,7 +3,7 @@ description: "解决 SpringBoot Junit 测试 Bean 注入失败：对比 SpringAp
 title: SpringBoot中Junit测试注入Bean失败的解决方法
 type: post
 date: 2018-01-01T11:46:57+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

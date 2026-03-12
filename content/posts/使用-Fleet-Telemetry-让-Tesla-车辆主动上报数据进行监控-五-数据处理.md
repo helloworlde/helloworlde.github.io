@@ -2,7 +2,7 @@
 date: 2025-09-28
 description: "Tesla 车辆监控：Fleet Telemetry MQTT 数据接收、EMQX 规则引擎解析及 PostgreSQL 数据库存储实战教程。"
 # image: ""
-lastmod: 2026-03-10
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Tesla

@@ -2,7 +2,7 @@
 date: 2025-09-25
 description: "Tesla Fleet Telemetry 监控教程：开发者账号创建、公钥私钥生成及虚拟钥匙车辆绑定步骤详解"
 # image: ""
-lastmod: 2025-10-01
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Tesla

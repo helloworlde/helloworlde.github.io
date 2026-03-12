@@ -3,7 +3,7 @@ description: "Spring Cloud 集成 Kubernetes Secrets 实现加密配置管理，
 title: Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
 type: post
 date: 2019-09-08T19:18:09+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - SpringCloud
   - Kubernetes

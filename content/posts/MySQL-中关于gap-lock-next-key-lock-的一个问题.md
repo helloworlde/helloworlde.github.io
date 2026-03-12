@@ -3,7 +3,7 @@ description: "深入解析 MySQL InnoDB 索引锁机制，剖析 gap lock 与 ne
 title: MySQL 中关于gap lock / next-key lock 的一个问题
 type: post
 date: 2019-01-07T21:40:58+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - MySQL
 featured: true

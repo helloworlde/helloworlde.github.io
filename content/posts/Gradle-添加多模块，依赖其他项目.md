@@ -3,7 +3,7 @@ description: "详解 Gradle 多项目构建配置，涵盖子模块管理、Spri
 title: Gradle 使用-多项目构建
 type: post
 date: 2018-01-01T00:05:06+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - Gradle

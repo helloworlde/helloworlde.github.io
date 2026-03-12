@@ -2,7 +2,7 @@
 date: 2025-08-10
 description: "OpenWrt 旁路网关 Tag 配置指南：通过 DHCP 标签为特定设备分配独立网关与 DNS，解决多设备网络分流管理难题。"
 # image: ""
-lastmod: 2025-08-10
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - OpenWrt

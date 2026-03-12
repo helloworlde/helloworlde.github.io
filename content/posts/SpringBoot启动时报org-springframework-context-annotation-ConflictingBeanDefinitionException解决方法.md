@@ -3,7 +3,7 @@ description: "解决 SpringBoot 启动 ConflictingBeanDefinitionException 异常
 title: SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法
 type: post
 date: 2018-01-01T00:53:44+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

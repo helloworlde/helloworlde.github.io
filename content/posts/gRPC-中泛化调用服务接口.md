@@ -3,7 +3,7 @@ description: "gRPC 泛化调用实现指南：利用 protobuf 反射接口动态
 title: gRPC 中泛化调用服务接口
 type: post
 date: 2021-01-29T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

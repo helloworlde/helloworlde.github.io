@@ -3,7 +3,7 @@ description: "深入解析 gRPC 对冲请求取消机制，涵盖客户端 Retri
 title: gRPC 对冲请求取消流程
 type: post
 date: 2021-02-20T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

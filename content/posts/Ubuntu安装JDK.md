@@ -3,7 +3,7 @@ description: "Ubuntu 系统安装 JDK 完整教程：下载、解压、配置环
 title: Ubuntu安装JDK
 type: post
 date: 2018-01-01T12:11:39+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - JDK

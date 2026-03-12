@@ -2,7 +2,7 @@
 date: 2025-06-08
 description: "Easytier 基于 WireGuard 的 Rust VPN 工具，详解 Docker 部署自建公共节点与边缘节点配置，实现跨平台 NAT 穿透、子网代理及智能路由。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - HomeLab

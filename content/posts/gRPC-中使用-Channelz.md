@@ -3,7 +3,7 @@ description: "深入解析 gRPC Channelz 服务定义与实现，掌握服务端
 title: gRPC 中使用 Channelz
 type: post
 date: 2021-01-04T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

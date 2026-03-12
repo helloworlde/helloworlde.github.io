@@ -3,7 +3,7 @@ description: "解决 N5105 与国产 NVME 驱动缺失导致 ESXi 安装失败�
 title: N5105 构建 Esxi 镜像
 type: post
 date: 2022-08-11T10:53:05+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Esxi
 featured: true

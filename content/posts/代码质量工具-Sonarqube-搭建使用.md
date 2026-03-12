@@ -3,7 +3,7 @@ description: "Sonarqube 代码质量工具搭建指南，详解 Docker 部署、
 title: 代码质量工具 Sonarqube 搭建使用
 type: post
 date: 2018-08-01T00:31:41+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Sonarqube
   - Tool

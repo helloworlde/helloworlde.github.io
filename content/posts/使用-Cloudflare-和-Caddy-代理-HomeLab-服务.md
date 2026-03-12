@@ -2,7 +2,7 @@
 date: 2025-07-30
 description: "利用 Cloudflare Tunnel 与 Caddy 构建高效 HomeLab 反向代理架构，实现内网服务统一路由管理、自动 HTTPS 加密及灵活证书配置。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - Cloudflare

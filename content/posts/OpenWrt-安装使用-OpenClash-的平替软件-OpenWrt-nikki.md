@@ -2,7 +2,7 @@
 date: 2025-05-11
 description: "OpenWrt-Nikki 是 OpenClash 平替，基于 mihome 内核，支持 OpenWrt 23.05+，通过 opkg 软件源一键安装，提供轻量级代理解决方案。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki"

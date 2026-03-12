@@ -3,7 +3,7 @@ description: "利用 Consul 服务发现机制自动拉取 Spring Boot 应用监
 title: Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据
 type: post
 date: 2020-05-16T14:49:38+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Prometheus
   - Grafana

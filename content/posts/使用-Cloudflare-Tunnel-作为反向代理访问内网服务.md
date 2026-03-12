@@ -2,7 +2,7 @@
 description: "掌握 Cloudflare Tunnel 反向代理技术，安全访问内网服务并隐藏服务器 IP，适用于无公网 IP 场景，包含 Linux 安装、Docker 部署及路由配置详解。"
 title: "使用 Cloudflare Tunnel 作为反向代理访问内网服务"
 date: 2024-12-04T15:48:56+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - Cloudflare

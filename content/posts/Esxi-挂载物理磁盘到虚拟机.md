@@ -3,7 +3,7 @@ description: "学习 ESXi 将物理磁盘挂载为虚拟磁盘，通过 SSH 与 
 title: Esxi 挂载物理磁盘到虚拟机
 type: post
 date: 2022-09-12T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Esxi
   - HomeLab

@@ -3,7 +3,7 @@ description: "Ubuntu 22.04 HomeLab 初始化配置：主机名、清华源、SSH
 title: Ubuntu 22 环境初始化
 type: post
 date: 2024-01-07T18:03:00+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - HomeLab

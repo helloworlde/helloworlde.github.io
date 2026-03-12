@@ -3,7 +3,7 @@ description: "OpenWrt 安装 OpenClash 代理软件教程，包含依赖安装�
 title: OpenWrt  安装使用 OpenClash
 type: post
 date: 2022-08-25T11:20:19+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - OpenClash
   - Clash

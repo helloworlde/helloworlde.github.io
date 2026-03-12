@@ -3,7 +3,7 @@ description: "Ubuntu 22.04 Docker 容器 NVIDIA 显卡加速安装配置 nvidia-
 title: "Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡"
 type: post
 date: 2024-08-06T09:15:33+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - NVIDIA

@@ -3,7 +3,7 @@ description: "解决 Mac Dropbox 客户端无法连接问题，提供 ShadowSock
 title: Mac 客户端访问 Dropbox
 type: post
 date: 2018-10-13T12:54:07+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Dropbox
   - Tool

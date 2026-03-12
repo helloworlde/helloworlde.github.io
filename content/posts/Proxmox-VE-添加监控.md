@@ -3,7 +3,7 @@ description: "Proxmox VE 监控指南：基于 Docker Compose 部署 InfluxDB 2 
 title: Proxmox VE 添加监控
 type: post
 date: 2023-04-09T21:29:39+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Proxmox VE
   - InfluxDB

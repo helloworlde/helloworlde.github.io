@@ -2,7 +2,7 @@
 date: 2025-09-26
 description: "深入解析使用 Fleet Telemetry 监控特斯拉车辆数据，涵盖 tesla-http-proxy、EMQX MQTT 部署及核心配置详解。"
 # image: ""
-lastmod: 2026-03-10
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Tesla

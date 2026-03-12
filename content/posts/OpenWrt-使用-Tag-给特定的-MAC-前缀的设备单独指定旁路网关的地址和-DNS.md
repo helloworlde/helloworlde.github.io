@@ -2,7 +2,7 @@
 date: 2025-08-11
 description: "OpenWrt 通过 MAC 前缀匹配实现 DHCP 旁路网关与 DNS 自定义配置，支持 LXC 容器批量网络规则设置。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - OpenWrt

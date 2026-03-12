@@ -3,7 +3,7 @@ description: "解决 Spring Cloud Admin 监控服务器因内网外网 IP 导致
 title: Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法
 type: post
 date: 2018-01-01T11:51:23+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

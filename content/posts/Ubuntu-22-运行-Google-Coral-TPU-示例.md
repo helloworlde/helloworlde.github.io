@@ -3,7 +3,7 @@ description: "Ubuntu 22 运行 Google Coral TPU 完整指南，含 Anaconda 环�
 title: "Ubuntu 22 运行 Google Coral TPU 示例"
 type: post
 date: 2024-07-09T09:30:21+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - Coral

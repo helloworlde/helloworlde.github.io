@@ -3,7 +3,7 @@ description: "Spring Cloud Stream 构建事件驱动架构，详解 Binder、Bin
 title: Spring Boot 中使用Spring Cloud Stream
 type: post
 date: 2019-09-08T18:50:09+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

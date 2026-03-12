@@ -2,7 +2,7 @@
 date: 2026-01-24
 description: "轻量级跳板机 Warpgate 部署指南，基于 Docker Compose 配置 SSH/HTTPS/MySQL 代理，支持 SSO 与 RBAC 认证，解决 HomeLab 多机器远程访问难题。"
 # image: ""
-lastmod: 2026-03-10
+lastmod: 2026-03-12
 showTableOfContents: false
 title: "部署轻量跳板机 Warpgate 通过 SSH 访问机器"
 type: "post"

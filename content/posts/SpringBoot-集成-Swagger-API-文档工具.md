@@ -3,7 +3,7 @@ description: "SpringBoot 集成 Swagger2 生成 RESTful API 文档，包含依�
 title: SpringBoot 集成 Swagger API 文档工具
 type: post
 date: 2018-01-07T23:28:45+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

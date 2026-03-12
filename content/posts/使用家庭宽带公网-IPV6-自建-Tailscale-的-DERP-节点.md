@@ -3,7 +3,7 @@ description: "解决 Tailscale 直连延迟高问题，基于家庭宽带公网 
 title: "使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点"
 type: post
 date: 2024-06-11T21:33:44+08:00
-lastmod: 2025-08-02
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - Network

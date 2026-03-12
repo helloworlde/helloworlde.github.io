@@ -3,7 +3,7 @@ description: "深入解析 gRPC 超时机制与重试策略，详解 initialBack
 title: gRPC 超时时间与重试时间间隔
 type: post
 date: 2020-09-20T22:41:50+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

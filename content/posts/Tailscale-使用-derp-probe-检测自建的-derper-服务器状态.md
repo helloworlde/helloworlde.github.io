@@ -2,7 +2,7 @@
 description: "Tailscale derpprobe 自建 DERP 服务器状态监控，支持 UDP/TLS/MESH 协议延迟与带宽检测，Docker 部署指南。"
 title: "Tailscale 使用 Derp Probe 检测自建的 Derper 服务器状态"
 date: 2024-09-22T21:20:35+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - Network

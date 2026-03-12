@@ -3,7 +3,7 @@ description: "树莓派 4b 无网线安装 Ubuntu 20.04 LTS 完整教程，含 S
 title: 树莓派 4b 无网线安装 Ubuntu 并初始化
 type: post
 date: 2019-12-15T22:42:04+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - RaspberryPi

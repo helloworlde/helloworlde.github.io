@@ -3,7 +3,7 @@ description: "Helm3 部署 Prometheus 与 Grafana 监控 Kubernetes 集群，配
 title: Kubernetes 中使用 Helm 部署使用 Prometheus
 type: post
 date: 2019-12-29T18:57:38+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Kubernetes
   - Helm

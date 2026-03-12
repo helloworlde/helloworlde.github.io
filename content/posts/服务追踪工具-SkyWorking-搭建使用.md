@@ -3,7 +3,7 @@ description: "SkyWalking 微服务分布式链路追踪安装部署指南，含 
 title: 服务追踪工具 SkyWorking 搭建使用
 type: post
 date: 2018-07-31T23:56:24+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - SkyWalking
   - Tool

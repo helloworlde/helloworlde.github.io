@@ -3,7 +3,7 @@ description: "Gradle 整合 Flyway 数据库迁移插件配置指南，详解 bu
 title: 使用Gradle整合Flyway进行数据库迁移
 type: post
 date: 2018-01-01T00:49:34+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - Gradle

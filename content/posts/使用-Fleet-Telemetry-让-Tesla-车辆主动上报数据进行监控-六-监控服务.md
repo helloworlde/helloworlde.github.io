@@ -2,7 +2,7 @@
 date: 2025-09-29
 description: "Tesla 车辆主动上报监控实战：Fleet Telemetry Prometheus 指标配置与 Grafana 可视化面板部署教程"
 # image: ""
-lastmod: 2025-10-01
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Tesla

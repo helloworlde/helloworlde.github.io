@@ -3,7 +3,7 @@ description: "深入解析 gRPC 命名解析机制，详解 NameResolver、Provi
 title: gRPC 命名解析
 type: post
 date: 2020-09-20T22:35:22+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

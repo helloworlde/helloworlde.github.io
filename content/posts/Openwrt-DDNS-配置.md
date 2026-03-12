@@ -3,7 +3,7 @@ description: "OpenWrt DDNS 配置教程：获取公网 IP、安装 luci-app-ddns
 title: Openwrt-DDNS 配置
 type: post
 date: 2022-08-26T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Esxi
   - OpenWrt

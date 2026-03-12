@@ -3,7 +3,7 @@ description: "基于 Raspberry Pi 4 部署 InfluxDB 时序数据库与 Telegraf 
 title: Raspberry Pi 4 使用 Grafana 监控
 type: post
 date: 2020-09-20T22:30:45+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - RaspberryPi
   - Grafana

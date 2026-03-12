@@ -2,7 +2,7 @@
 date: 2026-02-07
 description: "群晖 NAS 使用 PocketID 实现 OIDC SSO 统一登录，配置 OpenID Connect 回调与 Well-known URL 简化多系统认证流程。"
 # image: ""
-lastmod: 2026-02-07
+lastmod: 2026-03-12
 showTableOfContents: false
 # tags: ["",]
 title: "群晖 NAS 使用 OIDC 工具 PocketID 进行 SSO 登录"

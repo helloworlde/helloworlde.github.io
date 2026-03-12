@@ -3,7 +3,7 @@ description: "解决 OpenWrt 默认 100M 空间不足问题，通过 ESXi 调整
 title: Openwrt-空间扩容
 type: post
 date: 2022-07-23T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Esxi
   - OpenWrt

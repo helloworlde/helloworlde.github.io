@@ -3,7 +3,7 @@ description: "树莓派 4b CSI 摄像头连接与配置教程，涵盖 Ubuntu Se
 title: 树莓派 4b 使用 CSI 摄像头
 type: post
 date: 2023-03-11T21:38:25+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - RaspberryPi
   - HomeLab

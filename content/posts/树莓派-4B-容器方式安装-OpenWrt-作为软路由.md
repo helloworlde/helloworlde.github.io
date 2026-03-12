@@ -3,7 +3,7 @@ description: "树莓派 4B Ubuntu Docker OpenWrt 软路由安装教程，含 lin
 title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
 type: post
 date: 2022-07-20T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - OpenWrt
   - RaspberryPi

@@ -3,7 +3,7 @@ description: "Spring Boot 2.3+ 实现 Kubernetes liveness 和 readiness 检查�
 title: Spring Boot 2.3+ Liveness 和 Readness 接口使用
 type: post
 date: 2020-09-20T22:32:48+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - SpringBoot
 featured: true

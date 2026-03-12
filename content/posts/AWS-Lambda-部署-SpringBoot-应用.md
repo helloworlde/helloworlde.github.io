@@ -3,7 +3,7 @@ description: "学习 AWS Lambda 部署 SpringBoot 应用，涵盖 IAM 配置、A
 title: AWS Lambda 部署 SpringBoot 应用
 type: post
 date: 2019-05-06T11:36:14+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Serverless
   - SpringBoot

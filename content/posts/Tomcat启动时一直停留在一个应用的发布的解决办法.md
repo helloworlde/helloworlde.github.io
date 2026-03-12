@@ -3,7 +3,7 @@ description: "解决 Tomcat 启动卡在应用部署问题，通过修改 java.s
 title: Tomcat启动时一直停留在一个应用的发布的解决办法
 type: post
 date: 2018-01-01T01:05:02+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Tomcat
 featured: true

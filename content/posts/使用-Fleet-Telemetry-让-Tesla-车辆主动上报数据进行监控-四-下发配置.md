@@ -2,7 +2,7 @@
 date: 2025-09-27
 description: "Tesla Fleet Telemetry 监控：获取 access_token 鉴权及通过 tesla-http-proxy 下发车辆配置与数据上报策略详解"
 # image: ""
-lastmod: 2026-03-10
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - Tesla

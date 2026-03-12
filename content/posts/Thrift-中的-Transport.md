@@ -3,7 +3,7 @@ description: "深入解析 Thrift 中 TTransport 与 TServerTransport 核心机�
 title: Thrift 中的 Transport
 type: post
 date: 2021-02-01T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Thrift
 featured: true

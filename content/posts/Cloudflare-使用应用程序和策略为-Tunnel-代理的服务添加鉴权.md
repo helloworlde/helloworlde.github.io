@@ -2,7 +2,7 @@
 date: 2025-07-20
 description: "Cloudflare Tunnel 内网服务鉴权指南：配置 Zero Trust Access 策略、规则组与应用程序，实现基于身份验证的安全访问控制。"
 # image: ""
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 showTableOfContents: false
 title: "Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权"
 type: "post"

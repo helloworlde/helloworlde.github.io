@@ -3,7 +3,7 @@ description: "解决 HomeLab 数据丢失风险，详解 Docker NFS 远程存储
 title: Docker 使用 NFS 作为数据卷存储
 type: post
 date: 2022-09-22T11:20:19+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Docker
   - NFS

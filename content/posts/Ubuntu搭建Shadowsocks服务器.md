@@ -3,7 +3,7 @@ description: "Ubuntu 搭建 Shadowsocks 服务器：安装 pip、配置 json 加
 title: Ubuntu搭建Shadowsocks服务器
 type: post
 date: 2018-01-01T00:58:24+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Ubuntu
   - Shadowsocks

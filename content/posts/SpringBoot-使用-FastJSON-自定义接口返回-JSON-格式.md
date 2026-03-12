@@ -3,7 +3,7 @@ description: "SpringBoot 自定义接口 JSON 格式，重写 WebMvcConfigurerAd
 title: SpringBoot 使用 FastJSON 自定义接口返回 JSON 格式
 type: post
 date: 2018-04-10T18:50:34+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

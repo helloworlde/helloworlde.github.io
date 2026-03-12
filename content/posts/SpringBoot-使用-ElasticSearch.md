@@ -3,7 +3,7 @@ description: "SpringBoot 集成 ElasticSearch 实现分布式搜索，包含依�
 title: SpringBoot 使用 ElasticSearch
 type: post
 date: 2018-01-16T00:45:05+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

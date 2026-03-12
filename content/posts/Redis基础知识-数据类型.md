@@ -3,7 +3,7 @@ description: "Redis 核心数据类型详解：字符串、哈希、列表、集
 title: Redis基础知识-数据类型
 type: post
 date: 2018-01-01T12:07:03+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Redis
 featured: true

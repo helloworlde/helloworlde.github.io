@@ -3,7 +3,7 @@ description: "学习 Kubernetes 包管理器 Helm 安装与配置，掌握 Chart
 title: Kubernetes 中安装 Helm
 type: post
 date: 2019-09-08T19:00:28+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Kubernetes
   - Helm

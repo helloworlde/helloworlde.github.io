@@ -3,7 +3,7 @@ description: "Gauge 测试框架中通过 Step 别名实现多场景复用，使
 title: Gauge 中Step使用别名
 type: post
 date: 2018-01-01T11:29:48+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - Gauge

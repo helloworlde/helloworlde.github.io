@@ -3,7 +3,7 @@ description: "解决 N5105 Proxmox VE 虚拟机死机问题：升级 Linux 内�
 title: N5105 Promox VE 虚拟机频繁死机问题处理
 type: post
 date: 2023-03-25T21:31:50+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Proxmox VE
   - HomeLab

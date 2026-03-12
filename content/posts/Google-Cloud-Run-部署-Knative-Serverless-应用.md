@@ -3,7 +3,7 @@ description: "Google Cloud Run 部署 Knative Serverless Go 应用完整教程�
 title: "Google Cloud Run 部署 Knative Serverless 应用 "
 type: post
 date: 2019-05-15T08:23:26+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Serverless
   - Google

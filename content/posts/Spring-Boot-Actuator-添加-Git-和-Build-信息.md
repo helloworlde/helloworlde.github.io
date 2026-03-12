@@ -3,7 +3,7 @@ description: "Spring Boot Actuator 集成 Git 与编译信息，通过 Gradle �
 title: Spring Boot Actuator 添加 Git 和 Build 信息
 type: post
 date: 2018-01-01T11:20:12+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

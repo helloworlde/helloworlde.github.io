@@ -3,7 +3,7 @@ description: "OpenWrt 搭建 WireGuard VPN 安全远程访问，对比 OpenVPN/I
 title: 使用WireGuard从外网访问OpenWrt
 type: post
 date: 2023-06-12T16:30:22+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - HomeLab
   - WireGuard

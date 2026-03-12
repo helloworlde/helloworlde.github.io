@@ -3,7 +3,7 @@ description: "SpringBoot 集成通用 Mapper 与 PageHelper 实现高效 CRUD，
 title: SpringBoot-使用 MyBatis 通用 Mapper
 type: post
 date: 2018-04-08T15:11:45+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

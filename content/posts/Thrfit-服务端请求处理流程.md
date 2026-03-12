@@ -3,7 +3,7 @@ description: "解析 Thrift 服务端同步非阻塞请求流程，详解 TThrea
 title: Thrfit 服务端请求处理流程
 type: post
 date: 2021-02-20T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Thrift
 featured: true

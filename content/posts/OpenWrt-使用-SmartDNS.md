@@ -3,7 +3,7 @@ description: "OpenWrt 部署 SmartDNS 提升解析速度，包含 opkg 安装、
 title: OpenWrt 使用 SmartDNS
 type: post
 date: 2022-09-27T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - SmartDNS
   - DNS

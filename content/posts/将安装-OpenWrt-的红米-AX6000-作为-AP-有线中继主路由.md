@@ -2,7 +2,7 @@
 date: 2025-11-02
 description: "解决 OpenWrt 红米 AX6000 信号差卡顿问题，通过删除 WAN 接口、配置静态 IP 关闭 DHCP 及 IPv6 实现有线 AP 中继主路由部署。"
 # image: ""
-lastmod: 2026-03-10
+lastmod: 2026-03-12
 showTableOfContents: false
 tags:
   - OpenWrt

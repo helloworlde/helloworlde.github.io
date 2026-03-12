@@ -3,7 +3,7 @@ description: "Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPO
 title: Docker 中使用 Dockerfile
 type: post
 date: 2018-04-08T15:21:27+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Docker
 featured: true

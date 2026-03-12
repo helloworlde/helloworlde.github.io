@@ -3,7 +3,7 @@ description: "SpringMVC实现国际化多语言配置教程，详解web.xml、sp
 title: Spring MVC简单实现国际化/多语言
 type: post
 date: 2018-01-01T11:48:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SrpingMVC

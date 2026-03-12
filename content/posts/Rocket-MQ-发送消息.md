@@ -3,7 +3,7 @@ description: "SpringBoot 集成 RocketMQ 发送顺序、延时及定时消息，
 title: Rocket MQ 发送消息
 type: post
 date: 2018-01-01T12:52:39+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - Rocket MQ

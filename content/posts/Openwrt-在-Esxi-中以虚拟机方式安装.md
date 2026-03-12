@@ -3,7 +3,7 @@ description: "OpenWrt ESXi 虚拟机安装教程：x86_64 镜像下载、QEMU im
 title: Openwrt 在 Esxi 中以虚拟机方式安装
 type: post
 date: 2022-07-22T11:32:08+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Esxi
   - OpenWrt

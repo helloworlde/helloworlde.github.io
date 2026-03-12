@@ -3,7 +3,7 @@ description: "Go 调用 Windows API 检测锁屏：使用 user32.dll GetForegrou
 title: Go 调用 Windows 的系统 API，检测是否锁屏
 type: post
 date: 2019-09-15T21:56:13+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Go
 featured: true

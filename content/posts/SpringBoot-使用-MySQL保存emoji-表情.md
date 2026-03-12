@@ -3,7 +3,7 @@ description: "解决 SpringBoot MySQL 保存 emoji 失败问题：切换 utf8 �
 title: SpringBoot 使用 MySQL保存emoji 表情
 type: post
 date: 2018-12-31T22:59:16+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - MySQL
   - SpringBoot

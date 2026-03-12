@@ -3,7 +3,7 @@ description: "深入解析 gRPC Server 端关闭流程，详解 shutdown 与 shu
 title: gRPC Server 端关闭流程
 type: post
 date: 2020-12-05T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - gRPC
 featured: true

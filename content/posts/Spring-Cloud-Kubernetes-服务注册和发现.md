@@ -3,7 +3,7 @@ description: "Spring Cloud Kubernetes 服务注册与发现实现指南，详解
 title: Spring Cloud Kubernetes 服务注册和发现
 type: post
 date: 2020-09-20T22:26:03+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringCloud

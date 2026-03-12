@@ -3,7 +3,7 @@ description: "掌握 Spring Boot 自定义异常处理，通过 HandlerException
 title: Spring Boot 中自定义异常处理
 type: post
 date: 2019-09-08T18:47:12+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

@@ -3,7 +3,7 @@ description: "Ubuntu 下 Jenkins 安装配置指南：JDK 环境检查、apt-get
 title: Ubuntu安装配置 Jenkins
 type: post
 date: 2018-01-01T12:12:32+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Jenkins
   - Ubuntu

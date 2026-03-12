@@ -3,7 +3,7 @@ description: "Spring Session 结合 Redis 实现多实例会话共享，通过�
 title: Spring MVC 使用 Spring Session 实现 Session 共享-Redis
 type: post
 date: 2018-01-01T00:07:20+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SrpingMVC

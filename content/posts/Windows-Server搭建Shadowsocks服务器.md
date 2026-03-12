@@ -3,7 +3,7 @@ description: "Windows Server 搭建 Shadowsocks 服务器教程，包含 libQtSh
 title: Windows Server搭建Shadowsocks服务器
 type: post
 date: 2018-01-01T12:18:00+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Shadowsocks
 featured: true

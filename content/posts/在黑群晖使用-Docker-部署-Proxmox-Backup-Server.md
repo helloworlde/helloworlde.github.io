@@ -3,7 +3,7 @@ description: "黑群晖 Docker 部署 Proxmox Backup Server 教程，含 docker-
 title: 在黑群晖使用 Docker 部署 Proxmox Backup Server
 type: post
 date: 2023-12-23T21:52:00+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Proxmox
   - HomeLab

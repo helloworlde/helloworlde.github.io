@@ -3,7 +3,7 @@ description: "Spring Boot 启动初始化指南：详解实现 CommandLineRunner
 title: Spring Boot 启动时执行加载资源/执行操作
 type: post
 date: 2018-01-01T00:54:49+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

@@ -3,7 +3,7 @@ description: "SpringBoot 集成 Druid 数据库连接池完整配置指南，涵
 title: SpringBoot中配置使用Druid数据库连接池
 type: post
 date: 2018-01-01T00:52:18+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringBoot

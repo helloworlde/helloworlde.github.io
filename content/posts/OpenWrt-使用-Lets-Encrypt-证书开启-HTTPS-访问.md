@@ -3,7 +3,7 @@ description: "OpenWrt 配置 HTTPS：使用 uHTTPd 和 ACME 通过 DNS 验证获
 title: OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问
 type: post
 date: 2022-11-11T21:57:52+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - OpenWrt
   - HomeLab

@@ -3,7 +3,7 @@ description: "深入解析 SpringMVC 启动时 ContextRefreshedEvent、ContextCl
 title: SpringMVC应用启动时执行操作
 type: post
 date: 2018-01-01T00:56:03+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Java
   - SpringMVC

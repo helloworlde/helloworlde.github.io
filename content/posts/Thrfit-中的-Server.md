@@ -3,7 +3,7 @@ description: "Thrift Server 实现详解：TSimpleServer、TThreadPoolServer 及
 title: Thrfit 中的 Server
 type: post
 date: 2021-01-18T22:34:46+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - Thrift
 featured: true
