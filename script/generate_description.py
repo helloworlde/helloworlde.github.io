@@ -8,7 +8,15 @@ import os
 import sys
 import re
 import time
+import logging
 import requests
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%H:%M:%S',
+)
+log = logging.getLogger(__name__)
 
 AI_API_URL = os.environ.get('AI_API_URL', 'https://api.openai.com/v1/chat/completions')
 AI_API_KEY = os.environ.get('AI_API_KEY', '')
@@ -153,26 +161,26 @@ def get_title(fm_str):
 
 def main():
     if not AI_API_KEY:
-        print("错误: 未设置 AI_API_KEY 环境变量")
+        log.error("未设置 AI_API_KEY 环境变量")
         sys.exit(1)
 
     mode = "Ollama" if _detect_ollama() else "OpenAI Compatible"
-    print(f"API: {AI_API_URL} ({mode})")
-    print(f"Model: {AI_MODEL}")
-    print(f"Posts: {POSTS_DIR}")
-    print()
+    log.info("API: %s (%s)", AI_API_URL, mode)
+    log.info("Model: %s", AI_MODEL)
+    log.info("Posts: %s", POSTS_DIR)
 
     files = sorted([
         f for f in os.listdir(POSTS_DIR) if f.endswith('.md')
     ])
 
     total = len(files)
-    processed = 0
+    generated = 0
     skipped = 0
     failed = 0
 
     for i, fname in enumerate(files):
         filepath = os.path.join(POSTS_DIR, fname)
+        prefix = f"[{i+1}/{total}] {fname}"
 
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -180,39 +188,44 @@ def main():
         fm_str, body, _ = parse_frontmatter(content)
         if fm_str is None:
             skipped += 1
-            continue
-
-        if has_description(fm_str):
-            skipped += 1
+            log.info("%s -> 跳过: 无 frontmatter", prefix)
             continue
 
         title = get_title(fm_str)
         if not title:
             skipped += 1
+            log.info("%s -> 跳过: 无标题", prefix)
             continue
 
-        print(f"[{i+1}/{total}] {title}")
+        if has_description(fm_str):
+            skipped += 1
+            log.info("%s -> 跳过: 已有 description", prefix)
+            continue
+
+        if not body.strip():
+            skipped += 1
+            log.info("%s -> 跳过: 正文为空", prefix)
+            continue
 
         try:
             description = call_ai_api(title, body)
             if not description:
                 failed += 1
-                print(f"  -> AI 返回空内容，跳过")
+                log.warning("%s -> AI 返回空内容", prefix)
                 continue
             if update_frontmatter(filepath, description):
-                processed += 1
-                print(f"  -> {description}")
+                generated += 1
+                log.info("%s -> %s", prefix, description)
             else:
                 failed += 1
-                print(f"  -> 写入失败")
+                log.error("%s -> 写入 frontmatter 失败", prefix)
         except Exception as e:
             failed += 1
-            print(f"  -> 错误: {e}")
+            log.error("%s -> %s", prefix, e)
 
         time.sleep(0.5)
 
-    print(f"\n--- 完成 ---")
-    print(f"生成: {processed}, 跳过: {skipped}, 失败: {failed}")
+    log.info("完成 (共 %d 篇) - 生成: %d, 跳过: %d, 失败: %d", total, generated, skipped, failed)
 
 
 if __name__ == '__main__':

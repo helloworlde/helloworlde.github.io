@@ -5,7 +5,7 @@ title:
 description: "MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date
 type: post
 date: 2019-03-29T21:17:57+08:00
-lastmod: 2025-09-06
+lastmod: 2026-03-12
 tags:
   - MyBatis
   - Java
