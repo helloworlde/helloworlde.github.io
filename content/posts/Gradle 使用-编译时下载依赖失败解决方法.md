@@ -3,7 +3,7 @@ description: "解决 Gradle 编译时 Maven 远程仓库下载超时问题，通
 title: Gradle 使用-编译时下载依赖失败解决方法
 type: post
 date: 2018-01-01T01:00:20+08:00
-lastmod: 2024-12-04
+lastmod: 2026-03-12
 tags:
   - Gradle
 featured: true
