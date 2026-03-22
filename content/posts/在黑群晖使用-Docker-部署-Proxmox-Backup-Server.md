@@ -1,6 +1,9 @@
 ---
 description: "黑群晖 Docker 部署 Proxmox Backup Server 教程，含 docker-compose 配置、存储挂载及 PVE 备份集成指南。"
 title: 在黑群晖使用 Docker 部署 Proxmox Backup Server
+slug: "docker-deploy-proxmox-backup-server-black-synology"
+aliases:
+  - "/posts/在黑群晖使用-docker-部署-proxmox-backup-server/"
 type: post
 date: 2023-12-23T21:52:00+08:00
 lastmod: 2026-03-12

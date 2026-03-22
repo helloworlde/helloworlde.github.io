@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC 二进制日志打印原理，涵盖 Binlog 配置、拦截器机制及源码实现细节，助力开发者高效调试分布式服务。"
 title: gRPC 中 Binlog 打印原理
+slug: "grpc-binlog-printing-principle"
+aliases:
+  - "/posts/grpc-中-binlog-打印原理/"
 type: post
 date: 2020-09-20T22:33:59+08:00
 lastmod: 2026-03-12

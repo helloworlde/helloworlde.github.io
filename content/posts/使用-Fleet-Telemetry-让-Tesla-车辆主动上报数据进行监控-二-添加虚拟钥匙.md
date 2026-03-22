@@ -8,6 +8,9 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(二)添加虚拟钥匙"
+slug: "fleet-telemetry-tesla-virtual-key"
+aliases:
+  - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-二-添加虚拟钥匙/"
 type: "post"
 ---
 

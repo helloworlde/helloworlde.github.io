@@ -1,6 +1,9 @@
 ---
 description: "SpringBoot Spring Security 403 自定义返回 JSON 消息，实现 AccessDeniedHandler 拦截未授权请求并返回 Session Invalid 错误信息。"
 title: SpringBoot 中 Spring Security 403 自定义返回消息
+slug: "springboot-security-403-custom-message"
+aliases:
+  - "/posts/springboot-中-spring-security-403-自定义返回消息/"
 type: post
 date: 2018-12-24T21:15:25+08:00
 lastmod: 2026-03-12

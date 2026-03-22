@@ -1,6 +1,9 @@
 ---
 description: "解决 Spring Cloud Gateway 在 Kubernetes 中无法自动负载均衡的问题，通过集成 spring-cloud-starter-kubernetes-all 和 Netflix Ribbon 实现服务发现与高可用部署。"
 title: Spring Cloud Gateway 使用 Kubernetes 实现负载均衡
+slug: "spring-cloud-gateway-kubernetes-load-balancing"
+aliases:
+  - "/posts/spring-cloud-gateway-使用-kubernetes-实现负载均衡/"
 type: post
 date: 2020-09-20T22:23:18+08:00
 lastmod: 2026-03-12

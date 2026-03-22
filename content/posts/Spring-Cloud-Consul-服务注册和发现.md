@@ -1,6 +1,9 @@
 ---
 description: "详解 Spring Cloud Consul 服务注册与发现机制，涵盖核心概念、Kubernetes Client 初始化代码及自动注册流程实现。"
 title: Spring Cloud Consul 服务注册和发现
+slug: "spring-cloud-consul-service-registration-discovery"
+aliases:
+  - "/posts/spring-cloud-consul-服务注册和发现/"
 type: post
 date: 2020-09-20T22:27:16+08:00
 lastmod: 2026-03-12

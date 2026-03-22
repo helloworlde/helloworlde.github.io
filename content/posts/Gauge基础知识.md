@@ -1,6 +1,9 @@
 ---
 description: "Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。"
 title: Gauge基础知识
+slug: "gauge-basics"
+aliases:
+  - "/posts/gauge基础知识/"
 type: post
 date: 2018-01-01T11:29:04+08:00
 lastmod: 2026-03-12

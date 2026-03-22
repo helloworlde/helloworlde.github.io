@@ -9,6 +9,9 @@ tags:
   - HomeLab
   - Network
 title: "使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理"
+slug: "docker-hysteria2-proxy-linux-server"
+aliases:
+  - "/posts/使用-docker-在-linux-服务器搭建-hysteria2-作为代理/"
 type: "post"
 ---
 

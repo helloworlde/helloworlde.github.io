@@ -8,6 +8,9 @@ tags:
   - OpenWrt
   - HomeLab
 title: "将安装 OpenWrt 的红米 AX6000 作为 AP 有线中继主路由"
+slug: "openwrt-redmi-ax6000-wired-ap-repeater"
+aliases:
+  - "/posts/将安装-openwrt-的红米-ax6000-作为-ap-有线中继主路由/"
 type: "post"
 featured: true
 ---

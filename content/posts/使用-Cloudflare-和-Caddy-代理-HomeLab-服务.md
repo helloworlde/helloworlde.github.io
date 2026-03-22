@@ -9,6 +9,9 @@ tags:
 featured: true
 type: post
 title: "使用 Cloudflare 和 Caddy 代理 HomeLab 服务"
+slug: "cloudflare-caddy-homelab-proxy"
+aliases:
+  - "/posts/使用-cloudflare-和-caddy-代理-homelab-服务/"
 ---
 
 HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可

@@ -1,6 +1,9 @@
 ---
 description: "SpringBoot 集成 MyBatis PageHelper 分页插件，详解依赖配置、核心参数及 startPage/RowBounds 使用示例。"
 title: SpringBoot 使用 MyBatis PageHelper 分页插件
+slug: "springboot-mybatis-pagehelper-pagination"
+aliases:
+  - "/posts/springboot-使用-mybatis-pagehelper-分页插件/"
 type: post
 date: 2018-02-03T11:56:38+08:00
 lastmod: 2026-03-12

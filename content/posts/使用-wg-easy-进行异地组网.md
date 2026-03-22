@@ -9,6 +9,9 @@ tags:
   - WireGuard
 featured: true
 title: "使用 wg-easy 进行异地组网"
+slug: "use-wg-easy-remote-networking"
+aliases:
+  - "/posts/使用-wg-easy-进行异地组网/"
 type: "post"
 ---
 

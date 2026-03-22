@@ -1,6 +1,9 @@
 ---
 description: "SpringBoot 集成通用 Mapper 与 PageHelper 实现高效 CRUD，包含依赖配置、MyBatis 插件设置及通用服务层代码示例。"
 title: SpringBoot-使用 MyBatis 通用 Mapper
+slug: "springboot-mybatis-generic-mapper"
+aliases:
+  - "/posts/springboot-使用-mybatis-通用-mapper/"
 type: post
 date: 2018-04-08T15:11:45+08:00
 lastmod: 2026-03-12

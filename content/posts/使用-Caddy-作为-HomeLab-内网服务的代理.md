@@ -9,6 +9,9 @@ tags:
   - HomeLab
 featured: true
 title: "使用 Caddy 作为 HomeLab 内网服务的代理"
+slug: "caddy-proxy-homelab-services"
+aliases:
+  - "/posts/使用-caddy-作为-homelab-内网服务的代理/"
 type: "post"
 ---
 

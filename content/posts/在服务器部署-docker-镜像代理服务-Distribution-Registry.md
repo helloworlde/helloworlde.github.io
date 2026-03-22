@@ -9,6 +9,9 @@ tags:
   - HomeLab
 featured: true
 title: "在服务器部署 Docker 镜像代理服务 Distribution Registry"
+slug: "deploy-docker-registry-server"
+aliases:
+  - "/posts/在服务器部署-docker-镜像代理服务-distribution-registry/"
 type: "post"
 ---
 

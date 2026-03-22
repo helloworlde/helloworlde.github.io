@@ -11,6 +11,9 @@ tags:
 featured: true
 type: post
 title: "使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器"
+slug: "caddy-proxy-blocky-doh-dns-server"
+aliases:
+  - "/posts/使用-caddy-代理-blocky-对外提供-doh-作为-dns-服务器/"
 ---
 
 因为国内的 DNS 都开始限速，频繁出现 DNS 等待数分钟甚至无响应的情况，国外的 DNS 响应又比较慢，非常影响使用；刚好阿里云的服务器内网 DNS 不限速，并且网络延迟只有10ms，可以将其作为 DoH 服务器，用于提供 DNS 查询

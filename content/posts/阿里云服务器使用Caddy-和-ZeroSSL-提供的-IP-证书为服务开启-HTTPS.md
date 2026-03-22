@@ -11,6 +11,9 @@ tags:
 featured: true
 type: post
 title: "阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS"
+slug: "aliyun-caddy-zerossl-ip-certificate-https"
+aliases:
+  - "/posts/阿里云服务器使用caddy-和-zerossl-提供的-ip-证书为服务开启-https/"
 ---
 
 国内购买的服务器在没有域名备案的情况下通过域名请求会被拦截，只能通过 IP 访问，但是一些服务如 DoH 等必须通过可信的 HTTPS 访问，刚好 ZeroSSL 支持为 IP 申请证书，这样就可以直接使用 IP 安全访问云主机里部署服务

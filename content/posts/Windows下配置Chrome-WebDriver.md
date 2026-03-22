@@ -1,6 +1,9 @@
 ---
 description: "Windows 下手动配置 Chrome WebDriver 的完整教程，包含下载链接、安装目录查找及环境变量 PATH 设置步骤。"
 title: Windows下配置Chrome WebDriver
+slug: "windows-chrome-webdriver-setup"
+aliases:
+  - "/posts/windows下配置chrome-webdriver/"
 type: post
 date: 2018-01-01T11:59:09+08:00
 lastmod: 2026-03-12

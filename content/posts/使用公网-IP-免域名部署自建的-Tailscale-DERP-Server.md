@@ -8,6 +8,9 @@ tags:
   - HomeLab
   - Network
 title: "使用公网 IP 免域名部署自建的 Tailscale DERP Server"
+slug: "deploy-tailscale-derp-server-public-ip"
+aliases:
+  - "/posts/使用公网-ip-免域名部署自建的-tailscale-derp-server/"
 type: "post"
 featured: true
 ---

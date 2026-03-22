@@ -1,6 +1,9 @@
 ---
 description: "Thrift Server 实现详解：TSimpleServer、TThreadPoolServer 及 AbstractNonblockingServer 核心源码分析"
 title: Thrfit 中的 Server
+slug: "thrift-server"
+aliases:
+  - "/posts/thrfit-中的-server/"
 type: post
 date: 2021-01-18T22:34:46+08:00
 lastmod: 2026-03-12

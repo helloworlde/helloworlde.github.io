@@ -1,6 +1,9 @@
 ---
 description: "使用 Let's Encrypt 免费申请 HTTPS 证书，基于 DNSPod 域名解析平台通过 Lego 工具实现自动化 SSL/TLS 部署指南。"
 title: 使用 Let’s Encrypt 申请 HTTPS 证书
+slug: "lets-encrypt-https-certificate"
+aliases:
+  - "/posts/使用-let’s-encrypt-申请-https-证书/"
 type: post
 date: 2022-08-03T11:32:08+08:00
 lastmod: 2026-03-12

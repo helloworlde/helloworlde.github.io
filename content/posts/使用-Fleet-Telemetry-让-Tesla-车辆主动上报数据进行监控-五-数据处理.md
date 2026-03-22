@@ -8,6 +8,9 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(五)数据处理"
+slug: "fleet-telemetry-tesla-data-processing"
+aliases:
+  - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-五-数据处理/"
 type: "post"
 ---
 

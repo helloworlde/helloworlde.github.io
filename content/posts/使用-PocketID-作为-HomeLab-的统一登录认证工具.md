@@ -5,6 +5,9 @@ description: "PocketID 轻量通行密钥用户管理系统教程，支持 OIDC 
 lastmod: 2026-03-12
 showTableOfContents: false
 title: "使用 PocketID 作为 HomeLab 的统一登录认证工具"
+slug: "pocketid-homelab-single-sign-on"
+aliases:
+  - "/posts/使用-pocketid-作为-homelab-的统一登录认证工具/"
 type: "post"
 tags:
   - Caddy

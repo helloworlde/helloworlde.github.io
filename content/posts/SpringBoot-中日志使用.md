@@ -1,6 +1,9 @@
 ---
 description: "详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。"
 title: SpringBoot 中日志使用
+slug: "springboot-logging"
+aliases:
+  - "/posts/springboot-中日志使用/"
 type: post
 date: 2018-01-19T21:23:45+08:00
 lastmod: 2026-03-12

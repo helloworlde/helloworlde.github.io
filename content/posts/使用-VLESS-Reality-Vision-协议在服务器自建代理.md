@@ -9,6 +9,9 @@ tags:
   - HomeLab
   - OpenWrt
 title: "使用 VLESS Reality Vision 协议在 VPS 服务器自建代理"
+slug: "vless-reality-vision-protocol-vps-proxy"
+aliases:
+  - "/posts/使用-vless-reality-vision-协议在服务器自建代理/"
 type: "post"
 ---
 

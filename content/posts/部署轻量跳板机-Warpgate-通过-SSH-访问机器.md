@@ -5,6 +5,9 @@ description: "轻量级跳板机 Warpgate 部署指南，基于 Docker Compose �
 lastmod: 2026-03-12
 showTableOfContents: false
 title: "部署轻量跳板机 Warpgate 通过 SSH 访问机器"
+slug: "deploy-lightweight-warpgate-ssh-access"
+aliases:
+  - "/posts/部署轻量跳板机-warpgate-通过-ssh-访问机器/"
 type: "post"
 tags:
   - HomeLab

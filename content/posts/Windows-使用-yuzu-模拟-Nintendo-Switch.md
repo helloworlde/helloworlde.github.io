@@ -1,6 +1,9 @@
 ---
 description: "Windows 平台安装 Yuzu Switch 模拟器教程，含密钥配置、XCI NCA 游戏导入及性能测试实测。"
 title: Windows 使用 Yuzu 模拟 Nintendo Switch
+slug: "windows-yuzu-nintendo-switch-emulator"
+aliases:
+  - "/posts/windows-使用-yuzu-模拟-nintendo-switch/"
 type: post
 date: 2022-11-20T21:51:48+08:00
 lastmod: 2026-03-12

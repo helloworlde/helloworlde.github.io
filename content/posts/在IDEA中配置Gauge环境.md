@@ -1,6 +1,9 @@
 ---
 description: "在 IDEA 中配置 Gauge 自动化测试环境，包含安装步骤、插件设置及 GAUGE_ROOT 等关键环境变量配置指南。"
 title: 在IDEA中配置Gauge环境
+slug: "configure-gauge-environment-idea"
+aliases:
+  - "/posts/在idea中配置gauge环境/"
 type: post
 date: 2018-01-01T11:28:05+08:00
 lastmod: 2026-03-12

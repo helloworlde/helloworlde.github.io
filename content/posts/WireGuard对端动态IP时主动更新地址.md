@@ -1,6 +1,9 @@
 ---
 description: "解决 WireGuard 域名 IP 变化导致连接断开问题，使用 reresolve-dns.sh 脚本配合 systemd 定时任务实现 Endpoint 地址自动更新。"
 title: WireGuard对端动态IP时主动更新地址
+slug: "wireguard-peer-dynamic-ip-update-address"
+aliases:
+  - "/posts/wireguard对端动态ip时主动更新地址/"
 type: post
 date: 2023-09-24T18:37:06+08:00
 lastmod: 2026-03-12

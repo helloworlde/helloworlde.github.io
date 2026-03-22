@@ -1,6 +1,9 @@
 ---
 description: "gRPC 健康检查实现指南：Server 端配置 HealthStatusManager，客户端通过 round_robin 负载均衡器在请求前验证 SERVING 状态，提升服务可用性。"
 title: gRPC  健康检查
+slug: "grpc-health-check"
+aliases:
+  - "/posts/grpc-健康检查/"
 type: post
 date: 2020-09-20T22:37:34+08:00
 lastmod: 2026-03-12

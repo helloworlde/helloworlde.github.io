@@ -1,6 +1,9 @@
 ---
 description: "解决 SpringBoot Junit 测试 Bean 注入失败：对比 SpringApplicationConfiguration 与@SpringBootTest 注解差异及配置方法。"
 title: SpringBoot中Junit测试注入Bean失败的解决方法
+slug: "springboot-junit-bean-injection-failure-solution"
+aliases:
+  - "/posts/springboot中junit测试注入bean失败的解决方法/"
 type: post
 date: 2018-01-01T11:46:57+08:00
 lastmod: 2026-03-12

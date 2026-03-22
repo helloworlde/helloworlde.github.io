@@ -1,6 +1,9 @@
 ---
 description: "Kubernetes 中通过 YAML 配置部署 SpringBoot 应用，包含 Dockerfile、REST API 及健康检查探针完整实战教程。"
 title: "Kubernetes 中部署 SpringBoot 应用 "
+slug: "deploy-springboot-app-kubernetes"
+aliases:
+  - "/posts/kubernetes-中部署-springboot-应用/"
 type: post
 date: 2018-10-22T18:30:37+08:00
 lastmod: 2026-03-12

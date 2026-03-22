@@ -1,6 +1,9 @@
 ---
 description: "Spring Boot 实现 Remember Me 自动登录功能，演示基于内存与数据库持久化 Cookie 的 Spring Security 配置代码。"
 title: Spring Security 中实现 Remember Me 记住密码功能
+slug: "spring-security-remember-me"
+aliases:
+  - "/posts/spring-security-中实现-remember-me-记住密码功能/"
 type: post
 date: 2018-01-01T00:35:56+08:00
 lastmod: 2026-03-12

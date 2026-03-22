@@ -10,6 +10,9 @@ tags:
   - Cert
 featured: true
 title: "使用 Step CA 作为内网的 ACME Server 为 Caddy 颁发可信的 HTTPS 证书"
+slug: "step-ca-acme-server-caddy-https-certificates"
+aliases:
+  - "/posts/使用-step-ca-作为内网的-acme-server-为-caddy-颁发可信的-https-证书/"
 type: "post"
 ---
 

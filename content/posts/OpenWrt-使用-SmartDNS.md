@@ -1,6 +1,9 @@
 ---
 description: "OpenWrt 部署 SmartDNS 提升解析速度，包含 opkg 安装、dnsmasq 转发及端口配置教程。"
 title: OpenWrt 使用 SmartDNS
+slug: "openwrt-smartdns"
+aliases:
+  - "/posts/openwrt-使用-smartdns/"
 type: post
 date: 2022-09-27T11:32:08+08:00
 lastmod: 2026-03-12

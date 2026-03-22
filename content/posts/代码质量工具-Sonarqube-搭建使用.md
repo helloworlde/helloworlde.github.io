@@ -1,6 +1,9 @@
 ---
 description: "Sonarqube 代码质量工具搭建指南，详解 Docker 部署、Maven 与 Gradle 项目分析配置及持续集成集成方法。"
 title: 代码质量工具 Sonarqube 搭建使用
+slug: "sonarqube-setup-usage"
+aliases:
+  - "/posts/代码质量工具-sonarqube-搭建使用/"
 type: post
 date: 2018-08-01T00:31:41+08:00
 lastmod: 2026-03-12

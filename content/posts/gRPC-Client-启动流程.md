@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC Client 启动流程，详解 Netty 底层实现、ChannelBuilder 构建及 ManagedChannelImpl 初始化机制。"
 title: gRPC Client 启动流程
+slug: "grpc-client-startup-process"
+aliases:
+  - "/posts/grpc-client-启动流程/"
 type: post
 date: 2020-11-17T22:34:46+08:00
 lastmod: 2026-03-12

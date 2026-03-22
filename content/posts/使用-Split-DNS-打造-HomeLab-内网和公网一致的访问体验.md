@@ -9,6 +9,9 @@ tags:
   - Gateway
   - DNS
 title: "使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验"
+slug: "split-dns-homelab-consistent-access"
+aliases:
+  - "/posts/使用-split-dns-打造-homelab-内网和公网一致的访问体验/"
 type: "post"
 featured: true
 ---

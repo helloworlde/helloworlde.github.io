@@ -1,6 +1,9 @@
 ---
 description: "Java 集成 Jacoco 生成单元测试覆盖率报告并自动上传至 Codecov，包含 Gradle 配置示例及 Travis、Circle CI 部署方案。"
 title: Java 将单元测试覆盖率上传到 Codecov
+slug: "java-unit-test-coverage-codecov"
+aliases:
+  - "/posts/java-将单元测试覆盖率上传到-codecov/"
 type: post
 date: 2018-01-01T00:00:19+08:00
 lastmod: 2026-03-12

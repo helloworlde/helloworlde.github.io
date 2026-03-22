@@ -1,6 +1,9 @@
 ---
 description: "Docker 容器内运行 Docker 命令实战：通过挂载 docker.sock 和二进制文件配合 privileged 模式，实现 GitLab CI 等场景下的镜像构建与自管理。"
 title: Docker 容器中运行 Docker 命令
+slug: "run-docker-commands-docker-containers"
+aliases:
+  - "/posts/docker-容器中运行-docker-命令/"
 type: post
 date: 2018-08-08T16:04:24+08:00
 lastmod: 2026-03-12

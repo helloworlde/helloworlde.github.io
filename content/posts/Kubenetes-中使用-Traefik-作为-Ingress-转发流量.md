@@ -1,6 +1,9 @@
 ---
 description: "Kubernetes Traefik Ingress 配置指南：详解 DaemonSet 与 Helm 部署、RBAC 权限管理及自动化动态路由实现"
 title: Kubenetes 中使用 Traefik 作为 Ingress 转发流量
+slug: "kubernetes-traefik-ingress-traffic-forwarding"
+aliases:
+  - "/posts/kubenetes-中使用-traefik-作为-ingress-转发流量/"
 type: post
 date: 2019-09-08T19:06:11+08:00
 lastmod: 2026-03-12

@@ -1,6 +1,9 @@
 ---
 description: "在 MacOS 虚拟机中制作 ISO 镜像教程，包含 App Store 下载系统安装器及 hdiutil 命令行转换 dmg 为 bootable ISO 的完整步骤。"
 title: 使用 MacOS 制作 MacOS 的 ISO 镜像
+slug: "create-macos-iso-macos"
+aliases:
+  - "/posts/使用-macos-制作-macos-的-iso-镜像/"
 type: post
 date: 2022-11-20T21:51:48+08:00
 lastmod: 2026-03-12

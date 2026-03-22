@@ -10,6 +10,9 @@ tags:
   - HomeLab
 featured: true
 title: "PVE 将 OpenWrt 虚拟机迁移至其他实例"
+slug: "migrate-openwrt-vm-pve-instance"
+aliases:
+  - "/posts/pve-将-openwrt-虚拟机迁移至其他实例/"
 type: "post"
 ---
 

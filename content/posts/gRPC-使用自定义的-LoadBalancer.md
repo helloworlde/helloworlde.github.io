@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC 自定义 LoadBalancer 实现，涵盖 Provider、SubchannelPicker 核心类及轮询策略代码示例。"
 title: gRPC 使用自定义的 LoadBalancer
+slug: "grpc-custom-loadbalancer"
+aliases:
+  - "/posts/grpc-使用自定义的-loadbalancer/"
 type: post
 date: 2020-09-29T22:34:46+08:00
 lastmod: 2026-03-12

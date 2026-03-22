@@ -1,6 +1,9 @@
 ---
 description: "Frigate 集成 Hailo8/Hailo8L 边缘 AI 加速，支持 YOLOv5 对象识别与人脸识别，提升安防监控性能。"
 title: "Frigate 使用 Hailo 8 或 Hailo 8L 进行对象识别"
+slug: "frigate-hailo-8-8l-object-detection"
+aliases:
+  - "/posts/frigate-使用-hailo-8-或-hailo-8l-进行对象识别/"
 type: post
 date: 2024-09-01T11:25:24+08:00
 lastmod: 2026-03-12

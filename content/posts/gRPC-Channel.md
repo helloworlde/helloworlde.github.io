@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC Channel 架构，涵盖 Subchannel、ManagedChannel 实现类及生命周期管理方法，掌握 RPC 连接创建与状态控制核心机制。"
 title: gRPC Channel
+slug: "grpc-channel"
+aliases:
+  - "/posts/grpc-channel/"
 type: post
 date: 2020-11-18T22:34:46+08:00
 lastmod: 2026-03-12

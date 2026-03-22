@@ -1,6 +1,9 @@
 ---
 description: "Spring Boot 集成 Flyway 数据库版本管理工具，实现自动化 SQL 迁移与校验。包含依赖配置、MySQL/H2 连接设置及脚本部署指南，确保生产环境数据一致性。"
 title: Spring Boot 使用 Flyway
+slug: "spring-boot-flyway"
+aliases:
+  - "/posts/springboot-使用-flyway/"
 type: post
 date: 2018-01-07T23:20:53+08:00
 lastmod: 2026-03-12

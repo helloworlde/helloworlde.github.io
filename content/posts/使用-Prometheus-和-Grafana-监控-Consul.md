@@ -1,6 +1,9 @@
 ---
 description: "学习使用 Docker 部署 Consul、Prometheus 和 Grafana，配置 Consul Prometheus 指标导出及监控看板。"
 title: 使用 Prometheus 和 Grafana 监控 Consul
+slug: "prometheus-grafana-consul-monitoring"
+aliases:
+  - "/posts/使用-prometheus-和-grafana-监控-consul/"
 type: post
 date: 2020-05-16T14:36:34+08:00
 lastmod: 2026-03-12

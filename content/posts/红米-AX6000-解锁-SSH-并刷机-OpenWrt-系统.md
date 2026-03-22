@@ -5,6 +5,9 @@ description: "红米 AX6000 解锁 SSH 刷机 OpenWrt 教程，含 telnet 开启
 lastmod: 2026-03-12
 showTableOfContents: false
 title: "红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统"
+slug: "redmi-ax6000-ssh-openwrt"
+aliases:
+  - "/posts/红米-ax6000-解锁-ssh-并刷机-openwrt-系统/"
 type: "post"
 tags:
   - MiWiFi

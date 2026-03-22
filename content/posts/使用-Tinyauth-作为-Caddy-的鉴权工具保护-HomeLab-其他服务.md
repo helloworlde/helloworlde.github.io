@@ -5,6 +5,9 @@ description: "轻量级 Tinyauth 鉴权工具部署指南，支持 OIDC 与 Home
 lastmod: 2026-03-12
 showTableOfContents: false
 title: "使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务"
+slug: "tinyauth-caddy-authentication-homelab-services"
+aliases:
+  - "/posts/使用-tinyauth-作为-caddy-的鉴权工具保护-homelab-其他服务/"
 type: "post"
 tags:
   - Caddy

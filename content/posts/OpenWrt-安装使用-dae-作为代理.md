@@ -6,6 +6,9 @@ lastmod: 2026-03-12
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 Dae 作为代理"
+slug: "openwrt-install-dae-proxy"
+aliases:
+  - "/posts/openwrt-安装使用-dae-作为代理/"
 type: "post"
 tags:
   - Proxy

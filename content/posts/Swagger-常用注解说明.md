@@ -1,6 +1,9 @@
 ---
 description: "Swagger 常用注解详解：@Api、@ApiOperation 及 @ApiImplicitParam 属性配置与使用指南，助力 Spring Boot API 文档生成。"
 title: Swagger 常用注解说明
+slug: "swagger-annotations-guide"
+aliases:
+  - "/posts/swagger-常用注解说明/"
 type: post
 date: 2018-01-07T23:34:23+08:00
 lastmod: 2026-03-12

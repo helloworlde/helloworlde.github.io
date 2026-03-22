@@ -1,6 +1,9 @@
 ---
 description: "OpenWrt 在 Proxmox VE 虚拟机中安装完整教程：下载通用镜像、配置磁盘导入、设置 SATA 引导及网络静态 IP，快速部署 HomeLab 路由器。"
 title: OpenWrt 在 PVE 中以虚拟机方式安装
+slug: "openwrt-install-pve-vm"
+aliases:
+  - "/posts/openwrt-在-pve-中以虚拟机方式安装/"
 type: post
 date: 2023-03-20T21:35:17+08:00
 lastmod: 2026-03-12

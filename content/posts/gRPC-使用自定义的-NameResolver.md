@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC 自定义 NameResolver 实现，掌握服务发现机制与注册中心集成核心代码。"
 title: gRPC 使用自定义的 NameResolver
+slug: "grpc-custom-nameresolver"
+aliases:
+  - "/posts/grpc-使用自定义的-nameresolver/"
 type: post
 date: 2020-09-20T22:34:46+08:00
 lastmod: 2026-03-12

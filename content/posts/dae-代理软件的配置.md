@@ -10,6 +10,9 @@ tags:
   - HomeLab
   - OpenWrt
 title: "Dae 代理软件的配置"
+slug: "dae-proxy-configuration"
+aliases:
+  - "/posts/dae-代理软件的配置/"
 type: "post"
 featured: true
 ---

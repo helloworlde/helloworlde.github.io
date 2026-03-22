@@ -1,6 +1,9 @@
 ---
 description: "Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。"
 title: Docker 中使用 Dockerfile
+slug: "docker-using-dockerfile"
+aliases:
+  - "/posts/docker-中使用-dockerfile/"
 type: post
 date: 2018-04-08T15:21:27+08:00
 lastmod: 2026-03-12

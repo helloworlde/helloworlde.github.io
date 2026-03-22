@@ -6,6 +6,9 @@ lastmod: 2026-03-12
 showTableOfContents: false
 # tags: ["",]
 title: "轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录"
+slug: "lightweight-warpgate-pocketid-ss"
+aliases:
+  - "/posts/轻量级跳板机-warpgate-通过-pocketid-实现-sso-登录/"
 type: "post"
 tags:
   - HomeLab

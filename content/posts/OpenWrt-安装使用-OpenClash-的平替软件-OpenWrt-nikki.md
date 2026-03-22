@@ -6,6 +6,9 @@ lastmod: 2026-03-12
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki"
+slug: "openwrt-openclash-alternative-nikki"
+aliases:
+  - "/posts/openwrt-安装使用-openclash-的平替软件-openwrt-nikki/"
 type: "post"
 tags:
   - Proxy

@@ -1,6 +1,9 @@
 ---
 description: "Spring Boot 2.3+ 实现 Kubernetes liveness 和 readiness 检查，配置 actuator 健康指标分组与自定义 HealthIndicator 接口。"
 title: Spring Boot 2.3+ Liveness 和 Readness 接口使用
+slug: "spring-boot-liveness-readiness-usage"
+aliases:
+  - "/posts/spring-boot-2-3-liveness-和-readness-接口使用/"
 type: post
 date: 2020-09-20T22:32:48+08:00
 lastmod: 2026-03-12

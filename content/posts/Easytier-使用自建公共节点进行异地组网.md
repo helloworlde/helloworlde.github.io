@@ -9,6 +9,9 @@ tags:
   - Easytier
 featured: true
 title: "Easytier 使用自建公共节点进行异地组网"
+slug: "easytier-self-hosted-public-node-remote-networking"
+aliases:
+  - "/posts/easytier-使用自建公共节点进行异地组网/"
 type: "post"
 ---
 

@@ -1,6 +1,9 @@
 ---
 description: "Spring Boot 集成 Spring Mail 实现邮件发送，包含依赖配置、SMTP 参数设置及 JavaMailSender 代码示例，支持简单文本与 HTML 邮件。"
 title: Spring Boot 发送邮件
+slug: "spring-boot-send-email"
+aliases:
+  - "/posts/spring-boot-发送邮件/"
 type: post
 date: 2017-12-31T23:55:11+08:00
 lastmod: 2026-03-12

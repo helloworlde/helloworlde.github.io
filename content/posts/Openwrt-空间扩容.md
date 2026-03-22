@@ -1,6 +1,9 @@
 ---
 description: "解决 OpenWrt 默认 100M 空间不足问题，通过 ESXi 调整虚拟机硬盘大小、使用 cfdisk 创建分区及 block-mount 挂载 ext4 实现扩容。"
 title: Openwrt-空间扩容
+slug: "openwrt-storage-expansion"
+aliases:
+  - "/posts/openwrt-空间扩容/"
 type: post
 date: 2022-07-23T11:32:08+08:00
 lastmod: 2026-03-12

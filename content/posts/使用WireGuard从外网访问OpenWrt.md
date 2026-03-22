@@ -1,6 +1,9 @@
 ---
 description: "OpenWrt 搭建 WireGuard VPN 安全远程访问，对比 OpenVPN/IPSec 优势详解，含密钥生成、接口配置及无主机路由实战指南。"
 title: 使用WireGuard从外网访问OpenWrt
+slug: "access-openwrt-via-wireguard"
+aliases:
+  - "/posts/使用wireguard从外网访问openwrt/"
 type: post
 date: 2023-06-12T16:30:22+08:00
 lastmod: 2026-03-12

@@ -1,6 +1,9 @@
 ---
 description: "Spring Controller 数据传递核心注解详解：PathVariable、RequestHeader、CookieValue、RequestBody、ResponseBody、SessionAttributes 与 ModelAttribute 用法及代码示例"
 title: Spring Controller 数据传递中注解的使用
+slug: "spring-controller-data-passing-annotations"
+aliases:
+  - "/posts/spring-controller-数据传递中注解的使用/"
 type: post
 date: 2018-01-01T11:54:23+08:00
 lastmod: 2026-03-12

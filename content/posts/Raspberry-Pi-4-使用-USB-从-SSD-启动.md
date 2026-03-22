@@ -1,6 +1,9 @@
 ---
 description: "树莓派 4 利用 Imager 安装 Raspberry Pi OS 并更新 EEPROM，配置 BOOT_ORDER 实现从 USB SSD 启动，突破 SD 卡 IO 瓶颈。"
 title: Raspberry Pi 4 使用 USB 从 SSD 启动
+slug: "raspberry-pi-4-boot-ssd-usb"
+aliases:
+  - "/posts/raspberry-pi-4-使用-usb-从-ssd-启动/"
 type: post
 date: 2020-09-20T22:29:28+08:00
 lastmod: 2026-03-12

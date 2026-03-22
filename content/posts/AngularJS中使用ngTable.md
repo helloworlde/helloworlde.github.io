@@ -1,6 +1,9 @@
 ---
 description: "AngularJS 中利用 ngTable 插件实现高效的数据表格，支持前端排序、筛选、分页及增删改查操作，无需后端分页处理，提升开发效率。"
 title: AngularJS中使用ngTable
+slug: "angularjs-ngtable"
+aliases:
+  - "/posts/angularjs中使用ngtable/"
 type: post
 date: 2018-01-01T11:42:21+08:00
 lastmod: 2026-03-12

@@ -1,6 +1,9 @@
 ---
 description: "解析 gRPC Server 端请求处理流程：从 NettyServerTransport 初始化到帧读取、拦截器链执行及流状态管理详解。"
 title: gRPC Server 端请求处理流程
+slug: "grpc-server-request-processing-flow"
+aliases:
+  - "/posts/grpc-server-端请求处理流程/"
 type: post
 date: 2020-12-15T22:34:46+08:00
 lastmod: 2026-03-12

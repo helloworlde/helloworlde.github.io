@@ -1,6 +1,9 @@
 ---
 description: "gRPC 服务 TLS 加密配置指南：详解 OpenSSL 证书生成、Netty SslContextBuilder 服务端与客户端安全通信实现及代码示例。"
 title: gRPC 服务使用 TLS 加密
+slug: "grpc-service-tls-encryption"
+aliases:
+  - "/posts/grpc-服务使用-tls-加密/"
 type: post
 date: 2021-01-06T22:34:46+08:00
 lastmod: 2026-03-12

@@ -1,6 +1,9 @@
 ---
 description: "Google Cloud Run 部署 Knative Serverless Go 应用完整教程，包含 Dockerfile、Cloud SDK 配置及容器镜像推送步骤。"
 title: "Google Cloud Run 部署 Knative Serverless 应用 "
+slug: "google-cloud-run-deploy-knative-serverless-apps"
+aliases:
+  - "/posts/google-cloud-run-部署-knative-serverless-应用/"
 type: post
 date: 2019-05-15T08:23:26+08:00
 lastmod: 2026-03-12

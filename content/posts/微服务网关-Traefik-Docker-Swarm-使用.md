@@ -1,6 +1,9 @@
 ---
 description: "Traefik 微服务网关 Docker Swarm 部署实战，演示反向代理配置、自动发现机制及 PathPrefixStrip 路径前缀剥离规则。"
 title: 微服务网关 Traefik - Docker Swarm 使用
+slug: "traefik-docker-swarm"
+aliases:
+  - "/posts/微服务网关-traefik-docker-swarm-使用/"
 date: 2019-03-24T21:20:35+08:00
 lastmod: 2026-03-12
 tags:

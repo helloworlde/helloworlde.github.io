@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC 负载均衡机制，详解 LoadBalancer 接口核心方法、实现类及内部工作流程，掌握 Subchannel 创建与连接建立过程。"
 title: gRPC  负载均衡
+slug: "grpc-load-balancing"
+aliases:
+  - "/posts/grpc-负载均衡/"
 type: post
 date: 2020-09-20T22:36:58+08:00
 lastmod: 2026-03-12

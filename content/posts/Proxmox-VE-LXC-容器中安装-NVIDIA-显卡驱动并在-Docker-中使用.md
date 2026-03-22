@@ -4,6 +4,9 @@ lastmod: 2026-03-12
 showTableOfContents: false
 description: "Proxmox VE LXC 容器安装 NVIDIA 驱动及 Docker GPU 加速实战指南，涵盖订阅源配置、内核头文件依赖、DKMS 自动编译机制、官方驱动下载验证与 nvidia-smi 检测步骤。"
 title: "Proxmox VE LXC 容器中安装 NVIDIA 显卡驱动并在 Docker 中使用"
+slug: "proxmox-ve-lxc-nvidia-driver-docker"
+aliases:
+  - "/posts/proxmox-ve-lxc-容器中安装-nvidia-显卡驱动并在-docker-中使用/"
 type: "post"
 tags:
   - Proxmox VE

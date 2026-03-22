@@ -1,6 +1,9 @@
 ---
 description: "深入解析 gRPC 命名解析机制，详解 NameResolver、Provider 及 Registry 架构与源码实现原理。"
 title: gRPC 命名解析
+slug: "grpc-name-resolution"
+aliases:
+  - "/posts/grpc-命名解析/"
 type: post
 date: 2020-09-20T22:35:22+08:00
 lastmod: 2026-03-12
