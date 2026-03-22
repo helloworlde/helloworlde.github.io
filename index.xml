@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Thu, 12 Mar 2026 09:10:13 +0800</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>群晖 NAS 使用 OIDC 工具 PocketID 进行 SSO 登录</title><link>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</link><pubDate>Sat, 07 Feb 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</guid><description>&lt;p&gt;群晖 NAS 每次登录都需要输入用户名密码，比较麻烦；群晖 NAS 支持 OIDC/LDAP 等方式进行 SSO 登录认证，因此可以使用 PocketID 来实现统一的身份认证服务&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HelloWood</title><link>https://blog.hellowood.dev/</link><description>Recent content on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 VLESS Reality Vision 协议在 VPS 服务器自建代理</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-vless-reality-vision-%E5%8D%8F%E8%AE%AE%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E5%BB%BA%E4%BB%A3%E7%90%86/</link><pubDate>Mon, 16 Mar 2026 08:52:57 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-vless-reality-vision-%E5%8D%8F%E8%AE%AE%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E5%BB%BA%E4%BB%A3%E7%90%86/</guid><description>&lt;p&gt;VLESS Reality Vision 是目前 Xray-core 中最推荐的代理组合方案，三个组件各司其职：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VLESS 负责代理协议层，用 UUID 认证用户身份并转发流量，设计极简，本身不做加密&lt;/li&gt;
+&lt;li&gt;Reality 负责传输安全层，代替传统 TLS。核心思路是：握手时伪装成访问真实网站（如 &lt;a href="https://www.bing.com"&gt;www.bing.com&lt;/a&gt;）的正常 TLS 连接，认证通过后才接管流量，否则直接转发给真实网站。外部观察者看到的是一条普通的 HTTPS 请求，无法区分。服务端不需要域名和证书，用公私钥对做认证&lt;/li&gt;
+&lt;li&gt;Vision 负责流控优化层，解决&amp;quot;TLS in TLS&amp;quot;问题。代理流量本身是 TLS 加密的，外面再套一层 Reality（也是 TLS），会形成双重加密的流量特征，容易被识别。Vision 在检测到内层 TLS 握手完成后，自动剥离外层加密直接传输，消除双重特征的同时也提升了性能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;三者组合在一起的效果：从外部网络看，代理流量与普通用户访问网站的 HTTPS 请求完全一致，既难以识别，也难以封锁&lt;/p&gt;
+&lt;p&gt;使用 docker 搭建 VLESS Reality Vision 代理服务，并在 ClashX Meta 和 Dae 客户端中使用；作为 UDP 协议被阻塞时作为 hysteria2 的备用方案&lt;/p&gt;
+&lt;h2 id="服务端搭建-vless-reality-vision-代理服务"&gt;服务端搭建 VLESS Reality Vision 代理服务&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;生成 uuid&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --rm ghcr.io/xtls/xray-core:latest uuid
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会生成一个 UUID，需要添加到配置中&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;9a1c99b3-cd96-4b10-b8e0-b8b68c936743
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;生成私钥/公钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run --rm ghcr.io/xtls/xray-core:latest x25519
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会生成一个私钥和密码，私钥用于服务端，密码用于客户端&lt;/p&gt;</description></item><item><title>群晖 NAS 使用 OIDC 工具 PocketID 进行 SSO 登录</title><link>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</link><pubDate>Sat, 07 Feb 2026 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E7%BE%A4%E6%99%96-nas-%E4%BD%BF%E7%94%A8-oidc-%E5%B7%A5%E5%85%B7-pocketid-%E8%BF%9B%E8%A1%8C-sso-%E7%99%BB%E5%BD%95/</guid><description>&lt;p&gt;群晖 NAS 每次登录都需要输入用户名密码，比较麻烦；群晖 NAS 支持 OIDC/LDAP 等方式进行 SSO 登录认证，因此可以使用 PocketID 来实现统一的身份认证服务&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png" alt="homelab-nas-sso-pocket-login-page.png" loading="lazy"&gt;
