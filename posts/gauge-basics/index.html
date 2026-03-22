@@ -1,0 +1,97 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Gauge基础知识 - HelloWood</title><meta name=description content="Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。"><meta name=keywords content='HomeLab,Java,Spring Boot,Spring Cloud,gRPC,Docker,Kubernetes,OpenWrt,Ubuntu,Gradle,Proxmox VE,Grafana,Prometheus,Gauge,Test'><meta name=author content="HelloWood"><meta property="og:site_name" content="HelloWood"><meta property="og:locale" content="zh"><meta property="og:url" content="https://blog.hellowood.dev/posts/gauge-basics/"><meta property="og:type" content="article"><meta property="og:title" content="Gauge基础知识"><meta property="og:description" content="Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="article:published_time" content="2018-01-01T11:29:04+08:00"><meta property="article:modified_time" content="2026-03-22T00:00:00Z"><meta property="article:author" content="HelloWood"><meta property="article:tag" content="Java"><meta property="article:tag" content="Gauge"><meta property="article:tag" content="Test"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Gauge基础知识"><meta name=twitter:description content="Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/gauge-basics/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/gauge-basics/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/gauge-basics/><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Gauge基础知识","description":"Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。","url":"https://blog.hellowood.dev/posts/gauge-basics/","datePublished":"2018-01-01T11:29:04+08:00","dateModified":"2026-03-22T00:00:00Z","image":"https://blog.hellowood.dev/images/avatar.webp","author":{"@type":"Person","name":"HelloWood","url":"https://blog.hellowood.dev/"},"publisher":{"@type":"Organization","name":"HelloWood","url":"https://blog.hellowood.dev/"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/gauge-basics/"},"keywords":["Java","Gauge","Test"]}</script><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.7136b4abac7b277aba8bc933917f4602d39a5c44f5590be687244bc86ef4f162.js integrity="sha256-cTa0q6x7J3q6i8kzkX9GAtOaXET1WQvmhyRLyG708WI="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Gauge基础知识</h1><small role=doc-subtitle>Gauge 测试框架入门指南，详解.spec/.md 语法、Scenario/Step 结构及参数配置技巧。</small><p class=post-date>2018-01-01
+| Updated 2026-03-22</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/gauge>Gauge</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/test>Test</a></li></ul></div><div class=post-content><p>本文所有内容均参照自<a href=http://getgauge.io/documentation/user/current/>Gauge官方文档</a></p><hr><blockquote><p>#基本思想
+<code>Gauge</code>入门比较简单，<code>Gauge</code>的基本思想就是通过<code>.spec</code> 或者<code>.md</code> 文件，使用<code>MarkDown</code>语法去规定执行的动作，然后由<code>Java</code>或者其他语言的文件去按照所写的<code>.spec</code> 或者<code>.md</code> 文件的顺序去执行<code>Java</code>文件，从而达到测试的目的</p></blockquote><hr><hr><h2 id=specification>Specification</h2><blockquote><ul><li>作用：开始标志，只能有一个，每个Specification至少包含一个Scenario</li></ul></blockquote><pre tabindex=0><code>Specification name
+==================
+
+或者：
+
+# Specification name
+</code></pre><hr><h2 id=scenario>Scenario</h2><blockquote><ul><li>作用：特定的场景中的一个情节，一个或多个Scenario组成一个Specification，每个Scenario至少包含一个Step</li></ul></blockquote><pre tabindex=0><code>Scenario name
+-------------
+
+或者：
+
+## Scenario name
+</code></pre><hr><h2 id=step>Step</h2><blockquote><p>作用：Specification的可执行部分</p></blockquote><pre tabindex=0><code>* Step Name
+</code></pre><blockquote><ul><li>一般Step</li></ul></blockquote><pre><code>-  正常执行的Step，包含在Scenario中
+</code></pre><pre tabindex=0><code>    * step
+</code></pre><blockquote><ul><li>Context Step</li></ul></blockquote><pre><code> -  在Scenario执行之前执行的操作，在每个Scenario执行之前都会先执行Context Step
+</code></pre><pre tabindex=0><code>    * Context step
+</code></pre><blockquote><ul><li>Teardown Step</li></ul></blockquote><pre><code> -  在Scenario执行之后执行的操作，在每个Scenario执行之后都会执行 Teardown Step
+ -用半角下划线标识，不是横线
+
+    ________________
+    Teardown Step
+
+    * Teardown Step1
+    * Teardown Step2
+</code></pre><pre tabindex=0><code>
+    Delete project
+    ==============
+
+    * Sign up for user &#34;mike&#34;
+    * Log in as &#34;mike&#34;
+
+    Delete single project
+    ---------------------
+    * Delete the &#34;example&#34; project
+    * Ensure &#34;example&#34; project has been deleted
+
+    Delete multiple projects
+    ------------------------
+    * Delete all the projects in the list
+    * Ensure project list is empty
+
+    ____________________
+    These are teardown steps
+
+    * Logout user &#34;mike&#34;
+    * Delete user &#34;mike&#34;
+</code></pre><blockquote><p>执行步骤：</p></blockquote><blockquote><ol><li>Context steps execution</li><li><code>Delete single project scenario execution</code></li><li>Tear down steps execution</li><li>Context steps execution</li><li><code>Delete multiple projects scenario execution</code></li><li>Tear down steps execution</li></ol></blockquote><hr><h2 id=tags>Tags</h2><blockquote><ul><li>作用：用于标记Specification 和 Scenario</li></ul></blockquote><pre tabindex=0><code>    Specification
+    ===================
+    Tags: spec, login
+
+
+    Scenario
+    --------------
+    Tags: scenario, main-page
+</code></pre><hr><h2 id=concept>Concept</h2><blockquote><ul><li>作用：可重用的逻辑组成的单元，写在单独的文件中用于多次使用</li></ul></blockquote><pre tabindex=0><code>在.spec文件中：
+</code></pre><pre><code>* Delete product &quot;Learning Go&quot;
+</code></pre><pre tabindex=0><code>
+在.cpt文件中：
+
+    # Delete product &lt;name&gt;
+
+    * Find and Open product page for &lt;name&gt;
+    * Delete this product
+</code></pre><hr><h2 id=parameters>Parameters</h2><ul><li>作用：将参数传递给Java或其他文件</li></ul><pre tabindex=0><code>    * Sign up for user &#34;mike&#34;
+</code></pre><ul><li>静态参数</li><li>使用 <code>"param"</code>形式</li></ul><pre tabindex=0><code>    * Check &#34;product&#34; exists
+</code></pre><ul><li>动态参数</li><li>使用<code>&lt;param></code>形式</li></ul><pre tabindex=0><code>    * Check &lt;product&gt; exists
+</code></pre><ul><li>Table参数</li></ul><pre tabindex=0><code>    |id| name |
+    |--|------|
+    |1 | john |
+    |2 | mike |
+</code></pre><ul><li>特殊参数</li><li>使用<code>&lt;prefix:value></code>形式<ul><li>prefix ： 参数类型，可以是file，table等</li><li>value：参数值</li></ul></li></ul><pre tabindex=0><code>File：
+
+    * Verify email text is &lt;file:email.txt&gt;
+    * Check if &lt;file:/work/content.txt&gt; is visible
+
+CSV：
+    * Step that takes a table &lt;table:resources/user.csv&gt;
+    * Check if the following users exist &lt;table : /Users/john/work/users.csv&gt;
+</code></pre><ul><li>resources/user.csv</li></ul><pre tabindex=0><code>FredFlintstone
+JohnnyQuest
+ScroogeMcduck
+</code></pre><blockquote><p>路径可以使相对或者绝对路径</p></blockquote><hr><p>##Comments</p><ul><li>作用：备注信息</li></ul><pre tabindex=0><code>    This is comments!!!
+</code></pre><hr><p>##Images</p><ul><li>作用：</li></ul><pre tabindex=0><code>    ![Alt text](/path/to/img.jpg)
+
+    ![Alt text](/path/to/img.jpg &#34;可选的标题&#34;)
+</code></pre><blockquote><p>Image路径应使用相对路径</p></blockquote><hr><p>##Links</p><ul><li>作用：</li></ul><pre tabindex=0><code>    This is [an example](http://getgauge.io &#34;Title&#34;) inline link.
+
+    [This link](http://github.com/getgauge/gauge) has no title attribute.
+</code></pre></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2018-2026 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>

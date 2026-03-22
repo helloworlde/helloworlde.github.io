@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tomcat on HelloWood</title><link>https://blog.hellowood.dev/tags/tomcat/</link><description>Recent content in Tomcat on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Thu, 12 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/tomcat/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AE-nginx-%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%94%E7%94%A8/</guid><description>&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tomcat on HelloWood</title><link>https://blog.hellowood.dev/tags/tomcat/</link><description>Recent content in tomcat on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/tomcat/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 配置 Nginx 访问宿主机目录下的应用</title><link>https://blog.hellowood.dev/posts/docker-nginx-access-host-directory-app/</link><pubDate>Tue, 10 Apr 2018 11:39:09 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-nginx-access-host-directory-app/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;使用 Nginx 将请求转发到宿主机的 Tomcat 应用&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id="配置并启动-tomcat"&gt;配置并启动 Tomcat&lt;/h2&gt;
@@ -37,7 +37,7 @@ docker inspect -f &amp;#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{en
  }
  }
 &lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;需要注意的是，Docker 会默认使用桥接路由，所以其 IP 和宿主机的 IP 位于同一 IP 段，并且默认宿主机的 IP 为第一个，即如果 Docker 的 IP 为 &lt;code&gt;10.1.0.2&lt;/code&gt;, 则可以通过 访问 &lt;code&gt;10.1.0.1&lt;/code&gt; 访问到宿主机&lt;/p&gt;</description></item><item><title>Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</link><pubDate>Sun, 08 Apr 2018 15:38:01 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-%E9%85%8D%E7%BD%AEubuntu-%E4%B8%8B-tomcat-%E5%92%8C-nginx-%E4%BD%BF%E7%94%A8-https-%E8%AE%BF%E9%97%AE/</guid><description>&lt;h2 id="安装-docker"&gt;安装 Docker&lt;/h2&gt;
+&lt;p&gt;需要注意的是，Docker 会默认使用桥接路由，所以其 IP 和宿主机的 IP 位于同一 IP 段，并且默认宿主机的 IP 为第一个，即如果 Docker 的 IP 为 &lt;code&gt;10.1.0.2&lt;/code&gt;, 则可以通过 访问 &lt;code&gt;10.1.0.1&lt;/code&gt; 访问到宿主机&lt;/p&gt;</description></item><item><title>Docker 配置Ubuntu 下 Tomcat 和 Nginx 使用 HTTPS 访问</title><link>https://blog.hellowood.dev/posts/docker-ubuntu-tomcat-nginx-https/</link><pubDate>Sun, 08 Apr 2018 15:38:01 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-ubuntu-tomcat-nginx-https/</guid><description>&lt;h2 id="安装-docker"&gt;安装 Docker&lt;/h2&gt;
 &lt;h3 id="使用脚本自动安装"&gt;使用脚本自动安装&lt;/h3&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt;curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh --mirror Aliyun
@@ -95,7 +95,7 @@ docker run --name tomcat -d -p 8080:8080 tomcat
  proxy_pass http://tomcat:8080;
  }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;http://tomcat:8080&lt;/code&gt;: 将所有请求都转发到 &lt;code&gt;tomcat&lt;/code&gt; 容器的 &lt;code&gt;8080&lt;/code&gt;端口(不是映射端口)&lt;/p&gt;</description></item><item><title>Tomcat9 配置HTTPS连接</title><link>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</link><pubDate>Mon, 01 Jan 2018 12:01:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat9-%E9%85%8D%E7%BD%AEhttps%E8%BF%9E%E6%8E%A5/</guid><description>&lt;blockquote&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;http://tomcat:8080&lt;/code&gt;: 将所有请求都转发到 &lt;code&gt;tomcat&lt;/code&gt; 容器的 &lt;code&gt;8080&lt;/code&gt;端口(不是映射端口)&lt;/p&gt;</description></item><item><title>Tomcat9 配置HTTPS连接</title><link>https://blog.hellowood.dev/posts/tomcat9-configure-https/</link><pubDate>Mon, 01 Jan 2018 12:01:18 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat9-configure-https/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;Tomcat中配置HTTPS连接可以分为两步：1. 生成证书&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;pre&gt;&lt;code&gt; 2. 配置Tomcat
@@ -164,7 +164,7 @@ org.apache.coyote.http11.Http11AprProtocol
 &lt;p&gt;这里的配置是第一种方式，也是最简单的方式&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;详细配置请看官方文档 &lt;a href="http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html"&gt;http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Tomcat启动时一直停留在一个应用的发布的解决办法</title><link>https://blog.hellowood.dev/posts/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6%E4%B8%80%E7%9B%B4%E5%81%9C%E7%95%99%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84%E5%8F%91%E5%B8%83%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link><pubDate>Mon, 01 Jan 2018 01:05:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6%E4%B8%80%E7%9B%B4%E5%81%9C%E7%95%99%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84%E5%8F%91%E5%B8%83%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;详细配置请看官方文档 &lt;a href="http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html"&gt;http://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Tomcat启动时一直停留在一个应用的发布的解决办法</title><link>https://blog.hellowood.dev/posts/tomcat-start-stuck-app-deploy-fix/</link><pubDate>Mon, 01 Jan 2018 01:05:02 +0800</pubDate><guid>https://blog.hellowood.dev/posts/tomcat-start-stuck-app-deploy-fix/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;Tomcat在启动时一直停留在某一个应用无法启动或者需要很长时间才能启动，提示&lt;code&gt;Deploying web application directory [/home/dev/tomcat/apache-tomcat-9.0.0.M26/webapps/ROOT&lt;/code&gt;，可以通过如下配置来加速启动&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id="配置"&gt;配置&lt;/h2&gt;

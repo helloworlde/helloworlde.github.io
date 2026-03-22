@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thrift on HelloWood</title><link>https://blog.hellowood.dev/tags/thrift/</link><description>Recent content in Thrift on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Thu, 12 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/thrift/index.xml" rel="self" type="application/rss+xml"/><item><title>Thrfit 服务端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端的请求处理流程&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>thrift on HelloWood</title><link>https://blog.hellowood.dev/tags/thrift/</link><description>Recent content in thrift on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/thrift/index.xml" rel="self" type="application/rss+xml"/><item><title>Thrfit 服务端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrift-server-request-processing-flow/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-server-request-processing-flow/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端的请求处理流程&lt;/p&gt;
 &lt;h2 id="实现"&gt;实现&lt;/h2&gt;
 &lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
 &lt;ul&gt;
@@ -47,7 +47,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;org.apache.thrift.server.AbstractNonblockingServer#serve&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;启动 Server，启动用于连接的线程 &lt;code&gt;AcceptThread&lt;/code&gt; 和用于处理 IO 事件的多个线程 &lt;code&gt;SelectorThread&lt;/code&gt;；然后开始监听 IO 事件，由线程池处理请求&lt;/p&gt;</description></item><item><title>Thrfit 客户端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端和客户端的请求处理流程&lt;/p&gt;
+&lt;p&gt;启动 Server，启动用于连接的线程 &lt;code&gt;AcceptThread&lt;/code&gt; 和用于处理 IO 事件的多个线程 &lt;code&gt;SelectorThread&lt;/code&gt;；然后开始监听 IO 事件，由线程池处理请求&lt;/p&gt;</description></item><item><title>Thrfit 客户端请求处理流程</title><link>https://blog.hellowood.dev/posts/thrift-client-request-processing-flow/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-client-request-processing-flow/</guid><description>&lt;p&gt;使用同步的非阻塞的服务端和客户端的请求处理流程&lt;/p&gt;
 &lt;h2 id="实现"&gt;实现&lt;/h2&gt;
 &lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
 &lt;ul&gt;
@@ -109,7 +109,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-执行请求"&gt;2. 执行请求&lt;/h3&gt;
-&lt;p&gt;使用 &lt;code&gt;TProtocol&lt;/code&gt; 构建 &lt;code&gt;TServiceClient&lt;/code&gt;，用于发送同步请求&lt;/p&gt;</description></item><item><title>Thrift 客户端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+&lt;p&gt;使用 &lt;code&gt;TProtocol&lt;/code&gt; 构建 &lt;code&gt;TServiceClient&lt;/code&gt;，用于发送同步请求&lt;/p&gt;</description></item><item><title>Thrift 客户端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-client-async-request/</link><pubDate>Sat, 20 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-client-async-request/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
 &lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;helloworld.thrift&lt;/li&gt;
@@ -173,7 +173,7 @@
 &lt;h3 id="构建-client-和回调"&gt;构建 Client 和回调&lt;/h3&gt;
 &lt;h4 id="1-构建-client"&gt;1. 构建 Client&lt;/h4&gt;
 &lt;p&gt;异步的客户端由抽象类 &lt;code&gt;TAsyncClient&lt;/code&gt; 定义，实现类继承了 &lt;code&gt;TAsyncClient&lt;/code&gt;，同时实现了 &lt;code&gt;AsyncIface&lt;/code&gt;；
-在构建其 Factory 时需要三个参数，分别是 &lt;code&gt;TAsyncClientManager&lt;/code&gt;，用于管理调用请求的所有流程；和 &lt;code&gt;TProtocolFactory&lt;/code&gt;，用于获取协议；还有 &lt;code&gt;TNonblockingTransport&lt;/code&gt;，用于底层的传输，必须是非阻塞的&lt;/p&gt;</description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
+在构建其 Factory 时需要三个参数，分别是 &lt;code&gt;TAsyncClientManager&lt;/code&gt;，用于管理调用请求的所有流程；和 &lt;code&gt;TProtocolFactory&lt;/code&gt;，用于获取协议；还有 &lt;code&gt;TNonblockingTransport&lt;/code&gt;，用于底层的传输，必须是非阻塞的&lt;/p&gt;</description></item><item><title>Thrift 服务端异步请求</title><link>https://blog.hellowood.dev/posts/thrift-server-async-request/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-server-async-request/</guid><description>&lt;h2 id="实现"&gt;实现&lt;/h2&gt;
 &lt;h3 id="idl"&gt;IDL&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;helloworld.thrift&lt;/li&gt;
@@ -236,11 +236,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="请求处理流程"&gt;请求处理流程&lt;/h2&gt;
-&lt;p&gt;Server 端同步与异步处理的流程区别在于使用的 &lt;code&gt;TProcessor&lt;/code&gt; 不同；同步使用 &lt;code&gt;TProcessor&lt;/code&gt;，异步使用 &lt;code&gt;TAsyncProcessor&lt;/code&gt;；除此之外，其他的流程与使用 NIO 的同步处理没有区别&lt;/p&gt;</description></item><item><title>Thrift 中的 Transport</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-transport/</guid><description>&lt;p&gt;Thrift 中有 &lt;code&gt;TTransport&lt;/code&gt; 和 &lt;code&gt;TServerTransport&lt;/code&gt;，封装了底层传输层的数据读写；分别用于客户端和服务端&lt;/p&gt;
+&lt;p&gt;Server 端同步与异步处理的流程区别在于使用的 &lt;code&gt;TProcessor&lt;/code&gt; 不同；同步使用 &lt;code&gt;TProcessor&lt;/code&gt;，异步使用 &lt;code&gt;TAsyncProcessor&lt;/code&gt;；除此之外，其他的流程与使用 NIO 的同步处理没有区别&lt;/p&gt;</description></item><item><title>Thrift 中的 Transport</title><link>https://blog.hellowood.dev/posts/thrift-transport/</link><pubDate>Mon, 01 Feb 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-transport/</guid><description>&lt;p&gt;Thrift 中有 &lt;code&gt;TTransport&lt;/code&gt; 和 &lt;code&gt;TServerTransport&lt;/code&gt;，封装了底层传输层的数据读写；分别用于客户端和服务端&lt;/p&gt;
 &lt;h2 id="ttransport"&gt;TTransport&lt;/h2&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="thrift-java-source-class-transport.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-transport.png" alt="Thrift 中 TTransport 类的 Java 源码结构" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h3 id="方法"&gt;方法&lt;/h3&gt;
 &lt;ul&gt;
@@ -295,11 +295,11 @@
 &lt;h2 id="tservertransport"&gt;TServerTransport&lt;/h2&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="thrift-java-source-class-server-transport.png" loading="lazy"&gt;
-&lt;/p&gt;</description></item><item><title>Thrift 中的 Protocol</title><link>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</link><pubDate>Sun, 31 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-%E4%B8%AD%E7%9A%84-protocol/</guid><description>&lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口&lt;/p&gt;
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-server-transport.png" alt="Java 源码中 TServerTransport 类的定义与实现" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>Thrift 中的 Protocol</title><link>https://blog.hellowood.dev/posts/thrift-protocol/</link><pubDate>Sun, 31 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-protocol/</guid><description>&lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口&lt;/p&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="thrift-java-source-class-protocol.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png" alt="Thrift TProtocol 类定义数据序列化接口" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h2 id="属性"&gt;属性&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;TProtocol&lt;/code&gt; 中有 &lt;code&gt;TTransport&lt;/code&gt;类型的属性&lt;code&gt;trans_&lt;/code&gt;，用于与底层的传输层进行数据交互&lt;/p&gt;
@@ -440,7 +440,7 @@
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TMessage&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;readMessageBegin&lt;/span&gt;() &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TException&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;messageBegin&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Thrfit 中的 Server</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</link><pubDate>Mon, 18 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84-server/</guid><description>&lt;p&gt;Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>Thrfit 中的 Server</title><link>https://blog.hellowood.dev/posts/thrift-server/</link><pubDate>Mon, 18 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-server/</guid><description>&lt;p&gt;Thrift 中有多种 Server 的实现，支持单线程、多线程、异步等多种方式&lt;/p&gt;
 &lt;h2 id="server-定义"&gt;Server 定义&lt;/h2&gt;
 &lt;h3 id="属性"&gt;属性&lt;/h3&gt;
 &lt;ul&gt;
@@ -466,7 +466,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="实现类"&gt;实现类&lt;/h2&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="thrift-source-server-subclass.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/thrift-source-server-subclass.png" alt="TSimpleServer 单线程阻塞实现类" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h3 id="阻塞"&gt;阻塞&lt;/h3&gt;
 &lt;ul&gt;
@@ -508,7 +508,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;TThreadPoolServer&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;在 &lt;code&gt;TSimpleServer&lt;/code&gt; 的基础上优化，使用了线程池处理请求；构建参数中可以指定创建线程池的参数，支持线程池饱和后超时；连接实现取决于 &lt;code&gt;TServerTransport&lt;/code&gt;具体类型&lt;/p&gt;</description></item><item><title>Thrfit 中的核心概念</title><link>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrfit-%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</guid><description>&lt;h2 id="服务端"&gt;服务端&lt;/h2&gt;
+&lt;p&gt;在 &lt;code&gt;TSimpleServer&lt;/code&gt; 的基础上优化，使用了线程池处理请求；构建参数中可以指定创建线程池的参数，支持线程池饱和后超时；连接实现取决于 &lt;code&gt;TServerTransport&lt;/code&gt;具体类型&lt;/p&gt;</description></item><item><title>Thrfit 中的核心概念</title><link>https://blog.hellowood.dev/posts/thrift-core-concepts/</link><pubDate>Sun, 17 Jan 2021 22:34:46 +0800</pubDate><guid>https://blog.hellowood.dev/posts/thrift-core-concepts/</guid><description>&lt;h2 id="服务端"&gt;服务端&lt;/h2&gt;
 &lt;pre tabindex="0"&gt;&lt;code&gt; +-------------------------------------------+
  | Server |
  | (single-threaded, event-driven etc) |

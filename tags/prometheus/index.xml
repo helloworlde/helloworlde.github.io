@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Prometheus on HelloWood</title><link>https://blog.hellowood.dev/tags/prometheus/</link><description>Recent content in Prometheus on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Thu, 12 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/prometheus/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt-监控</title><link>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</link><pubDate>Mon, 26 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E7%9B%91%E6%8E%A7/</guid><description>&lt;p&gt;OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 &lt;a href="https://openwrt.org/packages/pkgdata/netdata"&gt;Netdata&lt;/a&gt; 和 &lt;a href="https://openwrt.org/packages/pkgdata/prometheus"&gt;Prometheus&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>prometheus on HelloWood</title><link>https://blog.hellowood.dev/tags/prometheus/</link><description>Recent content in prometheus on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/prometheus/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenWrt-监控</title><link>https://blog.hellowood.dev/posts/openwrt-monitoring/</link><pubDate>Mon, 26 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-monitoring/</guid><description>&lt;p&gt;OpenWrt 默认提供了内存，连接等信息，但是这些信息不够完善，不能全面的反馈 OpenWrt 的状态；可以通过使用第三方的软件来实现监控，常用的有 &lt;a href="https://openwrt.org/packages/pkgdata/netdata"&gt;Netdata&lt;/a&gt; 和 &lt;a href="https://openwrt.org/packages/pkgdata/prometheus"&gt;Prometheus&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="通过-netdata-监控"&gt;通过 Netdata 监控&lt;/h2&gt;
 &lt;p&gt;Netdata 提供了可以在 OpenWrt 直接查看的 UI，可以查看包括 CPU，负载，内存，网络，硬盘，防火墙等常用信息的实时监控&lt;/p&gt;
 &lt;ul&gt;
@@ -9,7 +9,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成之后，即可在 OpenWrt 的 19999 端口查看监控数据&lt;/p&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="homelab-openwrt-metrics-netdata.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-metrics-netdata.png" alt="OpenWrt Netdata 实时监控仪表盘展示 CPU 内存网络数据" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;通过 Prometheus 抓取数据&lt;/li&gt;
@@ -32,14 +32,7 @@
 &lt;ul&gt;
 &lt;li&gt;安装软件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;安装需要的 Prometheus 数据导出软件&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg update
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;opkg install prometheus-node-exporter-lua &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-nat_traffic &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-netstat &lt;span style="color:#d26464;font-weight:bold"&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;prometheus-node-exporter-lua-openwrt
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果 OpenWrt 有无线网络，可以安装无线网络数据 的抓取&lt;/p&gt;</description></item><item><title>Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据</title><link>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</link><pubDate>Sat, 16 May 2020 14:49:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-%E4%BD%BF%E7%94%A8-consul-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0-spring-boot-%E6%9C%8D%E5%8A%A1%E5%B9%B6%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE/</guid><description>&lt;p&gt;使用 Prometheus监控 SpringBoot 应用，当应用很多，且上下线频繁时，需要不断的更改 Prometheus 的配置文件，不能灵活的使用，可以通过为 Prometheus配置注册中心，从注册中心拉取应用数据获取监控数据&lt;/p&gt;
+&lt;p&gt;安装需要的 Prometheus 数据导出软件&lt;/p&gt;</description></item><item><title>Prometheus 使用 Consul 自动发现 Spring Boot 服务并拉取数据</title><link>https://blog.hellowood.dev/posts/prometheus-consul-auto-discover-spring-boot/</link><pubDate>Sat, 16 May 2020 14:49:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-consul-auto-discover-spring-boot/</guid><description>&lt;p&gt;使用 Prometheus监控 SpringBoot 应用，当应用很多，且上下线频繁时，需要不断的更改 Prometheus 的配置文件，不能灵活的使用，可以通过为 Prometheus配置注册中心，从注册中心拉取应用数据获取监控数据&lt;/p&gt;
 &lt;h2 id="启动-prometheus"&gt;启动 Prometheus&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;添加配置文件 prometheus.yaml&lt;/li&gt;
@@ -104,7 +97,7 @@ spring.cloud.consul.discovery.tags=metrics=true
 management.endpoints.web.exposure.include=*
 # prometheus
 management.metrics.tags.application=${spring.application.name}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面配置中指定健康检查是为了 Consul 从容器访问宿主机的应用，指定tag是为了Prometheus 从Consul列表中拉取需要监控的指定应用&lt;/p&gt;</description></item><item><title>使用自定义 Grafana 面板监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89-grafana-%E9%9D%A2%E6%9D%BF%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:47:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89-grafana-%E9%9D%A2%E6%9D%BF%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p&gt;使用 Prometheus和 Grafana监控 Consul，&lt;a href="https://grafana.com/grafana/dashboards?orderBy=name&amp;amp;direction=asc"&gt;Dashboard&lt;/a&gt; 中的基本都是Consul 自身的状态，除此之外，还需要一些业务相关的监控，比如当前注册的服务数量，健康和不健康的服务数量，拉取服务请求响应时间等数据&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面配置中指定健康检查是为了 Consul 从容器访问宿主机的应用，指定tag是为了Prometheus 从Consul列表中拉取需要监控的指定应用&lt;/p&gt;</description></item><item><title>使用自定义 Grafana 面板监控 Consul</title><link>https://blog.hellowood.dev/posts/monitor-consul-custom-grafana-panels/</link><pubDate>Sat, 16 May 2020 14:47:24 +0800</pubDate><guid>https://blog.hellowood.dev/posts/monitor-consul-custom-grafana-panels/</guid><description>&lt;p&gt;使用 Prometheus和 Grafana监控 Consul，&lt;a href="https://grafana.com/grafana/dashboards?orderBy=name&amp;amp;direction=asc"&gt;Dashboard&lt;/a&gt; 中的基本都是Consul 自身的状态，除此之外，还需要一些业务相关的监控，比如当前注册的服务数量，健康和不健康的服务数量，拉取服务请求响应时间等数据&lt;/p&gt;
 &lt;h2 id="使用已有的-dashboard"&gt;使用已有的 Dashboard&lt;/h2&gt;
 &lt;p&gt;如使用 &lt;a href="https://grafana.com/grafana/dashboards/10890"&gt;consul server&lt;/a&gt; 这个面板，这个面板数据非常齐全，但是在 Prometheus 中添加了任务之后，发现很多数据都没有，如集群中 server的数量 &lt;code&gt;consul_serf_lan_members&lt;/code&gt; 这个数据，从 Consul 的 Metrics 中 &lt;a href="http://localhost:8500/v1/agent/metrics?format=prometheus"&gt;http://localhost:8500/v1/agent/metrics?format=prometheus&lt;/a&gt;拉取也没有相关的数据，是因为Consul并没有提供相应的数据检测&lt;/p&gt;
 &lt;p&gt;针对这种问题，可以使用 &lt;a href="https://github.com/prometheus/consul_exporter"&gt;consul_exporter&lt;/a&gt; 这个项目，该项目会通过 Consul 的API 拉取相应的数据，在整理后通过自己的接口提供相应的统计数据&lt;/p&gt;
@@ -154,7 +147,7 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;func&lt;/span&gt; (&lt;span style="color:#c1abea"&gt;e&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;*&lt;/span&gt;&lt;span style="color:#c1abea"&gt;Exporter&lt;/span&gt;) &lt;span style="color:#00b1f7"&gt;Collect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt; &lt;span style="color:#c678dd"&gt;chan&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;&amp;lt;-&lt;/span&gt; &lt;span style="color:#c1abea"&gt;prometheus&lt;/span&gt;.&lt;span style="color:#c1abea"&gt;Metric&lt;/span&gt;) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;ok&lt;/span&gt; = &lt;span style="color:#c1abea"&gt;e&lt;/span&gt;.&lt;span style="color:#00b1f7"&gt;collectResponseTime&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;ch&lt;/span&gt;) &lt;span style="color:#c7bf54"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#c1abea"&gt;ok&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，就会在启动后获取相应的数据，之后在 Prometheus 和 Grafana 中可以看到相应的数据&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</link><pubDate>Sat, 16 May 2020 14:43:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-springboot-%E5%BA%94%E7%94%A8/</guid><description>&lt;p&gt;监控 Spring Boot 应用的状态，以及一些自定义的业务数据&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，就会在启动后获取相应的数据，之后在 Prometheus 和 Grafana 中可以看到相应的数据&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 SpringBoot 应用</title><link>https://blog.hellowood.dev/posts/prometheus-grafana-monitor-springboot/</link><pubDate>Sat, 16 May 2020 14:43:07 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-grafana-monitor-springboot/</guid><description>&lt;p&gt;监控 Spring Boot 应用的状态，以及一些自定义的业务数据&lt;/p&gt;
 &lt;h2 id="监控-spring-boot-应用"&gt;监控 Spring Boot 应用&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;添加依赖 build.gradle&lt;/li&gt;
@@ -191,69 +184,13 @@ management.metrics.tags.application=${spring.application.name}
 &lt;pre tabindex="0"&gt;&lt;code&gt;label_values(jvm_memory_used_bytes{application=&amp;#34;$application&amp;#34;},instance)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard-variable.png" alt="springboot-grafana-dashboard-variable.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard-variable.png" alt="Grafana 仪表盘中设置 application 和 instance 变量" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;p&gt;这样，就可以实现 application 和 instance的联动，选择application后，instance中显示相应的应用的实例&lt;/p&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="springboot-grafana-dashboard.png" loading="lazy"&gt;
-&lt;/p&gt;
-&lt;h2 id="监控方法执行时间和数量"&gt;监控方法执行时间和数量&lt;/h2&gt;
-&lt;p&gt;Prometheus 提供了时间和数量的监控指标，通过在方法上添加 &lt;code&gt;@Counted&lt;/code&gt;和&lt;code&gt;@Timed&lt;/code&gt;来监控数据；相关文档可以参考 &lt;a href="http://micrometer.io/docs/concepts#_the_timed_annotation"&gt;The @Timed annotation&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;注入切面的Bean&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@EnableAspectJAutoProxy&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Configuration&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;PrometheusAspectConfig&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Bean&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TimedAspect&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;timedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;MeterRegistry&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;TimedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Bean&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;CountedAspect&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;countedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;MeterRegistry&lt;/span&gt; &lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;CountedAspect&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;registry&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="监控定时任务"&gt;监控定时任务&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;监控定时任务&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Slf4j&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@Component&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;CustomScheduleTask&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;private&lt;/span&gt; &lt;span style="color:#c678dd"&gt;static&lt;/span&gt; &lt;span style="color:#c678dd"&gt;final&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Random&lt;/span&gt; &lt;span style="color:#c1abea"&gt;random&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c678dd"&gt;new&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Random&lt;/span&gt;();
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Scheduled&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;fixedDelay&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#c1abea"&gt;5000&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Timed&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;value&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;custom_task_time&amp;#34;&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;extraTags&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; {&lt;span style="color:#98c379"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;, &lt;span style="color:#98c379"&gt;&amp;#34;自定义定时任务&amp;#34;&lt;/span&gt;}, &lt;span style="color:#c1abea"&gt;description&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;=&lt;/span&gt; &lt;span style="color:#98c379"&gt;&amp;#34;自定义定时任务监控&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;customSchedule&lt;/span&gt;() &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;InterruptedException&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;Thread&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;sleep&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;random&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;nextInt&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;5000&lt;/span&gt;));
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;log&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;info&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;定时任务执行完成&amp;#34;&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;查看监控数据&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081/actuator/prometheus | grep custom_task
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="监控接口"&gt;监控接口&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;controller&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Timed&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@Counted&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@GetMapping&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;/timed&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;Object&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;timed&lt;/span&gt;() &lt;span style="color:#c678dd"&gt;throws&lt;/span&gt; &lt;span style="color:#c1abea"&gt;InterruptedException&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;customService&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;timed&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;UUID&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;randomUUID&lt;/span&gt;().&lt;span style="color:#b3d23c"&gt;toString&lt;/span&gt;());
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;监控数据&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl localhost:8081/actuator/prometheus | grep method_time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="自定义监控指标"&gt;自定义监控指标&lt;/h2&gt;
-&lt;p&gt;通过自定义监控指标监控业务相关数据&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-prometheus-%E5%92%8C-grafana-%E7%9B%91%E6%8E%A7-consul/</guid><description>&lt;p&gt;使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p&gt;
+ &lt;img src="https://img.hellowood.dev/picture/springboot-grafana-dashboard.png" alt="Grafana 仪表盘展示 SpringBoot 应用监控指标" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>使用 Prometheus 和 Grafana 监控 Consul</title><link>https://blog.hellowood.dev/posts/prometheus-grafana-consul-monitoring/</link><pubDate>Sat, 16 May 2020 14:36:34 +0800</pubDate><guid>https://blog.hellowood.dev/posts/prometheus-grafana-consul-monitoring/</guid><description>&lt;p&gt;使用 Prometheus 和 Grafana 监控 Consul ，便于了解 Consul当前的状态，使用 Docker分别启动多个容器&lt;/p&gt;
 &lt;h2 id="启动-consul"&gt;启动 Consul&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;创建配置文件&lt;/li&gt;
@@ -288,7 +225,7 @@ management.metrics.tags.application=${spring.application.name}
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mkdir -p ~/docker/prometheus/config
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;vi ~/docker/prometheus/config/prometheus.yml
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;添加以下内容:&lt;/p&gt;</description></item><item><title>Kubernetes 中使用 Helm 部署使用 Prometheus</title><link>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</link><pubDate>Sun, 29 Dec 2019 18:57:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8-helm-%E9%83%A8%E7%BD%B2%E4%BD%BF%E7%94%A8-prometheus/</guid><description>&lt;blockquote&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;添加以下内容:&lt;/p&gt;</description></item><item><title>Kubernetes 中使用 Helm 部署使用 Prometheus</title><link>https://blog.hellowood.dev/posts/deploy-prometheus-helm-kubernetes/</link><pubDate>Sun, 29 Dec 2019 18:57:38 +0800</pubDate><guid>https://blog.hellowood.dev/posts/deploy-prometheus-helm-kubernetes/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;使用 Helm 在 Kubernetes 中部署 Prometheus，并使用 Grafana 监控集群状态，Helm 版本为 Helm3&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id="安装-prometheus-和-grafana"&gt;安装 Prometheus 和 Grafana&lt;/h2&gt;

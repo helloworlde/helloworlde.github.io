@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNS on HelloWood</title><link>https://blog.hellowood.dev/tags/dns/</link><description>Recent content in DNS on HelloWood</description><generator>Hugo</generator><language>zh</language><lastBuildDate>Thu, 12 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hellowood.dev/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/</link><pubDate>Tue, 02 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/</guid><description>&lt;p&gt;Split DNS（分割DNS）是一种DNS配置技术，指对同一个域名在不同网络环境下提供不同的DNS解析结果；例如在内网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到内网IP地址，而在公网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到公网IP地址；&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>dns on HelloWood</title><link>https://blog.hellowood.dev/tags/dns/</link><description>Recent content in dns on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验</title><link>https://blog.hellowood.dev/posts/split-dns-homelab-consistent-access/</link><pubDate>Tue, 02 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/split-dns-homelab-consistent-access/</guid><description>&lt;p&gt;Split DNS（分割DNS）是一种DNS配置技术，指对同一个域名在不同网络环境下提供不同的DNS解析结果；例如在内网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到内网IP地址，而在公网环境下访问 &lt;code&gt;example.com&lt;/code&gt; 解析到公网IP地址；&lt;/p&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-split-dns-diagram-3.svg" alt="homelab-split-dns-diagram-3.svg" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/homelab-split-dns-diagram-3.svg" alt="Split DNS 内网与公网域名解析分流示意图" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;p&gt;在 HomeLab 场景下，服务部署在内网，可以直接访问；而外网通常需要使用 Cloudflare Tunnel 等反向代理工具进行转发；之前在内网尝试过使用 &lt;code&gt;.local&lt;/code&gt;/&lt;code&gt;.homelab&lt;/code&gt; 等域名访问服务，但是一些强依赖 HTTPS 的服务（如 PocketID）因自签名证书不信任问题无法使用(Java/Python服务、Firefox浏览器等均有自己的校验规则)；同时内网访问和外网访问的域名不一致，需要分别记住内网和外网的访问地址，影响使用体验&lt;/p&gt;
 &lt;p&gt;为了解决上述问题，可以使用 Split DNS，将内网的请求转发到内网的反向代理上，使用 Let&amp;rsquo;s Encrypt 颁发的证书，保证内外网访问地址一致，并且支持 HTTPS 访问&lt;/p&gt;
@@ -19,7 +19,7 @@
  tls /certs/_.example.com.crt /certs/_.example.com.key
  reverse_proxy 100.0.0.3:8081
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;详细信息可以参考:&lt;/p&gt;</description></item><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-smartdns/</guid><description>&lt;p&gt;&lt;a href="https://pymumu.github.io/smartdns/"&gt;SmartDNS&lt;/a&gt; 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;详细信息可以参考:&lt;/p&gt;</description></item><item><title>OpenWrt 使用 SmartDNS</title><link>https://blog.hellowood.dev/posts/openwrt-smartdns/</link><pubDate>Tue, 27 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/openwrt-smartdns/</guid><description>&lt;p&gt;&lt;a href="https://pymumu.github.io/smartdns/"&gt;SmartDNS&lt;/a&gt; 是由国内用户开发的本地 DNS 服务器，从多个上游获取 DNS 结果，并将访问速度最快的地址返回给客户端；SmartDNS 可以运行在多个平台，如 Linux, OpenWrt 等&lt;/p&gt;
 &lt;p&gt;在 OpenWrt 中运行 SmartDNS，将其作为 dnsmasq 的上游或作为唯一的 DNS 服务器，用于提升 DNS 解析速度&lt;/p&gt;
 &lt;h2 id="安装"&gt;安装&lt;/h2&gt;
 &lt;p&gt;SmartDNS 的安装非常简单，使用 opkg 命令即可安装&lt;/p&gt;
@@ -31,16 +31,11 @@
 &lt;p&gt;安装完成后，在服务-SmartDNS 常规配置中，选择启用 SmartDNS，然后添加上游 DNS 服务器（也可以直接在命令行修改 &lt;code&gt;/etc/config/smartdns&lt;/code&gt; 配置文件）&lt;/p&gt;
 &lt;p&gt;
 
- &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="homelab-openwrt-dns-smartdns-upstream.png" loading="lazy"&gt;
+ &lt;img src="https://img.hellowood.dev/picture/homelab-openwrt-dns-smartdns-upstream.png" alt="OpenWrt 中配置 SmartDNS 作为 Dnsmasq 上游 DNS 服务器" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;p&gt;这样，SmartDNS 会运行在路由器的 6053 端口上&lt;/p&gt;
 &lt;h2 id="配置-dnsmasq"&gt;配置 Dnsmasq&lt;/h2&gt;
-&lt;p&gt;OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p&gt;
-&lt;p&gt;在网络-DHCP/DNS -常规设置中，添加 DNS 转发，将 SmartDNS 作为 Dnsmasq 的上游
-
-
- &lt;img src="https://img.hellowood.dev/picture/homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" alt="homelab-oepnwrt-smart-dns-as-dnsmasq-upstream.png" loading="lazy"&gt;
-&lt;/p&gt;</description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pi-hole-%E4%BD%9C%E4%B8%BA-dns-%E5%92%8C-dhcp-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid><description>&lt;p&gt;在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p&gt;
+&lt;p&gt;OpenWrt 默认的 DHCP 和 DNS 服务由 Dnsmasq 提供，所以需要配置 SmartDNS 作为 Dnsmasq 的上游 DNS 服务器&lt;/p&gt;</description></item><item><title>使用 Pi-hole 作为 DNS 和 DHCP 服务器</title><link>https://blog.hellowood.dev/posts/pi-hole-dns-dhcp-server/</link><pubDate>Mon, 05 Sep 2022 11:32:08 +0800</pubDate><guid>https://blog.hellowood.dev/posts/pi-hole-dns-dhcp-server/</guid><description>&lt;p&gt;在使用 OpenWrt 的过程中，因为会经常修改 OpenWrt 的配置，导致 OpenWrt 出问题重新安装后没有来得及备份的配置丢失；其中以 IP 地址静态分配最多&lt;/p&gt;
 &lt;p&gt;另外，因为需要通过 DNS 做广告拦截，所以需要使用 Pi-hole 作为 DNS 服务器，但是 Pi-hole 提供的 DNS 服务都是国外的，所以为了快速解析国内的 DNS，需要使用 Smartdns 作为 Pi-hole DNS 的上游；DNS 的解析在 Smartdns 中提供&lt;/p&gt;
 &lt;h2 id="配置-docker-macvlan-网络"&gt;配置 Docker macvlan 网络&lt;/h2&gt;
 &lt;p&gt;因为在同一个服务器上提供了多个服务，因此存在端口冲突问题，Pi-hole 和 Smartdns 都需要 53 端口用于提供 DNS，而且 53 端口默认被 Ubuntu Server 使用；而且局域网中的设备需要访问 DHCP 服务，因此为了避免冲突，需要使用 &lt;code&gt;macvlan&lt;/code&gt; 作为 Docker 网络的驱动&lt;/p&gt;

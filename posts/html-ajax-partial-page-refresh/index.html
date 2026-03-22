@@ -1,0 +1,157 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>HTML中使用Ajax进行局部刷新页面 - HelloWood</title><meta name=description content="详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。"><meta name=keywords content='HomeLab,Java,Spring Boot,Spring Cloud,gRPC,Docker,Kubernetes,OpenWrt,Ubuntu,Gradle,Proxmox VE,Grafana,Prometheus,HTML,Jquery'><meta name=author content="HelloWood"><meta property="og:site_name" content="HelloWood"><meta property="og:locale" content="zh"><meta property="og:url" content="https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/"><meta property="og:type" content="article"><meta property="og:title" content="HTML中使用Ajax进行局部刷新页面"><meta property="og:description" content="详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="article:published_time" content="2018-01-01T11:38:52+08:00"><meta property="article:modified_time" content="2026-03-22T00:00:00Z"><meta property="article:author" content="HelloWood"><meta property="article:tag" content="HTML"><meta property="article:tag" content="Jquery"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="HTML中使用Ajax进行局部刷新页面"><meta name=twitter:description content="详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"HTML中使用Ajax进行局部刷新页面","description":"详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。","url":"https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/","datePublished":"2018-01-01T11:38:52+08:00","dateModified":"2026-03-22T00:00:00Z","image":"https://blog.hellowood.dev/images/avatar.webp","author":{"@type":"Person","name":"HelloWood","url":"https://blog.hellowood.dev/"},"publisher":{"@type":"Organization","name":"HelloWood","url":"https://blog.hellowood.dev/"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/html-ajax-partial-page-refresh/"},"keywords":["HTML","Jquery"]}</script><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.7136b4abac7b277aba8bc933917f4602d39a5c44f5590be687244bc86ef4f162.js integrity="sha256-cTa0q6x7J3q6i8kzkX9GAtOaXET1WQvmhyRLyG708WI="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>HTML中使用Ajax进行局部刷新页面</h1><small role=doc-subtitle>详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。</small><p class=post-date>2018-01-01
+| Updated 2026-03-22</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/html>HTML</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/jquery>Jquery</a></li></ul></div><div class=post-content><p>#HTML中使用Ajax进行局部刷新页面，使用JS将数据发送到后台</p><hr><p>##1.在HTML页面中使用js脚本将请求数据发送给后台servlet</p><ul><li>由按钮触发事件</li></ul><pre tabindex=0><code>&lt;button id=&#34;select&#34; onclick=&#34;queryInfos()&#34;&gt;查询&lt;/button&gt;
+</code></pre><ul><li>由js脚本对将数据发送到后台</li></ul><pre tabindex=0><code>    var req = new XMLHttpRequest();
+    function queryInfos() {
+        //设置传送方式，对应的servlet或action路径，是否异步处理
+        req.open(&#34;POST&#34;, &#34;/info/queryinfos&#34;, true);
+        //如果设置数据传送方式为post，则必须设置请求头信息
+        req.setRequestHeader(&#34;Content-type&#34;, &#34;application/x-www-form-urlencoded&#34;);
+        //设置回调函数，当前操作完成后进行的操作
+        req.onreadystatechange = callback;
+
+        //Ajax请求发送的数据不是表单，需要拼接数据，格式和get方式一样
+        var reqData = &#34;ip=&#34; + document.getElementById(&#34;ip&#34;).value;
+        reqData += &#34;&amp;addr=&#34; + document.getElementById(&#34;addr&#34;).value;
+        reqData += &#34;&amp;time=&#34; + document.getElementById(&#34;time&#34;).value;
+        reqData += &#34;&amp;times=&#34; + document.getElementById(&#34;times&#34;).value;
+
+        //发送请求
+        req.send(reqData);
+    }
+</code></pre><p>##2.后台获取数据进行处理，将结果返回给前台</p><ul><li>后台进行处理</li></ul><pre tabindex=0><code>     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            //设置数据编码方式
+            request.setCharacterEncoding(&#34;utf-8&#34;);
+            response.setCharacterEncoding(&#34;utf-8&#34;);
+            //设置数据类型
+            response.setContentType(&#34;text/plain&#34;);
+            //设置禁用缓存
+            response.setHeader(&#34;Cache-control&#34;,&#34;no-cache&#34;);
+
+            //获取从页面传递的参数
+            String ip = request.getParameter(&#34;ip&#34;);
+            String addr = request.getParameter(&#34;addr&#34;);
+            String time = request.getParameter(&#34;time&#34;);
+            String times = request.getParameter(&#34;times&#34;);
+
+            /*
+            * 执行操作
+            * */
+
+            //拼接返回的json数据
+            StringBuilder jsonString = new StringBuilder();
+            jsonString.append(&#34;{&#34;);
+            jsonString.append(&#34;&#39;size&#39;:2&#34;);
+
+            jsonString.append(&#34;,&#39;datas&#39;:[&#34;);
+
+            jsonString.append(&#34;{&#34;);
+            jsonString.append(&#34;&#39;ip&#39;:&#39;10.10.1.1&#39;,&#34;);
+            jsonString.append(&#34;&#39;addr&#39;:&#39;辽宁葫芦岛&#39;,&#34;);
+            jsonString.append(&#34;&#39;time&#39;:&#39;2016-10-24 16:00:23&#39;,&#34;);
+            jsonString.append(&#34;&#39;times&#39;:&#39;10&#39;&#34;);
+            jsonString.append(&#34;}&#34;);
+
+            jsonString.append(&#34;,{&#34;);
+            jsonString.append(&#34;&#39;ip&#39;:&#39;192.168.110.111&#39;,&#34;);
+            jsonString.append(&#34;&#39;addr&#39;:&#39;辽宁沈阳&#39;,&#34;);
+            jsonString.append(&#34;&#39;time&#39;:&#39;2016-11-11 11:00:23&#39;,&#34;);
+            jsonString.append(&#34;&#39;times&#39;:&#39;14&#39;&#34;);
+            jsonString.append(&#34;}&#34;);
+
+            jsonString.append(&#34;]&#34;);
+
+            jsonString.append(&#34;}&#34;);
+
+            //获取输出流
+            PrintWriter out = response.getWriter();
+            //将数据返回页面
+            out.write(jsonString.toString());
+            out.flush();
+            out.close();
+        }
+</code></pre><p>##3.返回处理结果，局部刷新页面</p><ul><li>对返回操作进行处理</li></ul><pre tabindex=0><code>    //回调函数
+    function callback() {
+        //如果Ajax和request的状态都正确则进行操作
+        if (req.readyState == 4 &amp;&amp; req.status == 200) {
+            //获取后台返回的数据
+            var response = req.responseText;
+            //进行对象化处理
+            //加上圆括号的目的是迫使eval函数在处理JavaScript代码的时候强制将括号内的表达式转化为对象，而不是作为语句来执行
+            //由于json是以&#34;{}&#34;的方式来开始以及结束的，在JS中，它会被当成一个语句块来处理，所以必须强制性的将它转换成一种表达式。
+            var jsonobject = eval(&#34;(&#34; + response + &#34;)&#34;);
+            //获取数据的长度
+            var datasize = jsonobject.size;
+            //获取json中的数据数据
+            var datas = jsonobject.datas;
+
+            //删除原有的table数据
+            var table = document.getElementById(&#34;table&#34;);
+            var infos = document.getElementById(&#34;tbody&#34;);
+            table.removeChild(infos);
+            //此处必须创建tbody，否则无法加入到table中
+            infos = document.createElement(&#34;tbody&#34;);
+
+            //生成新的table数据元素并添加到table中
+            for (var i = 0; i &lt; datas.length; i++) {
+                var tr = document.createElement(&#34;tr&#34;);
+                var td1 = document.createElement(&#34;td&#34;);
+                var td2 = document.createElement(&#34;td&#34;);
+                var td3 = document.createElement(&#34;td&#34;);
+                var td4 = document.createElement(&#34;td&#34;);
+
+                td1.innerHTML = datas[i].ip;
+                td2.innerHTML = datas[i].addr;
+                td3.innerHTML = datas[i].time;
+                td4.innerHTML = datas[i].times;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                infos.appendChild(tr);
+            }
+            table.appendChild(infos);
+        }
+    }
+</code></pre><hr><ul><li>HTML文件</li></ul><pre tabindex=0><code>&lt;body&gt;
+&lt;div class=&#34;title&#34;&gt;
+    &lt;h1&gt;Ajax异步查询，局部刷新页面&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;table class=&#34;select&#34;&gt;
+        &lt;tr&gt;
+            &lt;td class=&#34;td&#34;&gt;IP:&lt;input type=&#34;text&#34; id=&#34;ip&#34; name=&#34;ip&#34; class=&#34;input&#34;&gt;&lt;/td&gt;
+            &lt;td class=&#34;td&#34;&gt;地址:&lt;input type=&#34;text&#34; id=&#34;addr&#34; name=&#34;addr&#34; class=&#34;input&#34;&gt;&lt;/td&gt;
+            &lt;td class=&#34;td&#34;&gt;时间:&lt;input type=&#34;text&#34; id=&#34;time&#34; name=&#34;time&#34; class=&#34;input&#34;&gt;&lt;/td&gt;
+            &lt;td class=&#34;td&#34;&gt;次数:&lt;input type=&#34;text&#34; id=&#34;times&#34; name=&#34;times&#34; class=&#34;input&#34;&gt;&lt;/td&gt;
+            &lt;td class=&#34;td&#34;&gt; &lt;button id=&#34;select&#34; onclick=&#34;queryInfos()&#34;&gt;查询&lt;/button&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+&lt;table id=&#34;table&#34; class=&#34;table&#34; cellpadding=&#34;0&#34; cellspacing=&#34;0&#34; border=&#34;1&#34;&gt;
+    &lt;tr&gt;
+        &lt;td class=&#34;td&#34;&gt;登录ip&lt;/td&gt;
+        &lt;td class=&#34;td&#34;&gt;登录地址&lt;/td&gt;
+        &lt;td class=&#34;td&#34;&gt;最后一次登录时间&lt;/td&gt;
+        &lt;td class=&#34;td&#34;&gt;登录次数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td class=&#34;black&#34; colspan=&#34;4&#34;&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tbody id=&#34;tbody&#34;&gt;
+    &lt;tr id=&#34;infos&#34;&gt;
+        &lt;td&gt;127.0.0.1&lt;/td&gt;
+        &lt;td&gt;辽宁大连&lt;/td&gt;
+        &lt;td&gt;2016-10-24 14:47:01&lt;/td&gt;
+        &lt;td&gt;123&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+
+&lt;/table&gt;
+&lt;/body&gt;
+</code></pre><hr><p>##<a href=http://project.hellowood.com.cn:8080/Ajax>效果演示</a> ##<a href=http://download.csdn.net/detail/u013360850/9662587>源码下载</a></p></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2018-2026 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>

@@ -1,0 +1,89 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>Docker 中使用 Dockerfile - HelloWood</title><meta name=description content="Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。"><meta name=keywords content='HomeLab,Java,Spring Boot,Spring Cloud,gRPC,Docker,Kubernetes,OpenWrt,Ubuntu,Gradle,Proxmox VE,Grafana,Prometheus'><meta name=author content="HelloWood"><meta property="og:site_name" content="HelloWood"><meta property="og:locale" content="zh"><meta property="og:url" content="https://blog.hellowood.dev/posts/docker-using-dockerfile/"><meta property="og:type" content="article"><meta property="og:title" content="Docker 中使用 Dockerfile"><meta property="og:description" content="Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="article:published_time" content="2018-04-08T15:21:27+08:00"><meta property="article:modified_time" content="2026-03-22T00:00:00Z"><meta property="article:author" content="HelloWood"><meta property="article:tag" content="Docker"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Docker 中使用 Dockerfile"><meta name=twitter:description content="Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/docker-using-dockerfile/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/docker-using-dockerfile/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/docker-using-dockerfile/><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Docker 中使用 Dockerfile","description":"Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。","url":"https://blog.hellowood.dev/posts/docker-using-dockerfile/","datePublished":"2018-04-08T15:21:27+08:00","dateModified":"2026-03-22T00:00:00Z","image":"https://blog.hellowood.dev/images/avatar.webp","author":{"@type":"Person","name":"HelloWood","url":"https://blog.hellowood.dev/"},"publisher":{"@type":"Organization","name":"HelloWood","url":"https://blog.hellowood.dev/"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/docker-using-dockerfile/"},"keywords":["Docker"]}</script><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.7136b4abac7b277aba8bc933917f4602d39a5c44f5590be687244bc86ef4f162.js integrity="sha256-cTa0q6x7J3q6i8kzkX9GAtOaXET1WQvmhyRLyG708WI="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>Docker 中使用 Dockerfile</h1><small role=doc-subtitle>Dockerfile 详解：掌握 FROM、RUN、COPY、ADD、CMD、ENTRYPOINT 等核心指令，优化镜像构建层，提升 Docker 容器化部署效率。</small><p class=post-date>2018-04-08
+| Updated 2026-03-22</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/docker>Docker</a></li></ul></div><div class=post-content><p>Dockerfile 是一个文件，其包含了一条条的指令（instruction），每一条指令构建一层，因此每一条指令的内容就是描述该层应当如何构建</p><ul><li>构建一个镜像</li></ul><pre tabindex=0><code>FROM nginx
+RUN echo &#39;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&#39; &gt; /usr/share/nginx/html/index.html
+</code></pre><h2 id=构建>构建</h2><h3 id=命令>命令</h3><h4 id=from>FROM</h4><p>用于指定基础镜像，必备的指令，必须是第一条</p><ul><li><code>FROM scratch</code>
+<code>scratch</code>是一个特殊的镜像，表示一个空白的镜像，意味着不以任何镜像为基础，接下来的指令作为第一层</li></ul><h4 id=run>RUN</h4><p><code>RUN</code> 指令是用来执行命令的，格式有两种：</p><ul><li><code>shell</code> 格式：<code>RUN &lt;命令></code></li></ul><pre tabindex=0><code>RUN echo &#39;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&#39; &gt; /usr/share/nginx/html/index.html
+</code></pre><ul><li><code>exec</code>格式：<code>RUN ["可执行文件", "参数1", "参数2"]</code></li></ul><p>每一个 <code>RUN</code> 命令都会构建一层，应当减少不必要的构建</p><pre tabindex=0><code>FROM debian:jessie
+
+RUN apt-get update
+RUN apt-get install -y gcc libc6-dev make
+RUN wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-3.2.5.tar.gz&#34;
+RUN mkdir -p /usr/src/redis
+RUN tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1
+RUN make -C /usr/src/redis
+RUN make -C /usr/src/redis install
+</code></pre><p>这样会构建7层，会提交大量的无用的改动，应当改为：</p><pre tabindex=0><code>FROM debian:jessie
+
+RUN buildDeps=&#39;gcc libc6-dev make&#39; \
+    &amp;&amp; apt-get update \
+    &amp;&amp; apt-get install -y $buildDeps \
+    &amp;&amp; wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-3.2.5.tar.gz&#34; \
+    &amp;&amp; mkdir -p /usr/src/redis \
+    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
+    &amp;&amp; make -C /usr/src/redis \
+    &amp;&amp; make -C /usr/src/redis install \
+    &amp;&amp; rm -rf /var/lib/apt/lists/* \
+    &amp;&amp; rm redis.tar.gz \
+    &amp;&amp; rm -r /usr/src/redis \
+    &amp;&amp; apt-get purge -y --auto-remove $buildDeps
+</code></pre><p><code>Dockerfile</code> 支持在 Shell 行尾添加 <code>\</code>的命令换行方式，以及行首添加 <code>#</code> 进行注释</p><h3 id=执行构建>执行构建</h3><pre tabindex=0><code>docker build -t myubuntu:v2
+</code></pre><p>这样就能构建一个名为<code>myubuntu</code>, 标签为<code>v2</code>的镜像</p><ul><li>从 Git Repo 构建</li></ul><pre tabindex=0><code>docker build https://github.com/test/test.git#:test
+</code></pre><p>这样就会在 <code>git clone</code> 之后就会切换到<code>master</code>分支，进入到 <code>test</code>目录执行构建</p><ul><li>用压缩包构建</li></ul><pre tabindex=0><code>docker build http://server/context.tar.gz
+</code></pre><h4 id=copy>COPY</h4><p>用于将构建上下文目录中的源文件复制到新的一层镜像内的目标路径位置
+格式：</p><pre tabindex=0><code>COPY &lt;源路径&gt; ... &lt;目标路径&gt;
+COPY [&#34;&lt;源路径1&gt;&#34;, &#34;&lt;目标路径&gt;&#34;]
+</code></pre><pre tabindex=0><code>COPY package.json /usr/src/app/
+COPY home* /mydir
+COPY home?.txt /mydir
+</code></pre><p><code>&lt;目标路径></code> 可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作路径可以通过<code>WORKDIR</code> 指定）</p><p>使用<code>COPY</code> 指令，源文件的各种源数据都会被保留，比如读、写、执行权限。文件变更时间等</p><h4 id=add>ADD</h4><p>用于文件复制，和<code>COPY</code>一样，但是<code>&lt;源路径></code>可以是个URL，Docker 会将下载链接的文件放到<code>&lt;目标路径></code>中，文件权限为 600，如果<code>&lt;源路径></code>是一个 tar 文件，压缩格式为 <code>gzip</code>,<code>bzip2</code>,<code>xz</code>的情况下会自动解压该文件到<code>&lt;目标路径></code></p><pre tabindex=0><code>ADD ubuntu-xenial-core-cloudimg-amd64-root.tar.gz /usr/src/
+</code></pre><h4 id=cmd>CMD</h4><p>容器启动命令，指令格式和<code>RUN</code>相似：</p><ul><li><code>shell</code>格式：<code>CMD &lt;命令></code></li><li><code>exec</code>格式：<code>CMD ["可执行文件", "参数1", "参数2", ...]</code>，这类格式在执行的时候会被解析为<code>JSON</code>格数组，因此需要用双引号</li></ul><pre tabindex=0><code>CMD echo $HOME
+CMD [&#34;sh&#34;, &#34;-c&#34;, &#34;echo $HOME&#34;]
+
+CMD nginx -g daemon off
+CMD [&#34;nginx&#34;, &#34;-g&#34;, &#34;daemon off&#34;]
+</code></pre><h4 id=entrypoint>ENTRYPOINT</h4><p><code>ENTRYPOINT</code>的格式和目的和<code>CMD</code>一样，都是在指定容器启动程序及参数，需要通过 <code>docker run --entrypoint</code>来指定；区别在于 <code>ENTRYPOINT</code>可以接收外部命令传入的参数作为内部命令的参数使用</p><p>当指定了<code>ENTRYPOINT</code>后，<code>CMD</code>不再是直接的运行其命令，而是将<code>CMD</code>的内容作为参数传给<code>ENTRYPOINT</code></p><pre tabindex=0><code>&lt;ENTRYPOINT&gt; &#34;&lt;CMD&gt;&#34;
+</code></pre><h4 id=env>ENV</h4><p>用于设置环境变量，格式有两种：</p><pre tabindex=0><code>ENV &lt;key&gt; &lt;value&gt;
+ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;
+</code></pre><pre tabindex=0><code>ENV NODE_VERSION 7.2.0
+RUN echo $NODE_VERSION
+</code></pre><p><code>ENV</code>可以在<code>ADD</code>,<code>COPY</code>,<code>ENV</code>, <code>EXPOSE</code>,<code>LABEL</code>,<code>USER</code>,<code>WORKDIR</code>, <code>VOLUME</code>,<code>STOPSIGNAL</code>, <code>ONBUILD</code></p><h4 id=arg>ARG</h4><p>构建参数，和<code>ENV</code>的效果一样，都是设置环境变量，但是<code>ARG</code>所设置的环境变量在容器运行时不存在
+格式：<code>ATG &lt;参数名>[=&lt;默认值>]</code>
+默认值可以通过<code>docker build --build-arg &lt;参数名>=&lt;值></code></p><h4 id=volume>VOLUME</h4><p>用于指定某些目录挂载为匿名卷，这样在运行时如果用户不指定挂载，其应用也可以正常运行，不会向容器存储层写入大量数据</p><p>格式：</p><pre tabindex=0><code>VOLUME [&#34;&lt;路径1&gt;&#34;,&#34;&lt;路径2&gt;&#34;]
+VOLUME &lt;路径&gt;
+</code></pre><pre tabindex=0><code>VOLUME /data
+</code></pre><p>运行时可以覆盖这个挂载设置：</p><pre tabindex=0><code>docker run -d -v mydata:/data
+</code></pre><p>这样就使用 <code>mydata</code>这个命名卷挂载到 <code>/data</code>这个位置，替代了在 <code>Dockerfile</code>中定义的匿名卷的挂载配置</p><h4 id=expose>EXPOSE</h4><p>用于声明运行时容器提供服务端口，仅仅是一个声明，并不会直接开启端口的服务，用于帮助使用者理解镜像服务的守护端口，同时用于在运行时使用端口随机映射<code>docker run -P</code>时使用<code>EXPOSE</code>配置的端口</p><pre tabindex=0><code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt; ...]
+</code></pre><h4 id=workdir>WORKDIR</h4><p>用来指定工作目录（当前目录），以后各层的当前目录就被改为指定目录，如果目录不存在，会直接生成该目录</p><p>格式为：<code>WORKDIR &lt;工作目录路径></code></p><h4 id=user>USER</h4><p><code>USER</code>和<code>WORKDIR</code>相似，都是改变环境状态并影响以后的层，<code>WORKDIR</code>改变的是工作目录，<code>USER</code>改变之后执行<code>RUN</code>,<code>CMD</code>,<code>ENTRYPOINT</code>之类命令的身份，<code>USER</code>只是切换到指定用户，该用户必须事先建立好</p><p>格式：<code>USER &lt;用户名></code></p><pre tabindex=0><code>RUN groupadd -r redis &amp;&amp; useradd -r -g redis redis
+USER redis
+RUN [&#39;redis-server&#39;]
+</code></pre><h4 id=healthcheck>HEALTHCHECK</h4><p>用来告诉 Docker 如何判断容器的状态是否正常
+格式：</p><ul><li><code>HEALTHCHECK [选项] CMD &lt;命令></code>：设置检查容器健康状况的命令</li><li><code>HEALTHCHECK NONE</code>：如果基础镜像有健康检查指令，使用该命令可以屏蔽</li></ul><p><code>HEALTHCHECK</code>支持下列选项：</p><ul><li><code>--interval=&lt;间隔></code>：两次健康检查的间隔，默认为30s</li><li><code>timeout=&lt;时长></code>：健康检查命令运行超时时间，如果超过这个时间则被认为此次健康检查失败</li><li><code>--retries=&lt;时长></code>：当连续失败指定次数后，则将容器状态视为<code>unhealthy</code>，默认3次</li></ul><p><code>HEALTHCHECK</code>只可以出现一次，如果写了多个，则只有最后一个生效；
+在<code>HEALTHCHECK [选项] CMD</code> 后面的命令，格式和<code>ENTRYPOINT</code>一样，分为 <code>shell</code>和<code>exec</code>格式，命令的返回值决定了改次检查的成功与否，<code>0</code>:成功，<code>1</code>:失败，<code>2</code>: 保留</p><p>检查web服务是否可用：</p><pre tabindex=0><code>FROM nginx
+RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; rm -rf /var/lib/apt/lists/*
+HEALTHCHECK --interval=5s --timeout=3s \
+CMD curl -fs http://localhost/ || exit 1
+</code></pre><p>构建并启动该容器，查看其状态：</p><pre tabindex=0><code>docker build -t myweb:v1
+docker run -d --name web -p 80:80 myweb:v1
+</code></pre><pre tabindex=0><code>$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+03e28eb00bd0 myweb:v1 &#34;nginx -g &#39;daemon off&#34; 3 seconds ago Up 2 seconds (health: starting) 80/tcp, 443/tcp web
+
+$ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+03e28eb00bd0 myweb:v1 &#34;nginx -g &#39;daemon off&#34; 18 seconds ago Up 16 seconds (healthy) 80/tcp, 443/tcp web
+</code></pre><h4 id=obuild>OBUILD</h4><p>用于构建下一级镜像时执行，当前镜像并不执行，可用看做通用的构建步骤，在之后的镜像构建中执行</p><p>格式 ：<code>ONBUILD &lt;其他指令></code></p><p>构建当前镜像为基础镜像，后续镜像依赖该基础镜像，不需要重复写配置：
+当前项目配置：</p><pre tabindex=0><code>FROM node:slim
+RUN mkdir /app
+WORKDIR /app
+ONBUILD COPY ./package.json /app
+ONBUILD RUN [ &#34;npm&#34;, &#34;install&#34; ]
+ONBUILD COPY . /app/
+CMD [ &#34;npm&#34;, &#34;start&#34; ]
+</code></pre><p>构建</p><pre tabindex=0><code>docker build -t my-node
+</code></pre><p>其他项目配置：</p><pre tabindex=0><code>FROM my-node
+</code></pre><p><code>npm install</code>,<code>COPY . /app/</code>, <code>npm start</code>会在后续的每一次构建中都执行</p></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2018-2026 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>

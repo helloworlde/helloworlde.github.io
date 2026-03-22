@@ -1,0 +1,92 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{--accent-color:#FF4D4D}</style><title>SpringBoot 中日志使用 - HelloWood</title><meta name=description content="详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。"><meta name=keywords content='HomeLab,Java,Spring Boot,Spring Cloud,gRPC,Docker,Kubernetes,OpenWrt,Ubuntu,Gradle,Proxmox VE,Grafana,Prometheus,SpringBoot,Log'><meta name=author content="HelloWood"><meta property="og:site_name" content="HelloWood"><meta property="og:locale" content="zh"><meta property="og:url" content="https://blog.hellowood.dev/posts/springboot-logging/"><meta property="og:type" content="article"><meta property="og:title" content="SpringBoot 中日志使用"><meta property="og:description" content="详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。"><meta property="og:image" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="og:image:secure_url" content="https://blog.hellowood.dev/images/avatar.webp"><meta property="article:published_time" content="2018-01-19T21:23:45+08:00"><meta property="article:modified_time" content="2026-03-22T00:00:00Z"><meta property="article:author" content="HelloWood"><meta property="article:tag" content="Java"><meta property="article:tag" content="SpringBoot"><meta property="article:tag" content="Log"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="SpringBoot 中日志使用"><meta name=twitter:description content="详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。"><meta property="twitter:domain" content="https://blog.hellowood.dev/posts/springboot-logging/"><meta property="twitter:url" content="https://blog.hellowood.dev/posts/springboot-logging/"><meta name=twitter:image content="https://blog.hellowood.dev/images/avatar.webp"><link rel=canonical href=https://blog.hellowood.dev/posts/springboot-logging/><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"SpringBoot 中日志使用","description":"详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。","url":"https://blog.hellowood.dev/posts/springboot-logging/","datePublished":"2018-01-19T21:23:45+08:00","dateModified":"2026-03-22T00:00:00Z","image":"https://blog.hellowood.dev/images/avatar.webp","author":{"@type":"Person","name":"HelloWood","url":"https://blog.hellowood.dev/"},"publisher":{"@type":"Organization","name":"HelloWood","url":"https://blog.hellowood.dev/"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.hellowood.dev/posts/springboot-logging/"},"keywords":["Java","SpringBoot","Log"]}</script><link rel=stylesheet type=text/css href=/css/normalize.min.css media=print><link rel=stylesheet type=text/css href=/css/main.min.css><link id=dark-theme rel=stylesheet href=/css/dark.min.css><script src=/js/bundle.min.7136b4abac7b277aba8bc933917f4602d39a5c44f5590be687244bc86ef4f162.js integrity="sha256-cTa0q6x7J3q6i8kzkX9GAtOaXET1WQvmhyRLyG708WI="></script><link rel=stylesheet type=text/css href=/css/custom.css><script defer src=https://umami.hellowood.dev/script.js data-website-id=7a9034de-0ce7-4756-942a-829e6cd22301></script><script defer src=https://cloud.umami.is/script.js data-website-id=73ff1c8c-9938-43cf-81af-e77e26b0cca3></script><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b2e481d136dc428c8c96c8673e2a04cf"}'></script><meta name=google-adsense-account content="ca-pub-5709431067036925"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5709431067036925" crossorigin=anonymous></script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","jtbhx98g62")</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-3MSGPYTHPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-3MSGPYTHPZ")</script></head><body><script>setThemeByUserPref()</script><header class=header><nav class=header-nav><div class=avatar><a href=https://blog.hellowood.dev/><img src=/images/avatar.webp alt=avatar></a></div><div class=nav-title><a class=nav-brand href=https://blog.hellowood.dev/>HelloWood</a></div><div class=nav-links><div class=nav-link><a href=https://blog.hellowood.dev/ aria-label><span data-feather=home></span> Home</a></div><div class=nav-link><a href=https://blog.hellowood.dev/posts/ aria-label><span data-feather=book></span> Posts</a></div><div class=nav-link><a href=https://blog.hellowood.dev/tags/ aria-label><span data-feather=tag></span> Tags</a></div><div class=nav-link><a href=https://github.com/helloworlde aria-label=github><span data-feather=github></span></a></div><div class=nav-link><a href=https://umami.hellowood.dev/share/lab/Blog aria-label=dashboard><span data-feather=pie-chart></span></a></div><div class=nav-link><a href=https://blog.hellowood.dev/index.xml aria-label=rss><span data-feather=rss></span></a></div><span class=nav-icons-divider></span><div class="nav-link dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a aria-hidden=true role=switch><span class=theme-toggle-icon data-feather=moon></span></a></div><div class=nav-link id=hamburger-menu-toggle><span class="sr-only hamburger-menu-toggle-screen-reader-target">menu</span>
+<a aria-checked=false aria-labelledby=hamburger-menu-toggle id=hamburger-menu-toggle-target role=switch><span data-feather=menu></span></a></div><ul class="nav-hamburger-list visibility-hidden"><li class=nav-item><a href=https://blog.hellowood.dev/><span data-feather=home></span> Home</a></li><li class=nav-item><a href=https://blog.hellowood.dev/posts/><span data-feather=book></span> Posts</a></li><li class=nav-item><a href=https://blog.hellowood.dev/tags/><span data-feather=tag></span> Tags</a></li><li class=nav-item><a href=https://github.com/helloworlde><span data-feather=github></span></a></li><li class=nav-item><a href=https://umami.hellowood.dev/share/lab/Blog><span data-feather=pie-chart></span></a></li><li class=nav-item><a href=https://blog.hellowood.dev/index.xml><span data-feather=rss></span></a></li><li class="nav-item dark-theme-toggle"><span class="sr-only dark-theme-toggle-screen-reader-target">theme</span>
+<a role=switch><span class=theme-toggle-icon data-feather=moon></span></a></li></ul></div></nav></header><main id=content><div class="post container"><div class=post-header-section><h1>SpringBoot 中日志使用</h1><small role=doc-subtitle>详解 SpringBoot 日志配置，涵盖 logback 标签属性、MDC 自定义信息添加及文件输出策略，助您高效管理应用日志。</small><p class=post-date>2018-01-19
+| Updated 2026-03-22</p><ul class=post-tags><li class=post-tag><a href=https://blog.hellowood.dev/tags/java>Java</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/springboot>SpringBoot</a></li><li class=post-tag><a href=https://blog.hellowood.dev/tags/log>Log</a></li></ul></div><div class=post-content><h2 id=配置日志输出到文件>配置日志输出到文件</h2><pre tabindex=0><code># 输出到指定文件
+logging.file=./logs/application.log
+
+# 输出到指定目录下（会写入到 spring.log 中）
+logging.path=./logs
+</code></pre><p>当同时存在 <code>logging.path</code> 和 <code>logging.file</code> 时 <code>logging.path</code> 无效</p><h2 id=日志中添加信息>日志中添加信息</h2><p>向日志中添加自定义信息可以使用 <code>MDC</code>类来实现</p><ul><li>配置文件</li></ul><pre tabindex=0><code>logging.pattern.level=user:%X{user} %5p
+</code></pre><ul><li>类：<ul><li><code>org.apache.log4j.MDC</code></li><li><code>org.jboss.logging.MDC</code></li><li><code>org.slf4j.MDC</code></li></ul></li></ul><pre tabindex=0><code>MDC.put(&#34;user&#34;, &#34;Hello&#34;);
+</code></pre><ul><li>输出结果</li></ul><pre tabindex=0><code>2018-01-18 23:55:10.836 user:Hello  INFO 7011 --- [nio-8080-exec-1] cn.com.hellowood.log.LogController       : log 2
+</code></pre><hr><h2 id=logback-配置>logback 配置</h2><h3 id=标签属性>标签属性</h3><ul><li><p><code>&lt;configuration></code></p><ul><li><code>scan</code>: 当属性设置为 <code>true</code> 时， 配置文件如果发生变化会被重新加载，默认为<code>true</code></li><li><code>scanPeriod</code>: 设置监测配置文件是否修改的时间间隔，默认单位是毫秒，默认时间间隔1分钟</li><li><code>debug</code>：当属性设置为<code>true</code>时，将打印<code>logback</code>内部的日志信息，默认为 <code>false</code></li></ul></li><li><p><code>&lt;root></code>：用来指定最基础的日志输出级别</p><ul><li><code>level</code>：设置日志打印级别，大小写不敏感，可以是<code>TRACE,DEBUG,INFO,ERROR,ALL,OFF</code>，默认<code>DEBUG</code></li></ul></li></ul><pre tabindex=0><code>&lt;root level=&#34;debug&#34;&gt;
+  &lt;appender-ref ref=&#34;console&#34; /&gt;
+  &lt;appender-ref ref=&#34;file&#34; /&gt;
+&lt;/root&gt;
+</code></pre><ul><li><p><code>&lt;contextName></code>：上下文名称，默认为<code>default</code>，用于区分应用程序，一般改为项目名称，可以通过 <code>%contextName</code> 添加到日志中</p></li><li><p><code>&lt;property></code>：用来定义变量值的标签</p><ul><li><code>name</code>：变量的名称</li><li><code>value</code>：变量的值</li></ul></li></ul><p>定义的变量可以通过<code>${}</code>使用</p><ul><li><code>&lt;appender></code>：用来格式化日志输出节点<ul><li><p><code>name</code>：<code>appender</code> 的名称</p></li><li><p><code>class</code>：用来指定输出策略，通用的有控制台输出和文件输出</p></li><li><p>子标签 <code>&lt;layout></code>和<code>&lt;encoder></code>作用一样，但是<code>&lt;layout></code>仅仅是将 <code>event</code>事件变成字符串，而 <code>&lt;encoder></code>将 <code>event</code>事件变成 <code>byte</code>数组并输出到文件中</p></li><li><p><code>&lt;logger></code>：指定某个包或类的日志属性</p><ul><li><code>name</code>：类或包名</li><li><code>level</code>：日志级别</li><li><code>addtivity</code>：日志是否向上级传递打印，默认是 <code>true</code></li><li>子节点<code>&lt;appender-ref></code>：用于指定输出到那个 <code>appender</code>，用<code>ref</code>属性指定</li></ul></li></ul></li></ul><pre tabindex=0><code>&lt;configuration&gt;
+    ...
+
+    &lt;!--类名或包名 --&gt;
+    &lt;logger name=&#34;cn.com.hellowood&#34; level=&#34;DEBUG&#34; additivity=&#34;false&#34;&gt;
+        &lt;appender-ref ref=&#34;CONSOLE&#34;/&gt;
+    &lt;/logger&gt;
+&lt;/configuration&gt;
+</code></pre><p>此时会打印在 <code>CONSOLE</code>上，如果将<code>additivity</code>改为<code>true</code>，则<code>CONSOLE</code>和<code>root</code>各会打印一次</p><ul><li><code>&lt;springProfile></code>：设置不同环境下启用不同的规则<ul><li><code>name</code> ：环境的名称，可以是<code>test</code>, <code>dev</code>, <code>prod</code>, <code>staging</code>等；和 <code>application-${env}.properties</code>一直即可</li></ul></li></ul><pre tabindex=0><code>&lt;!-- 环境用逗号隔开 --&gt;
+&lt;springProfile name=&#34;test,dev&#34;&gt;
+    &lt;logger name=&#34;cn.com.hellowood&#34; level=&#34;DEBUG&#34; additivity=&#34;false&#34;&gt;
+        &lt;appender-ref ref=&#34;CONSOLE&#34;/&gt;
+    &lt;/logger&gt;
+&lt;/springProfile&gt;
+</code></pre><ul><li><code>&lt;springProperty></code> ：通过 Spring 的 <code>Enviroment</code>获取属性，用于从<code>application.properties</code>读取参数，作用和 <code>&lt;property></code>一样<ul><li><code>scope</code>：读取属性的范围，一般为<code>context</code></li><li><code>name</code>：属性名称</li><li><code>source</code>：<code>application.properties</code>文件里的配置名称，必须是串的形式（<code>app.property</code>）</li><li><code>defaultValue</code>：默认值</li></ul></li></ul><hr><h2 id=配置文件>配置文件</h2><ul><li>常用配置</li></ul><pre tabindex=0><code>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;configuration scan=&#34;true&#34; scanPeriod=&#34;60 seconds&#34; debug=&#34;false&#34;&gt;
+
+    &lt;springProperty name=&#34;LOG_PATH&#34; value=&#34;SpringBoot-Log/out/logs&#34;/&gt;
+    &lt;contextName&gt;SpringBootLog&lt;/contextName&gt;
+    &lt;conversionRule conversionWord=&#34;clr&#34; converterClass=&#34;org.springframework.boot.logging.logback.ColorConverter&#34; /&gt;
+    &lt;conversionRule conversionWord=&#34;wex&#34; converterClass=&#34;org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter&#34; /&gt;
+    &lt;conversionRule conversionWord=&#34;wEx&#34; converterClass=&#34;org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter&#34; /&gt;
+    &lt;property name=&#34;CONSOLE_LOG_PATTERN&#34; value=&#34;${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%21.21t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}&#34;/&gt;
+    &lt;property name=&#34;FILE_LOG_PATTERN&#34; value=&#34;${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%21.21t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}&#34;/&gt;
+
+
+    &lt;!--输出到控制台 ConsoleAppender--&gt;
+    &lt;appender name=&#34;CONSOLE&#34; class=&#34;ch.qos.logback.core.ConsoleAppender&#34;&gt;
+        &lt;encoder&gt;
+            &lt;pattern&gt;%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;!-- 输出到文件 --&gt;
+    &lt;appender name=&#34;FILE&#34; class=&#34;ch.qos.logback.core.rolling.RollingFileAppender&#34;&gt;
+        &lt;!-- 正在记录的日志文件的路径及文件名 --&gt;
+        &lt;file&gt;${LOG_PATH}/SpringBootLog.log&lt;/file&gt;
+        &lt;!-- 日志记录器的滚动策略，按日期，按大小记录 --&gt;
+        &lt;rollingPolicy class=&#34;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&#34;&gt;
+             &lt;!--归档的日志文件的路径，%d{yyyy-MM-dd}指定日期格式，%i指定索引 --&gt;
+            &lt;fileNamePattern&gt;${LOG_PATH}/SpringBootLog-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern&gt;
+            &lt;!-- 若超过10M，日志文件会以索引0开始 --&gt;
+            &lt;timeBasedFileNamingAndTriggeringPolicy class=&#34;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&#34;&gt;
+                &lt;maxFileSize&gt;10MB&lt;/maxFileSize&gt;
+            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;
+            &lt;!--日志文件保留天数--&gt;
+            &lt;MaxHistory&gt;30&lt;/MaxHistory&gt;
+        &lt;/rollingPolicy&gt;
+        &lt;!-- 追加方式记录日志 --&gt;
+        &lt;append&gt;true&lt;/append&gt;
+        &lt;!-- 日志文件的格式 --&gt;
+        &lt;encoder class=&#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&#34;&gt;
+            &lt;pattern&gt;${FILE_LOG_PATTERN}&lt;/pattern&gt;
+            &lt;charset&gt;utf-8&lt;/charset&gt;
+        &lt;/encoder&gt;
+        &lt;!--设置日志输出级别--&gt;
+        &lt;filter class=&#34;ch.qos.logback.classic.filter.LevelFilter&#34;&gt;
+            &lt;level&gt;ERROR&lt;/level&gt;
+            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;
+            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;
+        &lt;/filter&gt;
+    &lt;/appender&gt;
+    &lt;!-- 指定包的日志级别 --&gt;
+    &lt;logger name=&#34;org.springframework&#34; level=&#34;WARN&#34; /&gt;
+
+    &lt;!--指定最基础的日志输出级别--&gt;
+    &lt;root level=&#34;INFO&#34;&gt;
+        &lt;!--appender将会添加到这个logger--&gt;
+        &lt;appender-ref ref=&#34;CONSOLE&#34;/&gt;
+        &lt;appender-ref ref=&#34;FILE&#34;/&gt;
+    &lt;/root&gt;
+
+&lt;/configuration&gt;
+</code></pre><hr><h2 id=pattern-属性>Pattern 属性</h2><ul><li><p><code>%p</code>: 输出日志信息优先级，即<code>DEBUG</code>，<code>INFO</code>，<code>WARN</code>，<code>ERROR</code>，<code>FATAL</code>,</p></li><li><p><code>%d</code>: 输出日志时间点的日期或时间，默认格式为<code>ISO8601</code>，也可以在其后指定格式，比如：<code>%d{yyyy-MM-dd HH:mm:ss.SSS}</code>，输出类似：<code>2018-01-19 14:47:03.735</code></p></li><li><p><code>%r</code>: 输出自应用启动到输出该log信息耗费的毫秒数</p></li><li><p><code>%c</code>: 输出日志信息所属的类目，通常就是所在类的全名</p></li><li><p><code>%t</code>: 输出产生该日志事件的线程名</p></li><li><p><code>%l</code>: 输出日志事件的发生位置，相当于<code>%C.%M(%F:%L)</code>的组合,包括类目名、发生的线程，以及在代码中的行数</p></li><li><p><code>%x</code>: 输出和当前线程相关联的NDC(嵌套诊断环境),尤其用到像java servlets这样的多客户多线程的应用中</p></li><li><p><code>%%</code>: 输出一个<code>%</code>字符, <code>%F</code>: 输出日志消息产生时所在的文件名称；<code>%L</code>: 输出代码中的行号；<code>%m</code>: 输出代码中指定的消息,产生的日志具体信息</p></li><li><p><code>%n</code>: 输出一个回车换行符，Windows平台为<code>\r\n</code>，Unix平台为<code>\n</code>输出日志信息换行</p></li><li><p>可以在<code>%</code>与模式字符之间加上修饰符来控制其最小宽度、最大宽度、和文本的对齐方式。如：</p><ul><li><code>%20c</code>：指定输出<code>category</code>的名称，最小的宽度是20，如果category的名称小于20的话，默认的情况下右对齐。</li><li><code>%-20c</code>:指定输出<code>category</code>的名称，最小的宽度是20，如果category的名称小于20的话，<code>-</code>号指定左对齐。</li><li><code>%.30c</code>:指定输出<code>category</code>的名称，最大的宽度是30，如果<code>category</code>的名称大于30的话，就会将左边多出的字符截掉，但小于30的话也不会有空格。</li><li><code>%20.30c</code>:如果<code>category</code>的名称小于20就补空格，并且右对齐，如果其名称长于30字符，就从左边交远销出的字符截掉。</li></ul></li></ul></div><div class=prev-next></div><svg id="btt-button" class="arrow-logo" height="1em" viewBox="0 0 384 512" onclick="scrollToTop()" title="Go to top"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6.0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9.0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9.0L7 329.7c-9.4-9.4-9.4-24.6.0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
+<script>let backToTopButton=document.getElementById("btt-button");window.onscroll=function(){scrollFunction()};function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?backToTopButton.style.display="block":backToTopButton.style.display="none"}function scrollToTop(){window.scrollTo(0,0)}</script><div id=comments><script src=https://utteranc.es/client.js repo=helloworlde/helloworlde.github.io issue-term=title theme=github-light crossorigin=anonymous async></script></div></div></main><footer class=footer><span>&copy; 2018-2026 hellowood.dev</span>
+<span>Made with &#10084;&#65039; using <a target=_blank href=https://github.com/gokarna-theme/gokarna-hugo>Gokarna</a></span></footer></body></html>
