@@ -1,6 +1,15 @@
 ---
 description: "解决 Tailscale 直连延迟高问题，基于家庭宽带公网 IPv6 自建 DERP 节点，使用 Let's Encrypt 免域名部署，优化跨地域网络性能。"
 title: "使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点"
+keywords:
+  - "Tailscale DERP"
+  - "Public IPv6"
+  - "Home Broadband"
+  - "Let's Encrypt"
+  - "Lego"
+  - "Cloudflare DNS"
+  - "Docker Compose"
+  - "STUN Port"
 slug: "home-broadband-public-ipv6-tailscale-derp-node"
 aliases:
   - "/posts/使用家庭宽带公网-ipv6-自建-tailscale-的-derp-节点/"

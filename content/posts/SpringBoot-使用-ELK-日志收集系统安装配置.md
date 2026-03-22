@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 集成 ELK 日志收集系统完整指南，涵盖 Elasticsearch、Logstash 与 Kibana 安装配置及 Logback 编码器实战。"
 title: SpringBoot 使用 ELK 日志收集系统安装配置
+keywords:
+  - "SpringBoot"
+  - "ELK"
+  - "Elasticsearch"
+  - "Logstash"
+  - "Kibana"
+  - "logstash-logback-encoder"
+  - "logback"
+  - "JSON logs"
 slug: "springboot-elk-log-collection-setup"
 aliases:
   - "/posts/springboot-使用-elk-日志收集系统安装配置/"

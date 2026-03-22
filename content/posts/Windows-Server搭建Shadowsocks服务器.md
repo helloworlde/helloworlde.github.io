@@ -1,6 +1,15 @@
 ---
 description: "Windows Server 搭建 Shadowsocks 服务器教程，包含 libQtShadowsocks 下载、config.json 配置及启动命令详解，助力快速部署代理服务。"
 title: Windows Server搭建Shadowsocks服务器
+keywords:
+  - "Windows Server"
+  - "Shadowsocks"
+  - "config.json"
+  - "shadowsocks-libqss.exe"
+  - "rc4-md5"
+  - "libQtShadowsocks"
+  - "server_port"
+  - "local_port"
 slug: "windows-server-shadowsocks-setup"
 aliases:
   - "/posts/windows-server搭建shadowsocks服务器/"

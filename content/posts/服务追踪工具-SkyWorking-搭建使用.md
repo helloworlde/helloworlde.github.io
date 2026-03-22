@@ -1,6 +1,15 @@
 ---
 description: "SkyWalking 微服务分布式链路追踪安装部署指南，含 ElasticSearch 配置与 Mac OS 环境搭建教程。"
 title: 服务追踪工具 SkyWorking 搭建使用
+keywords:
+  - "SkyWalking"
+  - "ElasticSearch"
+  - "APM"
+  - "Distributed Tracing"
+  - "Microservices"
+  - "application.yml"
+  - "elasticsearch.yml"
+  - "Cloud Native"
 slug: "skyworking-service-tracing-setup"
 aliases:
   - "/posts/服务追踪工具-skyworking-搭建使用/"

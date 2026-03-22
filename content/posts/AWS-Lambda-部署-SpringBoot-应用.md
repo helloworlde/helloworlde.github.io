@@ -1,6 +1,15 @@
 ---
 description: "学习 AWS Lambda 部署 SpringBoot 应用，涵盖 IAM 配置、AWS CLI 与 Serverless 工具安装及 SAM Local 调试方法。"
 title: AWS Lambda 部署 SpringBoot 应用
+keywords:
+  - "AWS Lambda"
+  - "Spring Boot"
+  - "Serverless"
+  - "AWS CLI"
+  - "AWS SAM"
+  - "Maven Archetype"
+  - "serverless framework"
+  - "AWS IAM"
 slug: "aws-lambda-deploy-springboot-app"
 aliases:
   - "/posts/aws-lambda-部署-springboot-应用/"

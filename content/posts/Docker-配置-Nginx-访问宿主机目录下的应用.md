@@ -1,6 +1,15 @@
 ---
 description: "Docker 配置 Nginx 转发宿主机 Tomcat 应用，包含镜像拉取、端口映射及反向代理头设置完整指南。"
 title: Docker 配置 Nginx 访问宿主机目录下的应用
+keywords:
+  - "Docker Nginx"
+  - "Nginx proxy_pass"
+  - "Docker host access"
+  - "Tomcat reverse proxy"
+  - "Docker volume mount"
+  - "Nginx log_format"
+  - "Docker bridge network"
+  - "Nginx container config"
 slug: "docker-nginx-access-host-directory-app"
 aliases:
   - "/posts/docker-配置-nginx-访问宿主机目录下的应用/"

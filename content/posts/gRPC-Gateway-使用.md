@@ -1,6 +1,15 @@
 ---
 description: "gRPC Gateway 代理 HTTP 与 gRPC 互转，支持多服务路由与命名解析。本文详解 buf 配置、代码生成及 Go 服务端实现步骤。"
 title: gRPC Gateway 使用
+keywords:
+  - "gRPC Gateway"
+  - "buf"
+  - "protoc-gen-grpc-gateway"
+  - "protoc-gen-openapiv2"
+  - "buf.gen.yaml"
+  - "Go gRPC"
+  - "HTTP to gRPC"
+  - "proto3"
 slug: "grpc-gateway-usage"
 aliases:
   - "/posts/grpc-gateway-使用/"

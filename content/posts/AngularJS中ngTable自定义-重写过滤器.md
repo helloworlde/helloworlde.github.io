@@ -1,6 +1,15 @@
 ---
 description: "解决 AngularJS ngTable 缺失时间过滤问题，详解自定义与重写过滤器原理、HTML 模板配置及 JS 逻辑实现代码。"
 title: AngularJS 中ngTable自定义/重写过滤器
+keywords:
+  - "AngularJS"
+  - "ngTable"
+  - "custom filter"
+  - "filterFn"
+  - "date filtering"
+  - "override filter"
+  - "ngTableParams"
+  - "customFilter"
 slug: "angularjs-ngtable-custom-override-filters"
 aliases:
   - "/posts/angularjs中ngtable自定义-重写过滤器/"

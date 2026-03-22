@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 22 运行 Google Coral TPU 完整指南，含 Anaconda 环境配置、PyCoral 及 tflite-runtime 依赖安装与图像分类 Demo 实操教程。"
 title: "Ubuntu 22 运行 Google Coral TPU 示例"
+keywords:
+  - "Google Coral"
+  - "Edge TPU"
+  - "Ubuntu 22"
+  - "pycoral"
+  - "tflite-runtime"
+  - "Anaconda"
+  - "Python 3.8"
+  - "classify_image.py"
 slug: "ubuntu-22-google-coral-tpu-examples"
 aliases:
   - "/posts/ubuntu-22-运行-google-coral-tpu-示例/"

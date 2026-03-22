@@ -8,6 +8,15 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明"
+keywords:
+  - "Fleet Telemetry"
+  - "Tesla Fleet API"
+  - "ACChargingEnergyIn"
+  - "BMSState"
+  - "BatteryLevel"
+  - "State of Charge"
+  - "SoC"
+  - "Vehicle Monitoring"
 slug: "fleet-telemetry-tesla-active-reporting-configuration"
 aliases:
   - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-七-完整配置说明/"

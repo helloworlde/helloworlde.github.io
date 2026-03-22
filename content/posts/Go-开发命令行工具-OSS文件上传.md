@@ -1,6 +1,15 @@
 ---
 description: "Go 命令行工具 OSS 文件上传实战，基于 Cobra 框架实现，涵盖项目初始化、依赖管理、命令配置及 goreleaser 自动化发布全流程。"
 title: Go 开发命令行工具-OSS文件上传
+keywords:
+  - "Go CLI"
+  - "Cobra"
+  - "OSS Upload"
+  - "Go Modules"
+  - "Command Line Tool"
+  - "File Upload"
+  - "Go Programming"
+  - "Alibaba Cloud OSS"
 slug: "go-cli-tool-oss-file-upload"
 aliases:
   - "/posts/go-开发命令行工具-oss文件上传/"

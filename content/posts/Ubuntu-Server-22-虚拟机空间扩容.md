@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu Server 虚拟机磁盘扩容教程：ESXi 调整物理卷 pvresize growpart lvresize resize2fs 命令详解"
 title: Ubuntu Server 22 虚拟机空间扩容
+keywords:
+  - "Ubuntu Server 22"
+  - "ESXi"
+  - "fdisk"
+  - "LVM"
+  - "Logical Volume"
+  - "lsblk"
+  - "df"
+  - "disk expansion"
 slug: "ubuntu-server-22-virtual-machine-space-expansion"
 aliases:
   - "/posts/ubuntu-server-22-虚拟机空间扩容/"

@@ -8,6 +8,15 @@ tags:
   - OpenWrt
   - HomeLab
 title: "OpenWrt 使用 Tag 给特定的设备单独指定旁路网关的地址和 DNS"
+keywords:
+  - "OpenWrt"
+  - "dnsmasq"
+  - "DHCP Tag"
+  - "uci set"
+  - "dhcp_option"
+  - "Static IP"
+  - "Gateway"
+  - "DNS"
 slug: "openwrt-tag-specific-device-bypass-gateway-dns"
 aliases:
   - "/posts/openwrt-使用-tag-给特定的设备单独指定旁路网关的地址和-dns/"

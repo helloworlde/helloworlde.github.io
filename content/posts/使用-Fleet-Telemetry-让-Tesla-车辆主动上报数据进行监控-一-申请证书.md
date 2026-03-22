@@ -8,6 +8,15 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(一)申请证书"
+keywords:
+  - "Tesla Fleet Telemetry"
+  - "mTLS"
+  - "Certificate Signing"
+  - "Tesla API"
+  - "Vehicle Telemetry"
+  - "Homelab"
+  - "TeslaMate"
+  - "MQTT"
 slug: "fleet-telemetry-tesla-vehicle-monitoring-certificate"
 aliases:
   - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-一-申请证书/"

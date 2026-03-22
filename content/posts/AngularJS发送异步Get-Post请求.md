@@ -1,6 +1,15 @@
 ---
 description: "学习 AngularJS 使用$http 模块发送异步 Get/Post 请求，掌握 ng-app 绑定、ng-model 数据双向绑定及回调函数处理，结合 Spring Boot Controller 实现前后端交互。"
 title: AngularJS发送异步Get/Post请求
+keywords:
+  - "AngularJS"
+  - "$http"
+  - "ng-app"
+  - "ng-controller"
+  - "ng-model"
+  - "ng-click"
+  - "@RequestMapping"
+  - "@ResponseBody"
 slug: "angularjs-async-get-post-requests"
 aliases:
   - "/posts/angularjs发送异步get-post请求/"

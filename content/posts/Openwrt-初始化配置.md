@@ -1,6 +1,15 @@
 ---
 description: "OpenWrt 初始化配置指南：通过 opkg 安装中文语言包、设置时区、部署 Argon 主题及配置 root 密码与 SSH 密钥，快速搭建家庭实验室。"
 title: Openwrt-初始化配置
+keywords:
+  - "OpenWrt"
+  - "opkg"
+  - "luci-i18n-base-zh-cn"
+  - "Asia/Honkong"
+  - "luci-theme-argon"
+  - "SSH key"
+  - "root password"
+  - "System settings"
 slug: "openwrt-initial-setup"
 aliases:
   - "/posts/openwrt-初始化配置/"

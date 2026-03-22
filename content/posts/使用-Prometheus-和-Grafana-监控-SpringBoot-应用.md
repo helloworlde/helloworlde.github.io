@@ -1,6 +1,15 @@
 ---
 description: "基于 Spring Boot 集成 Prometheus 和 Grafana 实现应用监控，涵盖 Actuator 配置、Micrometer 指标注册及自定义业务数据可视化。"
 title: 使用 Prometheus 和 Grafana 监控 SpringBoot 应用
+keywords:
+  - "Spring Boot"
+  - "Prometheus"
+  - "Grafana"
+  - "Micrometer"
+  - "Actuator"
+  - "@Timed"
+  - "@Counted"
+  - "Dashboard"
 slug: "prometheus-grafana-monitor-springboot"
 aliases:
   - "/posts/使用-prometheus-和-grafana-监控-springboot-应用/"

@@ -1,6 +1,15 @@
 ---
 description: "Redis 核心数据类型详解：字符串、哈希、列表、集合与有序集合的存储机制及命令使用指南，助力高效缓存设计。"
 title: Redis基础知识-数据类型
+keywords:
+  - "Redis"
+  - "String"
+  - "Hash"
+  - "List"
+  - "Set"
+  - "Sorted Set"
+  - "ZSet"
+  - "Redis Data Types"
 slug: "redis-basics-data-types"
 aliases:
   - "/posts/redis基础知识-数据类型/"

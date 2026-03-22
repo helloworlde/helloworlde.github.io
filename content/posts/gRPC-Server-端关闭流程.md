@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC Server 端关闭流程，详解 shutdown 与 shutdownNow 方法源码实现及资源释放机制。"
 title: gRPC Server 端关闭流程
+keywords:
+  - "gRPC Server shutdown"
+  - "gRPC shutdownNow"
+  - "ServerImpl shutdown"
+  - "NettyServer shutdown"
+  - "gRPC graceful shutdown"
+  - "io.grpc.Server"
+  - "gRPC transport shutdown"
+  - "Java gRPC lifecycle"
 slug: "grpc-server-shutdown-process"
 aliases:
   - "/posts/grpc-server-端关闭流程/"

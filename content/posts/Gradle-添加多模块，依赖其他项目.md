@@ -1,6 +1,15 @@
 ---
 description: "详解 Gradle 多项目构建配置，涵盖子模块管理、SpringBoot 集成及内部依赖引用方法。"
 title: Gradle 使用-多项目构建
+keywords:
+  - "Gradle Multi-Project"
+  - "settings.gradle"
+  - "subprojects"
+  - "project dependencies"
+  - "Spring Boot Gradle"
+  - "build.gradle"
+  - "Gradle build"
+  - "Gradle init"
 slug: "gradle-multi-project-build"
 aliases:
   - "/posts/gradle-添加多模块，依赖其他项目/"

@@ -9,6 +9,15 @@ tags:
   - HomeLab
   - Network
 title: "Hysteria2 配合 UFW 通过端口跳跃提升可用性"
+keywords:
+  - "Hysteria2"
+  - "Port Hopping"
+  - "UFW"
+  - "iptables"
+  - "DNAT"
+  - "NAT"
+  - "UDP"
+  - "ClashX Meta"
 slug: "hysteria2-ufw-port-hopping-availability"
 aliases:
   - "/posts/hysteria2-配合-ufw-通过端口跳跃提升可用性/"

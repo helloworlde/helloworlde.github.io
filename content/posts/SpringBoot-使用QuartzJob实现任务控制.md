@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 集成 Quartz 实现任务调度，通过 RESTful 接口控制 Job 创建、暂停与删除，解决@Schedule 灵活性不足问题。"
 title: SpringBoot 使用QuartzJob实现任务控制
+keywords:
+  - "SpringBoot"
+  - "Quartz"
+  - "ScheduledJob"
+  - "JobControl"
+  - "CronExpression"
+  - "RESTfulAPI"
+  - "GradleDependency"
+  - "TaskScheduling"
 slug: "springboot-quartz-job-task-control"
 aliases:
   - "/posts/springboot-使用quartzjob实现任务控制/"

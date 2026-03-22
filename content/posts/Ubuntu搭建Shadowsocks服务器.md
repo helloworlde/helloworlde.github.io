@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 搭建 Shadowsocks 服务器：安装 pip、配置 json 加密方法、启动 ssserver 及设置开机自启与多用户权限详解。"
 title: Ubuntu搭建Shadowsocks服务器
+keywords:
+  - "Shadowsocks"
+  - "Ubuntu"
+  - "ssserver"
+  - "config.json"
+  - "aes-256-cfb"
+  - "port_password"
+  - "TCP-Fast-Open"
+  - "rc.local"
 slug: "ubuntu-setup-shadowsocks-server"
 aliases:
   - "/posts/ubuntu搭建shadowsocks服务器/"

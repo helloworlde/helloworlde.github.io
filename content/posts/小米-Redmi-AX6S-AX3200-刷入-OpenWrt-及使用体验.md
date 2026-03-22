@@ -1,6 +1,15 @@
 ---
 description: "小米 Redmi AX6S 刷入 OpenWrt 全攻略：解锁 Telnet、计算 Root 密码及固件升级教程，助您打造高性能旁路由。"
 title: 小米 Redmi AX6S(AX3200) 刷入 OpenWrt 及使用体验
+keywords:
+  - "Redmi AX6S"
+  - "OpenWrt"
+  - "RB03"
+  - "telnet unlock"
+  - "mt7622"
+  - "factory firmware"
+  - "main router"
+  - "Xiaomi AX3200"
 slug: "xiaomi-redmi-ax6s-openwrt-experience"
 aliases:
   - "/posts/小米-redmi-ax6s-ax3200-刷入-openwrt-及使用体验/"

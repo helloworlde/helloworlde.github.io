@@ -1,6 +1,15 @@
 ---
 description: "GoLinks 短链接服务简介与内网部署指南，通过 DNS 或 Host 配置简化网址访问，支持 Docker 快速启动及 MagicDNS 开发模式。"
 title: 使用 GoLinks 短链接服务简化网址访问
+keywords:
+  - "GoLinks"
+  - "Tailscale"
+  - "Docker"
+  - "CoreDNS"
+  - "MagicDNS"
+  - "DNS Search Domain"
+  - "Short URL Service"
+  - "Docker Compose"
 slug: "simplify-url-access-golinks-short-link-service"
 aliases:
   - "/posts/使用golinks短链接服务简化网址访问/"

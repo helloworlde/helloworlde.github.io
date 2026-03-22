@@ -8,6 +8,15 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(四)下发配置"
+keywords:
+  - "Tesla Fleet API"
+  - "access_token"
+  - "OAuth2"
+  - "vehicle_cmds"
+  - "third-party tokens"
+  - "Cloudflare Worker"
+  - "Tesla Fleet Telemetry"
+  - "fleet-api"
 slug: "fleet-telemetry-tesla-vehicle-monitoring-push-config"
 aliases:
   - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-四-下发配置/"

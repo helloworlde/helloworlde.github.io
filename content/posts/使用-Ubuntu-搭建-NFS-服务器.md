@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 搭建 NFS 服务器：安装 nfs-kernel-server，配置 exports 共享目录，实现网络文件挂载与开机自动挂载。"
 title: 使用 Ubuntu 搭建 NFS 服务器
+keywords:
+  - "NFS"
+  - "Ubuntu"
+  - "nfs-kernel-server"
+  - "/etc/exports"
+  - "nfs-mountd"
+  - "systemctl"
+  - "chmod"
+  - "nfs"
 slug: "ubuntu-setup-nfs-server"
 aliases:
   - "/posts/使用-ubuntu-搭建-nfs-服务器/"

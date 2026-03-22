@@ -1,6 +1,15 @@
 ---
 description: "gRPC 对冲原理详解：应对下游服务故障，通过延时重试机制提升请求成功率，减少失败率但增加延迟，包含核心代码执行流程分析。"
 title: gRPC 对冲原理
+keywords:
+  - "gRPC Hedging"
+  - "RetriableStream"
+  - "HedgingPolicy"
+  - "FutureCanceller"
+  - "HedgingRunnable"
+  - "ClientStreamListener"
+  - "Substream"
+  - "io.grpc.internal"
 slug: "grpc-hedging-principle"
 aliases:
   - "/posts/grpc-对冲原理/"

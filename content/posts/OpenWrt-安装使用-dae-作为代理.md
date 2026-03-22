@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 Dae 作为代理"
+keywords:
+  - "OpenWrt"
+  - "Dae"
+  - "eBPF"
+  - "ImmortalWrt"
+  - "Transparent Proxy"
+  - "Traffic Shunting"
+  - "VLESS"
+  - "Tuic"
 slug: "openwrt-install-dae-proxy"
 aliases:
   - "/posts/openwrt-安装使用-dae-作为代理/"

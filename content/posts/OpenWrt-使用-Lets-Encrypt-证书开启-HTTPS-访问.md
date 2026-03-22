@@ -1,6 +1,15 @@
 ---
 description: "OpenWrt 配置 HTTPS：使用 uHTTPd 和 ACME 通过 DNS 验证获取 Let's Encrypt 免费 SSL 证书，解决自签名浏览器警告。"
 title: OpenWrt 使用 Lets Encrypt 证书开启 HTTPS 访问
+keywords:
+  - "OpenWrt"
+  - "uHTTPd"
+  - "ACME"
+  - "Let's Encrypt"
+  - "DNS validation"
+  - "HTTPS"
+  - "DNS API"
+  - "SSL certificate"
 slug: "openwrt-lets-encrypt-https"
 aliases:
   - "/posts/openwrt-使用-lets-encrypt-证书开启-https-访问/"

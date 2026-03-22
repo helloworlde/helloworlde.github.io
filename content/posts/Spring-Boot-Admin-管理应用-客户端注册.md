@@ -1,6 +1,15 @@
 ---
 description: "Spring Boot Admin 客户端注册详解：直接注册与 Eureka 注册中心配置指南，包含 Gradle 依赖、application.properties 及 Java 启动类完整代码示例。"
 title: Spring Boot Admin 管理应用-客户端注册
+keywords:
+  - "Spring Boot Admin"
+  - "spring-boot-admin-starter-client"
+  - "spring-boot-starter-actuator"
+  - "Eureka"
+  - "spring-cloud-starter-eureka"
+  - "EnableEurekaClient"
+  - "bootstrap.properties"
+  - "application.properties"
 slug: "spring-boot-admin-client-registration"
 aliases:
   - "/posts/spring-boot-admin-管理应用-客户端注册/"

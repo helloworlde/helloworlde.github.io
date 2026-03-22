@@ -1,6 +1,15 @@
 ---
 description: "gRPC 泛化调用实现指南：利用 protobuf 反射接口动态构建 MethodDescriptor，通过 JSON 序列化解码请求，无需预生成代码即可灵活调用任意服务方法。"
 title: gRPC 中泛化调用服务接口
+keywords:
+  - "gRPC"
+  - "ServerReflection"
+  - "MethodDescriptor"
+  - "protobuf"
+  - "JSON"
+  - "Java"
+  - "Reflection"
+  - "GenericCall"
 slug: "grpc-generic-service-interface-calls"
 aliases:
   - "/posts/grpc-中泛化调用服务接口/"

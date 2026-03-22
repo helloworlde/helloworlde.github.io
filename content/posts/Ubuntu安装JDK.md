@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 系统安装 JDK 完整教程：下载、解压、配置环境变量及验证 Java 版本，适用于 Linux 开发环境部署。"
 title: Ubuntu安装JDK
+keywords:
+  - "Ubuntu"
+  - "JDK 8"
+  - "wget"
+  - "tar"
+  - "bash_profile"
+  - "JAVA_HOME"
+  - "PATH"
+  - "java -version"
 slug: "ubuntu-install-jdk"
 aliases:
   - "/posts/ubuntu安装jdk/"

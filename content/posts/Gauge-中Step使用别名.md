@@ -1,6 +1,15 @@
 ---
 description: "Gauge 测试框架中通过 Step 别名实现多场景复用，使用@Step 注解定义多个名称执行相同操作，提升自动化测试代码可维护性与灵活性。"
 title: Gauge 中Step使用别名
+keywords:
+  - "Gauge"
+  - "Step Alias"
+  - "Step Annotation"
+  - "BDD"
+  - "Test Automation"
+  - "Spec File"
+  - "Java"
+  - "Gauge Framework"
 slug: "gauge-step-alias"
 aliases:
   - "/posts/gauge-中step使用别名/"

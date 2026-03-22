@@ -1,6 +1,14 @@
 ---
 description: "深入解析 Rocket MQ 核心概念、同步异步单向发送机制及定时延时消息代码实战。"
 title: Rocket MQ 相关知识
+keywords:
+  - "RocketMQ"
+  - "Producer"
+  - "Consumer"
+  - "NameServer"
+  - "Broker"
+  - "Topic"
+  - "定时消息，事务消息"
 slug: "rocket-mq-knowledge"
 aliases:
   - "/posts/rocket-mq-相关知识/"

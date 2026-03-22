@@ -1,6 +1,15 @@
 ---
 description: "掌握 Nginx 反向代理配置，实现多域名与路径转发，优化服务器性能与高可用性。"
 title: Nginx 配置
+keywords:
+  - "Nginx"
+  - "proxy_pass"
+  - "server_name"
+  - "location"
+  - "proxy_set_header"
+  - "X-Real-IP"
+  - "X-Forwarded-For"
+  - "reverse proxy"
 slug: "nginx-configuration"
 aliases:
   - "/posts/nginx-配置/"

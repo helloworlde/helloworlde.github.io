@@ -9,6 +9,15 @@ tags:
   - HomeLab
 featured: true
 title: "在服务器部署 Docker 镜像代理服务 Distribution Registry"
+keywords:
+  - "Docker Registry"
+  - "Distribution Registry"
+  - "Docker Compose"
+  - "Docker Mirror"
+  - "Docker Proxy"
+  - "config.yml"
+  - "registry:2"
+  - "Docker Image Pull"
 slug: "deploy-docker-registry-server"
 aliases:
   - "/posts/在服务器部署-docker-镜像代理服务-distribution-registry/"

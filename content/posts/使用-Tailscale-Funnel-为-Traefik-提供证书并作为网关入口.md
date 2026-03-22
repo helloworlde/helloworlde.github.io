@@ -1,6 +1,15 @@
 ---
 description: "Tailscale Funnel 为 Traefik 提供 TLS 证书并作为网关入口，实现公网流量安全路由到本地 Docker 服务。"
 title: "使用 Tailscale Funnel 为 Traefik 提供证书并作为网关入口"
+keywords:
+  - "Tailscale Funnel"
+  - "Traefik"
+  - "Tailscale TLS"
+  - "Docker Compose"
+  - "Traefik 3.1"
+  - "Docker network"
+  - "certificatesResolvers"
+  - "Tailscale gateway"
 slug: "tailscale-funnel-traefik-certificates-gateway"
 aliases:
   - "/posts/使用-tailscale-funnel-为-traefik-提供证书并作为网关入口/"

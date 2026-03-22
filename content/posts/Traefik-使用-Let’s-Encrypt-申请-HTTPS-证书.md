@@ -1,6 +1,15 @@
 ---
 description: "Traefik 集成 Let's Encrypt 自动申请 HTTPS 证书，支持 ACME DNS、HTTP 及 TLS 验证方式，详解泛域名证书配置与 Traefik YAML 设置。"
 title: Traefik 使用 Let’s Encrypt 申请 HTTPS 证书
+keywords:
+  - "Traefik"
+  - "Let's Encrypt"
+  - "ACME"
+  - "DNS Challenge"
+  - "TLS"
+  - "Docker Compose"
+  - "certificatesResolvers"
+  - "alidns"
 slug: "traefik-lets-encrypt-https"
 aliases:
   - "/posts/traefik-使用-let’s-encrypt-申请-https-证书/"

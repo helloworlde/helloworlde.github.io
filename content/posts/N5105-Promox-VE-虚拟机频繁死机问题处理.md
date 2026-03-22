@@ -1,6 +1,15 @@
 ---
 description: "解决 N5105 Proxmox VE 虚拟机死机问题：升级 Linux 内核至 5.19 或 6.1 版本，配置 pve-no-subscription 及 Debian non-free 源以修复 Intel CPU 冻结 Bug。"
 title: N5105 Promox VE 虚拟机频繁死机问题处理
+keywords:
+  - "Intel N5105"
+  - "Proxmox VE"
+  - "VM freeze"
+  - "Linux 5.19"
+  - "Linux 6.1"
+  - "pve-no-subscription"
+  - "CPU 100%"
+  - "HomeLab"
 slug: "n5105-proxmox-ve-vm-crash-fix"
 aliases:
   - "/posts/n5105-promox-ve-虚拟机频繁死机问题处理/"

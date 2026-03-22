@@ -1,6 +1,15 @@
 ---
 description: "PowerCLI Docker 容器构建 ESXi 8 镜像添加 NVMe 与 Intel I225V 网卡驱动教程，解决 Core PowerShell 兼容性限制，实现 Linux/MacOS 下自动化部署。"
 title: 使用 PowerCLI 的 Docker 容器自行构建 ESXi 镜像
+keywords:
+  - "PowerCLI"
+  - "Docker"
+  - "ESXi 8"
+  - "VMware.ImageBuilder"
+  - "PowerShell Core"
+  - "NVMe driver"
+  - "Intel I225V"
+  - "Custom ISO"
 slug: "build-esxi-images-docker-powercli"
 aliases:
   - "/posts/使用-powercli-的-docker-容器自行构建-esxi-镜像/"

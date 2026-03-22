@@ -1,6 +1,15 @@
 ---
 description: "MyBatis 嵌套查询实战：通过 Association 关联表高效获取用户角色菜单数据，详解 resultMap 配置与多表 JOIN 优化技巧。"
 title: MyBatis 中使用 Association 嵌套查询
+keywords:
+  - "MyBatis"
+  - "Association"
+  - "Nested Query"
+  - "JavaBean"
+  - "RoleModel"
+  - "MenuModel"
+  - "User Login"
+  - "ORM"
 slug: "mybatis-association-nested-query"
 aliases:
   - "/posts/mybatis-中使用-association-嵌套查询/"

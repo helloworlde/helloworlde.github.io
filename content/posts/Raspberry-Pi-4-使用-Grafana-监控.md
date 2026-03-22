@@ -1,6 +1,15 @@
 ---
 description: "基于 Raspberry Pi 4 部署 InfluxDB 时序数据库与 Telegraf 采集器，配置 Docker 容器化环境并集成 Grafana 实现系统监控"
 title: Raspberry Pi 4 使用 Grafana 监控
+keywords:
+  - "Raspberry Pi 4"
+  - "Grafana"
+  - "InfluxDB"
+  - "Telegraf"
+  - "Docker"
+  - "Time Series Database"
+  - "System Monitoring"
+  - "Dashboard Import"
 slug: "raspberry-pi-4-grafana-monitoring"
 aliases:
   - "/posts/raspberry-pi-4-使用-grafana-监控/"

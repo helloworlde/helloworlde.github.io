@@ -1,6 +1,15 @@
 ---
 description: "OpenWrt 状态监控指南：部署 Netdata 实时查看 CPU 内存网络，集成 Prometheus 抓取历史数据，结合 Grafana 可视化面板实现全方位系统运维。"
 title: OpenWrt-监控
+keywords:
+  - "OpenWrt"
+  - "Netdata"
+  - "Prometheus"
+  - "Grafana"
+  - "prometheus-node-exporter-lua"
+  - "OpenWrt monitoring"
+  - "real-time metrics"
+  - "historical data"
 slug: "openwrt-monitoring"
 aliases:
   - "/posts/openwrt-监控/"

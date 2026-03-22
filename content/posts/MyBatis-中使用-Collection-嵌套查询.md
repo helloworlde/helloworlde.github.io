@@ -1,6 +1,15 @@
 ---
 description: "MyBatis 嵌套查询实战：通过关联表高效获取 JavaBean 集合数据，解决角色与菜单层级查询问题。"
 title: MyBatis 中使用 Collection 嵌套查询
+keywords:
+  - "MyBatis"
+  - "Nested Query"
+  - "Collection"
+  - "ResultMap"
+  - "JavaBean"
+  - "RoleModel"
+  - "MenuModel"
+  - "OneToMany"
 slug: "mybatis-collection-nested-query"
 aliases:
   - "/posts/mybatis-中使用-collection-嵌套查询/"

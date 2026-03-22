@@ -1,6 +1,15 @@
 ---
 description: "详解使用 Docker 构建 SpringBoot 应用：配置 Gradle 插件、编写 Dockerfile 镜像及运行命令，实现容器化部署。"
 title: Docker 构建 SpringBoot 应用
+keywords:
+  - "Docker"
+  - "SpringBoot"
+  - "Gradle"
+  - "Dockerfile"
+  - "gradle-docker"
+  - "openjdk:8-jdk-alpine"
+  - "docker build"
+  - "docker run"
 slug: "docker-build-springboot-app"
 aliases:
   - "/posts/docker-构建-springboot-应用/"

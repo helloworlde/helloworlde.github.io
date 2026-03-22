@@ -1,6 +1,15 @@
 ---
 description: "掌握 Gauge 测试框架核心命令，涵盖项目初始化、文件与标签执行、并发策略及钩子机制，提升自动化测试效率。"
 title: Gauge中执行测试的常用命令
+keywords:
+  - "Gauge"
+  - "Gauge CLI"
+  - "Gauge tags"
+  - "Gauge parallel"
+  - "Gauge Java"
+  - "Gauge specs"
+  - "Gauge scenario"
+  - "Gauge verbose"
 slug: "gauge-test-commands"
 aliases:
   - "/posts/gauge中执行测试的常用命令/"

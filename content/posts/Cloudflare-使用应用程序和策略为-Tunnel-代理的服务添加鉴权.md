@@ -5,6 +5,15 @@ description: "Cloudflare Tunnel 内网服务鉴权指南：配置 Zero Trust Acc
 lastmod: 2026-03-22
 showTableOfContents: false
 title: "Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权"
+keywords:
+  - "Cloudflare Tunnel"
+  - "Zero Trust Access"
+  - "Access Policy"
+  - "Rule Group"
+  - "Bypass Policy"
+  - "Cloudflare Application"
+  - "Identity Provider"
+  - "Internal Service Auth"
 slug: "cloudflare-tunnel-authentication-applications-policies"
 aliases:
   - "/posts/cloudflare-使用应用程序和策略为-tunnel-代理的服务添加鉴权/"

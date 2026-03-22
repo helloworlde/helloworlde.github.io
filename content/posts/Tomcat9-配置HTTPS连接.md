@@ -1,6 +1,15 @@
 ---
 description: "Tomcat 9 配置 HTTPS 连接完整教程，涵盖 Java keytool 生成证书、server.xml 安全协议设置及 JSSE/APR 三种实现方式详解。"
 title: Tomcat9 配置HTTPS连接
+keywords:
+  - "Tomcat9"
+  - "HTTPS"
+  - "keytool"
+  - "server.xml"
+  - "keystore"
+  - "SSL"
+  - "TLS"
+  - "Http11NioProtocol"
 slug: "tomcat9-configure-https"
 aliases:
   - "/posts/tomcat9-配置https连接/"

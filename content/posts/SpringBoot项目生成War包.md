@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot生成War包教程：Gradle配置build.gradle添加插件与依赖，修改Application继承ServletInitializer实现Tomcat部署"
 title: SpringBoot项目生成War包
+keywords:
+  - "SpringBoot"
+  - "Gradle"
+  - "War package"
+  - "SpringBootServletInitializer"
+  - "build.gradle"
+  - "Tomcat deployment"
+  - "providedRuntime"
+  - "SpringApplicationBuilder"
 slug: "springboot-generate-war-package"
 aliases:
   - "/posts/springboot项目生成war包/"

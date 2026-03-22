@@ -1,6 +1,15 @@
 ---
 description: "腾讯云 Serverless Go 部署天气提醒应用，集成高德地图 API 与 Server 酱微信通知，含 go modules 构建、环境变量配置及定时触发完整教程。"
 title: 使用腾讯云的Serverless部署天气应用
+keywords:
+  - "Tencent Cloud SCF"
+  - "Go Serverless"
+  - "Amap Weather API"
+  - "ServerChan"
+  - "Go cross-compile"
+  - "Cloud Function"
+  - "cron trigger"
+  - "go modules"
 slug: "tencent-cloud-serverless-weather-app"
 aliases:
   - "/posts/使用腾讯云的serverless部署天气应用/"

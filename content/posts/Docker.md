@@ -1,6 +1,15 @@
 ---
 description: "深入解析 Docker 镜像、容器与仓库核心概念，掌握 Ubuntu 和 Mac 环境下的安装配置及常用命令操作指南。"
 title: Docker
+keywords:
+  - "Docker"
+  - "Docker Image"
+  - "Docker Container"
+  - "Docker Registry"
+  - "docker run"
+  - "docker pull"
+  - "docker image ls"
+  - "docker image rm"
 slug: "docker"
 aliases:
   - "/posts/docker/"

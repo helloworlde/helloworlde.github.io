@@ -1,6 +1,15 @@
 ---
 description: "解决 Ubuntu 22 虚拟机 DHCP 依赖宿主机网络导致无法获取 IP 的故障，通过 netplan 配置 ens160 网卡设置静态 IP 地址、网关及 DNS 服务器，确保服务器重启后网络稳定可用。"
 title: Ubuntu 22 设置静态 IP
+keywords:
+  - "Ubuntu 22"
+  - "Static IP"
+  - "netplan"
+  - "YAML configuration"
+  - "ens160"
+  - "ifconfig"
+  - "DHCP"
+  - "Gateway"
 slug: "ubuntu-22-static-ip"
 aliases:
   - "/posts/ubuntu-22-设置静态-ip/"

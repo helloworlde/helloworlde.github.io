@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "群晖 NAS 使用 OIDC 工具 PocketID 进行 SSO 登录"
+keywords:
+  - "Synology NAS"
+  - "PocketID"
+  - "OIDC"
+  - "SSO"
+  - "Single Sign-On"
+  - "OpenID Connect"
+  - "preferred_username"
+  - "DSM"
 slug: "synology-nas-oidc-pocketid-sso-login"
 aliases:
   - "/posts/群晖-nas-使用-oidc-工具-pocketid-进行-sso-登录/"

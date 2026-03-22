@@ -1,6 +1,15 @@
 ---
 description: "解决 IDEA 中 Spring Boot MyBatis Invalid bound statement 错误，XML 编译缺失及 mapper-locations 配置修复指南"
 title: IDEA中Spring Boot项目MyBaits提示Invalid bound statement (not found)错误
+keywords:
+  - "Spring Boot"
+  - "MyBatis"
+  - "Invalid bound statement"
+  - "BindingException"
+  - "IDEA"
+  - "mapper-locations"
+  - "Resource folder"
+  - "XML compilation"
 slug: "idea-spring-boot-mybatis-invalid-bound-statement-error"
 aliases:
   - "/posts/idea中spring-boot项目mybaits提示invalid-bound-statement-not-found-错误/"

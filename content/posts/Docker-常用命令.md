@@ -1,6 +1,15 @@
 ---
 description: "掌握 Docker run stop restart attach exec save load export import rm prune 核心命令，快速管理启动停止重启及镜像容器快照操作。"
 title: Docker 常用命令
+keywords:
+  - "Docker run"
+  - "Docker exec"
+  - "Docker attach"
+  - "Docker save"
+  - "Docker load"
+  - "Docker export"
+  - "Docker import"
+  - "Docker prune"
 slug: "docker-common-commands"
 aliases:
   - "/posts/docker-常用命令/"

@@ -11,6 +11,15 @@ tags:
 featured: true
 type: post
 title: "使用 Caddy 代理 Blocky 对外提供 DoH 作为 DNS 服务器"
+keywords:
+  - "Caddy"
+  - "Blocky"
+  - "DoH"
+  - "DNS over HTTPS"
+  - "Ad blocking"
+  - "Prometheus metrics"
+  - "ZeroSSL"
+  - "HomeLab"
 slug: "caddy-proxy-blocky-doh-dns-server"
 aliases:
   - "/posts/使用-caddy-代理-blocky-对外提供-doh-作为-dns-服务器/"

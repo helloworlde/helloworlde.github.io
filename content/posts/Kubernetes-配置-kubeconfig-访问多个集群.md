@@ -1,6 +1,15 @@
 ---
 description: "掌握 Kubernetes kubeconfig 多集群配置技巧，学习如何编辑~/.kube/config 文件合并不同集群的 server、cluster 及 user 信息，实现 kubectl 无缝切换与上下文管理。"
 title: Kubernetes 配置 kubeconfig 访问多个集群
+keywords:
+  - "Kubernetes"
+  - "kubeconfig"
+  - "multiple clusters"
+  - "kubectl config view"
+  - "context switching"
+  - "~/.kube/config"
+  - "cluster merging"
+  - "KUBECONFIG"
 slug: "kubernetes-kubeconfig-multiple-clusters"
 aliases:
   - "/posts/kubernetes-配置-kubeconfig-访问多个集群/"

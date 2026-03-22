@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 与 Docker alpine 镜像替换阿里云软件源教程，提供 sed 命令及手动修改 sources.list 和 apk repositories 具体步骤。"
 title: Ubuntu/Docker 替换软件源
+keywords:
+  - "Ubuntu sources.list"
+  - "Dockerfile"
+  - "Alpine Linux"
+  - "mirrors.aliyun.com"
+  - "sed command"
+  - "apt-get update"
+  - "apk repositories"
+  - "software source replacement"
 slug: "ubuntu-docker-replace-software-source"
 aliases:
   - "/posts/ubuntu-docker-替换软件源/"

@@ -9,6 +9,15 @@ tags:
 featured: true
 type: post
 title: "使用 Cloudflare 和 Caddy 代理 HomeLab 服务"
+keywords:
+  - "Cloudflare Tunnel"
+  - "Caddy"
+  - "reverse proxy"
+  - "HomeLab"
+  - "docker-compose"
+  - "Caddyfile"
+  - "traefik/whoami"
+  - "HTTP host header"
 slug: "cloudflare-caddy-homelab-proxy"
 aliases:
   - "/posts/使用-cloudflare-和-caddy-代理-homelab-服务/"

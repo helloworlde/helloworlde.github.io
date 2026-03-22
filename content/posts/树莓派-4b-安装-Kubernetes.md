@@ -1,6 +1,15 @@
 ---
 description: "树莓派 4b 安装 K3S Kubernetes 集群教程，含 Docker 部署、kubectl 访问及 Rancher 管理指南，适用于 ARM64 边缘计算。"
 title: 树莓派 4b 安装 Kubernetes
+keywords:
+  - "K3S"
+  - "Kubernetes"
+  - "Raspberry Pi 4B"
+  - "Rancher"
+  - "Docker"
+  - "kubectl"
+  - "ARM64"
+  - "Ubuntu Server"
 slug: "raspberry-pi-4b-install-kubernetes"
 aliases:
   - "/posts/树莓派-4b-安装-kubernetes/"

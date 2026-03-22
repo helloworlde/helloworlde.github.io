@@ -1,6 +1,15 @@
 ---
 description: "学习 Kubernetes 包管理器 Helm 安装与配置，掌握 Chart、Release 核心概念及 Tiller 服务端部署流程。"
 title: Kubernetes 中安装 Helm
+keywords:
+  - "Helm"
+  - "Kubernetes"
+  - "Chart"
+  - "Release"
+  - "Tiller"
+  - "helm init"
+  - "ServiceAccount"
+  - "RBAC"
 slug: "install-helm-kubernetes"
 aliases:
   - "/posts/kubernetes-中安装-helm/"

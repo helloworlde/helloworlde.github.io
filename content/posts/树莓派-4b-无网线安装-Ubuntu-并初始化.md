@@ -1,6 +1,15 @@
 ---
 description: "树莓派 4b 无网线安装 Ubuntu 20.04 LTS 完整教程，含 SD 卡格式化、balenaEtcher 刻录镜像及命令行部署指南。"
 title: 树莓派 4b 无网线安装 Ubuntu 并初始化
+keywords:
+  - "Raspberry Pi 4B"
+  - "Ubuntu Server"
+  - "SD Card Formatter"
+  - "balenaEtcher"
+  - "diskutil"
+  - "arm64"
+  - "headless setup"
+  - "Ubuntu 19.10"
 slug: "raspberry-pi-4b-ubuntu-install-initialization"
 aliases:
   - "/posts/树莓派-4b-无网线安装-ubuntu-并初始化/"

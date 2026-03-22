@@ -1,6 +1,15 @@
 ---
 description: "深入解析 SpringMVC 启动时 ContextRefreshedEvent、ContextClosedEvent 及 Spring2.5 新增 ContestStartedEvent 等关键事件机制与监听器实现。"
 title: SpringMVC应用启动时执行操作
+keywords:
+  - "SpringMVC"
+  - "ContextRefreshedEvent"
+  - "ContextClosedEvent"
+  - "RequestHandleEvent"
+  - "ApplicationListener"
+  - "ApplicationContext"
+  - "Spring Events"
+  - "Bean Lifecycle"
 slug: "springmvc-application-startup-execution"
 aliases:
   - "/posts/springmvc应用启动时执行操作/"

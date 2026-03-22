@@ -1,6 +1,15 @@
 ---
 description: "解析 Thrift 核心概念，深入服务端与客户端架构，涵盖 Server、Processor、Protocol 及 Transport 层设计原理。"
 title: Thrfit 中的核心概念
+keywords:
+  - "Thrift Server"
+  - "TServer"
+  - "TProcessor"
+  - "TProtocol"
+  - "TTransport"
+  - "TBinaryProtocol"
+  - "TCompactProtocol"
+  - "TServerSocket"
 slug: "thrift-core-concepts"
 aliases:
   - "/posts/thrfit-中的核心概念/"

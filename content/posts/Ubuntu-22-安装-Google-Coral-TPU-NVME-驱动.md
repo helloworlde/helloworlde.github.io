@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 22 安装 Google Coral TPU NVME 驱动：M.2 插槽部署、gasket-dkms 手动编译及 libedgetpu1-std 配置，实现边缘 AI 推理。"
 title: "Ubuntu 22 安装 Google Coral TPU NVME 驱动"
+keywords:
+  - "Google Coral TPU"
+  - "Ubuntu 22"
+  - "NVME driver"
+  - "gasket-dkms"
+  - "libedgetpu1-std"
+  - "Edge TPU"
+  - "M.2 Accelerator"
+  - "TensorFlow Lite"
 slug: "ubuntu-22-google-coral-tpu-nvme-driver"
 aliases:
   - "/posts/ubuntu-22-安装-google-coral-tpu-nvme-驱动/"

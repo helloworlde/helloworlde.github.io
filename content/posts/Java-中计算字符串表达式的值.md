@@ -1,6 +1,15 @@
 ---
 description: "Java 使用 javax.script.ScriptEngine 和 Nashorn 引擎计算字符串数值表达式，支持复杂数学运算与异常处理。"
 title: Java 中计算字符串表达式的值
+keywords:
+  - "Java"
+  - "ScriptEngine"
+  - "ScriptEngineManager"
+  - "Nashorn"
+  - "eval"
+  - "expression evaluation"
+  - "JavaScript"
+  - "math calculation"
 slug: "calculate-string-expression-java"
 aliases:
   - "/posts/java-中计算字符串表达式的值/"

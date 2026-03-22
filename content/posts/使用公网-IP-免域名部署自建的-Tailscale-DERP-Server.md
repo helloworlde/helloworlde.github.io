@@ -8,6 +8,15 @@ tags:
   - HomeLab
   - Network
 title: "使用公网 IP 免域名部署自建的 Tailscale DERP Server"
+keywords:
+  - "Tailscale DERP Server"
+  - "ZeroSSL IP Certificate"
+  - "Docker Compose"
+  - "Public IP Deployment"
+  - "IPv4 Relay"
+  - "ghcr.io/helloworlde/derper"
+  - "Self-signed IP Certificate"
+  - "Tailscale 1.82.0"
 slug: "deploy-tailscale-derp-server-public-ip"
 aliases:
   - "/posts/使用公网-ip-免域名部署自建的-tailscale-derp-server/"

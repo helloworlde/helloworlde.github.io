@@ -1,6 +1,15 @@
 ---
 description: "阿尔卡特猫棒替换北京移动 GPON 光猫教程，含桥接模式、超级管理员密码、SN 及 PLOAM 认证配置步骤。"
 title: "使用阿尔卡特猫棒替换北京移动 GPON 光猫"
+keywords:
+  - "Alcatel G-010S-P"
+  - "GPON ONU"
+  - "PLOAM password"
+  - "VLAN ID 10"
+  - "CMCCAdmin"
+  - "PPPoE bridge mode"
+  - "GPON SN"
+  - "阿尔卡特猫棒"
 slug: "replace-beijing-mobile-gpon-with-alcatel"
 aliases:
   - "/posts/使用阿尔卡特猫棒替换北京移动-gpon-光猫/"

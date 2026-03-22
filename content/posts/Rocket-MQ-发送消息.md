@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 集成 RocketMQ 发送顺序、延时及定时消息，包含配置修改、API 请求参数详解与返回结果解析。"
 title: Rocket MQ 发送消息
+keywords:
+  - "RocketMQ"
+  - "SpringBoot"
+  - "sendMessage"
+  - "SYNCHRONOUS"
+  - "ASYNCHRONOUS"
+  - "ONE_WAY"
+  - "ORDER"
+  - "DELAY"
 slug: "rocket-mq-send-messages"
 aliases:
   - "/posts/rocket-mq-发送消息/"

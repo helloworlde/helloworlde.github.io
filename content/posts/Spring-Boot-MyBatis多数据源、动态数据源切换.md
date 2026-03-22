@@ -1,6 +1,15 @@
 ---
 description: "Spring Boot MyBatis Druid 多数据源动态切换实现教程，涵盖切面注解方式、只读负载均衡及常见问题避坑指南。"
 title: Spring Boot MyBatis Druid 多数据源、动态数据源切换
+keywords:
+  - "Spring Boot"
+  - "MyBatis"
+  - "Druid"
+  - "Dynamic DataSource"
+  - "Multi DataSource"
+  - "AOP"
+  - "AspectJ"
+  - "Read-Write Splitting"
 slug: "spring-boot-mybatis-druid-multi-dynamic-datasource"
 aliases:
   - "/posts/spring-boot-mybatis多数据源、动态数据源切换/"

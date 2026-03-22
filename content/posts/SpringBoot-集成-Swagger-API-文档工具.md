@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 集成 Swagger2 生成 RESTful API 文档，包含依赖配置、Docket 设置及 Model 注解详解。"
 title: SpringBoot 集成 Swagger API 文档工具
+keywords:
+  - "SpringBoot"
+  - "Swagger"
+  - "SpringFox"
+  - "RESTful API"
+  - "Docket"
+  - "EnableSwagger2"
+  - "ApiInfoBuilder"
+  - "RequestHandlerSelectors"
 slug: "springboot-integrate-swagger-api-documentation-tool"
 aliases:
   - "/posts/springboot-集成-swagger-api-文档工具/"

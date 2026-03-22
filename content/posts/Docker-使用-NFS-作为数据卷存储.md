@@ -1,6 +1,15 @@
 ---
 description: "解决 HomeLab 数据丢失风险，详解 Docker NFS 远程存储卷创建、挂载及 docker-compose 配置实战指南。"
 title: Docker 使用 NFS 作为数据卷存储
+keywords:
+  - "Docker NFS volume"
+  - "Docker local driver"
+  - "docker-compose NFS"
+  - "Docker remote storage"
+  - "NFS data persistence"
+  - "Docker volume create"
+  - "Docker mount options"
+  - "HomeLab storage"
 slug: "docker-nfs-data-volumes"
 aliases:
   - "/posts/docker-使用-nfs-作为数据卷存储/"

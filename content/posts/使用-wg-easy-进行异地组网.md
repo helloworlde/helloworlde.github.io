@@ -9,6 +9,15 @@ tags:
   - WireGuard
 featured: true
 title: "使用 wg-easy 进行异地组网"
+keywords:
+  - "wg-easy"
+  - "WireGuard"
+  - "docker-compose"
+  - "IPv4 forwarding"
+  - "IPv6 forwarding"
+  - "Allowed IPs"
+  - "VPS deployment"
+  - "SD-WAN"
 slug: "use-wg-easy-remote-networking"
 aliases:
   - "/posts/使用-wg-easy-进行异地组网/"

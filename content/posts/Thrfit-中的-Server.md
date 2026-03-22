@@ -1,6 +1,15 @@
 ---
 description: "Thrift Server 实现详解：TSimpleServer、TThreadPoolServer 及 AbstractNonblockingServer 核心源码分析"
 title: Thrfit 中的 Server
+keywords:
+  - "Thrift Server"
+  - "TSimpleServer"
+  - "TThreadPoolServer"
+  - "TServerTransport"
+  - "TProcessorFactory"
+  - "TEventHandler"
+  - "Thrift Java"
+  - "RPC Server"
 slug: "thrift-server"
 aliases:
   - "/posts/thrfit-中的-server/"

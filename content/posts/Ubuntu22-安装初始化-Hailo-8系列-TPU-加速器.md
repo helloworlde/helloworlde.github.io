@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu22 安装初始化 Hailo 8 系列 TPU 加速器，含驱动部署、HailoRT 配置及算力评测指南。"
 title: "Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器"
+keywords:
+  - "Hailo-8"
+  - "Hailo-8L"
+  - "HailoRT"
+  - "Ubuntu 22.04"
+  - "PCIe driver"
+  - "AI accelerator"
+  - "TPU"
+  - "Edge AI"
 slug: "ubuntu-22-install-hailo-8-tpu"
 aliases:
   - "/posts/ubuntu22-安装初始化-hailo-8系列-tpu-加速器/"

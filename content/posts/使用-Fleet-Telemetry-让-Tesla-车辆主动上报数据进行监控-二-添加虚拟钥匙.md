@@ -8,6 +8,15 @@ tags:
   - Tesla
 featured: true
 title: "使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(二)添加虚拟钥匙"
+keywords:
+  - "Tesla Fleet Telemetry"
+  - "Virtual Key"
+  - "OAuth 2.0"
+  - "ECDSA"
+  - "Caddy"
+  - "Docker Compose"
+  - "Tesla API"
+  - "Fleet API"
 slug: "fleet-telemetry-tesla-virtual-key"
 aliases:
   - "/posts/使用-fleet-telemetry-让-tesla-车辆主动上报数据进行监控-二-添加虚拟钥匙/"

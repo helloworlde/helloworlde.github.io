@@ -1,6 +1,15 @@
 ---
 description: "深入解析 Apache Thrift 中 TProtocol 核心机制，详解数据序列化反序列化接口、底层传输交互及各类协议实现原理。"
 title: Thrift 中的 Protocol
+keywords:
+  - "TProtocol"
+  - "Thrift"
+  - "Serialization"
+  - "Deserialization"
+  - "TTransport"
+  - "TMessage"
+  - "TStruct"
+  - "TField"
 slug: "thrift-protocol"
 aliases:
   - "/posts/thrift-中的-protocol/"

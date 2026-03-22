@@ -1,6 +1,15 @@
 ---
 description: "基于 Consul_exporter 扩展 Prometheus 监控数据，自定义 Grafana Dashboard 实现服务注册、响应时间及健康状态可视化。"
 title: 使用自定义 Grafana 面板监控 Consul
+keywords:
+  - "Grafana"
+  - "Consul"
+  - "Prometheus"
+  - "consul_exporter"
+  - "Go"
+  - "Docker"
+  - "custom metrics"
+  - "response time"
 slug: "monitor-consul-custom-grafana-panels"
 aliases:
   - "/posts/使用自定义-grafana-面板监控-consul/"

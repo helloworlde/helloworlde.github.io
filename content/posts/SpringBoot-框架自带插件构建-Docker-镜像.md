@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 2.3+ 使用 Buildpacks 插件构建 Docker 镜像，支持分层构建与 JVM 参数自动计算，优化镜像体积并降低存储成本。"
 title: SpringBoot 框架自带插件构建 Docker 镜像
+keywords:
+  - "Spring Boot buildpacks"
+  - "Docker image"
+  - "layered build"
+  - "bootJar layered"
+  - "bootBuildImage"
+  - "Gradle buildImage"
+  - "Jib alternative"
+  - "OOM Killer"
 slug: "springboot-plugin-docker-image"
 aliases:
   - "/posts/springboot-框架自带插件构建-docker-镜像/"

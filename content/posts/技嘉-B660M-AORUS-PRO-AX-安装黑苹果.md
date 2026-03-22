@@ -1,6 +1,15 @@
 ---
 description: "技嘉 B660M AORUS PRO AX 黑苹果安装教程，详解 i9-12900K、RX 6600 显卡及 Wi-Fi 驱动配置与系统兼容性测试。"
 title: 技嘉 B660M AORUS PRO AX 安装黑苹果
+keywords:
+  - "Hackintosh"
+  - "Gigabyte B660M AORUS PRO AX"
+  - "macOS Ventura"
+  - "Intel i9-12900K"
+  - "AMD RX 6600"
+  - "BCM943602CS"
+  - "Intel AX210"
+  - "OpenCore"
 slug: "gigabyte-b660m-aorus-pro-ax-hackintosh"
 aliases:
   - "/posts/技嘉-b660m-aorus-pro-ax-安装黑苹果/"

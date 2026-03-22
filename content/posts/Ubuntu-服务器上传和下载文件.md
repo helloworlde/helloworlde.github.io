@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 服务器文件传输指南：详解 scp 命令上传下载单文件与文件夹，包含端口参数、路径格式及远程主机连接示例。"
 title: Ubuntu 服务器上传和下载文件
+keywords:
+  - "scp command"
+  - "Ubuntu server"
+  - "file upload"
+  - "file download"
+  - "remote copy"
+  - "scp recursive"
+  - "Linux file transfer"
+  - "SSH port"
 slug: "ubuntu-server-upload-download-files"
 aliases:
   - "/posts/ubuntu-服务器上传和下载文件/"

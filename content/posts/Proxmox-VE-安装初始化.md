@@ -1,6 +1,15 @@
 ---
 description: "Proxmox VE 安装初始化指南：基于 Debian 的开源虚拟化解决方案，涵盖 ISO 下载、启动盘制作、网络配置及 Web 控制台登录全流程。"
 title: Proxmox VE 安装初始化
+keywords:
+  - "Proxmox VE"
+  - "PVE"
+  - "ISO"
+  - "Rufus"
+  - "balenaEtcher"
+  - "static IP"
+  - "port 8006"
+  - "HTTPS"
 slug: "proxmox-ve-install-initialize"
 aliases:
   - "/posts/proxmox-ve-安装初始化/"

@@ -1,6 +1,15 @@
 ---
 description: "gRPC 拦截器无法监听流与传输事件，本文详解 StreamTracer 与 TransportFilter 实现机制，涵盖客户端与服务端代码示例及核心 API 用法。"
 title: gRPC 中监听 Sream 和 Transport 的事件
+keywords:
+  - "gRPC"
+  - "StreamTracer"
+  - "ClientStreamTracer"
+  - "ServerStreamTracer"
+  - "TransportFilter"
+  - "ClientInterceptor"
+  - "CallOptions"
+  - "Metadata"
 slug: "grpc-listen-stream-transport-events"
 aliases:
   - "/posts/grpc-中监听-sream-和-transport-的事件/"

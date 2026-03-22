@@ -9,6 +9,15 @@ tags:
   - HomeLab
   - OpenWrt
 title: "使用 VLESS Reality Vision 协议在 VPS 服务器自建代理"
+keywords:
+  - "VLESS Reality Vision"
+  - "Xray-core"
+  - "Docker"
+  - "UUID"
+  - "x25519"
+  - "config.json"
+  - "ClashX Meta"
+  - "Dae"
 slug: "vless-reality-vision-protocol-vps-proxy"
 aliases:
   - "/posts/使用-vless-reality-vision-协议在服务器自建代理/"

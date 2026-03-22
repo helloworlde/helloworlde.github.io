@@ -8,6 +8,15 @@ tags:
   - OpenWrt
   - HomeLab
 title: "OpenWrt 使用 Tag 给特定的 MAC 前缀的设备单独指定旁路网关的地址和 DNS"
+keywords:
+  - "OpenWrt"
+  - "DHCP options"
+  - "MAC prefix"
+  - "uci command"
+  - "bypass gateway"
+  - "custom DNS"
+  - "LXC containers"
+  - "client classifying"
 slug: "openwrt-tag-mac-prefix-bypass-gateway-dns"
 aliases:
   - "/posts/openwrt-使用-tag-给特定的-mac-前缀的设备单独指定旁路网关的地址和-dns/"

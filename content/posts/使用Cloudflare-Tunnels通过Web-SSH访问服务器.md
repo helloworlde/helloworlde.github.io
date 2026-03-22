@@ -1,6 +1,15 @@
 ---
 description: "Cloudflare Zero Trust Web SSH 远程访问服务器教程，包含 Tunnels 配置、应用创建及安全认证设置指南。"
 title: "使用 Cloudflare Tunnels 通过 Web SSH 访问服务器"
+keywords:
+  - "Cloudflare Tunnels"
+  - "Web SSH"
+  - "Zero Trust"
+  - "cloudflared"
+  - "SSH tunnel"
+  - "Browser rendering"
+  - "short-lived certificates"
+  - "Self-hosted"
 slug: "cloudflare-tunnels-web-ssh-server-access"
 aliases:
   - "/posts/使用cloudflare-tunnels通过web-ssh访问服务器/"

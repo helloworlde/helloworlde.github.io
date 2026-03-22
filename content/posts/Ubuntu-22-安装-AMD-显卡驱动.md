@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 22 安装 AMD 显卡驱动教程，使用 amdgpu-install 工具部署 Radeon 视频解码与 ffmpeg 加速方案。"
 title: "Ubuntu 22 安装 AMD 显卡驱动"
+keywords:
+  - "Ubuntu 22"
+  - "AMD GPU driver"
+  - "amdgpu-install"
+  - "video decoding"
+  - "ffmpeg"
+  - "Linux drivers"
+  - "Radeon graphics"
+  - "apt install"
 slug: "ubuntu-22-install-amd-gpu-driver"
 aliases:
   - "/posts/ubuntu-22-安装-amd-显卡驱动/"

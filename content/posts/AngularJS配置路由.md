@@ -1,6 +1,14 @@
 ---
 description: "详解 AngularJS 路由配置与 ui-router 集成，实现单页应用动态页面跳转控制，包含引入文件、路由定义及 UI 组件实战代码。"
 title: AngularJS 配置路由
+keywords:
+  - "AngularJS"
+  - "ui-router"
+  - "ocLazyLoad"
+  - "route configuration"
+  - "single page application"
+  - "dashboard layout"
+  - "angular routing"
 slug: "angularjs-routing-configuration"
 aliases:
   - "/posts/angularjs配置路由/"

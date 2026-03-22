@@ -1,6 +1,15 @@
 ---
 description: "Docker 开启外部 HTTP 访问：通过 systemd 配置 docker.service 启动参数，启用 tcp://0.0.0.0:2375 端口并设置防火墙规则，实现远程容器监控。"
 title: Docker 开启外部 HTTP 访问
+keywords:
+  - "Docker HTTP API"
+  - "docker.service"
+  - "ExecStart"
+  - "tcp://0.0.0.0:2375"
+  - "firewall-cmd"
+  - "systemctl daemon-reload"
+  - "Docker remote access"
+  - "port 2375"
 slug: "docker-enable-external-http-access"
 aliases:
   - "/posts/docker-开启外部-http-访问/"

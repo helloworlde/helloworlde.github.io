@@ -1,6 +1,15 @@
 ---
 description: "Spring Cloud Kubernetes 服务注册与发现实现指南，详解环境配置、Kubernetes Client 初始化及自动注册流程。"
 title: Spring Cloud Kubernetes 服务注册和发现
+keywords:
+  - "Spring Cloud Kubernetes"
+  - "Service Discovery"
+  - "KubernetesAutoConfiguration"
+  - "KubernetesProfileEnvironmentPostProcessor"
+  - "KubernetesClient"
+  - "KubernetesAutoServiceRegistration"
+  - "spring-cloud-starter-kubernetes"
+  - "Config.autoConfigure"
 slug: "spring-cloud-kubernetes-service-registration-discovery"
 aliases:
   - "/posts/spring-cloud-kubernetes-服务注册和发现/"

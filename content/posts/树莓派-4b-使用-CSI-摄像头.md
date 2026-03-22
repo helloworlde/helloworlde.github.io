@@ -1,6 +1,15 @@
 ---
 description: "树莓派 4b CSI 摄像头连接与配置教程，涵盖 Ubuntu Server 22.04 电源供电、raspi-config 启用接口、v4l-utils 设备检查及 ffmpeg 视频录制实操指南。"
 title: 树莓派 4b 使用 CSI 摄像头
+keywords:
+  - "Raspberry Pi 4B"
+  - "CSI Camera"
+  - "Ubuntu Server 22.04"
+  - "raspi-config"
+  - "v4l-utils"
+  - "ffmpeg"
+  - "vcgencmd"
+  - "/dev/video0"
 slug: "raspberry-pi-4b-csi-camera"
 aliases:
   - "/posts/树莓派-4b-使用-csi-摄像头/"

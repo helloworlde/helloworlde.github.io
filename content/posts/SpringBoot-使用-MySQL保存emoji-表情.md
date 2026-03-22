@@ -1,6 +1,15 @@
 ---
 description: "解决 SpringBoot MySQL 保存 emoji 失败问题：切换 utf8 至 utf8mb4 字符集及配置 hikari 连接初始化 SQL 确保全量支持四字节表情。"
 title: SpringBoot 使用 MySQL保存emoji 表情
+keywords:
+  - "SpringBoot"
+  - "MySQL"
+  - "emoji"
+  - "utf8mb4"
+  - "character set"
+  - "connection-init-sql"
+  - "Spring Boot"
+  - "MySQL"
 slug: "springboot-mysql-save-emoji"
 aliases:
   - "/posts/springboot-使用-mysql保存emoji-表情/"

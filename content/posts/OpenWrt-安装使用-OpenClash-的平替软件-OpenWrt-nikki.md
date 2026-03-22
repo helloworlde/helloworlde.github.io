@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "OpenWrt 安装使用 OpenClash 的平替软件 OpenWrt-Nikki"
+keywords:
+  - "OpenWrt-nikki"
+  - "OpenClash alternative"
+  - "mihome core"
+  - "OpenWrt 23.05"
+  - "opkg install"
+  - "custom feeds"
+  - "proxy client"
+  - "OpenWrt 24.10"
 slug: "openwrt-openclash-alternative-nikki"
 aliases:
   - "/posts/openwrt-安装使用-openclash-的平替软件-openwrt-nikki/"

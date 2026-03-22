@@ -1,6 +1,15 @@
 ---
 description: "树莓派 4b 摄像头推流 RTMP SRS FFmpeg Ubuntu 22.04 视频编码 H.264 V4L2 Docker 部署指南"
 title: 树莓派 4b 使用摄像头推送流到 RTMP 服务器
+keywords:
+  - "Raspberry Pi 4B"
+  - "Ubuntu 22.04"
+  - "RTMP streaming"
+  - "SRS server"
+  - "ffmpeg V4L2"
+  - "libx264 encoding"
+  - "Docker Compose"
+  - "zerolatency"
 slug: "raspberry-pi-4b-camera-stream-rtmp"
 aliases:
   - "/posts/树莓派-4b-使用摄像头推送流到-rtmp-服务器/"

@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 超时机制与重试策略，详解 initialBackoff、maxBackoff 及 backoffMultiplier 参数如何影响重试间隔计算，并提供配置示例帮助开发者优化 RPC 稳定性。"
 title: gRPC 超时时间与重试时间间隔
+keywords:
+  - "gRPC timeout"
+  - "gRPC retryPolicy"
+  - "initialBackoff"
+  - "maxBackoff"
+  - "backoffMultiplier"
+  - "RetriableStream"
+  - "methodConfig"
+  - "exponential backoff"
 slug: "grpc-timeout-retry-interval"
 aliases:
   - "/posts/grpc-超时时间与重试时间间隔/"

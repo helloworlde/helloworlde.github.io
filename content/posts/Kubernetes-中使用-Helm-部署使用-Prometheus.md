@@ -1,6 +1,15 @@
 ---
 description: "Helm3 部署 Prometheus 与 Grafana 监控 Kubernetes 集群，配置 NodePort 访问及 PromQL 指标查询指南"
 title: Kubernetes 中使用 Helm 部署使用 Prometheus
+keywords:
+  - "Helm3"
+  - "Prometheus"
+  - "Grafana"
+  - "Kubernetes"
+  - "prometheus-operator"
+  - "values.yaml"
+  - "NodePort"
+  - "kubectl edit svc"
 slug: "deploy-prometheus-helm-kubernetes"
 aliases:
   - "/posts/kubernetes-中使用-helm-部署使用-prometheus/"

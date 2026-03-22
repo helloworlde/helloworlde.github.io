@@ -1,6 +1,15 @@
 ---
 description: "SpringMVC实现国际化多语言配置教程，详解web.xml、spring配置文件及properties资源文件设置方法。"
 title: Spring MVC简单实现国际化/多语言
+keywords:
+  - "Spring MVC"
+  - "i18n"
+  - "LocaleResolver"
+  - "ResourceBundleMessageSource"
+  - "message.properties"
+  - "web.xml"
+  - "DispatcherServlet"
+  - "CharacterEncodingFilter"
 slug: "spring-mvc-internationalization"
 aliases:
   - "/posts/spring-mvc简单实现国际化-多语言/"

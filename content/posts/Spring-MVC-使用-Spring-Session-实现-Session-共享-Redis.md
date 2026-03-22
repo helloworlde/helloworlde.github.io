@@ -1,6 +1,15 @@
 ---
 description: "Spring Session 结合 Redis 实现多实例会话共享，通过序列化存储解决 Tomcat 容器重启后 Session 丢失问题，提升高可用性与用户体验。"
 title: Spring MVC 使用 Spring Session 实现 Session 共享-Redis
+keywords:
+  - "Spring Session"
+  - "Redis"
+  - "Session Sharing"
+  - "Spring MVC"
+  - "Jedis"
+  - "Spring Data Redis"
+  - "RedisHttpSessionConfiguration"
+  - "JedisConnectionFactory"
 slug: "spring-mvc-spring-session-redis"
 aliases:
   - "/posts/spring-mvc-使用-spring-session-实现-session-共享-redis/"

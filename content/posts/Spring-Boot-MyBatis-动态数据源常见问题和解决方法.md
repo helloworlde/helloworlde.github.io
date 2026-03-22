@@ -1,6 +1,15 @@
 ---
 description: "解决 Spring Boot MyBatis 动态数据源 BindingException、多 Bean 冲突及注解切换失效等常见问题，提供 SqlSessionFactoryBean 配置与动态路由源码实战指南。"
 title: Spring Boot MyBatis 动态数据源常见问题和解决方法
+keywords:
+  - "Spring Boot"
+  - "MyBatis"
+  - "DynamicDataSource"
+  - "BindingException"
+  - "SqlSessionFactoryBean"
+  - "@Primary"
+  - "@Qualifier"
+  - "AbstractRoutingDataSource"
 slug: "spring-boot-mybatis-dynamic-datasource-issues-solutions"
 aliases:
   - "/posts/spring-boot-mybatis-动态数据源常见问题和解决方法/"

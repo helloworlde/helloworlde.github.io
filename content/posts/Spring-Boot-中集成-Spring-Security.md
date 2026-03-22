@@ -1,6 +1,15 @@
 ---
 description: "Spring Boot 集成 Spring Security 实战：MyBatis 数据库校验用户，Thymeleaf 模板实现安全登录认证"
 title: Spring Boot 中集成 Spring Security
+keywords:
+  - "Spring Boot"
+  - "Spring Security"
+  - "MyBatis"
+  - "Thymeleaf"
+  - "MySQL"
+  - "CustomAuthenticationProvider"
+  - "HttpSecurity"
+  - "AuthenticationManagerBuilder"
 slug: "spring-boot-integrate-spring-security"
 aliases:
   - "/posts/spring-boot-中集成-spring-security/"

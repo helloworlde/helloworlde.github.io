@@ -1,6 +1,15 @@
 ---
 description: "OpenWrt ESXi 虚拟机安装教程：x86_64 镜像下载、QEMU img 转 vmdk 格式转换、vmkfstools 扩容硬盘及网络配置详解。"
 title: Openwrt 在 Esxi 中以虚拟机方式安装
+keywords:
+  - "OpenWrt"
+  - "ESXi"
+  - "qemu-img"
+  - "vmdk"
+  - "vmkfstools"
+  - "x86_64"
+  - "EFI"
+  - "network config"
 slug: "openwrt-esxi-vm-install"
 aliases:
   - "/posts/openwrt-在-esxi-中以虚拟机方式安装/"

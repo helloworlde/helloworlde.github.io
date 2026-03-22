@@ -1,6 +1,15 @@
 ---
 description: "Spring Boot 集成 Spring Mail 实现邮件发送，包含依赖配置、SMTP 参数设置及 JavaMailSender 代码示例，支持简单文本与 HTML 邮件。"
 title: Spring Boot 发送邮件
+keywords:
+  - "Spring Boot"
+  - "Spring Mail"
+  - "JavaMailSender"
+  - "SimpleMailMessage"
+  - "SMTP"
+  - "application.properties"
+  - "sendSimpleEmail"
+  - "Thymeleaf"
 slug: "spring-boot-send-email"
 aliases:
   - "/posts/spring-boot-发送邮件/"

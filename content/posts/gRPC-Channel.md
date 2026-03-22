@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC Channel 架构，涵盖 Subchannel、ManagedChannel 实现类及生命周期管理方法，掌握 RPC 连接创建与状态控制核心机制。"
 title: gRPC Channel
+keywords:
+  - "gRPC Channel"
+  - "ManagedChannel"
+  - "Subchannel"
+  - "ClientCall"
+  - "ConnectivityState"
+  - "shutdown"
+  - "newCall"
+  - "authority"
 slug: "grpc-channel"
 aliases:
   - "/posts/grpc-channel/"

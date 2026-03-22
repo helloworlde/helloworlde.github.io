@@ -1,6 +1,15 @@
 ---
 description: "Kubenetes 部署 Dashboard 完整指南：NodePort 访问配置、ServiceAccount 创建及 Token 获取教程"
 title: Kubenetes 部署 Dashboard
+keywords:
+  - "Kubernetes Dashboard"
+  - "NodePort"
+  - "ServiceAccount"
+  - "ClusterRoleBinding"
+  - "RBAC"
+  - "kubectl"
+  - "Service"
+  - "Token"
 slug: "kubernetes-deploy-dashboard"
 aliases:
   - "/posts/kubenetes-部署-dashboard/"

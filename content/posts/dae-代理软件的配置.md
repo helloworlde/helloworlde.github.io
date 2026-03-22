@@ -10,6 +10,15 @@ tags:
   - HomeLab
   - OpenWrt
 title: "Dae 代理软件的配置"
+keywords:
+  - "Dae"
+  - ".dae config"
+  - "global config"
+  - "dns config"
+  - "subscription config"
+  - "node config"
+  - "group config"
+  - "routing config"
 slug: "dae-proxy-configuration"
 aliases:
   - "/posts/dae-代理软件的配置/"

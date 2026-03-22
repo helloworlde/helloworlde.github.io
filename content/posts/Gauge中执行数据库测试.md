@@ -1,6 +1,15 @@
 ---
 description: "使用 Gauge 框架结合 JDBC 实现数据库增删改查自动化测试，涵盖连接管理、数据插入查询更新验证及异常处理技术。"
 title: Gauge中执行数据库测试
+keywords:
+  - "Gauge"
+  - "Database Testing"
+  - "CRUD"
+  - "Java"
+  - "JDBC"
+  - "MySQL"
+  - "PreparedStatement"
+  - "Step Definition"
 slug: "gauge-database-testing"
 aliases:
   - "/posts/gauge中执行数据库测试/"

@@ -1,6 +1,15 @@
 ---
 description: "Spring Cloud 集成 Kubernetes 注册中心实现服务发现，通过 Spring Cloud Starter 配置与 Dockerfile 构建镜像，演示 Provider 和 Consumer 应用部署及调用流程。"
 title: Spring Cloud 使用 Kubernetes 作为注册中心
+keywords:
+  - "Spring Cloud"
+  - "Kubernetes"
+  - "Service Discovery"
+  - "spring-cloud-starter-kubernetes"
+  - "@EnableDiscoveryClient"
+  - "Dockerfile"
+  - "Kubernetes Service"
+  - "application.properties"
 slug: "spring-cloud-kubernetes-service-discovery"
 aliases:
   - "/posts/spring-cloud-使用-kubernetes-作为注册中心/"

@@ -9,6 +9,15 @@ tags:
   - HomeLab
 featured: true
 title: "使用 Caddy 作为 HomeLab 内网服务的代理"
+keywords:
+  - "Caddy"
+  - "HomeLab"
+  - "docker-compose"
+  - "Caddyfile"
+  - "reverse proxy"
+  - "auto HTTPS"
+  - "PVE proxy"
+  - "caddy-l4"
 slug: "caddy-proxy-homelab-services"
 aliases:
   - "/posts/使用-caddy-作为-homelab-内网服务的代理/"

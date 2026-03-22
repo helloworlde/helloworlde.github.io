@@ -9,6 +9,15 @@ tags:
   - AMD
   - Driver
 title: "Ubuntu 24 安装 AMD 780M 显卡驱动和 ROCm"
+keywords:
+  - "Ubuntu 24"
+  - "AMD 780M"
+  - "ROCm"
+  - "Radeon Open Compute"
+  - "amdgpu driver"
+  - "rocminfo"
+  - "clinfo"
+  - "OpenCL"
 slug: "ubuntu-24-amd-780m-rocm-driver"
 aliases:
   - "/posts/ubuntu-24-安装-amd-780m-显卡驱动/"

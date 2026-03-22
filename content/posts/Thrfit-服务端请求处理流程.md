@@ -1,6 +1,15 @@
 ---
 description: "解析 Thrift 服务端同步非阻塞请求流程，详解 TThreadedSelectorServer 实现与 IO 事件处理机制。"
 title: Thrfit 服务端请求处理流程
+keywords:
+  - "TThreadedSelectorServer"
+  - "TNonblockingServerSocket"
+  - "Thrift IDL"
+  - "AbstractNonblockingServer"
+  - "SelectorThread"
+  - "AcceptThread"
+  - "Thrift Processor"
+  - "Java Thrift"
 slug: "thrift-server-request-processing-flow"
 aliases:
   - "/posts/thrfit-服务端请求处理流程/"

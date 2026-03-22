@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 源码中 Stream 架构，介绍 ClientStream 与 ServerStream 的实现类（NettyClientStream、OkHttpClientStream），详解 start 启动、halfClose 半关闭、cancel 取消等核心方法及 Netty 帧写入流程。"
 title: gRPC Stream
+keywords:
+  - "gRPC Stream"
+  - "ClientStream"
+  - "ForwardingClientStream"
+  - "NettyClientStream"
+  - "OkHttpClientStream"
+  - "ClientStreamListener"
+  - "halfClose"
+  - "setDeadline"
 slug: "grpc-stream"
 aliases:
   - "/posts/grpc-stream/"

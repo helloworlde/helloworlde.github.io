@@ -1,6 +1,15 @@
 ---
 description: "详解 HTML Ajax 局部刷新技术，涵盖 JS XMLHttpRequest 发送 POST 请求、Servlet 接收处理及 JSON 数据返回的完整实现步骤。"
 title: HTML中使用Ajax进行局部刷新页面
+keywords:
+  - "Ajax"
+  - "XMLHttpRequest"
+  - "partial page refresh"
+  - "Servlet doPost"
+  - "JSON response"
+  - "HTML5"
+  - "JavaScript"
+  - "HTTP POST"
 slug: "html-ajax-partial-page-refresh"
 aliases:
   - "/posts/html中使用ajax进行局部刷新页面/"

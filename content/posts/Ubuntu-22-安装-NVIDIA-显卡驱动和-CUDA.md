@@ -1,6 +1,14 @@
 ---
 description: "Ubuntu 22.04 安装 NVIDIA 驱动与 CUDA 12.5 完整教程，含 apt 命令、nvidia-smi 验证及 RTX 3070 Ti 配置步骤。"
 title: "Ubuntu 22 安装 NVIDIA 显卡驱动和 CUDA"
+keywords:
+  - "Ubuntu 22"
+  - "NVIDIA driver"
+  - "CUDA"
+  - "ubuntu-drivers"
+  - "nvidia-smi"
+  - "GeForce RTX 3070 Ti"
+  - "nvidia-driver-555"
 slug: "ubuntu-22-install-nvidia-driver-cuda"
 aliases:
   - "/posts/ubuntu-22-安装-nvidia-显卡驱动和-cuda/"

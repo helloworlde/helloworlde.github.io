@@ -1,6 +1,15 @@
 ---
 description: "Spring Cloud Gateway 集成 Kubernetes 服务发现，利用 K8S Service 实现动态路由与负载均衡，通过 spring-cloud-kubernetes-discovery 替代注册中心，优化微服务架构部署。"
 title: Spring Cloud Gateway 使用 Kubernetes 作为服务发现
+keywords:
+  - "Spring Cloud Gateway"
+  - "Kubernetes Service Discovery"
+  - "spring-cloud-kubernetes-discovery"
+  - "build.gradle"
+  - "bootstrap.yaml"
+  - "application.yaml"
+  - "url-expression"
+  - "Ribbon"
 slug: "spring-cloud-gateway-kubernetes-service-discovery"
 aliases:
   - "/posts/spring-cloud-gateway-使用-kubernetes-作为服务发现/"

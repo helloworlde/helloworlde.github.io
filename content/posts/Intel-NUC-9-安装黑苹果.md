@@ -1,6 +1,15 @@
 ---
 description: "Intel NUC 9 黑苹果安装教程：解决 Mac 卡顿，利用 OpenCore 与 AMD 显卡打造可升级内存的高性能 Hackintosh 电脑。"
 title: Intel NUC 9 安装黑苹果
+keywords:
+  - "Intel NUC 9"
+  - "Hackintosh"
+  - "macOS Monterey"
+  - "OpenCore"
+  - "EFI"
+  - "Ghost Canyon"
+  - "AMD RX 6600"
+  - "GUID Partition"
 slug: "intel-nuc-9-hackintosh-install"
 aliases:
   - "/posts/intel-nuc-9-安装黑苹果/"

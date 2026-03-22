@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 22.04 HomeLab 初始化配置：主机名、清华源、SSH 密钥、时区、Docker 及 zsh 环境快速部署指南"
 title: Ubuntu 22 环境初始化
+keywords:
+  - "Ubuntu 22"
+  - "HomeLab"
+  - "hostnamectl"
+  - "ssh-copy-id"
+  - "APT sources"
+  - "zsh"
+  - "oh-my-zsh"
+  - "timedatectl"
 slug: "ubuntu-22-environment-initialization"
 aliases:
   - "/posts/ubuntu-22-环境初始化/"

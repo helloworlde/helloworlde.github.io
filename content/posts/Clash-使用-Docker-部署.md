@@ -1,6 +1,15 @@
 ---
 description: "Clash Docker 部署指南：包含订阅格式转换、subconverter 配置及 Clash Premium 监控开启方法"
 title: Clash 使用 Docker 部署
+keywords:
+  - "Clash"
+  - "Docker"
+  - "subconverter"
+  - "sub-web"
+  - "docker-compose"
+  - "subscription conversion"
+  - "proxy configuration"
+  - "tracing"
 slug: "clash-docker-deployment"
 aliases:
   - "/posts/clash-使用-docker-部署/"

@@ -1,6 +1,15 @@
 ---
 description: "利用 Cloudflare Worker 与 R2 构建安全 OSS 图床代理，实现免费存储、CDN 加速及自动同步，解决流量费用高与安全漏洞问题。"
 title: 使用 Cloudflare Worker 和 R2 代理 OSS 图床
+keywords:
+  - "Cloudflare Worker"
+  - "Cloudflare R2"
+  - "OSS Proxy"
+  - "Image Hotlink Protection"
+  - "wrangler"
+  - "Edge Computing"
+  - "Static Asset Migration"
+  - "Serverless Storage"
 slug: "cloudflare-worker-r2-proxy-oss-image-hosting"
 aliases:
   - "/posts/使用-cloudflare-worker-和-r2-代理-oss-图床/"

@@ -1,6 +1,15 @@
 ---
 description: "掌握 Cloudflare Tunnel 反向代理技术，安全访问内网服务并隐藏服务器 IP，适用于无公网 IP 场景，包含 Linux 安装、Docker 部署及路由配置详解。"
 title: "使用 Cloudflare Tunnel 作为反向代理访问内网服务"
+keywords:
+  - "Cloudflare Tunnel"
+  - "cloudflared"
+  - "Zero Trust"
+  - "反向代理"
+  - "内网穿透"
+  - "Public Hostname"
+  - "Docker"
+  - "Linux"
 slug: "cloudflare-tunnel-reverse-proxy-access-internal-services"
 aliases:
   - "/posts/使用-cloudflare-tunnel-作为反向代理访问内网服务/"

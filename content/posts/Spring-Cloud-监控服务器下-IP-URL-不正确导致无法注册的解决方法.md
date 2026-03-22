@@ -1,6 +1,15 @@
 ---
 description: "解决 Spring Cloud Admin 监控服务器因内网外网 IP 导致应用无法注册的配置方法，通过设置 service-base-url 指定正确 IP 实现服务发现。"
 title: Spring Cloud 监控服务器下 IP/URL 不正确导致无法注册的解决方法
+keywords:
+  - "Spring Cloud"
+  - "Spring Boot Admin"
+  - "service-base-url"
+  - "prefer-ip"
+  - "IP registration"
+  - "Spring Admin"
+  - "Spring Boot"
+  - "Spring Cloud monitoring"
 slug: "spring-cloud-monitoring-ip-url-registration-fix"
 aliases:
   - "/posts/spring-cloud-监控服务器下-ip-url-不正确导致无法注册的解决方法/"

@@ -1,6 +1,15 @@
 ---
 description: "Traefik 集成 Google OAuth 实现 Homelab 网关单点登录，配置 traefik-forward-auth 中间件保护隐私服务。"
 title: Traefik 使用 Google GitHub OAuth 进行鉴权登陆
+keywords:
+  - "Traefik"
+  - "traefik-forward-auth"
+  - "Google OAuth"
+  - "GitHub OAuth"
+  - "HTTP Middleware"
+  - "Docker Compose"
+  - "Homelab"
+  - "SSO"
 slug: "traefik-google-github-oauth-authentication"
 aliases:
   - "/posts/traefik-使用-google-github-oauth-进行鉴权登陆/"

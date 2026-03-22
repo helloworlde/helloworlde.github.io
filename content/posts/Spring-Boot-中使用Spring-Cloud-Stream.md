@@ -1,6 +1,15 @@
 ---
 description: "Spring Cloud Stream 构建事件驱动架构，详解 Binder、Binding 与 RabbitMQ 集成，涵盖生产者消费者模式及代码实战。"
 title: Spring Boot 中使用Spring Cloud Stream
+keywords:
+  - "Spring Cloud Stream"
+  - "RabbitMQ Binder"
+  - "@Input"
+  - "@Output"
+  - "MessageChannel"
+  - "SubscribableChannel"
+  - "Event-Driven Architecture"
+  - "Spring Boot"
 slug: "spring-boot-spring-cloud-stream"
 aliases:
   - "/posts/spring-boot-中使用spring-cloud-stream/"

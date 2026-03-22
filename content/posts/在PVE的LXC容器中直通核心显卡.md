@@ -1,6 +1,15 @@
 ---
 description: "PVE LXC 容器直通 Intel 核显驱动安装与配置指南，实现 Docker 容器 GPU 加速。"
 title: 在PVE的LXC容器中直通核心显卡
+keywords:
+  - "Proxmox VE"
+  - "LXC"
+  - "GPU Passthrough"
+  - "Intel UHD Graphics"
+  - "frigate"
+  - "Docker"
+  - "ffmpeg"
+  - "N5105"
 slug: "pve-lxc-container-gpu-passthrough"
 aliases:
   - "/posts/在pve的lxc容器中直通核心显卡/"

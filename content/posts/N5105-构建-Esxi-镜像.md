@@ -1,6 +1,15 @@
 ---
 description: "解决 N5105 与国产 NVME 驱动缺失导致 ESXi 安装失败问题，详解使用 PowerCLI 集成社区网卡及存储驱动构建自定义镜像的完整步骤。"
 title: N5105 构建 Esxi 镜像
+keywords:
+  - "Intel N5105"
+  - "ESXi 7.0"
+  - "Intel I225V"
+  - "NVMe Driver"
+  - "VMware ImageBuilder"
+  - "PowerCLI"
+  - "Custom ISO"
+  - "ESXi 驱动集成"
 slug: "n5105-build-esxi-image"
 aliases:
   - "/posts/n5105-构建-esxi-镜像/"

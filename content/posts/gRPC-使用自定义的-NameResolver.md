@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 自定义 NameResolver 实现，掌握服务发现机制与注册中心集成核心代码。"
 title: gRPC 使用自定义的 NameResolver
+keywords:
+  - "gRPC"
+  - "NameResolver"
+  - "NameResolverProvider"
+  - "Service Discovery"
+  - "LoadBalancer"
+  - "Listener2"
+  - "EquivalentAddressGroup"
+  - "Attributes"
 slug: "grpc-custom-nameresolver"
 aliases:
   - "/posts/grpc-使用自定义的-nameresolver/"

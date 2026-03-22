@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 安装 Redis 服务器教程，包含 apt-get 安装、启动命令、端口检查及配置密码与 IP 绑定等关键步骤。"
 title: Ubuntu搭建Redis服务器
+keywords:
+  - "Ubuntu"
+  - "Redis"
+  - "redis-server"
+  - "apt-get"
+  - "redis.conf"
+  - "standalone mode"
+  - "THP"
+  - "overcommit_memory"
 slug: "ubuntu-setup-redis-server"
 aliases:
   - "/posts/ubuntu搭建redis服务器/"

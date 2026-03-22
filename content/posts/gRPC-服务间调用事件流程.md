@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 服务间调用事件流程，涵盖 ClientCall、ServerTransportFilter 及各类监听器与追踪器核心机制。"
 title: gRPC 服务间调用事件流程
+keywords:
+  - "gRPC"
+  - "ClientCall"
+  - "ClientStreamTracer"
+  - "ServerCall"
+  - "ServerStreamTracer"
+  - "TransportFilter"
+  - "onMessage"
+  - "streamClosed"
 slug: "grpc-service-call-event-flow"
 aliases:
   - "/posts/grpc-服务间调用事件流程/"

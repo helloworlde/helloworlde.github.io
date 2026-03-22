@@ -1,6 +1,15 @@
 ---
 description: "Linux 下 NUT 不间断电源配置指南：树莓派 USB 连接、驱动安装、守护进程设置及自动关机策略详解。"
 title: "Linux 环境下配置不间断电源 UPS"
+keywords:
+  - "Linux UPS"
+  - "NUT"
+  - "Network UPS Tools"
+  - "usbhid-ups"
+  - "upsd"
+  - "upsmon"
+  - "Raspberry Pi UPS"
+  - "UPS configuration"
 slug: "linux-ups-configuration"
 aliases:
   - "/posts/linux环境下配置不间断电源ups/"

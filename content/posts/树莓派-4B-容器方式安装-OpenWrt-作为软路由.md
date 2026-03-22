@@ -1,6 +1,15 @@
 ---
 description: "树莓派 4B Ubuntu Docker OpenWrt 软路由安装教程，含 linux-modules-extra-raspi 依赖配置、macvlan 网络设置及容器启动指南。"
 title: 树莓派 4B 容器方式安装 OpenWrt 作为软路由
+keywords:
+  - "Raspberry Pi 4B"
+  - "OpenWrt"
+  - "Docker"
+  - "macvlan"
+  - "Soft Router"
+  - "Ubuntu 22.04"
+  - "linux-modules-extra-raspi"
+  - "promiscuous mode"
 slug: "raspberry-pi-4b-openwrt-container-soft-router"
 aliases:
   - "/posts/树莓派-4b-容器方式安装-openwrt-作为软路由/"

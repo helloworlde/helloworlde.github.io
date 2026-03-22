@@ -1,6 +1,15 @@
 ---
 description: "详解 SpringBoot 使用 Spring Session 实现 Redis 与 JDBC 会话共享，包含依赖配置、启动注解及数据库建表脚本，助力多实例高可用部署。"
 title: SpringBoot-使用 Spring Session 实现 Session 共享
+keywords:
+  - "Spring Session"
+  - "Redis"
+  - "JDBC"
+  - "SpringBoot"
+  - "@EnableRedisHttpSession"
+  - "Session Sharing"
+  - "spring-session"
+  - "SPRING_SESSION"
 slug: "springboot-spring-session-shared"
 aliases:
   - "/posts/springboot-使用-spring-session-实现-session-共享/"

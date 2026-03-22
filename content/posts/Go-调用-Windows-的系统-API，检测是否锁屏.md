@@ -1,6 +1,15 @@
 ---
 description: "Go 调用 Windows API 检测锁屏：使用 user32.dll GetForegroundWindow 获取活跃窗口 ID，ID 为 0 即表示系统处于锁屏状态。"
 title: Go 调用 Windows 的系统 API，检测是否锁屏
+keywords:
+  - "Go Windows API"
+  - "syscall"
+  - "user32.dll"
+  - "GetForegroundWindow"
+  - "lock screen detection"
+  - "Go DLL"
+  - "Windows system API"
+  - "Go syscall"
 slug: "go-call-windows-api-detect-screen-lock"
 aliases:
   - "/posts/go-调用-windows-的系统-api，检测是否锁屏/"

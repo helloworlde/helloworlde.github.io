@@ -1,6 +1,15 @@
 ---
 description: "Spring Cloud 集成 Kubernetes Secrets 实现加密配置管理，展示通过 Base64 编码、环境变量注入及 Spring Cloud Kubernetes 启动器动态加载数据库凭证的完整部署方案。"
 title: Spring Cloud 使用 Kubernetes 作为配置中心 - 使用加密配置
+keywords:
+  - "Spring Cloud"
+  - "Kubernetes Secrets"
+  - "spring-cloud-starter-kubernetes-config"
+  - "Base64 encoding"
+  - "encrypted configuration"
+  - "dynamic config reload"
+  - "application.properties"
+  - "ConfigurationProperties"
 slug: "spring-cloud-kubernetes-encrypted-config"
 aliases:
   - "/posts/spring-cloud-使用-kubernetes-作为配置中心-使用加密配置/"

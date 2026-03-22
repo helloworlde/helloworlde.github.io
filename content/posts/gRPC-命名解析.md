@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 命名解析机制，详解 NameResolver、Provider 及 Registry 架构与源码实现原理。"
 title: gRPC 命名解析
+keywords:
+  - "gRPC"
+  - "NameResolver"
+  - "NameResolverRegistry"
+  - "NameResolverProvider"
+  - "ManagedChannelImpl"
+  - "DNS"
+  - "grpclb"
+  - "xds"
 slug: "grpc-name-resolution"
 aliases:
   - "/posts/grpc-命名解析/"

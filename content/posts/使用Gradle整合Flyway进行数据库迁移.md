@@ -1,6 +1,15 @@
 ---
 description: "Gradle 整合 Flyway 数据库迁移插件配置指南，详解 build.gradle 集成、迁移命令及校验修复操作，提升开发效率。"
 title: 使用Gradle整合Flyway进行数据库迁移
+keywords:
+  - "Gradle"
+  - "Flyway"
+  - "Database Migration"
+  - "flyway-gradle-plugin"
+  - "build.gradle"
+  - "flywayMigrate"
+  - "flywayClean"
+  - "Schema Management"
 slug: "gradle-flyway-database-migration"
 aliases:
   - "/posts/使用gradle整合flyway进行数据库迁移/"

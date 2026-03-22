@@ -1,6 +1,15 @@
 ---
 description: "深入解析 Spring Cloud 集成 Consul 配置中心源码，详解 ConsulPropertySourceLocator 实现机制与动态加载流程。"
 title: Spring Cloud 使用 Consul 作为配置中心
+keywords:
+  - "Spring Cloud"
+  - "Consul"
+  - "ConsulPropertySourceLocator"
+  - "PropertySourceLocator"
+  - "ConsulConfigProperties"
+  - "Consul KV"
+  - "Configuration Center"
+  - "Spring Boot"
 slug: "spring-cloud-consul-config-center"
 aliases:
   - "/posts/spring-cloud-使用-consul-作为配置中心/"

@@ -1,6 +1,15 @@
 ---
 description: "利用培正 PZEM 004T 电能监控模块与 ESP8266 及 esphome 实现家庭用电电压电流功率监测，通过 UART 协议集成 HomeAssistant 自动化系统。"
 title: 使用培正 PZEM 004T 和 HomeAssistant 监测家庭用电情况
+keywords:
+  - "PZEM-004T"
+  - "HomeAssistant"
+  - "ESP-01S"
+  - "ESPHome"
+  - "UART"
+  - "Modbus"
+  - "power monitoring"
+  - "energy meter"
 slug: "pzem-004t-homeassistant-monitor-home-energy"
 aliases:
   - "/posts/使用培正-pzem-004t-和-homeassistant-监测家庭用电情况/"

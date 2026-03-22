@@ -1,6 +1,15 @@
 ---
 description: "Tailscale derpprobe 自建 DERP 服务器状态监控，支持 UDP/TLS/MESH 协议延迟与带宽检测，Docker 部署指南。"
 title: "Tailscale 使用 Derp Probe 检测自建的 Derper 服务器状态"
+keywords:
+  - "Tailscale"
+  - "Derpprobe"
+  - "Derp Server"
+  - "Docker Compose"
+  - "UDP Probe"
+  - "TLS Probe"
+  - "Bandwidth Test"
+  - "HomeLab"
 slug: "tailscale-derp-probe-check-self-hosted-derper-status"
 aliases:
   - "/posts/tailscale-使用-derp-probe-检测自建的-derper-服务器状态/"

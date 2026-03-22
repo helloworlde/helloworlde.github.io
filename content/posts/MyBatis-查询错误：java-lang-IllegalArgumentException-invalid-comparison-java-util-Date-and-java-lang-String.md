@@ -1,5 +1,14 @@
 ---
 title: "MyBatis 查询错误：java.lang.IllegalArgumentException: invalid comparison: java.util.Date"
+keywords:
+  - "MyBatis Plus"
+  - "java.util.Date"
+  - "IllegalArgumentException"
+  - "invalid comparison"
+  - "MyBatis XML"
+  - "date != "
+  - "MyBatis 3.5"
+  - "MyBatis 3.3"
 slug: "mybatis-query-error-invalid-comparison-java-util-date"
 aliases:
   - "/posts/mybatis-查询错误：java-lang-illegalargumentexception-invalid-comparison-java-util-date-and-java-lang-string/"

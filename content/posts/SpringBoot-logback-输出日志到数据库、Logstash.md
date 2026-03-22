@@ -1,6 +1,15 @@
 ---
 description: "SpringBoot 日志输出实战：详解 Logback 配置将日志异步写入 MySQL 数据库及转发至 Logstash 的完整实现方案与代码示例。"
 title: SpringBoot logback 输出日志到数据库、Logstash
+keywords:
+  - "SpringBoot"
+  - "logback"
+  - "DBAppender"
+  - "Logstash"
+  - "logging_event"
+  - "logback.xml"
+  - "MySQL"
+  - "log aggregation"
 slug: "springboot-logback-database-logstash"
 aliases:
   - "/posts/springboot-logback-输出日志到数据库、logstash/"

@@ -1,6 +1,15 @@
 ---
 description: "OpenWrt 安装 OpenClash 代理软件教程，包含依赖安装、固件部署及配置指南，支持 Fake-IP 与 Redir-Host 模式，实现局域网透明代理。"
 title: OpenWrt  安装使用 OpenClash
+keywords:
+  - "OpenWrt"
+  - "OpenClash"
+  - "Clash"
+  - "Dnsmasq"
+  - "SmartDNS"
+  - "iptables"
+  - "TProxy"
+  - "ipk"
 slug: "openwrt-install-openclash"
 aliases:
   - "/posts/openwrt-安装使用-openclash/"

@@ -1,6 +1,15 @@
 ---
 description: "解析 Thrift 同步非阻塞流程，详解 TSocket 连接建立与 TBinaryProtocol 序列化机制，掌握客户端请求发送核心步骤。"
 title: Thrfit 客户端请求处理流程
+keywords:
+  - "Thrift"
+  - "TSocket"
+  - "TBinaryProtocol"
+  - "TTransport"
+  - "TProtocol"
+  - "IDL"
+  - "Java Client"
+  - "Request Processing"
 slug: "thrift-client-request-processing-flow"
 aliases:
   - "/posts/thrfit-客户端请求处理流程/"

@@ -1,6 +1,15 @@
 ---
 description: "Proxmox VE 创建自定义 LXC CT 模板教程：从零初始化 Ubuntu 容器，清理配置并备份生成标准镜像，优化特权模式与 AppArmor 设置。"
 title: Proxmox VE 创建自定义的 LXC 容器 CT 模板
+keywords:
+  - "Proxmox VE"
+  - "LXC"
+  - "CT Template"
+  - "Container Backup"
+  - "unprivileged"
+  - "AppArmor"
+  - "lxc.conf"
+  - "Ubuntu"
 slug: "proxmox-ve-custom-lxc-container-ct-template"
 aliases:
   - "/posts/proxmox-ve-创建自定义的-lxc-容器-ct-模板/"

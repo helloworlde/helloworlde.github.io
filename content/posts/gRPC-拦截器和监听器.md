@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 拦截器与监听器机制，涵盖 ClientInterceptor 接口定义、Channel 封装原理及自定义拦截器实现，助力开发者掌握请求生命周期监控与逻辑扩展。"
 title: gRPC 拦截器和监听器
+keywords:
+  - "gRPC"
+  - "ClientInterceptor"
+  - "ServerInterceptor"
+  - "InterceptorChannel"
+  - "ManagedChannelBuilder"
+  - "CheckedForwardingClientCall"
+  - "SimpleForwardingClientCallListener"
+  - "interceptCall"
 slug: "grpc-interceptors-listeners"
 aliases:
   - "/posts/grpc-拦截器和监听器/"

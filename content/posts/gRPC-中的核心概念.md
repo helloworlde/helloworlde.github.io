@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC 核心架构：Stub、Channel、Subchannel 状态机及 Netty/OkHttp 传输层机制详解"
 title: gRPC 中的核心概念
+keywords:
+  - "gRPC"
+  - "Stub"
+  - "Channel"
+  - "Subchannel"
+  - "Transport"
+  - "Netty"
+  - "OkHttp"
+  - "InProcess"
 slug: "grpc-core-concepts"
 aliases:
   - "/posts/grpc-中的核心概念/"

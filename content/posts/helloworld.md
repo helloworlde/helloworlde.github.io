@@ -1,6 +1,15 @@
 ---
 description: "探索个人技术笔记博客，分享编程技巧、开发工具与前沿科技动态，助力开发者提升效率。"
 title: helloworld
+keywords:
+  - "helloworld"
+  - "personal blog"
+  - "technology note"
+  - "programming"
+  - "web development"
+  - "tech blog"
+  - "developer notes"
+  - "coding"
 slug: "helloworld"
 aliases:
   - "/posts/helloworld/"

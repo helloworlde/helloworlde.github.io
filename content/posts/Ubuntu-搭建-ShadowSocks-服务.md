@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 服务器一键安装 ShadowSocks 服务教程，含端口密码配置、加密算法设置及多账户管理指南。"
 title: Ubuntu 搭建 ShadowSocks 服务
+keywords:
+  - "Ubuntu"
+  - "ShadowSocks"
+  - "shadowsocks_install"
+  - "shadowsocks.json"
+  - "aes-256-cfb"
+  - "multi-port"
+  - "server configuration"
+  - "uninstall script"
 slug: "ubuntu-setup-shadowssocks-service"
 aliases:
   - "/posts/ubuntu-搭建-shadowsocks-服务/"

@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录"
+keywords:
+  - "Warpgate"
+  - "PocketID"
+  - "SSO"
+  - "OIDC"
+  - "OAuth2"
+  - "warpgate.yaml"
+  - "reverse proxy"
+  - "external_host"
 slug: "lightweight-warpgate-pocketid-sso"
 aliases:
   - "/posts/轻量级跳板机-warpgate-通过-pocketid-实现-sso-登录/"

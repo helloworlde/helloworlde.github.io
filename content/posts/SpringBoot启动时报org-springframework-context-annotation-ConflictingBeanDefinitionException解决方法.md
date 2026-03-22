@@ -1,6 +1,15 @@
 ---
 description: "解决 SpringBoot 启动 ConflictingBeanDefinitionException 异常，通过给@Component 添加唯一名称避免 Bean 冲突，确保 Dubbo 服务正常注入。"
 title: SpringBoot启动时报org.springframework.context.annotation.ConflictingBeanDefinitionException解决方法
+keywords:
+  - "ConflictingBeanDefinitionException"
+  - "SpringBoot"
+  - "@Component"
+  - "BeanDefinition"
+  - "Dubbo"
+  - "@Reference"
+  - "BeanName"
+  - "SpringContext"
 slug: "springboot-conflictingbeandefinitionexception-solution"
 aliases:
   - "/posts/springboot启动时报org-springframework-context-annotation-conflictingbeandefinitionexception解决方法/"

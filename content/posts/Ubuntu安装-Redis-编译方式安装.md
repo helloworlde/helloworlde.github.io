@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 编译安装最新 Redis 服务器：下载源码、解压、make 编译测试、配置密码与绑定 IP 及启动服务，掌握核心部署步骤。"
 title: Ubuntu安装 Redis -编译方式安装
+keywords:
+  - "Ubuntu"
+  - "Redis"
+  - "compile install"
+  - "make install"
+  - "redis.conf"
+  - "requirepass"
+  - "bind 127.0.0.1"
+  - "redis-server"
 slug: "ubuntu-install-redis-compile"
 aliases:
   - "/posts/ubuntu安装-redis-编译方式安装/"

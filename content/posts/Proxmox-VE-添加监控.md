@@ -1,6 +1,15 @@
 ---
 description: "Proxmox VE 监控指南：基于 Docker Compose 部署 InfluxDB 2 与 Grafana，配置 Flux 查询及 PVE 指标推送实现高效运维可视化"
 title: Proxmox VE 添加监控
+keywords:
+  - "Proxmox VE"
+  - "InfluxDB 2"
+  - "Grafana"
+  - "Docker Compose"
+  - "PVE Monitoring"
+  - "Flux Query"
+  - "Metrics Dashboard"
+  - "Time Series Database"
 slug: "proxmox-ve-add-monitoring"
 aliases:
   - "/posts/proxmox-ve-添加监控/"

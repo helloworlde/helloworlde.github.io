@@ -1,6 +1,15 @@
 ---
 description: "解决 Tomcat 启动卡在应用部署问题，通过修改 java.security 和 securerandom.source 配置加速会话 ID 生成。"
 title: Tomcat启动时一直停留在一个应用的发布的解决办法
+keywords:
+  - "Tomcat"
+  - "java.security"
+  - "SecureRandom"
+  - "/dev/urandom"
+  - "/dev/random"
+  - "SessionIdGeneratorBase"
+  - "SHA1PRNG"
+  - "FasterStartUp"
 slug: "tomcat-start-stuck-app-deploy-fix"
 aliases:
   - "/posts/tomcat启动时一直停留在一个应用的发布的解决办法/"

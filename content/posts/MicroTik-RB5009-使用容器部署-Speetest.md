@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "MicroTik RB5009 使用容器部署 Speetest"
+keywords:
+  - "MicroTik RB5009"
+  - "RouterOS container"
+  - "device-mode"
+  - "Speetest deployment"
+  - "Mikrotik Docker"
+  - "system/device-mode"
+  - "advanced mode"
+  - "container=yes"
 slug: "microtik-rb5009-container-speetest"
 aliases:
   - "/posts/microtik-rb5009-使用容器部署-speetest/"

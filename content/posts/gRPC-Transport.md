@@ -1,6 +1,15 @@
 ---
 description: "深入解析 gRPC Transport 层架构，介绍 ClientTransport 与 ServerTransport 的实现类体系（NettyClientTransport、OkHttpClientTransport），以及 newStream 流创建、连接建立与生命周期管理的核心调用流程。"
 title: gRPC Transport
+keywords:
+  - "gRPC"
+  - "ClientTransport"
+  - "ServerTransport"
+  - "NettyClientTransport"
+  - "OkHttpClientTransport"
+  - "ManagedClientTransport"
+  - "InProcessTransport"
+  - "CallTracingTransport"
 slug: "grpc-transport"
 aliases:
   - "/posts/grpc-transport/"

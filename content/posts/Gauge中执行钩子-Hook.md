@@ -1,6 +1,17 @@
 ---
 description: "Gauge 钩子详解：Suit、Spec、Scenario 及 Step 生命周期执行时机，Java AOP 模式实现测试前后操作与状态管理配置指南"
 title: Gauge中执行钩子(Hook)
+keywords:
+  - "Gauge Hooks"
+  - "@BeforeSuite"
+  - "@AfterSuite"
+  - "@BeforeSpec"
+  - "@AfterSpec"
+  - "@BeforeScenario"
+  - "@AfterScenario"
+  - "@BeforeStep"
+  - "@AfterStep"
+  - "Gauge AOP"
 slug: "gauge-executing-hooks"
 aliases:
   - "/posts/gauge中执行钩子-hook/"

@@ -1,6 +1,15 @@
 ---
 description: "深入解析 Thrift 中 TTransport 与 TServerTransport 核心机制，涵盖读写方法、NIO 实现及压缩认证等关键技术。"
 title: Thrift 中的 Transport
+keywords:
+  - "TTransport"
+  - "TServerTransport"
+  - "TSocket"
+  - "THttpClient"
+  - "TFramedTransport"
+  - "TNonblockingSocket"
+  - "TSaslTransport"
+  - "TZlibTransport"
 slug: "thrift-transport"
 aliases:
   - "/posts/thrift-中的-transport/"

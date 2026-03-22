@@ -1,6 +1,15 @@
 ---
 description: "Linux Docker 开启 IPv6 完整教程，详解 daemon.json 配置、bridge 与 macvlan 网络 IPv6 设置及 ping 验证方法。"
 title: Linux Docker容器开启IPv6
+keywords:
+  - "Docker IPv6"
+  - "daemon.json"
+  - "ip6tables"
+  - "fixed-cidr-v6"
+  - "docker network create"
+  - "macvlan IPv6"
+  - "Linux Docker"
+  - "IPv6 subnet"
 slug: "linux-docker-enable-ipv6"
 aliases:
   - "/posts/linux-docker容器开启ipv6/"

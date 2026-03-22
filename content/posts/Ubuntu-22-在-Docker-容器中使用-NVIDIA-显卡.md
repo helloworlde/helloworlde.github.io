@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 22.04 Docker 容器 NVIDIA 显卡加速安装配置 nvidia-container-toolkit 驱动部署实战教程"
 title: "Ubuntu 22 在 Docker 容器中使用 NVIDIA 显卡"
+keywords:
+  - "Ubuntu 22"
+  - "Docker"
+  - "NVIDIA GPU"
+  - "nvidia-container-toolkit"
+  - "nvidia-ctk"
+  - "nvidia-smi"
+  - "CUDA"
+  - "daemon.json"
 slug: "ubuntu-22-docker-nvidia-gpu"
 aliases:
   - "/posts/ubuntu-22-在-docker-容器中使用-nvidia-显卡/"

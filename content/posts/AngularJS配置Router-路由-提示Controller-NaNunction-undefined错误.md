@@ -1,6 +1,15 @@
 ---
 description: "解决 AngularJS 配置路由时 Controller NaNunction 错误，通过引入 $controllerProvider 正确注册控制器实现依赖注入。"
 title: AngularJS配置Router(路由)提示Controller NaNunction/undefined错误
+keywords:
+  - "AngularJS"
+  - "ui.router"
+  - "$stateProvider"
+  - "controller undefined"
+  - "$ocLazyLoad"
+  - "ng:areq"
+  - "dashboardController"
+  - "angular.bootstrap"
 slug: "angularjs-router-controller-nanunction-undefined-error"
 aliases:
   - "/posts/angularjs配置router-路由-提示controller-nanunction-undefined错误/"

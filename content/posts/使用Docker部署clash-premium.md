@@ -1,6 +1,15 @@
 ---
 description: "Clash Premium Docker 部署指南：配置订阅转换、TUN 模式、代理组与规则集，实现高性能网络代理。"
 title: 使用 Docker 部署 Clash Premium
+keywords:
+  - "Clash Premium"
+  - "Docker deployment"
+  - "config.yaml"
+  - "proxy-providers"
+  - "proxy-groups"
+  - "TUN mode"
+  - "rule-set"
+  - "subscription conversion"
 slug: "docker-deploy-clash-premium"
 aliases:
   - "/posts/使用docker部署clash-premium/"

@@ -1,6 +1,15 @@
 ---
 description: "解决 IDEA Maven 导入失败及无法识别 pom 文件问题，排查 Socket 占用与 JVM 端口冲突，重点检查 host 文件 localhost 映射异常。"
 title: IDEA Maven项目导入失败，无法识别pom文件
+keywords:
+  - "IDEA Maven import"
+  - "pom.xml recognition"
+  - "host file localhost"
+  - "127.0.0.1 redirect"
+  - "Maven repository access"
+  - "IntelliJ IDEA debug port"
+  - "Address already in use"
+  - "Java BindException"
 slug: "idea-maven-import-fail-pom-not-recognized"
 aliases:
   - "/posts/idea-maven项目导入失败，无法识别pom文件/"

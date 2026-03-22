@@ -6,6 +6,15 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "Mikrotik RouterOS 路由器为自身配置代理"
+keywords:
+  - "Mikrotik RouterOS"
+  - "DAE proxy"
+  - "DNS routing"
+  - "Docker proxy"
+  - "RouterOS routing"
+  - "DNS upstream"
+  - "Mikrotik DNS"
+  - "RouterOS config"
 slug: "mikrotik-routeros-proxy-configuration"
 aliases:
   - "/posts/mikrotik-routeros-路由器为自身配置代理/"

@@ -1,6 +1,15 @@
 ---
 description: "AngularJS 中 ngModal 模态框完整教程，包含 ui.bootstrap 引用、ng-template 模板定义及$modal 实例化代码示例。"
 title: AngularJS中使用ngModal模态框
+keywords:
+  - "AngularJS"
+  - "ngModal"
+  - "ui.bootstrap"
+  - "$modal"
+  - "ng-template"
+  - "modalController"
+  - "bootstrap 3.3.7"
+  - "modalInstance"
 slug: "angularjs-ngmodal-modal"
 aliases:
   - "/posts/angularjs中使用ngmodal模态框/"

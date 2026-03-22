@@ -1,6 +1,15 @@
 ---
 description: "学习使用 GitHub 托管 Helm 仓库，涵盖创建 Chart、打包发布、配置索引及客户端安装升级等完整流程。"
 title: 使用 GitHub 作为 Helm 仓库
+keywords:
+  - "Helm 3"
+  - "GitHub Pages"
+  - "Helm Chart"
+  - "index.yaml"
+  - "helm package"
+  - "helm repo add"
+  - "Chart.yaml"
+  - "Kubernetes"
 slug: "use-github-helm-repository"
 aliases:
   - "/posts/使用-github-作为-helm-仓库/"

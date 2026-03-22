@@ -11,6 +11,15 @@ tags:
 featured: true
 type: post
 title: "阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS"
+keywords:
+  - "Caddy"
+  - "ZeroSSL"
+  - "IP Certificate"
+  - "HTTPS"
+  - "Docker Compose"
+  - "Caddyfile"
+  - "PKI Validation"
+  - "Reverse Proxy"
 slug: "aliyun-caddy-zerossl-ip-certificate-https"
 aliases:
   - "/posts/阿里云服务器使用caddy-和-zerossl-提供的-ip-证书为服务开启-https/"

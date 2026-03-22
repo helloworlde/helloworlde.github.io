@@ -1,6 +1,15 @@
 ---
 description: "Ubuntu 安装 Nginx 完整指南：包管理器与源码编译步骤、目录结构解析及启动配置详解，助力 Linux 服务器高效部署 Web 服务。"
 title: Ubuntu安装 Nginx
+keywords:
+  - "Ubuntu"
+  - "Nginx"
+  - "apt-get install"
+  - "source code installation"
+  - "./configure"
+  - "make install"
+  - "init.d script"
+  - "libpcre3"
 slug: "ubuntu-install-nginx"
 aliases:
   - "/posts/ubuntu安装-nginx/"

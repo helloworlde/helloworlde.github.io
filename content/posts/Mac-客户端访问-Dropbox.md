@@ -1,6 +1,15 @@
 ---
 description: "解决 Mac Dropbox 客户端无法连接问题，提供 ShadowSocks SOCKS5 代理手动配置步骤，实现网络穿透与稳定访问。"
 title: Mac 客户端访问 Dropbox
+keywords:
+  - "Dropbox Mac"
+  - "ShadowSocks"
+  - "SOCKS5"
+  - "PAC mode"
+  - "Global proxy"
+  - "Manual proxy"
+  - "Network settings"
+  - "Client connection"
 slug: "mac-client-access-dropbox"
 aliases:
   - "/posts/mac-客户端访问-dropbox/"

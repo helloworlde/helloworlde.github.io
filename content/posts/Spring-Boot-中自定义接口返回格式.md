@@ -1,6 +1,15 @@
 ---
 description: "Spring Boot 自定义接口返回格式封装，通过注解与返回值处理器实现统一 JSON 响应结构，避免重复代码，提升开发效率。"
 title: Spring Boot 中自定义接口返回格式
+keywords:
+  - "Spring Boot"
+  - "CustomResponse"
+  - "HandlerMethodReturnValueHandler"
+  - "Custom Annotation"
+  - "JSON Response"
+  - "ObjectMapper"
+  - "REST API"
+  - "Java"
 slug: "spring-boot-custom-api-response-format"
 aliases:
   - "/posts/spring-boot-中自定义接口返回格式/"
