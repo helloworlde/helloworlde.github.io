@@ -73,7 +73,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="给-bridge-开启-ipv6"&gt;给 bridge 开启 IPv6&lt;/h2&gt;
 &lt;p&gt;给 bridge 开启 IPv6 相当于默认给所有没有指定网络的容器都开启了 IPv6；此时需要在配置文件中指定 IPv6 子网范围&lt;/p&gt;</description></item><item><title>使用 Docker 部署 Clash Premium</title><link>https://blog.hellowood.dev/posts/docker-deploy-clash-premium/</link><pubDate>Sat, 09 Sep 2023 21:32:33 +0800</pubDate><guid>https://blog.hellowood.dev/posts/docker-deploy-clash-premium/</guid><description>&lt;p&gt;Clash Premium 是 Clash 的闭源内核版本，相比 Clash 开源版本，最大的特点是支持规则集和代理服务订阅能力&lt;/p&gt;
 &lt;h2 id="订阅格式转换"&gt;订阅格式转换&lt;/h2&gt;
-&lt;p&gt;大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-%E4%BD%BF%E7%94%A8-docker-%E9%83%A8%E7%BD%B2/"&gt;Clash 使用 Docker 部署&lt;/a&gt; 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/"&gt;https://acl4ssr-sub.github.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;大部分订阅是 base64 编码的节点，无法被 Clash 直接使用，因此需要进行订阅格式转换，具体请参考 &lt;a href="https://blog.hellowood.dev/posts/clash-docker-deployment/"&gt;Clash 使用 Docker 部署&lt;/a&gt; 或使用在线工具直接转换：&lt;a href="https://acl4ssr-sub.github.io/"&gt;https://acl4ssr-sub.github.io/&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="修改配置"&gt;修改配置&lt;/h2&gt;
 &lt;h3 id="基础配置"&gt;基础配置&lt;/h3&gt;
 &lt;p&gt;基础配置部分用于指定 Clash 的端口、代理模式等；使用 TUN 后可以代理 UDP 流量，开启 tracing 可以对 Clash 进行性能监控&lt;/p&gt;
@@ -125,7 +125,7 @@
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl daemon-reload
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;systemctl restart docker
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="检查端口"&gt;检查端口&lt;/h3&gt;
-&lt;p&gt;通过 telnet 命令检查 2375 端口，可以访问说明端口正常&lt;/p&gt;</description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-docker-deployment/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/clash-docker-deployment/</guid><description>&lt;p&gt;使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/"&gt;使用 Docker 部署 Clash Premium&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;通过 telnet 命令检查 2375 端口，可以访问说明端口正常&lt;/p&gt;</description></item><item><title>Clash 使用 Docker 部署</title><link>https://blog.hellowood.dev/posts/clash-docker-deployment/</link><pubDate>Wed, 26 Oct 2022 11:20:19 +0800</pubDate><guid>https://blog.hellowood.dev/posts/clash-docker-deployment/</guid><description>&lt;p&gt;使用 Clash Premium 版本请参考 &lt;a href="https://blog.hellowood.dev/posts/docker-deploy-clash-premium/"&gt;使用 Docker 部署 Clash Premium&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;在一些场景下无法使用 Clash 客户端进行代理，也无法使用软路由，这时候可以由一台服务器运行 Clash，作为其他客户端的代理；同时 Clash 支持以 Docker 容器的方式运行，方便部署和运维&lt;/p&gt;
 &lt;h2 id="订阅格式转换"&gt;订阅格式转换&lt;/h2&gt;
 &lt;p&gt;机场提供的订阅可能无法被 Clash 直接使用，或者分流配置不合理，需要转换格式；可以使用在线的订阅转换工具，如 &lt;a href="https://acl4ssr-sub.github.io/"&gt;https://acl4ssr-sub.github.io/&lt;/a&gt;等，也可以使用开源的服务自行搭建；&lt;/p&gt;

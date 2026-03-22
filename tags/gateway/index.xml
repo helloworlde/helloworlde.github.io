@@ -24,9 +24,9 @@
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png" alt="PocketID 作为 HomeLab 统一登录认证工具的首页界面" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;PocketID 只支持通行密钥(passkey) 的方式进行登录，因此要求 PocketID 服务的访问地址必须是 HTTPS 的；如果是在本地部署，可以使用 Cloudflare Tunnel 转发，或者通过 Split DNS + Caddy 代理的方式进行访问；关于 Split DNS 可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/"&gt;使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;PocketID 只支持通行密钥(passkey) 的方式进行登录，因此要求 PocketID 服务的访问地址必须是 HTTPS 的；如果是在本地部署，可以使用 Cloudflare Tunnel 转发，或者通过 Split DNS + Caddy 代理的方式进行访问；关于 Split DNS 可以参考 &lt;a href="https://blog.hellowood.dev/posts/split-dns-homelab-consistent-access/"&gt;使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;以 PocketID 和 Tinyauth 为例，使用 PocketID 作为统一的登录认证工具，配合 Tinyauth 保护 HomeLab 内网的其他服务&lt;/p&gt;
-&lt;p&gt;关于 Caddy 和 Tinyauth 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt; 和 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tinyauth-%E4%BD%9C%E4%B8%BA-caddy-%E7%9A%84%E9%89%B4%E6%9D%83%E5%B7%A5%E5%85%B7%E4%BF%9D%E6%8A%A4-homelab-%E5%85%B6%E4%BB%96%E6%9C%8D%E5%8A%A1/"&gt;使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于 Caddy 和 Tinyauth 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt; 和 &lt;a href="https://blog.hellowood.dev/posts/tinyauth-caddy-authentication-homelab-services/"&gt;使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="部署-pocketid"&gt;部署 PocketID&lt;/h2&gt;
 &lt;p&gt;PocketID 的数据支持 SQLite 和 PostgreSQL 两种方式进行保存，因为用户和 OIDC 客户端信息会影响到所有相关使用 PocketID 的服务，因此强烈建议使用 PostgreSQL 保存数据，并对数据进行定期、多副本备份&lt;/p&gt;</description></item><item><title>使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务</title><link>https://blog.hellowood.dev/posts/tinyauth-caddy-authentication-homelab-services/</link><pubDate>Sat, 30 Aug 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/tinyauth-caddy-authentication-homelab-services/</guid><description>&lt;p&gt;&lt;a href="https://tinyauth.app/"&gt;Tinyauth&lt;/a&gt; 是一个非常轻量级的鉴权工具，相比 Authelia/Authentik/Keycloack 等更适合 HomeLab 使用；同时支持使用 OIDC 的鉴权方式，可以结合 GitHub/Google 等支持 OIDC 的第三方账号进行登录&lt;/p&gt;
 &lt;p&gt;
@@ -34,7 +34,7 @@
  &lt;img src="https://img.hellowood.dev/picture/homelab-caddy-auth-tinyauth-homepage.png" alt="Tinyauth 轻量级鉴权工具主页界面展示" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h2 id="部署-tinyauth"&gt;部署 Tinyauth&lt;/h2&gt;
-&lt;p&gt;对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考&lt;a href="https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/"&gt;使用 Caddy 作为 HomeLab 内网服务的代理&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="创建用户"&gt;创建用户&lt;/h3&gt;
 &lt;p&gt;Tinyauth 支持多种登录方式，如 GitHub/Google 账户，或者单独创建用户&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker run -i -t --rm ghcr.io/steveiliop56/tinyauth:v3 user create --interactive

@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>spring security on HelloWood</title><link>https://blog.hellowood.dev/tags/spring-security/</link><description>Recent content in spring security on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/spring-security/index.xml" rel="self" type="application/rss+xml"/><item><title>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-security-remember-me-problems-solutions/</link><pubDate>Mon, 01 Jan 2018 00:37:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-remember-me-problems-solutions/</guid><description>&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>spring security on HelloWood</title><link>https://blog.hellowood.dev/tags/spring-security/</link><description>Recent content in spring security on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/spring-security/index.xml" rel="self" type="application/rss+xml"/><item><title>SpringBoot 中 Spring Security 403 自定义返回消息</title><link>https://blog.hellowood.dev/posts/springboot-security-403-custom-message/</link><pubDate>Mon, 24 Dec 2018 21:15:25 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-security-403-custom-message/</guid><description>&lt;ul&gt;
+&lt;li&gt;自定义处理类 CustomAccessDeniedHandler&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+ @Override
+ public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+ response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+ response.setStatus(HttpStatus.FORBIDDEN.value());
+ response.getWriter().write(new ObjectMapper().writeValueAsString(new CustomResponse(&amp;#34;Session Invalid&amp;#34;, null)));
+ }
+
+ static class CustomResponse {
+ private String message;
+ private Object data;
+
+ CustomResponse(String message, Object data) {
+ this.message = message;
+ this.data = data;
+ }
+
+ public String getMessage() {
+ return message;
+ }
+
+ public void setMessage(String message) {
+ this.message = message;
+ }
+
+ public Object getData() {
+ return data;
+ }
+
+ public void setData(Object data) {
+ this.data = data;
+ }
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;在Spring Security 配置中添加配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+ .antMatchers(&amp;#34;/&amp;#34;,
+ &amp;#34;/index.html&amp;#34;,
+ &amp;#34;/**/favicon.ico&amp;#34;,
+ &amp;#34;/login&amp;#34;,
+ &amp;#34;/logout&amp;#34;,
+ &amp;#34;/index&amp;#34;,
+ &amp;#34;/error&amp;#34;)
+ .permitAll();
+
+ http.authorizeRequests()
+ .anyRequest()
+ .authenticated()
+ .and()
+ .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+ }
+
+ @Bean
+ public AccessDeniedHandler accessDeniedHandler() {
+ return new CustomAccessDeniedHandler();
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;返回值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;{&amp;#34;message&amp;#34;:&amp;#34;Session Invalid&amp;#34;,&amp;#34;data&amp;#34;:null}
+&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法</title><link>https://blog.hellowood.dev/posts/spring-security-remember-me-problems-solutions/</link><pubDate>Mon, 01 Jan 2018 00:37:35 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-security-remember-me-problems-solutions/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;在使用 Spring Security 的 Remember Me 记住密码功能时遇到的问题和解决方法&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;

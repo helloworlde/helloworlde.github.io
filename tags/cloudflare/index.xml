@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cloudflare on HelloWood</title><link>https://blog.hellowood.dev/tags/cloudflare/</link><description>Recent content in cloudflare on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/cloudflare/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Cloudflare 和 Caddy 代理 HomeLab 服务</title><link>https://blog.hellowood.dev/posts/cloudflare-caddy-homelab-proxy/</link><pubDate>Wed, 30 Jul 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/cloudflare-caddy-homelab-proxy/</guid><description>&lt;p&gt;HomeLab 内网使用 Caddy 进行代理，外部访问通过 Cloudflare 将请求转发给 Caddy，然后再由 Caddy 转发给对应的服务，这样的好处是服务变动只需要配置一次 Caddy 的路由即可&lt;/p&gt;
 &lt;h2 id="使用-cloudflare-tunnel-将服务转发给-caddy"&gt;使用 Cloudflare Tunnel 将服务转发给 Caddy&lt;/h2&gt;
-&lt;p&gt;关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/"&gt;使用 Caddy 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于 Cloudflare Tunnel 的安装使用可以参考 &lt;a href="https://blog.hellowood.dev/posts/cloudflare-tunnel-reverse-proxy-access-internal-services/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于 Caddy 的安装使用参考 &lt;a href="https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/"&gt;使用 Caddy 作为反向代理访问内网服务&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;以 traefik/whoami 服务为例&lt;/p&gt;
 &lt;h3 id="部署-whoami-服务"&gt;部署 whoami 服务&lt;/h3&gt;
 &lt;p&gt;traefik/whoami 是一个可以返回请求信息的 Go 服务，用 docker-compose 部署&lt;/p&gt;
@@ -32,7 +32,7 @@
  &lt;img src="https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png" alt="Cloudflare 应用程序登录页面展示鉴权界面" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;h2 id="使用-tunnel-代理服务"&gt;使用 Tunnel 代理服务&lt;/h2&gt;
-&lt;p&gt;如何配置和使用 Tunnel 可以参考 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt; 以及 &lt;a href="https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/"&gt;使用 Cloudflare Tunnels 通过 Web SSH 访问服务器&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如何配置和使用 Tunnel 可以参考 &lt;a href="https://blog.hellowood.dev/posts/cloudflare-tunnel-reverse-proxy-access-internal-services/"&gt;使用 Cloudflare Tunnel 作为反向代理访问内网服务&lt;/a&gt; 以及 &lt;a href="https://blog.hellowood.dev/posts/cloudflare-tunnels-web-ssh-server-access/"&gt;使用 Cloudflare Tunnels 通过 Web SSH 访问服务器&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="配置鉴权"&gt;配置鉴权&lt;/h2&gt;
 &lt;p&gt;相关的配置在 Zero Trust -&amp;gt; Access 中：&lt;/p&gt;
 &lt;ul&gt;

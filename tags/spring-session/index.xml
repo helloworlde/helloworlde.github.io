@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>spring session on HelloWood</title><link>https://blog.hellowood.dev/tags/spring-session/</link><description>Recent content in spring session on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/spring-session/index.xml" rel="self" type="application/rss+xml"/><item><title>Spring MVC 使用 Spring Session 实现 Session 共享-Redis</title><link>https://blog.hellowood.dev/posts/spring-mvc-spring-session-redis/</link><pubDate>Mon, 01 Jan 2018 00:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc-spring-session-redis/</guid><description>&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>spring session on HelloWood</title><link>https://blog.hellowood.dev/tags/spring-session/</link><description>Recent content in spring session on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/spring-session/index.xml" rel="self" type="application/rss+xml"/><item><title>SpringBoot-使用 Spring Session 实现 Session 共享</title><link>https://blog.hellowood.dev/posts/springboot-spring-session-shared/</link><pubDate>Sun, 08 Apr 2018 15:09:41 +0800</pubDate><guid>https://blog.hellowood.dev/posts/springboot-spring-session-shared/</guid><description>&lt;h2 id="通过-redis-共享"&gt;通过 Redis 共享&lt;/h2&gt;
+&lt;h3 id="配置"&gt;配置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;配置并启动 Redis&lt;/li&gt;
+&lt;li&gt;添加依赖&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-gradle" data-lang="gradle"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c1abea"&gt;dependencies&lt;/span&gt; &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.session:spring-session&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-data-redis&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;compile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-web&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;testCompile&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;(&lt;/span&gt;&lt;span style="color:#98c379"&gt;&amp;#39;org.springframework.boot:spring-boot-starter-test&amp;#39;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;添加配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;spring.session.store-type=redis
+spring.redis.host=localhost
+spring.redis.port=6379
+spring.redis.database=0
+spring.redis.password=123456
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="使用"&gt;使用&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;启用 Redis Session&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.boot.SpringApplication&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.boot.autoconfigure.SpringBootApplication&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@SpringBootApplication&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@EnableRedisHttpSession&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;SessionApplication&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;static&lt;/span&gt; &lt;span style="color:#ef8383"&gt;void&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;main&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;String&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;[]&lt;/span&gt; &lt;span style="color:#c1abea"&gt;args&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;SpringApplication&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;run&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;SessionApplication&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;class&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;args&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;@EnableRedisHttpSession&lt;/code&gt; 也可以不写，在配置文件里配置 &lt;code&gt;spring.session.store-type=redis&lt;/code&gt; 即可&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加 Controller&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.web.bind.annotation.RequestMapping&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.web.bind.annotation.ResponseBody&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;org.springframework.web.bind.annotation.RestController&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;import&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;javax.servlet.http.HttpSession&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e5c07b"&gt;@RestController&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c678dd"&gt;class&lt;/span&gt; &lt;span style="color:#76a9f9"&gt;SessionController&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@RequestMapping&lt;/span&gt;(&lt;span style="color:#98c379"&gt;&amp;#34;/&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e5c07b"&gt;@ResponseBody&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;public&lt;/span&gt; &lt;span style="color:#c1abea"&gt;String&lt;/span&gt; &lt;span style="color:#00b1f7"&gt;root&lt;/span&gt;(&lt;span style="color:#c1abea"&gt;HttpSession&lt;/span&gt; &lt;span style="color:#c1abea"&gt;session&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;return&lt;/span&gt; &lt;span style="color:#c1abea"&gt;session&lt;/span&gt;.&lt;span style="color:#b3d23c"&gt;getId&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;访问 &lt;code&gt;http://localhost:8080&lt;/code&gt;, 此时会显示 &lt;code&gt;Session ID&lt;/code&gt;, 重新启动应用，再次访问 &lt;code&gt;http://localhost:8080&lt;/code&gt;，此时 &lt;code&gt;Session ID&lt;/code&gt; 应该和第一次访问一致，说明 &lt;code&gt;Session&lt;/code&gt; 已被正确共享&lt;/p&gt;</description></item><item><title>Spring MVC 使用 Spring Session 实现 Session 共享-Redis</title><link>https://blog.hellowood.dev/posts/spring-mvc-spring-session-redis/</link><pubDate>Mon, 01 Jan 2018 00:07:20 +0800</pubDate><guid>https://blog.hellowood.dev/posts/spring-mvc-spring-session-redis/</guid><description>&lt;blockquote&gt;
 &lt;p&gt;使用Spring Session 通过 Redis 实现 Session 共享，用于多实例应用&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
