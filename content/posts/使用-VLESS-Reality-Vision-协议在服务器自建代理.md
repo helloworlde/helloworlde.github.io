@@ -2,7 +2,7 @@
 date: 2026-03-16T08:52:57+08:00
 description: "Xray-core VLESS Reality Vision 自建代理 Docker 部署教程，含 UUID 私钥配置及 ClashX Meta 使用指南，解决双重加密识别问题"
 # image: ""
-lastmod: 2026-03-16
+lastmod: 2026-03-22
 showTableOfContents: false
 tags:
   - Proxy
@@ -12,8 +12,8 @@ title: "使用 VLESS Reality Vision 协议在 VPS 服务器自建代理"
 type: "post"
 ---
 
-
 VLESS Reality Vision 是目前 Xray-core 中最推荐的代理组合方案，三个组件各司其职：
+
 - VLESS 负责代理协议层，用 UUID 认证用户身份并转发流量，设计极简，本身不做加密
 - Reality 负责传输安全层，代替传统 TLS。核心思路是：握手时伪装成访问真实网站（如 www.bing.com）的正常 TLS 连接，认证通过后才接管流量，否则直接转发给真实网站。外部观察者看到的是一条普通的 HTTPS 请求，无法区分。服务端不需要域名和证书，用公私钥对做认证
 - Vision 负责流控优化层，解决"TLS in TLS"问题。代理流量本身是 TLS 加密的，外面再套一层 Reality（也是 TLS），会形成双重加密的流量特征，容易被识别。Vision 在检测到内层 TLS 握手完成后，自动剥离外层加密直接传输，消除双重特征的同时也提升了性能
