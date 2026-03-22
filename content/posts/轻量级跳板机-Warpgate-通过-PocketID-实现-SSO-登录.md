@@ -6,7 +6,7 @@ lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "轻量级跳板机 Warpgate 通过 PocketID 实现 SSO 登录"
-slug: "lightweight-warpgate-pocketid-ss"
+slug: "lightweight-warpgate-pocketid-sso"
 aliases:
   - "/posts/轻量级跳板机-warpgate-通过-pocketid-实现-sso-登录/"
 type: "post"
@@ -15,9 +15,9 @@ tags:
 featured: true
 ---
 
-在[部署轻量跳板机 Warpgate 通过 SSH 访问机器](https://blog.hellowood.dev/posts/%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E8%B7%B3%E6%9D%BF%E6%9C%BA-warpgate-%E9%80%9A%E8%BF%87-ssh-%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%99%A8/)后还需要对 Warpgate 的登录方式进行配置，以实现和其他的服务一样通过 OAuth2 进行 SSO 登录，让用户管理和认证都通过统一的身份提供商来完成；官方文档介绍可以参考 [Single sign-on](https://warpgate.null.page/sso/)
+在[部署轻量跳板机 Warpgate 通过 SSH 访问机器](https://blog.hellowood.dev/posts/deploy-lightweight-warpgate-ssh-access/)后还需要对 Warpgate 的登录方式进行配置，以实现和其他的服务一样通过 OAuth2 进行 SSO 登录，让用户管理和认证都通过统一的身份提供商来完成；官方文档介绍可以参考 [Single sign-on](https://warpgate.null.page/sso/)
 
-Warpgate 支持通过 Google/Apple/GitLab/Azure/Okta 等 OIDC 提供商进行认证；这里通过 [PocketID](https://pocket-id.org/) 来实现 Warpgate 的 SSO 登录；关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/)
+Warpgate 支持通过 Google/Apple/GitLab/Azure/Okta 等 OIDC 提供商进行认证；这里通过 [PocketID](https://pocket-id.org/) 来实现 Warpgate 的 SSO 登录；关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/pocketid-homelab-single-sign-on/)
 
 ![PocketID 中创建 Warpgate OIDC 客户端配置界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-homepage.png)
 

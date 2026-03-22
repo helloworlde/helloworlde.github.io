@@ -49,9 +49,9 @@ whoami.example.com {
 
 详细信息可以参考:
 
-- [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/)
-- [使用 Cloudflare 和 Caddy 代理 HomeLab 服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-%E5%92%8C-caddy-%E4%BB%A3%E7%90%86-homelab-%E6%9C%8D%E5%8A%A1/)
-- [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/)
+- [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/)
+- [使用 Cloudflare 和 Caddy 代理 HomeLab 服务](https://blog.hellowood.dev/posts/cloudflare-caddy-homelab-proxy/)
+- [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/aliyun-caddy-zerossl-ip-certificate-https/)
 
 ## 配置 Cloudflare Tunnel
 

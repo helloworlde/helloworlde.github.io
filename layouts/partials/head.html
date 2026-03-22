@@ -15,7 +15,7 @@
     {{ $postKeywords := .Params.tags | default (slice) }}
     {{ $keywords := union $siteKeywords $postKeywords }}
 
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $title }} - {{ .Site.Title }}{{ end }}</title>
+    <title>{{ if .IsHome }}{{ if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}{{ else }}{{ $title }} - {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ $description }}">
     <meta name="keywords" content='{{ delimit $keywords ", "}}'>
     {{ with .Site.Params.Author }}<meta name="author" content="{{ . }}">{{ end }}

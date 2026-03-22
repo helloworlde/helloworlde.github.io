@@ -8,7 +8,7 @@ type: post
 date: 2023-12-23T21:52:00+08:00
 lastmod: 2026-03-22
 tags:
-  - Proxmox
+  - proxmox-ve
   - HomeLab
 featured: true
 ---

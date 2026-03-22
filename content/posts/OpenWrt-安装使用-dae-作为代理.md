@@ -63,13 +63,13 @@ autocore automount base-files block-mount ca-bundle default-settings-chn dnsmasq
 
 ### 在 PVE 中运行 OpenWrt
 
-使用刚才下载的镜像在 PVE 中创建 OpenWrt 的虚拟机并运行，详细参考 [OpenWrt 在 PVE 中以虚拟机方式安装](https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/)
+使用刚才下载的镜像在 PVE 中创建 OpenWrt 的虚拟机并运行，详细参考 [OpenWrt 在 PVE 中以虚拟机方式安装](https://blog.hellowood.dev/posts/openwrt-install-pve-vm/)
 
 ## 配置 Dae
 
 ### 修改配置文件
 
-登录 OpenWrt 的命令行进行修改，关于 Dae 配置的详细解释可以参考: [dae-代理软件的配置](https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/)
+登录 OpenWrt 的命令行进行修改，关于 Dae 配置的详细解释可以参考: [dae-代理软件的配置](https://blog.hellowood.dev/posts/dae-proxy-configuration/)
 
 配置文件位置在 `/etc/dae/` 路径下，创建 `/etc/dae/config.dae` 文件，文件内容如下:
 
@@ -279,8 +279,8 @@ level=info msg="10.0.0.1:64376 <-> claude.ai:443" dialer="新加坡07aws" dscp=0
 
 ## 参考文档
 
-- [Dae 代理软件的配置](https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/)
-- [OpenWrt 在 PVE 中以虚拟机方式安装](https://blog.hellowood.dev/posts/openwrt-%E5%9C%A8-pve-%E4%B8%AD%E4%BB%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85/)
+- [Dae 代理软件的配置](https://blog.hellowood.dev/posts/dae-proxy-configuration/)
+- [OpenWrt 在 PVE 中以虚拟机方式安装](https://blog.hellowood.dev/posts/openwrt-install-pve-vm/)
 - [🦢Dae安装及配置指南](https://deeprouter.org/article/dae-installation-configuration-guide#1ac975710fee8089983de9e660c0e0eb)
 - [https://github.com/daeuniverse/dae/blob/main/example.dae](https://github.com/daeuniverse/dae/blob/main/example.dae)
 - [吃鹅直通手册](https://github.com/daeuniverse/dae/blob/main/docs/zh/README.md)

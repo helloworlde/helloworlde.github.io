@@ -9,7 +9,7 @@ date: 2018-01-01T12:08:07+08:00
 lastmod: 2026-03-22
 tags:
   - Ubuntu
-  - Reids
+  - redis
 featured: true
 ---
 

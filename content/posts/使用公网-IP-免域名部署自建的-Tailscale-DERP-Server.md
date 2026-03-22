@@ -15,13 +15,13 @@ type: "post"
 featured: true
 ---
 
-之前[使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/)，但是部分服务器不支持 IPv6；另外 IPv6 开启后如果 DNS 或者 MSS 钳制配置不当会导致部分流量无法正常路由，可能会影响其他设备使用，因此作为补充，使用阿里云的服务器部署 DERP 服务器，用于提供 IPv4 的流量转发
+之前[使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/home-broadband-public-ipv6-tailscale-derp-node/)，但是部分服务器不支持 IPv6；另外 IPv6 开启后如果 DNS 或者 MSS 钳制配置不当会导致部分流量无法正常路由，可能会影响其他设备使用，因此作为补充，使用阿里云的服务器部署 DERP 服务器，用于提供 IPv4 的流量转发
 
 Tailscale 从 [1.82.0](https://tailscale.com/changelog#2025-03-26) 版本开始支持使用自签的 IP 证书部署 DERP Server，而不再强制使用域名，因此可以使用 ZeroSSL 的 IP 证书和阿里云的公网 IP 自建免域名的 DERP Server
 
 ## 申请 ZeroSSL IP 证书
 
-申请 ZeroSSL IP 证书可以参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/) 进行申请获取证书
+申请 ZeroSSL IP 证书可以参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/aliyun-caddy-zerossl-ip-certificate-https/) 进行申请获取证书
 
 ## 部署 DERP Server
 
@@ -204,4 +204,4 @@ tailscale debug force-prefer-derp 903
 
 - [DERP servers](https://tailscale.com/kb/1232/derp-servers)
 - [Custom DERP Servers](https://tailscale.com/kb/1118/custom-derp-servers)
-- [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/)
+- [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/home-broadband-public-ipv6-tailscale-derp-node/)

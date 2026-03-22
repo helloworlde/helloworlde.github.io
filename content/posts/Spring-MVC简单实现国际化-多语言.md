@@ -9,7 +9,7 @@ date: 2018-01-01T11:48:46+08:00
 lastmod: 2026-03-22
 tags:
   - Java
-  - SrpingMVC
+  - springmvc
   - i18n
 featured: true
 ---

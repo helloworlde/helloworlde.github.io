@@ -249,7 +249,7 @@ Last login: Sat Jan 31 11:50:26 2026 from 10.0.0.2
 
 为了在公司等无法直接访问 HomeLab 的环境下访问，可以通过 Cloudflare Tunnel 将 Warpgate 暴露到公网，并使用 Cloudflare Access 进行访问控制
 
-关于 Cloudflare Tunnel 的安装部署和 Access 配置可以参考 [使用 Cloudflare Tunnel 作为反向代理访问内网服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/) 和 [Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权](https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/)
+关于 Cloudflare Tunnel 的安装部署和 Access 配置可以参考 [使用 Cloudflare Tunnel 作为反向代理访问内网服务](https://blog.hellowood.dev/posts/cloudflare-tunnel-reverse-proxy-access-internal-services/) 和 [Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权](https://blog.hellowood.dev/posts/cloudflare-tunnel-authentication-applications-policies/)
 
 ![通过 Warpgate 和 Cloudflare 安全访问 HomeLab 机器](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-route.png)
 

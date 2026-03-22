@@ -5,7 +5,7 @@ description: "PVE 虚拟机迁移指南：使用 vzdump 命令行备份、rsync 
 lastmod: 2026-03-22
 showTableOfContents: false
 tags:
-  - PVE
+  - proxmox-ve
   - OpenWrt
   - HomeLab
 featured: true

@@ -211,7 +211,7 @@ sudo update-ca-certificates
 
 Caddy 支持自定义 ACME Server，因此可以直接使用 Step CA 作为 ACME Server 来颁发证书
 
-关于 Caddy 的安装和配置可以参考 [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/)
+关于 Caddy 的安装和配置可以参考 [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/)
 
 ### 启动 Caddy
 

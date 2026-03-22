@@ -10,7 +10,7 @@ lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot
-  - SpringSession
+  - spring-session
   - Session
 featured: true
 ---

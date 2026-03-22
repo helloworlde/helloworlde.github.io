@@ -137,7 +137,7 @@ xray  | 2026/03/18 09:12:05.712226 [Warning] core: Xray 26.2.6 started
 
 ### ClashX Meta
 
-通过 proxy-providers 方式配置，详细可以参考 [使用 Docker 部署 Clash Premium](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/)
+通过 proxy-providers 方式配置，详细可以参考 [使用 Docker 部署 Clash Premium](https://blog.hellowood.dev/posts/docker-deploy-clash-premium/)
 
 - xtls.yaml
 
@@ -195,7 +195,7 @@ rules:
 
 ### dae 代理配置
 
-关于 dae 的配置和使用，可以参考 [Dae 代理软件的配置](https://blog.hellowood.dev/posts/dae-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE/)， [OpenWrt 安装使用 Dae 作为代理](https://blog.hellowood.dev/posts/openwrt-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-dae-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/)
+关于 dae 的配置和使用，可以参考 [Dae 代理软件的配置](https://blog.hellowood.dev/posts/dae-proxy-configuration/)， [OpenWrt 安装使用 Dae 作为代理](https://blog.hellowood.dev/posts/openwrt-install-dae-proxy/)
 
 - config.dae
 

@@ -21,7 +21,7 @@ featured: true
 
 ## 使用 Tunnel 代理服务
 
-如何配置和使用 Tunnel 可以参考 [使用 Cloudflare Tunnel 作为反向代理访问内网服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/) 以及 [使用 Cloudflare Tunnels 通过 Web SSH 访问服务器](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/)
+如何配置和使用 Tunnel 可以参考 [使用 Cloudflare Tunnel 作为反向代理访问内网服务](https://blog.hellowood.dev/posts/cloudflare-tunnel-reverse-proxy-access-internal-services/) 以及 [使用 Cloudflare Tunnels 通过 Web SSH 访问服务器](https://blog.hellowood.dev/posts/cloudflare-tunnels-web-ssh-server-access/)
 
 ## 配置鉴权
 

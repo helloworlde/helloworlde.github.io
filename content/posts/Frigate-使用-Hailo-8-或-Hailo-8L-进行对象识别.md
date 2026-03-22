@@ -36,7 +36,7 @@ Frigate 的最新的代码已经合并了 Hailo8L 的 PR，预计将会在 0.15 
 
 ## Frigate 使用 Hailo8/8L
 
-使用之前，需要确保 Hailo 的 PCIE Driver 已经正确安装，参考 [Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器](https://blog.hellowood.dev/posts/ubuntu22-%E5%AE%89%E8%A3%85%E5%88%9D%E5%A7%8B%E5%8C%96-hailo-8%E7%B3%BB%E5%88%97-tpu-%E5%8A%A0%E9%80%9F%E5%99%A8/)
+使用之前，需要确保 Hailo 的 PCIE Driver 已经正确安装，参考 [Ubuntu22 安装初始化 Hailo 8系列 TPU 加速器](https://blog.hellowood.dev/posts/ubuntu-22-install-hailo-8-tpu/)
 
 ### 将 Hailo 设备挂载到容器
 

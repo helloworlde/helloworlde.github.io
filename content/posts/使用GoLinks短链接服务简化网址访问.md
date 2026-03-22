@@ -8,7 +8,7 @@ type: post
 date: 2023-11-27T11:40:53+08:00
 lastmod: 2026-03-22
 tags:
-  - Tools
+  - tool
 featured: true
 ---
 

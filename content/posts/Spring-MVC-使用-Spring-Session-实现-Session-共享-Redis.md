@@ -9,7 +9,7 @@ date: 2018-01-01T00:07:20+08:00
 lastmod: 2026-03-22
 tags:
   - Java
-  - SrpingMVC
+  - springmvc
   - Spring Session
 featured: true
 ---

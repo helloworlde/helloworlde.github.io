@@ -8,7 +8,7 @@ type: post
 date: 2024-01-07T12:00:10+08:00
 lastmod: 2026-03-22
 tags:
-  - Proxmox
+  - proxmox-ve
   - HomeLab
   - LXC
 featured: true

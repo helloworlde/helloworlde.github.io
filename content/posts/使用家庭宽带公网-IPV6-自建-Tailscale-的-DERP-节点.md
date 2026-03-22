@@ -17,7 +17,7 @@ featured: true
 
 另外自建的 DERP 服务器要求节点能够直接通过公网访问，不能在 NAT 或者负载均衡后面，因此基于家庭宽带的公网 IPV6 自建 DERP 服务器最合适
 
-> 从 tailscale 1.82.0 版本开始支持直接使用自签名的 IP 证书部署，可以通过 ZeroSSL 申请证书，免域名部署在国内的服务器上，具体参考 [使用公网 IP 免域名部署自建的 Tailscale DERP Server](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%85%AC%E7%BD%91-ip-%E5%85%8D%E5%9F%9F%E5%90%8D%E9%83%A8%E7%BD%B2%E8%87%AA%E5%BB%BA%E7%9A%84-tailscale-derp-server/)
+> 从 tailscale 1.82.0 版本开始支持直接使用自签名的 IP 证书部署，可以通过 ZeroSSL 申请证书，免域名部署在国内的服务器上，具体参考 [使用公网 IP 免域名部署自建的 Tailscale DERP Server](https://blog.hellowood.dev/posts/deploy-tailscale-derp-server-public-ip/)
 
 ## 现状
 

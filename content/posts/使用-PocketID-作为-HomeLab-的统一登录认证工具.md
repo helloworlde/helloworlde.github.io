@@ -21,11 +21,11 @@ featured: true
 
 ![PocketID 作为 HomeLab 统一登录认证工具的首页界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
 
-PocketID 只支持通行密钥(passkey) 的方式进行登录，因此要求 PocketID 服务的访问地址必须是 HTTPS 的；如果是在本地部署，可以使用 Cloudflare Tunnel 转发，或者通过 Split DNS + Caddy 代理的方式进行访问；关于 Split DNS 可以参考 [使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/)
+PocketID 只支持通行密钥(passkey) 的方式进行登录，因此要求 PocketID 服务的访问地址必须是 HTTPS 的；如果是在本地部署，可以使用 Cloudflare Tunnel 转发，或者通过 Split DNS + Caddy 代理的方式进行访问；关于 Split DNS 可以参考 [使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验](https://blog.hellowood.dev/posts/split-dns-homelab-consistent-access/)
 
 以 PocketID 和 Tinyauth 为例，使用 PocketID 作为统一的登录认证工具，配合 Tinyauth 保护 HomeLab 内网的其他服务
 
-关于 Caddy 和 Tinyauth 的安装使用可以参考[使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/) 和 [使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-tinyauth-%E4%BD%9C%E4%B8%BA-caddy-%E7%9A%84%E9%89%B4%E6%9D%83%E5%B7%A5%E5%85%B7%E4%BF%9D%E6%8A%A4-homelab-%E5%85%B6%E4%BB%96%E6%9C%8D%E5%8A%A1/)
+关于 Caddy 和 Tinyauth 的安装使用可以参考[使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/) 和 [使用 Tinyauth 作为 Caddy 的鉴权工具保护 HomeLab 其他服务](https://blog.hellowood.dev/posts/tinyauth-caddy-authentication-homelab-services/)
 
 ## 部署 PocketID
 

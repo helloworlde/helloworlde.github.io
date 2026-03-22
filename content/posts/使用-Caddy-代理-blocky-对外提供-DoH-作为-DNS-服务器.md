@@ -28,7 +28,7 @@ aliases:
 客户端 -(https)-> Caddy -(http)-> Blocky -(udp)-> 阿里云内网 DNS
 ```
 
-关于 Caddy 的使用可以参考 [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/)，HTTPS 证书使用 ZeroSSL 提供的 IP 证书，可以参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/)
+关于 Caddy 的使用可以参考 [使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/)，HTTPS 证书使用 ZeroSSL 提供的 IP 证书，可以参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/aliyun-caddy-zerossl-ip-certificate-https/)
 
 ## 部署 Blocky
 
@@ -142,7 +142,7 @@ curl -H 'accept: application/dns-message' 'http://localhost:4000/dns-query?dns=q
 
 ## 配置 Caddy 代理
 
-DoH 需要使用 HTTPS 访问，需要 Caddy 配置 HTTPS 证书，参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8caddy-%E5%92%8C-zerossl-%E6%8F%90%E4%BE%9B%E7%9A%84-ip-%E8%AF%81%E4%B9%A6%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF-https/)
+DoH 需要使用 HTTPS 访问，需要 Caddy 配置 HTTPS 证书，参考 [阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS](https://blog.hellowood.dev/posts/aliyun-caddy-zerossl-ip-certificate-https/)
 
 - docker-compose.yml
 

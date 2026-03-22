@@ -16,7 +16,7 @@ type: post
 
 在使用服务器部署自建的 HomeLab Derp 服务器之后，偶尔会出现 Derp 服务器无法访问，因此想要监控 Derp 服务器的状态，进行延迟检测等；Tailscale 官方提供了 [derpprobe](https://github.com/tailscale/tailscale/blob/main/cmd/derpprobe/derpprobe.go) 这个工具，可以对 Derp 服务器的 UDP/UDP6/TLS/MESH 等协议以及带宽进行检测
 
-自行部署 Derp Server 参考 [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/)
+自行部署 Derp Server 参考 [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/home-broadband-public-ipv6-tailscale-derp-node/)
 
 ## 构建 Docker 镜像
 
@@ -142,7 +142,7 @@ services:
 
 ### 使用自定义的 derp-map
 
-derp-map 包含 derp 服务器的信息，默认从 [https://login.tailscale.com/derpmap/default](https://login.tailscale.com/derpmap/default) 获取，也可以自行指定地址；如果是本地文件，则需要添加 `files://` 前缀; 如仅测试自定义的 derp 服务器，配置可以参考: [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E5%85%AC%E7%BD%91-ipv6-%E8%87%AA%E5%BB%BA-tailscale-%E7%9A%84-derp-%E8%8A%82%E7%82%B9/) 的 "修改 tailscale 配置" 部分
+derp-map 包含 derp 服务器的信息，默认从 [https://login.tailscale.com/derpmap/default](https://login.tailscale.com/derpmap/default) 获取，也可以自行指定地址；如果是本地文件，则需要添加 `files://` 前缀; 如仅测试自定义的 derp 服务器，配置可以参考: [使用家庭宽带公网 IPV6 自建 Tailscale 的 DERP 节点](https://blog.hellowood.dev/posts/home-broadband-public-ipv6-tailscale-derp-node/) 的 "修改 tailscale 配置" 部分
 
 需要注意的是，如果 IPV4/IPV6 地址不是固定的就不要添加到配置中，这样不会检测 udp 和 udp6 的延迟信息
 

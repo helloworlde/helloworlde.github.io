@@ -17,7 +17,7 @@ type: "post"
 
 Hysteria2 支持端口跳跃，通过端口跳跃可以提升可用性，当一个端口被运营商阻塞时，可以切换到另一个端口继续使用，提升代理的稳定性。本方案结合 UFW 实现端口跳跃，通过端口跳跃提升可用性
 
-关于 Hysteria2 的配置，可以参考 [使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-docker-%E5%9C%A8-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-hysteria2-%E4%BD%9C%E4%B8%BA%E4%BB%A3%E7%90%86/)
+关于 Hysteria2 的配置，可以参考 [使用 Docker 在 Linux 服务器搭建 Hysteria2 作为代理](https://blog.hellowood.dev/posts/docker-hysteria2-proxy-linux-server/)
 
 ## 服务端
 
@@ -62,7 +62,7 @@ ufw allow from 10.0.0.0/16 to any port 9443 proto udp
 
 ### ClashX Meta
 
-通过 proxy-providers 方式配置，详细可以参考 [使用 Docker 部署 Clash Premium](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2clash-premium/)
+通过 proxy-providers 方式配置，详细可以参考 [使用 Docker 部署 Clash Premium](https://blog.hellowood.dev/posts/docker-deploy-clash-premium/)
 
 ```yaml
 proxies:

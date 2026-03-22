@@ -15,7 +15,7 @@ type: "post"
 featured: true
 ---
 
-之前使用 tag 给特定的设备单独指定胖路网关的地址和 DNS，通过设备的 MAC 地址匹配，(参考 [OpenWrt 使用 Tag 给特定的设备单独指定旁路网关的地址和 DNS](https://blog.hellowood.dev/posts/openwrt-%E4%BD%BF%E7%94%A8-tag-%E7%BB%99%E7%89%B9%E5%AE%9A%E7%9A%84%E8%AE%BE%E5%A4%87%E5%8D%95%E7%8B%AC%E6%8C%87%E5%AE%9A%E6%97%81%E8%B7%AF%E7%BD%91%E5%85%B3%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C-dns/))
+之前使用 tag 给特定的设备单独指定胖路网关的地址和 DNS，通过设备的 MAC 地址匹配，(参考 [OpenWrt 使用 Tag 给特定的设备单独指定旁路网关的地址和 DNS](https://blog.hellowood.dev/posts/openwrt-tag-specific-device-bypass-gateway-dns/))
 
 但是这种方式只能匹配到具体的设备，如果想给特定的 MAC 前缀的设备使用相同的规则，可以使用 mac 前缀的方式来实现；如我在 PVE 中配置所有的 LXC 容器的 MAC 地址前缀都是 `AA:BB:CC`，可以通过这个前缀来给所有的 LXC 容器指定旁路网关和 DNS 地址
 

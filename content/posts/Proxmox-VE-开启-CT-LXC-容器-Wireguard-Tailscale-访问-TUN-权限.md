@@ -7,7 +7,7 @@ aliases:
 date: 2024-09-17T10:57:59+08:00
 lastmod: 2026-03-22
 tags:
-  - Proxmox
+  - proxmox-ve
   - HomeLab
   - LXC
   - Tailscale
@@ -57,4 +57,4 @@ lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
 ## 参考文档
 
 - [Tailscale in LXC containers](https://tailscale.com/kb/1130/lxc-unprivileged)
-- [在PVE的LXC容器中直通核心显卡](https://blog.hellowood.dev/posts/%E5%9C%A8pve%E7%9A%84lxc%E5%AE%B9%E5%99%A8%E4%B8%AD%E7%9B%B4%E9%80%9A%E6%A0%B8%E5%BF%83%E6%98%BE%E5%8D%A1/)
+- [在PVE的LXC容器中直通核心显卡](https://blog.hellowood.dev/posts/pve-lxc-container-gpu-passthrough/)

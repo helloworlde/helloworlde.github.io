@@ -19,7 +19,7 @@ featured: true
 
 ![群晖 NAS 使用 PocketID 进行 SSO 登录界面](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png)
 
-关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/)
+关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/pocketid-homelab-single-sign-on/)
 
 ## 配置 PocketID
 

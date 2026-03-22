@@ -86,7 +86,7 @@ easytier  | 2025-06-09 09:31:01: new listener added. listener: wss://[::]:11012/
 
 ### 部署
 
-Easytier 依赖 tun 创建虚拟网络，因此如果是在 PVE 的 CT 容器中部署，需要将 tun 挂载到容器中，可以参考 [Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限](https://blog.hellowood.dev/posts/proxmox-ve-%E5%BC%80%E5%90%AF-ct-lxc-%E5%AE%B9%E5%99%A8-wireguard-tailscale-%E8%AE%BF%E9%97%AE-tun-%E6%9D%83%E9%99%90/)
+Easytier 依赖 tun 创建虚拟网络，因此如果是在 PVE 的 CT 容器中部署，需要将 tun 挂载到容器中，可以参考 [Proxmox-VE 开启 CT/LXC 容器 Wireguard/Tailscale 访问 TUN 权限](https://blog.hellowood.dev/posts/proxmox-ve-lxc-wireguard-tailscale-tun-permission/)
 
 - docker-compose.yml
 

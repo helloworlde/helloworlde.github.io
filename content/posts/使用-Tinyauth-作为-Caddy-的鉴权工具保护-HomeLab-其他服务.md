@@ -23,7 +23,7 @@ featured: true
 
 ## 部署 Tinyauth
 
-对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考[使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-caddy-%E4%BD%9C%E4%B8%BA-homelab-%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BB%A3%E7%90%86/)
+对 Caddy 和 Tinyauth 解耦，分别使用 Docker Compose 进行部署；关于 Caddy 的安装使用可以参考[使用 Caddy 作为 HomeLab 内网服务的代理](https://blog.hellowood.dev/posts/caddy-proxy-homelab-services/)
 
 ### 创建用户
 
