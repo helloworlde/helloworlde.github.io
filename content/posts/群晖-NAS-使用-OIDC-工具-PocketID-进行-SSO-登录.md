@@ -17,7 +17,7 @@ featured: true
 
 群晖 NAS 每次登录都需要输入用户名密码，比较麻烦；群晖 NAS 支持 OIDC/LDAP 等方式进行 SSO 登录认证，因此可以使用 PocketID 来实现统一的身份认证服务
 
-![homelab-nas-sso-pocket-login-page.png](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png)
+![群晖 NAS 使用 PocketID 进行 SSO 登录界面](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png)
 
 关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/)
 
@@ -25,7 +25,7 @@ featured: true
 
 在 PocketID 中创建一个新的 OIDC 客户端，名称为 `Synology NAS`，回调 URL 为 NAS 的访问地址，如 `https://nas.example.com`（将 `nas.example.com` 替换为实际的群晖 NAS 访问地址）
 
-![homelab-nas-sso-pocket-create-new-application.png](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-create-new-application.png)
+![在 PocketID 中创建 Synology NAS 新应用界面](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-create-new-application.png)
 
 创建完成后需要使用 `客户端 ID`，`客户端密钥` 以及 `OIDC发现网址` 来配置群晖 NAS 的 OIDC 登录
 
@@ -33,7 +33,7 @@ featured: true
 
 登录群晖 NAS 后进入 `控制面板` -> `域/LDAP` -> `SSO 客户端`，选择 `启用 OpenID Connect SSO 服务` 选项，然后进行配置：
 
-![homelab-nas-sso-pocket-nas-add-sso-config.png](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-nas-add-sso-config.png)
+![群晖 NAS 配置 PocketID OIDC SSO 登录界面](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-nas-add-sso-config.png)
 
 - 配置文件中选择 `OIDC`
 - 账户类型选择 `域/LDAP/本地`
@@ -48,7 +48,7 @@ featured: true
 
 配置完成后打开新的浏览器窗口访问 NAS 地址，可以看到多了一个 `PocketID` 的登录选项，点击后会跳转到 PocketID 的登录页面，登录成功后会跳转回 NAS 并完成登录
 
-![homelab-nas-sso-pocket-login-page.png](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png)
+![群晖 NAS 新增 PocketID 单点登录选项的登录页面](https://img.hellowood.dev/picture/homelab-nas-sso-pocket-login-page.png)
 
 ## 参考文档
 

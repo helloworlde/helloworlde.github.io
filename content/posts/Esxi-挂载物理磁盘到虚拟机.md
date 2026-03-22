@@ -23,7 +23,7 @@ featured: true
 
 登录管理界面，在主机 - 操作 -服务中启用 SSH；启用成功后使用用户名密码登录到该机器
 
-![homelab-esxi-mount-disk-to-vm.png](https://img.hellowood.dev/picture/homelab-esxi-mount-disk-to-vm.png)
+![Esxi 终端显示物理磁盘列表及名称](https://img.hellowood.dev/picture/homelab-esxi-mount-disk-to-vm.png)
 
 - 查看磁盘名称
 
@@ -60,4 +60,4 @@ vmkfstools -z /vmfs/devices/disks/t10.ATA_____Hitachi_HTS545050A7E380___________
 
 完成创建虚拟磁盘后，关机并编辑虚拟机，选择添加现有硬盘，将创建的虚拟磁盘作为新硬盘添加，操作完成后重启虚拟机，即可看到挂载的硬盘
 
-![homelab-esxi-mount-disk-to-nas-vm.png](https://img.hellowood.dev/picture/homelab-esxi-mount-disk-to-nas-vm.png)
+![在 ESXi 虚拟机设置中添加物理磁盘虚拟硬盘](https://img.hellowood.dev/picture/homelab-esxi-mount-disk-to-nas-vm.png)

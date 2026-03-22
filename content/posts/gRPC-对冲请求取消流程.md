@@ -14,7 +14,7 @@ featured: true
 
 当客户端接收到对冲请求集合中的一个完成时，会取消其他的请求，被取消的请求最终会提交一个 CancelClientStreamCommand，发送一个 RST_STEAM 请求；当服务端接受到这个流后，如果监听器还没有关闭，会执行取消上下文的操作，最终将这个请求取消
 
-![grpc-hedging-request-cancel.svg](https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg)
+![gRPC 对冲请求取消流程示意图](https://img.hellowood.dev/picture/grpc-hedging-request-cancel.svg)
 
 ## 客户端
 

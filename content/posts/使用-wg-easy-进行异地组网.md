@@ -17,7 +17,7 @@ type: "post"
 
 [wg-easy](https://wg-easy.github.io/wg-easy/latest/) 是一个开源的 WireGuard 配置管理工具，支持通过 Web 界面快速生成和管理 WireGuard 配置文件，以及客 WireGuard 节点之间的简单的监控
 
-![homelab-sd-wan-wg-easy-homepage.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-homepage.png)
+![wg-easy 管理界面展示五个 WireGuard 节点组网状态](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-homepage.png)
 
 这里总共有五个节点，用 WireGuard 进行组网，在其中一个部署 wg-easy
 
@@ -61,19 +61,19 @@ services:
 
 首次登录需要配置用户，并设置密码
 
-![homelab-sd-wan-wg-easy-setup0.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup0.png)
+![wg-easy 管理面板配置允许访问地址界面](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup0.png)
 
 - 配置地址
 
 配置地址和端口，用于其他节点连接，这里选择 VPS 的 IP 地址，端口是 51820
 
-![homelab-sd-wan-wg-easy-setup1.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup1.png)
+![wg-easy 配置界面设置地址端口及用户密码](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup1.png)
 
 - 配置允许访问的地址
 
 配置完成后登录，点击右上角用户，进入 Admin Pannel 进行配置；在 Config 中配置 Alowed IPs 为 10.8.0.0/24，允许这个网段的节点之间互相访问，避免配置为 0.0.0.0/0 影响其他地址的访问；点击 Save 保存配置
 
-![homelab-sd-wan-wg-easy-setup-allow-ips.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup-allow-ips.png)
+![wg-easy 后台配置允许访问地址为 10.8.0.0/24](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-setup-allow-ips.png)
 
 ## 配置节点
 
@@ -81,9 +81,9 @@ services:
 
 在 wg-easy 中点击 New 创建新的节点，输入节点名称和过期时间，点击 Create Client 生成配置文件
 
-![homelab-sd-wan-wg-easy-create-peer0.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-create-peer0.png)
+![wg-easy 界面中点击 New 创建新节点并生成配置文件](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-create-peer0.png)
 
-![homelab-sd-wan-wg-easy-create-peer-result.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-create-peer-result.png)
+![wg-easy 创建新节点后显示生成的配置文件](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-create-peer-result.png)
 
 ### 配置节点
 
@@ -157,7 +157,7 @@ peer: 1F7BRiqsR/GsNGw3etrjzZxGsKTrUlOKK9dloSE2Q2g=
 
 在 wg-easy 中点击 Admin Pannel，在 General 中开启 Prometheus 监控，并添加对应的任务和面板即可看到 wg-easy 的监控信息，详细参考 [Prometheus](https://wg-easy.github.io/wg-easy/latest/advanced/metrics/prometheus/)
 
-![homelab-sd-wan-wg-easy-monitor.png](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-monitor.png)
+![wg-easy 开启 Prometheus 监控后的数据面板截图](https://img.hellowood.dev/picture/homelab-sd-wan-wg-easy-monitor.png)
 
 ## 参考文档
 

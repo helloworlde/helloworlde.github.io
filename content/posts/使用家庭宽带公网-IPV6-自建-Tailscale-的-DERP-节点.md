@@ -122,7 +122,7 @@ derper    | 2024/06/09 11:35:54 running STUN server on [::]:3478
 
 配置 DNS 解析到 DERP 所在的公网地址后，如果能通过域名正常访问，说明证书配置没有问题
 
-![homelab-net-tailscale-derp-server-homepage.png](https://img.hellowood.dev/picture/homelab-net-tailscale-derp-server-homepage.png)
+![Tailscale DERP 服务器主页显示配置成功](https://img.hellowood.dev/picture/homelab-net-tailscale-derp-server-homepage.png)
 
 ### 4. 修改 tailscale 配置
 

@@ -12,4 +12,4 @@ featured: true
 
 > This is a blog for my personal technology note!
 
-![](http://img.hellowood.dev/blog/background.jpeg)
+![技术博客首页背景图展示编程主题](http://img.hellowood.dev/blog/background.jpeg)

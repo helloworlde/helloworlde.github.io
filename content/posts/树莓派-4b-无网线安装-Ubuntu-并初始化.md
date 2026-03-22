@@ -25,13 +25,13 @@ featured: true
 ## 设置镜像
 
 在树莓派官网的连接，找到 Ubuntu，根据指引，找到 Ubuntu 的镜像，即[https://ubuntu.com/download/raspberry-pi](https://ubuntu.com/download/raspberry-pi)
-![raspberrypi-ubuntu.png](https://img.hellowood.dev/picture/raspberrypi-ubuntu.png)
+![树莓派 4b 无网线安装 Ubuntu 系统初始化](https://img.hellowood.dev/picture/raspberrypi-ubuntu.png)
 
 ### 下载镜像
 
 点击下载 64 位镜像，随后会开始下载[ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](http://cdimage.ubuntu.com/releases/19.10.1/release/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz?_ga=2.165606655.1314896456.1576331584-894154124.1576331584)这个文件
 
-![raspberrypi-ubuntu-download.png](https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png)
+![下载 Ubuntu 64 位树莓派镜像文件](https://img.hellowood.dev/picture/raspberrypi-ubuntu-download.png)
 
 但是这个文件下载很慢，也没有国内的镜像，可以使用迅雷下载，或者直接下载上传的镜像 [ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz](https://img.hellowood.dev/picture/ubuntu-19.10.1-preinstalled-server-arm64+raspi3.img.xz)
 

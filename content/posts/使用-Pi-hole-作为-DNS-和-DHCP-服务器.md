@@ -157,20 +157,20 @@ docker exec -it pihole bash
 sudo pihole -a -p
 ```
 
-![homelab-dns-pihole-dashboard.png](https://img.hellowood.dev/picture/homelab-dns-pihole-dashboard.png)
+![Pi-hole 管理仪表盘显示 DNS 和 DHCP 配置界面](https://img.hellowood.dev/picture/homelab-dns-pihole-dashboard.png)
 
 - 配置 Smartdns 作为上游服务器
 
 在 Settings - DNS 中，配置上游的 DNS 服务，将 Smartdns 作为第一个上游服务服务；同时可以添加其他 DNS 服务，避免在 Smartdns 出现问题时使用其他 DNS 服务器
 修改接口配置，允许所有的查询来源
 
-![homelab-pihole-dns-upstream-config.png](https://img.hellowood.dev/picture/homelab-pihole-dns-upstream-config.png)
+![Pi-hole 设置界面配置 Smartdns 为上游 DNS 服务器](https://img.hellowood.dev/picture/homelab-pihole-dns-upstream-config.png)
 
 - 配置 DHCP
 
 在 Settings - DNS 中，启用 DHCP，指定分配的 IP 范围、路由器地址、本地域名以及 DHCP 过期时间
 
-![homelab-pihole-dhcp-config.png](https://img.hellowood.dev/picture/homelab-pihole-dhcp-config.png)
+![Pi-hole 设置界面配置 DHCP 参数与 IP 范围](https://img.hellowood.dev/picture/homelab-pihole-dhcp-config.png)
 
 ## 路由器配置 DHCP 和 DNS 服务
 
@@ -180,10 +180,10 @@ sudo pihole -a -p
 
 在网络-接口-LAN 中选择忽略此接口
 
-![homelab-pihole-openwrt-close-dhcp-config.png](https://img.hellowood.dev/picture/homelab-pihole-openwrt-close-dhcp-config.png)
+![OpenWrt 路由器关闭 DHCP 并配置 DNS 指向 Pi-hole](https://img.hellowood.dev/picture/homelab-pihole-openwrt-close-dhcp-config.png)
 
 - 配置 DNS
 
 在网络-接口-LAN 配置中，将自定义的 DNS 服务器指向 Pi-hole 的地址
 
-![homelab-pihole-openwrt-dns-config.png](https://img.hellowood.dev/picture/homelab-pihole-openwrt-dns-config.png)
+![OpenWrt 路由器关闭 DHCP 并配置 Pi-hole 为 DNS 服务器](https://img.hellowood.dev/picture/homelab-pihole-openwrt-dns-config.png)

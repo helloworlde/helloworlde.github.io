@@ -28,37 +28,37 @@ featured: true
 
 点击删除按钮，将 wan 和 wan6 接口删除
 
-![homelab-openwrt-as-ap-delete-wan-and-wan6.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-delete-wan-and-wan6.png)
+![删除 OpenWrt 中的 wan 和 wan6 接口](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-delete-wan-and-wan6.png)
 
 - 设置静态 IP 地址
 
 编辑 LAN 接口，配置为静态 IP，地址是主路由网段内未被使用的地址，如 192.168.2.254；网关地址是主路由地址，如 192.168.2.1，广播地址是该网段的广播IP，如 192.168.2.255
-![homelab-openwrt-as-ap-set-lan-gateway-and-address.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-set-lan-gateway-and-address.png)
+![OpenWrt 设置 LAN 接口静态 IP 地址和网关](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-set-lan-gateway-and-address.png)
 
 - 关闭 DHCP
 
 编辑 LAN 接口，禁用 DHCP 服务器，选择忽略该接口
 
-![homelab-openwrt-as-ap-ignore-dhcp-interface.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-ignore-dhcp-interface.png)
+![OpenWrt 设置中忽略 DHCP 接口以配置为 AP 模式](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-ignore-dhcp-interface.png)
 
 - 禁用 IPv6
 
 编辑 LAN 接口，将 RA/DHCPv6/NDP 服务器禁用，关闭 IPv6
 
-![homelab-openwrt-as-ap-disable-ipv6-relay.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-disable-ipv6-relay.png)
+![OpenWrt 设置界面禁用 IPv6 服务器选项](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-disable-ipv6-relay.png)
 
 - 合并网口
 
 编辑设备，取消配置 br-lan 以外的所有接口
 
-![homelab-openwrt-as-ap-unconfigure-wan-devices.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-unconfigure-wan-devices.png)
+![OpenWrt 取消配置 WAN 接口以设置 AP 模式](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-unconfigure-wan-devices.png)
 
 然后配置 br-lan，将设备的接口合并为一个桥接接口
 
-![homelab-openwrt-as-ap-add-wan-to-bridge.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-add-wan-to-bridge.png)
+![OpenWrt 配置界面将 WAN 接口添加到 br-lan 桥接](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-add-wan-to-bridge.png)
 
 - 保存配置
 
 完成以上配置后，保存应用配置，等待配置生效后正常配置 Wi-Fi，即可通过有线方式将红米 AX6000 作为 AP 中继主路由使用
 
-![homelab-openwrt-as-ap-complete-config.png](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-complete-config.png)
+![红米 AX6000 配置为有线 AP 中继主路由完成界面](https://img.hellowood.dev/picture/homelab-openwrt-as-ap-complete-config.png)

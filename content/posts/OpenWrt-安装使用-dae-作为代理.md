@@ -57,7 +57,7 @@ kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge d
 autocore automount base-files block-mount ca-bundle default-settings-chn dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup i915-firmware-dmc kmod-8139cp kmod-8139too kmod-button-hotplug kmod-e1000e kmod-fs-f2fs kmod-i40e kmod-igb kmod-igbvf kmod-igc kmod-ixgbe kmod-ixgbevf kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-pcnet32 kmod-r8101 kmod-r8125 kmod-r8126 kmod-r8168 kmod-tulip kmod-usb-hid kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152-vendor kmod-vmxnet3 libc libgcc libustream-openssl logd luci-app-package-manager luci-compat luci-lib-base luci-lib-ipkg luci-light mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000 kmod-dwmac-intel kmod-forcedeth kmod-fs-vfat kmod-tg3 kmod-drm-i915 kmod-xdp-sockets-diag kmod-veth kmod-sched-core kmod-sched-bpf kmod-nft-bridge dae-geosite dae-geoip dae
 ```
 
-![homelab-openwrt-dae-build-openwrt-firmware.png](https://img.hellowood.dev/picture/homelab-openwrt-dae-build-openwrt-firmware.png)
+![OpenWrt 在线构建页面添加 Dae 插件选项](https://img.hellowood.dev/picture/homelab-openwrt-dae-build-openwrt-firmware.png)
 
 然后选择 `REQUEST BUILD` 构建镜像；等待构建完成后选择 `COMBINED-EFI (EXT4)` 下载到本地
 
@@ -256,13 +256,13 @@ level=info msg="	新加坡01aws"
 
 网关地址改为 OpenWrt 的地址，如 10.0.0.254
 
-![homelab-openwrt-dae-modify-device-gateway.png](https://img.hellowood.dev/picture/homelab-openwrt-dae-modify-device-gateway.png)
+![修改设备网关指向 OpenWrt 地址](https://img.hellowood.dev/picture/homelab-openwrt-dae-modify-device-gateway.png)
 
 - 修改 DNS 地址
 
 DNS 地址也可以修改为指向 OpenWrt，这样能够保证 dae 正确分流，配置 DNS 不是必须的，但是配置之后效果会更好；如果不配置 DNS，也可以将 `dial_mode` 设置为 `domain++` 进行强制 SNI 嗅探分流
 
-![homelab-openwrt-dae-modify-device-dns.png](https://img.hellowood.dev/picture/homelab-openwrt-dae-modify-device-dns.png)
+![OpenWrt 修改设备网关和 DNS 地址配置界面](https://img.hellowood.dev/picture/homelab-openwrt-dae-modify-device-dns.png)
 
 - 查看访问日志
 

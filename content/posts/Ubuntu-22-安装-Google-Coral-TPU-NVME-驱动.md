@@ -21,7 +21,7 @@ Google Coral TPU 是一款专为边缘应用设计的机器学习加速器，由
 
 Coral TPU 有多种型号，如开发板、USB 配件、M2、Mini PCIE等，这里使用的是 M.2 Accelerator B+M key 的版本。关于 Coral 不同类型的设备更多信息参考 [Products](https://coral.ai/products/)
 
-![](https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw)
+![M.2 插槽中安装的 Google Coral TPU 加速器模块](https://lh3.googleusercontent.com/-R0H37d9aKorHo_VYWf8hCfukvbZolBaW2SHW1uDDn1G411r3MqemjxPZa9f44q8OwlfYIkGxSoj-GQbZGd2j7lxtyzSklIQVUWvo9r88mn8CzB-rcw=w2000-rw)
 
 ## 要求
 

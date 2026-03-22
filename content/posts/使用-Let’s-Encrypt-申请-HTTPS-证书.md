@@ -43,7 +43,7 @@ go get -u github.com/go-acme/lego/v4/cmd/lego
 
 在 DNSPod 需要先申请 DNSPod Token，登录控制台后在右上角，我的账号中选择 API 密钥，然后选择 DNSPod Token 进行创建密钥
 
-![homelab-cert-apply-dnspod.png](https://img.hellowood.dev/picture/homelab-cert-apply-dnspod.png)
+![在 DNSPod 控制台创建 API 密钥界面截图](https://img.hellowood.dev/picture/homelab-cert-apply-dnspod.png)
 
 ### 2. 使用 Lego 命令生成证书
 

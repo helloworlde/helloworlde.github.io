@@ -26,9 +26,9 @@ Fleet Telemetry 提供 Prometheus 监控接口，可以通过访问 `http://<hos
 
 然后将 Fleet Telemetry 的监控面板添加到 Grafana 中，将文件 [test/integration/grafana/provisioning/dashboards/dashboard.json](https://github.com/teslamotors/fleet-telemetry/blob/main/test/integration/grafana/provisioning/dashboards/dashboard.json) 的 JSON 内容导入到 Grafana 中，就可以看到相关的监控面板
 
-![homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-1.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-1.png)
+![Grafana 中导入 Fleet Telemetry 监控面板的 Tesla 车辆数据](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-1.png)
 
-![homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-2.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-2.png)
+![Grafana 监控面板展示特斯拉车辆实时数据](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-2.png)
 
 ## 参考文档
 

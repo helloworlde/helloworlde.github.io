@@ -92,7 +92,7 @@ Rancher 是一个用于管理 K8S 集群的工具，可以在宿主机上通过 
 docker run -d --restart=unless-stopped -p 8080:80 -p 8443:443 rancher/rancher:v2.3.5
 ```
 
-![RaspberryPiRancherCluster.png](https://img.hellowood.dev/picture/RaspberryPiRancherCluster.png)
+![树莓派 4b 运行 Kubernetes 集群的 Rancher 管理界面](https://img.hellowood.dev/picture/RaspberryPiRancherCluster.png)
 
 ## 参考文档
 

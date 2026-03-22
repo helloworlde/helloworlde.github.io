@@ -53,31 +53,31 @@ ddns-scripts-godaddy
 
 添加 DDNS 配置，输入 DDNS 配置名称，选择 IPV4 版本，DDNS 服务提供商选择 Godaddy
 
-![homelab-openwrt-ddns-new-config.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-new-config.png)
+![OpenWrt 添加 DDNS 配置选择 Godaddy 服务商](https://img.hellowood.dev/picture/homelab-openwrt-ddns-new-config.png)
 
 - 配置域名信息
 
 配置要更新的域名和对应云服务商的认证信息，保存并应用
 
-![homelab-openwrt-ddns-basic-config.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-basic-config.png)
+![OpenWrt 添加 DDNS 配置界面显示域名与认证信息](https://img.hellowood.dev/picture/homelab-openwrt-ddns-basic-config.png)
 
 - 配置公网 IP 来源
 
 如果是由 OpenWrt 拨号上网，IP 地址来源选择使用网络或者 WAN 接口即可；如果 OpenWrt 作为旁路由，可以通过使用 URL 或者自定义脚本进行获取；如 [http://checkip.dyndns.com](http://checkip.dyndns.com)
 
-![homelab-openwrt-ddns-ip-address-config.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-ip-address-config.png)
+![OpenWrt DDNS 配置界面中启用动态域名更新功能](https://img.hellowood.dev/picture/homelab-openwrt-ddns-ip-address-config.png)
 
 - 修改更新时间
 
 默认检查时间是 30 分钟，72 小时强制更新一次；可能会出现 IP 变化了，但是没有更新的情况；因此可以缩短强制更新时间，比如每隔 1小时强制更新一次
 
-![homelab-openwrt-ddns-update-config.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-update-config.png)
+![OpenWrt DDNS 动态域名更新配置界面截图](https://img.hellowood.dev/picture/homelab-openwrt-ddns-update-config.png)
 
 - 启用 DDNS 配置
 
 启用后，会自动检查 IP 信息，并执行脚本更新到 DNS 服务商，随后就可以通过域名访问了
 
-![homelab-openwrt-ddns-enable-ddns-config-2.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-enable-ddns-config-2.png)
+![启用 OpenWrt DDNS 配置自动更新域名](https://img.hellowood.dev/picture/homelab-openwrt-ddns-enable-ddns-config-2.png)
 
 ## 公网访问内部服务
 
@@ -87,7 +87,7 @@ ddns-scripts-godaddy
 
 首先需要配置路由器的防火墙策略，允许 wan 口接受入站和转发的数据（如果 OpenWrt 是旁路由，则主路由和 OpenWrt 都需要配置防火墙；如果 OpenWrt 是主路由，配置 OpenWrt 即可）
 
-![homelab-openwrt-ddns-enable-firewall.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-enable-firewall.png)
+![OpenWrt 防火墙配置允许 WAN 口入站和转发数据](https://img.hellowood.dev/picture/homelab-openwrt-ddns-enable-firewall.png)
 
 可以在外网通过 ping 当前的公网 IP 进行检查；通常可以使用手机开启热点，电脑连接该热点进行测试，观测 ping 返回的结果；假设当前公网 IP 地址是 `123.123.123.123`
 
@@ -136,4 +136,4 @@ Vr HL TOS  Len   ID Flg  off TTL Pro  cks      Src      Dst
 
 在 OpenWrt 的网络-防火墙-端口转发中添加配置，将路由器指定端口转发给内部服务的端口
 
-![homelab-openwrt-ddns-add-port-forward.png](https://img.hellowood.dev/picture/homelab-openwrt-ddns-add-port-forward.png)
+![OpenWrt 防火墙端口转发配置界面](https://img.hellowood.dev/picture/homelab-openwrt-ddns-add-port-forward.png)

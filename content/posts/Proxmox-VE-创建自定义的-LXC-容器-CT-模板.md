@@ -22,7 +22,7 @@ LXC 是一种操作系统级别的虚拟化容器技术，可以理解为比 VM 
 
 以 Ubuntu 容器为例进行模板的创建，在 PVE 控制页面创建一个 LXC 容器并启动
 
-![homelab-pve-ct-template-create-ct-by-origin-template.png](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-by-origin-template.png)
+![在 Proxmox VE 界面基于源模板创建 LXC 容器](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-by-origin-template.png)
 
 ## 初始化 LXC 容器配置
 
@@ -57,7 +57,7 @@ history -c
 
 清理完成后，回到 PVE 的控制页面，选择刚才创建的 CT 容器进行备份
 
-![homelab-pve-ct-template-backup-ct-as-template.png](https://img.hellowood.dev/picture/homelab-pve-ct-template-backup-ct-as-template.png)
+![在 Proxmox VE 界面中将备份文件设为 LXC 容器模板](https://img.hellowood.dev/picture/homelab-pve-ct-template-backup-ct-as-template.png)
 
 ### 将备份作为 CT 模板
 
@@ -69,13 +69,13 @@ mv /var/lib/vz/dump/vzdump-lxc-110-2023_12_31-16_13_12.tar.gz /var/lib/vz/templa
 
 移动完成后回到 PVE 控制页面，可以看到刚才创建的模板
 
-![homelab-pve-ct-template-create-template.png](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-template.png)
+![Proxmox VE 界面显示已创建的 LXC 容器模板](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-template.png)
 
 ## 使用 CT 模板创建容器
 
 选择新建 CT 容器，使用刚才的模板进行创建即可
 
-![homelab-pve-ct-template-create-ct-from-tempate.png](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-from-tempate.png)
+![在 Proxmox VE 界面使用自定义模板创建 LXC 容器](https://img.hellowood.dev/picture/homelab-pve-ct-template-create-ct-from-tempate.png)
 
 ## 配置 LXC 容器
 

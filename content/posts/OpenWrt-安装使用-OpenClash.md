@@ -59,7 +59,7 @@ opkg install openclash.ipk
 
 待安装完成后重启 OpenWrt 并重新登录控制台，可以在服务菜单中看到 `OpenClash`
 
-![homelab-openwrt-openclash-init-page.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-init-page.png)
+![OpenWrt 控制台服务菜单中的 OpenClash 初始页面](https://img.hellowood.dev/picture/homelab-openwrt-openclash-init-page.png)
 
 ## 配置
 
@@ -67,7 +67,7 @@ opkg install openclash.ipk
 
 进入服务-OpenClash，选择配置文件订阅，新增订阅；输入订阅的链接地址，保存并更新即可；这样以 OpenWrt 为网关的设备就可以通过 OpenClash 访问特定的资源了
 
-![homelab-openwrt-init-openclash-config.png](https://img.hellowood.dev/picture/homelab-openwrt-init-openclash-config.png)
+![OpenWrt 服务菜单中显示已安装的 OpenClash 插件](https://img.hellowood.dev/picture/homelab-openwrt-init-openclash-config.png)
 
 ### 配置 DNS
 
@@ -77,17 +77,17 @@ OpenClash 默认提供 7874 端口用于 DNS 查询；启动后会劫持 Dnsmasq
 
 但是目前的版本里并没有将已配置的 DNS 转发作为 OpenClash 的上游（参考issue [启用 DNS 劫持后未将 Dnsmasq 中添加的 DNS 转发作为上游 DNS](https://github.com/vernesong/OpenClash/issues/2720)），这样会导致无法使用 SmartDNS 或其他上游 DNS，因此需要手动修改将 SmartDNS 作为 OpenClash 的上游服务器
 
-![homelab-openwrt-openclash-dnsmasq-upstream.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-dnsmasq-upstream.png)
+![OpenClash 全局设置中配置 SmartDNS 为自定义上游 DNS](https://img.hellowood.dev/picture/homelab-openwrt-openclash-dnsmasq-upstream.png)
 
 - 配置 DNS 服务器
 
 在 服务- OpenClash-全局设置-DNS设置中，选择新增，设置自定义上游 DNS服务器为 SmartDNS
-![homelab-openwrt-openclash-add-upstream.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-add-upstream.png)
+![OpenClash 全局设置中添加 SmartDNS 为自定义上游 DNS](https://img.hellowood.dev/picture/homelab-openwrt-openclash-add-upstream.png)
 
 - 启用自定义上游 DNS 服务器
 
 新增完成后，在该页面选择启用 "自定义上游 DNS 服务器"，这样，就可以使用 SmartDNS 作为主 DNS服务器了；如果有其他的上游，也可以同样配置；
-![homelab-openwrt-openclash-enable-dns-config.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-enable-dns-config.png)
+![OpenClash 全局设置中启用自定义上游 DNS 服务器](https://img.hellowood.dev/picture/homelab-openwrt-openclash-enable-dns-config.png)
 配置完成后，DNS的查询流程为 客户端 -> Dnsmasq -> OpenClash -> SmartDNS -> 上游 DNS 服务器
 
 ### 配置运行模式
@@ -108,4 +108,4 @@ OpenClash 默认提供 7874 端口用于 DNS 查询；启动后会劫持 Dnsmasq
 
 有兼容，TUN 和混合三种模式，区别在与 TUN 可以代理 UDP流量
 
-![homelab-openwrt-openclash-change-mode.png](https://img.hellowood.dev/picture/homelab-openwrt-openclash-change-mode.png)
+![OpenClash 运行模式切换界面展示 TUN 增强混合选项](https://img.hellowood.dev/picture/homelab-openwrt-openclash-change-mode.png)

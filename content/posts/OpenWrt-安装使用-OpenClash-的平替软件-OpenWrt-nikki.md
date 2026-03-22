@@ -20,7 +20,7 @@ featured: true
 
 [OpenWrt-nikki](https://github.com/nikkinikki-org/OpenWrt-nikki) 是基于 Clash 最新版本的内核 [mihome](https://wiki.metacubex.one/) 的 OpenWrt 客户端代理软件；和 [OpenClash](https://github.com/vernesong/OpenClash) 相比更加简单，支持 OpenWrt 23.05 及以上的版本
 
-![homelab-openwrt-nikki-dashboard.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png)
+![OpenWrt Nikki 代理软件管理仪表盘界面](https://img.hellowood.dev/picture/homelab-openwrt-nikki-dashboard.png)
 
 ## 安装
 
@@ -118,7 +118,7 @@ Configuring luci-i18n-nikki-zh-cn.
 ```
 
 安装完成后重启，登录 OpenWrt 后在服务中可以看到 nikki 服务
-![homelab-openwrt-nikki-homepage.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png)
+![OpenWrt Nikki 服务主页界面截图](https://img.hellowood.dev/picture/homelab-openwrt-nikki-homepage.png)
 
 ## 配置
 
@@ -130,31 +130,31 @@ Configuring luci-i18n-nikki-zh-cn.
 
 在 nikki - 配置文件 - 订阅中添加订阅源， 输入名称和订阅地址，保存后会自动下载配置文件；更新后选择保存并应用
 
-![homelab-openwrt-nikki-sub-config-page.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-sub-config-page.png)
+![OpenWrt Nikki 配置文件订阅设置页面](https://img.hellowood.dev/picture/homelab-openwrt-nikki-sub-config-page.png)
 
 - 上传配置文件
 
 在 nikki - 配置文件 - 配置文件中选择上传文件，上传配置文件后保存即可
 
-![homelab-openwrt-nikki-add-config.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-add-config.png)
+![在 Nikki 配置页面添加订阅源或上传配置文件](https://img.hellowood.dev/picture/homelab-openwrt-nikki-add-config.png)
 
 ### 启用配置
 
 在 nikki - 插件配置 - 插件配置中选择刚才下载或上传的配置文件，选择启用，保存并应用后在状态重启服务，就可以启动 Nikki 服务了
 
-![homelab-openwrt-nikki-start-service.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-start-service.png)
+![OpenWrt Nikki 插件配置页面启用服务状态](https://img.hellowood.dev/picture/homelab-openwrt-nikki-start-service.png)
 
 ### 下载面板
 
 在 nikki - 混入配置 - UI下载地址中选择需要的面板，点击保存并应用后，回到插件配置 - 状态 - 更新面板，更新完成后重启服务，此时选择打开面板就可以看到对应的 UI 面板了
 
-![homelab-openwrt-nikki-download-dashboard.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-download-dashboard.png)
+![OpenWrt Nikki 插件下载面板界面展示](https://img.hellowood.dev/picture/homelab-openwrt-nikki-download-dashboard.png)
 
 ### 配置代理
 
 在 nikki - 混入配置 - 全局配置中修改出站接口，选择 Lan 接口，保存并应用后重启服务
 
-![homelab-openwrt-nikki-proxy-config-lan.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-proxy-config-lan.png)
+![OpenWrt Nikki 全局配置中设置出站接口为 Lan](https://img.hellowood.dev/picture/homelab-openwrt-nikki-proxy-config-lan.png)
 
 ## 使用
 
@@ -162,8 +162,8 @@ Configuring luci-i18n-nikki-zh-cn.
 
 - 修改网关地址
 
-![homelab-openwrt-nikki-set-gateway.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-set-gateway.png)
+![OpenWrt Nikki 全局配置中修改出站接口为 Lan](https://img.hellowood.dev/picture/homelab-openwrt-nikki-set-gateway.png)
 
 - 修改 DNS 地址
 
-![homelab-openwrt-nikki-set-dns.png](https://img.hellowood.dev/picture/homelab-openwrt-nikki-set-dns.png)
+![OpenWrt Nikki 全局配置设置出站接口为 Lan](https://img.hellowood.dev/picture/homelab-openwrt-nikki-set-dns.png)

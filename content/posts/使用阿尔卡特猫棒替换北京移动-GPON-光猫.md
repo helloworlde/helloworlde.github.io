@@ -17,7 +17,7 @@ featured: true
 
 阿尔卡特猫棒型号为 G-010S-P，版本为 6BA1896SPE2C05
 
-![homelab-network-gpon-pon-stick-setup-status.png](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-status.png)
+![阿尔卡特猫棒替换北京移动光猫后的网络状态](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-status.png)
 
 ## 宽带配置
 
@@ -52,7 +52,7 @@ featured: true
 
 PLOAM 密码的路径为网络-远程管理-认证，
 
-![homelab-network-gpon-model-info-ploam-password.png](https://img.hellowood.dev/picture/homelab-network-gpon-model-info-ploam-password.png)
+![中国移动光猫设备信息界面显示型号与认证参数](https://img.hellowood.dev/picture/homelab-network-gpon-model-info-ploam-password.png)
 
 - VLAN ID
 
@@ -72,10 +72,10 @@ PLOAM 密码的路径为网络-远程管理-认证，
 
 配置后，点击应用配置
 
-![homelab-network-gpon-pon-stick-setup-auth-info.png](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-auth-info.png)
+![阿尔卡特猫棒 GPON 认证信息配置界面](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-auth-info.png)
 
 ### 检查状态
 
 可以在 GPON-光模块信息中查看当前的状态，注册状态/信号状态为 `5 / true`说明认证成功，此时可以在路由器配置 PPPoE 拨号上网了
 
-![homelab-network-gpon-pon-stick-setup-auth-success.png](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-auth-success.png)
+![GPON 猫棒认证成功状态显示注册信号正常](https://img.hellowood.dev/picture/homelab-network-gpon-pon-stick-setup-auth-success.png)

@@ -101,7 +101,7 @@ services:
 
 部署后，访问 8083 端口即可看到检查状态信息
 
-![homelab-tailscale-derp-probe-homepage.png](https://img.hellowood.dev/picture/homelab-tailscale-derp-probe-homepage.png)
+![Tailscale Derp Probe 服务首页状态检查界面](https://img.hellowood.dev/picture/homelab-tailscale-derp-probe-homepage.png)
 
 ### 指定配置
 
@@ -227,4 +227,4 @@ services:
 
 这样就可以通过 [http://192.168.65.2:8030/debug/varz](http://192.168.65.2:8030/debug/varz) 路径获取 Prometheus 指标了，之后可以通过 Grafana 进行监控
 
-![homelab-tailscale-derp-probe-grafana-pannel.png](https://img.hellowood.dev/picture/homelab-tailscale-derp-probe-grafana-pannel.png)
+![Grafana 面板展示 Tailscale Derp Probe 监控指标](https://img.hellowood.dev/picture/homelab-tailscale-derp-probe-grafana-pannel.png)

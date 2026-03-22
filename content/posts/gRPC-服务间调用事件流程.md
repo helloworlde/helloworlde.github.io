@@ -14,7 +14,7 @@ featured: true
 
 ## 调用流程图
 
-![gRPC请求事件流程.svg](https://img.hellowood.dev/picture/gRPC请求事件流程.svg)
+![gRPC 服务间调用事件流程示意图](https://img.hellowood.dev/picture/gRPC请求事件流程.svg)
 
 ## 可监听的事件
 

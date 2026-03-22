@@ -14,7 +14,7 @@ featured: true
 
 Transport 分为 `ClientTransport` 和 `ServerTransport`，分别用于客户端和服务端
 
-![grpc-source-code-transport-classes-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png)
+![gRPC 客户端与服务端传输层架构类图](https://img.hellowood.dev/picture/grpc-source-code-transport-classes-diagram.png)
 
 ## ClientTransport
 

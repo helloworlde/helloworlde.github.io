@@ -24,7 +24,7 @@ type: post
 wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/focal/amdgpu-install_6.1.60103-1_all.deb
 ```
 
-![homelab-ubuntu-22-install-amd-graphics-driver.png](https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png)
+![Ubuntu 22 系统下载 AMD 显卡驱动软件界面](https://img.hellowood.dev/picture/homelab-ubuntu-22-install-amd-graphics-driver.png)
 
 2. 安装下载软件
 

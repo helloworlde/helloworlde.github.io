@@ -94,7 +94,7 @@ conda activate hailo
 
 从 [Developer Zone](https://hailo.ai/developer-zone/software-downloads/) 下载并安装 hailo_model_zoo
 
-![homelab-tpu-hailo-software-download-hailo-model-zoo.png](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-hailo-model-zoo.png)
+![从开发者专区下载 Hailo 模型库软件](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-hailo-model-zoo.png)
 
 ```bash
 pip install hailo_model_zoo-2.12.0-py3-none-any.whl
@@ -156,7 +156,7 @@ conda install pygraphviz
 
 从 [Developer Zone](https://hailo.ai/developer-zone/software-downloads/) 下载并安装 hailo_dataflow_compiler
 
-![homelab-tpu-hailo-software-download-hailo-data-compile.png](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-hailo-data-compile.png)
+![从开发者专区下载 Hailo 数据流编译器软件](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-hailo-data-compile.png)
 
 ```bash
 pip install hailo_dataflow_compiler-3.28.0-py3-none-linux_x86_64.whl
@@ -325,7 +325,7 @@ Reverts on split failed: 0
 sudo dpkg --install hailort_4.18.0_amd64.deb
 ```
 
-![homelab-tpu-hailo-software-download-page.png](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-page.png)
+![Hailo 软件下载页面展示模型编译信息](https://img.hellowood.dev/picture/homelab-tpu-hailo-software-download-page.png)
 
 #### 4.1.2 检测模型信息
 

@@ -302,4 +302,4 @@ rules:
 
 启动 ShellCrash，即可在代理中看到节点信息，协议类型是 Hysteria2
 
-![homelab-proxy-server-hysteria2.png](https://img.hellowood.dev/picture/homelab-proxy-server-hysteria2.png)
+![ShellCrash 界面显示 Hysteria2 代理节点信息](https://img.hellowood.dev/picture/homelab-proxy-server-hysteria2.png)

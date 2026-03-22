@@ -76,7 +76,7 @@ docekr compose up -d
 
 启动后访问 ` https://10.0.0.2:20443/` 验证，可以正确访问说明部署成功：
 
-![homelab-tailscale-derp-with-ip-access-result.png](https://img.hellowood.dev/picture/homelab-tailscale-derp-with-ip-access-result.png)
+![公网 IP 访问 Tailscale DERP 服务器验证成功截图](https://img.hellowood.dev/picture/homelab-tailscale-derp-with-ip-access-result.png)
 
 ## Tailscale 添加 DERP Server
 
@@ -141,7 +141,7 @@ tailscale debug force-prefer-derp 903
 
 然后在 Tailscale 控制台可以看到当前使用的 DERP Server 已经切换为 `master` 区域：
 
-![homelab-tailscale-derp-with-custom-derp-server.png](https://img.hellowood.dev/picture/homelab-tailscale-derp-with-custom-derp-server.png)
+![Tailscale 控制台显示已切换至 master 区域 DERP 服务器](https://img.hellowood.dev/picture/homelab-tailscale-derp-with-custom-derp-server.png)
 
 ### 禁用其他区域
 

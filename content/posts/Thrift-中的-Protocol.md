@@ -14,7 +14,7 @@ featured: true
 
 `TProtocol` 是 Thrift 中协议的抽象类，定义了数据序列化和反序列化的接口
 
-![thrift-java-source-class-protocol.png](https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png)
+![Thrift TProtocol 类定义数据序列化接口](https://img.hellowood.dev/picture/thrift-java-source-class-protocol.png)
 
 ## 属性
 

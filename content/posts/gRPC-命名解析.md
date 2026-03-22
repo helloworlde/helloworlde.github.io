@@ -14,15 +14,15 @@ featured: true
 
 命名解析根据服务的 URI，从注册中心获取并解析服务实例 IP，默认支持 schema 为 DNS，grpclb，xds 等
 
-![grpc-source-code-name-resolver-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png)
+![gRPC 命名解析架构中 NameResolver 与 Provider 关系图](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-diagram.png)
 
 gRPC 的命名解析的父类接口是 `NameResolver`
-![grpc-source-code-name-resolver-class.png](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-class.png)
+![gRPC 命名解析中 NameResolver 类及其子类关系图](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-class.png)
 
 `NameResolver` 包含有多个子类，用于实现命名解析
 每个 `NameResolver` 都有一个 `Provider`，用于创建 `NameResolver` 实例；所有的 `Provider` 都注册到 `NameResolverRegistry` 中，`NameResolverRegistry` 创建 `Factory` 实例，最终通过 `Provider` 创建 `NameResolver`
 
-![grpc-source-code-name-resolver-with-sub-class.png](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-with-sub-class.png)
+![gRPC 源码中 NameResolver 类及其子类关系图](https://img.hellowood.dev/picture/grpc-source-code-name-resolver-with-sub-class.png)
 
 命名解析的整个工作流程是：
 

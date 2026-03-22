@@ -38,7 +38,7 @@ https://auth.tesla.cn/oauth2/v3/authorize?client_id=${CLIENT_ID}&locale=zh-CN&pr
 ${REDIRECT_URI}?locale=zh-CN&code=CN_xxxx&state=${STATE}&issuer=https%3A%2F%2Fauth.tesla.cn%2Foauth2%2Fv3
 ```
 
-![homelab-tesla-fleet-telemetry-login-for-token.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-login-for-token.png)
+![Tesla Fleet API 登录页面获取授权代码](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-login-for-token.png)
 
 - 获取 access_token
 

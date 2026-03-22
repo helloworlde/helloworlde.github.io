@@ -17,10 +17,10 @@ featured: true
 
 - [在线工具](https://sonarcloud.io)
 - 截图
-  ![https://img.hellowood.dev/blog/SonarqubeDemo1.png](https://img.hellowood.dev/blog/SonarqubeDemo1.png)
-  ![https://img.hellowood.dev/blog/SonarqubeDemo2.png](https://img.hellowood.dev/blog/SonarqubeDemo2.png)
-  ![https://img.hellowood.dev/blog/SonarqubeDemo3.png](https://img.hellowood.dev/blog/SonarqubeDemo3.png)
-  ![https://img.hellowood.dev/blog/SonarqubeDemo4.png](https://img.hellowood.dev/blog/SonarqubeDemo4.png)
+  ![Sonarqube 代码质量分析平台界面截图](https://img.hellowood.dev/blog/SonarqubeDemo1.png)
+  ![Sonarqube 代码质量管理平台在线工具截图](https://img.hellowood.dev/blog/SonarqubeDemo2.png)
+  ![Sonarqube 代码质量管理平台在线工具界面截图](https://img.hellowood.dev/blog/SonarqubeDemo3.png)
+  ![SonarQube 在线工具代码质量可视化界面截图](https://img.hellowood.dev/blog/SonarqubeDemo4.png)
 
 ## 使用
 

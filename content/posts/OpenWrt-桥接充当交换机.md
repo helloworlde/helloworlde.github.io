@@ -44,7 +44,7 @@ featured: true
 
 在硬件中添加 PCI设备，将 PCI 网卡添加到 OpenWrt 中，作为 OpenWrt 的 LAN 口；WAN口是 PVE 虚拟机提供的虚拟网卡
 
-![homelab-openwrt-pve-switch-add-pci-devices.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-add-pci-devices.png)
+![在 PVE 中添加 PCI 设备直通网卡到 OpenWrt](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-add-pci-devices.png)
 
 ### 安装驱动
 
@@ -104,14 +104,14 @@ lrwxrwxrwx    1 root     root             0 Mar 20 08:00 lo -> ../../devices/vir
 
 进入 OpenWrt 配置界面，在网络-接口-设备，选择配置 `br-lan`
 
-![homelab-openwrt-pve-switch-config-network-0.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-config-network-0.png)
+![OpenWrt 网络接口配置界面中设置 br-lan 网桥端口](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-config-network-0.png)
 
 在网桥端口中，将 `eth0`, `eth1`,`eth2`,`eth3`全部选中，作为网桥的桥接端口；然后点击保存并应用，这样就可以将 OpenWrt 作为交换机使用了
 
-![homelab-openwrt-pve-switch-config-network-1.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-config-network-1.png)
+![OpenWrt 网桥配置界面将四个网口设为桥接端口](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-config-network-1.png)
 
 ## 测试
 
 使用网线将 NAS 和电脑都连接到 N5105 的网口中，然后在 NAS 上通过 Docker 启动 [adolfintel/speedtest](https://github.com/librespeed/speedtest)，在电脑上通过浏览器测试；测试结果能达到 2.5G 的速度
 
-![homelab-openwrt-pve-switch-speed-test.png](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-speed-test.png)
+![OpenWrt 桥接模式下 NAS 与电脑 2.5G 测速结果](https://img.hellowood.dev/picture/homelab-openwrt-pve-switch-speed-test.png)

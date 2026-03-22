@@ -16,7 +16,7 @@ featured: true
 
 `Subchannel` 代表逻辑连接，最多维护一个物理连接发送 RPC，对应多个 Transport
 
-![grpc-source-code-channel-class-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png)
+![gRPC Channel 类继承关系与子类结构图](https://img.hellowood.dev/picture/grpc-source-code-channel-class-diagram.png)
 
 Channel 有多个子类：
 

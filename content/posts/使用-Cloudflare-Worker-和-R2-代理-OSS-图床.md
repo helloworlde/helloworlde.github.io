@@ -132,4 +132,4 @@ npx wrangler deploy
 
 部署完成后访问文件的地址，返回的数据正常，同时在 R2 检查发现文件已经同步到 R2了，再次访问发现是从 R2 获取的，说明代理成功
 
-![homelab-image-proxy-from-cloudflare-analysis.png](https://img.hellowood.dev/picture/homelab-image-proxy-from-cloudflare-analysis.png)
+![Cloudflare Worker 代理 R2 存储桶图片请求流程图](https://img.hellowood.dev/picture/homelab-image-proxy-from-cloudflare-analysis.png)

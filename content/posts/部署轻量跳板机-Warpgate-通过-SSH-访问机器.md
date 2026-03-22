@@ -18,7 +18,7 @@ HomeLab 中经常有需要远程登录到宿主机、VPS、虚拟机进行配置
 
 传统的跳板机如 JumpServer 等堡垒机，功能强大但配置复杂，对于 HomeLab 环境有点头重脚轻了，因此选择使用 [Warpgate](https://warpgate.null.page/) 作为轻量级跳板机的解决方案
 
-![homelab-jumper-warpgate-homepage.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-homepage.png)
+![Warpgate 轻量级跳板机主页界面展示](https://img.hellowood.dev/picture/homelab-jumper-warpgate-homepage.png)
 
 ## Warpgate 简介
 
@@ -187,13 +187,13 @@ warpgate  | 31.01.2026 04:01:07  INFO warpgate::commands::run: Accepting Postgre
 
 点击 `Add a target`，类型为 SSH，添加名称并选择创建
 
-![homelab-jumper-warpgate-add-target.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target.png)
+![Warpgate 添加 SSH 目标主机配置界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target.png)
 
-![homelab-jumper-warpgate-add-target-add.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target-add.png)
+![Warpgate 添加 SSH 目标主机配置界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target-add.png)
 
 然后输入目标主机的 IP 地址、端口、用户名等，然后在 `Allow access for roles` 中选择 `admin` 角色，最后点击 `Update configuration` 保存配置
 
-![homelab-jumper-warpgate-add-target-detail.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target-detail.png)
+![Warpgate 添加目标主机配置界面显示 IP 端口及角色](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-target-detail.png)
 
 ### SSH 登录
 
@@ -201,13 +201,13 @@ warpgate  | 31.01.2026 04:01:07  INFO warpgate::commands::run: Accepting Postgre
 
 在 `Config - SSH keys` 中找到公钥，添加到目标机器的 `~/.ssh/authorized_keys` 文件中，然后就可以通过 Warpgate 登录到这台机器了
 
-![homelab-jumper-warpgate-public-keys.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-public-keys.png)
+![Warpgate 配置界面中显示的 SSH 公钥](https://img.hellowood.dev/picture/homelab-jumper-warpgate-public-keys.png)
 
 - 通过 Warpgate 登录目标主机
 
 点击 `Access instructions`，可以看到使用 Warpgate 登录目标主机的命令:
 
-![homelab-jumper-warpgate-target-login.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-target-login.png)
+![通过 Warpgate 使用 SSH 命令登录目标主机的终端界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-target-login.png)
 
 只需要在用户名中指定要登录的宿主机即可，格式是 `warpgate用户名:目标机器名称@warpgate地址`；输入密码后即可登录到目标机器
 
@@ -239,11 +239,11 @@ Last login: Sat Jan 31 11:50:26 2026 from 10.0.0.2
 
 在 `admin - Credentials - Public keys` 中添加本地的公钥添加到 Warpgate 中，这样就可以免密登录到目标机器
 
-![homelab-jumper-warpgate-add-local-key.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-local-key.png)
+![在 Warpgate 管理界面添加本地公钥实现免密登录](https://img.hellowood.dev/picture/homelab-jumper-warpgate-add-local-key.png)
 
 然后在 `Config - Global parameters - SSH` 中关闭 `Password authentication`，仅允许使用公钥登录，提升安全性（当前 Warpgate 不支持通过 CA 生成短期证书的方式认证，因此如果需要通过Cloudflare Web端登录还是需要密码）
 
-![homelab-jumper-warpgate-disable-pass-login.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-disable-pass-login.png)
+![Warpgate 配置界面关闭密码认证仅允许公钥登录](https://img.hellowood.dev/picture/homelab-jumper-warpgate-disable-pass-login.png)
 
 ## 通过 Cloudflare Tunnel 访问
 
@@ -251,10 +251,10 @@ Last login: Sat Jan 31 11:50:26 2026 from 10.0.0.2
 
 关于 Cloudflare Tunnel 的安装部署和 Access 配置可以参考 [使用 Cloudflare Tunnel 作为反向代理访问内网服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-cloudflare-tunnel-%E4%BD%9C%E4%B8%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1/) 和 [Cloudflare 使用应用程序和策略为 Tunnel 代理的服务添加鉴权](https://blog.hellowood.dev/posts/cloudflare-%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%92%8C%E7%AD%96%E7%95%A5%E4%B8%BA-tunnel-%E4%BB%A3%E7%90%86%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E9%89%B4%E6%9D%83/)
 
-![homelab-jumper-warpgate-cloudlfare-route.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-route.png)
+![通过 Warpgate 和 Cloudflare 安全访问 HomeLab 机器](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-route.png)
 
 配置完成后即可通过 `https://jumper.example.com` 访问 Warpgate，登录后即可管理和访问 HomeLab 中的机器
 
-![homelab-jumper-warpgate-cloudlfare-login-page.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-login-page.png)
+![Warpgate 登录页面通过 HTTPS 访问 HomeLab 机器](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-login-page.png)
 
-![homelab-jumper-warpgate-cloudlfare-terminal.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-terminal.png)
+![通过 Warpgate 安全访问 HomeLab 机器的终端界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-cloudlfare-terminal.png)

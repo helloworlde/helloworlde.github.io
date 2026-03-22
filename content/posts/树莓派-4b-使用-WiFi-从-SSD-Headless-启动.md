@@ -33,13 +33,13 @@ Raspberry Pi Imager 是官方提供的树莓派镜像写入工具，可以通过
 
 选择 Ubuntu Server 21.04 64 bit 的镜像，第一次可能需要一些时间下载镜像
 
-![RaspberryPiImagerChooseImage.png](https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png)
+![Raspberry Pi Imager 选择 Ubuntu Server 镜像界面](https://img.hellowood.dev/picture/RaspberryPiImagerChooseImage.png)
 
 插入硬盘后选择要写入的硬盘，并点击写入
 
-![RaspberryPiImagerChooseDisk.png](https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png)
+![Raspberry Pi Imager 界面选择目标硬盘](https://img.hellowood.dev/picture/RaspberryPiImagerChooseDisk.png)
 
-![RaspberryPiImageWriting.png](https://img.hellowood.dev/picture/RaspberryPiImageWriting.png)
+![在树莓派上写入 Ubuntu Server 镜像到硬盘](https://img.hellowood.dev/picture/RaspberryPiImageWriting.png)
 
 ### 3. 配置
 

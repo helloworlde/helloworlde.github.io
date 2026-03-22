@@ -366,7 +366,7 @@ Regenerating index. This may take a moment.
 Now serving you on 127.0.0.1:8879
 ```
 
-![helm-app-list.png](https://img.hellowood.dev/picture/helm-app-list.png)
+![Helm 部署应用后终端显示服务启动成功](https://img.hellowood.dev/picture/helm-app-list.png)
 
 ---
 

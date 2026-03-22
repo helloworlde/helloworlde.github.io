@@ -14,7 +14,7 @@ featured: true
 
 Stream 在 gRPC 中代表一个真正的请求，包含要发送的 消息；Stream 分为 `ClientStream` 和 `ServerStream`
 
-![grpc-source-code-stream-diagram.png](https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png)
+![gRPC ClientStream 接口继承关系与实现类架构图](https://img.hellowood.dev/picture/grpc-source-code-stream-diagram.png)
 
 ## ClientStream
 

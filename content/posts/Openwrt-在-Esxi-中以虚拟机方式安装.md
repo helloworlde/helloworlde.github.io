@@ -20,7 +20,7 @@ featured: true
 
 选择下载 `generic-ext4-combined-efi.img.gz` 这个压缩文件，可以直接通过 EFI 引导
 
-![homelab-openwrt-esxi-ima-download.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png)
+![OpenWrt x86_64 版本镜像下载页面截图](https://img.hellowood.dev/picture/homelab-openwrt-esxi-ima-download.png)
 
 ## 镜像格式转换
 
@@ -42,13 +42,13 @@ qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi
 
 1. 创建虚拟机，选择 Linux 64 位
 
-![homelab-openwrt-esxi-create-vm.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm.png)
+![在 ESXi 中创建 OpenWrt 虚拟机的界面截图](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm.png)
 
 2. 修改配置
 
 需要删除硬盘，因为需要使用转换的 `vmdk` 格式的文件作为硬盘；内存和 CPU 可以根据机器自行配置
 
-![homelab-openwrt-esxi-create-vm-config.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-config.png)
+![在 Esxi 中创建 Openwrt 虚拟机并配置硬件参数](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-config.png)
 
 3. 添加硬盘
 
@@ -56,7 +56,7 @@ qemu-img convert -f raw -O vmdk openwrt-21.02.3-x86-64-generic-ext4-combined-efi
 
 需要注意，Openwrt 默认的硬盘容量只有 100M，安装软件可能空间不够；所以需要扩容，因此先不要选择该文件作为硬盘，需要扩容后才可以添加，否则容量无法修改
 
-![homelab-openwrt-esxi-create-vm-disk.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-disk.png)
+![在 ESXi 中为 OpenWrt 虚拟机添加现有 VMDK 硬盘](https://img.hellowood.dev/picture/homelab-openwrt-esxi-create-vm-disk.png)
 
 4. 修改硬盘大小
 
@@ -109,4 +109,4 @@ list dns '223.5.5.5'
 ```
 
 网络重启完成后，即可通过指定的地址 [192.168.2.9](192.168.2.9) 进行访问，默认账户名 `root`，没有密码
-![homelab-openwrt-esxi-login.png](https://img.hellowood.dev/picture/homelab-openwrt-esxi-login.png)
+![OpenWrt 在 ESXi 虚拟机中的登录界面](https://img.hellowood.dev/picture/homelab-openwrt-esxi-login.png)

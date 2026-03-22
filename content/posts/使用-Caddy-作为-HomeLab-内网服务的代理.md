@@ -20,7 +20,7 @@ HomeLab 部署的服务越来越多，部署在不同的服务器上，还需要
 [Caddy](https://caddyserver.com/) 是一款基于 Go 语言编写的 Web 服务器或代理，支持动态修改配置，自动申请 HTTPS 证书等功能，和 Traefik 相比更简单，更适用于 HomeLab 场景下代理 HTTP/HTTPS 服务（Caddy 不支持直接代理 TCP/UDP 服务，如果需要代理 TCP/UDP 服务，需要使用 [caddy-l4](https://github.com/mholt/caddy-l4?tab=readme-ov-file) 等插件支持）
 
 通过 Caddy 代理 PVE 服务，访问地址为 `https://pve.svc.homelab`：
-![homelab-caddy-proxy-pve-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png)
+![Caddy 代理 PVE 服务访问首页截图](https://img.hellowood.dev/picture/homelab-caddy-proxy-pve-homepage.png)
 
 ## 部署
 

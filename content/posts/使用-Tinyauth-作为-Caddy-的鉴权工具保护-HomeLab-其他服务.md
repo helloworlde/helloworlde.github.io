@@ -19,7 +19,7 @@ featured: true
 
 [Tinyauth](https://tinyauth.app/) 是一个非常轻量级的鉴权工具，相比 Authelia/Authentik/Keycloack 等更适合 HomeLab 使用；同时支持使用 OIDC 的鉴权方式，可以结合 GitHub/Google 等支持 OIDC 的第三方账号进行登录
 
-![homelab-caddy-auth-tinyauth-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-auth-tinyauth-homepage.png)
+![Tinyauth 轻量级鉴权工具主页界面展示](https://img.hellowood.dev/picture/homelab-caddy-auth-tinyauth-homepage.png)
 
 ## 部署 Tinyauth
 
@@ -126,7 +126,7 @@ who.svc.homelab {
 
 这样配置之后访问 who.svc.homelab 时会先检查是否登录，如果没有登录会自动跳转到 Tinyauth 的登录页面，登录成功后会跳转回 who.svc.homelab 页面继续访问
 
-![homelab-caddy-auth-tinyauth-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-auth-tinyauth-homepage.png)
+![Tinyauth 登录页面作为 Caddy 反向代理的鉴权入口](https://img.hellowood.dev/picture/homelab-caddy-auth-tinyauth-homepage.png)
 
 ### 给多个路由添加鉴权配置
 

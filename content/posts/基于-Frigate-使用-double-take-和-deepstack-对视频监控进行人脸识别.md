@@ -16,7 +16,7 @@ featured: true
 
 Double Take 是一个训练和识别人脸的工具，支持对 Frigate 中检测到的人物对象进行人脸识别，可以用于统计监控中出现的人物信息。不过经过测试，只适用于门禁、闸机等有清晰人脸的场景，日常的监控因安装位置、角度等原因无法提供清晰的人脸，因此识别的准确度和有效性并不高
 
-![homelab-frigate-double-take-face-double-take-detect.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png)
+![Frigate 与 Double Take 人脸识别检测界面截图](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png)
 
 Double Take 的原理是通过监听 Frigate 识别到对象后发出的 MQTT 消息，根据消息获取对应事件的快照，并将其发送给识别的服务，如 Deepstack/CodeProject.AI 等，然后根据识别结果显示该事件中出现的人脸信息
 
@@ -48,7 +48,7 @@ services:
 
 启动后访问 18083端口，[http://192.168.31.254:18083/](http://192.168.31.254:18083/)，默认的用户名密码是 `admin`，密码是 `public`
 
-![homelab-frigate-double-take-face-mqtt.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-mqtt.png)
+![Frigate 与 Double Take 结合 MQTT 实现人脸识别的架构图](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-mqtt.png)
 
 ### 部署 Frigate
 
@@ -137,7 +137,7 @@ snapshots:
 ```
 
 启动后，访问 [http://192.168.31.254:5000](http://192.168.31.254:5000) 进入 Frigate
-![homelab-frigate-double-take-face-frigate.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-frigate.png)
+![Frigate 界面展示 Double Take 人脸识别检测结果](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-frigate.png)
 
 ## 人脸识别服务
 
@@ -194,7 +194,7 @@ services:
 
 启动 Double Take，添加配置
 
-![homelab-frigate-double-take-face-double-take-config.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-config.png)
+![Double Take 人脸识别配置 YAML 代码片段](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-config.png)
 
 ```yaml
 mqtt:
@@ -229,7 +229,7 @@ detectors:
 
 保存配置后重新启动 Double Take，当监控中出现人脸时会自动进行检测；可以选择部分进行训练，或者上传已经准备好的照片进行训练，当下次出现时即可进行识别
 
-![homelab-frigate-double-take-face-double-take-detect.png](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png)
+![Frigate 结合 Double Take 进行人脸识别的监控界面](https://img.hellowood.dev/picture/homelab-frigate-double-take-face-double-take-detect.png)
 
 ## 参考文档
 

@@ -49,13 +49,13 @@ apt install pve-headers
 - 下载驱动
 
 访问 [https://www.nvidia.cn/drivers/unix/](https://www.nvidia.cn/drivers/unix/)，找到 `Linux x86_64/AMD64/EM64T`
-![homelab-pve-nvidia-driver-install-download-0.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-0.png)
+![NVIDIA 官网下载 Linux x86_64 显卡驱动页面](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-0.png)
 
 点击[压缩文件](https://www.nvidia.cn/drivers/unix/linux-amd64-display-archive/)查看历史版本，选择 `535.216.01` 版本(ubuntu 22 推荐的版本)
-![homelab-pve-nvidia-driver-install-download-1.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-1.png)
+![NVIDIA 官网 Linux 驱动下载页面选择 535.216.01 版本](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-1.png)
 
 点击链接查看驱动详细信息，右键复制下载链接地址
-![homelab-pve-nvidia-driver-install-download-2.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-2.png)
+![在 NVIDIA 官网复制驱动下载链接地址](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-download-2.png)
 
 然后在 PVE 宿主机中通过 wget 下载驱动
 
@@ -63,7 +63,7 @@ apt install pve-headers
 wget https://cn.download.nvidia.com/XFree86/Linux-x86_64/535.216.01/NVIDIA-Linux-x86_64-535.216.01.run
 ```
 
-![homelab-pve-nvidia-driver-install-lxc-install.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install.png)
+![在 Proxmox VE 中安装 NVIDIA 驱动并验证显卡信息](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install.png)
 
 - 授予执行权限
 
@@ -225,7 +225,7 @@ chmod +x ./NVIDIA-Linux-x86_64-535.216.01.run
 ./NVIDIA-Linux-x86_64-535.216.01.run --no-kernel-module
 ```
 
-![homelab-pve-nvidia-driver-install-lxc-install-2.png](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install-2.png)
+![LXC 容器中安装 NVIDIA 驱动并验证显卡信息](https://img.hellowood.dev/picture/homelab-pve-nvidia-driver-install-lxc-install-2.png)
 
 - 重启 LXC 容器
 

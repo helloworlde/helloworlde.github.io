@@ -69,7 +69,7 @@ insert into tesla_fleet_telemetry (topic, payload, timestamp)
  (${topic}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000));
 ```
 
-![homelab-tesla-fleet-telemetry-emqx-flow-rewrite-message-to-pg.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-emqx-flow-rewrite-message-to-pg.png)
+![EMQX 流处理重写消息写入 PostgreSQL 数据库](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-emqx-flow-rewrite-message-to-pg.png)
 
 - 查看 PostgreSQL 数据
 

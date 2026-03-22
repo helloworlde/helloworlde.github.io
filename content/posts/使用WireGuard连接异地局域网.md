@@ -26,7 +26,7 @@ featured: true
 
 关于 WireGuard 的介绍可以参考 [WireGuard](https://www.wireguard.com/)
 
-![homelab-wireguard-vpn-for-sub-network.svg](https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg)
+![树莓派与 HomeLab 通过 WireGuard 连接异地局域网](https://img.hellowood.dev/picture/homelab-wireguard-vpn-for-sub-network.svg)
 
 ## 安装配置 WireGuard
 

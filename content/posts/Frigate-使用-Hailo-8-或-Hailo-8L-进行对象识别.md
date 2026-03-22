@@ -125,7 +125,7 @@ model:
 
 使用 12个 1080p 的监控，以 5fps 进行视频内容识别，使用 hailo-8 和 yolox 模型的推理速度约为 60ms，使用 hailo-8/8L 和 ssd_mobilenet_v1 模型的推理速度约为 15ms，而 Google Coral TPU 的推理速度约为 8ms；在当前的 Frigate 版本下，使用 Google Coral TPU 和小模型检测对象更快
 
-![homelab-frigate-tpu-hailo-8-system-metrics.png](https://img.hellowood.dev/picture/homelab-frigate-tpu-hailo-8-system-metrics.png)
+![Frigate 使用 Hailo 8 进行对象识别的系统性能指标](https://img.hellowood.dev/picture/homelab-frigate-tpu-hailo-8-system-metrics.png)
 
 ## 遇到的问题
 

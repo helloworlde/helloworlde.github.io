@@ -17,7 +17,7 @@ type: post
 
 [Tailscale Funnel](https://tailscale.com/kb/1223/funnel) 是 Tailscale 提供的网关工具，和 Cloudflare Tunnel 类似，支持将流量从公网路由到 Tailscale 节点设备的服务上，如 Web 服务、静态文件、SSH 等
 
-![](https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&w=3840&q=75)
+![Tailscale Funnel 与 Traefik 网关架构示意图](https://tailscale.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffunnel-diagram.2f3f0e10.png&w=3840&q=75)
 
 不过 Tailscale Funnel 当前的功能并不完善，只支持路由到一个目标地址，也不支持自定义路由；如果想路由到其他服务，需要在 Funnel 后面部署一个网关服务；在 Traefik 3.1 的版本中已经支持使用 Tailscale 作为 TLS 证书的提供方，用于将 Tailscale 域名作为 Traefik 的入口
 
@@ -113,7 +113,7 @@ docker compose up -d
 
 启动后通过 IP:PORT 访问 traefik，如 [http://localhost:8080](http://localhost:8080)可以正常访问，说明 traefik 已经正确配置
 
-![homelab-traefik-tailscale-default-configuration-homepage.png](https://img.hellowood.dev/picture/homelab-traefik-tailscale-default-configuration-homepage.png)
+![Traefik 默认配置主页显示 Docker 服务入口](https://img.hellowood.dev/picture/homelab-traefik-tailscale-default-configuration-homepage.png)
 
 ## 启动 Tailscale Funnel
 
@@ -240,7 +240,7 @@ traefik  | 2024-10-13T18:41:34+08:00 DBG github.com/traefik/traefik/v3/pkg/serve
 
 此时访问 [https://homelab.xxx.ts.net](https://homelab.xxx.ts.net) 域名，可以正常访问 traefik 的 dashboard，说明配置正确 (因为 Tailscale Funnel 的公网入口部署在美国，所以访问很慢，使用同一个 Tailscale 子网下的其他设备访问会更快)
 
-![homelab-traefik-tailscale-dashboard-route-rule-list.png](https://img.hellowood.dev/picture/homelab-traefik-tailscale-dashboard-route-rule-list.png)
+![Traefik 仪表盘中的路由规则列表配置界面](https://img.hellowood.dev/picture/homelab-traefik-tailscale-dashboard-route-rule-list.png)
 
 ### 路由到其他服务
 
@@ -347,7 +347,7 @@ providers:
 
 此时的路由规则如下：
 
-![homelab-traefik-tailscale-custom-route-rule-list.png](https://img.hellowood.dev/picture/homelab-traefik-tailscale-custom-route-rule-list.png)
+![Traefik 路由规则列表配置截图](https://img.hellowood.dev/picture/homelab-traefik-tailscale-custom-route-rule-list.png)
 
 #### 访问
 

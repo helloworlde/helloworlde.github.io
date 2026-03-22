@@ -24,11 +24,11 @@ featured: true
 
 选择第一个镜像
 
-![RaspberryPiOS-install-1.png](https://img.hellowood.dev/picture/RaspberryPiOS-install-1.png)
+![在 Raspberry Pi Imager 中选择 Raspberry Pi OS 镜像](https://img.hellowood.dev/picture/RaspberryPiOS-install-1.png)
 
 然后选择 SD 卡后写入
 
-![RaspberryPiOS-install-2.png](https://img.hellowood.dev/picture/RaspberryPiOS-install-2.png)
+![Raspberry Pi Imager 选择操作系统镜像和 SD 卡](https://img.hellowood.dev/picture/RaspberryPiOS-install-2.png)
 
 待写入完成后，将 SD 卡插入树莓派 4，正常启动
 

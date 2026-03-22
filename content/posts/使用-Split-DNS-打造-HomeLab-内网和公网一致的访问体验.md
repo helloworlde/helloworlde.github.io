@@ -18,7 +18,7 @@ featured: true
 
 Split DNS（分割DNS）是一种DNS配置技术，指对同一个域名在不同网络环境下提供不同的DNS解析结果；例如在内网环境下访问 `example.com` 解析到内网IP地址，而在公网环境下访问 `example.com` 解析到公网IP地址；
 
-![homelab-split-dns-diagram-3.svg](https://img.hellowood.dev/picture/homelab-split-dns-diagram-3.svg)
+![Split DNS 内网与公网域名解析分流示意图](https://img.hellowood.dev/picture/homelab-split-dns-diagram-3.svg)
 
 在 HomeLab 场景下，服务部署在内网，可以直接访问；而外网通常需要使用 Cloudflare Tunnel 等反向代理工具进行转发；之前在内网尝试过使用 `.local`/`.homelab` 等域名访问服务，但是一些强依赖 HTTPS 的服务（如 PocketID）因自签名证书不信任问题无法使用(Java/Python服务、Firefox浏览器等均有自己的校验规则)；同时内网访问和外网访问的域名不一致，需要分别记住内网和外网的访问地址，影响使用体验
 
@@ -57,7 +57,7 @@ whoami.example.com {
 
 修改 Cloduflare Tunnel 的路由，将 whoami 主机名转发到 Caddy 的地址 100.0.0.2，然后在 HTTP 设置中配置 HTTP 主机头为 whoami.example.com，用于 Caddy 根据 Host Header 进行路由转发；TLS 配置中也将无 TLS 验证打开，避免证书过期、域名不匹配等问题导致转发失败
 
-![homelab-split-dns-cloudflare-tunnel-route2.png](https://img.hellowood.dev/picture/homelab-split-dns-cloudflare-tunnel-route2.png)
+![Cloudflare Tunnel 路由配置将域名转发至 Caddy 服务器](https://img.hellowood.dev/picture/homelab-split-dns-cloudflare-tunnel-route2.png)
 
 ## 配置 Split DNS
 

@@ -47,7 +47,7 @@ opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 
 首先需要为 ACME 配置邮箱，用于接受证书过期等信息；在 ACME 全局配置-电子邮件帐户添加即可
 
-![homelab-openwrt-acme-email-config.png](https://img.hellowood.dev/picture/homelab-openwrt-acme-email-config.png)
+![OpenWrt ACME 证书配置中设置邮箱账户界面](https://img.hellowood.dev/picture/homelab-openwrt-acme-email-config.png)
 
 #### 配置证书
 
@@ -59,7 +59,7 @@ opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 
 建议第一次使用时勾选使用临时服务器，测试通过后再申请正式的证书；同时选中用于 uhttpd，这样 ACME 会直接修改 uHTTPd 的证书为生成的证书
 
-![homelab-openwrt-acme-regular-config.png](https://img.hellowood.dev/picture/homelab-openwrt-acme-regular-config.png)
+![OpenWrt 证书常规设置界面配置域名与 DNS 验证](https://img.hellowood.dev/picture/homelab-openwrt-acme-regular-config.png)
 
 - 质询验证
 
@@ -68,7 +68,7 @@ opkg install acme luci-app-acme luci-i18n-acme-zh-cn acme-dnsapi
 DNS API 为域名解析商，具体的值可以在 [https://github.com/acmesh-official/acme.sh/wiki/dnsapi](https://github.com/acmesh-official/acme.sh/wiki/dnsapi) 查找，如阿里云的值为 `dns_ali`
 
 DNS API 凭证为域名解析商的验证凭据信息，具体的值可以在 [ https://github.com/acmesh-official/acme.sh/wiki/dnsapi](https://github.com/acmesh-official/acme.sh/wiki/dnsapi) 查找；如阿里云使用 AK/SK，对应的名称为 `Ali_Key` 和 `Ali_Secret`
-![homelab-openwrt-acme-auth-config.png](https://img.hellowood.dev/picture/homelab-openwrt-acme-auth-config.png)
+![OpenWrt 中配置 ACME 证书申请与 DNS API 凭证](https://img.hellowood.dev/picture/homelab-openwrt-acme-auth-config.png)
 
 然后选择保存并应用，ACME 会在后台运行，申请证书；申请结果将会在 `/etc/acme`路径下；如果申请成功，后出现域名对应的文件夹，包含需要的证书文件；如果申请失败，会出现`域名-failed`格式的文件夹
 
@@ -97,7 +97,7 @@ drwxr-xr-x    4 root     root        4.0K Nov  7 12:46 ..
 
 访问服务-uHTTPd，发现证书已经被替换为 ACME申请的证书：
 
-![homelab-openwrt-acme-uhttpd-config.png](https://img.hellowood.dev/picture/homelab-openwrt-acme-uhttpd-config.png)
+![OpenWrt 中 uhttpd 配置 ACME 证书文件列表](https://img.hellowood.dev/picture/homelab-openwrt-acme-uhttpd-config.png)
 
 如果没有自动替换，可以手动选择对应的证书路径，或者修改 `/ect/config/uhttpd` 配置文件指定
 

@@ -201,9 +201,9 @@ sudo update-ca-certificates
 
 将 root_ca.crt 文件下载到 macOS 上，使用钥匙串访问打开，然后在登录-证书中选择信任该证书
 
-![homelab-caddy-step-ca-cert-trust-root-ca-01.png](https://img.hellowood.dev/picture/homelab-caddy-step-ca-cert-trust-root-ca-01.png)
+![在 macOS 钥匙串中信任 Step CA 根证书](https://img.hellowood.dev/picture/homelab-caddy-step-ca-cert-trust-root-ca-01.png)
 
-![homelab-caddy-step-ca-cert-trust-root-ca-02.png](https://img.hellowood.dev/picture/homelab-caddy-step-ca-cert-trust-root-ca-02.png)
+![macOS 钥匙串中将根证书设置为完全信任](https://img.hellowood.dev/picture/homelab-caddy-step-ca-cert-trust-root-ca-02.png)
 
 其他操作系统或者软件可以参考 [step certificate install](https://smallstep.com/docs/step-cli/reference/certificate/install/) 中的相关内容进行安装
 

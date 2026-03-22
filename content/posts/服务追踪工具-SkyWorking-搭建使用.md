@@ -20,13 +20,13 @@ featured: true
 
 - 截图
 
-![https://img.hellowood.dev/blog/SkyWalkingDemo1.png](https://img.hellowood.dev/blog/SkyWalkingDemo1.png)
+![SkyWalking 微服务监控与调用链追踪仪表盘截图](https://img.hellowood.dev/blog/SkyWalkingDemo1.png)
 
-![https://img.hellowood.dev/blog/SkyWalkingDemo2.png](https://img.hellowood.dev/blog/SkyWalkingDemo2.png)
+![SkyWalking 微服务监控与调用链追踪工具演示截图](https://img.hellowood.dev/blog/SkyWalkingDemo2.png)
 
-![https://img.hellowood.dev/blog/SkyWalkingDemo3.png](https://img.hellowood.dev/blog/SkyWalkingDemo3.png)
+![SkyWalking 微服务监控与调用链追踪仪表盘截图](https://img.hellowood.dev/blog/SkyWalkingDemo3.png)
 
-![https://img.hellowood.dev/blog/SkyWalkingDemo4.png](https://img.hellowood.dev/blog/SkyWalkingDemo4.png)
+![SkyWalking 监控仪表盘界面展示](https://img.hellowood.dev/blog/SkyWalkingDemo4.png)
 
 > 环境
 >

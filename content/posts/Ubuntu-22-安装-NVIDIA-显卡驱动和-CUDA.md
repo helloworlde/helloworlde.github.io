@@ -154,7 +154,7 @@ gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)
 
 访问 [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads) 选择操作系统、架构、版本等信息，将会生成对应的 CUDA 安装命令
 
-![homelab-NVIDIA-cuda-driver-download-page.png](https://img.hellowood.dev/picture/homelab-NVIDIA-cuda-driver-download-page.png)
+![NVIDIA CUDA 驱动下载页面选择操作系统和版本](https://img.hellowood.dev/picture/homelab-NVIDIA-cuda-driver-download-page.png)
 
 - 安装 CUDA
 

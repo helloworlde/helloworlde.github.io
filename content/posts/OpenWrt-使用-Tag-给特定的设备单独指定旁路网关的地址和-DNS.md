@@ -23,11 +23,11 @@ featured: true
 
 在 OpenWrt 的 Web 界面中，进入网络 -> DHCP/DNS -> 静态地址分配，点击添加按钮，将需要的设备的主机名、MAC 地址和 IP 地址填写进去，并添加一个 tag，如 `proxynode`，然后点击保存
 
-![homelab-openwrt-dnsmasq-add-static-ip.png](https://img.hellowood.dev/picture/homelab-openwrt-dnsmasq-add-static-ip.png)
+![OpenWrt 静态地址分配界面添加设备标签](https://img.hellowood.dev/picture/homelab-openwrt-dnsmasq-add-static-ip.png)
 
 选择保存并应用，使配置生效
 
-![homelab-openwrt-dnsmasq-add-tag-for-device.png](https://img.hellowood.dev/picture/homelab-openwrt-dnsmasq-add-tag-for-device.png)
+![OpenWrt 静态地址分配界面添加设备 tag 配置](https://img.hellowood.dev/picture/homelab-openwrt-dnsmasq-add-tag-for-device.png)
 
 ## tag 单独配置网关地址和 DNS
 

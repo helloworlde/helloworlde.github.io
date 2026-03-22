@@ -141,7 +141,7 @@ option dns '114.114.114.114'
 4. OpenWrt 配置
 
 登录后在 `网络-接口`中修改 `LAN` 接口，在底层基本设置中选择`忽略此接口`，使用默认路由器做 DHCP 服务器
-![openwrt-config-dhcp.png](https://img.hellowood.dev/picture/openwrt-config-dhcp.png)
+![OpenWrt 网络接口配置中忽略 LAN 接口设置](https://img.hellowood.dev/picture/openwrt-config-dhcp.png)
 
 ## 使用 OpenWrt
 
@@ -150,7 +150,7 @@ option dns '114.114.114.114'
 一种是将 OpenWrt 作为路由器的网关，这样所有使用路由器的设备的流量都会被 OpenWrt 处理，这种方式要求路由器支持指定网关(辣鸡小米路由器没有 root 不支持指定，且官方已不支持 root)，并且 OpenWrt 足够稳定，否则会影响使用；
 
 另一种方式是通过在设备端指定 OpenWrt 作为网关，只有这些设备的流量会被软路由处理，这种方式需要设备端支持（大部分 IoT 设备无法配置）
-![openwrt-usage-mac.png](https://img.hellowood.dev/picture/openwrt-usage-mac.png)
+![OpenWrt 两种使用方式对比示意图](https://img.hellowood.dev/picture/openwrt-usage-mac.png)
 
 ## 配置重启后网卡默认使用混杂模式
 

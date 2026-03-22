@@ -104,7 +104,7 @@ consul_response_time{node="leader",server_ip="172.19.0.2:8300"} 2.238e+06
 consul_response_time
 ```
 
-![grafana-custom-dashboard-cosnul-reponse-time-prometheus.png](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-reponse-time-prometheus.png)
+![Grafana 面板展示 Consul 响应时间监控图表](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-reponse-time-prometheus.png)
 
 这样，就可以得到相应的错误数据，接下来只需要在Grafana中展示就可以
 
@@ -112,7 +112,7 @@ consul_response_time
 
 添加一个 Dashboard，并添加一个 Panel，在 Panel 的 Metrics 中添加刚才的查询语句
 
-![grafana-custom-dashboard-cosnul-reponse-time-grafana.png](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-reponse-time-grafana.png)
+![Grafana 自定义面板监控 Consul 响应时间](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-reponse-time-grafana.png)
 
 执行查询后，会看到有图表生成，变量的名称通过 Legend 字段指定，如这里是 `{instance="host.docker.internal:9107", job="consul-exporter", node="leader", server_ip="172.19.0.2:8300"}`，需要显示IP，即 `server_ip` 的值，可以设置 Legend，这样会显示正确的名称
 
@@ -200,7 +200,7 @@ sum(consul_health_node_status{status!~"passing"})
 
 最终效果
 
-![grafana-custom-dashboard-cosnul-panel.png](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-panel.png)
+![自定义 Grafana 面板监控 Consul 服务状态](https://img.hellowood.dev/picture/grafana-custom-dashboard-cosnul-panel.png)
 
 - 面板的 JSON文件
 

@@ -24,27 +24,27 @@ featured: true
 
 - io.grpc.stub.ClientCalls#blockingUnaryCall
 
-![grpc-java-blockingUnaryCall-diagram.png](https://img.hellowood.dev/picture/grpc-java-blockingUnaryCall-diagram.png)
+![gRPC Java blockingUnaryCall 方法调用流程图](https://img.hellowood.dev/picture/grpc-java-blockingUnaryCall-diagram.png)
 
 - io.grpc.internal.ClientCallImpl#startInternal
 
-![grpc-java-client-call-start.png](https://img.hellowood.dev/picture/grpc-java-client-call-start.png)
+![gRPC Java 客户端调用启动流程示意图](https://img.hellowood.dev/picture/grpc-java-client-call-start.png)
 
 - io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream
 
-![grpc-java-transport-provider-new-retriable-stream.png](https://img.hellowood.dev/picture/grpc-java-transport-provider-new-retriable-stream.png)
+![gRPC Java 可重试流创建子流流程图](https://img.hellowood.dev/picture/grpc-java-transport-provider-new-retriable-stream.png)
 
 - io.grpc.internal.RetriableStream#start
 
-![grpc-java-retriable-stream-start.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-start.png)
+![gRPC Java 可重试流启动流程示意图](https://img.hellowood.dev/picture/grpc-java-retriable-stream-start.png)
 
 - io.grpc.internal.RetriableStream#createSubstream
 
-![grpc-java-retriable-stream-create-sub-stream.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-create-sub-stream.png)
+![Java 可重试流创建子流流程图展示 gRPC 重试机制](https://img.hellowood.dev/picture/grpc-java-retriable-stream-create-sub-stream.png)
 
 - io.grpc.internal.ManagedChannelImpl.ChannelTransportProvider#newRetriableStream#RetryStream#newSubstream
 
-![grpc-java-retriable-stream-new-sub-stream.png](https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png)
+![gRPC Java 可重试流创建新子流流程示意图](https://img.hellowood.dev/picture/grpc-java-retriable-stream-new-sub-stream.png)
 
 1. 通过生成的代码中的方法，调用 `io.grpc.stub.ClientCalls#blockingUnaryCall`
 

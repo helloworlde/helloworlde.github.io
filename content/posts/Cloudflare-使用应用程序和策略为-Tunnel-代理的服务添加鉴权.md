@@ -17,7 +17,7 @@ featured: true
 
 在使用 Cloudflare Tunnel 代理内网服务后，服务直接暴露在公网任何人都可以访问，非常不安全，因此需要为对应的域名通过应用程序和策略来为 Tunnel 代理的服务添加鉴权
 
-![homelab-cloudflare-application-login-page.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png)
+![Cloudflare 应用程序登录页面展示鉴权界面](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png)
 
 ## 使用 Tunnel 代理服务
 
@@ -34,15 +34,15 @@ featured: true
 ### 添加登录方式
 
 Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，如果想使用第三方登录如 Google/GitHub 等，可以在设置 - 身份验证 - 登录方式选择新增，然后根据说明从对应的网站获取登录方式的配置即可
-![homelab-cloudflare-add-login-method-list.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-list.png)
+![Cloudflare Zero Trust 添加第三方登录方式列表](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-list.png)
 
-![homelab-cloudflare-add-login-method-result.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-result.png)
+![Cloudflare 添加第三方登录方式的配置结果界面](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-result.png)
 
 ### 添加规则组
 
 在规则组中新增一个规则组，如超级管理员仅允许特定的几个账户，选择器为 Emails, 然后输入特定邮件地址
 
-![homelab-cloudflare-add-rule-group.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-rule-group.png)
+![Cloudflare 添加规则组配置超级管理员邮件地址](https://img.hellowood.dev/picture/homelab-cloudflare-add-rule-group.png)
 
 ### 添加策略
 
@@ -51,10 +51,10 @@ Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，
 - 鉴权策略
 
 添加一个策略，操作选择 Allow，规则选择器使用 Rule Group，值选择刚才创建的 Super Admin 规则组；
-![homelab-cloudflare-add-access-policy.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy.png)
+![Cloudflare Tunnel 添加超级管理员鉴权策略配置](https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy.png)
 
 然后使用下面的策略测试器进行检查，除了超级管理员，其他账户都被拒绝；如果允许非管理员账户临时登录，可以在其他设置配置目的正当性，并打开临时身份验证
-![homelab-cloudflare-add-access-policy-check.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy-check.png)
+![Cloudflare 添加允许超级管理员的访问策略配置界面](https://img.hellowood.dev/picture/homelab-cloudflare-add-access-policy-check.png)
 
 - 绕过策略
 
@@ -62,7 +62,7 @@ Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，
 
 注意 Bypass 和 Allow 操作不一样，Bypass 不需要任何登录态，也不会记录请求日志和统计信息；Allow 则需要登录态
 
-![homelab-cloudflare-add-Bypass-policy.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-Bypass-policy.png)
+![Cloudflare Tunnel 中配置 Bypass 策略以绕过身份验证](https://img.hellowood.dev/picture/homelab-cloudflare-add-Bypass-policy.png)
 
 ### 添加应用程序
 
@@ -71,23 +71,23 @@ Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，
 #### 添加需要鉴权的应用程序
 
 添加应用程序，类型选择自托管，然后输入应用名称和对应的主机名，如应用名为 `Public Scope Service`, 主机名为 `umami.example.com`
-![homelab-cloudflare-application-auth-app.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-auth-app.png)
+![Cloudflare 添加自托管应用程序配置界面](https://img.hellowood.dev/picture/homelab-cloudflare-application-auth-app.png)
 
 策略选择前面创建的鉴权策略
-![homelab-cloudflare-application-auth-policy.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-auth-policy.png)
+![Cloudflare Tunnel 为 umami 配置应用程序鉴权策略](https://img.hellowood.dev/picture/homelab-cloudflare-application-auth-policy.png)
 
 同时可以配置使用的登录方式，默认选择所有的登录方式
-![homelab-cloudflare-add-login-method-for-app.png](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-for-app.png)
+![在 Cloudflare Tunnel 中为应用配置登录方式](https://img.hellowood.dev/picture/homelab-cloudflare-add-login-method-for-app.png)
 
 #### 添加免鉴权的应用程序
 
 通用添加自托管的应用程序，应用名为 `Global Public Service`，主机名为 `umami.example.com`，同时指定路径 `api/send` 和 `script.js`
 
-![homelab-cloudflare-application-Bypass-app.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-Bypass-app.png)
+![配置 Cloudflare Tunnel 免鉴权应用策略](https://img.hellowood.dev/picture/homelab-cloudflare-application-Bypass-app.png)
 
 策略选择前面创建的 `Bypass for Public`，对这两个路径不做任何鉴权
 
-![homelab-cloudflare-application-Bypass-policy.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-Bypass-policy.png)
+![Cloudflare Tunnel 配置免鉴权策略的界面截图](https://img.hellowood.dev/picture/homelab-cloudflare-application-Bypass-policy.png)
 
 ## 检验鉴权结果
 
@@ -95,12 +95,12 @@ Cloudflare 应用的默认的登录方式给邮箱发送为一次性验证码，
 
 访问 `https://umami.example.com`，会自动跳转到 Cloudflare Access 登录界面，根据前面配置的登录方式进行登录，登录成功后会跳转到 umami 主页正常访问
 
-![homelab-cloudflare-application-login-page.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png)
+![Cloudflare Access 登录页面验证用户身份](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-page.png)
 
 - 用不允许访问的用户登录
 
 如果用户不在规则组中，会被禁止访问
-![homelab-cloudflare-application-login-deny-page.png](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-deny-page.png)
+![Cloudflare Access 拒绝未授权用户访问的登录页面](https://img.hellowood.dev/picture/homelab-cloudflare-application-login-deny-page.png)
 
 - 检查免鉴权的路径
 

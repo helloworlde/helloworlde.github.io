@@ -128,7 +128,7 @@ ClickHouse 有两个插件，分别是 Grafana 官方提供的 [ClickHouse](http
 
 这两个插件在用法和交互上有所差异，这里使用官方的 ClickHouse 进行查询
 
-![grafana-clickhouse-add-datasource.png](https://img.hellowood.dev/picture/grafana-clickhouse-add-datasource.png)
+![在 Grafana 中添加 ClickHouse 数据源界面](https://img.hellowood.dev/picture/grafana-clickhouse-add-datasource.png)
 
 ### 配置数据源
 

@@ -19,13 +19,13 @@ featured: true
 
 Warpgate 支持通过 Google/Apple/GitLab/Azure/Okta 等 OIDC 提供商进行认证；这里通过 [PocketID](https://pocket-id.org/) 来实现 Warpgate 的 SSO 登录；关于 PocketID 的介绍和部署可以参考[使用 PocketID 搭建个人身份认证服务](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-pocketid-%E4%BD%9C%E4%B8%BA-homelab-%E7%9A%84%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E5%B7%A5%E5%85%B7/)
 
-![homelab-jumper-warpgate-sso-login-homepage.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-homepage.png)
+![PocketID 中创建 Warpgate OIDC 客户端配置界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-homepage.png)
 
 ## 配置 PocketID
 
 在 PocketID 中创建一个新的 OIDC 客户端，名称为 `Warpgate`，回调 URL 为 `https://jumper.example.com/@warpgate/api/sso/return`（将 `jumper.example.com` 替换为实际的 Warpgate 访问地址）
 
-![homelab-jumper-warpgate-sso-login-pocketid-add-new-client.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-pocketid-add-new-client.png)
+![PocketID 中添加 Warpgate 新客户端配置界面](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-pocketid-add-new-client.png)
 
 ## 配置 Warpgate
 
@@ -57,14 +57,14 @@ http:
 
 配置完成后重启 Warpgate 服务，可以看到登录页面已经多了一个 PocketID 的登录方式：
 
-![homelab-jumper-warpgate-sso-login-homepage.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-homepage.png)
+![Warpgate 登录页面新增 PocketID SSO 登录选项](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-login-homepage.png)
 
 ### 为用户添加 SSO 登录
 
 在 Warpgate 的管理页面 - `Manage Warpgate - Config - Users` 中为需要使用 SSO 登录的用户添加 `PocketID` 登录方式
 
-![homelab-jumper-warpgate-sso-user-add.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-user-add.png)
+![Warpgate 管理界面为用户添加 PocketID SSO 登录配置](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-user-add.png)
 
 以 admin 用户为例，点击 `Add SSO`，输入 PocketID 用户的邮箱地址，`SSO Provider` 选择 PocketID，保存后即可通过 PocketID 登录 Warpgate
 
-![homelab-jumper-warpgate-sso-user-setup.png](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-user-setup.png)
+![Warpgate 管理界面添加 PocketID SSO 登录配置](https://img.hellowood.dev/picture/homelab-jumper-warpgate-sso-user-setup.png)

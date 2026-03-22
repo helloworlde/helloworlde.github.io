@@ -20,15 +20,15 @@ type: "post"
 
 创建开发者账号需要 [Tesla 账号](https://www.tesla.cn/teslaaccount/profile-settings)设置中绑定邮箱，并且开启两步验证；然后访问 [Tesla Developer](https://developer.tesla.cn/zh_CN/dashboard) 创建应用，输入应用名称和说明等信息
 
-![homelab-tesla-fleet-telemetry-create-application-1.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-1.png)
+![Tesla 开发者控制台创建应用界面](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-1.png)
 
 OAuth 授权类型选择 "授权码和机器对机器"，然后添加允许的源 URL、重定向 URL 和返回的 URL，这里的 URL 需要和后面部署的 Fleet Telemetry 服务器地址一致
 
-![homelab-tesla-fleet-telemetry-create-application-2.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-2.png)
+![Tesla 开发者控制台创建应用并配置 OAuth 授权](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-2.png)
 
 选择权限范围，可以直接选择所有的权限
 
-![homelab-tesla-fleet-telemetry-create-application-3.png](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-3.png)
+![Tesla Fleet API 创建应用界面显示权限范围选择](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-3.png)
 
 创建成功后会得到 Client ID 和 Client Secret，需要保存下来，后续获取 Token 需要使用
 
@@ -111,7 +111,7 @@ fleet.example.com {
 
 当公钥托管成功之后，就可以访问 `https://www.tesla.com/_ak/fleet.example.com`，将虚拟密钥添加到车辆，用于后续访问车辆信息、通信等；访问该链接后，通过页面打开 Tesla App，然后选择对应的车辆，添加虚拟钥匙；添加成功后，车辆的钥匙中会出现 `fleet.example.com` 虚拟钥匙
 
-![homelab-tesla-fleet-telemetry-add-virtual-key.svg](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-add-virtual-key.svg)
+![Tesla App 添加 fleet.example.com 虚拟钥匙界面](https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-add-virtual-key.svg)
 
 ## 参考文档
 

@@ -19,7 +19,7 @@ featured: true
 
 [PocketID](https://pocket-id.org/) 是一个轻量、只支持通行密钥(passkey)的用户管理系统，支持 OIDC 协议，和 GitHub/Google/Microsoft 等一样可以作为身份认证提供者；同时可以给 Tinyauth/Grafana/Memos/Beszel 等 HomeLab 服务提供 OIDC 的身份认证
 
-![homelab-caddy-auth-pocketid-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
+![PocketID 作为 HomeLab 统一登录认证工具的首页界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
 
 PocketID 只支持通行密钥(passkey) 的方式进行登录，因此要求 PocketID 服务的访问地址必须是 HTTPS 的；如果是在本地部署，可以使用 Cloudflare Tunnel 转发，或者通过 Split DNS + Caddy 代理的方式进行访问；关于 Split DNS 可以参考 [使用 Split DNS 打造 HomeLab 内网和公网一致的访问体验](https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8-split-dns-%E6%89%93%E9%80%A0-homelab-%E5%86%85%E7%BD%91%E5%92%8C%E5%85%AC%E7%BD%91%E4%B8%80%E8%87%B4%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BD%93%E9%AA%8C/)
 
@@ -99,17 +99,17 @@ services:
 
 然后启动 PocketID，会自动创建数据表，等待启动成功后访问 https://pocketid.example.com 即可看到 PocketID 的登录页面
 
-![homelab-caddy-auth-pocketid-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
+![PocketID 登录页面展示统一认证入口](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
 
 ### 配置 PocketID
 
 第一次使用需要先访问 [https://pocketid.example.com/setup](https://pocketid.example.com/setup) 进行管理员账号的创建
 
-![homelab-caddy-auth-pocketid-setup-page.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-setup-page.png)
+![PocketID 首次设置页面创建管理员账号](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-setup-page.png)
 
 然后添加一个 passkey，用于后续登录:
 
-![homelab-caddy-auth-pocketid-add-passkey.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-passkey.png)
+![PocketID 设置页面添加 Passkey 用于登录认证](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-passkey.png)
 
 需要注意的是，如果这里不创建，后续登录只能进入容器创建登录码的方式进行登录，参考 [Account Recovery](https://pocket-id.org/docs/troubleshooting/account-recovery)
 
@@ -123,7 +123,7 @@ Use the following URL to sign in once: https://pocketid.example.com/lc/lAuSRYzsL
 
 启动后就可以通过访问上面的 URL 进行登录，登录成功后会看到 PocketID 的管理页面
 
-![homelab-caddy-auth-pocketid-homepage.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
+![PocketID 管理页面添加 OIDC 客户端界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-homepage.png)
 
 ## 配置 OIDC 客户端
 
@@ -133,19 +133,19 @@ Use the following URL to sign in once: https://pocketid.example.com/lc/lAuSRYzsL
 
 在 PocketID 的管理页面，选择 OIDC 客户端，然后点击添加 OIDC 客户端创建一个新的客户端
 
-![homelab-caddy-auth-pocketid-add-oidc-client.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-oidc-client.png)
+![在 PocketID 管理界面添加 Memos 的 OIDC 客户端](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-oidc-client.png)
 
 名称填写 Memos，重定向 URL 填写 Memos 的回调地址，比如 `https://memos.example.com/auth/callback`，然后保存；会生成对应的客户端ID和密钥，点击详情会显示需要在 Memos 中配置的参数
 
-![homelab-caddy-auth-pocketid-add-oidc-client-detail.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-oidc-client-detail.png)
+![PocketID 添加 OIDC 客户端详情配置界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-add-oidc-client-detail.png)
 
 ### 配置 Memos 使用 PocketID 进行登录
 
 在 Memos 的设置 - 单点登录中选择创建，模板选择 Custom，输入对应的 PocketID 生成的客户端ID、密钥、授权地址、令牌地址、用户信息地址等参数，保存后即可使用 PocketID 进行登录；需要注意的是回调地址和 PocketID 的地址都需要是 HTTPS 的，否则会导致登录失败
 
-![homelab-caddy-auth-pocketid-memos-add-pocketid.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-memos-add-pocketid.png)
+![Memos 添加 PocketID 单点登录配置界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-memos-add-pocketid.png)
 
-![homelab-caddy-auth-pocketid-memos-login-by-pocketid.png](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-memos-login-by-pocketid.png)
+![Memos 配置 PocketID 单点登录设置界面](https://img.hellowood.dev/picture/homelab-caddy-auth-pocketid-memos-login-by-pocketid.png)
 
 ## PocketID 其他配置
 

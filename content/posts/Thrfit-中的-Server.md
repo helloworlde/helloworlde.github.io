@@ -46,7 +46,7 @@ public void stop() {}
 
 ## 实现类
 
-![thrift-source-server-subclass.png](https://img.hellowood.dev/picture/thrift-source-server-subclass.png)
+![TSimpleServer 单线程阻塞实现类](https://img.hellowood.dev/picture/thrift-source-server-subclass.png)
 
 ### 阻塞
 

@@ -20,7 +20,7 @@ aliases:
 
 在服务器部署 Caddy 对外提供 DoH 接口，然后将请求转发到 Blocky 服务，Blocky 服务再将 DNS 请求转发给阿里云的服务器的 DNS，间接实现 DoH 服务；经过测试，平均响应延迟在 16ms 左右，比直接使用阿里云的公网 DNS 更快更稳定
 
-![homelab-dns-server-doh-caddy-with-blocky-adguard-result.png](https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png)
+![Caddy 代理 Blocky 提供 DoH 服务并过滤广告](https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png)
 
 可选择的 DoH 服务有 AdGuard、Blocky、Kind、CordDNS 等，因为需要过滤广告，支持 HTTP 查询，并且需要可观测，所以选择 Blocky 作为 DoH 服务；整体的请求链路是：
 
@@ -210,4 +210,4 @@ curl -H 'accept: application/dns-message' 'https://100.0.0.2:10443/dns-query?dns
 
 这样就可以将 `https://100.0.0.2:10443/dns-query` 作为 AdGuard、Clash、Dae 等工具的 DNS 服务器了:
 
-![homelab-dns-server-doh-caddy-with-blocky-adguard-result.png](https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png)
+![AdGuard 配置使用 Caddy 代理 Blocky 的 DoH 地址](https://img.hellowood.dev/picture/homelab-dns-server-doh-caddy-with-blocky-adguard-result.png)
