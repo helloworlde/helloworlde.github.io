@@ -1,5 +1,5 @@
 ---
-description: "深入解析 gRPC ClientStream 与 ServerStream 架构，详解 Netty 与 OkHttp 实现机制及流式通信核心 API。"
+description: "深入解析 gRPC 源码中 Stream 架构，介绍 ClientStream 与 ServerStream 的实现类（NettyClientStream、OkHttpClientStream），详解 start 启动、halfClose 半关闭、cancel 取消等核心方法及 Netty 帧写入流程。"
 title: gRPC Stream
 slug: "grpc-stream"
 aliases:

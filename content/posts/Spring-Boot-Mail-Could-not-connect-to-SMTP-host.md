@@ -1,5 +1,5 @@
 ---
-description: "解决 Spring Boot 邮件发送失败连接阿里云 SMTP 465 端口问题，配置 SSL 启用与 JavaMailSender 代码示例。"
+description: "解决 Spring Boot 使用阿里云 SMTP 发送邮件时 Could not connect to SMTP host 报错，在 application.properties 配置 mail.smtp.ssl.enable=true 启用 SSL 并设置端口 465，附完整配置与代码示例。"
 title: Spring Boot Mail Could not connect to SMTP host
 slug: "spring-boot-mail-smtp-connection-error"
 aliases:
