@@ -22,7 +22,7 @@ tags:
 featured: true
 ---
 
-Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可以通过 Web SSH 的方式访问服务器；支持多种登陆认证方式，安全性远高于直接暴露公网端口
+Cloudflre 的 Zero Trust 支持通过 Tunnels 访问 SSH 类型的应用，可以通过 Web SSH/SSH 的方式访问服务器；支持多种登陆认证方式，安全性远高于直接暴露公网端口
 
 ## 创建 SSH 应用
 
@@ -75,7 +75,7 @@ ingress:
 sudo systemctl restart cloudflared
 ```
 
-## 访问
+## Web SSH 访问
 
 访问刚才配置的 SSH 服务的域名；会提示使用邮箱或者配置的方式进行登陆
 
@@ -165,3 +165,48 @@ sudo systemctl restart ssh
 ![Cloudflare 访问服务 SSO 登录界面展示](https://img.hellowood.dev/picture/homelab-cloudflare-service-auth-ssh-login.png)
 
 ![Cloudflare Tunnels 配置后的 Web SSH 登录页面](https://img.hellowood.dev/picture/homelab-cloudflare-ssh-login-page.png)
+
+## SSH 访问
+
+除了通过 Web SSH 访问外，还可以通过 SSH 命令行访问，以 ubuntu 为例
+
+- 在客户端安装 cloudflared
+
+```bash
+# Add cloudflare gpg key
+sudo mkdir -p --mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-public-v2.gpg | sudo tee /usr/share/keyrings/cloudflare-public-v2.gpg >/dev/null
+
+# Add this repo to your apt repositories
+echo 'deb [signed-by=/usr/share/keyrings/cloudflare-public-v2.gpg] https://pkg.cloudflare.com/cloudflared any main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+# install cloudflared
+sudo apt-get update && sudo apt-get install cloudflared
+```
+
+- 配置 SSH config
+
+在 `~/.ssh/config` 文件中添加以下配置内容
+
+```bash
+Host terminal.mydomain.com
+    HostName terminal.mydomain.com
+    ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
+```
+
+- 连接 SSH
+
+通过 SSH 命令行访问 SSH 应用，将会生成一个授权链接，通过浏览器访问链接，认证通过之后即可登录到对应的 SSH 服务器
+
+```bash
+ssh abc@terminal.mydomain.com
+```
+
+```bash
+A browser window should have opened at the following URL:
+
+https://terminal.mydomain.com/cdn-cgi/access/cli?aud=aaa&edge_token_transfer=true&redirect_url=https%3A%2F%2Fterminal.mydomain.com%3Faud%ccc%26token%aaa%253D&send_org_token=true&token=bbb%3D
+
+If the browser failed to open, please visit the URL above directly in your browser.
+
+```
