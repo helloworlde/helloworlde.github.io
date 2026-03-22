@@ -118,7 +118,7 @@ public void send_sayHello(HelloMessage request) throws org.apache.thrift.TExcept
 }
 ```
 
-- org.apache.thrift.TServiceClient#sendBase(java.lang.String, org.apache.thrift.TBase<?,?>)
+- `org.apache.thrift.TServiceClient#sendBase(java.lang.String, org.apache.thrift.TBase<?,?>)`
 
 这里设置了消息类型是调用
 
@@ -128,7 +128,7 @@ protected void sendBase(String methodName, TBase<?, ?> args) throws TException {
 }
 ```
 
-- org.apache.thrift.TServiceClient#sendBase(java.lang.String, org.apache.thrift.TBase<?,?>, byte)
+- `org.apache.thrift.TServiceClient#sendBase(java.lang.String, org.apache.thrift.TBase<?,?>, byte)`
 
 在写入请求，写入请求头，写入消息体，然后写入结尾符，将请求发送出去
 

@@ -805,7 +805,7 @@ public void onHalfClose() {
 }
 ```
 
-- io.github.helloworlde.HelloServiceGrpc.MethodHandlers#invoke(Req, io.grpc.stub.StreamObserver<Resp>)
+- `io.github.helloworlde.HelloServiceGrpc.MethodHandlers#invoke(Req, io.grpc.stub.StreamObserver<Resp>)`
 
 处理请求，这部分是生成的代码，会调用相应的实例，处理请求，并将响应内容通过 StreamObserver 发送出去
 
