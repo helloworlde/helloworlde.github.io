@@ -6,7 +6,7 @@ aliases:
   - "/posts/thrfit-中的核心概念/"
 type: post
 date: 2021-01-17T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Thrift
 featured: true

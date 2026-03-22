@@ -6,7 +6,7 @@ aliases:
   - "/posts/angularjs配置router-路由-提示controller-nanunction-undefined错误/"
 type: post
 date: 2018-01-01T12:05:17+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - AngularJs
   - Router

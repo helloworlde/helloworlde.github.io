@@ -6,7 +6,7 @@ aliases:
   - "/posts/traefik-使用-google-github-oauth-进行鉴权登陆/"
 type: post
 date: 2023-02-15T21:42:38+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Traefik
   - HomeLab

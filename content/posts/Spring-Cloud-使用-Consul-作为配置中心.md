@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-使用-consul-作为配置中心/"
 type: post
 date: 2020-09-20T22:28:50+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringCloud

@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-gateway-使用-kubernetes-实现负载均衡/"
 type: post
 date: 2020-09-20T22:23:18+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringCloud

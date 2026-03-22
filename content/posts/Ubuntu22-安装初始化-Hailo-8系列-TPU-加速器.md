@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu22-安装初始化-hailo-8系列-tpu-加速器/"
 type: post
 date: 2024-09-01T11:22:23+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Hailo

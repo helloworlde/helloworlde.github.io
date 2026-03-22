@@ -6,7 +6,7 @@ aliases:
   - "/posts/代码质量工具-sonarqube-搭建使用/"
 type: post
 date: 2018-08-01T00:31:41+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Sonarqube
   - Tool

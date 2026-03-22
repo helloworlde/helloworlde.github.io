@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用-elk-日志收集系统安装配置/"
 type: post
 date: 2018-01-21T21:16:10+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

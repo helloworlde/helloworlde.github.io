@@ -6,7 +6,7 @@ aliases:
   - "/posts/go-开发命令行工具-oss文件上传/"
 type: post
 date: 2019-09-08T18:53:25+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Go
   - Cobra

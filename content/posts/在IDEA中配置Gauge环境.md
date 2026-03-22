@@ -6,7 +6,7 @@ aliases:
   - "/posts/在idea中配置gauge环境/"
 type: post
 date: 2018-01-01T11:28:05+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gauge

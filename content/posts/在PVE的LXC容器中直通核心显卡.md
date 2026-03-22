@@ -6,7 +6,7 @@ aliases:
   - "/posts/在pve的lxc容器中直通核心显卡/"
 type: post
 date: 2023-09-09T17:53:36+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - LXC
   - Proxmox

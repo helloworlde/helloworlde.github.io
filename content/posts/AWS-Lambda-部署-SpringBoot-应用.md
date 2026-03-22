@@ -6,7 +6,7 @@ aliases:
   - "/posts/aws-lambda-部署-springboot-应用/"
 type: post
 date: 2019-05-06T11:36:14+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Serverless
   - SpringBoot

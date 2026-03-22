@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-powercli-的-docker-容器自行构建-esxi-镜像/"
 type: post
 date: 2023-02-07T21:45:26+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Esxi
   - HomeLab

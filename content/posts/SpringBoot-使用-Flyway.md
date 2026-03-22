@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用-flyway/"
 type: post
 date: 2018-01-07T23:20:53+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

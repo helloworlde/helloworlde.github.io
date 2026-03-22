@@ -6,7 +6,7 @@ aliases:
   - "/posts/docker-使用-nfs-作为数据卷存储/"
 type: post
 date: 2022-09-22T11:20:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Docker
   - NFS

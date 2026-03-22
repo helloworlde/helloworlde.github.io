@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用-fastjson-自定义接口返回-json-格式/"
 type: post
 date: 2018-04-10T18:50:34+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

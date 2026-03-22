@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用自定义-grafana-面板监控-consul/"
 type: post
 date: 2020-05-16T14:47:24+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Prometheus
   - Grafana

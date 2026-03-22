@@ -6,7 +6,7 @@ aliases:
   - "/posts/homeassistant-基于容器搭建与使用/"
 type: post
 date: 2022-11-13T21:51:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeAssistant
   - HomeLab

@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-使用-kubernetes-作为配置中心-1/"
 type: post
 date: 2020-09-20T22:28:15+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringCloud

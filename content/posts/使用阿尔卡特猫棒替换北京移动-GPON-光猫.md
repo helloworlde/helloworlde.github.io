@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用阿尔卡特猫棒替换北京移动-gpon-光猫/"
 type: post
 date: 2023-11-27T18:08:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Network

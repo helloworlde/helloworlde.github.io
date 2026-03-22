@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-pi-hole-作为-dns-和-dhcp-服务器/"
 type: post
 date: 2022-09-05T11:32:08+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Pi-hole
   - Docker

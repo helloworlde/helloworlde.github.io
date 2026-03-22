@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-中-spring-security-403-自定义返回消息/"
 type: post
 date: 2018-12-24T21:15:25+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

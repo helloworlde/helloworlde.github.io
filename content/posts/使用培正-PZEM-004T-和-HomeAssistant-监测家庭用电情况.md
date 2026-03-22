@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用培正-pzem-004t-和-homeassistant-监测家庭用电情况/"
 type: post
 date: 2023-02-12T21:44:13+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeAssistant
   - HomeLab

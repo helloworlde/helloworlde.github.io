@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-配置-https-访问/"
 type: post
 date: 2018-12-31T22:42:17+08:00
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot
@@ -184,7 +184,7 @@ curl -v http://localhost:8080
 < Content-Length: 0
 < type: post
 date: Mon, 31 Dec 2018 14:31:44 GMT
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 <
 * Connection #0 to host localhost left intact
 ```

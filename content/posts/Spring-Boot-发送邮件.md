@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-发送邮件/"
 type: post
 date: 2017-12-31T23:55:11+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

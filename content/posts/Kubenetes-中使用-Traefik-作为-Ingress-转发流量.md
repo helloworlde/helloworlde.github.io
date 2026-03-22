@@ -6,7 +6,7 @@ aliases:
   - "/posts/kubenetes-中使用-traefik-作为-ingress-转发流量/"
 type: post
 date: 2019-09-08T19:06:11+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Kubernetes
   - Helm

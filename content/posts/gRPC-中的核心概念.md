@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-中的核心概念/"
 type: post
 date: 2020-09-20T22:40:59+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

@@ -5,7 +5,7 @@ slug: "proxmox-ve-lxc-wireguard-tailscale-tun-permission"
 aliases:
   - "/posts/proxmox-ve-开启-ct-lxc-容器-wireguard-tailscale-访问-tun-权限/"
 date: 2024-09-17T10:57:59+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox
   - HomeLab

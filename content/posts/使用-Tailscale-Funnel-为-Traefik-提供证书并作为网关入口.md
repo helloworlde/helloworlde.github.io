@@ -5,7 +5,7 @@ slug: "tailscale-funnel-traefik-certificates-gateway"
 aliases:
   - "/posts/使用-tailscale-funnel-为-traefik-提供证书并作为网关入口/"
 date: 2024-09-23T08:34:00+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Network
@@ -158,7 +158,7 @@ curl -i https://homelab.xxx.ts.net
 HTTP/2 404
 content-length: 0
 date: Sun, 13 Oct 2024 12:34:45 GMT
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 ```
 
 ## 添加路由规则
@@ -363,7 +363,7 @@ curl -i https://homelab.xxx.ts.net/whoami
 HTTP/2 200
 content-type: text/plain; charset=utf-8
 date: Sun, 13 Oct 2024 13:03:11 GMT
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 content-length: 364
 
 Hostname: whoami

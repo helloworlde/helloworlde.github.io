@@ -6,7 +6,7 @@ aliases:
   - "/posts/seata-高可用部署实践/"
 type: post
 date: 2020-04-10T10:51:17+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Seata
 featured: true

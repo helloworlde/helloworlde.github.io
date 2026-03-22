@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-github-作为-helm-仓库/"
 type: post
 date: 2019-12-07T22:16:35+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Kubernetes
   - Helm

@@ -6,7 +6,7 @@ aliases:
   - "/posts/树莓派-4b-安装-kubernetes/"
 type: post
 date: 2021-04-24T22:55:32+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - RaspberryPi
   - Kubernetes

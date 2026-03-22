@@ -6,7 +6,7 @@ aliases:
   - "/posts/kubenetes-部署-dashboard/"
 type: post
 date: 2019-09-08T19:28:25+08:00
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 tags:
   - Kubernetes
 featured: true
@@ -65,7 +65,7 @@ metadata:
   annotations:
     rbac.authorization.kubernetes.io/autouptype: post
 date: "true"
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 roleRef:
   kind: ClusterRole
   name: cluster-admin

@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-gateway-使用/"
 type: post
 date: 2021-01-06T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

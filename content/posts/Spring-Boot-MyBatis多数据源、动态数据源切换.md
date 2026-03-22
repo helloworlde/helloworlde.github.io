@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-mybatis多数据源、动态数据源切换/"
 type: post
 date: 2017-12-31T23:39:24+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

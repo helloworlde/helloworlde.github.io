@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-服务间调用事件流程/"
 type: post
 date: 2021-02-20T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

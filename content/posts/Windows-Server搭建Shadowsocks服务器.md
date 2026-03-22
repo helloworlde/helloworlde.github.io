@@ -6,7 +6,7 @@ aliases:
   - "/posts/windows-server搭建shadowsocks服务器/"
 type: post
 date: 2018-01-01T12:18:00+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Shadowsocks
 featured: true

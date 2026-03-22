@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用cloudflare-tunnels通过web-ssh访问服务器/"
 type: post
 date: 2023-10-06T15:25:13+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Cloudflare

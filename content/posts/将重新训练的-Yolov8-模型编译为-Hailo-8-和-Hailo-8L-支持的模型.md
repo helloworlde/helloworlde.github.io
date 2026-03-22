@@ -6,7 +6,7 @@ aliases:
   - "/posts/将重新训练的-yolov8-模型编译为-hailo-8-和-hailo-8l-支持的模型/"
 type: post
 date: 2024-09-08T21:32:21+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Hailo

@@ -6,7 +6,7 @@ aliases:
   - "/posts/windows下配置chrome-webdriver/"
 type: post
 date: 2018-01-01T11:59:09+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - WebDriver
   - Selenium

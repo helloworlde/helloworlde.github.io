@@ -6,7 +6,7 @@ aliases:
   - "/posts/graphql-spring-boot-使用/"
 type: post
 date: 2019-01-29T19:57:12+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - SpringBoot
   - GraphQL

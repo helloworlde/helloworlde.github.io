@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-健康检查/"
 type: post
 date: 2020-09-20T22:37:34+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

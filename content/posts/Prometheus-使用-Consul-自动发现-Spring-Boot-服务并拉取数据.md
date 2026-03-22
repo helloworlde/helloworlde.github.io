@@ -6,7 +6,7 @@ aliases:
   - "/posts/prometheus-使用-consul-自动发现-spring-boot-服务并拉取数据/"
 type: post
 date: 2020-05-16T14:49:38+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Prometheus
   - Grafana

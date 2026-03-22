@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-使用-smartdns/"
 type: post
 date: 2022-09-27T11:32:08+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - SmartDNS
   - DNS

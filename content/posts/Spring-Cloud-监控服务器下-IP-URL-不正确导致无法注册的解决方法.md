@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-监控服务器下-ip-url-不正确导致无法注册的解决方法/"
 type: post
 date: 2018-01-01T11:51:23+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

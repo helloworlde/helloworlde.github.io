@@ -6,7 +6,7 @@ aliases:
   - "/posts/idea-maven项目导入失败，无法识别pom文件/"
 type: post
 date: 2018-01-01T11:23:33+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Maven

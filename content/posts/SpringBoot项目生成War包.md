@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot项目生成war包/"
 type: post
 date: 2018-01-01T00:50:49+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

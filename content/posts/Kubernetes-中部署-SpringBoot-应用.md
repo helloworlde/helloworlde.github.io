@@ -6,7 +6,7 @@ aliases:
   - "/posts/kubernetes-中部署-springboot-应用/"
 type: post
 date: 2018-10-22T18:30:37+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Kubernetes
   - SpringBoot

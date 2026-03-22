@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-中使用-websocket/"
 type: post
 date: 2019-09-08T18:48:25+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

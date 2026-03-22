@@ -6,7 +6,7 @@ aliases:
   - "/posts/gauge基础知识/"
 type: post
 date: 2018-01-01T11:29:04+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gauge

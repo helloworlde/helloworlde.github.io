@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-security-中实现-remember-me-记住密码功能/"
 type: post
 date: 2018-01-01T00:35:56+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

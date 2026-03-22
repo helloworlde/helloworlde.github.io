@@ -6,7 +6,7 @@ aliases:
   - "/posts/google-cloud-run-部署-knative-serverless-应用/"
 type: post
 date: 2019-05-15T08:23:26+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Serverless
   - Google

@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-中日志使用/"
 type: post
 date: 2018-01-19T21:23:45+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

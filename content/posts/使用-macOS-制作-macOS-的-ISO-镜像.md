@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-macos-制作-macos-的-iso-镜像/"
 type: post
 date: 2022-11-20T21:51:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - MacOS
 featured: true

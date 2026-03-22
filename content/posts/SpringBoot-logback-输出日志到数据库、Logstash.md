@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-logback-输出日志到数据库、logstash/"
 type: post
 date: 2018-01-19T21:25:42+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

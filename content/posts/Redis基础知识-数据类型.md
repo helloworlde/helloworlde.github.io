@@ -6,7 +6,7 @@ aliases:
   - "/posts/redis基础知识-数据类型/"
 type: post
 date: 2018-01-01T12:07:03+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Redis
 featured: true

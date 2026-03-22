@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-mvc简单实现国际化-多语言/"
 type: post
 date: 2018-01-01T11:48:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SrpingMVC

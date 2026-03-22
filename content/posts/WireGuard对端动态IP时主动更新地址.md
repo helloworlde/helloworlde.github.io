@@ -6,7 +6,7 @@ aliases:
   - "/posts/wireguard对端动态ip时主动更新地址/"
 type: post
 date: 2023-09-24T18:37:06+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - WireGuard

@@ -6,7 +6,7 @@ aliases:
   - "/posts/树莓派-4b-使用-wifi-从-ssd-headless-启动/"
 type: post
 date: 2021-04-24T21:21:27+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - RaspberryPi

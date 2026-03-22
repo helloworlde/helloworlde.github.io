@@ -2,7 +2,7 @@
 date: 2025-04-20
 description: "红米 AX6000 解锁 SSH 刷机 OpenWrt 教程，含 telnet 开启、固件版本确认及 U-Boot/stock 分区刷入方法。"
 # image: ""
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 showTableOfContents: false
 title: "红米 AX6000 解锁 SSH 并刷机 OpenWrt 系统"
 slug: "redmi-ax6000-ssh-openwrt"

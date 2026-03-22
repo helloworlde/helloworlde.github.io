@@ -5,7 +5,7 @@ slug: "tailscale-derp-probe-check-self-hosted-derper-status"
 aliases:
   - "/posts/tailscale-使用-derp-probe-检测自建的-derper-服务器状态/"
 date: 2024-09-22T21:20:35+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Network

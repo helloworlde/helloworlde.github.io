@@ -5,7 +5,7 @@ slug: "cloudflare-tunnel-reverse-proxy-access-internal-services"
 aliases:
   - "/posts/使用-cloudflare-tunnel-作为反向代理访问内网服务/"
 date: 2024-12-04T15:48:56+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Cloudflare

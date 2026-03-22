@@ -6,7 +6,7 @@ aliases:
   - "/posts/n5105-构建-esxi-镜像/"
 type: post
 date: 2022-08-11T10:53:05+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Esxi
 featured: true

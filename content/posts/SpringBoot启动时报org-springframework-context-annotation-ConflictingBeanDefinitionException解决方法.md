@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot启动时报org-springframework-context-annotation-conflictingbeandefinitionexception解决方法/"
 type: post
 date: 2018-01-01T00:53:44+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

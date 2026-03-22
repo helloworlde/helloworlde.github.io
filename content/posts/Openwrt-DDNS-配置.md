@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-ddns-配置/"
 type: post
 date: 2022-08-26T11:32:08+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Esxi
   - OpenWrt

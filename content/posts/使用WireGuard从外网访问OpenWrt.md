@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用wireguard从外网访问openwrt/"
 type: post
 date: 2023-06-12T16:30:22+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - WireGuard

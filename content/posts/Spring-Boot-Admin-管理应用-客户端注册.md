@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-admin-管理应用-客户端注册/"
 type: post
 date: 2018-01-01T12:15:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

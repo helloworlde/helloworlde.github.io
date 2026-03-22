@@ -6,7 +6,7 @@ aliases:
   - "/posts/java-将单元测试覆盖率上传到-codecov/"
 type: post
 date: 2018-01-01T00:00:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gradle

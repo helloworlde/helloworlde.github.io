@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-actuator-添加-git-和-build-信息/"
 type: post
 date: 2018-01-01T11:20:12+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

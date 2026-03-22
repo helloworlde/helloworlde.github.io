@@ -6,7 +6,7 @@ aliases:
   - "/posts/springmvc应用启动时执行操作/"
 type: post
 date: 2018-01-01T00:56:03+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringMVC

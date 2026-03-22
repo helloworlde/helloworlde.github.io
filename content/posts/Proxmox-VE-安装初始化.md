@@ -6,7 +6,7 @@ aliases:
   - "/posts/proxmox-ve-安装初始化/"
 type: post
 date: 2023-02-27T21:41:04+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox VE
   - HomeLab

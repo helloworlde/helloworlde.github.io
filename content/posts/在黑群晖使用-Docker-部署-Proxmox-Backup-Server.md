@@ -6,7 +6,7 @@ aliases:
   - "/posts/在黑群晖使用-docker-部署-proxmox-backup-server/"
 type: post
 date: 2023-12-23T21:52:00+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox
   - HomeLab

@@ -6,7 +6,7 @@ aliases:
   - "/posts/thrift-中的-transport/"
 type: post
 date: 2021-02-01T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Thrift
 featured: true

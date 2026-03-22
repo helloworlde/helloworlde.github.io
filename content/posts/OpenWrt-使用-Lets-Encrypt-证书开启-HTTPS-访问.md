@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-使用-lets-encrypt-证书开启-https-访问/"
 type: post
 date: 2022-11-11T21:57:52+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - OpenWrt
   - HomeLab

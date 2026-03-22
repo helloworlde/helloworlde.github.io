@@ -6,7 +6,7 @@ aliases:
   - "/posts/grafana使用clickhouse作为数据源配置图表/"
 type: post
 date: 2023-11-27T15:20:30+08:00
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 tags:
   - Grafana
   - ClickHouse
@@ -208,9 +208,9 @@ SELECT  distinct(toString(env))
 FROM metrics.request_history
 WHERE add_time BETWEEN toDateTime(${__from:type: post
 date:seconds}) AND toDateTime(${__to:type: post
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 date:seconds})
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 ```
 
 依赖其他变量进行查询，添加到查询条件即可，使用 `singlequote`添加引号，避免查询语法错误
@@ -221,9 +221,9 @@ FROM `logs`.`red_sentinel_metrics`
 WHERE env in (${env:singlequote})
 AND ActionDate BETWEEN toDateTime(${__from:type: post
 date:seconds}) AND toDateTime(${__to:type: post
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 date:seconds})
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 ```
 
 - 添加动态查询条件

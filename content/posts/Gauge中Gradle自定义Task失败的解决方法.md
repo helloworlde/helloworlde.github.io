@@ -6,7 +6,7 @@ aliases:
   - "/posts/gauge中gradle自定义task失败的解决方法/"
 type: post
 date: 2018-01-01T11:26:41+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gradle

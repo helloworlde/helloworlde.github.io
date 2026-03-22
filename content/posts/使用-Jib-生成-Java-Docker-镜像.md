@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-jib-生成-java-docker-镜像/"
 type: post
 date: 2018-07-16T00:17:43+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Docker
   - Jib

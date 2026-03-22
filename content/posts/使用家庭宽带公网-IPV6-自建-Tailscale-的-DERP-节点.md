@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用家庭宽带公网-ipv6-自建-tailscale-的-derp-节点/"
 type: post
 date: 2024-06-11T21:33:44+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Network

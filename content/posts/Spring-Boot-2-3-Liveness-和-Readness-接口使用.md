@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-2-3-liveness-和-readness-接口使用/"
 type: post
 date: 2020-09-20T22:32:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - SpringBoot
 featured: true

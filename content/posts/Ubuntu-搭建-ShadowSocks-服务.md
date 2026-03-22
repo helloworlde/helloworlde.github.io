@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu-搭建-shadowsocks-服务/"
 type: post
 date: 2018-10-21T22:39:52+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - ShadowSocks
   - Tool

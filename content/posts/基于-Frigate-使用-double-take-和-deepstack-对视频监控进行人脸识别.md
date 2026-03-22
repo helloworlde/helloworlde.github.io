@@ -6,7 +6,7 @@ aliases:
   - "/posts/基于-frigate-使用-double-take-和-deepstack-对视频监控进行人脸识别/"
 type: post
 date: 2024-08-16T09:29:49+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - NVR
   - HomeLab

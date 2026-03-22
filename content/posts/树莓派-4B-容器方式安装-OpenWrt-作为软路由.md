@@ -6,7 +6,7 @@ aliases:
   - "/posts/树莓派-4b-容器方式安装-openwrt-作为软路由/"
 type: post
 date: 2022-07-20T11:32:08+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - OpenWrt
   - RaspberryPi

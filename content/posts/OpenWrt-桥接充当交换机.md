@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-桥接充当交换机/"
 type: post
 date: 2023-03-21T21:33:24+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - OpenWrt
   - HomeLab

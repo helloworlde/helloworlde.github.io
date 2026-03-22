@@ -6,7 +6,7 @@ aliases:
   - "/posts/frigate-使用-hailo-8-或-hailo-8l-进行对象识别/"
 type: post
 date: 2024-09-01T11:25:24+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - NVR
   - HomeLab

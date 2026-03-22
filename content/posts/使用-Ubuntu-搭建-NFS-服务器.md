@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-ubuntu-搭建-nfs-服务器/"
 type: post
 date: 2024-01-27T11:20:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - HomeLab

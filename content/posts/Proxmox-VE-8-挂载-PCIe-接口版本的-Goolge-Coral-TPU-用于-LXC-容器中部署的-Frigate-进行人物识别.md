@@ -5,7 +5,7 @@ slug: "proxmox-ve-8-pcie-google-coral-tpu-frigate-lxc-person-detection"
 aliases:
   - "/posts/proxmox-ve-8-挂载-pcie-接口版本的-goolge-coral-tpu-用于-lxc-容器中部署的-frigate-进行人物识别/"
 date: 2024-12-01T20:26:09+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox VE
   - HomeLab

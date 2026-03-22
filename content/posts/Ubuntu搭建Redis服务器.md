@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu搭建redis服务器/"
 type: post
 date: 2018-01-01T12:08:07+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Reids

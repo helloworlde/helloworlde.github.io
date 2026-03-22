@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-安装使用-openclash/"
 type: post
 date: 2022-08-25T11:20:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - OpenClash
   - Clash

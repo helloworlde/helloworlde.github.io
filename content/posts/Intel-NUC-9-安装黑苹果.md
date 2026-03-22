@@ -6,7 +6,7 @@ aliases:
   - "/posts/intel-nuc-9-安装黑苹果/"
 type: post
 date: 2022-12-08T21:51:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Hackintosh
   - NUC

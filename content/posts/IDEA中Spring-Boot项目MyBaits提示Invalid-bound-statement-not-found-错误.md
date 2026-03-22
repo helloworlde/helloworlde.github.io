@@ -6,7 +6,7 @@ aliases:
   - "/posts/idea中spring-boot项目mybaits提示invalid-bound-statement-not-found-错误/"
 type: post
 date: 2018-01-01T01:01:51+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

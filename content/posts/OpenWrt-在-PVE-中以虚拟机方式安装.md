@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-在-pve-中以虚拟机方式安装/"
 type: post
 date: 2023-03-20T21:35:17+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox VE
   - OpenWrt

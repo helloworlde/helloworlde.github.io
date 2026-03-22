@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用-mysql保存emoji-表情/"
 type: post
 date: 2018-12-31T22:59:16+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - MySQL
   - SpringBoot

@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-集成-swagger-api-文档工具/"
 type: post
 date: 2018-01-07T23:28:45+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

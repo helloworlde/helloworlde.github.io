@@ -6,7 +6,7 @@ aliases:
   - "/posts/小米-redmi-ax6s-ax3200-刷入-openwrt-及使用体验/"
 type: post
 date: 2022-10-09T11:20:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - MiWiFi
   - Router

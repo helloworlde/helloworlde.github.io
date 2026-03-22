@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-prometheus-和-grafana-监控-consul/"
 type: post
 date: 2020-05-16T14:36:34+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Prometheus
   - Grafana
@@ -175,7 +175,7 @@ curl -v localhost:8500/v1/agent/metrics\?format=prometheus
 < Vary: Accept-Encoding
 < type: post
 date: Thu, 07 May 2020 00:09:23 GMT
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 < Content-Length: 66
 < Content-Type: text/plain; charset=utf-8
 <

@@ -6,7 +6,7 @@ aliases:
   - "/posts/angularjs发送异步get-post请求/"
 type: post
 date: 2018-01-01T11:40:58+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - AngularJs
   - Request

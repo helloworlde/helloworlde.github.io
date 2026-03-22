@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用quartzjob实现任务控制/"
 type: post
 date: 2018-02-12T18:22:43+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

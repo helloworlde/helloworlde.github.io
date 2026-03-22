@@ -6,7 +6,7 @@ aliases:
   - "/posts/windows-使用-yuzu-模拟-nintendo-switch/"
 type: post
 date: 2022-11-20T21:51:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Games
 featured: true

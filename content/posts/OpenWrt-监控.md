@@ -6,7 +6,7 @@ aliases:
   - "/posts/openwrt-监控/"
 type: post
 date: 2022-09-26T11:32:08+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Netdata
   - Prometheus

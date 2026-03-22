@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-中自定义异常处理/"
 type: post
 date: 2019-09-08T18:47:12+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

@@ -6,7 +6,7 @@ aliases:
   - "/posts/mysql-中关于gap-lock-next-key-lock-的一个问题/"
 type: post
 date: 2019-01-07T21:40:58+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - MySQL
 featured: true

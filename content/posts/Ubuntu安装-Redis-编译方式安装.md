@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu安装-redis-编译方式安装/"
 type: post
 date: 2018-01-01T12:09:09+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Reids

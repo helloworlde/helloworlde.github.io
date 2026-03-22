@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用腾讯云的serverless部署天气应用/"
 type: post
 date: 2019-10-13T18:56:40+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Serverless
   - Go

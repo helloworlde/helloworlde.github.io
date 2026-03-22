@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用-cloudflare-worker-和-r2-代理-oss-图床/"
 type: post
 date: 2023-12-23T19:14:05+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Cloudflare
   - HomeLab

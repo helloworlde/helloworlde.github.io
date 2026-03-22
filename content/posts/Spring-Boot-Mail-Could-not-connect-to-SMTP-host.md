@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-mail-could-not-connect-to-smtp-host/"
 type: post
 date: 2017-12-31T23:57:39+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

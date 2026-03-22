@@ -5,7 +5,7 @@ slug: "ubuntu-22-install-amd-gpu-driver"
 aliases:
   - "/posts/ubuntu-22-安装-amd-显卡驱动/"
 date: 2024-09-19T09:14:35+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - AMD

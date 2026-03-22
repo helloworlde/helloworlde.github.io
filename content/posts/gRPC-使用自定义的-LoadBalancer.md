@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-使用自定义的-loadbalancer/"
 type: post
 date: 2020-09-29T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

@@ -6,7 +6,7 @@ aliases:
   - "/posts/proxmox-ve-创建自定义的-lxc-容器-ct-模板/"
 type: post
 date: 2024-01-07T12:00:10+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox
   - HomeLab

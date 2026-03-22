@@ -6,7 +6,7 @@ aliases:
   - "/posts/grpc-中打印请求二进制日志/"
 type: post
 date: 2021-01-04T22:34:46+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - gRPC
 featured: true

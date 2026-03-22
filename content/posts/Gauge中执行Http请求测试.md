@@ -6,7 +6,7 @@ aliases:
   - "/posts/gauge中执行http请求测试/"
 type: post
 date: 2018-01-01T11:33:29+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gauge

@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-boot-中集成-spring-security/"
 type: post
 date: 2018-01-01T00:09:27+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-consul-服务注册和发现/"
 type: post
 date: 2020-09-20T22:27:16+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringCloud

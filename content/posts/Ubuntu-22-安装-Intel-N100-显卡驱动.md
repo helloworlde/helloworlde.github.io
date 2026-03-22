@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu-22-安装-intel-n100-显卡驱动/"
 type: post
 date: 2024-07-08T08:41:49+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Intel

@@ -6,7 +6,7 @@ aliases:
   - "/posts/angularjs中ngtable自定义-重写过滤器/"
 type: post
 date: 2018-01-01T11:56:49+08:00
-lastmod: 2026-03-11
+lastmod: 2026-03-22
 tags:
   - AngularJs
   - ngTable
@@ -62,7 +62,7 @@ $scope.userTable = new NgTableParams({},
 <td data-title="'日期'" filter="customFilter">
                     {{user.date|type: post
 date:'yyyy-MM-dd'}}
-lastmod: 2026-03-11
+lastmod: 2026-03-22
                 </td>
 ```
 
@@ -116,7 +116,7 @@ $scope.customFilterFn = function (date, filterValues) {
                 <td data-title="'性别'" filter="customFilter" sortable="'date'">
                     {{user.date|type: post
 date:'yyyy-MM-dd'}}
-lastmod: 2026-03-11
+lastmod: 2026-03-22
                 </td>
             </tr>
         </table>

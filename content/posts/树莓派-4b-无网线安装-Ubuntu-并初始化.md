@@ -6,7 +6,7 @@ aliases:
   - "/posts/树莓派-4b-无网线安装-ubuntu-并初始化/"
 type: post
 date: 2019-12-15T22:42:04+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - RaspberryPi

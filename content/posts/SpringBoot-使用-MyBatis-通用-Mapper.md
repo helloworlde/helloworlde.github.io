@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot-使用-mybatis-通用-mapper/"
 type: post
 date: 2018-04-08T15:11:45+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

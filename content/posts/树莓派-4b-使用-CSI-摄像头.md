@@ -6,7 +6,7 @@ aliases:
   - "/posts/树莓派-4b-使用-csi-摄像头/"
 type: post
 date: 2023-03-11T21:38:25+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - RaspberryPi
   - HomeLab

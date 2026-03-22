@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu-22-在-docker-容器中使用-nvidia-显卡/"
 type: post
 date: 2024-08-06T09:15:33+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - NVIDIA

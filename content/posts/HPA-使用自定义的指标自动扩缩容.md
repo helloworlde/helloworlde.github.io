@@ -6,7 +6,7 @@ aliases:
   - "/posts/hpa-使用自定义的指标自动扩缩容/"
 type: post
 date: 2020-09-20T22:36:15+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Kubernetes
 featured: true

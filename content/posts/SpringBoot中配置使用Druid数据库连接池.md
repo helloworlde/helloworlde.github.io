@@ -6,7 +6,7 @@ aliases:
   - "/posts/springboot中配置使用druid数据库连接池/"
 type: post
 date: 2018-01-01T00:52:18+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - SpringBoot

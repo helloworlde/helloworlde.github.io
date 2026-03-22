@@ -6,7 +6,7 @@ aliases:
   - "/posts/nginx-配置/"
 type: post
 date: 2018-01-01T12:03:12+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Nginx
 featured: true

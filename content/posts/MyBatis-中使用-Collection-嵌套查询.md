@@ -6,7 +6,7 @@ aliases:
   - "/posts/mybatis-中使用-collection-嵌套查询/"
 type: post
 date: 2018-01-01T00:47:05+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - MyBatis

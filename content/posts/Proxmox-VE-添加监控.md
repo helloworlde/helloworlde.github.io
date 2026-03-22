@@ -6,7 +6,7 @@ aliases:
   - "/posts/proxmox-ve-添加监控/"
 type: post
 date: 2023-04-09T21:29:39+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Proxmox VE
   - InfluxDB

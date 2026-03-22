@@ -6,7 +6,7 @@ aliases:
   - "/posts/gauge中执行测试的常用命令/"
 type: post
 date: 2018-01-01T11:30:51+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Java
   - Gauge

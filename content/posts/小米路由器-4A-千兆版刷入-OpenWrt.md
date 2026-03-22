@@ -6,7 +6,7 @@ aliases:
   - "/posts/小米路由器-4a-千兆版刷入-openwrt/"
 type: post
 date: 2023-08-25T11:20:19+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - MiWiFi
   - Router

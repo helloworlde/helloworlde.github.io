@@ -5,7 +5,7 @@ slug: "traefik-docker-swarm"
 aliases:
   - "/posts/微服务网关-traefik-docker-swarm-使用/"
 date: 2019-03-24T21:20:35+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Network

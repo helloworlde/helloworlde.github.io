@@ -6,7 +6,7 @@ aliases:
   - "/posts/spring-cloud-使用-kubernetes-作为注册中心/"
 type: post
 date: 2019-09-08T19:12:29+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - SpringCloud
   - Kubernetes

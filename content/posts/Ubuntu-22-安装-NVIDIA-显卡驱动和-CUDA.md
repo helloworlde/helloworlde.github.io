@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu-22-安装-nvidia-显卡驱动和-cuda/"
 type: post
 date: 2024-07-08T08:58:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - NVIDIA

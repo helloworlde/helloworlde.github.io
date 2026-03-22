@@ -6,7 +6,7 @@ aliases:
   - "/posts/kubernetes-配置-kubeconfig-访问多个集群/"
 type: post
 date: 2018-10-23T21:09:48+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Kubernetes
 featured: true

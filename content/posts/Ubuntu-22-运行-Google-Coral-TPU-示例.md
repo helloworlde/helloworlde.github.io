@@ -6,7 +6,7 @@ aliases:
   - "/posts/ubuntu-22-运行-google-coral-tpu-示例/"
 type: post
 date: 2024-07-09T09:30:21+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Ubuntu
   - Coral

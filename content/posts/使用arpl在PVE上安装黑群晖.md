@@ -6,7 +6,7 @@ aliases:
   - "/posts/使用arpl在pve上安装黑群晖/"
 type: post
 date: 2023-07-01T16:12:02+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - HomeLab
   - Synology

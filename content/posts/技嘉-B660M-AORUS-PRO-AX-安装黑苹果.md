@@ -6,7 +6,7 @@ aliases:
   - "/posts/技嘉-b660m-aorus-pro-ax-安装黑苹果/"
 type: post
 date: 2022-12-30T21:47:06+08:00
-lastmod: 2026-03-12
+lastmod: 2026-03-22
 tags:
   - Hackintosh
   - MacOS
