@@ -2,7 +2,7 @@
 date: 2026-02-13
 description: "Mikrotik RouterOS 配置 DNS 代理与路由表，实现 Docker 域名解析转发至 GoogleDNS，优化网络性能。"
 # image: ""
-lastmod: 2026-02-13
+lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "Mikrotik RouterOS 路由器为自身配置代理"
@@ -10,6 +10,7 @@ slug: "mikrotik-routeros-proxy-configuration"
 aliases:
   - "/posts/mikrotik-routeros-路由器为自身配置代理/"
 type: "post"
+featured: false
 ---
 
 ## 配置代理服务

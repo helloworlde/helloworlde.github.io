@@ -2,7 +2,7 @@
 date: 2025-11-17
 description: "解决 MicroTik RB5009 容器功能无法启用问题，通过修改 device-mode 路由模式配置实现 Speetest 容器部署。"
 # image: ""
-lastmod: 2025-11-17
+lastmod: 2026-03-22
 showTableOfContents: false
 # tags: ["",]
 title: "MicroTik RB5009 使用容器部署 Speetest"
@@ -10,6 +10,7 @@ slug: "microtik-rb5009-container-speetest"
 aliases:
   - "/posts/microtik-rb5009-使用容器部署-speetest/"
 type: "post"
+featured: false
 ---
 
 ## 启用容器功能
