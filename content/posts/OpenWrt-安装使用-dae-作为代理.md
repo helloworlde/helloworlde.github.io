@@ -286,6 +286,68 @@ level=info msg="10.0.0.1:64316 <-> claude.ai:443" dialer="新加坡09aws" dscp=0
 level=info msg="10.0.0.1:64376 <-> claude.ai:443" dialer="新加坡07aws" dscp=0 ip="10.0.0.2:443" mac="00:11:22:33:44:55" network=tcp4 outbound=ai pid=0 pname= policy=min_moving_avg sniffed=claude.ai
 ```
 
+## 优化
+
+需要适当调整 OpenWrt 的配置，如调整 TCP 拥塞控制算法、窗口大小、UDP缓冲区灯
+
+### 优化内核配置
+
+直接在命令行执行即可
+
+```bash
+cat > /etc/sysctl.conf << EOF
+# User defined entries should be added to this file not to /etc/sysctl.d/* as
+# that directory is not backed-up by default and will not survive a reimage
+
+# === TCP 缓冲区优化（高带宽下载推荐）===
+net.core.rmem_max = 67108864
+net.core.wmem_max = 67108864
+net.ipv4.tcp_rmem = 4096 87380 67108864
+net.ipv4.tcp_wmem = 4096 65536 67108864
+
+# === TCP Fast Open ===
+net.ipv4.tcp_fastopen = 3
+
+# === 连接追踪表优化（代理场景）===
+net.netfilter.nf_conntrack_max = 1000000
+
+# === 流量导向（RPS）===
+net.core.rps_sock_flow_entries = 128
+
+# === BBR 拥塞控制 + 代理场景核心优化 ===
+net.core.default_qdisc = fq_codel
+net.ipv4.tcp_congestion_control = bbr
+
+# === 额外 TCP 优化（提升代理连接复用与稳定性）===
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_ecn = 1
+
+# === UDP 缓冲区（Hysteria / WireGuard 等 UDP 代理推荐）===
+net.ipv4.udp_mem = 4096 87380 67108864
+net.ipv4.udp_rmem_min = 4096
+net.ipv4.udp_wmem_min = 4096
+
+# === Conntrack 超时优化（代理长连接专用）===
+net.netfilter.nf_conntrack_tcp_timeout_established = 600
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 30
+net.netfilter.nf_conntrack_tcp_timeout_time_wait = 30
+EOF
+```
+
+### 流量导向优化
+
+流量导向优化就是通过软分流将原本挤在单个 CPU 核心上的网络处理压力平均分配给多核并行处理，从而消除千兆带宽或代理场景下的单核瓶颈，显著降低延迟并提升系统吞吐量
+
+在网络-接口-全局网络选项-流量导向(RPS)中启用流量导向，设置为 `128`；可以适当调大流量导向的值，如 `256`
+
+### 启用软件流量卸载
+
+软件卸载（Software Offloading）与 SQM 完全兼容，在千兆以下链路，尤其是需要流量整形避免缓冲膨胀的代理场景是首选
+
+在网络-防火墙-路由/NAT 卸载-流量卸载类型中选择 `软件流量卸载`
+
 ## 参考文档
 
 - [Dae 代理软件的配置](https://blog.hellowood.dev/posts/dae-proxy-configuration/)
