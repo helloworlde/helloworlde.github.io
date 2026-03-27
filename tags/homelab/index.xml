@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>homelab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in homelab on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 VLESS Reality Vision 协议在 VPS 服务器自建代理</title><link>https://blog.hellowood.dev/posts/vless-reality-vision-protocol-vps-proxy/</link><pubDate>Mon, 16 Mar 2026 08:52:57 +0800</pubDate><guid>https://blog.hellowood.dev/posts/vless-reality-vision-protocol-vps-proxy/</guid><description>&lt;p&gt;VLESS Reality Vision 是目前 Xray-core 中最推荐的代理组合方案，三个组件各司其职：&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>homelab on HelloWood</title><link>https://blog.hellowood.dev/tags/homelab/</link><description>Recent content in homelab on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/homelab/index.xml" rel="self" type="application/rss+xml"/><item><title>PVE 9 安装 Nvidia 显卡驱动</title><link>https://blog.hellowood.dev/posts/pve-9-install-nvidia-driver/</link><pubDate>Mon, 23 Mar 2026 09:18:55 +0800</pubDate><guid>https://blog.hellowood.dev/posts/pve-9-install-nvidia-driver/</guid><description>&lt;p&gt;PVE 9 更新后使用的内核是 6.17，该内核版本支持的 Nvidia 驱动是 580+，对应的 cuda 版本是 13，但是 ollama 等依赖 cuda 12 的服务无法正常使用 GPU；Debian 13 推荐的 nvidia 驱动版本是 550，为了支持 cuda 12 的服务，需要将内核版本降低到6.14，然后安装 550 版本的驱动&lt;/p&gt;
+&lt;h2 id="检查内核版本"&gt;检查内核版本&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;查看可用的内核版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;proxmox-boot-tool kernel list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出如下，当前会自动选择最新的内核版本&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Manually selected kernels:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;None.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Automatically selected kernels:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6.17.13-1-pve
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6.17.9-1-pve
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;查看当前生效的内核版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;uname -r
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;生效的版本是 6.17.13-1-pve，这个版本不支持 Nvidia 550 版本的驱动&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;6.17.13-1-pve
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="安装-614-内核"&gt;安装 6.14 内核&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 6.14 版本内核包和头文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;apt install proxmox-kernel-6.14 proxmox-headers-6.14 --fix-missing
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;查看新增的内核版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;proxmox-boot-tool kernel list
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出如下，新增了 6.14.11-5-pve 版本&lt;/p&gt;</description></item><item><title>使用 VLESS Reality Vision 协议在 VPS 服务器自建代理</title><link>https://blog.hellowood.dev/posts/vless-reality-vision-protocol-vps-proxy/</link><pubDate>Mon, 16 Mar 2026 08:52:57 +0800</pubDate><guid>https://blog.hellowood.dev/posts/vless-reality-vision-protocol-vps-proxy/</guid><description>&lt;p&gt;VLESS Reality Vision 是目前 Xray-core 中最推荐的代理组合方案，三个组件各司其职：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;VLESS 负责代理协议层，用 UUID 认证用户身份并转发流量，设计极简，本身不做加密&lt;/li&gt;
 &lt;li&gt;Reality 负责传输安全层，代替传统 TLS。核心思路是：握手时伪装成访问真实网站（如 &lt;a href="https://www.bing.com"&gt;www.bing.com&lt;/a&gt;）的正常 TLS 连接，认证通过后才接管流量，否则直接转发给真实网站。外部观察者看到的是一条普通的 HTTPS 请求，无法区分。服务端不需要域名和证书，用公私钥对做认证&lt;/li&gt;
