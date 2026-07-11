@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tesla on HelloWood</title><link>https://blog.hellowood.dev/tags/tesla/</link><description>Recent content in tesla on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/tesla/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/</link><pubDate>Tue, 30 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/</guid><description>&lt;p&gt;以下是 Tesla Fleet Telemetry 常用可上报属性说明。字段会随车型、硬件、固件和 Fleet Telemetry client 版本变化，实际可用性以官方 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data"&gt;Available Data&lt;/a&gt; 和 &lt;a href="https://github.com/teslamotors/fleet-telemetry/blob/main/protos/vehicle_data.proto"&gt;vehicle_data.proto&lt;/a&gt; 为准；车辆也可能对不适用或暂不可测量的字段返回 &lt;code&gt;invalid: true&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id="一field-配置属性"&gt;一、Field 配置属性&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tesla on HelloWood</title><link>https://blog.hellowood.dev/tags/tesla/</link><description>Recent content in tesla on HelloWood</description><generator>Hugo</generator><language>zh</language><atom:link href="https://blog.hellowood.dev/tags/tesla/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/</link><pubDate>Tue, 30 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/</guid><description>&lt;p&gt;以下是 Tesla 车辆支持的属性和解释，由 AI 整理，并不完全准确，可以根据需要选择需要上报的数据；详细的数据和警报可以参考 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data"&gt;可用数据&lt;/a&gt; 和 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E8%AD%A6%E6%8A%A5"&gt;车辆警报&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Filed 配置属性&lt;/li&gt;
+&lt;/ul&gt;
 &lt;table&gt;
 	&lt;thead&gt;
 			&lt;tr&gt;
@@ -1196,14 +1198,15 @@
 			&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id="二配置-json-示例"&gt;二、配置 JSON 示例&lt;/h2&gt;
-&lt;p&gt;下面是可以直接下发的配置示例。实际请求体只保留 Fleet API 接受的配置字段，不要把说明用的 &lt;code&gt;description&lt;/code&gt; 写进 &lt;code&gt;fields&lt;/code&gt;；&lt;code&gt;vins&lt;/code&gt; 需要和 &lt;code&gt;config&lt;/code&gt; 同级；Fleet Telemetry client 1.1.0 起已经移除 &lt;code&gt;prefer_typed&lt;/code&gt;，不需要再配置。&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(六)监控服务</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/</link><pubDate>Mon, 29 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/</guid><description>&lt;p&gt;Fleet Telemetry 提供 Prometheus 监控接口，可以通过访问 &lt;code&gt;http://&amp;lt;host&amp;gt;:9091/metrics&lt;/code&gt; 查看监控指标。第三篇示例中配置的是 &lt;code&gt;monitoring.prometheus_metrics_port=9091&lt;/code&gt;，因此可以通过下面的地址查看原始指标：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl http://fleet.example.com:9091/metrics
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;首先在 Prometheus 中添加 Fleet Telemetry 的监控配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下发的配置 JSON&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下发的配置中删除了部分过时和 Cybertruck 特有的字段，可按需调整&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(六)监控服务</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/</link><pubDate>Mon, 29 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/</guid><description>&lt;p&gt;Fleet Telemetry 提供 Prometheus 监控接口，可以通过访问 &lt;code&gt;http://&amp;lt;host&amp;gt;:9091/metrics&lt;/code&gt; 查看监控指标&lt;/p&gt;
+&lt;p&gt;首先在 Prometheus 中添加 Fleet Telemetry 的监控配置&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#e06c75"&gt;job_name&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;fleet-telemetry&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;static_configs&lt;/span&gt;:
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#e06c75"&gt;targets&lt;/span&gt;: [&lt;span style="color:#63c381"&gt;&amp;#34;fleet.example.com:9091&amp;#34;&lt;/span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后将 Fleet Telemetry 的监控面板添加到 Grafana 中，将文件 &lt;a href="https://github.com/teslamotors/fleet-telemetry/blob/main/test/integration/grafana/provisioning/dashboards/dashboard.json"&gt;test/integration/grafana/provisioning/dashboards/dashboard.json&lt;/a&gt; 的 JSON 内容导入到 Grafana 中，就可以看到相关的监控面板。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后将 Fleet Telemetry 的监控面板添加到 Grafana 中，将文件 &lt;a href="https://github.com/teslamotors/fleet-telemetry/blob/main/test/integration/grafana/provisioning/dashboards/dashboard.json"&gt;test/integration/grafana/provisioning/dashboards/dashboard.json&lt;/a&gt; 的 JSON 内容导入到 Grafana 中，就可以看到相关的监控面板&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-1.png" alt="Grafana 中导入 Fleet Telemetry 监控面板的 Tesla 车辆数据" loading="lazy"&gt;
@@ -1212,7 +1215,6 @@
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-monitor-grafana-dashboard-2.png" alt="Grafana 监控面板展示特斯拉车辆实时数据" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;这些指标只反映 Fleet Telemetry 服务本身的运行和处理情况，不等同于车辆业务数据。车辆 records 仍应通过配置的 datastore 查看。&lt;/p&gt;
 &lt;h2 id="参考文档"&gt;参考文档&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(一)申请证书&lt;/a&gt;&lt;/li&gt;
@@ -1222,23 +1224,48 @@
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-data-processing/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(五)数据处理&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(六)监控服务&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(五)数据处理</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-data-processing/</link><pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-data-processing/</guid><description>&lt;p&gt;在正确配置 Fleet Telemetry 并下发配置给车辆后，就可以接收到车辆的上报数据，并且通过 MQTT 转发。可以通过服务日志或配置的 datastore 查看车辆上报 records，下面以 logger、MQTT datastore 以及 EMQX 规则引擎写入 PostgreSQL 为例。&lt;/p&gt;
-&lt;h2 id="一查看-records"&gt;一、查看 records&lt;/h2&gt;
-&lt;h3 id="11-查看日志"&gt;1.1 查看日志&lt;/h3&gt;
-&lt;p&gt;如果 &lt;code&gt;records.V&lt;/code&gt; 配置了 &lt;code&gt;logger&lt;/code&gt;，可以直接查看 Fleet Telemetry 服务日志。下面日志是电量相关字段的 record：&lt;/p&gt;
+&lt;/ul&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(五)数据处理</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-data-processing/</link><pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-data-processing/</guid><description>&lt;p&gt;在正确配置 Fleet Telemetry 并下发配置给车辆后，就可以接收到车辆的上报数据，并且通过 MQTT 转发&lt;/p&gt;
+&lt;h2 id="一数据处理"&gt;一、数据处理&lt;/h2&gt;
+&lt;h3 id="11-查看数据"&gt;1.1 查看数据&lt;/h3&gt;
+&lt;p&gt;车辆定期上报的数据到服务器，通过 MQTT 转发给下游；可以查看日志或者 MQTT 客户端订阅对应的 topic 来查看数据&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查看日志&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面日志是电量的上报内容&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;docker logs -f fleet-telemetry
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;fleet-telemetry | &lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;:true,&lt;span style="color:#63c381"&gt;&amp;#34;context&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;fleet-telemetry&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;data&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;2025-09-28T00:43:13Z&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;EstBatteryRange&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;doubleValue&amp;#34;&lt;/span&gt;:232.09772017025708&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;IdealBatteryRange&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;doubleValue&amp;#34;&lt;/span&gt;:232.09772017025708&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;IsResend&amp;#34;&lt;/span&gt;:false,&lt;span style="color:#63c381"&gt;&amp;#34;RatedRange&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;doubleValue&amp;#34;&lt;/span&gt;:232.09772017025708&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;Soc&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;doubleValue&amp;#34;&lt;/span&gt;:86.09375&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;Vin&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;{VIN}&amp;#34;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;level&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;info&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;:&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;&lt;span style="color:#63c381"&gt;&amp;#34;device_client_version&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;1.0.3&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;receivedat&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;1759020194000&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;txid&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;ac19f006a71b472296b8b3-000000495&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;txtype&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;V&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;version&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;vin&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;{VIN}&amp;#34;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;msg&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;record_payload&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;time&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;2025-09-28T00:43:14Z&amp;#34;&lt;/span&gt;,&lt;span style="color:#63c381"&gt;&amp;#34;vin&amp;#34;&lt;/span&gt;:&lt;span style="color:#63c381"&gt;&amp;#34;{VIN}&amp;#34;&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="12-查看-mqtt-topic"&gt;1.2 查看 MQTT topic&lt;/h3&gt;
-&lt;p&gt;如果 &lt;code&gt;records.connectivity&lt;/code&gt; 配置了 &lt;code&gt;mqtt&lt;/code&gt;，连接状态 topic 为 &lt;code&gt;telemetry/{VIN}/connectivity&lt;/code&gt;；车辆字段数据使用 &lt;code&gt;telemetry/{VIN}/v/{field_name}&lt;/code&gt; 这种 topic 格式。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;使用 MQTT 客户端订阅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以连接状态为例, topic 为 &lt;code&gt;telemetry/{VIN}/v/connectivity&lt;/code&gt;，可以使用 &lt;a href="https://mqttx.app/zh/docs"&gt;MQTTX&lt;/a&gt; 等工具查看&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;ConnectionId&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;xxxx&amp;#34;&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;2025-09-27T12:22:21Z&amp;#34;&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;Status&amp;#34;&lt;/span&gt;: &lt;span style="color:#63c381"&gt;&amp;#34;CONNECTED&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c7bf54"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;MQTT datastore 的 topic 结构由 Fleet Telemetry 实现决定：字段数据、连接状态、警报和错误分别发布到不同 topic，payload 为 JSON。具体格式以官方 &lt;a href="https://github.com/teslamotors/fleet-telemetry/blob/main/datastore/mqtt/README.md"&gt;MQTT Datastore&lt;/a&gt; 为准。&lt;/p&gt;
-&lt;h3 id="13-处理数据"&gt;1.3 处理数据&lt;/h3&gt;
-&lt;p&gt;可以使用 EMQX 的规则引擎将数据存储到数据库中，或者使用其他的工具进行处理。下面以将数据存储到 PostgreSQL 为例。&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(四)下发配置</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-push-config/</link><pubDate>Sat, 27 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-push-config/</guid><description>&lt;h2 id="一配置车辆"&gt;一、配置车辆&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="12-处理数据"&gt;1.2 处理数据&lt;/h3&gt;
+&lt;p&gt;可以使用 EMQX 的规则引擎将数据存储到数据库中，或者使用其他的工具进行处理，下面以将数据存储到 PostgreSQL 为例，SQL 为:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 PostgreSQL 创建表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;create&lt;/span&gt; &lt;span style="color:#c678dd"&gt;table&lt;/span&gt; &lt;span style="color:#c678dd"&gt;if&lt;/span&gt; &lt;span style="color:#c678dd"&gt;not&lt;/span&gt; &lt;span style="color:#c678dd"&gt;exists&lt;/span&gt; &lt;span style="color:#c1abea"&gt;tesla_fleet_telemetry&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;id&lt;/span&gt; &lt;span style="color:#ef8383"&gt;bigint&lt;/span&gt; &lt;span style="color:#c678dd"&gt;generated&lt;/span&gt; &lt;span style="color:#c1abea"&gt;always&lt;/span&gt; &lt;span style="color:#c678dd"&gt;as&lt;/span&gt; &lt;span style="color:#c678dd"&gt;identity&lt;/span&gt; &lt;span style="color:#c678dd"&gt;primary&lt;/span&gt; &lt;span style="color:#c678dd"&gt;key&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;topic&lt;/span&gt; &lt;span style="color:#ef8383"&gt;varchar&lt;/span&gt;(&lt;span style="color:#d19a66"&gt;1000&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;payload&lt;/span&gt; &lt;span style="color:#ef8383"&gt;varchar&lt;/span&gt;(&lt;span style="color:#d19a66"&gt;10000&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#63c381"&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt; &lt;span style="color:#c678dd"&gt;timestamp&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c1abea"&gt;add_time&lt;/span&gt; &lt;span style="color:#c678dd"&gt;timestamp&lt;/span&gt; &lt;span style="color:#c678dd"&gt;default&lt;/span&gt; &lt;span style="color:#c1abea"&gt;now&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;使用 EMQX 规则引擎插入数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#c678dd"&gt;insert&lt;/span&gt; &lt;span style="color:#c678dd"&gt;into&lt;/span&gt; &lt;span style="color:#c1abea"&gt;tesla_fleet_telemetry&lt;/span&gt; (&lt;span style="color:#c1abea"&gt;topic&lt;/span&gt;, &lt;span style="color:#c1abea"&gt;payload&lt;/span&gt;, &lt;span style="color:#c678dd"&gt;timestamp&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#c678dd"&gt;values&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (${&lt;span style="color:#c1abea"&gt;topic&lt;/span&gt;}, ${&lt;span style="color:#c1abea"&gt;payload&lt;/span&gt;}, &lt;span style="color:#c1abea"&gt;TO_TIMESTAMP&lt;/span&gt;((${&lt;span style="color:#c678dd"&gt;timestamp&lt;/span&gt;} :: &lt;span style="color:#ef8383"&gt;bigint&lt;/span&gt;)&lt;span style="color:#c7bf54"&gt;/&lt;/span&gt;&lt;span style="color:#d19a66"&gt;1000&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+ &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-emqx-flow-rewrite-message-to-pg.png" alt="EMQX 流处理重写消息写入 PostgreSQL 数据库" loading="lazy"&gt;
+&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(四)下发配置</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-push-config/</link><pubDate>Sat, 27 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-push-config/</guid><description>&lt;h2 id="一配置车辆"&gt;一、配置车辆&lt;/h2&gt;
 &lt;p&gt;配置车辆时需要使用鉴权，因此需要先获取 access_token&lt;/p&gt;
 &lt;h3 id="11-获取-access_token"&gt;1.1 获取 access_token&lt;/h3&gt;
 &lt;blockquote&gt;
@@ -1248,8 +1275,8 @@
 &lt;ul&gt;
 &lt;li&gt;用户授权&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;首先需要使用之前申请的应用的 client_id 和 redirect_uri 访问下面的链接，进行用户授权；需要替换 &lt;code&gt;${CLIENT_ID}&lt;/code&gt;、&lt;code&gt;${REDIRECT_URI}&lt;/code&gt; 和 &lt;code&gt;${STATE}&lt;/code&gt;，其中 &lt;code&gt;${STATE}&lt;/code&gt; 可以使用随机字符串，如 123456 等。这里的 scope 按最小权限填写：下发 Fleet Telemetry 配置和接收车辆数据需要 &lt;code&gt;vehicle_cmds&lt;/code&gt;、&lt;code&gt;vehicle_device_data&lt;/code&gt;；如果配置了 &lt;code&gt;Location&lt;/code&gt;、导航路线等位置相关字段，再额外添加 &lt;code&gt;vehicle_location&lt;/code&gt;。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;https://auth.tesla.cn/oauth2/v3/authorize?client_id&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;CLIENT_ID&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&amp;amp;&lt;span style="color:#dcaeea"&gt;locale&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;zh-CN&amp;amp;&lt;span style="color:#dcaeea"&gt;prompt&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;login&amp;amp;&lt;span style="color:#dcaeea"&gt;redirect_uri&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;REDIRECT_URI&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&amp;amp;&lt;span style="color:#dcaeea"&gt;response_type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;code&amp;amp;&lt;span style="color:#dcaeea"&gt;scope&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;openid%20offline_access%20user_data%20vehicle_device_data%20vehicle_cmds&amp;amp;&lt;span style="color:#dcaeea"&gt;state&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;STATE&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;
+&lt;p&gt;首先需要使用之前申请的应用的 client_id 和 redirect_uri 访问下面的链接，进行用户授权；需要替换 &lt;code&gt;${CLIENT_ID}&lt;/code&gt;、&lt;code&gt;${REDIRECT_URI}&lt;/code&gt; 和 &lt;code&gt;${STATE}&lt;/code&gt;，其中 &lt;code&gt;${STATE}&lt;/code&gt; 可以使用随机字符串，如 123456 等；这里的 scope 需要包含 &lt;code&gt;vehicle_cmds&lt;/code&gt; 和 &lt;code&gt;vehicle_device_data&lt;/code&gt;，用于下发配置和接收车辆数据&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;https://auth.tesla.cn/oauth2/v3/authorize?client_id&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;CLIENT_ID&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&amp;amp;&lt;span style="color:#dcaeea"&gt;locale&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;zh-CN&amp;amp;&lt;span style="color:#dcaeea"&gt;prompt&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;login&amp;amp;&lt;span style="color:#dcaeea"&gt;redirect_uri&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;REDIRECT_URI&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&amp;amp;&lt;span style="color:#dcaeea"&gt;response_type&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;code&amp;amp;&lt;span style="color:#dcaeea"&gt;scope&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;openid%20offline_access%20user_data%20vehicle_device_data%20vehicle_location%20vehicle_cmds%20vehicle_charging_cmds%20energy_device_data%20energy_cmds&amp;amp;&lt;span style="color:#dcaeea"&gt;state&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;STATE&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后会进入登录页面，成功登录后会跳转到 &lt;code&gt;${REDIRECT_URI}&lt;/code&gt;，并且携带 &lt;code&gt;code&lt;/code&gt; 参数，这个 code 用于获取 access_token:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;REDIRECT_URI&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;?locale&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;zh-CN&amp;amp;&lt;span style="color:#dcaeea"&gt;code&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;CN_xxxx&amp;amp;&lt;span style="color:#dcaeea"&gt;state&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;&lt;span style="color:#98c379"&gt;${&lt;/span&gt;&lt;span style="color:#dcaeea"&gt;STATE&lt;/span&gt;&lt;span style="color:#98c379"&gt;}&lt;/span&gt;&amp;amp;&lt;span style="color:#dcaeea"&gt;issuer&lt;/span&gt;&lt;span style="color:#c7bf54"&gt;=&lt;/span&gt;https%3A%2F%2Fauth.tesla.cn%2Foauth2%2Fv3
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
@@ -1260,58 +1287,74 @@
 &lt;li&gt;获取 access_token&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;使用上面的请求参数中的 code，访问 &lt;a href="https://developer.tesla.cn/docs/fleet-api/authentication/third-party-tokens#step-3-code-exchange"&gt;代码交换&lt;/a&gt; 接口获取 access_token&lt;/p&gt;
-&lt;p&gt;需要替换 &lt;code&gt;${CLIENT_ID}&lt;/code&gt;、&lt;code&gt;${CLIENT_SECRET}&lt;/code&gt;、&lt;code&gt;${REDIRECT_URI}&lt;/code&gt; 和 &lt;code&gt;${CODE}&lt;/code&gt;，其中 &lt;code&gt;${CODE}&lt;/code&gt; 是上面获取到的 code&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(三)部署服务</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-deployment/</link><pubDate>Fri, 26 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-deployment/</guid><description>&lt;h2 id="一部署顺序说明"&gt;一、部署顺序说明&lt;/h2&gt;
-&lt;p&gt;Fleet Telemetry 的数据链路是车辆直接连接 Fleet Telemetry 服务，&lt;code&gt;tesla-http-proxy&lt;/code&gt; 只在下发配置时使用，不在车辆上报链路中。因此部署顺序建议为：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;准备 Fleet Telemetry records 使用的 datastore，例如 MQTT、Kafka、Pub/Sub、Kinesis 或 logger。&lt;/li&gt;
-&lt;li&gt;部署 Fleet Telemetry，使车辆可以通过公网访问 &lt;code&gt;hostname:port&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;使用 &lt;code&gt;check_server_cert.sh&lt;/code&gt; 校验将要下发给车辆的 &lt;code&gt;hostname&lt;/code&gt;、&lt;code&gt;port&lt;/code&gt;、&lt;code&gt;ca&lt;/code&gt; 是否和服务端 TLS 证书匹配。&lt;/li&gt;
-&lt;li&gt;确认虚拟钥匙已经注册并添加到车辆。&lt;/li&gt;
-&lt;li&gt;部署或启动 &lt;code&gt;tesla-http-proxy&lt;/code&gt;，通过它调用 Fleet API 下发配置。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id="二准备-mqtt-datastore"&gt;二、准备 MQTT datastore&lt;/h2&gt;
-&lt;p&gt;如果 Fleet Telemetry 配置使用 MQTT dispatcher，需要先准备一个 MQTT broker。MQTT 可以使用 EMQX、Mosquitto 等服务；因为 EMQX 提供消息处理能力，所以这里以 EMQX 为例进行部署，详细可以参考 &lt;a href="https://docs.emqx.com/zh/emqx/v5.10/deploy/install-docker.html"&gt;通过 Docker 运行 EMQX&lt;/a&gt;。&lt;/p&gt;
-&lt;ul&gt;
+&lt;p&gt;需要替换 &lt;code&gt;${CLIENT_ID}&lt;/code&gt;、&lt;code&gt;${CLIENT_SECRET}&lt;/code&gt;、&lt;code&gt;${REDIRECT_URI}&lt;/code&gt; 和 &lt;code&gt;${CODE}&lt;/code&gt;，其中 &lt;code&gt;${CODE}&lt;/code&gt; 是上面获取到的 code&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(三)部署服务</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-deployment/</link><pubDate>Fri, 26 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-deployment/</guid><description>&lt;h2 id="一部署依赖服务"&gt;一、部署依赖服务&lt;/h2&gt;
+&lt;h3 id="11-部署-tesla-http-proxy"&gt;1.1 部署 tesla-http-proxy&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;tesla-http-proxy 可以使用 &lt;a href="https://github.com/helloworlde/fleet-telemetry-proxy"&gt;https://github.com/helloworlde/fleet-telemetry-proxy&lt;/a&gt; 在 Cloudflare Worker 部署替代&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/teslamotors/vehicle-command"&gt;vehicle-command&lt;/a&gt; 是一个用于向车辆发送命令的工具，需要使用其中的 &lt;a href="https://github.com/teslamotors/vehicle-command?tab=readme-ov-file#using-the-http-proxy"&gt;tesla-http-proxy&lt;/a&gt; 向车辆发送配置指令；&lt;/p&gt;
+&lt;p&gt;用 docker 部署 tesla-http-proxy，需要挂载前面生成的私钥证书和 Certbot 申请的 TLS 证书&lt;/p&gt;
+&lt;p&gt;文件目录结构如下, &lt;code&gt;private-key.pem&lt;/code&gt; 是前面手动生成的私钥，&lt;code&gt;tls/fullchain.pem&lt;/code&gt; 和 &lt;code&gt;tls/privkey.pem&lt;/code&gt; 是 Certbot 申请的证书&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── certs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── private-key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   └── tls
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── cert.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── chain.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── fullchain.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│   ├── privkey.pem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── docker-compose.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;docker-compose.yaml&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e06c75"&gt;services&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;mqtt&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;emqx/emqx-enterprise&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;mqtt&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;restart&lt;/span&gt;: &lt;span style="color:#98c379"&gt;always&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;tesla_http_proxy&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;image&lt;/span&gt;: &lt;span style="color:#98c379"&gt;tesla/vehicle-command:latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;container_name&lt;/span&gt;: &lt;span style="color:#98c379"&gt;tesla_http_proxy&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;ports&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;1883:1883&amp;#34;&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# MQTT&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;8083:8083&amp;#34;&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# WebSocket&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;8084:8084&amp;#34;&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# WebSocket/TLS&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;8883:8883&amp;#34;&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# MQTT/TLS&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#63c381"&gt;&amp;#34;18083:18083&amp;#34;&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Dashboard&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#d19a66"&gt;4443&lt;/span&gt;:&lt;span style="color:#d19a66"&gt;4443&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;environment&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_HTTP_PROXY_TLS_CERT=/certs/tls/fullchain.pem&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_HTTP_PROXY_TLS_KEY=/certs/tls/privkey.pem&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_KEY_FILE=/certs/private-key.pem&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_HTTP_PROXY_HOST=0.0.0.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_HTTP_PROXY_PORT=4443&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_HTTP_PROXY_TIMEOUT=10s&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;TESLA_VERBOSE=true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e06c75"&gt;volumes&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./data:/opt/emqx/data&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./log:/opt/emqx/log&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果只需要一个最小 MQTT broker，也可以使用 Mosquitto：&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(二)添加虚拟钥匙</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-virtual-key/</link><pubDate>Thu, 25 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-virtual-key/</guid><description>&lt;p&gt;让 Tesla 主动上报数据到 Fleet Telemetry，需要先让车辆信任应用的虚拟钥匙。虚拟钥匙是一组 prime256v1 公私钥：公钥托管在应用域名下并注册到 Tesla，私钥保存在自己的服务端，供 &lt;code&gt;tesla-http-proxy&lt;/code&gt; 对 Fleet Telemetry 配置进行签名。详细操作可以参考 &lt;a href="https://developer.tesla.cn/docs/fleet-api/getting-started/what-is-fleet-api"&gt;什么是 Fleet API&lt;/a&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./certs/tls/fullchain.pem:/certs/tls/fullchain.pem:ro&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Certboot 生成的公钥和中间证书，用于 https 连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./certs/tls/privkey.pem:/certs/tls/privkey.pem:ro&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# Certbot 生成的私钥，用于 https 连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#98c379"&gt;./certs/private-key.pem:/certs/private-key.pem:ro&lt;/span&gt; &lt;span style="color:#8a93a5;font-style:italic"&gt;# 手动生成的私钥，用于加密指令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后使用 docker compose 启动，启动成功后访问 &lt;code&gt;https://fleet.example.com:4443/health&lt;/code&gt;，返回 OK 说明启动成功&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(二)添加虚拟钥匙</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-virtual-key/</link><pubDate>Thu, 25 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-virtual-key/</guid><description>&lt;p&gt;让 Tesla 主动上报数据到 Fleet Telemetry，需要将网站的公钥作为虚拟钥匙添加到车机中；需要通过 API 下发配置，因此需要创建一个开发者账号，详细操作可以参考 &lt;a href="https://developer.tesla.cn/docs/fleet-api/getting-started/what-is-fleet-api"&gt;什么是 Fleet API&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="一申请开发者账号和应用"&gt;一、申请开发者账号和应用&lt;/h2&gt;
 &lt;p&gt;创建开发者账号需要 &lt;a href="https://www.tesla.cn/teslaaccount/profile-settings"&gt;Tesla 账号&lt;/a&gt;设置中绑定邮箱，并且开启两步验证；然后访问 &lt;a href="https://developer.tesla.cn/zh_CN/dashboard"&gt;Tesla Developer&lt;/a&gt; 创建应用，输入应用名称和说明等信息&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-1.png" alt="Tesla 开发者控制台创建应用界面" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;OAuth 授权类型选择 &amp;ldquo;授权码和机器对机器&amp;rdquo;，然后添加允许的源 URL、重定向 URL 和返回的 URL。这里需要区分几个 URL：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;应用域名：用于托管 &lt;code&gt;/.well-known/appspecific/com.tesla.3p.public-key.pem&lt;/code&gt;，并在 Partner Account register 时注册&lt;/li&gt;
-&lt;li&gt;OAuth redirect URI：用于用户授权回调，必须和开发者控制台、授权请求中的 &lt;code&gt;redirect_uri&lt;/code&gt; 一致&lt;/li&gt;
-&lt;li&gt;Fleet Telemetry hostname：车辆后续上报数据的入口，写入 &lt;code&gt;fleet_telemetry_config&lt;/code&gt; 的 &lt;code&gt;hostname&lt;/code&gt; 字段&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这几个地址可以使用同一个域名，但职责不同，不要求 OAuth redirect URI 等于 Fleet Telemetry 的上报地址。&lt;/p&gt;
+&lt;p&gt;OAuth 授权类型选择 &amp;ldquo;授权码和机器对机器&amp;rdquo;，然后添加允许的源 URL、重定向 URL 和返回的 URL，这里的 URL 需要和后面部署的 Fleet Telemetry 服务器地址一致&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-2.png" alt="Tesla 开发者控制台创建应用并配置 OAuth 授权" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;选择权限范围时按实际需要勾选，不建议直接选择所有权限。Fleet Telemetry 下发配置和接收车辆数据通常需要 &lt;code&gt;vehicle_cmds&lt;/code&gt;、&lt;code&gt;vehicle_device_data&lt;/code&gt;；如果要上报 &lt;code&gt;Location&lt;/code&gt;、导航路线等位置相关字段，还需要 &lt;code&gt;vehicle_location&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;选择权限范围，可以直接选择所有的权限&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-create-application-3.png" alt="Tesla Fleet API 创建应用界面显示权限范围选择" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;创建成功后会得到 Client ID 和 Client Secret，需要保存下来，后续获取 Token 需要使用&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(一)申请证书</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/</link><pubDate>Wed, 24 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/</guid><description>&lt;p&gt;Tesla &lt;a href="https://github.com/teslamotors/fleet-telemetry"&gt;Fleet Telemetry&lt;/a&gt; 是 Tesla 官方的 telemetry protocol 参考实现，可以让车辆通过 mTLS WebSocket 主动上报数据到自托管 Fleet Telemetry 服务。通过下发 &lt;code&gt;fleet_telemetry_config&lt;/code&gt;，应用可以控制车辆连接的 &lt;code&gt;hostname&lt;/code&gt;、&lt;code&gt;port&lt;/code&gt;、证书链和需要上报的字段。&lt;/p&gt;
+&lt;p&gt;创建成功后会得到 Client ID 和 Client Secret，需要保存下来，后续获取 Token 需要使用&lt;/p&gt;
+&lt;h2 id="二生成公钥私钥对"&gt;二、生成公钥/私钥对&lt;/h2&gt;
+&lt;p&gt;需要生成一个公钥/私钥对，公钥需要托管在网站上让特斯拉访问，用于验证域名所有权；私钥用于通过 tesla-http-proxy 向车辆发送配置指令&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;生成私钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;生成公钥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openssl ec -in private-key.pem -pubout -out public-key.pem
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="三托管公钥"&gt;三、托管公钥&lt;/h2&gt;
+&lt;p&gt;然后需要将公钥托管在网站的 &lt;code&gt;/.well-known/appspecific/&lt;/code&gt; 路径下，确保可以通过 &lt;code&gt;https://fleet.example.com/.well-known/appspecific/com.tesla.3p.public-key.pem&lt;/code&gt; 访问到公钥文件；可以使用 Caddy 进行托管，关于 Caddy 的配置可以参考 &lt;a href="https://blog.hellowood.dev/posts/aliyun-caddy-zerossl-ip-certificate-https/"&gt;阿里云服务器使用 Caddy 和 ZeroSSL 提供的 IP 证书为服务开启 HTTPS&lt;/a&gt;&lt;/p&gt;</description></item><item><title>使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(一)申请证书</title><link>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/</link><pubDate>Wed, 24 Sep 2025 00:00:00 +0000</pubDate><guid>https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/</guid><description>&lt;p&gt;Tesla &lt;a href="https://github.com/teslamotors/fleet-telemetry"&gt;Fleet Telemetry&lt;/a&gt; 是特斯拉官方的开源项目，主要面向车队管理的场景，可以让 Tesla 车辆主动上报数据到自定义的服务器；在官方不断收紧 Owner API，并且 Fleet API 收费的情况下，使用 Fleet Telemetry 作为数据上报的方式，可以作为替代方案&lt;/p&gt;
 &lt;p&gt;服务 &lt;a href="https://tessie.com/"&gt;Tessie&lt;/a&gt; 就是基于 Fleet Telemetry 的数据构建的看板和分析统计工具：&lt;/p&gt;
 &lt;p&gt;
 
@@ -1321,12 +1364,12 @@
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-demo-tessie-trip-list.png" alt="Tessie 基于 Fleet Telemetry 构建的行程列表看板界面" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;Fleet Telemetry 服务负责接收车辆连接、校验车辆客户端证书、处理 ack/error/rate limit，并把车辆数据、连接状态、警报和错误分发到配置的 datastore，例如 MQTT、Kafka、Pub/Sub、Kinesis 或 logger。Fleet Telemetry 本身不是数据库，也不负责业务侧数据建模。&lt;/p&gt;
+&lt;p&gt;Fleet Telemetry 的功能比较简单，车辆通过 mTLS 连接将数据上报到 Fleet Telemetry 服务器，然后通过 MQTT/Kafka/PubSub 等消息组件将数据分发给下游进行处理；Fleet Telemetry 本身不存储数据，也不提供数据的可视化功能，可以自行处理数据：&lt;/p&gt;
 &lt;p&gt;
 
  &lt;img src="https://img.hellowood.dev/picture/homelab-tesla-fleet-telemetry-grafana-page-1.png" alt="Tesla 车辆通过 Fleet Telemetry 上报数据的监控示意图" loading="lazy"&gt;
 &lt;/p&gt;
-&lt;p&gt;Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具。Fleet Telemetry 可上报字段、字段类型和可用性会随车型、硬件、固件和 Fleet Telemetry client 版本变化，车辆也可能对不适用或暂不可测量的字段返回 &lt;code&gt;invalid: true&lt;/code&gt;。详细的数据和警报可以参考 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data"&gt;可用数据&lt;/a&gt; 和 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E8%AD%A6%E6%8A%A5"&gt;车辆警报&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Fleet Telemetry 能获取到的数据和 Owner API 基本是一样的，仅在格式和上报方式上有区别；因此只要适当处理数据格式，也可以兼容 TeslaMate 等工具；详细的数据和警报可以参考 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data"&gt;可用数据&lt;/a&gt; 和 &lt;a href="https://developer.tesla.cn/docs/fleet-api/fleet-telemetry/available-data#%E8%BD%A6%E8%BE%86%E8%AD%A6%E6%8A%A5"&gt;车辆警报&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;因为部署 Fleet Telemetry 依赖较多，因此分为多个部分说明：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-certificate/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(一)申请证书&lt;/a&gt;&lt;/li&gt;
@@ -1337,5 +1380,5 @@
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-vehicle-monitoring-service/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(六)监控服务&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://blog.hellowood.dev/posts/fleet-telemetry-tesla-active-reporting-configuration/"&gt;使用 Fleet Telemetry 让 Tesla 车辆主动上报数据进行监控-(七)完整配置说明&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="一前置条件"&gt;一、前置条件&lt;/h2&gt;
-&lt;p&gt;开始部署前，先确认车辆、账号、域名和证书满足 Fleet Telemetry 的基本要求：&lt;/p&gt;</description></item></channel></rss>
+&lt;h2 id="一说明"&gt;一、说明&lt;/h2&gt;
+&lt;p&gt;部署 Fleet Telemetry 需要依赖多个组件，包括：&lt;/p&gt;</description></item></channel></rss>
