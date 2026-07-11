@@ -2,7 +2,7 @@
 date: 2026-03-23T09:18:55+08:00
 description: "PVE9 内核 6.17 不支持 CUDA12，需降级至 6.14 安装 Nvidia 驱动 550 以兼容 Ollama，详解 proxmox-boot-tool 固定内核与 apt 安装步骤。"
 # image: ""
-lastmod: 2026-03-23
+lastmod: 2026-03-27
 showTableOfContents: false
 # tags: ["",]
 title: "PVE 9 安装 Nvidia 显卡驱动"
