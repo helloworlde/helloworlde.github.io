@@ -17,5 +17,8 @@
         {{- block "main" . }}{{- end }}
         </main>
         {{- partial "footer.html" . -}}
+        {{- with .Site.Params.AISearch }}
+        <chat-bubble-snippet api-url="{{ .APIURL }}"></chat-bubble-snippet>
+        {{- end }}
     </body>
 </html>
