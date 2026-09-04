@@ -8,10 +8,6 @@
 
     {{- partial "head.html" . -}}
     <body>
-        <script>
-            // Immediately set theme on page load
-            setThemeByUserPref();
-        </script>
         {{- partial "header.html" . -}}
         <main id="content"{{ if not .Params.ShowTableOfContents }} class="no-toc"{{ end }}>
         {{- block "main" . }}{{- end }}
@@ -23,7 +19,10 @@
             show-url="true"
             show-date="true">
         </search-modal-snippet>
-        <chat-bubble-snippet api-url="{{ .APIURL }}"></chat-bubble-snippet>
+        <chat-bubble-snippet
+            api-url="{{ .ChatAPIURL }}"
+            chat-query-rewrite='{"enabled":true}'>
+        </chat-bubble-snippet>
 
         <style>
         search-modal-snippet,
@@ -44,58 +43,6 @@
 
         <script>
             const modal = document.querySelector('search-modal-snippet');
-
-            const enableEnterOnlySearch = () => {
-                const shadowRoot = modal?.shadowRoot;
-                const input = shadowRoot?.querySelector('.modal-search-input');
-                if (!shadowRoot || !input || modal.dataset.enterOnlySearch === 'true') {
-                    return;
-                }
-
-                modal.dataset.enterOnlySearch = 'true';
-                shadowRoot.addEventListener('input', (event) => {
-                    if (event.target !== input) {
-                        return;
-                    }
-
-                    event.stopImmediatePropagation();
-                    modal.debouncedSearch?.cancel();
-                    modal.currentSearchController?.abort();
-                    modal.dataset.enterOnlyQuery = '';
-                    modal.results = [];
-                    modal.activeIndex = -1;
-                    modal.showEmptyState?.();
-
-                    if (input.value.trim()) {
-                        const description = shadowRoot.querySelector('.modal-empty-description');
-                        if (description) {
-                            description.textContent = 'Press Enter to search';
-                        }
-                    }
-                }, true);
-
-                shadowRoot.addEventListener('keydown', (event) => {
-                    if (event.target !== input || event.key !== 'Enter' || event.isComposing) {
-                        return;
-                    }
-
-                    const query = input.value.trim();
-                    if (!query || modal.dataset.enterOnlyQuery === query) {
-                        return;
-                    }
-
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-                    modal.dataset.enterOnlyQuery = query;
-                    modal.performSearch?.(query);
-                }, true);
-            };
-
-            if (modal?.shadowRoot) {
-                enableEnterOnlySearch();
-            } else {
-                modal?.addEventListener('ready', enableEnterOnlySearch, { once: true });
-            }
 
             document.querySelectorAll('a[href$="#ai-search"]').forEach((trigger) => {
                 trigger.setAttribute('role', 'button');

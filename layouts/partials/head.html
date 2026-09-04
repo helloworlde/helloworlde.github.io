@@ -2,6 +2,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script data-cfasync="false">
+        (() => {
+            const root = document.documentElement;
+            let theme = '';
+
+            try {
+                theme = localStorage.getItem('theme-preference') || '';
+            } catch (_) {
+                // Storage can be unavailable in hardened/private browser modes.
+            }
+
+            if (theme !== 'dark' && theme !== 'light') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            root.dataset.theme = theme;
+        })();
+    </script>
+
     <style>
         :root {
             --accent-color: {{ .Site.Params.AccentColor | default "#FF4D4D" }};
@@ -21,8 +40,14 @@
     {{ $keywords := union $siteKeywords $postKeywords }}
 
     <title>{{ if .IsHome }}{{ if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}{{ else }}{{ $title }} - {{ .Site.Title }}{{ end }}</title>
+    {{ $documentID := md5 .RelPermalink }}
+    <meta name="title" content="{{ $title }}">
     <meta name="description" content="{{ $description }}">
     <meta name="keywords" content='{{ delimit $keywords ", "}}'>
+    <meta name="url" content="{{ .Permalink }}">
+    <meta name="tags" content='{{ delimit $postKeywords ", " }}'>
+    <meta name="document_id" content="{{ $documentID }}">
+    <meta name="content_type" content="{{ .Type | default "page" }}">
     {{ with .Site.Params.Author }}<meta name="author" content="{{ . }}">{{ end }}
 
     <meta property="og:site_name" content="{{ .Site.Title }}">
@@ -99,16 +124,20 @@
     {{ end }}
 
     {{ $cssNormalize := resources.Get "css/normalize.min.css" }}
-    <link rel="stylesheet" type="text/css" href="{{ $cssNormalize.RelPermalink }}" media="print">
+    {{ $cssNormalize = $cssNormalize | resources.Fingerprint "sha256" }}
+    <link rel="stylesheet" type="text/css" href="{{ $cssNormalize.RelPermalink }}" integrity="{{ $cssNormalize.Data.Integrity }}">
 
-    {{ $cssMain := resources.Get "css/main.css" | minify }}
-    <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}">
+    {{ $cssMain := resources.Get "css/main.css" | minify | resources.Fingerprint "sha256" }}
+    <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}" integrity="{{ $cssMain.Data.Integrity }}">
 
-    {{ $cssDark := resources.Get "css/dark.css" | minify }}
-    <link id="dark-theme" rel="stylesheet" href="{{ $cssDark.RelPermalink }}">
+    {{ $cssDark := resources.Get "css/dark.css" | minify | resources.Fingerprint "sha256" }}
+    <link rel="stylesheet" href="{{ $cssDark.RelPermalink }}" integrity="{{ $cssDark.Data.Integrity }}">
+
+    {{ $cssCustom := resources.Get "css/custom.css" | minify | resources.Fingerprint "sha256" }}
+    <link rel="stylesheet" type="text/css" href="{{ $cssCustom.RelPermalink }}" integrity="{{ $cssCustom.Data.Integrity }}">
 
     {{ $jsBundle := resources.Match "js/**.js" | resources.Concat "js/bundle.js" | minify | resources.Fingerprint "sha256" }}
-    <script src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>
+    <script defer src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>
 
     {{ with .Site.Params.AISearch }}
     <script type="module" src="{{ .SnippetURL }}" async></script>
