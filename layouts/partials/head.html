@@ -40,13 +40,11 @@
     {{ $keywords := union $siteKeywords $postKeywords }}
 
     <title>{{ if .IsHome }}{{ if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}{{ else }}{{ $title }} - {{ .Site.Title }}{{ end }}</title>
-    {{ $documentID := md5 .RelPermalink }}
     <meta name="title" content="{{ $title }}">
     <meta name="description" content="{{ $description }}">
     <meta name="keywords" content='{{ delimit $keywords ", "}}'>
     <meta name="url" content="{{ .Permalink }}">
     <meta name="tags" content='{{ delimit $postKeywords ", " }}'>
-    <meta name="document_id" content="{{ $documentID }}">
     <meta name="content_type" content="{{ .Type | default "page" }}">
     {{ with .Site.Params.Author }}<meta name="author" content="{{ . }}">{{ end }}
 
